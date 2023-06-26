@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}</style>
+  </defs>
+  <title>IconLightFullScreen</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,0V16H0V0Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M7.5,8.5v6h-6v-6Z" />
+    <path class="light-defaultgrey-10" d="M14.5,1.5v13H9V8.03L7.97,7H1.5V1.5Z" />
+    <path class="light-defaultgrey" d="M14.5,1H1.5L1,1.5V7H2V2H14V14H9v1h5.5l.5-.5V1.5Z" />
+    <path class="light-defaultgrey" d="M7.5,8h-6L1,8.5v6l.5.5h6l.5-.5v-6ZM7,14H2V10H7Z" />
+    <path class="light-blue" d="M11.293,4H9V3h3.5l.5.5V7H12V4.707L8.707,8,8,7.293Z" />
+  </g>
+</svg>

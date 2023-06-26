@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-blue-10{fill: #005dba; opacity: 0.1;}.light-blue{fill: #005dba; opacity: 1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightSaveAs</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-blue-10" d="M6.487,11H2V2H9.793L11,3.208V6.2L6.762,10.435Z" />
+    <path class="light-blue" d="M6.487,11H2V2H4V5H9V2h.793L11,3.208V6.2l1-1V3l-.146-.354-1.5-1.5L10,1H1.5L1,1.5v10l.5.5H6ZM5,2H8V4H5Z" />
+    <path class="light-defaultgrey-10" d="M14.692,7.627,9.135,13.184,7.652,11.666l5.54-5.539a1.043,1.043,0,0,1,.746-.309,1.062,1.062,0,0,1,.754,1.809Z" />
+    <path class="light-defaultgrey" d="M15.042,5.776a1.559,1.559,0,0,0-2.2,0l-5.25,5.25L6.011,14.271l.674.675,3-1.629,5.364-5.336A1.561,1.561,0,0,0,15.042,5.776Zm-.7,1.5-5.2,5.2-.783-.8,5.189-5.189a.561.561,0,0,1,.793.793Z" />
+    <g class="cls-1">
+      <path class="light-blue" d="M9,7H4v4H3V6.5L3.5,6h6l.5.5v.7l-1,1Z" />
+    </g>
+  </g>
+</svg>

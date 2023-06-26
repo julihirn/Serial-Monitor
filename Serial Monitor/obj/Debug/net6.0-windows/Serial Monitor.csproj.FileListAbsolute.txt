@@ -1,0 +1,41 @@
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Serial Monitor.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Serial Monitor.exe
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Serial Monitor.dll.config
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Serial Monitor.deps.json
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Serial Monitor.runtimeconfig.json
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\System.IO.Ports.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.IO.Ports.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Fizzler.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\ODHandlers.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\ODModules.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Svg.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\ODModules.pdb
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\ODHandlers.pdb
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.csproj.AssemblyReference.cache
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.EditValue.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.Form1.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.Form2.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.InsertModbusMonitor.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.Keypad.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.ModbusRegisters.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.Monitor.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.Properties.Resources.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.csproj.GenerateResource.cache
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.AssemblyInfoInputs.cache
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.AssemblyInfo.cs
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.csproj.CoreCompileInputs.cache
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.csproj.CopyComplete
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\refint\Serial Monitor.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.pdb
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial Monitor.genruntimeconfig.cache
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\Serial Monitor.pdb
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\ref\Serial Monitor.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.ProgramProperties.resources

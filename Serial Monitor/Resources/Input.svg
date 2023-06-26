@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-blue{fill: #005dba; opacity: 1;}</style>
+  </defs>
+  <title>Input</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey" d="M15,3.5v10l-.5.5h-9L5,13.5V10H6v3h8V4H6V7H5V3.5L5.5,3h9Z" />
+    <path class="light-defaultgrey-10" d="M6,5.586V4H7.586Zm0,5.828V13H7.586ZM8.121,4l3.733,3.732V9.268L8.121,13H14V4Z" />
+    <path class="light-blue" d="M10.854,8.146v.708l-3,3-.708-.708L9.293,9H1V8H9.293L7.146,5.854l.708-.708Z" />
+  </g>
+</svg>

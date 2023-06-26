@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightStop</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-red" d="M12.5,3.5v9h-9v-9Z" />
+    </g>
+    <path class="light-red" d="M12.5,3h-9L3,3.5v9l.5.5h9l.5-.5v-9ZM12,12H4V4h8Z" />
+  </g>
+</svg>

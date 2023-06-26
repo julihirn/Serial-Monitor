@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>ExcelWorksheetView</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M14.5,4.5V13H11V8.086L9.914,7H5.5V1.5h6Z" />
+      <path class="light-defaultgrey" d="M15,4.5v8l-.5.5H11V12h3V5H11V2H6V7H5V1.5L5.5,1h6l.354.146,3,3Z" />
+    </g>
+    <path class="light-defaultgrey-10" d="M9.5,15.5H.5v-7h9Z" />
+    <path class="light-defaultgrey" d="M9.5,8H.5L0,8.5v7l.5.5h9l.5-.5v-7ZM9,11H7V10H9Zm0,2H7V12H9ZM1,12H3v1H1Zm0-2H3v1H1Zm5,0v1H4V10ZM4,12H6v1H4ZM1,14H3v1H1Zm3,0H6v1H4Zm5,1H7V14H9Z" />
+  </g>
+</svg>

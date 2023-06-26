@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-blue-10{fill: #005dba; opacity: 0.1;}.light-blue{fill: #005dba; opacity: 1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightBringForward</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-blue-10" d="M10.5,10.5h-5v-5h5Z" />
+    <path class="light-blue" d="M10.5,11h-5L5,10.5v-5L5.5,5h5l.5.5v5ZM6,10h4V6H6Z" />
+    <path class="light-defaultgrey" d="M15,1.5v5l-.5.5H12V5.09L10.91,4H9V1.5L9.5,1h5Z" />
+  </g>
+</svg>

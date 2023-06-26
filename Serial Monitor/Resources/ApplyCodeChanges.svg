@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-green{fill: #1f801f; opacity: 1;}</style>
+  </defs>
+  <title>IconLightApplyCodeChanges</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey" d="M13,2H9V1h4ZM8,4H3V5H8Zm7,0H9V5h6ZM7,7H4V8H7Zm7,0H8V8h6ZM8,10H3v1H8ZM8,2H2V1H8ZM7,14H2V13H7Z" />
+    <path class="light-green" d="M16,11.6l-4.25,4.25h-.707L8.793,13.6l.707-.707,1.9,1.9,3.9-3.9Z" />
+  </g>
+</svg>
