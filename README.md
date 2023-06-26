@@ -17,3 +17,5 @@ Serial Monitor is a light-weight, native Windows app that allows users to monito
 ## System Requirements
 * Windows 7 or higher.
 * Requires .Net 7 to be installed.
+## Project Dependencies
+Requires: ODModules, ODHandles.
