@@ -19,3 +19,9 @@ Serial Monitor is a light-weight, native Windows app that allows users to monito
 * Requires .Net 7 to be installed.
 ## Project Dependencies
 Requires: ODModules, ODHandles.
+
+##Future Work
+This project is still a bit of a work in progress, I am actively working on adding multiple step program support to project files. You may notice that the program tabs are not yet functional. 
+Current Development Roadmap:
+* Tabbed program editing.
+* Modbus register editor patch up
