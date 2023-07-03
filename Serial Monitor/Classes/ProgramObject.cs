@@ -46,5 +46,11 @@ namespace Serial_Monitor.Classes {
                 program.Add(Lip);
             }
         }
+        public void Clear() {
+            for (int i = program.Count - 1; i >= 0; i--) {
+                program[i].SubItems.Clear();
+                program.RemoveAt(i);
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor {
-    public partial class ModbusRegisters : Form {
+    public partial class ModbusRegisters : Form, Interfaces.ITheme {
         public Form? Attached = null;
         public ModbusRegisters() {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace Serial_Monitor {
             //        ((Form1)Attached).
             //    }
             //}
+            RecolorAll();
             AddIcons();
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             navigator1.LinkedList = SystemManager.SerialManagers;
@@ -38,6 +40,76 @@ namespace Serial_Monitor {
             }
             LoadRegisters();
         }
+        #region Theme
+        public void ApplyTheme() {
+
+            RecolorAll();
+            AddIcons();
+        }
+        private void RecolorAll() {
+            ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
+            this.SuspendLayout();
+
+            BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            tsMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            tsMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+            tsMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+            tsMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+            tsMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+
+            tsMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            tsMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            tsMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            tsMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+
+
+            tsMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+
+            tsMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+
+            tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
+
+            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
+            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
+
+            tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            tsMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            tsMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            navigator1.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+            navigator1.MidColor = Properties.Settings.Default.THM_COL_Editor;
+            navigator1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            //pnlMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            lstMonitor.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            lstMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lstMonitor.RowColor = Properties.Settings.Default.THM_COL_RowColor;
+            lstMonitor.GridlineColor = Properties.Settings.Default.THM_COL_GridLineColor;
+            lstMonitor.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
+            lstMonitor.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
+            lstMonitor.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
+            lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            foreach (object obj in tsMain.Items) {
+                if (obj.GetType() == typeof(ToolStripSplitButton)) {
+                    ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+                else if (obj.GetType() == typeof(ToolStripButton)) {
+                    ((ToolStripButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+                else if (obj.GetType() == typeof(ToolStripDropDownButton)) {
+                    ((ToolStripDropDownButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+                else if (obj.GetType() == typeof(ToolStripLabel)) {
+                    ((ToolStripLabel)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+            }
+            this.ResumeLayout();
+        }
+        #endregion
         bool LockedEditor = false;
         public void AddIcons() {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.BooleanData, btnCoils, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));

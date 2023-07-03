@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Serial_Monitor</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Company>Julian Hirniak</Company>
+    <PackageIcon>SerialMonitor.ico</PackageIcon>
+    <ApplicationIcon>SerialMonitor.ico</ApplicationIcon>
+    <Copyright>Copyright © Julian Hirniak 2023</Copyright>
+    <Title>Serial Monitor</Title>
+    <Product>Serial Monitor</Product>
+    <AssemblyVersion>1.1.104.0</AssemblyVersion>
+    <FileVersion>1.1.104.0</FileVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Version>1.1.104.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="SerialMonitor.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="E:\User Files\Pictures\Program Icons\Other Icons\SerialMonitor.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Line Editor\ODModules\ODModules.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Fizzler">
+      <HintPath>Libraries\Fizzler.dll</HintPath>
+    </Reference>
+    <Reference Include="Svg">
+      <HintPath>Libraries\Svg.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

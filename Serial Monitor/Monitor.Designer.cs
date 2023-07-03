@@ -41,7 +41,7 @@
             this.pnlMonitor = new System.Windows.Forms.SplitContainer();
             this.lstSelector = new ODModules.ListControl();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.toolStrip1 = new ODModules.ToolStrip();
+            this.tsMain = new ODModules.ToolStrip();
             this.btnSaveLog = new System.Windows.Forms.ToolStripButton();
             this.btnOpenLog = new System.Windows.Forms.ToolStripButton();
             this.btnOpenLogLocation = new System.Windows.Forms.ToolStripButton();
@@ -87,7 +87,7 @@
             this.pnlMonitor.Panel1.SuspendLayout();
             this.pnlMonitor.Panel2.SuspendLayout();
             this.pnlMonitor.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.tsMain.SuspendLayout();
             this.msMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,7 +148,9 @@
             this.lstMonitor.Columns.Add(column3);
             this.lstMonitor.Columns.Add(column4);
             this.lstMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstMonitor.DropDownMouseDown = System.Drawing.Color.DimGray;
             this.lstMonitor.DropDownMouseOver = System.Drawing.Color.LightGray;
+            this.lstMonitor.ExternalItems = null;
             this.lstMonitor.Filter = null;
             this.lstMonitor.FilterColumn = 0;
             this.lstMonitor.ForeColor = System.Drawing.Color.White;
@@ -208,6 +210,7 @@
             this.lstMonitor.Size = new System.Drawing.Size(392, 355);
             this.lstMonitor.SpanColumn = -1;
             this.lstMonitor.TabIndex = 1;
+            this.lstMonitor.UseLocalList = true;
             this.lstMonitor.VerScroll = 0;
             // 
             // pnlMonitor
@@ -285,7 +288,9 @@
             this.lstSelector.Columns.Add(column7);
             this.lstSelector.Columns.Add(column8);
             this.lstSelector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstSelector.DropDownMouseDown = System.Drawing.Color.DimGray;
             this.lstSelector.DropDownMouseOver = System.Drawing.Color.LightGray;
+            this.lstSelector.ExternalItems = null;
             this.lstSelector.Filter = null;
             this.lstSelector.FilterColumn = 2;
             this.lstSelector.ForeColor = System.Drawing.Color.White;
@@ -316,6 +321,7 @@
             this.lstSelector.Size = new System.Drawing.Size(177, 355);
             this.lstSelector.SpanColumn = 2;
             this.lstSelector.TabIndex = 2;
+            this.lstSelector.UseLocalList = true;
             this.lstSelector.VerScroll = 0;
             this.lstSelector.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lstSelector_MouseClick);
             // 
@@ -331,14 +337,14 @@
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // toolStrip1
+            // tsMain
             // 
-            this.toolStrip1.BackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.toolStrip1.BackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.toolStrip1.ItemCheckedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.toolStrip1.ItemCheckedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.toolStrip1.ItemForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsMain.BackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.tsMain.BackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.tsMain.ItemCheckedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.tsMain.ItemCheckedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.tsMain.ItemForeColor = System.Drawing.Color.WhiteSmoke;
+            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSaveLog,
             this.btnOpenLog,
             this.btnOpenLogLocation,
@@ -351,22 +357,22 @@
             this.btnOptRegMultiMode,
             this.toolStripSeparator3,
             this.btnOnTop});
-            this.toolStrip1.ItemSelectedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStrip1.ItemSelectedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStrip1.ItemSelectedForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.toolStrip1.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.toolStrip1.MenuBorderColor = System.Drawing.Color.DimGray;
-            this.toolStrip1.MenuSeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
-            this.toolStrip1.MenuSymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(573, 25);
-            this.toolStrip1.StripItemSelectedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStrip1.StripItemSelectedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
+            this.tsMain.ItemSelectedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tsMain.ItemSelectedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tsMain.ItemSelectedForeColor = System.Drawing.Color.WhiteSmoke;
+            this.tsMain.Location = new System.Drawing.Point(0, 24);
+            this.tsMain.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.tsMain.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.tsMain.MenuBorderColor = System.Drawing.Color.DimGray;
+            this.tsMain.MenuSeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.tsMain.MenuSymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tsMain.Name = "tsMain";
+            this.tsMain.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.tsMain.Size = new System.Drawing.Size(573, 25);
+            this.tsMain.StripItemSelectedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tsMain.StripItemSelectedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tsMain.TabIndex = 3;
+            this.tsMain.Text = "toolStrip1";
             // 
             // btnSaveLog
             // 
@@ -654,6 +660,7 @@
             this.registersToolStripMenuItem.Name = "registersToolStripMenuItem";
             this.registersToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.registersToolStripMenuItem.Text = "&Registers";
+            this.registersToolStripMenuItem.Visible = false;
             // 
             // insetModbusMonitorToolStripMenuItem
             // 
@@ -676,15 +683,17 @@
             // 
             this.customizeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
+            this.customizeToolStripMenuItem.Visible = false;
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -737,7 +746,7 @@
             this.ClientSize = new System.Drawing.Size(573, 420);
             this.Controls.Add(this.pnlMonitor);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.tsMain);
             this.Controls.Add(this.msMain);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -750,8 +759,8 @@
             this.pnlMonitor.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlMonitor)).EndInit();
             this.pnlMonitor.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.tsMain.ResumeLayout(false);
+            this.tsMain.PerformLayout();
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
             this.ResumeLayout(false);
@@ -764,7 +773,7 @@
         private ODModules.ListControl lstMonitor;
         private SplitContainer pnlMonitor;
         private ODModules.ListControl listControl1;
-        private ODModules.ToolStrip toolStrip1;
+        private ODModules.ToolStrip tsMain;
         private ToolStripButton btnSaveLog;
         private ToolStripButton btnOpenLog;
         private ToolStripButton btnOpenLogLocation;

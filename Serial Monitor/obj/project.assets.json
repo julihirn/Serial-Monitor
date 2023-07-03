@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     "net6.0-windows7.0": {
+      "ODModules/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows7.0/ODModules.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/ODModules.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
       "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {
         "type": "package",
         "runtimeTargets": {
@@ -89,6 +101,18 @@
     }
   },
   "libraries": {
+    "ODModules/1.0.0": {
+      "sha512": "w9ZjgN18iI7wfR51jZYKMGPeLPIaYh/q9e4/8R8rqNPLAXzrC/rqQyVEbqnbLFC2LTljW3rjb+nfTOweqIqYRA==",
+      "type": "package",
+      "path": "odmodules/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net6.0-windows7.0/ODModules.dll",
+        "odmodules.1.0.0.nupkg.sha512",
+        "odmodules.nuspec"
+      ]
+    },
     "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {
       "sha512": "CBvgRaF+M0xGLDv2Geb/0v0LEADheH8aK72GRAUJdnqnJVsQO60ki1XO8M3keEhnjm+T5NvLm41pNXAVYAPiSg==",
       "type": "package",
@@ -222,7 +246,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "C:\\Users\\Chann\\Source\\Line Editor\\ODModules\\ODModules.csproj",
+      "ODModules >= 1.0.0",
       "System.IO.Ports >= 7.0.0"
     ]
   },
@@ -261,11 +285,7 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
-          "projectReferences": {
-            "C:\\Users\\Chann\\Source\\Line Editor\\ODModules\\ODModules.csproj": {
-              "projectPath": "C:\\Users\\Chann\\Source\\Line Editor\\ODModules\\ODModules.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -278,6 +298,10 @@
       "net6.0-windows7.0": {
         "targetAlias": "net6.0-windows",
         "dependencies": {
+          "ODModules": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          },
           "System.IO.Ports": {
             "target": "Package",
             "version": "[7.0.0, )"
@@ -302,19 +326,8 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\Chann\\Source\\Line Editor\\ODModules\\ODModules.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\Chann\\Source\\Line Editor\\ODModules\\ODModules.csproj",
-      "targetGraphs": [
-        "net6.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EditValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InsertModbusMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Keypad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ModbusRegisters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Monitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProgramProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

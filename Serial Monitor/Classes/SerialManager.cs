@@ -29,17 +29,25 @@ namespace Serial_Monitor.Classes {
             }
         }
         ~SerialManager() {
-            Port.DataReceived -= Port_DataReceived;
+            CleanUp();
+
+        }
+        public void CleanUp() {
+            Array.Clear(coils, 0, coils.Length);
+            Array.Clear(discreteInputs, 0, discreteInputs.Length);
+            Array.Clear(inputRegisters, 0, inputRegisters.Length);
+            Array.Clear(holdingRegisters, 0, holdingRegisters.Length);
+            coils = new ModbusCoil[0];
+            discreteInputs = new ModbusCoil[0];
+            inputRegisters = new ModbusRegister[0];
+            holdingRegisters = new ModbusRegister[0];
             try {
+                Port.DataReceived -= Port_DataReceived;
                 if (Port.IsOpen == true) {
                     Port.Close();
                 }
             }
             catch { }
-            //if (TrFramer != null) {
-            //    FramerRunning = false;
-            //    TrFramer.Join();
-            //}
 
         }
 

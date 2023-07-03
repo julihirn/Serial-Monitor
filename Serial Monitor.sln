@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serial Monitor", "Serial Monitor\Serial Monitor.csproj", "{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODModules", "..\..\Line Editor\ODModules\ODModules.csproj", "{3F737265-B819-4AC3-BAFA-7B43D92C358E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serial Monitor", "Serial Monitor\Serial Monitor.csproj", "{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F737265-B819-4AC3-BAFA-7B43D92C358E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F737265-B819-4AC3-BAFA-7B43D92C358E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F737265-B819-4AC3-BAFA-7B43D92C358E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F737265-B819-4AC3-BAFA-7B43D92C358E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
