@@ -6,24 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Serial Monitor/1.0.0": {
+      "Serial Monitor/1.1.104.0": {
         "dependencies": {
-          "ODModules": "1.0.0",
+          "ODModules": "2.0.1",
           "System.IO.Ports": "7.0.0",
           "Fizzler": "1.3.0.0",
-          "ODHandlers": "1.0.0.0",
           "Svg": "3.4.0.0"
         },
         "runtime": {
           "Serial Monitor.dll": {}
-        }
-      },
-      "ODModules/1.0.0": {
-        "runtime": {
-          "lib/net6.0-windows7.0/ODModules.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
         }
       },
       "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {
@@ -105,19 +96,24 @@
           }
         }
       },
+      "Handlers/1.0.0": {
+        "runtime": {
+          "ODHandlers.dll": {}
+        }
+      },
+      "ODModules/2.0.1": {
+        "dependencies": {
+          "Handlers": "1.0.0"
+        },
+        "runtime": {
+          "ODModules.dll": {}
+        }
+      },
       "Fizzler/1.3.0.0": {
         "runtime": {
           "Fizzler.dll": {
             "assemblyVersion": "1.3.0.0",
             "fileVersion": "1.3.0.0"
-          }
-        }
-      },
-      "ODHandlers/1.0.0.0": {
-        "runtime": {
-          "ODHandlers.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -132,17 +128,10 @@
     }
   },
   "libraries": {
-    "Serial Monitor/1.0.0": {
+    "Serial Monitor/1.1.104.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "ODModules/1.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-w9ZjgN18iI7wfR51jZYKMGPeLPIaYh/q9e4/8R8rqNPLAXzrC/rqQyVEbqnbLFC2LTljW3rjb+nfTOweqIqYRA==",
-      "path": "odmodules/1.0.0",
-      "hashPath": "odmodules.1.0.0.nupkg.sha512"
     },
     "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {
       "type": "package",
@@ -193,12 +182,17 @@
       "path": "system.io.ports/7.0.0",
       "hashPath": "system.io.ports.7.0.0.nupkg.sha512"
     },
-    "Fizzler/1.3.0.0": {
-      "type": "reference",
+    "Handlers/1.0.0": {
+      "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "ODHandlers/1.0.0.0": {
+    "ODModules/2.0.1": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Fizzler/1.3.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

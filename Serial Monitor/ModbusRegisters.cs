@@ -39,6 +39,7 @@ namespace Serial_Monitor {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
             LoadRegisters();
+            lstMonitor.ScaleColumnWidths();
         }
         #region Theme
         public void ApplyTheme() {

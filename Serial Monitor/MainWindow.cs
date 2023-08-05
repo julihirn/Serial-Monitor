@@ -64,7 +64,7 @@ namespace Serial_Monitor {
         ProgramObject? CurrentProgram = null;
         public MainWindow() {
             InitializeComponent();
-            Programs.Add(new ProgramObject());
+            Programs.Add(new ProgramObject("Main"));
             lstStepProgram.ExternalItems = Programs[0].Program;
             lstStepProgram.Tag = Programs[0];
             CurrentProgram = Programs[0];
@@ -112,6 +112,7 @@ namespace Serial_Monitor {
             lstStepProgram.Items.Clear();
             Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
             msMain.BackColorNorthFadeIn = FadeInColor;
+            RefreshChannels();
         }
         public void ApplyTheme() {
 
@@ -260,6 +261,7 @@ namespace Serial_Monitor {
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            lstStepProgram.ScaleColumnWidths();
             //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
         }
         private void AddIcons() {
@@ -301,6 +303,49 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, btnMenuClearTerminal, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.FullScreen, btnMenuFullScreen, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
+        #region Channel Settings
+        private void ddbChannels_DropDownOpening(object sender, EventArgs e) {
+            RefreshChannels();
+        }
+        private void CleanChannelHandlers() {
+            for (int i = ddbChannels.DropDownItems.Count - 1; i >= 0; i--) {
+                object Itms = ddbChannels.DropDownItems[i];
+                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
+                    if (((ToolStripMenuItem)Itms).Tag != null) {
+                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
+                        ddbChannels.DropDownItems.RemoveAt(i);
+                    }
+                }
+            }
+        }
+        private void RefreshChannels() {
+            CleanChannelHandlers();
+            int i = 0;
+            foreach (SerialManager SM in SystemManager.SerialManagers) {
+                ToolStripMenuItem Itm = new ToolStripMenuItem();
+                Itm.Text = SM.StateName;
+                Itm.Tag = i;
+                Itm.ImageScaling = ToolStripItemImageScaling.None;
+                Itm.CheckOnClick = true;
+                if (navigator1.SelectedItem == i) {
+                    Itm.Checked = true;
+                }
+                Itm.Click += Itm_Channel; ;
+                ddbChannels.DropDownItems.Add(Itm);
+                i++;
+            }
+        }
+        private void Itm_Channel(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                if (CurrentManager != null) {
+                    int Temp = (int)((ToolStripMenuItem)sender).Tag;
+                    navigator1.SelectedItem = Temp;
+                }
+                navigator1.Invalidate();
+            }
+        }
+        #endregion 
         #region Connection Settings
         private void btnConnect_Click(object sender, EventArgs e) {
             Connect(CurrentManager);
@@ -399,6 +444,15 @@ namespace Serial_Monitor {
                     }
                 }
             }
+            for (int i = btnChannelPort.DropDownItems.Count - 1; i >= 0; i--) {
+                object Itms = btnChannelPort.DropDownItems[i];
+                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
+                    if (((ToolStripMenuItem)Itms).Tag != null) {
+                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
+                        btnChannelPort.DropDownItems.RemoveAt(i);
+                    }
+                }
+            }
         }
         private void RefreshPorts() {
             CleanHandlers();
@@ -411,8 +465,15 @@ namespace Serial_Monitor {
                     Itm.Tag = port;
                     Itm.ImageScaling = ToolStripItemImageScaling.None;
                     Itm.CheckOnClick = true;
-                    Itm.Click += Itm_Click; ;
+                    Itm.Click += Itm_Click; 
                     ddbPorts.DropDownItems.Add(Itm);
+                    ToolStripMenuItem Itm2 = new ToolStripMenuItem();
+                    Itm2.Text = port;
+                    Itm2.Tag = port;
+                    Itm2.ImageScaling = ToolStripItemImageScaling.None;
+                    Itm2.CheckOnClick = true;
+                    Itm2.Click += Itm_Click;
+                    btnChannelPort.DropDownItems.Add(Itm2);
                 }
             }
             if (ddbPorts.DropDownItems.Count <= 0) {
@@ -473,6 +534,14 @@ namespace Serial_Monitor {
                     Item.Checked = false;
                 }
             }
+            foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
         }
         #endregion
         #region BAUD Rate Settings
@@ -508,7 +577,13 @@ namespace Serial_Monitor {
             BaudRateBtn.Tag = Rate;
             BaudRateBtn.ImageScaling = ToolStripItemImageScaling.None;
             BaudRateBtn.Click += BaudRateBtn_Click;
+            ToolStripMenuItem BaudRateBtn2 = new ToolStripMenuItem();
+            BaudRateBtn2.Text = Rate.ToString();
+            BaudRateBtn2.Tag = Rate;
+            BaudRateBtn2.ImageScaling = ToolStripItemImageScaling.None;
+            BaudRateBtn2.Click += BaudRateBtn_Click;
             ddbBAUDRate.DropDownItems.Add(BaudRateBtn);
+            btnChannelBaud.DropDownItems.Add(BaudRateBtn2);
         }
         private void BaudRateBtn_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
@@ -524,6 +599,14 @@ namespace Serial_Monitor {
         }
         private void CheckBaudRate(int Rate) {
             foreach (ToolStripMenuItem Item in ddbBAUDRate.DropDownItems) {
+                if (Item.Text == Rate.ToString()) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+            foreach (ToolStripMenuItem Item in btnChannelBaud.DropDownItems) {
                 if (Item.Text == Rate.ToString()) {
                     Item.Checked = true;
                 }
@@ -574,8 +657,56 @@ namespace Serial_Monitor {
             CheckParity(ddbParity.Text);
             navigator1.Invalidate();
         }
+        private void btnChannelNoParity_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.Parity = Parity.None;
+                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
+            }
+            CheckParity(ddbParity.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelEvenParity_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.Parity = Parity.Even;
+                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
+            }
+            CheckParity(ddbParity.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelOddParity_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.Parity = Parity.Odd;
+                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
+            }
+            CheckParity(ddbParity.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelSpaceParity_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.Parity = Parity.Space;
+                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
+            }
+            CheckParity(ddbParity.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelMarkParity_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.Parity = Parity.Mark;
+                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
+            }
+            CheckParity(ddbParity.Text);
+            navigator1.Invalidate();
+        }
         private void CheckParity(string Type) {
             foreach (ToolStripMenuItem Item in ddbParity.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+            foreach (ToolStripMenuItem Item in btnChannelParity.DropDownItems) {
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -586,6 +717,41 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Bit Settings
+        private void toolStripMenuItem2_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.DataBits = 5;
+                ddbBits.Text = "5";
+            }
+            CheckBits(ddbBits.Text);
+            navigator1.Invalidate();
+        }
+
+        private void btnChanDB_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.DataBits = 8;
+                ddbBits.Text = "8";
+            }
+            CheckBits(ddbBits.Text);
+            navigator1.Invalidate();
+        }
+
+        private void btnChanDB7_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.DataBits = 7;
+                ddbBits.Text = "7";
+            }
+            CheckBits(ddbBits.Text);
+            navigator1.Invalidate();
+        }
+
+        private void btnChanDB6_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.DataBits = 6;
+                ddbBits.Text = "6";
+            }
+            CheckBits(ddbBits.Text);
+            navigator1.Invalidate();
+        }
         private void btnBits5_Click(object sender, EventArgs e) {
             if (CurrentManager != null) {
                 CurrentManager.Port.DataBits = 5;
@@ -620,6 +786,14 @@ namespace Serial_Monitor {
         }
         private void CheckBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbBits.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+            foreach (ToolStripMenuItem Item in btnChannelDataBits.DropDownItems) {
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -662,8 +836,48 @@ namespace Serial_Monitor {
             CheckStopBits(ddbStopBits.Text);
             navigator1.Invalidate();
         }
+        private void btnChannelStopBits0_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.StopBits = StopBits.None;
+                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
+            }
+            CheckStopBits(ddbStopBits.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelStopBits1_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.StopBits = StopBits.One;
+                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
+            }
+            CheckStopBits(ddbStopBits.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelStopBits15_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.StopBits = StopBits.OnePointFive;
+                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
+            }
+            CheckStopBits(ddbStopBits.Text);
+            navigator1.Invalidate();
+        }
+        private void btnChannelStopBits2_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.StopBits = StopBits.Two;
+                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
+            }
+            CheckStopBits(ddbStopBits.Text);
+            navigator1.Invalidate();
+        }
         private void CheckStopBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbStopBits.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+            foreach (ToolStripMenuItem Item in btnChannelStopBits.DropDownItems) {
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -2506,6 +2720,12 @@ namespace Serial_Monitor {
             About AboutWin = new About();
             ApplicationManager.OpenInternalApplicationOnce(AboutWin, true);
         }
+
+        private void ddbPorts_Click(object sender, EventArgs e) {
+
+        }
+
+       
     }
     public enum StreamInputFormat {
         Text = 0x01,

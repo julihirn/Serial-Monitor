@@ -38,14 +38,15 @@
             this.navigator1.Dock = System.Windows.Forms.DockStyle.Right;
             this.navigator1.ForeColor = System.Drawing.Color.White;
             this.navigator1.LinkedList = null;
-            this.navigator1.Location = new System.Drawing.Point(350, 0);
+            this.navigator1.Location = new System.Drawing.Point(677, 0);
+            this.navigator1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.navigator1.MidColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.navigator1.Name = "navigator1";
             this.navigator1.SelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.navigator1.SelectedItem = -1;
             this.navigator1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.navigator1.ShowAnimations = true;
-            this.navigator1.Size = new System.Drawing.Size(60, 384);
+            this.navigator1.Size = new System.Drawing.Size(151, 819);
             this.navigator1.TabIndex = 0;
             // 
             // labelPanel1
@@ -63,14 +64,15 @@
             this.labelPanel1.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel1.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel1.Location = new System.Drawing.Point(0, 238);
+            this.labelPanel1.Location = new System.Drawing.Point(0, 508);
+            this.labelPanel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel1.Name = "labelPanel1";
             this.labelPanel1.OverrideCollapseControl = true;
-            this.labelPanel1.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.labelPanel1.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
             this.labelPanel1.PanelCollapsible = true;
             this.labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.Top;
             this.labelPanel1.ShowCloseButton = true;
-            this.labelPanel1.Size = new System.Drawing.Size(350, 146);
+            this.labelPanel1.Size = new System.Drawing.Size(677, 311);
             this.labelPanel1.TabIndex = 1;
             this.labelPanel1.Text = "labelPanel1";
             // 
@@ -85,7 +87,8 @@
             this.valuePainter1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.valuePainter1.EventsOpacity = 128;
             this.valuePainter1.IsActive = true;
-            this.valuePainter1.Location = new System.Drawing.Point(0, 18);
+            this.valuePainter1.Location = new System.Drawing.Point(0, 37);
+            this.valuePainter1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.valuePainter1.Mode = ODModules.ValuePainter.EditMode.Select;
             this.valuePainter1.Name = "valuePainter1";
             this.valuePainter1.PainterSelected = false;
@@ -93,7 +96,7 @@
             this.valuePainter1.SelectedBorderColor = System.Drawing.Color.Empty;
             this.valuePainter1.SelectionOpacity = 128;
             this.valuePainter1.ShowAllPaintedEvents = true;
-            this.valuePainter1.Size = new System.Drawing.Size(350, 128);
+            this.valuePainter1.Size = new System.Drawing.Size(677, 274);
             this.valuePainter1.SpanEnd = new decimal(new int[] {
             100,
             0,
@@ -127,26 +130,28 @@
             this.labelPanel2.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel2.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel2.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel2.Location = new System.Drawing.Point(120, 78);
+            this.labelPanel2.Location = new System.Drawing.Point(223, 166);
+            this.labelPanel2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel2.Name = "labelPanel2";
             this.labelPanel2.OverrideCollapseControl = false;
-            this.labelPanel2.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.labelPanel2.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
             this.labelPanel2.PanelCollapsible = false;
             this.labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.Left;
             this.labelPanel2.ShowCloseButton = true;
-            this.labelPanel2.Size = new System.Drawing.Size(129, 137);
+            this.labelPanel2.Size = new System.Drawing.Size(240, 292);
             this.labelPanel2.TabIndex = 2;
             this.labelPanel2.Text = "labelPanel2";
             // 
             // Form2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.ClientSize = new System.Drawing.Size(410, 384);
+            this.ClientSize = new System.Drawing.Size(828, 819);
             this.Controls.Add(this.labelPanel2);
             this.Controls.Add(this.labelPanel1);
             this.Controls.Add(this.navigator1);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "Form2";
             this.Text = "Form2";
             this.labelPanel1.ResumeLayout(false);

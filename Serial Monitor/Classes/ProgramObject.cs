@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
     public class ProgramObject {
+        public ProgramObject(string Name) {
+            this.name = Name;
+        }
+        public ProgramObject() {
+        }
         private string name = "";
         public string Name {
             get { return name; }

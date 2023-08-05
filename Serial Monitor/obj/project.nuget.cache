@@ -1,10 +1,9 @@
 {
   "version": 2,
-  "dgSpecHash": "5/SdYt+X5FBEF3MqEhJ+91jDkHQmrwXibwKsyc0f60toseq7yqtGiUjoKvTBj0oBv07kvEKerjYUZ19s3llHdQ==",
+  "dgSpecHash": "zDeCysWaY3FqWf5Yhy4x8aXmsVZ8fWVXKFXhbwKcYFXw4kuqIHAEbGLfTcrNFVKQHr6cLvk0NEVvnALwQYh5BQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Chann\\Source\\Repos\\Serial-Monitor\\Serial Monitor\\Serial Monitor.csproj",
+  "projectFilePath": "C:\\Users\\Chann\\OneDrive\\Apps\\repos\\Serial Monitor\\Serial Monitor\\Serial Monitor.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Chann\\.nuget\\packages\\odmodules\\1.0.0\\odmodules.1.0.0.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\7.0.0\\runtime.linux-arm.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\7.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\7.0.0\\runtime.linux-x64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",

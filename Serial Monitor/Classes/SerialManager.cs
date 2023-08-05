@@ -33,7 +33,7 @@ namespace Serial_Monitor.Classes {
 
         }
         public void CleanUp() {
-            Array.Clear(coils, 0, coils.Length);
+            Array.Clear(coils,0, coils.Length);
             Array.Clear(discreteInputs, 0, discreteInputs.Length);
             Array.Clear(inputRegisters, 0, inputRegisters.Length);
             Array.Clear(holdingRegisters, 0, holdingRegisters.Length);

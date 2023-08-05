@@ -11,6 +11,12 @@
     <PackageIcon>SerialMonitor.ico</PackageIcon>
     <ApplicationIcon>SerialMonitor.ico</ApplicationIcon>
     <Copyright>Copyright © Julian Hirniak 2023</Copyright>
+    <Title>Serial Monitor</Title>
+    <Product>Serial Monitor</Product>
+    <AssemblyVersion>1.1.104.0</AssemblyVersion>
+    <FileVersion>1.1.104.0</FileVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Version>1.1.104.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,16 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ODModules" Version="1.0.0" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ODModules\ODModules\ODModules.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Fizzler">
       <HintPath>Libraries\Fizzler.dll</HintPath>
-    </Reference>
-    <Reference Include="ODHandlers">
-      <HintPath>..\..\ODModules\ODModules\ODHandlers.dll</HintPath>
     </Reference>
     <Reference Include="Svg">
       <HintPath>Libraries\Svg.dll</HintPath>
@@ -66,10 +72,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Libraries\" />
   </ItemGroup>
 
 </Project>

@@ -372,6 +372,8 @@ namespace Serial_Monitor {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
+            lstMonitor.ScaleColumnWidths();
+            lstSelector.ScaleColumnWidths();
         }
         private void Monitor_FormClosing(object sender, FormClosingEventArgs e) {
             if (Attached != null) {
