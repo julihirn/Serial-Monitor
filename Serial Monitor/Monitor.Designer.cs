@@ -772,7 +772,7 @@
 
         private ODModules.ListControl lstMonitor;
         private SplitContainer pnlMonitor;
-        private ODModules.ListControl listControl1;
+        //private ODModules.ListControl listControl1;
         private ODModules.ToolStrip tsMain;
         private ToolStripButton btnSaveLog;
         private ToolStripButton btnOpenLog;

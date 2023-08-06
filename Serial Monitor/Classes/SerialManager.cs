@@ -14,7 +14,7 @@ using static System.Windows.Forms.AxHost;
 namespace Serial_Monitor.Classes {
     public class SerialManager {
         //Thread TrFramer;
-        bool FramerRunning = true;
+        //bool FramerRunning = true;
         public SerialManager() {
             Port.DataReceived += Port_DataReceived;
             Port.WriteTimeout = 1000;

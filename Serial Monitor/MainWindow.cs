@@ -13,6 +13,7 @@ using ODModules;
 using Serial_Monitor.Classes;
 using Svg;
 using static System.Windows.Forms.LinkLabel;
+using Serial_Monitor.Classes.Step_Programs;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme {
@@ -465,7 +466,7 @@ namespace Serial_Monitor {
                     Itm.Tag = port;
                     Itm.ImageScaling = ToolStripItemImageScaling.None;
                     Itm.CheckOnClick = true;
-                    Itm.Click += Itm_Click; 
+                    Itm.Click += Itm_Click;
                     ddbPorts.DropDownItems.Add(Itm);
                     ToolStripMenuItem Itm2 = new ToolStripMenuItem();
                     Itm2.Text = port;
@@ -1130,10 +1131,10 @@ namespace Serial_Monitor {
         #endregion
         #region Program UI
         private void LoadProgramOperations() {
-            StepExecutable[] Steps = (StepExecutable[])StepExecutable.GetValues(typeof(StepExecutable));
+            StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));
             int Index = 0;
             int LastValue = 0;
-            foreach (StepExecutable StepEx in Steps) {
+            foreach (StepEnumerations.StepExecutable StepEx in Steps) {
                 int Value = (int)StepEx & 0xFF0000;
                 if (Index != 0) {
                     if (LastValue != Value) {
@@ -1145,7 +1146,7 @@ namespace Serial_Monitor {
                 LastValue = Value;
             }
         }
-        private void LoadProgramOperation(StepExecutable StepEx) {
+        private void LoadProgramOperation(StepEnumerations.StepExecutable StepEx) {
             ToolStripMenuItem StepOperationBtn = new ToolStripMenuItem();
             StepOperationBtn.Text = ProgramManager.StepExecutableToString(StepEx); //StepEx.ToString();
             StepOperationBtn.Tag = StepEx;
@@ -1167,11 +1168,11 @@ namespace Serial_Monitor {
                         if (LstItem == null) { return; }
                         int Column = ((DropDownClickedEventArgs)cmStepPrg.Tag).Column;
                         int Item = ((DropDownClickedEventArgs)cmStepPrg.Tag).Item;
-                        StepExecutable StepExe = StepExecutable.NoOperation;
+                        StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
                         object? objExe = ((ToolStripMenuItem)sender).Tag;
                         if (objExe != null) {
-                            if (objExe.GetType() == typeof(StepExecutable)) {
-                                StepExe = (StepExecutable)objExe;
+                            if (objExe.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                                StepExe = (StepEnumerations.StepExecutable)objExe;
                             }
                         }
                         if (Column == 0) {
@@ -1189,16 +1190,16 @@ namespace Serial_Monitor {
                 catch { }
             }
         }
-        private void SetDefault(ListItem Li, StepExecutable StepEx) {
+        private void SetDefault(ListItem Li, StepEnumerations.StepExecutable StepEx) {
             if (Li.SubItems.Count != 3) { return; }
             string DefaultText = "";
-            if (StepEx == StepExecutable.Delay) {
+            if (StepEx == StepEnumerations.StepExecutable.Delay) {
                 DefaultText = "1000";
             }
-            else if (StepEx == StepExecutable.Open) {
+            else if (StepEx == StepEnumerations.StepExecutable.Open) {
                 DefaultText = "COM1";
             }
-            //else if (StepEx == StepExecutable.Close) {
+            //else if (StepEx == StepEnumerations.StepExecutable.Close) {
             //    DefaultText = "COM1";
             //}
             Li.SubItems[2].Text = DefaultText;
@@ -1214,14 +1215,14 @@ namespace Serial_Monitor {
                 if (e.ParentItem == null) { return; }
                 if (e.ParentItem.SubItems == null) { return; }
                 object? objTag = e.ParentItem.SubItems[1].Tag;
-                StepExecutable StepExe = StepExecutable.NoOperation;
+                StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
                 if (objTag != null) {
-                    if (objTag.GetType() == typeof(StepExecutable)) {
-                        StepExe = (StepExecutable)objTag;
+                    if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                        StepExe = (StepEnumerations.StepExecutable)objTag;
                     }
                 }
                 if (AcceptsArguments(StepExe) == false) { return; }
-                if (StepExe == StepExecutable.SendText) {
+                if (StepExe == StepEnumerations.StepExecutable.SendText) {
                     OpenFileDialog OpenDia = new OpenFileDialog();
                     OpenDia.Filter = @"Plain Text Doccument (*.txt)|*.txt";
                     OpenDia.ShowDialog();
@@ -1244,13 +1245,13 @@ namespace Serial_Monitor {
 
             }
         }
-        private bool AcceptsArguments(StepExecutable StepExe) {
-            if (StepExe == StepExecutable.NoOperation) { return false; }
-            else if (StepExe == StepExecutable.End) { return false; }
-            else if (StepExe == StepExecutable.EndIf) { return false; }
-            else if (StepExe == StepExecutable.Clear) { return false; }
-            else if (StepExe == StepExecutable.Close) { return false; }
-            else if (StepExe == StepExecutable.MouseLeftClick) { return false; }
+        private bool AcceptsArguments(StepEnumerations.StepExecutable StepExe) {
+            if (StepExe == StepEnumerations.StepExecutable.NoOperation) { return false; }
+            else if (StepExe == StepEnumerations.StepExecutable.End) { return false; }
+            else if (StepExe == StepEnumerations.StepExecutable.EndIf) { return false; }
+            else if (StepExe == StepEnumerations.StepExecutable.Clear) { return false; }
+            else if (StepExe == StepEnumerations.StepExecutable.Close) { return false; }
+            else if (StepExe == StepEnumerations.StepExecutable.MouseLeftClick) { return false; }
             return true;
         }
         #endregion
@@ -1263,9 +1264,11 @@ namespace Serial_Monitor {
             ListSubItem LiChk = new ListSubItem(true); LiPar.SubItems.Add(LiChk);
             ListSubItem LiCmd = new ListSubItem(); LiPar.SubItems.Add(LiCmd);
             ListSubItem LiArgs = new ListSubItem(); LiPar.SubItems.Add(LiArgs);
-            LiCmd.Text = ProgramManager.StepExecutableToString(StepExecutable.NoOperation);
-            LiCmd.Tag = StepExecutable.NoOperation;
-            lstStepProgram.ExternalItems.Add(LiPar);
+            LiCmd.Text = ProgramManager.StepExecutableToString(StepEnumerations.StepExecutable.NoOperation);
+            LiCmd.Tag = StepEnumerations.StepExecutable.NoOperation;
+            if (lstStepProgram.ExternalItems != null) {
+                lstStepProgram.ExternalItems.Add(LiPar);
+            }
             lstStepProgram.Invalidate();
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1291,7 +1294,7 @@ namespace Serial_Monitor {
             Program_RemoveSelected();
         }
         private void Program_RemoveSelected() {
-            ProgramState = StepState.Stopped;
+            ProgramState = StepEnumerations.StepState.Stopped;
             lstStepProgram.LineRemoveSelected();
         }
         private void btnPrgMoveUp_Click(object sender, EventArgs e) {
@@ -1350,12 +1353,12 @@ namespace Serial_Monitor {
                         ProgramItem.Enabled = lstStepProgram.ExternalItems[i].SubItems[0].Checked;
                         object? objCmd = lstStepProgram.ExternalItems[i].SubItems[1].Tag;
                         if (objCmd != null) {
-                            if (objCmd.GetType() == typeof(StepExecutable)) {
-                                ProgramItem.Command = (StepExecutable)objCmd;
+                            if (objCmd.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                                ProgramItem.Command = (StepEnumerations.StepExecutable)objCmd;
                             }
-                            else { ProgramItem.Command = StepExecutable.NoOperation; }
+                            else { ProgramItem.Command = StepEnumerations.StepExecutable.NoOperation; }
                         }
-                        else { ProgramItem.Command = StepExecutable.NoOperation; }
+                        else { ProgramItem.Command = StepEnumerations.StepExecutable.NoOperation; }
 
 
                         ProgramItem.Arguments = lstStepProgram.ExternalItems[i].SubItems[2].Text;
@@ -1409,7 +1412,7 @@ namespace Serial_Monitor {
                 for (int j = CopiedItems.Count - 1; j >= 0; j--) {
                     ListItem itPar = new ListItem();
                     ListSubItem itEnb = new ListSubItem(CopiedItems[j].Enabled);
-                    StepExecutable StCmd = CopiedItems[j].Command;
+                    StepEnumerations.StepExecutable StCmd = CopiedItems[j].Command;
                     ListSubItem itCmd = new ListSubItem(ProgramManager.StepExecutableToString(StCmd));
                     itCmd.Tag = StCmd;
                     ListSubItem itArg = new ListSubItem(CopiedItems[j].Arguments);
@@ -1423,7 +1426,7 @@ namespace Serial_Monitor {
                 for (int j = 0; j < CopiedItems.Count; j++) {
                     ListItem itPar = new ListItem();
                     ListSubItem itEnb = new ListSubItem(CopiedItems[j].Enabled);
-                    StepExecutable StCmd = CopiedItems[j].Command;
+                    StepEnumerations.StepExecutable StCmd = CopiedItems[j].Command;
                     ListSubItem itCmd = new ListSubItem(ProgramManager.StepExecutableToString(StCmd));
                     itCmd.Tag = StCmd;
                     ListSubItem itArg = new ListSubItem(CopiedItems[j].Arguments);
@@ -1453,7 +1456,7 @@ namespace Serial_Monitor {
                 LastProgramStep = ProgramStep;
             }
             if (LastProgramState != ProgramState) {
-                if (ProgramState == StepState.Running) {
+                if (ProgramState == StepEnumerations.StepState.Running) {
                     btnRun.Enabled = false;
                     btnPause.Enabled = true;
                     btnStop.Enabled = true;
@@ -1491,7 +1494,7 @@ namespace Serial_Monitor {
         private void RunFromStart() {
             SetupProgram();
             ProgramStep = 0;
-            ProgramState = StepState.Running;
+            ProgramState = StepEnumerations.StepState.Running;
         }
         private void RunFromStart(string ProgramName) {
             bool ProgramFound = false;
@@ -1506,19 +1509,19 @@ namespace Serial_Monitor {
                 }
             }
             if (ProgramFound == false) {
-                ProgramState = StepState.Stopped;
+                ProgramState = StepEnumerations.StepState.Stopped;
                 ProgramStep = 0;
                 Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
             }
             else {
                 SetupProgram();
                 ProgramStep = 0;
-                ProgramState = StepState.Running;
+                ProgramState = StepEnumerations.StepState.Running;
             }
         }
         private void ContinueWithProgram(string ProgramName) {
-            StepState TempState = ProgramState;
-            ProgramState = StepState.Paused;
+            StepEnumerations.StepState TempState = ProgramState;
+            ProgramState = StepEnumerations.StepState.Paused;
             bool ProgramFound = false;
             if (ProgramName.Length > 0) {
                 foreach (ProgramObject PrgObj in Programs) {
@@ -1531,18 +1534,18 @@ namespace Serial_Monitor {
                 }
             }
             if (ProgramFound == false) {
-                ProgramState = StepState.Stopped;
+                ProgramState = StepEnumerations.StepState.Stopped;
                 ProgramStep = 0;
                 Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
             }
             else {
-                if (TempState == StepState.Running) {
+                if (TempState == StepEnumerations.StepState.Running) {
                     SetupProgram();
                     ProgramStep = 0;
-                    ProgramState = StepState.Running;
+                    ProgramState = StepEnumerations.StepState.Running;
                 }
-                else { 
-                    ProgramState = StepState.Stopped;
+                else {
+                    ProgramState = StepEnumerations.StepState.Stopped;
                     ProgramStep = 0;
                 }
             }
@@ -1558,7 +1561,7 @@ namespace Serial_Monitor {
             else {
                 SetupProgram();
                 ProgramStep = CurrentProgram.ProgramMarker;
-                ProgramState = StepState.Running;
+                ProgramState = StepEnumerations.StepState.Running;
             }
         }
         private void ProgramManager_ProgramNameChanged(object sender) {
@@ -1698,20 +1701,20 @@ namespace Serial_Monitor {
             RunFromStart();
         }
         private void btnPause_Click(object sender, EventArgs e) {
-            ProgramState = StepState.Paused;
+            ProgramState = StepEnumerations.StepState.Paused;
         }
         private void btnStop_Click(object sender, EventArgs e) {
-            ProgramState = StepState.Stopped;
+            ProgramState = StepEnumerations.StepState.Stopped;
             ProgramStep = 0;
         }
         private void btnRunPrg_Click(object sender, EventArgs e) {
             RunFromStart();
         }
         private void btnPausePrg_Click(object sender, EventArgs e) {
-            ProgramState = StepState.Paused;
+            ProgramState = StepEnumerations.StepState.Paused;
         }
         private void btnStopPrg_Click(object sender, EventArgs e) {
-            ProgramState = StepState.Stopped;
+            ProgramState = StepEnumerations.StepState.Stopped;
             ProgramStep = 0;
         }
         private void runToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1721,10 +1724,10 @@ namespace Serial_Monitor {
             Run();
         }
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e) {
-            ProgramState = StepState.Paused;
+            ProgramState = StepEnumerations.StepState.Paused;
         }
         private void stopToolStripMenuItem_Click(object sender, EventArgs e) {
-            ProgramState = StepState.Stopped;
+            ProgramState = StepEnumerations.StepState.Stopped;
             ProgramStep = 0;
         }
         private void btnRunCursor_Click(object sender, EventArgs e) {
@@ -1732,13 +1735,13 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Program
-        StepState ProgramState = StepState.Stopped;
-        StepState LastProgramState = StepState.Stopped;
+        StepEnumerations.StepState ProgramState = StepEnumerations.StepState.Stopped;
+        StepEnumerations.StepState LastProgramState = StepEnumerations.StepState.Stopped;
         int ProgramStep = 0;
         int LastProgramStep = 0;
         string CurrentSender = "";
         public string LatestOnClick = "";
-        StepExecutable LastFunction = StepExecutable.NoOperation;
+        StepEnumerations.StepExecutable LastFunction = StepEnumerations.StepExecutable.NoOperation;
         List<LabelLinkage> LabelPositions = new List<LabelLinkage>();
         List<VariableLinkage> Variables = new List<VariableLinkage>();
         List<ConditionalLinkage> Conditionals = new List<ConditionalLinkage>();
@@ -1748,17 +1751,17 @@ namespace Serial_Monitor {
                 while (true) {
                     if (CurrentProgram != null) {
                         if (CurrentProgram.Program.Count > 0) {
-                            if (ProgramState == StepState.Running) {
+                            if (ProgramState == StepEnumerations.StepState.Running) {
                                 CleanAll = true;
                                 if (ProgramStep < CurrentProgram.Program.Count) {
                                     if (CurrentProgram.Program[ProgramStep].SubItems.Count == 3) {
                                         if (CurrentProgram.Program[ProgramStep].SubItems[0].Checked == true) {
-                                            StepExecutable Function = StepExecutable.NoOperation;
+                                            StepEnumerations.StepExecutable Function = StepEnumerations.StepExecutable.NoOperation;
                                             object? objFunction = CurrentProgram.Program[ProgramStep].SubItems[1].Tag;
                                             string objData = CurrentProgram.Program[ProgramStep].SubItems[2].Text;
                                             if (objFunction != null) {
-                                                if (objFunction.GetType() == typeof(StepExecutable)) {
-                                                    Function = (StepExecutable)objFunction;
+                                                if (objFunction.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                                                    Function = (StepEnumerations.StepExecutable)objFunction;
                                                 }
                                             }
                                             ExecuteLine(Function, objData);
@@ -1770,10 +1773,10 @@ namespace Serial_Monitor {
                                     }
                                 }
                                 else {
-                                    ProgramState = StepState.Stopped;
+                                    ProgramState = StepEnumerations.StepState.Stopped;
                                 }
                             }
-                            else if (ProgramState == StepState.Stopped) {
+                            else if (ProgramState == StepEnumerations.StepState.Stopped) {
                                 if (CleanAll == true) {
                                     CleanProgramData();
                                     CleanAll = false;
@@ -1781,45 +1784,45 @@ namespace Serial_Monitor {
                             }
                         }
                         else {
-                            ProgramState = StepState.Stopped;
+                            ProgramState = StepEnumerations.StepState.Stopped;
                         }
                     }
                     else {
-                        ProgramState = StepState.Stopped;
+                        ProgramState = StepEnumerations.StepState.Stopped;
                     }
-                    if (ProgramState != StepState.Running) {
+                    if (ProgramState != StepEnumerations.StepState.Running) {
                         Thread.Sleep(1);
                     }
                 }
             }
             catch {
-                ProgramState = StepState.Stopped;
+                ProgramState = StepEnumerations.StepState.Stopped;
             }
 
             Debug.Print("Exited");
         }
         int Program_CurrentManager = 0;
         bool NoStepProgramIncrement = false;
-        private void ExecuteLine(StepExecutable Function, string Arguments) {
+        private void ExecuteLine(StepEnumerations.StepExecutable Function, string Arguments) {
             switch (Function) {
-                case StepExecutable.End:
-                    ProgramState = StepState.Stopped;
+                case StepEnumerations.StepExecutable.End:
+                    ProgramState = StepEnumerations.StepState.Stopped;
                     break;
-                case StepExecutable.NoOperation:
+                case StepEnumerations.StepExecutable.NoOperation:
                     break;
-                case StepExecutable.Delay:
+                case StepEnumerations.StepExecutable.Delay:
                     SetDelay(Arguments);
                     break;
-                case StepExecutable.SwitchSender:
+                case StepEnumerations.StepExecutable.SwitchSender:
                     CurrentSender = Arguments; break;
-                case StepExecutable.SendByte:
+                case StepEnumerations.StepExecutable.SendByte:
                     SendByte(Arguments); break;
 
-                case StepExecutable.SendString:
+                case StepEnumerations.StepExecutable.SendString:
                     SendString(Arguments, false); break;
-                case StepExecutable.SendLine:
+                case StepEnumerations.StepExecutable.SendLine:
                     SendString(Arguments, true); break;
-                case StepExecutable.SendText:
+                case StepEnumerations.StepExecutable.SendText:
                     if (File.Exists(Arguments)) {
                         try {
                             using (StreamReader Sr = new StreamReader(Arguments)) {
@@ -1834,63 +1837,63 @@ namespace Serial_Monitor {
                         catch { }
                     }
                     break;
-                case StepExecutable.SetProgram:
+                case StepEnumerations.StepExecutable.SetProgram:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.ContinueWithProgram(Arguments);
                     }));
                     break;
-                case StepExecutable.Call:
-                    ProgramState = StepState.Paused;
+                case StepEnumerations.StepExecutable.Call:
+                    ProgramState = StepEnumerations.StepState.Paused;
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.RunFromStart(Arguments);
                     }));
                     break;
-                case StepExecutable.Clear:
+                case StepEnumerations.StepExecutable.Clear:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.Output.Clear();
                     }));
                     break;
-                case StepExecutable.Print:
+                case StepEnumerations.StepExecutable.Print:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.Output.Print(Arguments);
                     }));
                     break;
-                case StepExecutable.PrintVariable:
+                case StepEnumerations.StepExecutable.PrintVariable:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.Output.Print(GetVariable(Arguments));
                     }));
                     break;
-                case StepExecutable.Open:
+                case StepEnumerations.StepExecutable.Open:
                     ProgramSerialManagement(Function, Arguments);
                     break;
-                case StepExecutable.Close:
+                case StepEnumerations.StepExecutable.Close:
                     ProgramSerialManagement(Function, Arguments);
                     break;
-                case StepExecutable.Label:
+                case StepEnumerations.StepExecutable.Label:
                     SetLabel(Arguments);
                     break;
-                case StepExecutable.DeclareVariable:
+                case StepEnumerations.StepExecutable.DeclareVariable:
                     SetVariable(Arguments); break;
-                case StepExecutable.IncrementVariable:
+                case StepEnumerations.StepExecutable.IncrementVariable:
                     IncrementDecrementVariable(Arguments, false); break;
-                case StepExecutable.DecrementVariable:
+                case StepEnumerations.StepExecutable.DecrementVariable:
                     IncrementDecrementVariable(Arguments, true); break;
-                case StepExecutable.If:
+                case StepEnumerations.StepExecutable.If:
                     EvaluateConditional(Arguments); break;
-                case StepExecutable.GoTo:
+                case StepEnumerations.StepExecutable.GoTo:
                     GotoLabel(Arguments);
                     break;
-                case StepExecutable.MousePosition:
+                case StepEnumerations.StepExecutable.MousePosition:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.SetMousePosition(Arguments);
                     })); break;
-                case StepExecutable.MouseLeftClick:
+                case StepEnumerations.StepExecutable.MouseLeftClick:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         mouse_event(0x02, 0, 0, 0, 0);
                         mouse_event(0x04, 0, 0, 0, 0);
                     }));
                     break;
-                case StepExecutable.SendKeys:
+                case StepEnumerations.StepExecutable.SendKeys:
                     this.BeginInvoke(new MethodInvoker(delegate {
                         SendKeys.Send(Arguments);
                     }));
@@ -1901,17 +1904,17 @@ namespace Serial_Monitor {
         }
         [DllImport("user32")]
         private static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
-        private void ProgramSerialManagement(StepExecutable StepEx, string Arguments) {
+        private void ProgramSerialManagement(StepEnumerations.StepExecutable StepEx, string Arguments) {
             if (Program_CurrentManager >= 0) {
                 if (SystemManager.SerialManagers.Count == 0) { return; }
                 if (Program_CurrentManager >= SystemManager.SerialManagers.Count) { return; }
-                if (StepEx == StepExecutable.Open) {
+                if (StepEx == StepEnumerations.StepExecutable.Open) {
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.SetPort(SystemManager.SerialManagers[Program_CurrentManager], Arguments);
                         this.Connect(SystemManager.SerialManagers[Program_CurrentManager]);
                     }));
                 }
-                else if (StepEx == StepExecutable.Close) {
+                else if (StepEx == StepEnumerations.StepExecutable.Close) {
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.Disconnect(SystemManager.SerialManagers[Program_CurrentManager]);
                     }));
@@ -1980,7 +1983,7 @@ namespace Serial_Monitor {
             LabelPositions.Clear();
             Variables.Clear();
             Conditionals.Clear();
-            LastFunction = StepExecutable.NoOperation;
+            LastFunction = StepEnumerations.StepExecutable.NoOperation;
         }
         private void SetVariable(string Arguments) {
             bool ExistsInVariables = false;
@@ -2080,7 +2083,7 @@ namespace Serial_Monitor {
             return "";
         }
         private void SetLabel(string Arguments) {
-            if (LastFunction != StepExecutable.GoTo) {
+            if (LastFunction != StepEnumerations.StepExecutable.GoTo) {
                 bool ExistsInPositions = false;
                 if (LabelPositions.Count > 0) {
                     for (int i = 0; i < LabelPositions.Count; i++) {
@@ -2118,8 +2121,8 @@ namespace Serial_Monitor {
                 if (CurrentProgram.Program[i].SubItems.Count == 3) {
                     object? TagData = CurrentProgram.Program[i].SubItems[1].Tag;
                     if (TagData != null) {
-                        if (TagData.GetType() == typeof(StepExecutable)) {
-                            if ((StepExecutable)TagData == StepExecutable.If) {
+                        if (TagData.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                            if ((StepEnumerations.StepExecutable)TagData == StepEnumerations.StepExecutable.If) {
                                 FindConditionalEnd(i);
                             }
                         }
@@ -2134,8 +2137,8 @@ namespace Serial_Monitor {
                 if (CurrentProgram.Program[i].SubItems.Count == 3) {
                     object? TagData = CurrentProgram.Program[i].SubItems[1].Tag;
                     if (TagData != null) {
-                        if (TagData.GetType() == typeof(StepExecutable)) {
-                            if ((StepExecutable)TagData == StepExecutable.EndIf) {
+                        if (TagData.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                            if ((StepEnumerations.StepExecutable)TagData == StepEnumerations.StepExecutable.EndIf) {
                                 Conditionals.Add(new ConditionalLinkage(StartIndex, i));
                                 NothingMet = false;
                                 break;
@@ -2289,8 +2292,8 @@ namespace Serial_Monitor {
                                     string Command = "";
                                     object? CommandObj = LstItm.SubItems[1].Tag;
                                     if (CommandObj != null) {
-                                        if (CommandObj.GetType() == typeof(StepExecutable)) {
-                                            Command = ((int)((StepExecutable)CommandObj)).ToString("00000000");
+                                        if (CommandObj.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                                            Command = ((int)((StepEnumerations.StepExecutable)CommandObj)).ToString("00000000");
                                         }
                                     }
                                     string Arguments = LstItm.SubItems[2].Text;
@@ -2725,7 +2728,7 @@ namespace Serial_Monitor {
 
         }
 
-       
+
     }
     public enum StreamInputFormat {
         Text = 0x01,
@@ -2738,96 +2741,12 @@ namespace Serial_Monitor {
         CCommand = 0x02,
         ModbusRTU = 0x05
     }
-    public enum StepState {
-        Stopped = 0x00,
-        Paused = 0x01,
-        Running = 0x02
-    }
-    public enum StepExecutable {
-        NoOperation = 0x000000,
-        GoTo = 0x010080,
-        Call = 0x010041,
-        Label = 0x010040,
-        Delay = 0x010100,
-        End = 0x010200,
-        SetProgram = 0x010001,
-        If = 0x010081,
-        EndIf = 0x01FFFF,
-        SwitchSender = 0x020001,
-        Open = 0x020020,
-        Close = 0x020040,
-        SendByte = 0x030002,
-        SendString = 0x030004,
-        SendLine = 0x030008,
-        SendText = 0x030010,
-        Print = 0x040040,
-        PrintVariable = 0x040060,
-        Clear = 0x040080,
-        DeclareVariable = 0x050001,
-        IncrementVariable = 0x050002,
-        DecrementVariable = 0x050003,
-        ///SelectChannel = 0x050400,
-        //NewChannel = 0x050800,
-        //DeleteChannel = 0x051000,
-        JumpOnPress = 0x060001,
-        MousePosition = 0x090001,
-        MouseLeftClick = 0x090002,
-        SendKeys = 0x090010,
-    }
+
     public class FullScreenStyle {
         public bool IsFullScreen = false;
         public FormWindowState WindowState = FormWindowState.Normal;
         public FormBorderStyle BorderStyle = FormBorderStyle.Sizable;
         public Point WindowPosition;
         public Size WindowSize;
-    }
-    public class ConditionalLinkage {
-        int start = 0;
-        public int Start {
-            get { return start; }
-        }
-        int end = 0;
-        public int End {
-            get { return end; }
-        }
-        public ConditionalLinkage(int start, int end) {
-            this.start = start;
-            this.end = end;
-        }
-    }
-    public class LabelLinkage {
-        string label = "";
-        public string Label {
-            get { return label; }
-        }
-        int lineNumber = -1;
-        public int LineNumber {
-            get { return lineNumber; }
-        }
-        public LabelLinkage(string label, int lineNumber) {
-            this.label = label;
-            this.lineNumber = lineNumber;
-        }
-    }
-    public class VariableLinkage {
-        string name = "";
-        public string Name {
-            get { return name; }
-        }
-        string assignment = "";
-        public string Value {
-            get { return assignment; }
-            set { assignment = value; }
-        }
-        public VariableLinkage(string name, string assignment) {
-            this.name = name;
-            this.assignment = assignment;
-        }
-    }
-    [Serializable]
-    public class ProgramDataObject {
-        public bool Enabled = true;
-        public StepExecutable Command = StepExecutable.NoOperation;
-        public string Arguments = "";
     }
 }

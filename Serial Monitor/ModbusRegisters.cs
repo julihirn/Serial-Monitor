@@ -1,5 +1,6 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -273,7 +274,7 @@ namespace Serial_Monitor {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
             if (e.Column == 1) {
-                EditValue EdVal = new EditValue(StepExecutable.Label, LstItem.SubItems[0].Text, lstMonitor, LstItem, null, LstItem.Tag, false);
+                EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Label, LstItem.SubItems[0].Text, lstMonitor, LstItem, null, LstItem.Tag, false);
               
                 EdVal.Sz = e.ItemSize;
                 EdVal.Location = e.ScreenLocation;
@@ -294,7 +295,7 @@ namespace Serial_Monitor {
                 }
                 else if (LstItem.Tag.GetType() == typeof(ModbusRegister)) {
                     ModbusRegister reg = (ModbusRegister)LstItem.Tag;
-                    EditValue EdVal = new EditValue(StepExecutable.Delay, LstItem.SubItems[2].Text, lstMonitor, LstItem, CurrentManager, reg, !btnApplyOnClick.Checked);
+                    EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Delay, LstItem.SubItems[2].Text, lstMonitor, LstItem, CurrentManager, reg, !btnApplyOnClick.Checked);
                     EdVal.Location = e.ScreenLocation;
                     EdVal.Sz = e.ItemSize;
                     EdVal.Show();

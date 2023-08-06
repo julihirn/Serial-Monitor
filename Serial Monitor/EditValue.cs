@@ -1,6 +1,7 @@
 ﻿using Handlers;
 using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace Serial_Monitor {
     public partial class EditValue : Form {
-        public StepExecutable StepEx = StepExecutable.NoOperation;
+        public StepEnumerations.StepExecutable StepEx = StepEnumerations.StepExecutable.NoOperation;
         DataType SelectedType;
         ODModules.ListControl? lstControl = null;
         ListItem? ListItem = null;
@@ -24,45 +25,45 @@ namespace Serial_Monitor {
         bool IgnoreChanges = true;
         int HSet = 30;
         public Size Sz = new Size(10, 10);
-        public EditValue(StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item, object? Linkage, object? Parameter, bool IgnoreChanges) {
+        public EditValue(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item, object? Linkage, object? Parameter, bool IgnoreChanges) {
             InitializeComponent();
             this.Linkage = Linkage;
             this.Parameter = Parameter;
             this.IgnoreChanges = IgnoreChanges;
             Initalise(StepExe, InputValue, ListCtrl, Item);
         }
-        public EditValue(StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
+        public EditValue(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             InitializeComponent();
             Initalise(StepExe, InputValue, ListCtrl, Item);
         }
-        void Initalise(StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
+        void Initalise(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             StepEx = StepExe;
             string ArgumentLeft = "";
             string ArgumentRight = "";
             lstControl = ListCtrl;
             ListItem = Item;
-            if (StepEx == StepExecutable.Delay) {
+            if (StepEx == StepEnumerations.StepExecutable.Delay) {
                 SelectedType = DataType.Number;
             }
-            else if (StepEx == StepExecutable.SendLine) {
+            else if (StepEx == StepEnumerations.StepExecutable.SendLine) {
                 SelectedType = DataType.StringType;
             }
-            else if (StepEx == StepExecutable.SendString) {
+            else if (StepEx == StepEnumerations.StepExecutable.SendString) {
                 SelectedType = DataType.StringType;
             }
-            else if (StepEx == StepExecutable.SendText) {
+            else if (StepEx == StepEnumerations.StepExecutable.SendText) {
                 SelectedType = DataType.StringType;
             }
-            else if (StepEx == StepExecutable.Print) {
+            else if (StepEx == StepEnumerations.StepExecutable.Print) {
                 SelectedType = DataType.StringType;
             }
-            else if (StepEx == StepExecutable.Label) {
+            else if (StepEx == StepEnumerations.StepExecutable.Label) {
                 SelectedType = DataType.StringType;
             }
-            else if (StepEx == StepExecutable.MousePosition) {
+            else if (StepEx == StepEnumerations.StepExecutable.MousePosition) {
                 SelectedType = DataType.CursorLocation;
             }
-            else if (StepEx == StepExecutable.DeclareVariable) {
+            else if (StepEx == StepEnumerations.StepExecutable.DeclareVariable) {
                 SelectedType = DataType.DualString;
                 Spiltter = '=';
                 ArgumentLeft = StringHandler.SpiltString(InputValue, Spiltter, 0);
@@ -70,7 +71,7 @@ namespace Serial_Monitor {
                     ArgumentRight = StringHandler.SpiltAndCombineAfter(InputValue, Spiltter, 1).Value[1];
                 }
             }
-            else if ((StepEx == StepExecutable.Close) || (StepEx == StepExecutable.Open) || (StepEx == StepExecutable.SwitchSender)) {
+            else if ((StepEx == StepEnumerations.StepExecutable.Close) || (StepEx == StepEnumerations.StepExecutable.Open) || (StepEx == StepEnumerations.StepExecutable.SwitchSender)) {
                 SelectedType = DataType.EnumVal;
                 string[] ports = SerialPort.GetPortNames();
                 Array.Sort(ports, StringComparer.CurrentCultureIgnoreCase);
@@ -186,7 +187,7 @@ namespace Serial_Monitor {
                     if (Parameter != null) {
                         if (Parameter.GetType() == typeof(ModbusRegister)) {
                             ModbusRegister Reg = (ModbusRegister)Parameter;
-                            if (StepEx == StepExecutable.Label) {
+                            if (StepEx == StepEnumerations.StepExecutable.Label) {
                                 Reg.Name = outVal;
                                 if (ListItem != null) {
                                     ListItem.SubItems[0].Text = Output;
@@ -195,7 +196,7 @@ namespace Serial_Monitor {
                         }
                         else if (Parameter.GetType() == typeof(ModbusCoil)) {
                             ModbusCoil Reg = (ModbusCoil)Parameter;
-                            if (StepEx == StepExecutable.Label) {
+                            if (StepEx == StepEnumerations.StepExecutable.Label) {
                                 Reg.Name = outVal;
                                 if (ListItem != null) {
                                     ListItem.SubItems[0].Text = Output;

@@ -50,10 +50,11 @@
             this.aboutBanner1.ForeColor = System.Drawing.Color.White;
             this.aboutBanner1.Location = new System.Drawing.Point(0, 0);
             this.aboutBanner1.Logo = global::Serial_Monitor.Properties.Resources.SerialMonitor;
+            this.aboutBanner1.Margin = new System.Windows.Forms.Padding(6);
             this.aboutBanner1.Name = "aboutBanner1";
             this.aboutBanner1.RuleColorCenter = System.Drawing.Color.Cyan;
             this.aboutBanner1.RuleColorEdge = System.Drawing.Color.DarkSlateGray;
-            this.aboutBanner1.Size = new System.Drawing.Size(364, 83);
+            this.aboutBanner1.Size = new System.Drawing.Size(676, 177);
             this.aboutBanner1.TabIndex = 0;
             // 
             // lblProductName
@@ -61,10 +62,10 @@
             this.lblProductName.AutoSize = true;
             this.lblProductName.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblProductName.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblProductName.Location = new System.Drawing.Point(5, 5);
+            this.lblProductName.Location = new System.Drawing.Point(9, 11);
             this.lblProductName.Margin = new System.Windows.Forms.Padding(0);
             this.lblProductName.Name = "lblProductName";
-            this.lblProductName.Size = new System.Drawing.Size(133, 25);
+            this.lblProductName.Size = new System.Drawing.Size(263, 51);
             this.lblProductName.TabIndex = 1;
             this.lblProductName.Text = "Product Name";
             // 
@@ -79,10 +80,11 @@
             this.panel1.Controls.Add(this.lblCompany);
             this.panel1.Controls.Add(this.lblProductName);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 83);
+            this.panel1.Location = new System.Drawing.Point(0, 177);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(5);
-            this.panel1.Size = new System.Drawing.Size(364, 135);
+            this.panel1.Padding = new System.Windows.Forms.Padding(9, 11, 9, 11);
+            this.panel1.Size = new System.Drawing.Size(676, 284);
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -91,9 +93,10 @@
             this.lblLoadedAssemblies.AutoSize = true;
             this.lblLoadedAssemblies.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblLoadedAssemblies.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblLoadedAssemblies.Location = new System.Drawing.Point(5, 105);
+            this.lblLoadedAssemblies.Location = new System.Drawing.Point(9, 222);
+            this.lblLoadedAssemblies.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblLoadedAssemblies.Name = "lblLoadedAssemblies";
-            this.lblLoadedAssemblies.Size = new System.Drawing.Size(172, 25);
+            this.lblLoadedAssemblies.Size = new System.Drawing.Size(341, 51);
             this.lblLoadedAssemblies.TabIndex = 7;
             this.lblLoadedAssemblies.Text = "Loaded Assemblies";
             // 
@@ -101,18 +104,20 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(5, 90);
+            this.label1.Location = new System.Drawing.Point(9, 190);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 15);
+            this.label1.Size = new System.Drawing.Size(0, 32);
             this.label1.TabIndex = 6;
             // 
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
             this.lblCopyright.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCopyright.Location = new System.Drawing.Point(5, 75);
+            this.lblCopyright.Location = new System.Drawing.Point(9, 158);
+            this.lblCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(60, 15);
+            this.lblCopyright.Size = new System.Drawing.Size(119, 32);
             this.lblCopyright.TabIndex = 5;
             this.lblCopyright.Text = "Copyright";
             // 
@@ -120,9 +125,10 @@
             // 
             this.lblVersion.AutoSize = true;
             this.lblVersion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblVersion.Location = new System.Drawing.Point(5, 60);
+            this.lblVersion.Location = new System.Drawing.Point(9, 126);
+            this.lblVersion.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(45, 15);
+            this.lblVersion.Size = new System.Drawing.Size(92, 32);
             this.lblVersion.TabIndex = 4;
             this.lblVersion.Text = "Version";
             // 
@@ -130,18 +136,20 @@
             // 
             this.lblBlank1.AutoSize = true;
             this.lblBlank1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblBlank1.Location = new System.Drawing.Point(5, 45);
+            this.lblBlank1.Location = new System.Drawing.Point(9, 94);
+            this.lblBlank1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblBlank1.Name = "lblBlank1";
-            this.lblBlank1.Size = new System.Drawing.Size(0, 15);
+            this.lblBlank1.Size = new System.Drawing.Size(0, 32);
             this.lblBlank1.TabIndex = 3;
             // 
             // lblCompany
             // 
             this.lblCompany.AutoSize = true;
             this.lblCompany.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCompany.Location = new System.Drawing.Point(5, 30);
+            this.lblCompany.Location = new System.Drawing.Point(9, 62);
+            this.lblCompany.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCompany.Name = "lblCompany";
-            this.lblCompany.Size = new System.Drawing.Size(59, 15);
+            this.lblCompany.Size = new System.Drawing.Size(116, 32);
             this.lblCompany.TabIndex = 2;
             this.lblCompany.Text = "Company";
             // 
@@ -149,31 +157,34 @@
             // 
             this.pnlLoadedAssemblies.AutoScroll = true;
             this.pnlLoadedAssemblies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLoadedAssemblies.Location = new System.Drawing.Point(7, 0);
+            this.pnlLoadedAssemblies.Location = new System.Drawing.Point(13, 0);
+            this.pnlLoadedAssemblies.Margin = new System.Windows.Forms.Padding(6);
             this.pnlLoadedAssemblies.Name = "pnlLoadedAssemblies";
-            this.pnlLoadedAssemblies.Size = new System.Drawing.Size(357, 123);
+            this.pnlLoadedAssemblies.Size = new System.Drawing.Size(663, 266);
             this.pnlLoadedAssemblies.TabIndex = 3;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.pnlLoadedAssemblies);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 218);
+            this.panel2.Location = new System.Drawing.Point(0, 461);
+            this.panel2.Margin = new System.Windows.Forms.Padding(6);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(7, 0, 0, 0);
-            this.panel2.Size = new System.Drawing.Size(364, 123);
+            this.panel2.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.panel2.Size = new System.Drawing.Size(676, 266);
             this.panel2.TabIndex = 4;
             // 
             // About
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientSize = new System.Drawing.Size(364, 341);
+            this.ClientSize = new System.Drawing.Size(676, 727);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.aboutBanner1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "About";
             this.Text = "About";
             this.Load += new System.EventHandler(this.About_Load);

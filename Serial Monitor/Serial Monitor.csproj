@@ -17,6 +17,7 @@
     <FileVersion>1.1.104.0</FileVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <Version>1.1.104.0</Version>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>

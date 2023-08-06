@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Serial_Monitor.Classes.Step_Programs;
 namespace Serial_Monitor.Classes {
     public class ProgramObject {
         public ProgramObject(string Name) {
@@ -40,8 +40,8 @@ namespace Serial_Monitor.Classes {
                 ListSubItem LiC = new ListSubItem();
                 string CmdStr = FCommand.Substring(2, 8);
                 int CmdInt = 0; int.TryParse(CmdStr, out CmdInt);
-                LiC.Tag = (StepExecutable)CmdInt;
-                LiC.Text = ProgramManager.StepExecutableToString((StepExecutable)CmdInt);
+                LiC.Tag = (StepEnumerations.StepExecutable)CmdInt;
+                LiC.Text = ProgramManager.StepExecutableToString((StepEnumerations.StepExecutable)CmdInt);
 
                 ListSubItem LiA = new ListSubItem();
                 LiA.Text = FCommand.Remove(0, 11);
