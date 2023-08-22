@@ -41,3 +41,5 @@ C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial Monitor.genruntimeconfig.cache
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\refint\Serial Monitor.dll
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\ref\Serial Monitor.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.CommandPalette.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.WindowForms.TextComparator.resources

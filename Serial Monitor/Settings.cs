@@ -45,8 +45,8 @@ namespace Serial_Monitor {
             Properties.Settings.Default.THM_COL_BorderColor = Color.FromArgb(150, 150, 150);
             Properties.Settings.Default.THM_COL_SeperatorColor = Color.FromArgb(200, 200, 200);
             Properties.Settings.Default.THM_COL_SelectedColor = Color.SteelBlue;
-            Properties.Settings.Default.THM_COL_ScrollColor = Color.FromArgb(224, 224, 224);
-            Properties.Settings.Default.THM_COL_SymbolColor = Color.DarkGray;
+            Properties.Settings.Default.THM_COL_ScrollColor = Color.FromArgb(200, 200, 200);
+            Properties.Settings.Default.THM_COL_SymbolColor = Color.DimGray;
             Properties.Settings.Default.THM_COL_StopColor = Color.Brown;
             Properties.Settings.Default.THM_COL_SeconaryBackColor = Color.FromArgb(215, 215, 215);
             Properties.Settings.Default.THM_COL_TerminalForeColor = Color.FromArgb(0, 0, 63);

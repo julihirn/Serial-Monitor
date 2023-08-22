@@ -24,47 +24,49 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Keypad));
-            this.buttonGrid1 = new ODModules.ButtonGrid();
+            this.keypad1 = new ODModules.Keypad();
             this.SuspendLayout();
             // 
-            // buttonGrid1
+            // keypad1
             // 
-            this.buttonGrid1.BackColorCheckedNorth = System.Drawing.Color.Orange;
-            this.buttonGrid1.BackColorCheckedSouth = System.Drawing.Color.Orange;
-            this.buttonGrid1.BackColorDownNorth = System.Drawing.Color.DimGray;
-            this.buttonGrid1.BackColorDownSouth = System.Drawing.Color.DimGray;
-            this.buttonGrid1.BackColorHoverNorth = System.Drawing.Color.SkyBlue;
-            this.buttonGrid1.BackColorHoverSouth = System.Drawing.Color.SkyBlue;
-            this.buttonGrid1.BackColorNorth = System.Drawing.Color.White;
-            this.buttonGrid1.BackColorSouth = System.Drawing.Color.White;
-            this.buttonGrid1.BorderColorCheckedNorth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorCheckedSouth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorDownNorth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorDownSouth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorHoverNorth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorHoverSouth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorNorth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderColorShadow = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonGrid1.BorderColorSouth = System.Drawing.Color.Black;
-            this.buttonGrid1.BorderRadius = 5;
-            this.buttonGrid1.ButtonPadding = new System.Windows.Forms.Padding(0);
-            this.buttonGrid1.ButtonSize = new System.Drawing.Size(120, 120);
-            this.buttonGrid1.CenterButtons = true;
-            this.buttonGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonGrid1.Filter = null;
-            this.buttonGrid1.ImageSize = new System.Drawing.Size(32, 32);
-            this.buttonGrid1.Location = new System.Drawing.Point(0, 0);
-            this.buttonGrid1.Name = "buttonGrid1";
-            this.buttonGrid1.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonGrid1.ScrollBarNorth = System.Drawing.Color.DarkTurquoise;
-            this.buttonGrid1.ScrollBarSouth = System.Drawing.Color.DeepSkyBlue;
-            this.buttonGrid1.SecondaryFont = null;
-            this.buttonGrid1.Size = new System.Drawing.Size(302, 337);
-            this.buttonGrid1.Style = ODModules.ButtonStyle.Square;
-            this.buttonGrid1.TabIndex = 0;
-            this.buttonGrid1.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            this.buttonGrid1.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            this.buttonGrid1.VerScroll = 0;
+            this.keypad1.AllowTextWrapping = true;
+            this.keypad1.BackColorCheckedNorth = System.Drawing.Color.Orange;
+            this.keypad1.BackColorCheckedSouth = System.Drawing.Color.Orange;
+            this.keypad1.BackColorDownNorth = System.Drawing.Color.DimGray;
+            this.keypad1.BackColorDownSouth = System.Drawing.Color.DimGray;
+            this.keypad1.BackColorHoverNorth = System.Drawing.Color.SkyBlue;
+            this.keypad1.BackColorHoverSouth = System.Drawing.Color.SkyBlue;
+            this.keypad1.BackColorNorth = System.Drawing.Color.DimGray;
+            this.keypad1.BackColorSouth = System.Drawing.Color.DimGray;
+            this.keypad1.BorderColorCheckedNorth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorCheckedSouth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorDownNorth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorDownSouth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorHoverNorth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorHoverSouth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorNorth = System.Drawing.Color.Black;
+            this.keypad1.BorderColorShadow = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.keypad1.BorderColorSouth = System.Drawing.Color.Black;
+            this.keypad1.BorderRadius = 5;
+            this.keypad1.ButtonPadding = new System.Windows.Forms.Padding(0);
+            this.keypad1.Columns = 4;
+            this.keypad1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.keypad1.ExternalItems = null;
+            this.keypad1.IconInline = false;
+            this.keypad1.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            this.keypad1.ImageSize = new System.Drawing.Size(32, 32);
+            this.keypad1.Location = new System.Drawing.Point(0, 0);
+            this.keypad1.Name = "keypad1";
+            this.keypad1.Padding = new System.Windows.Forms.Padding(10);
+            this.keypad1.Rows = 5;
+            this.keypad1.SecondaryFont = null;
+            this.keypad1.Size = new System.Drawing.Size(302, 337);
+            this.keypad1.Style = ODModules.ButtonStyle.Round;
+            this.keypad1.TabIndex = 0;
+            this.keypad1.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            this.keypad1.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            this.keypad1.UseLocalList = false;
+            this.keypad1.ButtonClicked += new ODModules.Keypad.ButtonClickedEventHandler(this.keypad1_ButtonClicked);
             // 
             // Keypad
             // 
@@ -72,16 +74,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.ClientSize = new System.Drawing.Size(302, 337);
-            this.Controls.Add(this.buttonGrid1);
+            this.Controls.Add(this.keypad1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Keypad";
             this.Text = "Keypad";
+            this.Load += new System.EventHandler(this.Keypad_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ODModules.ButtonGrid buttonGrid1;
+        private ODModules.Keypad keypad1;
     }
 }

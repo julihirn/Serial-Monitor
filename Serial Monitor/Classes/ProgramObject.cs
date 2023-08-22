@@ -57,5 +57,15 @@ namespace Serial_Monitor.Classes {
                 program.RemoveAt(i);
             }
         }
+        public int SelectedCount() {
+            if (program.Count == 0) { return 0; }
+            int SelectCount = 0;
+            for (int i = 0; i < program.Count; i++) {
+                if (program[i].Selected == true) {
+                    SelectCount++;
+                }
+            }
+            return SelectCount;
+        }
     }
 }

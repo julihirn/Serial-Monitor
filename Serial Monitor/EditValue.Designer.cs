@@ -90,7 +90,7 @@
             this.numericTextbox1.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox1.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox1.ShowLabel = true;
-            this.numericTextbox1.Size = new System.Drawing.Size(580, 29);
+            this.numericTextbox1.Size = new System.Drawing.Size(577, 29);
             this.numericTextbox1.TabIndex = 1;
             this.numericTextbox1.Unit = "";
             this.numericTextbox1.Value = "0";
@@ -127,7 +127,7 @@
             this.button2.RadioButtonGroup = "";
             this.button2.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button2.SecondaryText = "";
-            this.button2.Size = new System.Drawing.Size(57, 657);
+            this.button2.Size = new System.Drawing.Size(60, 657);
             this.button2.Style = ODModules.ButtonStyle.Square;
             this.button2.TabIndex = 2;
             this.button2.Text = "Ok";
@@ -147,7 +147,7 @@
             this.textBox1.Location = new System.Drawing.Point(0, 73);
             this.textBox1.Margin = new System.Windows.Forms.Padding(6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(580, 35);
+            this.textBox1.Size = new System.Drawing.Size(577, 35);
             this.textBox1.TabIndex = 3;
             this.textBox1.Visible = false;
             // 
@@ -163,7 +163,7 @@
             this.flatComboBox1.Location = new System.Drawing.Point(0, 29);
             this.flatComboBox1.Margin = new System.Windows.Forms.Padding(6);
             this.flatComboBox1.Name = "flatComboBox1";
-            this.flatComboBox1.Size = new System.Drawing.Size(580, 44);
+            this.flatComboBox1.Size = new System.Drawing.Size(577, 44);
             this.flatComboBox1.TabIndex = 1;
             this.flatComboBox1.Visible = false;
             // 
@@ -181,8 +181,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBox3);
-            this.splitContainer1.Size = new System.Drawing.Size(580, 75);
-            this.splitContainer1.SplitterDistance = 188;
+            this.splitContainer1.Size = new System.Drawing.Size(577, 75);
+            this.splitContainer1.SplitterDistance = 187;
             this.splitContainer1.SplitterWidth = 7;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.TabStop = false;
@@ -198,7 +198,7 @@
             this.textBox2.Location = new System.Drawing.Point(0, 0);
             this.textBox2.Margin = new System.Windows.Forms.Padding(6);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(188, 35);
+            this.textBox2.Size = new System.Drawing.Size(187, 35);
             this.textBox2.TabIndex = 0;
             // 
             // textBox3
@@ -211,7 +211,7 @@
             this.textBox3.Location = new System.Drawing.Point(0, 0);
             this.textBox3.Margin = new System.Windows.Forms.Padding(6);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(385, 35);
+            this.textBox3.Size = new System.Drawing.Size(383, 35);
             this.textBox3.TabIndex = 1;
             // 
             // splitContainer2
@@ -234,7 +234,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.button2);
             this.splitContainer2.Size = new System.Drawing.Size(644, 657);
-            this.splitContainer2.SplitterDistance = 580;
+            this.splitContainer2.SplitterDistance = 577;
             this.splitContainer2.SplitterWidth = 7;
             this.splitContainer2.TabIndex = 6;
             // 

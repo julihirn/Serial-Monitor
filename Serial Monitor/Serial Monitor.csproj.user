@@ -4,6 +4,9 @@
     <Compile Update="About.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="CommandPalette.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="EditValue.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -29,6 +32,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WindowForms\TextComparator.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

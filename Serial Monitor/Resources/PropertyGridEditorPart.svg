@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightPropertyGridEditorPart</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,0V16H0V0Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M14.5.5v12H13V8.086L11.914,7H5.5V.5Z" />
+    <path class="light-defaultgrey-10" d="M12,8.5v6l-.5.5H1.5L1,14.5v-6L1.5,8h10Z" />
+    <path class="light-defaultgrey" d="M13,2V3H7V2ZM10,4H7V5h3ZM7,7h6V6H7Zm7.5-7h-9L5,.5V7H6V1h8V12H13v1h1.5l.5-.5V.5Z" />
+    <path class="light-defaultgrey" d="M11.5,15H11V14h1v.5ZM10,14H9v1h1ZM8,14H7v1H8ZM6,14H5v1H6ZM4,14H3v1H4ZM2,14H1v.5l.5.5H2Zm0-2H1v1H2Zm0-2H1v1H2ZM2,8H1.5L1,8.5V9H2Zm8,0H9V9h1ZM8,8H7V9H8ZM6,8H5V9H6ZM4,8H3V9H4Zm8,.5L11.5,8H11V9h1ZM12,12H11v1h1Zm0-2H11v1h1Z" />
+    <path class="light-defaultgrey" d="M10,11H9v1h1ZM8,11H7v1H8ZM6,11H5v1H6ZM4,11H3v1H4Z" />
+  </g>
+</svg>

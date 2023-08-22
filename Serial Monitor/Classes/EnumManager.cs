@@ -51,15 +51,25 @@ namespace Serial_Monitor.Classes {
             }
             return StreamInputFormat.Text;
         }
-        public static StringPair InputFormatToString(StreamInputFormat Input) {
+        public static StringPair InputFormatToString(StreamInputFormat Input, bool UseLongName = true) {
             if (Input == StreamInputFormat.Text) {
                 return new StringPair("Text", "frmTxt");
             }
             else if (Input == StreamInputFormat.BinaryStream) {
-                return new StringPair("Binary Stream", "frmStream");
+                if (UseLongName == true) {
+                    return new StringPair("Binary Stream", "frmStream");
+                }
+                else {
+                    return new StringPair("Stream", "frmStream");
+                }
             }
             else if (Input == StreamInputFormat.CCommand) {
-                return new StringPair("C Command", "frmCCommand");
+                if (UseLongName == true) {
+                    return new StringPair("C Command", "frmCCommand");
+                }
+                else {
+                    return new StringPair("Command", "frmCCommand");
+                }
             }
             else if (Input == StreamInputFormat.ModbusRTU) {
                 return new StringPair("Modbus RTU", "frmModbusRTU");
@@ -78,12 +88,17 @@ namespace Serial_Monitor.Classes {
             }
             return StreamOutputFormat.Text;
         }
-        public static StringPair OutputFormatToString(StreamOutputFormat Input) {
+        public static StringPair OutputFormatToString(StreamOutputFormat Input, bool UseLongName = true) {
             if (Input == StreamOutputFormat.Text) {
                 return new StringPair("Text", "frmTxt");
             }
             else if (Input == StreamOutputFormat.CCommand) {
-                return new StringPair("C Command", "frmCCommand");
+                if (UseLongName == true) {
+                    return new StringPair("C Command", "frmCCommand");
+                }
+                else {
+                    return new StringPair("Command", "frmCCommand");
+                }
             }
             else if (Input == StreamOutputFormat.ModbusRTU) {
                 return new StringPair("Modbus RTU", "frmModbusRTU");

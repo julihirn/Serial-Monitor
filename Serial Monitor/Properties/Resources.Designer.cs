@@ -73,6 +73,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] AddItem {
+            get {
+                object obj = ResourceManager.GetObject("AddItem", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] ApplyCodeChanges {
             get {
                 object obj = ResourceManager.GetObject("ApplyCodeChanges", resourceCulture);
@@ -116,6 +126,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] ClearWindowContent {
             get {
                 object obj = ResourceManager.GetObject("ClearWindowContent", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] COM {
+            get {
+                object obj = ResourceManager.GetObject("COM", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -213,6 +233,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Grid {
+            get {
+                object obj = ResourceManager.GetObject("Grid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Input {
             get {
                 object obj = ResourceManager.GetObject("Input", resourceCulture);
@@ -263,9 +293,39 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] MoveDown {
+            get {
+                object obj = ResourceManager.GetObject("MoveDown", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MoveUp {
+            get {
+                object obj = ResourceManager.GetObject("MoveUp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] NewDeploymentPackage_16x {
             get {
                 object obj = ResourceManager.GetObject("NewDeploymentPackage_16x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] NewRow {
+            get {
+                object obj = ResourceManager.GetObject("NewRow", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -313,6 +373,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Pause {
+            get {
+                object obj = ResourceManager.GetObject("Pause", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Pause_16x {
             get {
                 object obj = ResourceManager.GetObject("Pause_16x", resourceCulture);
@@ -323,9 +393,29 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] PropertyGridEditorPart {
+            get {
+                object obj = ResourceManager.GetObject("PropertyGridEditorPart", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Remove {
             get {
                 object obj = ResourceManager.GetObject("Remove", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Rename {
+            get {
+                object obj = ResourceManager.GetObject("Rename", resourceCulture);
                 return ((byte[])(obj));
             }
         }
