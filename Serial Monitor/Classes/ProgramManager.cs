@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
     public static class ProgramManager {
+        public static Thread? ThreadStepExecutable;
+
         public static event ProgramListingChangedHandler? ProgramListingChanged;
         public delegate void ProgramListingChangedHandler();
         public static event ProgramNameChangedHandler? ProgramNameChanged;
@@ -22,7 +25,10 @@ namespace Serial_Monitor.Classes {
         public static ProgramObject? CurrentEditingProgram = null;
 
         public static StepEnumerations.StepState ProgramState = StepEnumerations.StepState.Stopped;
-
+        static bool executionThreadRunning = true;
+        public static bool ExecutionThreadRunning {
+            get { return executionThreadRunning; }
+        }
         public static int ProgramStep = 0;
         public static int LastProgramStep = 0;
         public static string CurrentSender = "";
@@ -44,6 +50,24 @@ namespace Serial_Monitor.Classes {
         public static void ProgramNameChange(object sender) {
             ProgramNameChanged?.Invoke(sender);
         }
+        public static void LaunchThread() {
+            executionThreadRunning = true;
+            ThreadStepExecutable = new Thread(StepProgram);
+            ThreadStepExecutable.IsBackground = true;
+            ThreadStepExecutable.Start();
+        }
+        public static void TestThread() {
+            if (executionThreadRunning == false) {
+                Print(ErrorType.M_Notification, "PROG_THREAD_EXE", "Restarting execution thread...");
+                try {
+                    LaunchThread();
+                }
+                catch {
+                    Print(ErrorType.M_Notification, "PROG_THREAD_FAIL", "Porgram thread could not be launched!");
+                    executionThreadRunning = false;
+                }
+            }
+        }
         #region Program Transport
         public static void RunFromStart() {
             ProgramManager.SetupProgram();
@@ -55,9 +79,9 @@ namespace Serial_Monitor.Classes {
             if (ProgramName.Length > 0) {
                 bool Resulted = false;
                 string ProName = "";
-                foreach (ProgramObject PrgObj in ProgramManager.Programs) {
+                foreach (ProgramObject PrgObj in Programs) {
                     if (PrgObj.Name == ProgramName) {
-                        ProgramManager.CurrentProgram = PrgObj;
+                        CurrentProgram = PrgObj;
                         ProgramFound = true;
                         ProName = PrgObj.Name;
                         if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
@@ -79,6 +103,7 @@ namespace Serial_Monitor.Classes {
                 SetupProgram();
                 ProgramStep = 0;
                 ProgramState = StepEnumerations.StepState.Running;
+
             }
         }
         #endregion
@@ -127,6 +152,9 @@ namespace Serial_Monitor.Classes {
             try {
                 while (true) {
                     if (CurrentProgram != null) {
+                        if(ProgramStep < 0) {
+                            ProgramState = StepEnumerations.StepState.Stopped;
+                        }
                         if (CurrentProgram.Program.Count > 0) {
                             if (ProgramState == StepEnumerations.StepState.Running) {
                                 CleanAll = true;
@@ -148,6 +176,7 @@ namespace Serial_Monitor.Classes {
                                     if (NoStepProgramIncrement == false) {
                                         ProgramStep++;
                                     }
+                                    else { NoStepProgramIncrement = false; }
                                 }
                                 else {
                                     ProgramState = StepEnumerations.StepState.Stopped;
@@ -172,9 +201,12 @@ namespace Serial_Monitor.Classes {
                     }
                 }
             }
-            catch {
+            catch (Exception e){
                 ProgramState = StepEnumerations.StepState.Stopped;
+                Print(ErrorType.M_Error, "PROG_THREAD_DEAD", "The program execution thread has exited due to a caught exception...");
+                Print(ErrorType.M_Error, "", e.Message);
             }
+            executionThreadRunning = false;
         }
         public static void ExecuteLine(StepEnumerations.StepExecutable Function, string Arguments) {
             switch (Function) {
@@ -213,8 +245,7 @@ namespace Serial_Monitor.Classes {
                     ContinueWithProgram(Arguments);
                     break;
                 case StepEnumerations.StepExecutable.Call:
-                    ProgramState = StepEnumerations.StepState.Paused;
-                    RunFromStart(Arguments);
+                    Call(Arguments);
                     break;
                 case StepEnumerations.StepExecutable.Clear:
                     if (MainInstance != null) { MainInstance.MethodClearing(); }
@@ -304,12 +335,11 @@ namespace Serial_Monitor.Classes {
 
         #endregion
         #region Variables
-        public static List<VariableLinkage> Variables = new List<VariableLinkage>();
         public static string GetVariable(string Argument, bool UseInput = false) {
-            foreach (VariableLinkage Var in Variables) {
-                if (Argument == Var.Name) {
-                    return Var.Value;
-                }
+            if (CurrentProgram == null) { return ""; }
+            VariableResult VarResult = CurrentProgram.GetVariable(Argument);
+            if (VarResult.IsValid == true) {
+                return VarResult.Value;
             }
             if (UseInput == true) { return Argument; }
             return "";
@@ -319,18 +349,18 @@ namespace Serial_Monitor.Classes {
             if (!Arguments.Contains('=')) { return; }
             string VarName = Arguments.Split('=')[0];
             string VarValue = StringHandler.SpiltAndCombineAfter(Arguments, '=', 1).Value[1];
-
-            if (Variables.Count > 0) {
-                for (int i = 0; i < Variables.Count; i++) {
-                    if (Variables[i].Name == VarName) {
-                        Variables[i].Value = VarValue;
+            if (CurrentProgram == null) { return; }
+            if (CurrentProgram.Variables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
+                    if (CurrentProgram.Variables[i].Name == VarName) {
+                        CurrentProgram.Variables[i].Value = VarValue;
                         ExistsInVariables = true; break;
                     }
                 }
             }
             if (ExistsInVariables == false) {
                 VariableLinkage LblLink = new VariableLinkage(VarName, VarValue);
-                Variables.Add(LblLink);
+                CurrentProgram.Variables.Add(LblLink);
             }
         }
         #endregion
@@ -354,6 +384,13 @@ namespace Serial_Monitor.Classes {
         #region Control Flow
         //private delegate void delAddText(string text);
         //private static delAddText safeAddText = new delAddText(AddText);
+        private static void Call(string Arguments) {
+            ProgramState = StepEnumerations.StepState.Paused;
+            RunFromStart(Arguments);
+            CleanProgramData();
+            SetupProgram();
+            NoStepProgramIncrement = true;
+        }
         public static void GotoLabel(string Arguments) {
             bool LabelExists = false;
             if (LabelPositions.Count > 0) {
@@ -378,19 +415,22 @@ namespace Serial_Monitor.Classes {
         }
         public static void CleanProgramData() {
             LabelPositions.Clear();
-            Variables.Clear();
+            if (CurrentProgram != null) {
+                CurrentProgram.Variables.Clear();
+            }
             Conditionals.Clear();
             LastFunction = StepEnumerations.StepExecutable.NoOperation;
         }
         public static void IncrementDecrementVariable(string Argument, bool Decrement) {
-            if (Variables.Count > 0) {
-                for (int i = 0; i < Variables.Count; i++) {
-                    if (Variables[i].Name == Argument) {
-                        if (ConversionHandler.IsNumeric(Variables[i].Value)) {
+            if (CurrentProgram == null) { return; }
+            if (CurrentProgram.Variables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
+                    if (CurrentProgram.Variables[i].Name == Argument) {
+                        if (ConversionHandler.IsNumeric(CurrentProgram.Variables[i].Value)) {
                             decimal Value = 0;
-                            Decimal.TryParse(Variables[i].Value, out Value);
+                            Decimal.TryParse(CurrentProgram.Variables[i].Value, out Value);
                             Value += Decrement == true ? -1.0m : 1.0m;
-                            Variables[i].Value = Value.ToString();
+                            CurrentProgram.Variables[i].Value = Value.ToString();
                             break;
                         }
                     }
@@ -477,7 +517,7 @@ namespace Serial_Monitor.Classes {
                     if (PrgObj.Name == ProgramName) {
                         CurrentProgram = PrgObj;
                         ProgramFound = true;
-                        // btnRun.Text = PrgObj.Name;
+                        if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
                         break;
                     }
                 }
@@ -491,11 +531,8 @@ namespace Serial_Monitor.Classes {
                 if (TempState == StepEnumerations.StepState.Running) {
                     SetupProgram();
                     ProgramStep = 0;
-                    ProgramState = StepEnumerations.StepState.Running;
-                }
-                else {
                     ProgramState = StepEnumerations.StepState.Stopped;
-                    ProgramStep = 0;
+                    NoStepProgramIncrement = true;
                 }
             }
 
@@ -575,8 +612,6 @@ namespace Serial_Monitor.Classes {
             else {
                 AddCommandLine(StepChange);
             }
-
-
         }
         #endregion
     }

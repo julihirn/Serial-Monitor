@@ -225,5 +225,29 @@ namespace Serial_Monitor.Properties {
                 this["THM_COL_RowColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 64, 0")]
+        public global::System.Drawing.Color THM_COL_Match {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_Match"]));
+            }
+            set {
+                this["THM_COL_Match"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 0, 0")]
+        public global::System.Drawing.Color THM_COL_Mismatched {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_Mismatched"]));
+            }
+            set {
+                this["THM_COL_Mismatched"] = value;
+            }
+        }
     }
 }

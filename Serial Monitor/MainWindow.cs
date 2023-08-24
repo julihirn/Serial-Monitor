@@ -13,6 +13,7 @@ using Serial_Monitor.Classes;
 using Svg;
 using static System.Windows.Forms.LinkLabel;
 using Serial_Monitor.Classes.Step_Programs;
+using System.Runtime.ConstrainedExecution;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme {
@@ -25,7 +26,7 @@ namespace Serial_Monitor {
         //StreamOutputFormat OutputFormat = StreamOutputFormat.Text;
         //SerialManager SerManager = new SerialManager();
 
-        Thread ThreadStepExecutable;
+        
 
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
@@ -60,8 +61,8 @@ namespace Serial_Monitor {
                 }
             }
         }
-        
-        
+
+
         public MainWindow() {
             InitializeComponent();
             ProgramManager.MainInstance = this;
@@ -81,10 +82,9 @@ namespace Serial_Monitor {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
-            ThreadStepExecutable = new Thread(ProgramManager.StepProgram);
-            ThreadStepExecutable.IsBackground = true;
-            ThreadStepExecutable.Start();
+            ProgramManager.LaunchThread();
             LoadRecentItems();
+            DocumentEdited = false;
         }
 
 
@@ -117,7 +117,9 @@ namespace Serial_Monitor {
             msMain.BackColorNorthFadeIn = FadeInColor;
             RefreshChannels();
             ProgramManager.ProgramListingChanged += ProgramManager_ProgramListingChanged;
+            SetTitle("Untitled");
             //DetermineTabs();
+            DocumentEdited = false;
         }
         public void ApplyTheme() {
 
@@ -258,6 +260,7 @@ namespace Serial_Monitor {
             SerMan.Name = ManagerName;
             SerMan.CommandProcessed += SerManager_CommandProcessed;
             SerMan.DataReceived += SerMan_DataReceived;
+            DocumentEdited = true;
         }
         private void ClearManagers() {
             for (int i = SystemManager.SerialManagers.Count - 1; i >= 0; i--) {
@@ -314,6 +317,8 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Memory, ddbPorts, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, btnConnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, btnDisconnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, btnMenuConnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, btnMenuDisconnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, ddbInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, ddbOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -369,6 +374,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, btnNewChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewRow, newProgramToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewRow, cmbtnNewProgram, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, btnPrgRemoveStepLines, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -417,8 +423,14 @@ namespace Serial_Monitor {
                 navigator1.Invalidate();
             }
         }
-        #endregion 
+        #endregion
         #region Connection Settings
+        private void btnMenuConnect_Click(object sender, EventArgs e) {
+            Connect(CurrentManager);
+        }
+        private void btnMenuDisconnect_Click(object sender, EventArgs e) {
+            Disconnect(CurrentManager);
+        }
         private void btnConnect_Click(object sender, EventArgs e) {
             Connect(CurrentManager);
         }
@@ -476,6 +488,8 @@ namespace Serial_Monitor {
             if (CurrentManager != null) {
                 if (Running == true) {
                     btnConnect.Enabled = false;
+                    btnMenuConnect.Enabled = false;
+                    btnMenuDisconnect.Enabled = true;
                     btnDisconnect.Enabled = true;
                     ddbPorts.Enabled = false;
                     ddbBAUDRate.Enabled = false;
@@ -486,6 +500,8 @@ namespace Serial_Monitor {
                 else {
                     btnConnect.Enabled = CurrentManager.SystemEnabled;
                     btnDisconnect.Enabled = false;
+                    btnMenuConnect.Enabled = CurrentManager.SystemEnabled;
+                    btnMenuDisconnect.Enabled = false;
                     ddbPorts.Enabled = true;
                     ddbBAUDRate.Enabled = CurrentManager.SystemEnabled;
                     ddbParity.Enabled = CurrentManager.SystemEnabled;
@@ -496,6 +512,8 @@ namespace Serial_Monitor {
             else {
                 btnConnect.Enabled = false;
                 btnDisconnect.Enabled = false;
+                btnMenuConnect.Enabled = false;
+                btnMenuDisconnect.Enabled = false;
                 ddbPorts.Enabled = true;
                 ddbBAUDRate.Enabled = false;
                 ddbParity.Enabled = false;
@@ -583,6 +601,7 @@ namespace Serial_Monitor {
                 }
                 CheckPort(ddbPorts.Text);
                 navigator1.Invalidate();
+                DocumentEdited = true;
             }
         }
         private void ddbPorts_DropDownOpening(object sender, EventArgs e) {
@@ -668,6 +687,7 @@ namespace Serial_Monitor {
             }
             CheckBaudRate(int.Parse(ddbBAUDRate.Text));
             navigator1.Invalidate();
+            DocumentEdited = true;
         }
         private void CheckBaudRate(int Rate) {
             foreach (ToolStripMenuItem Item in ddbBAUDRate.DropDownItems) {
@@ -689,85 +709,44 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Parity Settings
-        private void btnParityNone_Click(object sender, EventArgs e) {
+        private void SetPortParityBits(Parity PBits) {
             if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.None;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
+                CurrentManager.Port.Parity = PBits;
+                ddbParity.Text = EnumManager.ParityToString(PBits);
             }
             CheckParity(ddbParity.Text);
             navigator1.Invalidate();
+            DocumentEdited = true;
+        }
+        private void btnParityNone_Click(object sender, EventArgs e) {
+            SetPortParityBits(Parity.None);
         }
         private void btnParityEven_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Even;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Even);
         }
         private void btnParityOdd_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Odd;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Odd);
         }
         private void btnParitySpace_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Space;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Space);
         }
         private void btnParityMark_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Mark;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Mark);
         }
         private void btnChannelNoParity_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.None;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.None);
         }
         private void btnChannelEvenParity_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Even;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Even);
         }
         private void btnChannelOddParity_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Odd;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Odd);
         }
         private void btnChannelSpaceParity_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Space;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Space);
         }
         private void btnChannelMarkParity_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.Parity = Parity.Mark;
-                ddbParity.Text = EnumManager.ParityToString(CurrentManager.Port.Parity);
-            }
-            CheckParity(ddbParity.Text);
-            navigator1.Invalidate();
+            SetPortParityBits(Parity.Mark);
         }
         private void CheckParity(string Type) {
             foreach (ToolStripMenuItem Item in ddbParity.DropDownItems) {
@@ -789,72 +768,38 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Bit Settings
+        private void SetPortBits(int Bits) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.DataBits = Bits;
+                ddbBits.Text = Bits.ToString();
+            }
+            CheckBits(Bits.ToString());
+            navigator1.Invalidate();
+            DocumentEdited = true;
+        }
         private void toolStripMenuItem2_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 5;
-                ddbBits.Text = "5";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(5);
         }
-
         private void btnChanDB_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 8;
-                ddbBits.Text = "8";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(8);
         }
-
         private void btnChanDB7_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 7;
-                ddbBits.Text = "7";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(7);
         }
-
         private void btnChanDB6_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 6;
-                ddbBits.Text = "6";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(6);
         }
         private void btnBits5_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 5;
-                ddbBits.Text = "5";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(5);
         }
         private void btnBits6_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 6;
-                ddbBits.Text = "6";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(6);
         }
         private void btnBits7_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 7;
-                ddbBits.Text = "7";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(7);
         }
         private void btnBits8_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 8;
-                ddbBits.Text = "8";
-            }
-            CheckBits(ddbBits.Text);
-            navigator1.Invalidate();
+            SetPortBits(8);
         }
         private void CheckBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbBits.DropDownItems) {
@@ -876,69 +821,38 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Stop Bit Settings
-        private void btnStopBitsNone_Click(object sender, EventArgs e) {
+        private void SetPortStopBits(StopBits StopBts) {
             if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.None;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
+                CurrentManager.Port.StopBits = StopBts;
+                ddbStopBits.Text = EnumManager.StopBitsToString(StopBts);
             }
             CheckStopBits(ddbStopBits.Text);
             navigator1.Invalidate();
+            DocumentEdited = true;
+        }
+        private void btnStopBitsNone_Click(object sender, EventArgs e) {
+            SetPortStopBits(StopBits.None);
         }
         private void btnStopBits1_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.One;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.One);
         }
         private void btnStopBits15_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.OnePointFive;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.OnePointFive);
         }
         private void btnStopBits2_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.Two;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.Two);
         }
         private void btnChannelStopBits0_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.None;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.None);
         }
         private void btnChannelStopBits1_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.One;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.One);
         }
         private void btnChannelStopBits15_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.OnePointFive;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.OnePointFive);
         }
         private void btnChannelStopBits2_Click(object sender, EventArgs e) {
-            if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBits.Two;
-                ddbStopBits.Text = EnumManager.StopBitsToString(CurrentManager.Port.StopBits);
-            }
-            CheckStopBits(ddbStopBits.Text);
-            navigator1.Invalidate();
+            SetPortStopBits(StopBits.Two);
         }
         private void CheckStopBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbStopBits.DropDownItems) {
@@ -1196,6 +1110,7 @@ namespace Serial_Monitor {
                     SystemManager.SerialManagers[ChannelIndex].CommandProcessed -= SerManager_CommandProcessed;
                     SystemManager.SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
                     SystemManager.SerialManagers.RemoveAt(ChannelIndex);
+                    DocumentEdited = true;
                 }
             }
         }
@@ -1282,6 +1197,7 @@ namespace Serial_Monitor {
                         }
                         SetDefault(LstItem, StepExe);
                         lstStepProgram.Invalidate();
+                        DocumentEdited = true;
                     }
                 }
                 catch { }
@@ -1342,7 +1258,7 @@ namespace Serial_Monitor {
 
             }
         }
-       
+
         #endregion
         #region Program Editing
         private void addCommandToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1359,6 +1275,7 @@ namespace Serial_Monitor {
                 lstStepProgram.ExternalItems.Add(LiPar);
             }
             lstStepProgram.Invalidate();
+            DocumentEdited = true;
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             if (LastEntered != null) {
@@ -1382,14 +1299,22 @@ namespace Serial_Monitor {
         private void btnPrgRemoveStepLines_Click(object sender, EventArgs e) {
             Program_RemoveSelected();
         }
+        private void MarkDocumentChanged() {
+            if (lstStepProgram.SelectionCount > 0) {
+                DocumentEdited = true;
+            }
+        }
         private void Program_RemoveSelected() {
             ProgramManager.ProgramState = StepEnumerations.StepState.Stopped;
+            MarkDocumentChanged();
             lstStepProgram.LineRemoveSelected();
         }
         private void btnPrgMoveUp_Click(object sender, EventArgs e) {
+            MarkDocumentChanged();
             lstStepProgram.LineMove(false);
         }
         private void btnPrgMoveDown_Click(object sender, EventArgs e) {
+            MarkDocumentChanged();
             lstStepProgram.LineMove(true);
         }
         private void enableSelectedToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1409,6 +1334,7 @@ namespace Serial_Monitor {
         }
         private void ChangeEnable(EnableChanged TypeOfChange) {
             if (lstStepProgram.ExternalItems == null) { return; }
+            MarkDocumentChanged();
             foreach (ListItem Li in lstStepProgram.ExternalItems) {
                 if (Li.SubItems.Count == 3) {
                     if (Li.Selected == true) {
@@ -1488,6 +1414,7 @@ namespace Serial_Monitor {
                     else {
                         InsertAtPoint(CopiedItems, -1, true);
                     }
+                    DocumentEdited = true;
                 }
                 lstStepProgram.Invalidate();
             }
@@ -1547,7 +1474,7 @@ namespace Serial_Monitor {
                 ProgramManager.LastProgramStep = ProgramManager.ProgramStep;
             }
             //if (LastProgramState != ProgramManager.ProgramState) {
-            if(ConversionHandler.DateIntervalDifference(LastUpdate, DateTime.Now, ConversionHandler.Interval.Millisecond) > 10) { 
+            if (ConversionHandler.DateIntervalDifference(LastUpdate, DateTime.Now, ConversionHandler.Interval.Millisecond) > 10) {
                 if (ProgramManager.ProgramState == StepEnumerations.StepState.Running) {
                     btnRun.Enabled = false;
                     btnPause.Enabled = true;
@@ -1575,7 +1502,7 @@ namespace Serial_Monitor {
                     btnRunCursor.Enabled = true;
                 }
                 LastUpdate = DateTime.Now;
-               // LastProgramState = ProgramManager.ProgramState;
+                // LastProgramState = ProgramManager.ProgramState;
             }
             if (currentManager != null) {
                 string RxCount = currentManager.BytesReceived.ToString();
@@ -1585,16 +1512,17 @@ namespace Serial_Monitor {
             }
         }
         private void Run() {
+            ProgramManager.TestThread();
             if (ProgramManager.CurrentProgram == null) { return; }
             if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
                 if (ProgramManager.CurrentProgram.ProgramMarker >= ProgramManager.CurrentProgram.Program.Count) {
                     ProgramManager.RunFromStart();
                 }
-            }
-            else {
-                ProgramManager.SetupProgram();
-                ProgramManager.ProgramStep = ProgramManager.CurrentProgram.ProgramMarker;
-                ProgramManager.ProgramState = StepEnumerations.StepState.Running;
+                else {
+                    ProgramManager.SetupProgram();
+                    ProgramManager.ProgramStep = ProgramManager.CurrentProgram.ProgramMarker;
+                    ProgramManager.ProgramState = StepEnumerations.StepState.Running;
+                }
             }
         }
         private void ProgramManager_ProgramNameChanged(object sender) {
@@ -1727,11 +1655,15 @@ namespace Serial_Monitor {
         private void btnRun_Click(object sender, EventArgs e) {
 
         }
-        private void btnRun_ButtonClick(object sender, EventArgs e) {
+        private void RunFromStart() {
+            ProgramManager.TestThread();
             ProgramManager.RunFromStart();
         }
+        private void btnRun_ButtonClick(object sender, EventArgs e) {
+            RunFromStart();
+        }
         private void runFromStartToolStripMenuItem_Click(object sender, EventArgs e) {
-            ProgramManager.RunFromStart();
+            RunFromStart();
         }
         private void btnPause_Click(object sender, EventArgs e) {
             ProgramManager.ProgramState = StepEnumerations.StepState.Paused;
@@ -1741,7 +1673,7 @@ namespace Serial_Monitor {
             ProgramManager.ProgramStep = 0;
         }
         private void btnRunPrg_Click(object sender, EventArgs e) {
-            ProgramManager.RunFromStart();
+            RunFromStart();
         }
         private void btnPausePrg_Click(object sender, EventArgs e) {
             ProgramManager.ProgramState = StepEnumerations.StepState.Paused;
@@ -1751,7 +1683,7 @@ namespace Serial_Monitor {
             ProgramManager.ProgramStep = 0;
         }
         private void runToolStripMenuItem_Click(object sender, EventArgs e) {
-            ProgramManager.RunFromStart();
+            RunFromStart();
         }
         private void runProgramToolStripMenuItem_Click(object sender, EventArgs e) {
             Run();
@@ -1811,7 +1743,7 @@ namespace Serial_Monitor {
 
             }
         }
-       
+
         private void SetPort(SerialManager? SerMan, string Arguments) {
             try {
                 SystemManager.SerialManagers[ProgramManager.Program_CurrentManager].Port.PortName = Arguments;
@@ -1837,7 +1769,7 @@ namespace Serial_Monitor {
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
             btnRun.Text = GetTextFromTab();
-            ProgramManager.RunFromStart();
+            RunFromStart();
         }
         private void cmCloseProgram_Click(object sender, EventArgs e) {
             if (cmPrograms.Tag == null) { return; }
@@ -1880,13 +1812,13 @@ namespace Serial_Monitor {
             if (cmPrograms.Tag == null) { return Rectangle.Empty; }
             if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
                 TabClickedEventArgs Args = (TabClickedEventArgs)cmPrograms.Tag;
-                if(IncludeTextOffset == false) {
+                if (IncludeTextOffset == false) {
                     return Args.TextArea;
                 }
                 else {
                     return new Rectangle(Args.TextArea.X + Args.TextOffset, Args.TextArea.Y, Args.TextArea.Width - Args.TextOffset, Args.TextArea.Height); ;
                 }
-               
+
             }
             return Rectangle.Empty;
         }
@@ -1924,7 +1856,7 @@ namespace Serial_Monitor {
             TextBox RenameBox = new TextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
-           // RenameBox.BorderStyle = BorderStyle.None;
+            // RenameBox.BorderStyle = BorderStyle.None;
             RenameBox.Multiline = false;
             int CentreHeight = 0;
             RenameBox.Show();
@@ -1955,7 +1887,7 @@ namespace Serial_Monitor {
             }
         }
         private void RenameBox_KeyDown(object? sender, KeyEventArgs e) {
-           
+
             if (e.KeyCode == Keys.Enter) {
                 if (sender == null) { return; }
                 if (sender.GetType() == typeof(TextBox)) {
@@ -1970,8 +1902,8 @@ namespace Serial_Monitor {
         private void RenameBox_TextChanged(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(TextBox)) {
-               TextBox TxBx = (TextBox)sender;
-                if(TxBx.Tag == null) {
+                TextBox TxBx = (TextBox)sender;
+                if (TxBx.Tag == null) {
 
                     DeregisterTextbox(TxBx);
                     thPrograms.Controls.Remove(TxBx);
@@ -1981,6 +1913,7 @@ namespace Serial_Monitor {
                         TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
                         ProgramManager.Programs[TCEA.Index].Name = TxBx.Text;
                         thPrograms.Tabs[TCEA.Index].Text = TxBx.Text;
+                        DocumentEdited = true;
                     }
                 }
             }
@@ -2041,6 +1974,45 @@ namespace Serial_Monitor {
             Output.ShowOrigin = btnOptViewSource.Checked;
         }
         #region Document Handling
+        bool documentEdited = false;
+        private bool DocumentEdited {
+            get { return documentEdited; }
+            set {
+                documentEdited = value;
+                if (CurrentDocument.Trim(' ') == "") {
+                    SetTitle("Untitled");
+                }
+                else {
+                    SetTitle(Path.GetFileNameWithoutExtension(CurrentDocument));
+                }
+            }
+        }
+        private void New() {
+            bool ProceedNew = true;
+            if (DocumentEdited == true) {
+
+            }
+            if (ProceedNew == true) {
+                DocumentEdited = false;
+                CleanProjectData();
+                NewProgram("Main");
+                AddManager("");
+                navigator1.SelectedItem = 0;
+                lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
+                lstStepProgram.Tag = ProgramManager.Programs[0];
+                ProgramManager.CurrentEditingProgram = ProgramManager.Programs[0];
+                ProgramManager.CurrentProgram = ProgramManager.Programs[0];
+              
+                thPrograms.SelectedIndex = 0;
+                UpdateProgramNames();
+                thPrograms.Invalidate();
+                navigator1.Invalidate();
+                btnRun.Text = "Main";
+                CurrentDocument = "";
+                documentEdited = false;
+                SetTitle("Untitled");
+            }
+        }
         private void CloseAll() {
             foreach (SerialManager SerMan in SystemManager.SerialManagers) {
                 if (SerMan.Port.IsOpen == true) {
@@ -2049,6 +2021,10 @@ namespace Serial_Monitor {
             }
         }
         string CurrentDocument = "";
+        private void btnNewStep_Click(object sender, EventArgs e) {
+            New();
+          
+        }
         private void btnSaveStep_Click(object sender, EventArgs e) {
             Save();
         }
@@ -2060,7 +2036,6 @@ namespace Serial_Monitor {
             OpenDia.Filter = @"Serial Monitor Program (*.smp)|*.smp";
             if (OpenDia.ShowDialog() == DialogResult.OK) {
                 if (File.Exists(OpenDia.FileName)) {
-                    CloseAll();
                     Open(OpenDia.FileName);
                     AddFiletoRecentFiles(OpenDia.FileName);
                 }
@@ -2081,15 +2056,24 @@ namespace Serial_Monitor {
                 Save.Filter = @"Serial Monitor Program (*.smp)|*.smp";
                 Save.ShowDialog();
                 if (Save.FileName != "") {
-                    this.Text = Path.GetFileNameWithoutExtension(Save.FileName) + " - Serial Monitor";
+                    SetTitle(Path.GetFileNameWithoutExtension(Save.FileName));
                     ProjectManager.WriteFile(Save.FileName);
                     CurrentDocument = Save.FileName;
                 }
             }
             else {
                 ProjectManager.WriteFile(CurrentDocument);
+                DocumentEdited = false;
             }
             AddFiletoRecentFiles(CurrentDocument);
+        }
+        private void SetTitle(string DocumentName) {
+            if (documentEdited == true) {
+                this.Text = "*" + DocumentName + " - " + Application.ProductName;
+            }
+            else {
+                this.Text = DocumentName + " - " + Application.ProductName;
+            }
         }
         private void ClearPrograms() {
             thPrograms.ClearTabs();
@@ -2098,15 +2082,23 @@ namespace Serial_Monitor {
                 ProgramManager.Programs.RemoveAt(i);
             }
         }
-        public void Open(string FileAddress) {
-            DocumentHandler.Open(FileAddress);
+        private void CleanProjectData() {
+            CloseAll();
             ClearManagers();
             ClearPrograms();
             ProjectManager.ClearKeypad();
             lstStepProgram.LineRemoveAll();
             GC.Collect();
-            ProgramManager.Programs.Add(new ProgramObject());
+            DocumentEdited = false;
+        }
+        public void Open(string FileAddress) {
+            DocumentHandler.Open(FileAddress);
+            CleanProjectData();
+            //
             ProjectManager.ReadFile(FileAddress, SerManager_CommandProcessed, SerMan_DataReceived);
+            if (ProgramManager.Programs.Count == 0) {
+                ProgramManager.Programs.Add(new ProgramObject());
+            }
             if (SystemManager.SerialManagers.Count > 0) {
                 navigator1.SelectedItem = 0;
                 CurrentManager = SystemManager.SerialManagers[0];
@@ -2118,7 +2110,9 @@ namespace Serial_Monitor {
             CurrentDocument = FileAddress;
             DetermineName();
             DetermineTabs();
-            this.Text = Path.GetFileNameWithoutExtension(CurrentDocument) + " - Serial Monitor";
+            thPrograms.SelectedIndex = 0;
+            thPrograms.Invalidate();
+            SetTitle(Path.GetFileNameWithoutExtension(CurrentDocument));
         }
         private void NewProgram(string Name = "") {
             ProgramObject PrgObj = new ProgramObject(Name);
@@ -2129,6 +2123,7 @@ namespace Serial_Monitor {
             thPrograms.Tabs.Add(Tb);
             UpdateProgramNames();
             thPrograms.Invalidate();
+            DocumentEdited = true;
         }
         private void RemoveProgram(int Index) {
             bool ChangeActiveProgram = false;
@@ -2173,6 +2168,7 @@ namespace Serial_Monitor {
                 }
             }
             thPrograms.Invalidate();
+            DocumentEdited = true;
         }
         private void UpdateProgramNames() {
             int j = 0;
@@ -2233,7 +2229,7 @@ namespace Serial_Monitor {
         }
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            LoadRecentItems();
         }
         private void btnMenuExit_Click(object sender, EventArgs e) {
             this.Close();
@@ -2277,14 +2273,25 @@ namespace Serial_Monitor {
                 for (int i = Properties.Settings.Default.DOC_PRJ_RecentFiles.Count - 1; i >= 0; i--) {
                     string? FileName = Properties.Settings.Default.DOC_PRJ_RecentFiles[i];
                     if ((FileName != null) && (j <= 10)) {
-                        ToolStripMenuItem btnRecentItem = new ToolStripMenuItem();
-                        btnRecentItem.Text = j.ToString() + "  " + Path.GetFileNameWithoutExtension(FileName);
-                        btnRecentItem.Tag = FileName;
-                        btnRecentItem.Click += BtnRecentItem_Click;
-                        btnRecentProjects.DropDownItems.Add(btnRecentItem);
-                        j++;
+                        if (FileName != "") {
+                            ToolStripMenuItem btnRecentItem = new ToolStripMenuItem();
+                            btnRecentItem.Text = j.ToString() + "  " + Path.GetFileNameWithoutExtension(FileName);
+                            btnRecentItem.Tag = FileName;
+                            btnRecentItem.Click += BtnRecentItem_Click;
+                            btnRecentProjects.DropDownItems.Add(btnRecentItem);
+                            j++;
+                        }
                     }
                 }
+                if (j > 1) {
+                    btnRecentProjects.Enabled = true;
+                }
+                else {
+                    btnRecentProjects.Enabled = false;
+                }
+            }
+            else {
+                btnRecentProjects.Enabled = false;
             }
         }
         private void btnRecentProjects_DropDownOpening(object sender, EventArgs e) {
@@ -2359,9 +2366,7 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(MbRegs);
         }
 
-        private void btnNewStep_Click(object sender, EventArgs e) {
 
-        }
 
         private void btnRun_DropDownOpening(object sender, EventArgs e) {
             ListPrograms(sender);
@@ -2433,10 +2438,24 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(TxtCompare, true);
         }
         private void ProgramManager_ProgramListingChanged() {
+            DocumentEdited = true;
             lstStepProgram.Invalidate();
         }
 
-      
+        private void MainWindow_Load(object sender, EventArgs e) {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e) {
+            DocumentEdited = true;
+        }
+
+        private void lstStepProgram_ItemMiddleClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
+            if (ProgramManager.CurrentProgram != null) {
+                lstStepProgram.LineMarkerIndex = Index;
+                ProgramManager.CurrentProgram.ProgramMarker = Index;
+            }
+        }
     }
     public enum StreamInputFormat {
         Text = 0x01,

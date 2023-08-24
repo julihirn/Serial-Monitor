@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextComparator));
-            this.textCompare1 = new ODModules.TextCompare();
+            this.txtComparer = new ODModules.TextCompare();
             this.labelPanel1 = new ODModules.LabelPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.labelPanel2 = new ODModules.LabelPanel();
@@ -33,23 +33,24 @@
             this.labelPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textCompare1
+            // txtComparer
             // 
-            this.textCompare1.CompareFrom = "";
-            this.textCompare1.CompareTo = "";
-            this.textCompare1.DifferenceColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.textCompare1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textCompare1.EmptyTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textCompare1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textCompare1.ForeColor = System.Drawing.Color.White;
-            this.textCompare1.Location = new System.Drawing.Point(0, 78);
-            this.textCompare1.Name = "textCompare1";
-            this.textCompare1.Padding = new System.Windows.Forms.Padding(5);
-            this.textCompare1.SameColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.textCompare1.Size = new System.Drawing.Size(315, 110);
-            this.textCompare1.TabIndex = 0;
-            this.textCompare1.TextPosition = 0;
-            this.textCompare1.UseEmptyTextColor = true;
+            this.txtComparer.CompareFrom = "";
+            this.txtComparer.CompareTo = "";
+            this.txtComparer.DifferenceColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtComparer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtComparer.EmptyTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.txtComparer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtComparer.ForeColor = System.Drawing.Color.White;
+            this.txtComparer.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.txtComparer.Location = new System.Drawing.Point(0, 78);
+            this.txtComparer.Name = "txtComparer";
+            this.txtComparer.Padding = new System.Windows.Forms.Padding(5);
+            this.txtComparer.SameColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.txtComparer.Size = new System.Drawing.Size(315, 110);
+            this.txtComparer.TabIndex = 0;
+            this.txtComparer.TextPosition = 0;
+            this.txtComparer.UseEmptyTextColor = true;
             // 
             // labelPanel1
             // 
@@ -135,7 +136,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.ClientSize = new System.Drawing.Size(315, 188);
-            this.Controls.Add(this.textCompare1);
+            this.Controls.Add(this.txtComparer);
             this.Controls.Add(this.labelPanel2);
             this.Controls.Add(this.labelPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -153,7 +154,7 @@
 
         #endregion
 
-        private ODModules.TextCompare textCompare1;
+        private ODModules.TextCompare txtComparer;
         private ODModules.LabelPanel labelPanel1;
         private TextBox textBox1;
         private ODModules.LabelPanel labelPanel2;

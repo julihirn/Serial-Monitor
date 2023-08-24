@@ -28,6 +28,10 @@ namespace Serial_Monitor.Classes {
         public List<ListItem> Program {
             get { return program;}
         }
+        private List<VariableLinkage> variables = new List<VariableLinkage>();
+        public List<VariableLinkage> Variables {
+            get { return variables; }
+        }
         int programMarker = -1;
         public int ProgramMarker {
             get { return programMarker; }
@@ -51,7 +55,19 @@ namespace Serial_Monitor.Classes {
                 program.Add(Lip);
             }
         }
+        public void ClearVariables() {
+            variables.Clear();
+        }
+        public VariableResult GetVariable(string Name) {
+            foreach (VariableLinkage Var in Variables) {
+                if (Name == Var.Name) {
+                    return new VariableResult(Var.Name, Var.Value);
+                }
+            }
+            return new VariableResult(Name);
+        }
         public void Clear() {
+            variables.Clear();
             for (int i = program.Count - 1; i >= 0; i--) {
                 program[i].SubItems.Clear();
                 program.RemoveAt(i);
