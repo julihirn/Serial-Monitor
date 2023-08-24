@@ -1,19 +1,26 @@
 # Serial Monitor
-Serial Monitor is a light-weight, native Windows app that allows users to monitor and control multiple serial ports. This Serial Monitor is designed for developers and engineers alike to use and help improve. 
-![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/77a936c0-7688-42e2-b574-61de52b60c22)
+Serial Monitor is a versatile tool designed for multi-channel/multi-serial device control and communication. Whether you're working with binary data, plain text, C commands, or Modbus RTU, this Serial Monitor empowers you to send, receive, and visualize data seamlessly. Additionally, it offers step commands for precise control and the ability to save configurations and step programs to files.
+
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/435e0f4c-d2d7-4b91-bc3d-8d0ea681dead)
 ## Features
-* Features Multi-channel/Multi-serial device control.
-* Allows data to be received and displayed in the following formats:
-  * Binary/Hexadecimal stream
-  * Plain text
-  * C Command, and
-  * Modbus RTU.
-* Can send in the following formats:
-  * Plain text
-  * C Command, and
-  * Modbus RTU.
-* Allows control over the monitor using step commands.
-* Configurations and step programs can be saved to file.
+
+- **Multi-Channel/Multi-Serial Device Control**: Effortlessly manage multiple serial devices or channels from a single interface, streamlining your communication tasks.
+
+- **Data Reception and Display Formats**:
+  - **Binary/Hexadecimal Stream**: Receive and display data in binary or hexadecimal format, enabling you to visualize raw data as it comes in.
+  - **Plain Text**: Interpret incoming data as plain text, perfect for human-readable messages and information.
+  - **C Command**: Process incoming data as C commands, providing flexibility in executing commands and actions.
+  - **Modbus RTU**: Seamlessly interact with devices using the Modbus RTU protocol, a common standard in industrial communication.
+
+- **Data Transmission Formats**:
+  - **Plain Text**: Easily send plain text messages to your serial devices, enabling two-way communication.
+  - **C Command**: Send C commands to your devices, facilitating complex interactions beyond simple text messages.
+  - **Modbus RTU**: Transmit data using the Modbus RTU protocol, ensuring compatibility with a wide range of industrial devices.
+
+- **Step Commands**: Take precise control over your serial communication by utilizing step commands. This feature allows you to break down complex actions into smaller, manageable steps.
+
+- **Configuration and Step Program Saving**: The Serial Monitor Project allows you to save your configurations and step programs to files. This ensures that you can quickly replicate setups and program sequences without manual reconfiguration.
+
 ## System Requirements
 * Windows 7 or higher.
 * Requires .Net 7 to be installed.
@@ -25,3 +32,11 @@ This project is still a bit of a work in progress, I am actively working on addi
 Current Development Roadmap:
 * Tabbed program editing.
 * Modbus register editor patch up
+
+## Contributing
+
+Contributions to this application are welcome! If you find bugs, want to add features, or improve the documentation, feel free to open issues and pull requests in this repository.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE), which means you're free to use, modify, and distribute it as per the terms of the license.
