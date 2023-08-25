@@ -24,7 +24,7 @@ namespace Serial_Monitor {
 
             GetLoadedAssemblies();
             lblVersion.Text = "Version " + fvi.ProductMajorPart + "." + fvi.ProductMinorPart.ToString() + " (Build " + fvi.ProductBuildPart.ToString() + ")";
-            lblCompany.Text = fvi.LegalCopyright + AllRightsReserved;
+            lblCopyright.Text = fvi.LegalCopyright + AllRightsReserved;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e) {
@@ -35,7 +35,10 @@ namespace Serial_Monitor {
 
             for (int i = 0; i < assemblies.Length; i++) {
                 string AssemblyName = assemblies[i].GetName().Name ?? "";
-                if (!AssemblyName.ToLower().StartsWith("system")) {
+                if (AssemblyName.ToLower().StartsWith("system") || AssemblyName.ToLower().StartsWith("microsoft")) { }
+                else if (AssemblyName.ToLower().StartsWith(Application.ProductName.ToLower())) { }
+                else if (AssemblyName.ToLower().StartsWith("netstandard")) { }
+                else { 
                     try {
                         FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assemblies[i].Location);
                         Label lbl = new Label();

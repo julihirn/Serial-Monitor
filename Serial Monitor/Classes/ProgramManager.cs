@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 
 namespace Serial_Monitor.Classes {
     public static class ProgramManager {
@@ -241,6 +242,21 @@ namespace Serial_Monitor.Classes {
                         catch { }
                     }
                     break;
+                case StepEnumerations.StepExecutable.PrintText:
+                    if (File.Exists(Arguments)) {
+                        try {
+                            using (StreamReader Sr = new StreamReader(Arguments)) {
+                                if (Sr != null) {
+                                    while (Sr.Peek() > -1) {
+                                        string item = Sr.ReadLine() ?? "";
+                                        Print(ErrorType.M_Notification, "", item);
+                                    }
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                    break;
                 case StepEnumerations.StepExecutable.SetProgram:
                     ContinueWithProgram(Arguments);
                     break;
@@ -279,6 +295,9 @@ namespace Serial_Monitor.Classes {
                     EvaluateConditional(Arguments); break;
                 case StepEnumerations.StepExecutable.GoTo:
                     GotoLabel(Arguments);
+                    break;
+                case StepEnumerations.StepExecutable.GoToLine:
+                    GotoLine(Arguments);
                     break;
                 case StepEnumerations.StepExecutable.MousePosition:
                     //invoke(new MethodInvoker(delegate {
@@ -404,6 +423,12 @@ namespace Serial_Monitor.Classes {
             if (LabelExists == false) {
                 Print(ErrorType.M_Warning, "NO_JMP_LBL", "'" + Arguments + "' could not be found");
             }
+        }
+        public static void GotoLine(string Arguments) {
+            NoStepProgramIncrement = true;
+            int TempLineNumber = 0;
+            int.TryParse(Arguments, out TempLineNumber);
+            ProgramStep = TempLineNumber;
         }
         public static void SetDelay(string Arguments) {
             try {
@@ -554,6 +579,53 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Program Editing
+        public static DataType StepExeutableToDataType(StepEnumerations.StepExecutable StepExe) {
+            switch (StepExe) {
+                case StepEnumerations.StepExecutable.Delay:
+                    return DataType.Number;
+                case StepEnumerations.StepExecutable.SendKeys:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.SendString:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.SendByte:
+                    return DataType.Byte;
+                case StepEnumerations.StepExecutable.SendLine:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.Print:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.PrintVariable:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.PrintText:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.GoTo:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.GoToLine:
+                    return DataType.Number;
+                case StepEnumerations.StepExecutable.Call:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.SetProgram:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.Label:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.Open:
+                    return DataType.EnumVal;
+                case StepEnumerations.StepExecutable.Close:
+                    return DataType.EnumVal;
+                case StepEnumerations.StepExecutable.SwitchSender:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.DeclareVariable:
+                    return DataType.DualString;
+                case StepEnumerations.StepExecutable.IncrementVariable:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.DecrementVariable:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.If:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.MousePosition:
+                    return DataType.CursorLocation;
+                default: return DataType.Null;
+            }
+        }
         public static bool AcceptsArguments(StepEnumerations.StepExecutable StepExe) {
             if (StepExe == StepEnumerations.StepExecutable.NoOperation) { return false; }
             else if (StepExe == StepEnumerations.StepExecutable.End) { return false; }

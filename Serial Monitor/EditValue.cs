@@ -245,16 +245,20 @@ namespace Serial_Monitor {
         protected override bool ShowWithoutActivation {
             get { return true; }
         }
-       //protected override CreateParams CreateParams {
-       //    get {
-       //        CreateParams p = base.CreateParams;
-       //
-       //        p.Style |= 0x40000000; // WS_CHILD
-       //        p.ExStyle |= 0x8000000; // WS_EX_NOACTIVATE - requires Win 2000 or higher :)
-       //
-       //        return p;
-       //    }
-       //}
+
+        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e) {
+
+        }
+        //protected override CreateParams CreateParams {
+        //    get {
+        //        CreateParams p = base.CreateParams;
+        //
+        //        p.Style |= 0x40000000; // WS_CHILD
+        //        p.ExStyle |= 0x8000000; // WS_EX_NOACTIVATE - requires Win 2000 or higher :)
+        //
+        //        return p;
+        //    }
+        //}
 
     }
 }

@@ -59,5 +59,8 @@
     <Setting Name="THM_COL_Mismatched" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">64, 0, 0</Value>
     </Setting>
+    <Setting Name="DEF_INT_BaudRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9600</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

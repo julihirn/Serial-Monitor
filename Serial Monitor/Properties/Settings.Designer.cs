@@ -249,5 +249,17 @@ namespace Serial_Monitor.Properties {
                 this["THM_COL_Mismatched"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9600")]
+        public int DEF_INT_BaudRate {
+            get {
+                return ((int)(this["DEF_INT_BaudRate"]));
+            }
+            set {
+                this["DEF_INT_BaudRate"] = value;
+            }
+        }
     }
 }

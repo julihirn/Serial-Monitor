@@ -14,9 +14,10 @@ using Svg;
 using static System.Windows.Forms.LinkLabel;
 using Serial_Monitor.Classes.Step_Programs;
 using System.Runtime.ConstrainedExecution;
+using Serial_Monitor.Interfaces;
 
 namespace Serial_Monitor {
-    public partial class MainWindow : Form, Interfaces.ITheme {
+    public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object sender, string Data);
         //SerialPort Port = new SerialPort();
@@ -26,7 +27,7 @@ namespace Serial_Monitor {
         //StreamOutputFormat OutputFormat = StreamOutputFormat.Text;
         //SerialManager SerManager = new SerialManager();
 
-        
+
 
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
@@ -257,6 +258,7 @@ namespace Serial_Monitor {
         private void AddManager(string ManagerName) {
             SerialManager SerMan = new SerialManager();
             SystemManager.SerialManagers.Add(SerMan);
+            SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
             SerMan.Name = ManagerName;
             SerMan.CommandProcessed += SerManager_CommandProcessed;
             SerMan.DataReceived += SerMan_DataReceived;
@@ -637,30 +639,12 @@ namespace Serial_Monitor {
         #endregion
         #region BAUD Rate Settings
         private void LoadAllBauds() {
-            LoadBAUDRate(50);
-            LoadBAUDRate(75);
-            LoadBAUDRate(110);
-            LoadBAUDRate(134);
-            LoadBAUDRate(150);
-            LoadBAUDRate(200);
-            LoadBAUDRate(300);
-            LoadBAUDRate(600);
-            LoadBAUDRate(1200);
-            LoadBAUDRate(1800);
-            LoadBAUDRate(2400);
-            LoadBAUDRate(4800);
-            LoadBAUDRate(9600);
-            LoadBAUDRate(19200);
-            LoadBAUDRate(28800);
-            LoadBAUDRate(38400);
-            LoadBAUDRate(57600);
-            LoadBAUDRate(76800);
-            LoadBAUDRate(115200);
-            LoadBAUDRate(230400);
-            LoadBAUDRate(460800);
-            LoadBAUDRate(576000);
-            LoadBAUDRate(921600);
-            CheckBaudRate(9600);
+            SystemManager.LoadDefaultBauds();
+            foreach (int i in SystemManager.DefaultBauds) {
+                LoadBAUDRate(i);
+            }
+            CheckBaudRate(Properties.Settings.Default.DEF_INT_BaudRate);
+            ddbBAUDRate.Text = Properties.Settings.Default.DEF_INT_BaudRate.ToString();
         }
         private void LoadBAUDRate(int Rate) {
             ToolStripMenuItem BaudRateBtn = new ToolStripMenuItem();
@@ -1217,6 +1201,7 @@ namespace Serial_Monitor {
             //}
             Li.SubItems[2].Text = DefaultText;
         }
+        bool InEditingMode = false;
         private void lstStepProgram_DropDownClicked(object sender, DropDownClickedEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
@@ -1235,9 +1220,9 @@ namespace Serial_Monitor {
                     }
                 }
                 if (ProgramManager.AcceptsArguments(StepExe) == false) { return; }
-                if (StepExe == StepEnumerations.StepExecutable.SendText) {
+                if ((StepExe == StepEnumerations.StepExecutable.SendText) || (StepExe == StepEnumerations.StepExecutable.PrintText)) {
                     OpenFileDialog OpenDia = new OpenFileDialog();
-                    OpenDia.Filter = @"Plain Text Doccument (*.txt)|*.txt";
+                    OpenDia.Filter = @"Plain Text Document (*.txt)|*.txt";
                     OpenDia.ShowDialog();
                     if (File.Exists(OpenDia.FileName)) {
                         e.ParentItem.SubItems[2].Text = OpenDia.FileName;
@@ -1245,20 +1230,52 @@ namespace Serial_Monitor {
                     }
                 }
                 else {
-                    EditValue EdVal = new EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem);
-                    EdVal.Sz = e.ItemSize;
-                    EdVal.Location = e.ScreenLocation;
-                    EdVal.Show();
+                    if (ProgramManager.StepExeutableToDataType(StepExe) != Classes.Step_Programs.DataType.Null) {
+                        Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
+                        Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
+                        Components.EditValue EdVal = new Components.EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem, 3, null, false, Rect, ParRect);
+                        if ((StepExe == StepEnumerations.StepExecutable.Open) || (StepExe == StepEnumerations.StepExecutable.Close)) {
+                            string[] ports = SerialPort.GetPortNames();
+                            Array.Sort(ports, StringComparer.CurrentCultureIgnoreCase);
+                            foreach (string port in ports) {
+                                EdVal.flatComboBox1.Items.Add(port);
+                            }
+                        }
+                        lstStepProgram.Controls.Add(EdVal);
+                        EdVal.Focus();
+                        EdVal.Show();
+                        InEditingMode = true;
+                        //EditValue EdVal = new EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem);
+                        //EdVal.Sz = e.ItemSize;
+                        //EdVal.Location = e.ScreenLocation;
+                        //EdVal.Show();
 
-                    //if (EdVal.DialogResult == DialogResult.OK) {
-                    //e.ParentItem.SubItems[2].Text = EdVal.Output;
-                    // lstStepProgram.Invalidate();
-                    //}
+                        //if (EdVal.DialogResult == DialogResult.OK) {
+                        //e.ParentItem.SubItems[2].Text = EdVal.Output;
+                        // lstStepProgram.Invalidate();
+                        //}
+                    }
                 }
 
             }
         }
-
+        private const int WM_LBUTTONDOWN = 0x0201;
+        public event EventHandler<MouseDownEventArgs> MouseEvent;
+        public bool PreFilterMessage(ref Message m) {
+            if (m.Msg == WM_LBUTTONDOWN) {
+                var pos = MousePosition;
+                MouseEvent?.Invoke(this, new MouseDownEventArgs(m.HWnd, pos));
+            }
+            return false;
+        }
+        protected override void OnHandleCreated(EventArgs e) {
+            base.OnHandleCreated(e);
+            if (!DesignMode) Application.AddMessageFilter(this);
+        }
+        protected override void OnHandleDestroyed(EventArgs e) {
+            base.OnHandleDestroyed(e);
+            if (!DesignMode) Application.RemoveMessageFilter(this);
+        }
         #endregion
         #region Program Editing
         private void addCommandToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1778,7 +1795,6 @@ namespace Serial_Monitor {
             }
         }
         private void cmbtnSetAsActive_Click(object sender, EventArgs e) {
-
             ProgramObject? PrgObj = GetProgramObjectFromTab();
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
@@ -2002,7 +2018,7 @@ namespace Serial_Monitor {
                 lstStepProgram.Tag = ProgramManager.Programs[0];
                 ProgramManager.CurrentEditingProgram = ProgramManager.Programs[0];
                 ProgramManager.CurrentProgram = ProgramManager.Programs[0];
-              
+
                 thPrograms.SelectedIndex = 0;
                 UpdateProgramNames();
                 thPrograms.Invalidate();
@@ -2023,7 +2039,7 @@ namespace Serial_Monitor {
         string CurrentDocument = "";
         private void btnNewStep_Click(object sender, EventArgs e) {
             New();
-          
+
         }
         private void btnSaveStep_Click(object sender, EventArgs e) {
             Save();
@@ -2033,7 +2049,7 @@ namespace Serial_Monitor {
         }
         private void btnOpenStep_Click(object sender, EventArgs e) {
             OpenFileDialog OpenDia = new OpenFileDialog();
-            OpenDia.Filter = @"Serial Monitor Program (*.smp)|*.smp";
+            OpenDia.Filter = @"Serial Monitor Program (*.smp)|*.smp|Legacy Step File (*.cms)|*.cms";
             if (OpenDia.ShowDialog() == DialogResult.OK) {
                 if (File.Exists(OpenDia.FileName)) {
                     Open(OpenDia.FileName);
@@ -2092,10 +2108,18 @@ namespace Serial_Monitor {
             DocumentEdited = false;
         }
         public void Open(string FileAddress) {
-            DocumentHandler.Open(FileAddress);
+            string Extension = Path.GetExtension(FileAddress).ToLower();
+            if (Extension == ".smp") {
+                DocumentHandler.Open(FileAddress);
+            }
             CleanProjectData();
             //
-            ProjectManager.ReadFile(FileAddress, SerManager_CommandProcessed, SerMan_DataReceived);
+            if (Extension == ".smp") {
+                ProjectManager.ReadSMPFile(FileAddress, SerManager_CommandProcessed, SerMan_DataReceived);
+            }
+            else if (Extension == ".cms") {
+                ProjectManager.ReadCMSLFile(FileAddress, SerManager_CommandProcessed, SerMan_DataReceived);
+            }
             if (ProgramManager.Programs.Count == 0) {
                 ProgramManager.Programs.Add(new ProgramObject());
             }

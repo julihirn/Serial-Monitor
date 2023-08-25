@@ -176,7 +176,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBox3);
-            this.splitContainer1.Size = new System.Drawing.Size(280, 35);
+            this.splitContainer1.Size = new System.Drawing.Size(280, 54);
             this.splitContainer1.SplitterDistance = 90;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.TabStop = false;
@@ -220,6 +220,7 @@
             this.splitContainer2.Panel1.Controls.Add(this.textBox1);
             this.splitContainer2.Panel1.Controls.Add(this.flatComboBox1);
             this.splitContainer2.Panel1.Controls.Add(this.numericTextbox1);
+            this.splitContainer2.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer2_Panel1_Paint);
             // 
             // splitContainer2.Panel2
             // 
@@ -234,7 +235,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 107);
+            this.label1.Location = new System.Drawing.Point(0, 126);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 19);
             this.label1.TabIndex = 6;
@@ -253,7 +254,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "EditValue";
-            this.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Edit Value";

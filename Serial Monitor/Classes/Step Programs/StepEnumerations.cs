@@ -12,15 +12,16 @@ namespace Serial_Monitor.Classes.Step_Programs {
             Running = 0x02
         }
         public enum StepExecutable {
-            NoOperation = 0x000000,
-            GoTo = 0x010080,
-            Call = 0x010041,
-            Label = 0x010040,
-            Delay = 0x010100,
-            End = 0x010200,
-            SetProgram = 0x010001,
-            If = 0x010081,
-            EndIf = 0x01FFFF,
+            NoOperation =   0x000000,
+            GoTo =          0x010080,
+            GoToLine =      0x010042,
+            Call =          0x010041,
+            Label =         0x010040,
+            Delay =         0x010100,
+            End =           0x010200,
+            SetProgram =    0x010001,
+            If =            0x010081,
+            EndIf =         0x01FFFF,
             SwitchSender = 0x020001,
             Open = 0x020020,
             Close = 0x020040,
@@ -30,6 +31,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
             SendText = 0x030010,
             Print = 0x040040,
             PrintVariable = 0x040060,
+            PrintText = 0x040061,
             Clear = 0x040080,
             DeclareVariable = 0x050001,
             IncrementVariable = 0x050002,
@@ -40,7 +42,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
             JumpOnPress = 0x060001,
             MousePosition = 0x090001,
             MouseLeftClick = 0x090002,
-            SendKeys = 0x090010,
+            SendKeys = 0x090010
         }
     }
 }

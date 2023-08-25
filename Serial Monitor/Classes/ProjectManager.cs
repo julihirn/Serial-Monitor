@@ -3,10 +3,13 @@ using ODModules;
 using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataType = Handlers.DataType;
 
 namespace Serial_Monitor.Classes {
     public static class ProjectManager {
@@ -106,7 +109,7 @@ namespace Serial_Monitor.Classes {
             }
             return new List<string>();
         }
-        public static void ReadFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+        public static void ReadSMPFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
             ProgramManager.Programs.Add(new ProgramObject());
             int CurrentProgramIndex = 0;
             for (int i = 0; i < DocumentHandler.PARM.Count; i++) {
@@ -175,6 +178,37 @@ namespace Serial_Monitor.Classes {
 
                 }
             }
+        }
+        public static void ReadCMSLFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+            SerialManager Sm = new SerialManager();
+            Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
+            Sm.DataReceived += DataProc;// SerMan_DataReceived;
+            SystemManager.SerialManagers.Add(Sm);
+            ProgramManager.Programs.Add(new ProgramObject("Legacy Program"));
+            try {
+                using (StreamReader TxtReader = new StreamReader(FileAddress)) {
+                    while (TxtReader.Peek() > -1) {
+                        ProgramManager.Programs[0].DecodeLegacyFileCommand(TxtReader.ReadLine() ?? "");
+                    }
+                }
+            }
+            catch { }
+        }
+        public static StepEnumerations.StepExecutable ExecutableFromLegacyString(string Input) {
+            Input = Input.ToUpper();
+            if (Input == "SND") { return StepEnumerations.StepExecutable.SendString;}
+            else if (Input == "STXT") { return StepEnumerations.StepExecutable.SendText; }
+            else if (Input == "PRNT") { return StepEnumerations.StepExecutable.Print; }
+            else if (Input == "END") { return StepEnumerations.StepExecutable.Close; }
+            else if (Input == "OPEN") { return StepEnumerations.StepExecutable.Open; }
+            else if (Input == "SNDL") { return StepEnumerations.StepExecutable.SendString; }
+            else if (Input == "CLR") { return StepEnumerations.StepExecutable.Clear; }
+            else if (Input == "DLY") { return StepEnumerations.StepExecutable.Delay; }
+            else if (Input == "GOTO") { return StepEnumerations.StepExecutable.GoToLine; }
+           // else if (Input == "WHEN_TCK") { return StepEnumerations.StepExecutable.GoTo; }
+            else if (Input == "SBYTE") { return StepEnumerations.StepExecutable.SendByte; }
+            else if (Input == "SWS") { return StepEnumerations.StepExecutable.SwitchSender; }
+            else { return StepEnumerations.StepExecutable.NoOperation; }
         }
     }
 }

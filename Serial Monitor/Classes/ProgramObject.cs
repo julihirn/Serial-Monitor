@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Serial_Monitor.Classes.Step_Programs;
+using Handlers;
+using static Serial_Monitor.Classes.Step_Programs.StepEnumerations;
+
 namespace Serial_Monitor.Classes {
     public class ProgramObject {
         public ProgramObject(string Name) {
@@ -49,6 +52,26 @@ namespace Serial_Monitor.Classes {
 
                 ListSubItem LiA = new ListSubItem();
                 LiA.Text = FCommand.Remove(0, 11);
+                Lip.SubItems.Add(LiE);
+                Lip.SubItems.Add(LiC);
+                Lip.SubItems.Add(LiA);
+                program.Add(Lip);
+            }
+        }
+        public void DecodeLegacyFileCommand(string FCommand) {
+            if (FCommand.Contains(":")) {
+                ListItem Lip = new ListItem();
+                ListSubItem LiE = new ListSubItem(true);
+                ListSubItem LiC = new ListSubItem();
+                STR_MVSSF Data = StringHandler.SpiltAndCombineAfter(FCommand, ':', 1);
+                StepEnumerations.StepExecutable Exe = ProjectManager.ExecutableFromLegacyString(Data.Value[0]);
+                LiC.Tag = Exe;
+                LiC.Text = ProgramManager.StepExecutableToString(Exe);
+
+                ListSubItem LiA = new ListSubItem();
+                if (Data.Count == 2) {
+                    LiA.Text = Data.Value[1];
+                }
                 Lip.SubItems.Add(LiE);
                 Lip.SubItems.Add(LiC);
                 Lip.SubItems.Add(LiA);
