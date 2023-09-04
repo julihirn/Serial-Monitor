@@ -1,5 +1,6 @@
 ﻿using Handlers;
 using ODModules;
+using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,44 @@ using DataType = Handlers.DataType;
 namespace Serial_Monitor.Classes {
     public static class ProjectManager {
         public static List<KeypadButton> Buttons = new List<KeypadButton>();
-
+        private const int MaximumButtons = 20;
+        public static void SetKeypadButton(int Index, string CmdType, string CmcLine, string DisplayText, string Channel) {
+            if (Buttons.Count == MaximumButtons) {
+                if (Index < MaximumButtons) {
+                    KeypadButton Btn = Buttons[Index];
+                    object? TagData = Btn.Tag;
+                    if (TagData != null) {
+                        if (TagData.GetType() == typeof(BtnCommand)) {
+                            Btn.Text = DisplayText;
+                            BtnCommand Data = (BtnCommand)TagData;
+                            Data.SetValue(EnumManager.StringToCommandType(CmdType), CmcLine, Channel);
+                        }
+                    }
+                }
+            }
+        }
+        public static void ClearKeypadButtons() {
+            for (int i = 0; i < Buttons.Count; i++) {
+                object? TagData = Buttons[i].Tag;
+                if (TagData != null) {
+                    if (TagData.GetType() == typeof(BtnCommand)) {
+                        Buttons[i].Text = "";
+                        BtnCommand Data = (BtnCommand)TagData;
+                        Data.Reset();
+                    }
+                }
+            }
+        }
+        public static void LoadGenericKeypadButtons() {
+            for (int i = 0; i < MaximumButtons; i++) {
+                BtnCommand Cmd = new BtnCommand();
+                KeypadButton kBtn = new KeypadButton();
+                kBtn.Tag = Cmd;
+                Buttons.Add(kBtn);
+            }
+        }
         public static event FileOpenedHandler? ProgramNameChanged;
         public delegate void FileOpenedHandler(string Address);
-        public static void ClearKeypad() {
-            Buttons.Clear();
-        }
         public static void WriteFile(string FileAddress) {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -89,12 +122,21 @@ namespace Serial_Monitor.Classes {
                     Sw.WriteLine("--  Keypad Buttons");
                     int Cnt = 0;
                     foreach (KeypadButton Btn in Buttons) {
-                        Sw.WriteLine(StringHandler.AddTabs(1, "def,parm:KBTN_" + Cnt.ToString() + "{"));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Text=" + StringHandler.EncapsulateString(Btn.Text)));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Command=" + StringHandler.EncapsulateString(Btn.Command)));
+                        if (Btn.Tag != null) {
+                            if (Btn.Tag.GetType() == typeof(BtnCommand)) {
+                                BtnCommand CmdSet = (BtnCommand)Btn.Tag;
+                                if ((CmdSet.IsSet == true) || (CmdSet.IsEdited == true)) {
+                                    Sw.WriteLine(StringHandler.AddTabs(1, "def,parm:KBTN_" + Cnt.ToString() + "{"));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Text=" + StringHandler.EncapsulateString(Btn.Text)));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Command=" + StringHandler.EncapsulateString(CmdSet.CommandLine)));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Type=" + StringHandler.EncapsulateString(EnumManager.CommandTypeToString(CmdSet.Type))));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Channel=" + StringHandler.EncapsulateString(CmdSet.Channel)));
 
-                        Sw.WriteLine(StringHandler.AddTabs(2, "}"));
-                        Sw.WriteLine(StringHandler.AddTabs(1, "}"));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "}"));
+                                    Sw.WriteLine(StringHandler.AddTabs(1, "}"));
+                                }
+                            }
+                        }
                         Cnt++;
                     }
                 }
@@ -156,9 +198,15 @@ namespace Serial_Monitor.Classes {
                     SystemManager.SerialManagers.Add(Sm);
                 }
                 else if (ParameterName.StartsWith("KBTN")) {
-                    KeypadButton KButton = new KeypadButton();
-                    KButton.Text = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Text", "");
-                    Buttons.Add(KButton);
+                    if (ParameterName.Split('_').Length == 2) {
+                        string IndexStr = ParameterName.Split('_')[1];
+                        int Index = 0; int.TryParse(IndexStr, out Index);
+                        string ButtonText = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Text", "");
+                        string CommandText = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Command", "");
+                        string CommandType = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", "NONE");
+                        string CommandChannel = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Channel", "");
+                        SetKeypadButton(Index, CommandType, CommandText, ButtonText, CommandChannel);
+                    }
                 }
                 else if (ParameterName.StartsWith("STEP")) {
                     if (CurrentProgramIndex > 0) {
@@ -196,7 +244,7 @@ namespace Serial_Monitor.Classes {
         }
         public static StepEnumerations.StepExecutable ExecutableFromLegacyString(string Input) {
             Input = Input.ToUpper();
-            if (Input == "SND") { return StepEnumerations.StepExecutable.SendString;}
+            if (Input == "SND") { return StepEnumerations.StepExecutable.SendString; }
             else if (Input == "STXT") { return StepEnumerations.StepExecutable.SendText; }
             else if (Input == "PRNT") { return StepEnumerations.StepExecutable.Print; }
             else if (Input == "END") { return StepEnumerations.StepExecutable.Close; }
@@ -205,7 +253,7 @@ namespace Serial_Monitor.Classes {
             else if (Input == "CLR") { return StepEnumerations.StepExecutable.Clear; }
             else if (Input == "DLY") { return StepEnumerations.StepExecutable.Delay; }
             else if (Input == "GOTO") { return StepEnumerations.StepExecutable.GoToLine; }
-           // else if (Input == "WHEN_TCK") { return StepEnumerations.StepExecutable.GoTo; }
+            // else if (Input == "WHEN_TCK") { return StepEnumerations.StepExecutable.GoTo; }
             else if (Input == "SBYTE") { return StepEnumerations.StepExecutable.SendByte; }
             else if (Input == "SWS") { return StepEnumerations.StepExecutable.SwitchSender; }
             else { return StepEnumerations.StepExecutable.NoOperation; }

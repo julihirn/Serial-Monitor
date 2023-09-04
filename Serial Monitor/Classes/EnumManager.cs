@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serial_Monitor.Classes.Button_Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
     public static class EnumManager {
+        public static CommandType StringToCommandType(string Input) {
+            if (Input.ToUpper() == "NONE") { return CommandType.NoAssignedCommand; }
+            else if (Input.ToUpper() == "SENDSTR") { return CommandType.SendString; }
+            else if (Input.ToUpper() == "SENDTXT") { return CommandType.SendText; }
+            else if (Input.ToUpper() == "EXECMD") { return CommandType.ExecuteProgram; }
+            else {
+                return CommandType.NoAssignedCommand;
+            }
+        }
+        public static string CommandTypeToString(CommandType Input) {
+            if (Input == CommandType.NoAssignedCommand) { return "NONE"; }
+            else if (Input == CommandType.SendString) { return "SENDSTR"; }
+            else if (Input == CommandType.SendText) { return "SENDTXT"; }
+            else if (Input == CommandType.ExecuteProgram) { return "EXECMD"; }
+            else {
+                return "NONE";
+            }
+        }
         public static System.IO.Ports.StopBits StringToStopBits(string Input) {
             if (Input == "0") { return System.IO.Ports.StopBits.None; }
             else if (Input == "1") { return System.IO.Ports.StopBits.One; }

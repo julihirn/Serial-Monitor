@@ -28,6 +28,8 @@ namespace Serial_Monitor {
             //}
             RecolorAll();
             AddIcons();
+            SystemManager.ChannelAdded += SystemManager_ChannelAdded;
+            SystemManager.ChannelRemoved += SystemManager_ChannelRemoved;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             navigator1.LinkedList = SystemManager.SerialManagers;
             navigator1.SelectedItem = 0;
@@ -51,7 +53,18 @@ namespace Serial_Monitor {
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
-
+            if (ApplicationManager.IsDark == true) {
+                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
+                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
+                navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
+                navigator1.SideShadowColor = Color.FromArgb(60, Temp.R, Temp.G, Temp.B);
+            }
+            else {
+                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
+                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
+                navigator1.SelectedColor = Color.FromArgb(20, 0, 0, 0);
+                navigator1.SideShadowColor = Color.FromArgb(20, Temp.R, Temp.G, Temp.B);
+            }
             BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             tsMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
@@ -72,8 +85,8 @@ namespace Serial_Monitor {
 
             tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
 
-            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
-            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
+            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonChecked;
+            tsMain.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonChecked;
 
             tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             tsMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -94,7 +107,9 @@ namespace Serial_Monitor {
             lstMonitor.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
             lstMonitor.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
             lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
+            lstMonitor.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            lstMonitor.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
+        
             foreach (object obj in tsMain.Items) {
                 if (obj.GetType() == typeof(ToolStripSplitButton)) {
                     ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -121,6 +136,14 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ApplyCodeChanges, btnApplyOnClick, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             ChangeLockedIcon(LockedEditor);
+        }
+        private void SystemManager_ChannelAdded(int RemovedIndex) {
+            navigator1.Invalidate();
+        }
+        private void SystemManager_ChannelRemoved(int RemovedIndex) {
+            if (navigator1.SelectedItem >= navigator1.ItemCount) {
+                navigator1.SelectedItem -= 1;
+            }
         }
         private void ChangeLockedIcon(bool Input) {
             if (Input == true) {

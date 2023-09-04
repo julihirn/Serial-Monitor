@@ -28,6 +28,9 @@
     <Compile Update="WindowForms\Keypad.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="WindowForms\KeypadButtonProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="WindowForms\ModbusRegisters.cs">
       <SubType>Form</SubType>
     </Compile>

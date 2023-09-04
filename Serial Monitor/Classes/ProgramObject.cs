@@ -22,6 +22,7 @@ namespace Serial_Monitor.Classes {
                 ProgramManager.ProgramNameChange(this);
             } 
         }
+        public int UntitledProgramNmber = -1;
         private string command = "";
         public string Command {
             get { return command; }

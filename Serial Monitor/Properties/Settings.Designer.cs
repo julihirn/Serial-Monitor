@@ -261,5 +261,89 @@ namespace Serial_Monitor.Properties {
                 this["DEF_INT_BaudRate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 128, 128, 128")]
+        public global::System.Drawing.Color THM_COL_TabSelectedColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_TabSelectedColor"]));
+            }
+            set {
+                this["THM_COL_TabSelectedColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 128, 128, 128")]
+        public global::System.Drawing.Color THM_COL_TabSelectedBorderColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_TabSelectedBorderColor"]));
+            }
+            set {
+                this["THM_COL_TabSelectedBorderColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color THM_COL_TabSelectedForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_TabSelectedForeColor"]));
+            }
+            set {
+                this["THM_COL_TabSelectedForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color THM_COL_ColumnSeperatorColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_ColumnSeperatorColor"]));
+            }
+            set {
+                this["THM_COL_ColumnSeperatorColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Silver")]
+        public global::System.Drawing.Color THM_COL_SecondaryForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_SecondaryForeColor"]));
+            }
+            set {
+                this["THM_COL_SecondaryForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color THM_COL_SelectedShadowColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_SelectedShadowColor"]));
+            }
+            set {
+                this["THM_COL_SelectedShadowColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("70, 70, 70")]
+        public global::System.Drawing.Color THM_COL_ButtonChecked {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_ButtonChecked"]));
+            }
+            set {
+                this["THM_COL_ButtonChecked"] = value;
+            }
+        }
     }
 }

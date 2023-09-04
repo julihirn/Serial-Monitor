@@ -75,18 +75,29 @@ namespace Serial_Monitor.Classes {
             ProgramManager.ProgramStep = 0;
             ProgramManager.ProgramState = StepEnumerations.StepState.Running;
         }
-        public static void RunFromStart(string ProgramName) {
+        public static void RunFromStart(string ProgramName, bool UseProgramCommand = true) {
             bool ProgramFound = false;
             if (ProgramName.Length > 0) {
                 bool Resulted = false;
                 string ProName = "";
                 foreach (ProgramObject PrgObj in Programs) {
-                    if (PrgObj.Name == ProgramName) {
-                        CurrentProgram = PrgObj;
-                        ProgramFound = true;
-                        ProName = PrgObj.Name;
-                        if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
-                        break;
+                    if (UseProgramCommand == true) {
+                        if (PrgObj.Name == ProgramName) {
+                            CurrentProgram = PrgObj;
+                            ProgramFound = true;
+                            ProName = PrgObj.Name;
+                            if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
+                            break;
+                        }
+                    }
+                    else {
+                        if (PrgObj.Command == ProgramName) {
+                            CurrentProgram = PrgObj;
+                            ProgramFound = true;
+                            ProName = PrgObj.Name;
+                            if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
+                            break;
+                        }
                     }
                 }
                 if (Resulted == true) {
@@ -684,6 +695,16 @@ namespace Serial_Monitor.Classes {
             else {
                 AddCommandLine(StepChange);
             }
+        }
+        #endregion
+        #region Program Command Connectivity
+        public static void ExecuteProgram(string ProgramCommand) {
+            if (ProgramCommand.Trim(' ') == "") { return; }
+            ProgramState = StepEnumerations.StepState.Paused;
+            RunFromStart(ProgramCommand, false);
+            CleanProgramData();
+            SetupProgram();
+            NoStepProgramIncrement = true;
         }
         #endregion
     }

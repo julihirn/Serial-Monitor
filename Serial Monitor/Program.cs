@@ -9,6 +9,7 @@ namespace Serial_Monitor {
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new MainWindow());
+            //Application.Run(new Form2());
         }
     }
 }

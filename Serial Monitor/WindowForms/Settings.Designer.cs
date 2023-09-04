@@ -28,6 +28,8 @@
             this.flowPnlTheme = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.thSettings = new ODModules.TabHeader();
             this.hiddenTabControl1 = new ODModules.HiddenTabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -77,6 +79,8 @@
             // 
             this.flowPnlTheme.Controls.Add(this.button1);
             this.flowPnlTheme.Controls.Add(this.button2);
+            this.flowPnlTheme.Controls.Add(this.button3);
+            this.flowPnlTheme.Controls.Add(this.button4);
             this.flowPnlTheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowPnlTheme.Location = new System.Drawing.Point(0, 18);
             this.flowPnlTheme.Name = "flowPnlTheme";
@@ -114,8 +118,41 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.White;
+            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(214)))), ((int)(((byte)(229)))));
+            this.button3.FlatAppearance.BorderSize = 4;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(115, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(50, 50);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Aa";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(27)))), ((int)(((byte)(41)))));
+            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(74)))), ((int)(((byte)(67)))), ((int)(((byte)(120)))));
+            this.button4.FlatAppearance.BorderSize = 4;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button4.ForeColor = System.Drawing.Color.White;
+            this.button4.Location = new System.Drawing.Point(171, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(50, 50);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "Aa";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // thSettings
             // 
+            this.thSettings.AllowDragReordering = true;
             this.thSettings.AllowTabResize = true;
             this.thSettings.ArrowColor = System.Drawing.Color.Black;
             this.thSettings.ArrowDisabledColor = System.Drawing.Color.Black;
@@ -126,7 +163,7 @@
             this.thSettings.Location = new System.Drawing.Point(0, 0);
             this.thSettings.Name = "thSettings";
             this.thSettings.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.thSettings.SelectedIndex = 0;
+            this.thSettings.SelectedIndex = 1;
             this.thSettings.ShowAddButton = false;
             this.thSettings.ShowTabDividers = true;
             this.thSettings.Size = new System.Drawing.Size(350, 36);
@@ -267,6 +304,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.Text = "Settings";
+            this.Activated += new System.EventHandler(this.Settings_Activated);
+            this.Deactivate += new System.EventHandler(this.Settings_Deactivate);
             this.Load += new System.EventHandler(this.Settings_Load);
             this.lblPnlTheme.ResumeLayout(false);
             this.flowPnlTheme.ResumeLayout(false);
@@ -292,5 +331,7 @@
         private ODModules.LabelPanel lblPnlDefaults;
         private ODModules.LabelPanel labelPanel1;
         private ComboBox comboBox1;
+        private Button button3;
+        private Button button4;
     }
 }

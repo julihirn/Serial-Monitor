@@ -66,6 +66,7 @@
             this.kpCommands.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             this.kpCommands.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
             this.kpCommands.UseLocalList = false;
+            this.kpCommands.ButtonRightClicked += new ODModules.Keypad.ButtonClickedEventHandler(this.kpCommands_ButtonRightClicked);
             this.kpCommands.ButtonClicked += new ODModules.Keypad.ButtonClickedEventHandler(this.keypad1_ButtonClicked);
             // 
             // Keypad

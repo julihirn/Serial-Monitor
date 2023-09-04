@@ -1,4 +1,9 @@
-﻿using Serial_Monitor.Classes.Step_Programs;
+﻿using Handlers;
+using ODModules;
+using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Button_Commands;
+using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.WindowForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,10 +27,40 @@ namespace Serial_Monitor {
         private void Keypad_Load(object sender, EventArgs e) {
 
             kpCommands.ExternalItems = Classes.ProjectManager.Buttons;
+            RecolorAll();
         }
 
         private void keypad1_ButtonClicked(object Sender, ODModules.KeypadButton Button, Point GridLocation) {
-          
+            if (Button.Tag == null) { return; }
+            if (Button.Tag.GetType() == typeof(BtnCommand)){
+                BtnCommand btnCommand = (BtnCommand)Button.Tag;
+                if (btnCommand.Type == Classes.Button_Commands.CommandType.SendString) {
+                    SystemManager.SendString(btnCommand.Channel, btnCommand.CommandLine);
+                }
+                else if (btnCommand.Type == Classes.Button_Commands.CommandType.SendText) {
+                    SystemManager.SendTextFile(btnCommand.Channel, btnCommand.CommandLine);
+                }
+                else if (btnCommand.Type == Classes.Button_Commands.CommandType.ExecuteProgram) {
+                    ProgramManager.ExecuteProgram(btnCommand.CommandLine);
+                }
+            }
+        }
+        private void kpCommands_ButtonRightClicked(object Sender, ODModules.KeypadButton Button, Point GridLocation) {
+            if (Button.Tag == null) { return; }
+            if (Button.Tag.GetType() == typeof(BtnCommand)) {
+                BtnCommand btnCommand = (BtnCommand)Button.Tag;
+                KeypadButtonProperties KpbtnProp = new KeypadButtonProperties();
+                KpbtnProp.Command = btnCommand.CommandLine;
+                KpbtnProp.ButtonName = Button.Text;
+                KpbtnProp.ShowDialog();
+
+                if (KpbtnProp.DialogResult == DialogResult.OK) {
+                    btnCommand.CommandLine = KpbtnProp.Command;
+                    btnCommand.Type = KpbtnProp.CommandType;
+                    Button.Text = KpbtnProp.ButtonName;
+                }
+                kpCommands.Invalidate();
+            }
         }
         public void ApplyTheme() {
 
@@ -46,7 +81,7 @@ namespace Serial_Monitor {
             kpCommands.BackColorHoverNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             kpCommands.BackColorHoverSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
 
-            
+           
         }
     }
 }

@@ -15,19 +15,12 @@ using static System.Windows.Forms.LinkLabel;
 using Serial_Monitor.Classes.Step_Programs;
 using System.Runtime.ConstrainedExecution;
 using Serial_Monitor.Interfaces;
+using System.DirectoryServices.ActiveDirectory;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object sender, string Data);
-        //SerialPort Port = new SerialPort();
-        //bool SystemEnabled = true;
-
-        //StreamInputFormat InputFormat = StreamInputFormat.Text;
-        //StreamOutputFormat OutputFormat = StreamOutputFormat.Text;
-        //SerialManager SerManager = new SerialManager();
-
-
 
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
@@ -63,11 +56,9 @@ namespace Serial_Monitor {
             }
         }
 
-
         public MainWindow() {
             InitializeComponent();
             ProgramManager.MainInstance = this;
-            //ProgramManager.Programs.Add(new ProgramObject("Main"));
             thPrograms.Tabs.Clear();
             NewProgram("Main");
             lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
@@ -76,9 +67,10 @@ namespace Serial_Monitor {
             ProgramManager.CurrentProgram = ProgramManager.Programs[0];
 
             ProgramManager.ProgramNameChanged += ProgramManager_ProgramNameChanged;
+            SystemManager.ChannelRemoved += SystemManager_ChannelRemoved;
+            SystemManager.ChannelAdded += SystemManager_ChannelAdded;
 
-
-            AddManager("");
+            SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
             currentManager = SystemManager.SerialManagers[0];
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
@@ -87,9 +79,6 @@ namespace Serial_Monitor {
             LoadRecentItems();
             DocumentEdited = false;
         }
-
-
-
         private void toolStripMenuItem3_Click(object sender, EventArgs e) {
             if (CurrentManager != null) {
                 CurrentManager.Port.DataBits = 2;
@@ -98,6 +87,7 @@ namespace Serial_Monitor {
 
         private void Form1_Load(object sender, EventArgs e) {
             AdjustUserInterface();
+            ProjectManager.LoadGenericKeypadButtons();
             RecolorAll();
             AddIcons();
             LoadProgramOperations();
@@ -122,6 +112,7 @@ namespace Serial_Monitor {
             //DetermineTabs();
             DocumentEdited = false;
         }
+        #region Theming and Icons
         public void ApplyTheme() {
 
             RecolorAll();
@@ -131,15 +122,17 @@ namespace Serial_Monitor {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
             if (ApplicationManager.IsDark == true) {
-                navigator1.ShadowColor = Color.FromArgb(80, 0, 0, 0);
+                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
+                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
                 navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
-                navigator1.SideShadowColor = Color.FromArgb(60, 0, 0, 0);
+                navigator1.SideShadowColor = Color.FromArgb(60, Temp.R, Temp.G, Temp.B);
                 thPrograms.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
             }
             else {
-                navigator1.ShadowColor = Color.FromArgb(40, 0, 0, 0);
+                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
+                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
                 navigator1.SelectedColor = Color.FromArgb(20, 0, 0, 0);
-                navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
+                navigator1.SideShadowColor = Color.FromArgb(20, Temp.R, Temp.G, Temp.B);
                 thPrograms.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
             }
             BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -154,6 +147,7 @@ namespace Serial_Monitor {
             msMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+            smMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
 
             msMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             msMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
@@ -189,15 +183,20 @@ namespace Serial_Monitor {
             tsMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
+            thPrograms.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
             thPrograms.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            thPrograms.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            thPrograms.TabSelectedForeColor = Properties.Settings.Default.THM_COL_TabSelectedForeColor;
 
+            thPrograms.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
+            thPrograms.TabSelectedBackColor = Properties.Settings.Default.THM_COL_TabSelectedColor;
 
             lstStepProgram.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             Output.ForeColor = Properties.Settings.Default.THM_COL_TerminalForeColor;
 
             Output.BackColor = Properties.Settings.Default.THM_COL_Editor;
             lstStepProgram.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            lstStepProgram.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
 
             navigator1.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
             navigator1.MidColor = Properties.Settings.Default.THM_COL_Editor;
@@ -212,6 +211,7 @@ namespace Serial_Monitor {
 
             thPrograms.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             lstStepProgram.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
+            lstStepProgram.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
 
             Output.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
             Output.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
@@ -239,77 +239,14 @@ namespace Serial_Monitor {
             ColorForeColorContextMenu(cmStepEditor);
             ColorForeColorContextMenu(cmStepPrg);
             ColorForeColorContextMenu(cmPrograms);
+            ColorForeColorContextMenu(cmChannels);
 
             lblRxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblTxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            toolStripStatusLabel1.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
+            toolStripStatusLabel3.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
             this.ResumeLayout();
-        }
-        private void ColorForeColorContextMenu(ODModules.ContextMenu Cm) {
-            Cm.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            Cm.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            Cm.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            Cm.MouseOverColor = Properties.Settings.Default.THM_COL_ButtonSelected;
-            Cm.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            Cm.SeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            foreach (ToolStripItem CmI in Cm.Items) {
-                CmI.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            }
-        }
-        private void AddManager(string ManagerName) {
-            SerialManager SerMan = new SerialManager();
-            SystemManager.SerialManagers.Add(SerMan);
-            SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
-            SerMan.Name = ManagerName;
-            SerMan.CommandProcessed += SerManager_CommandProcessed;
-            SerMan.DataReceived += SerMan_DataReceived;
-            DocumentEdited = true;
-        }
-        private void ClearManagers() {
-            for (int i = SystemManager.SerialManagers.Count - 1; i >= 0; i--) {
-                SystemManager.SerialManagers[i].CleanUp();
-                SystemManager.SerialManagers[i].CommandProcessed -= SerManager_CommandProcessed;
-                SystemManager.SerialManagers[i].DataReceived -= SerMan_DataReceived;
-                SystemManager.SerialManagers.RemoveAt(i);
-            }
-
-        }
-
-
-        #region Form Border
-
-
-        #endregion
-
-        #region Receiving Data
-        private void SerMan_DataReceived(object sender, bool PrintLine, string Data) {
-            string SourceName = "";
-            if (sender.GetType() == typeof(SerialManager)) {
-                SerialManager SM = (SerialManager)sender;
-                SourceName = SM.Port.PortName;
-            }
-            if (PrintLine == true) {
-                Output.Print(SourceName, Data);
-            }
-            else {
-                Output.AttendToLastLine(SourceName, Data, true);
-            }
-        }
-        private void SerManager_CommandProcessed(object sender, string Data) {
-            string SourceName = "";
-            if (sender.GetType() == typeof(SerialManager)) {
-                SerialManager SM = (SerialManager)sender;
-                SourceName = SM.Port.PortName;
-            }
-            CommandProcessed?.Invoke(sender, Data);
-            // Debug.Print(Data);
-            Output.Print(SourceName, Data);
-        }
-        #endregion
-        private void AdjustUserInterface() {
-            msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
-            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
-            lstStepProgram.ScaleColumnWidths();
-            //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
         }
         private void AddIcons() {
             DesignerSetup.SetImageSizes(RenderHandler.DPI());
@@ -321,6 +258,8 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, btnDisconnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, btnMenuConnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, btnMenuDisconnect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, connectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, disconnectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, ddbInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, ddbOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -374,6 +313,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveDown, btnPrgMoveDown, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, btnNewChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, newChannelToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewRow, newProgramToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewRow, cmbtnNewProgram, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -383,7 +323,67 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeSelectedToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
+        private void ColorForeColorContextMenu(ODModules.ContextMenu Cm) {
+            Cm.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+            Cm.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+            Cm.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            Cm.MouseOverColor = Properties.Settings.Default.THM_COL_ButtonSelected;
+            Cm.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+            Cm.SeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+            foreach (ToolStripItem CmI in Cm.Items) {
+                CmI.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            }
+        }
+        private void AdjustUserInterface() {
+            msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
+            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            lstStepProgram.ScaleColumnWidths();
+            //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
+        }
+        private void Form1_Deactivate(object sender, EventArgs e) {
+            Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
+            msMain.BackColorNorthFadeIn = FadeInColor;
+            msMain.UseNorthFadeIn = false;
+        }
+        private void Form1_Activated(object sender, EventArgs e) {
+            Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
+            msMain.BackColorNorthFadeIn = FadeInColor;
+            msMain.UseNorthFadeIn = true;
+        }
+        #endregion
+        #region Form Border
+
+
+        #endregion
+        #region Receiving Data
+        private void SerMan_DataReceived(object sender, bool PrintLine, string Data) {
+            string SourceName = "";
+            if (sender.GetType() == typeof(SerialManager)) {
+                SerialManager SM = (SerialManager)sender;
+                SourceName = SM.Port.PortName;
+            }
+            if (PrintLine == true) {
+                Output.Print(SourceName, Data);
+            }
+            else {
+                Output.AttendToLastLine(SourceName, Data, true);
+            }
+        }
+        private void SerManager_CommandProcessed(object sender, string Data) {
+            string SourceName = "";
+            if (sender.GetType() == typeof(SerialManager)) {
+                SerialManager SM = (SerialManager)sender;
+                SourceName = SM.Port.PortName;
+            }
+            CommandProcessed?.Invoke(sender, Data);
+            // Debug.Print(Data);
+            Output.Print(SourceName, Data);
+        }
+        #endregion
         #region Channel Settings
+        private void textBox1_TextChanged(object sender, EventArgs e) {
+            DocumentEdited = true;
+        }
         private void ddbChannels_DropDownOpening(object sender, EventArgs e) {
             RefreshChannels();
         }
@@ -1000,6 +1000,18 @@ namespace Serial_Monitor {
         private void btnZoom120_Click(object sender, EventArgs e) {
             Output.Zoom = 120;
         }
+        private void toolStripMenuItem2_Click_1(object sender, EventArgs e) {
+            Output.Zoom = 150;
+        }
+        private void toolStripMenuItem3_Click_1(object sender, EventArgs e) {
+            Output.Zoom = 175;
+        }
+        private void toolStripMenuItem4_Click(object sender, EventArgs e) {
+            Output.Zoom = 200;
+        }
+        private void btnZoom300_Click(object sender, EventArgs e) {
+            Output.Zoom = 300;
+        }
         private void btnOptViewDataOnly_Click(object sender, EventArgs e) {
             SetStampView(ConsoleInterface.TimeStampFormat.NoTimeStamps);
         }
@@ -1075,30 +1087,143 @@ namespace Serial_Monitor {
             }
         }
         #endregion
-
         #region Channel Settings
+        private void renameChannelToolStripMenuItem_Click_1(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData == null) { return; }
+            if (TagData.SelectedTab.GetType() != typeof(SerialManager)) { return; }
+            SerialManager SerMan = ((SerialManager)TagData.SelectedTab);
+            Rectangle TabRectangle = TagData.TextArea;
+
+            string CurrentText = SerMan.Name;
+            TextBox RenameBox = new TextBox();
+            RenameBox.Text = CurrentText;
+            RenameBox.Font = thPrograms.Font;
+            // RenameBox.BorderStyle = BorderStyle.None;
+            RenameBox.Multiline = false;
+            int CentreHeight = 0;
+            RenameBox.Show();
+            if (TabRectangle.Height > RenameBox.ClientSize.Height) {
+                CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
+            }
+            else {
+                CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
+            }
+            RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
+            RenameBox.Size = TabRectangle.Size;
+            RenameBox.BringToFront();
+            RenameBox.Tag = cmChannels.Tag;
+            InRenameMode = true;
+            navigator1.Controls.Add(RenameBox);
+            RenameBox.Focus();
+            RenameBox.Leave += RenameBox_Leave;
+            RenameBox.LostFocus += RenameBox_LostFocus;
+            RenameBox.KeyDown += RenameBox_KeyDown; ; ;
+            RenameBox.TextChanged += RenameBox_TextChanged;
+        }
+        private void mitChannel_DropDownOpening(object sender, EventArgs e) {
+            SerialManager? SerMan = SystemManager.GetChannel(navigator1.SelectedItem);
+            if (SerMan != null) {
+                btnMenuModbusMaster.Checked = SerMan.IsMaster;
+            }
+        }
+        private void modbusMasterToolStripMenuItem_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    ((SerialManager)TagData.SelectedTab).IsMaster = modbusMasterToolStripMenuItem.Checked;
+                }
+            }
+        }
+        private void navigator1_TabRightClicked(object sender, TabClickedEventArgs Tab) {
+            if (sender == null) { return; }
+            cmChannels.Tag = Tab;
+            if (Tab.SelectedTab.GetType() == typeof(SerialManager)) {
+                SerialManager SerMan = (SerialManager)Tab.SelectedTab;
+                modbusMasterToolStripMenuItem.Checked = SerMan.IsMaster;
+                if (SerMan.Port.IsOpen == true) {
+                    connectToolStripMenuItem.Enabled = false;
+                    disconnectToolStripMenuItem.Enabled = true;
+                }
+                else {
+                    connectToolStripMenuItem.Enabled = true;
+                    disconnectToolStripMenuItem.Enabled = false;
+                }
+            }
+            cmChannels.Show(Tab.ScreenLocation);
+        }
+        private void button1_ButtonClicked(object sender) {
+            if (CurrentManager != null) {
+                CurrentManager.Name = textBox1.Text;
+            }
+            pnlRenamePanel.Hide();
+            navigator1.Invalidate();
+        }
         private void renameChannelToolStripMenuItem1_Click(object sender, EventArgs e) {
             pnlRenamePanel.Visible = !pnlRenamePanel.Visible;
         }
         private void btnNewChannel_Click(object sender, EventArgs e) {
-            AddManager("");
-            navigator1.Invalidate();
+            SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
         }
         private void btnRemoveChannel_Click(object sender, EventArgs e) {
             RemoveChannel(navigator1.SelectedItem);
-            navigator1.Invalidate();
         }
-        private void RemoveChannel(int ChannelIndex) {
-            if (SystemManager.SerialManagers.Count > 1) {
-                if ((ChannelIndex < SystemManager.SerialManagers.Count) && (ChannelIndex != -1)) {
-                    SystemManager.SerialManagers[ChannelIndex].CommandProcessed -= SerManager_CommandProcessed;
-                    SystemManager.SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
-                    SystemManager.SerialManagers.RemoveAt(ChannelIndex);
-                    DocumentEdited = true;
+        private void newChannelToolStripMenuItem_Click(object sender, EventArgs e) {
+            SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+        }
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    Connect((SerialManager)TagData.SelectedTab);
                 }
             }
         }
-        #endregion 
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    Disconnect((SerialManager)TagData.SelectedTab);
+                }
+            }
+        }
+        private void removeChannelToolStripMenuItem_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                RemoveChannel(TagData.Index);
+            }
+        }
+        private TabClickedEventArgs? GetClickedArgs(object? TagData) {
+            if (TagData != null) {
+                if (TagData.GetType() == typeof(TabClickedEventArgs)) {
+                    TabClickedEventArgs Tb = (TabClickedEventArgs)TagData;
+                    return Tb;
+                }
+            }
+            return null;
+        }
+        private void RemoveChannel(int Index) {
+            SystemManager.RemoveChannel(Index, SerManager_CommandProcessed, SerMan_DataReceived);
+            navigator1.Invalidate();
+            DocumentEdited = true;
+        }
+        private void navigator1_SelectedIndexChanged(object sender, int SelectedIndex) {
+            if (SystemManager.SerialManagers.Count > 0) {
+                if ((SelectedIndex >= 0) && (SelectedIndex < SystemManager.SerialManagers.Count)) {
+                    CurrentManager = SystemManager.SerialManagers[SelectedIndex];
+                }
+            }
+        }
+        private void SystemManager_ChannelAdded(int RemovedIndex) {
+            DocumentEdited = true;
+            navigator1.Invalidate();
+        }
+        private void SystemManager_ChannelRemoved(int RemovedIndex) {
+            if (navigator1.SelectedItem >= navigator1.ItemCount) {
+                navigator1.SelectedItem -= 1;
+            }
+        }
+        #endregion
         #region Clipboard
         object? LastEntered = null;
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1126,6 +1251,83 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Program UI
+        private void LoadRecentItems() {
+            for (int i = btnRecentProjects.DropDownItems.Count - 1; i >= 0; i--) {
+                if (btnRecentProjects.DropDownItems[i].Tag != null) {
+                    btnRecentProjects.DropDownItems[i].Click -= BtnRecentItem_Click;
+                    btnRecentProjects.DropDownItems.RemoveAt(i);
+                }
+            }
+            if (Properties.Settings.Default.DOC_PRJ_RecentFiles != null) {
+                int j = 1;
+                for (int i = Properties.Settings.Default.DOC_PRJ_RecentFiles.Count - 1; i >= 0; i--) {
+                    string? FileName = Properties.Settings.Default.DOC_PRJ_RecentFiles[i];
+                    if ((FileName != null) && (j <= 10)) {
+                        if (FileName != "") {
+                            ToolStripMenuItem btnRecentItem = new ToolStripMenuItem();
+                            btnRecentItem.Text = j.ToString() + "  " + Path.GetFileNameWithoutExtension(FileName);
+                            btnRecentItem.Tag = FileName;
+                            btnRecentItem.Click += BtnRecentItem_Click;
+                            btnRecentProjects.DropDownItems.Add(btnRecentItem);
+                            j++;
+                        }
+                    }
+                }
+                if (j > 1) {
+                    btnRecentProjects.Enabled = true;
+                }
+                else {
+                    btnRecentProjects.Enabled = false;
+                }
+            }
+            else {
+                btnRecentProjects.Enabled = false;
+            }
+        }
+        private void btnRecentProjects_DropDownOpening(object sender, EventArgs e) {
+            LoadRecentItems();
+        }
+        private void AddFiletoRecentFiles(string FileName) {
+            if (Properties.Settings.Default.DOC_PRJ_RecentFiles == null) {
+                Properties.Settings.Default.DOC_PRJ_RecentFiles = new System.Collections.Specialized.StringCollection();
+            }
+            int ContainsRecentFile = -1;
+            for (int i = 0; i < Properties.Settings.Default.DOC_PRJ_RecentFiles.Count; i++) {
+                if (Properties.Settings.Default.DOC_PRJ_RecentFiles[i] != null) {
+                    if (FileName == Properties.Settings.Default.DOC_PRJ_RecentFiles[i]) {
+                        ContainsRecentFile = i;
+                        break;
+                    }
+                }
+            }
+            if (ContainsRecentFile >= 0) {
+                Properties.Settings.Default.DOC_PRJ_RecentFiles.RemoveAt(ContainsRecentFile);
+            }
+            Properties.Settings.Default.DOC_PRJ_RecentFiles.Add(FileName);
+            Properties.Settings.Default.Save();
+        }
+        private void BtnRecentItem_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                if (item.Tag == null) { return; }
+                string FileName = item.Tag.ToString() ?? "";
+                if (FileName == "") { return; }
+                CloseAll();
+                Open(FileName);
+                AddFiletoRecentFiles(FileName);
+            }
+        }
+        private void channelsToolStripMenuItem_Click(object sender, EventArgs e) {
+            navigator1.Visible = channelsToolStripMenuItem.Checked;
+        }
+        private void btnMenuShowStepPrg_Click(object sender, EventArgs e) {
+            pnlStepProgram.Visible = btnMenuShowStepPrg.Checked;
+        }
+        private void pnlStepProgram_CloseButtonClicked(object sender, Point HitPoint) {
+            btnMenuShowStepPrg.Checked = false;
+            pnlStepProgram.Visible = false;
+        }
         private void LoadProgramOperations() {
             StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));
             int Index = 0;
@@ -1153,6 +1355,16 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Program Settings
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (lstStepProgram.Tag == null) { return; }
+            if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
+                ProgramProperties PrgProp = new ProgramProperties();
+                PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
+                PrgProp.StartPosition = FormStartPosition.CenterParent;
+                PrgProp.Owner = this;
+                ApplicationManager.OpenInternalApplicationOnce(PrgProp, true);
+            }
+        }
         private void StepOperationBtn_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (cmStepPrg.Tag == null) { return; }
@@ -1478,7 +1690,7 @@ namespace Serial_Monitor {
         }
         #endregion 
         #region Program Control
-        StepEnumerations.StepState LastProgramState = StepEnumerations.StepState.Stopped;
+        //StepEnumerations.StepState LastProgramState = StepEnumerations.StepState.Stopped;
         DateTime LastUpdate = DateTime.Now;
         private void tmrProg_Tick(object sender, EventArgs e) {
             if (ProgramManager.LastProgramStep != ProgramManager.ProgramStep) {
@@ -1668,7 +1880,6 @@ namespace Serial_Monitor {
                 }
             }
         }
-
         private void btnRun_Click(object sender, EventArgs e) {
 
         }
@@ -1715,6 +1926,39 @@ namespace Serial_Monitor {
         private void btnRunCursor_Click(object sender, EventArgs e) {
             Run();
         }
+        private void setStepCursorToolStripMenuItem_Click(object sender, EventArgs e) {
+            SetCursor();
+        }
+        private void SetCursor() {
+            if (lstStepProgram.SelectionCount == 1) {
+                if (ProgramManager.CurrentProgram != null) {
+                    if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
+                        ProgramManager.CurrentProgram.ProgramMarker = lstStepProgram.SelectedIndex;
+                    }
+                }
+                //if (CurrentProgram == lstStepProgram.Tag) {
+                lstStepProgram.LineMarkerIndex = lstStepProgram.SelectedIndex;
+                if (lstStepProgram.Tag != null) {
+                    if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
+                        ((ProgramObject)lstStepProgram.Tag).ProgramMarker = lstStepProgram.SelectedIndex;
+                    }
+                }
+                //}
+            }
+        }
+        private void lstStepProgram_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                SetCursor();
+            }
+            e.Handled = true;
+        }
+        private void lstStepProgram_ItemMiddleClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
+            if (ProgramManager.CurrentProgram != null) {
+                lstStepProgram.LineMarkerIndex = Index;
+                ProgramManager.CurrentProgram.ProgramMarker = Index;
+            }
+        }
+
         #endregion
         #region Program
         public void MethodSetRunText(string Input) {
@@ -1771,6 +2015,21 @@ namespace Serial_Monitor {
         }
         #endregion
         #region MultiProgram Editing
+        private void tabHeader1_SelectedIndexChanged(object sender, int CurrentIndex, int PreviousIndex) {
+            if (thPrograms.Tabs.Count > 0) {
+                if (CurrentIndex < thPrograms.Tabs.Count) {
+                    object? TagData = thPrograms.Tabs[CurrentIndex].Tag;
+                    if (TagData != null) {
+                        if (TagData.GetType() == typeof(ProgramObject)) {
+                            lstStepProgram.Tag = TagData;
+                            ProgramManager.CurrentEditingProgram = (ProgramObject)TagData;
+                            lstStepProgram.ExternalItems = ((ProgramObject)TagData).Program;
+                            lstStepProgram.LineMarkerIndex = ((ProgramObject)TagData).ProgramMarker;
+                        }
+                    }
+                }
+            }
+        }
         private void commandPalletToolStripMenuItem_Click(object sender, EventArgs e) {
             CommandPalette CmdPalette = new CommandPalette();
             Classes.ApplicationManager.OpenInternalApplicationOnce(CmdPalette, true);
@@ -1897,22 +2156,41 @@ namespace Serial_Monitor {
 
         private void RenameBox_Leave(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(TextBox)) {
-                DeregisterTextbox((TextBox)sender);
-                thPrograms.Controls.Remove((TextBox)sender);
-            }
+            //if (sender.GetType() == typeof(TextBox)) {
+            //    DeregisterTextbox((TextBox)sender);
+            //    thPrograms.Controls.Remove((TextBox)sender);
+            //}
+            RemoveFromControl(sender);
         }
         private void RenameBox_KeyDown(object? sender, KeyEventArgs e) {
 
             if (e.KeyCode == Keys.Enter) {
                 if (sender == null) { return; }
-                if (sender.GetType() == typeof(TextBox)) {
-                    DeregisterTextbox((TextBox)sender);
-                    thPrograms.Controls.Remove((TextBox)sender);
-                }
+                //if (sender.GetType() == typeof(TextBox)) {
+                //    DeregisterTextbox((TextBox)sender);
+                //    thPrograms.Controls.Remove((TextBox)sender);
+                //}
+                RemoveFromControl(sender);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 
+            }
+        }
+        private void RemoveFromControl(object Ctrl) {
+            if (Ctrl.GetType() == typeof(TextBox)) {
+                TextBox TxBx = (TextBox)Ctrl;
+                if (TxBx.Tag == null) { return; }
+                if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
+                    TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
+                    if (TCEA.SelectedTab == null) { return; }
+                    if (TCEA.SelectedTab.GetType() == typeof(Tab)) {
+                        thPrograms.Controls.Remove(TxBx);
+                    }
+                    else if (TCEA.SelectedTab.GetType() == typeof(SerialManager)) {
+                        navigator1.Controls.Remove(TxBx);
+                    }
+                }
+                DeregisterTextbox((TextBox)Ctrl);
             }
         }
         private void RenameBox_TextChanged(object? sender, EventArgs e) {
@@ -1920,15 +2198,23 @@ namespace Serial_Monitor {
             if (sender.GetType() == typeof(TextBox)) {
                 TextBox TxBx = (TextBox)sender;
                 if (TxBx.Tag == null) {
-
-                    DeregisterTextbox(TxBx);
-                    thPrograms.Controls.Remove(TxBx);
+                    //DeregisterTextbox(TxBx);
+                    //thPrograms.Controls.Remove(TxBx);
+                    RemoveFromControl(sender);
                 }
                 else {
                     if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
                         TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
-                        ProgramManager.Programs[TCEA.Index].Name = TxBx.Text;
-                        thPrograms.Tabs[TCEA.Index].Text = TxBx.Text;
+                        object? Data = TCEA.SelectedTab;
+                        if (Data == null) { return; }
+                        if (Data.GetType() == typeof(Tab)) {
+                            ProgramManager.Programs[TCEA.Index].Name = TxBx.Text;
+                            thPrograms.Tabs[TCEA.Index].Text = TxBx.Text;
+                        }
+                        else if (Data.GetType() == typeof(SerialManager)) {
+                            SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text;
+                            navigator1.Invalidate();
+                        }
                         DocumentEdited = true;
                     }
                 }
@@ -1936,10 +2222,11 @@ namespace Serial_Monitor {
         }
         private void RenameBox_LostFocus(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(TextBox)) {
-                DeregisterTextbox((TextBox)sender);
-                thPrograms.Controls.Remove((TextBox)sender);
-            }
+            //if (sender.GetType() == typeof(TextBox)) {
+            //    DeregisterTextbox((TextBox)sender);
+            //    thPrograms.Controls.Remove((TextBox)sender);
+            //}
+            RemoveFromControl(sender);
         }
         private void DeregisterTextbox(TextBox Tb) {
             Tb.Tag = null;
@@ -1950,45 +2237,33 @@ namespace Serial_Monitor {
             InRenameMode = false;
         }
         #endregion
+        #region Tools
         private void btnMonitor_Click(object sender, EventArgs e) {
             Monitor NewMonitor = new Monitor();
             NewMonitor.Attached = this;
             Classes.ApplicationManager.OpenInternalApplicationOnce(NewMonitor);
         }
-
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e) {
-            if (InRenameMode == false) {
-                if (pnlRenamePanel.Visible == false) {
-                    Output.Focus();
-                }
-            }
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
+            Settings ConfigApp = new Settings();
+            ApplicationManager.OpenInternalApplicationOnce(ConfigApp, true);
         }
-        private void navigator1_SelectedIndexChanged(object sender, int SelectedIndex) {
-            if (SystemManager.SerialManagers.Count > 0) {
-                if ((SelectedIndex >= 0) && (SelectedIndex < SystemManager.SerialManagers.Count)) {
-                    CurrentManager = SystemManager.SerialManagers[SelectedIndex];
-                }
-            }
+        private void keyPadToolStripMenuItem_Click(object sender, EventArgs e) {
+            Keypad KeypadApp = new Keypad();
+            ApplicationManager.OpenInternalApplicationOnce(KeypadApp, true);
         }
-
-        private void renameChannelToolStripMenuItem_Click(object sender, EventArgs e) {
-
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+            About AboutWin = new About();
+            ApplicationManager.OpenInternalApplicationOnce(AboutWin, true);
         }
-
-        private void pnlRenamePanel_Paint(object sender, PaintEventArgs e) {
-
+        private void textComparatorToolStripMenuItem_Click(object sender, EventArgs e) {
+            WindowForms.TextComparator TxtCompare = new WindowForms.TextComparator();
+            ApplicationManager.OpenInternalApplicationOnce(TxtCompare, true);
         }
-
-        private void button1_ButtonClicked(object sender) {
-            if (CurrentManager != null) {
-                CurrentManager.Name = textBox1.Text;
-            }
-            pnlRenamePanel.Hide();
-            navigator1.Invalidate();
+        private void modbusRegistersToolStripMenuItem_Click(object sender, EventArgs e) {
+            ModbusRegisters MbRegs = new ModbusRegisters();
+            ApplicationManager.OpenInternalApplicationOnce(MbRegs);
         }
-        private void btnOptViewSource_Click(object sender, EventArgs e) {
-            Output.ShowOrigin = btnOptViewSource.Checked;
-        }
+        #endregion
         #region Document Handling
         bool documentEdited = false;
         private bool DocumentEdited {
@@ -2012,7 +2287,7 @@ namespace Serial_Monitor {
                 DocumentEdited = false;
                 CleanProjectData();
                 NewProgram("Main");
-                AddManager("");
+                SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
                 navigator1.SelectedItem = 0;
                 lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
                 lstStepProgram.Tag = ProgramManager.Programs[0];
@@ -2100,9 +2375,9 @@ namespace Serial_Monitor {
         }
         private void CleanProjectData() {
             CloseAll();
-            ClearManagers();
+            ProjectManager.ClearKeypadButtons();
+            SystemManager.ClearChannels(SerManager_CommandProcessed, SerMan_DataReceived);
             ClearPrograms();
-            ProjectManager.ClearKeypad();
             lstStepProgram.LineRemoveAll();
             GC.Collect();
             DocumentEdited = false;
@@ -2167,7 +2442,7 @@ namespace Serial_Monitor {
                     ChangeEditingProgram = true;
                 }
                 try {
-                    ProgramManager.Programs.RemoveAt(Index);
+                    ProgramManager.Programs.Remove(PrgObj);
                     thPrograms.Tabs.RemoveAt(Index);
                 }
                 catch { }
@@ -2199,23 +2474,29 @@ namespace Serial_Monitor {
             int Index = -1;
             foreach (ProgramObject Prg in ProgramManager.Programs) {
                 string PrgName = "";
-                Index++;
                 if (Prg.Name.Trim().Length == 0) {
-                    if (j > 0) {
-                        PrgName = "Untitled Program " + j.ToString();
-                    }
-                    else {
-                        PrgName = "Untitled Program";
-                    }
+                    Prg.UntitledProgramNmber = j;
                     j++;
                 }
                 else {
-                    PrgName = Prg.Name;
+                    Prg.UntitledProgramNmber = -1;
                 }
-                if (thPrograms.Tabs.Count > 0) {
-                    if ((Index >= 0) && (Index < thPrograms.Tabs.Count)) {
-                        thPrograms.Tabs[Index].Text = PrgName;
-                        thPrograms.Tabs[Index].Tag = Prg;
+            }
+            if (thPrograms.Tabs.Count > 0) {
+                foreach (Tab Tb in thPrograms.Tabs) {
+                    if (Tb.Tag != null) {
+                        if (Tb.Tag.GetType() == typeof(ProgramObject)) {
+                            ProgramObject PrObj = (ProgramObject)Tb.Tag;
+                            if (PrObj.UntitledProgramNmber >= 1) {
+                                Tb.Text = "Untitled Program " + PrObj.UntitledProgramNmber.ToString();
+                            }
+                            else if (PrObj.UntitledProgramNmber == 0) {
+                                Tb.Text = "Untitled Program";
+                            }
+                            else {
+                                Tb.Text = PrObj.Name;
+                            }
+                        }
                     }
                 }
             }
@@ -2223,25 +2504,21 @@ namespace Serial_Monitor {
 
 
         #endregion
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e) {
-
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e) {
+            if (InRenameMode == false) {
+                if (pnlRenamePanel.Visible == false) {
+                    Output.Focus();
+                }
+            }
         }
-
-        private void Output_Enter(object sender, EventArgs e) {
-
-        }
-
-        private void Output_Validated(object sender, EventArgs e) {
-
+        private void btnOptViewSource_Click(object sender, EventArgs e) {
+            Output.ShowOrigin = btnOptViewSource.Checked;
         }
         private void Output_Click(object sender, EventArgs e) {
             LastEntered = sender;
             Output.Focus();
         }
-        private void Output_MouseClick(object sender, MouseEventArgs e) {
 
-        }
         private void lstStepProgram_MouseClick(object sender, MouseEventArgs e) {
             LastEntered = sender;
         }
@@ -2251,7 +2528,6 @@ namespace Serial_Monitor {
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e) {
             lstStepProgram.LineSelectAll();
         }
-
         private void fileToolStripMenuItem_Click(object sender, EventArgs e) {
             LoadRecentItems();
         }
@@ -2259,125 +2535,7 @@ namespace Serial_Monitor {
             this.Close();
         }
 
-        private void setStepCursorToolStripMenuItem_Click(object sender, EventArgs e) {
-            SetCursor();
-        }
-        private void SetCursor() {
-            if (lstStepProgram.SelectionCount == 1) {
-                if (ProgramManager.CurrentProgram != null) {
-                    if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
-                        ProgramManager.CurrentProgram.ProgramMarker = lstStepProgram.SelectedIndex;
-                    }
-                }
-                //if (CurrentProgram == lstStepProgram.Tag) {
-                lstStepProgram.LineMarkerIndex = lstStepProgram.SelectedIndex;
-                if (lstStepProgram.Tag != null) {
-                    if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
-                        ((ProgramObject)lstStepProgram.Tag).ProgramMarker = lstStepProgram.SelectedIndex;
-                    }
-                }
-                //}
-            }
-        }
-        private void lstStepProgram_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter) {
-                SetCursor();
-            }
-            e.Handled = true;
-        }
-        private void LoadRecentItems() {
-            for (int i = btnRecentProjects.DropDownItems.Count - 1; i >= 0; i--) {
-                if (btnRecentProjects.DropDownItems[i].Tag != null) {
-                    btnRecentProjects.DropDownItems[i].Click -= BtnRecentItem_Click;
-                    btnRecentProjects.DropDownItems.RemoveAt(i);
-                }
-            }
-            if (Properties.Settings.Default.DOC_PRJ_RecentFiles != null) {
-                int j = 1;
-                for (int i = Properties.Settings.Default.DOC_PRJ_RecentFiles.Count - 1; i >= 0; i--) {
-                    string? FileName = Properties.Settings.Default.DOC_PRJ_RecentFiles[i];
-                    if ((FileName != null) && (j <= 10)) {
-                        if (FileName != "") {
-                            ToolStripMenuItem btnRecentItem = new ToolStripMenuItem();
-                            btnRecentItem.Text = j.ToString() + "  " + Path.GetFileNameWithoutExtension(FileName);
-                            btnRecentItem.Tag = FileName;
-                            btnRecentItem.Click += BtnRecentItem_Click;
-                            btnRecentProjects.DropDownItems.Add(btnRecentItem);
-                            j++;
-                        }
-                    }
-                }
-                if (j > 1) {
-                    btnRecentProjects.Enabled = true;
-                }
-                else {
-                    btnRecentProjects.Enabled = false;
-                }
-            }
-            else {
-                btnRecentProjects.Enabled = false;
-            }
-        }
-        private void btnRecentProjects_DropDownOpening(object sender, EventArgs e) {
-            LoadRecentItems();
-        }
-        private void AddFiletoRecentFiles(string FileName) {
-            if (Properties.Settings.Default.DOC_PRJ_RecentFiles == null) {
-                Properties.Settings.Default.DOC_PRJ_RecentFiles = new System.Collections.Specialized.StringCollection();
-            }
-            int ContainsRecentFile = -1;
-            for (int i = 0; i < Properties.Settings.Default.DOC_PRJ_RecentFiles.Count; i++) {
-                if (Properties.Settings.Default.DOC_PRJ_RecentFiles[i] != null) {
-                    if (FileName == Properties.Settings.Default.DOC_PRJ_RecentFiles[i]) {
-                        ContainsRecentFile = i;
-                        break;
-                    }
-                }
-            }
-            if (ContainsRecentFile >= 0) {
-                Properties.Settings.Default.DOC_PRJ_RecentFiles.RemoveAt(ContainsRecentFile);
-            }
-            Properties.Settings.Default.DOC_PRJ_RecentFiles.Add(FileName);
-            Properties.Settings.Default.Save();
-        }
-        private void BtnRecentItem_Click(object? sender, EventArgs e) {
-            if (sender == null) { return; }
-            if (sender.GetType() == typeof(ToolStripMenuItem)) {
-                ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                if (item.Tag == null) { return; }
-                string FileName = item.Tag.ToString() ?? "";
-                if (FileName == "") { return; }
-                CloseAll();
-                Open(FileName);
-                AddFiletoRecentFiles(FileName);
-            }
-        }
 
-        private void channelsToolStripMenuItem_Click(object sender, EventArgs e) {
-            navigator1.Visible = channelsToolStripMenuItem.Checked;
-        }
-        private void btnMenuShowStepPrg_Click(object sender, EventArgs e) {
-            pnlStepProgram.Visible = btnMenuShowStepPrg.Checked;
-        }
-        private void pnlStepProgram_CloseButtonClicked(object sender, Point HitPoint) {
-            btnMenuShowStepPrg.Checked = false;
-            pnlStepProgram.Visible = false;
-        }
-
-        private void Form1_Deactivate(object sender, EventArgs e) {
-            Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
-            msMain.BackColorNorthFadeIn = FadeInColor;
-            msMain.UseNorthFadeIn = false;
-        }
-        private void Form1_Activated(object sender, EventArgs e) {
-            Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
-            msMain.BackColorNorthFadeIn = FadeInColor;
-            msMain.UseNorthFadeIn = true;
-        }
-
-        private void lstStepProgram_Load(object sender, EventArgs e) {
-
-        }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e) {
             if (CurrentManager != null) {
@@ -2385,100 +2543,55 @@ namespace Serial_Monitor {
             }
         }
 
-        private void modbusRegistersToolStripMenuItem_Click(object sender, EventArgs e) {
-            ModbusRegisters MbRegs = new ModbusRegisters();
-            ApplicationManager.OpenInternalApplicationOnce(MbRegs);
-        }
+
 
 
 
         private void btnRun_DropDownOpening(object sender, EventArgs e) {
             ListPrograms(sender);
         }
-
         private void activeProgramToolStripMenuItem_DropDownOpening(object sender, EventArgs e) {
             ListPrograms(sender);
         }
-        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (lstStepProgram.Tag == null) { return; }
-            if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
-                ProgramProperties PrgProp = new ProgramProperties();
-                PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
-                PrgProp.StartPosition = FormStartPosition.CenterParent;
-                PrgProp.Owner = this;
-                ApplicationManager.OpenInternalApplicationOnce(PrgProp, true);
-            }
+
+        #region Not Used Events
+        private void editToolStripMenuItem_Click(object sender, EventArgs e) {
 
         }
-        private void tabHeader1_SelectedIndexChanged(object sender, int CurrentIndex, int PreviousIndex) {
-            if (thPrograms.Tabs.Count > 0) {
-                if (CurrentIndex < thPrograms.Tabs.Count) {
-                    object? TagData = thPrograms.Tabs[CurrentIndex].Tag;
-                    if (TagData != null) {
-                        if (TagData.GetType() == typeof(ProgramObject)) {
-                            lstStepProgram.Tag = TagData;
-                            ProgramManager.CurrentEditingProgram = (ProgramObject)TagData;
-                            lstStepProgram.ExternalItems = ((ProgramObject)TagData).Program;
-                            lstStepProgram.LineMarkerIndex = ((ProgramObject)TagData).ProgramMarker;
-                        }
-                    }
-                }
-            }
-        }
+        private void Output_Enter(object sender, EventArgs e) {
 
+        }
+        private void Output_Validated(object sender, EventArgs e) {
+
+        }
+        private void Output_MouseClick(object sender, MouseEventArgs e) {
+
+        }
         private void toolStripSeparator27_Click(object sender, EventArgs e) {
 
         }
-
         private void tabHeader1_Load(object sender, EventArgs e) {
 
         }
-
         private void activeProgramToolStripMenuItem_Click(object sender, EventArgs e) {
 
         }
-
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
-            Settings ConfigApp = new Settings();
-            ApplicationManager.OpenInternalApplicationOnce(ConfigApp, true);
-        }
-
-        private void keyPadToolStripMenuItem_Click(object sender, EventArgs e) {
-            Keypad KeypadApp = new Keypad();
-            ApplicationManager.OpenInternalApplicationOnce(KeypadApp, true);
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
-            About AboutWin = new About();
-            ApplicationManager.OpenInternalApplicationOnce(AboutWin, true);
-        }
-
         private void ddbPorts_Click(object sender, EventArgs e) {
 
         }
+        private void lstStepProgram_Load(object sender, EventArgs e) {
 
-        private void textComparatorToolStripMenuItem_Click(object sender, EventArgs e) {
-            WindowForms.TextComparator TxtCompare = new WindowForms.TextComparator();
-            ApplicationManager.OpenInternalApplicationOnce(TxtCompare, true);
         }
+        private void renameChannelToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+        private void pnlRenamePanel_Paint(object sender, PaintEventArgs e) {
+
+        }
+        #endregion
         private void ProgramManager_ProgramListingChanged() {
             DocumentEdited = true;
             lstStepProgram.Invalidate();
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e) {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e) {
-            DocumentEdited = true;
-        }
-
-        private void lstStepProgram_ItemMiddleClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
-            if (ProgramManager.CurrentProgram != null) {
-                lstStepProgram.LineMarkerIndex = Index;
-                ProgramManager.CurrentProgram.ProgramMarker = Index;
-            }
         }
     }
     public enum StreamInputFormat {

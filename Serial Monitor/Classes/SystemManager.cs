@@ -1,22 +1,29 @@
-﻿using System;
+﻿using Handlers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Serial_Monitor.Classes.SerialManager;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();
+
+        public static event ChanneAddedHandler? ChannelAdded;
+        public delegate void ChanneAddedHandler(int RemovedIndex);
+        public static event ChannelRemovedHandler? ChannelRemoved;
+        public delegate void ChannelRemovedHandler(int RemovedIndex);
+
         public static event ModbusReceivedHandler? ModbusReceived;
         public delegate void ModbusReceivedHandler(object Data, int Index, DataSelection DataType);
         public static void RegisterValueChanged(object Data, int Index, DataSelection DataType) {
             ModbusReceived?.Invoke(Data, Index, DataType);
         }
-        public  static void SendModbusCommand(SerialManager ?CurrentManager, DataSelection DataSet, string Command) {
-           
+        public static void SendModbusCommand(SerialManager? CurrentManager, DataSelection DataSet, string Command) {
             if (CurrentManager == null) { return; }
             if (CurrentManager.IsMaster == false) { return; }
             if ((DataSet == DataSelection.ModbusDataCoils) || (DataSet == DataSelection.ModbusDataHoldingRegisters)) {
@@ -48,5 +55,87 @@ namespace Serial_Monitor.Classes {
             DefaultBauds.Add(576000);
             DefaultBauds.Add(921600);
         }
+        public static void SendString(string Channel, string Data) {
+            int SendOn = GetChannelIndex(Channel);
+            SendAtIndex(SendOn, Data);
+        }
+        public static void SendTextFile(string Channel, string FilePath) {
+            int SendOn = GetChannelIndex(Channel);
+            if (File.Exists(FilePath)) {
+                try {
+                    using (StreamReader Sr = new StreamReader(FilePath)) {
+                        if (Sr != null) {
+                            while (Sr.Peek() > -1) {
+                                string item = Sr.ReadLine() ?? "";
+                                SendAtIndex(SendOn, item);
+                            }
+                        }
+                    }
+                }
+                catch { }
+            }
+        }
+        private static void SendAtIndex(int SendOn, string Data) {
+            if (SendOn == -1) {
+                foreach (SerialManager SerMan in SerialManagers) {
+                    SerMan.Post(Data);
+                }
+            }
+            else {
+                try {
+                    SerialManagers[SendOn].Post(Data);
+                }
+                catch { }
+            }
+        }
+        private static int GetChannelIndex(string Channel) {
+            if (Channel.ToLower() == "all") { return -1; }
+            int i = 0;
+            foreach (SerialManager SerMan in SerialManagers) {
+                if (SerMan.Name == Channel) {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+
+        #region Channel Handling
+        public static void AddChannel(string ManagerName, CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+            SerialManager SerMan = new SerialManager();
+            SystemManager.SerialManagers.Add(SerMan);
+            SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
+            SerMan.Name = ManagerName;
+            SerMan.CommandProcessed += SerManager_CommandProcessed;
+            SerMan.DataReceived += SerMan_DataReceived;
+            ChannelAdded?.Invoke(SerialManagers.Count - 1);
+        }
+        public static void RemoveChannel(int ChannelIndex, CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+            if (SerialManagers.Count > 1) {
+                if ((ChannelIndex < SerialManagers.Count) && (ChannelIndex != -1)) {
+                    SerialManagers[ChannelIndex].CommandProcessed -= SerManager_CommandProcessed;
+                    SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
+                    SerialManagers.RemoveAt(ChannelIndex);
+                    ChannelRemoved?.Invoke(ChannelIndex);
+                }
+            }
+        }
+        public static void ClearChannels(CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+            for (int i = SerialManagers.Count - 1; i >= 0; i--) {
+                SerialManagers[i].CleanUp();
+                SerialManagers[i].CommandProcessed -= SerManager_CommandProcessed;
+                SerialManagers[i].DataReceived -= SerMan_DataReceived;
+                SerialManagers.RemoveAt(i);
+            }
+        }
+        public static SerialManager ?GetChannel(int ChannelIndex) {
+            if (SerialManagers.Count > 0) {
+                if ((ChannelIndex < SerialManagers.Count) && (ChannelIndex != -1)) {
+                    return SerialManagers[ChannelIndex];
+                }
+            }
+            return null;
+        }
+        #endregion
     }
 }

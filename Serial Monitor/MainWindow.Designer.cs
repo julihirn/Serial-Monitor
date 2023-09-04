@@ -82,6 +82,16 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.button1 = new ODModules.Button();
             this.navigator1 = new ODModules.Navigator();
+            this.cmChannels = new ODModules.ContextMenu();
+            this.newChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator35 = new System.Windows.Forms.ToolStripSeparator();
+            this.renameChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator36 = new System.Windows.Forms.ToolStripSeparator();
+            this.modbusMasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator37 = new System.Windows.Forms.ToolStripSeparator();
+            this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lstStepProgram = new ODModules.ListControl();
             this.cmStepEditor = new ODModules.ContextMenu();
             this.addCommandToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,6 +149,10 @@
             this.btnZoom100 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnZoom110 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnZoom120 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnZoom150 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnZoom175 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnZoom200 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnZoom300 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMenuTopMost = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuFullScreen = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,6 +258,7 @@
             this.tsMain.SuspendLayout();
             this.pnlRenamePanel.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.cmChannels.SuspendLayout();
             this.cmStepEditor.SuspendLayout();
             this.msMain.SuspendLayout();
             this.pnlStepProgram.SuspendLayout();
@@ -841,7 +856,98 @@
             this.navigator1.Size = new System.Drawing.Size(81, 135);
             this.navigator1.TabIndex = 1;
             this.navigator1.SelectedIndexChanged += new ODModules.Navigator.SelectedIndexChangedHandler(this.navigator1_SelectedIndexChanged);
+            this.navigator1.TabRightClicked += new ODModules.Navigator.TabClickedHandler(this.navigator1_TabRightClicked);
             this.navigator1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.navigator1_MouseClick);
+            // 
+            // cmChannels
+            // 
+            this.cmChannels.ActionSymbolForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.cmChannels.BorderColor = System.Drawing.Color.Black;
+            this.cmChannels.ForeColor = System.Drawing.Color.White;
+            this.cmChannels.InsetShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmChannels.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newChannelToolStripMenuItem,
+            this.removeChannelToolStripMenuItem,
+            this.toolStripSeparator35,
+            this.renameChannelToolStripMenuItem,
+            this.toolStripSeparator36,
+            this.modbusMasterToolStripMenuItem,
+            this.toolStripSeparator37,
+            this.connectToolStripMenuItem,
+            this.disconnectToolStripMenuItem});
+            this.cmChannels.MenuBackColorNorth = System.Drawing.Color.DodgerBlue;
+            this.cmChannels.MenuBackColorSouth = System.Drawing.Color.DodgerBlue;
+            this.cmChannels.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmChannels.Name = "cmChannels";
+            this.cmChannels.SeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.cmChannels.ShowInsetShadow = false;
+            this.cmChannels.ShowItemInsetShadow = false;
+            this.cmChannels.Size = new System.Drawing.Size(181, 176);
+            // 
+            // newChannelToolStripMenuItem
+            // 
+            this.newChannelToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.newChannelToolStripMenuItem.Name = "newChannelToolStripMenuItem";
+            this.newChannelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newChannelToolStripMenuItem.Text = "New Channel";
+            this.newChannelToolStripMenuItem.Click += new System.EventHandler(this.newChannelToolStripMenuItem_Click);
+            // 
+            // removeChannelToolStripMenuItem
+            // 
+            this.removeChannelToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.removeChannelToolStripMenuItem.Name = "removeChannelToolStripMenuItem";
+            this.removeChannelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeChannelToolStripMenuItem.Text = "Remove Channel";
+            this.removeChannelToolStripMenuItem.Click += new System.EventHandler(this.removeChannelToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator35
+            // 
+            this.toolStripSeparator35.Name = "toolStripSeparator35";
+            this.toolStripSeparator35.Size = new System.Drawing.Size(177, 6);
+            // 
+            // renameChannelToolStripMenuItem
+            // 
+            this.renameChannelToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.renameChannelToolStripMenuItem.Name = "renameChannelToolStripMenuItem";
+            this.renameChannelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.renameChannelToolStripMenuItem.Text = "Rename Channel";
+            this.renameChannelToolStripMenuItem.Click += new System.EventHandler(this.renameChannelToolStripMenuItem_Click_1);
+            // 
+            // toolStripSeparator36
+            // 
+            this.toolStripSeparator36.Name = "toolStripSeparator36";
+            this.toolStripSeparator36.Size = new System.Drawing.Size(177, 6);
+            // 
+            // modbusMasterToolStripMenuItem
+            // 
+            this.modbusMasterToolStripMenuItem.CheckOnClick = true;
+            this.modbusMasterToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.modbusMasterToolStripMenuItem.Name = "modbusMasterToolStripMenuItem";
+            this.modbusMasterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modbusMasterToolStripMenuItem.Text = "Modbus Master";
+            this.modbusMasterToolStripMenuItem.Click += new System.EventHandler(this.modbusMasterToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator37
+            // 
+            this.toolStripSeparator37.Name = "toolStripSeparator37";
+            this.toolStripSeparator37.Size = new System.Drawing.Size(177, 6);
+            // 
+            // connectToolStripMenuItem
+            // 
+            this.connectToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.connectToolStripMenuItem.Text = "Connect";
+            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            // 
+            // disconnectToolStripMenuItem
+            // 
+            this.disconnectToolStripMenuItem.Enabled = false;
+            this.disconnectToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
+            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.disconnectToolStripMenuItem.Text = "Disconnect";
+            this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
             // 
             // lstStepProgram
             // 
@@ -1492,7 +1598,11 @@
             this.btnZoom75,
             this.btnZoom100,
             this.btnZoom110,
-            this.btnZoom120});
+            this.btnZoom120,
+            this.btnZoom150,
+            this.btnZoom175,
+            this.btnZoom200,
+            this.btnZoom300});
             this.zoomToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zoomToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
@@ -1538,6 +1648,38 @@
             this.btnZoom120.Size = new System.Drawing.Size(102, 22);
             this.btnZoom120.Text = "120%";
             this.btnZoom120.Click += new System.EventHandler(this.btnZoom120_Click);
+            // 
+            // btnZoom150
+            // 
+            this.btnZoom150.ForeColor = System.Drawing.Color.White;
+            this.btnZoom150.Name = "btnZoom150";
+            this.btnZoom150.Size = new System.Drawing.Size(102, 22);
+            this.btnZoom150.Text = "150%";
+            this.btnZoom150.Click += new System.EventHandler(this.toolStripMenuItem2_Click_1);
+            // 
+            // btnZoom175
+            // 
+            this.btnZoom175.ForeColor = System.Drawing.Color.White;
+            this.btnZoom175.Name = "btnZoom175";
+            this.btnZoom175.Size = new System.Drawing.Size(102, 22);
+            this.btnZoom175.Text = "175%";
+            this.btnZoom175.Click += new System.EventHandler(this.toolStripMenuItem3_Click_1);
+            // 
+            // btnZoom200
+            // 
+            this.btnZoom200.ForeColor = System.Drawing.Color.White;
+            this.btnZoom200.Name = "btnZoom200";
+            this.btnZoom200.Size = new System.Drawing.Size(102, 22);
+            this.btnZoom200.Text = "200%";
+            this.btnZoom200.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            // 
+            // btnZoom300
+            // 
+            this.btnZoom300.ForeColor = System.Drawing.Color.White;
+            this.btnZoom300.Name = "btnZoom300";
+            this.btnZoom300.Size = new System.Drawing.Size(102, 22);
+            this.btnZoom300.Text = "300%";
+            this.btnZoom300.Click += new System.EventHandler(this.btnZoom300_Click);
             // 
             // toolStripSeparator12
             // 
@@ -1588,6 +1730,7 @@
             this.mitChannel.Name = "mitChannel";
             this.mitChannel.Size = new System.Drawing.Size(63, 22);
             this.mitChannel.Text = "&Channel";
+            this.mitChannel.DropDownOpening += new System.EventHandler(this.mitChannel_DropDownOpening);
             // 
             // btnNewChannel
             // 
@@ -2206,6 +2349,7 @@
             // 
             // keyPadToolStripMenuItem
             // 
+            this.keyPadToolStripMenuItem.Enabled = false;
             this.keyPadToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.keyPadToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.keyPadToolStripMenuItem.Name = "keyPadToolStripMenuItem";
@@ -2376,6 +2520,8 @@
             // 
             // thPrograms
             // 
+            this.thPrograms.AddHoverColor = System.Drawing.Color.LimeGreen;
+            this.thPrograms.AllowDragReordering = true;
             this.thPrograms.AllowTabResize = true;
             this.thPrograms.ArrowColor = System.Drawing.Color.DarkGray;
             this.thPrograms.ArrowDisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2621,6 +2767,7 @@
             this.pnlRenamePanel.ResumeLayout(false);
             this.pnlRenamePanel.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.cmChannels.ResumeLayout(false);
             this.cmStepEditor.ResumeLayout(false);
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
@@ -2846,5 +2993,19 @@
         private ToolStripMenuItem btnMenuConnect;
         private ToolStripMenuItem btnMenuDisconnect;
         private ToolStripSeparator toolStripSeparator34;
+        private ToolStripMenuItem btnZoom150;
+        private ToolStripMenuItem btnZoom175;
+        private ToolStripMenuItem btnZoom200;
+        private ToolStripMenuItem btnZoom300;
+        private ODModules.ContextMenu cmChannels;
+        private ToolStripMenuItem newChannelToolStripMenuItem;
+        private ToolStripMenuItem removeChannelToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator35;
+        private ToolStripMenuItem renameChannelToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator36;
+        private ToolStripMenuItem connectToolStripMenuItem;
+        private ToolStripMenuItem disconnectToolStripMenuItem;
+        private ToolStripMenuItem modbusMasterToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator37;
     }
 }

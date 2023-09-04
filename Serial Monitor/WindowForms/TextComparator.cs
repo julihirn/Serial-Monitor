@@ -20,10 +20,12 @@ namespace Serial_Monitor.WindowForms {
 
         private void textBox1_TextChanged(object sender, EventArgs e) {
             txtComparer.CompareFrom = textBox1.Text;
+            Reevaluate();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e) {
             txtComparer.CompareTo = textBox2.Text;
+            Reevaluate();
         }
 
         private void TextComparator_Load(object sender, EventArgs e) {
@@ -66,8 +68,30 @@ namespace Serial_Monitor.WindowForms {
             //
             //kpCommands.BackColorHoverNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             //kpCommands.BackColorHoverSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            lstMonitor.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            lstMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lstMonitor.RowColor = Properties.Settings.Default.THM_COL_RowColor;
+            lstMonitor.GridlineColor = Properties.Settings.Default.THM_COL_GridLineColor;
+            lstMonitor.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
+            lstMonitor.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
+            lstMonitor.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
+            lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            lstMonitor.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            lstMonitor.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
 
-
+        }
+        private void Reevaluate() {
+            try {
+                int MaxLen = txtComparer.MaximumLength + 1;
+                lstMonitor.Items[0][1].Text = txtComparer.CompareFrom.Length.ToString();
+                lstMonitor.Items[1][1].Text = txtComparer.CompareTo.Length.ToString();
+                lstMonitor.Items[2][1].Text = MaxLen.ToString();
+                lstMonitor.Items[3][1].Text = txtComparer.IndexOfFirstMatch.ToString();
+                lstMonitor.Items[4][1].Text = txtComparer.Matches.ToString();
+                lstMonitor.Items[5][1].Text = txtComparer.Mismatches.ToString();
+                lstMonitor.Invalidate();
+            }
+            catch { }
         }
     }
 }

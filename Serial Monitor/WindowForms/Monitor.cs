@@ -111,6 +111,8 @@ namespace Serial_Monitor {
             lstSelector.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
             lstSelector.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
             lstSelector.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            lstSelector.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            lstSelector.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
 
             lstMonitor.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lstMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -120,7 +122,8 @@ namespace Serial_Monitor {
             lstMonitor.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
             lstMonitor.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
             lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
+            lstMonitor.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            lstMonitor.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
             foreach (object obj in tsMain.Items) {
                 if (obj.GetType() == typeof(ToolStripSplitButton)) {
                     ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
