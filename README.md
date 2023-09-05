@@ -38,6 +38,7 @@ Current Development Roadmap:
 * Keypad functions
 * Modbus register editor patch up
 * Undo/redo and editing history
+* Graphing
 
 ## Contributing
 
