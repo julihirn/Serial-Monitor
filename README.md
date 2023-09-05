@@ -5,6 +5,9 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 ## Features
 
 - **Multi-Channel/Multi-Serial Device Control**: Effortlessly manage multiple serial devices or channels from a single interface, streamlining your communication tasks.
+  
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/a50e4828-6dda-436c-9e33-3c400ab7d34c)
+
 
 - **Data Reception and Display Formats**:
   - **Binary/Hexadecimal Stream**: Receive and display data in binary or hexadecimal format, enabling you to visualize raw data as it comes in.
@@ -18,6 +21,8 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
   - **Modbus RTU**: Transmit data using the Modbus RTU protocol, ensuring compatibility with a wide range of industrial devices.
 
 - **Step Commands**: Take precise control over your serial communication by utilizing step commands. This feature allows you to break down complex actions into smaller, manageable steps.
+  
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/d05bd3ec-9ba7-418e-b24f-6063fc3be267)
 
 - **Configuration and Step Program Saving**: The Serial Monitor Project allows you to save your configurations and step programs to files. This ensures that you can quickly replicate setups and program sequences without manual reconfiguration.
 
