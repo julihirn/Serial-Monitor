@@ -170,7 +170,7 @@ namespace Serial_Monitor {
             tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
 
             tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
-            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
+            tsMain.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_SymbolColor;
 
             tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             msMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -358,26 +358,33 @@ namespace Serial_Monitor {
         #region Receiving Data
         private void SerMan_DataReceived(object sender, bool PrintLine, string Data) {
             string SourceName = "";
+            bool PostOutput = true;
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
                 SourceName = SM.Port.PortName;
+                PostOutput = SM.OutputToMasterTerminal;
             }
-            if (PrintLine == true) {
-                Output.Print(SourceName, Data);
-            }
-            else {
-                Output.AttendToLastLine(SourceName, Data, true);
+            if (PostOutput == true) {
+                if (PrintLine == true) {
+                    Output.Print(SourceName, Data);
+                }
+                else {
+                    Output.AttendToLastLine(SourceName, Data, true);
+                }
             }
         }
         private void SerManager_CommandProcessed(object sender, string Data) {
             string SourceName = "";
+            bool PostOutput = true;
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
                 SourceName = SM.Port.PortName;
+                PostOutput = SM.OutputToMasterTerminal;
             }
             CommandProcessed?.Invoke(sender, Data);
-            // Debug.Print(Data);
-            Output.Print(SourceName, Data);
+            if (PostOutput == true) {
+                Output.Print(SourceName, Data);
+            }
         }
         #endregion
         #region Channel Settings
@@ -1088,6 +1095,9 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Channel Settings
+        private void btnMenuOpenNewTerminal_Click(object sender, EventArgs e) {
+            ApplicationManager.OpenSerialTerminal(currentManager, true);
+        }
         private void renameChannelToolStripMenuItem_Click_1(object sender, EventArgs e) {
             TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
             if (TagData == null) { return; }
@@ -1122,9 +1132,10 @@ namespace Serial_Monitor {
             RenameBox.TextChanged += RenameBox_TextChanged;
         }
         private void mitChannel_DropDownOpening(object sender, EventArgs e) {
-            SerialManager? SerMan = SystemManager.GetChannel(navigator1.SelectedItem);
-            if (SerMan != null) {
-                btnMenuModbusMaster.Checked = SerMan.IsMaster;
+            //SerialManager? SerMan = SystemManager.GetChannel(navigator1.SelectedItem);
+            if (currentManager != null) {
+                btnMenuModbusMaster.Checked = currentManager.IsMaster;
+                btnMenuOutputMaster.Checked = currentManager.OutputToMasterTerminal;
             }
         }
         private void modbusMasterToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1141,6 +1152,7 @@ namespace Serial_Monitor {
             if (Tab.SelectedTab.GetType() == typeof(SerialManager)) {
                 SerialManager SerMan = (SerialManager)Tab.SelectedTab;
                 modbusMasterToolStripMenuItem.Checked = SerMan.IsMaster;
+                outputInTerminalToolStripMenuItem.Checked = SerMan.OutputToMasterTerminal;
                 if (SerMan.Port.IsOpen == true) {
                     connectToolStripMenuItem.Enabled = false;
                     disconnectToolStripMenuItem.Enabled = true;
@@ -1151,6 +1163,14 @@ namespace Serial_Monitor {
                 }
             }
             cmChannels.Show(Tab.ScreenLocation);
+        }
+        private void outputInTerminalToolStripMenuItem_Click_1(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    ((SerialManager)TagData.SelectedTab).OutputToMasterTerminal = outputInTerminalToolStripMenuItem.Checked;
+                }
+            }
         }
         private void button1_ButtonClicked(object sender) {
             if (CurrentManager != null) {
@@ -2536,13 +2556,16 @@ namespace Serial_Monitor {
         }
 
 
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e) {
             if (CurrentManager != null) {
                 CurrentManager.IsMaster = btnMenuModbusMaster.Checked;
             }
         }
-
+        private void outputInTerminalToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.OutputToMasterTerminal = btnMenuOutputMaster.Checked;
+            }
+        }
 
 
 
@@ -2593,6 +2616,8 @@ namespace Serial_Monitor {
             DocumentEdited = true;
             lstStepProgram.Invalidate();
         }
+
+       
     }
     public enum StreamInputFormat {
         Text = 0x01,

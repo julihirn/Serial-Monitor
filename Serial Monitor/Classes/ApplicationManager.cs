@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Serial_Monitor.WindowForms;
 
 namespace Serial_Monitor.Classes {
     public class ApplicationManager {
@@ -44,6 +45,19 @@ namespace Serial_Monitor.Classes {
             }
             else {
                 Application.Show();
+            }
+        }
+        public static void OpenSerialTerminal(SerialManager ?Manager, bool BringToFront = true) {
+            if (Manager == null) { return; }
+            string ID = "TERM_" + Manager.ID;
+            if (IsInternalApplicationOpen(ID)) {
+                if (BringToFront == true) { BringInternalApplicationToFront(ID); }
+            }
+            else {
+                Terminal Term = new Terminal(Manager);
+                Term.Name = ID;
+                if (BringToFront == true) { Term.BringToFront(); }
+                Term.Show();
             }
         }
         public static void ReapplyThemeToAll() {

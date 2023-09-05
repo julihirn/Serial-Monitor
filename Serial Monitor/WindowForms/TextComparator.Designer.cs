@@ -58,7 +58,7 @@
             this.txtComparer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtComparer.ForeColor = System.Drawing.Color.White;
             this.txtComparer.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.txtComparer.Location = new System.Drawing.Point(0, 78);
+            this.txtComparer.Location = new System.Drawing.Point(0, 52);
             this.txtComparer.Name = "txtComparer";
             this.txtComparer.Padding = new System.Windows.Forms.Padding(5);
             this.txtComparer.SameColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
@@ -82,9 +82,9 @@
             this.labelPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelPanel1.DropShadow = false;
             this.labelPanel1.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel1.FixedInlineWidth = false;
+            this.labelPanel1.FixedInlineWidth = true;
             this.labelPanel1.ForeColor = System.Drawing.Color.White;
-            this.labelPanel1.Inlinelabel = false;
+            this.labelPanel1.Inlinelabel = true;
             this.labelPanel1.InlineWidth = 100;
             this.labelPanel1.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -92,11 +92,11 @@
             this.labelPanel1.Location = new System.Drawing.Point(0, 0);
             this.labelPanel1.Name = "labelPanel1";
             this.labelPanel1.OverrideCollapseControl = false;
-            this.labelPanel1.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.labelPanel1.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
             this.labelPanel1.PanelCollapsible = false;
             this.labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel1.ShowCloseButton = false;
-            this.labelPanel1.Size = new System.Drawing.Size(315, 39);
+            this.labelPanel1.Size = new System.Drawing.Size(315, 26);
             this.labelPanel1.TabIndex = 1;
             this.labelPanel1.Text = "Compare From";
             // 
@@ -106,9 +106,9 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(5, 18);
+            this.textBox1.Location = new System.Drawing.Point(113, 5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(305, 16);
+            this.textBox1.Size = new System.Drawing.Size(197, 16);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -124,21 +124,21 @@
             this.labelPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelPanel2.DropShadow = false;
             this.labelPanel2.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel2.FixedInlineWidth = false;
+            this.labelPanel2.FixedInlineWidth = true;
             this.labelPanel2.ForeColor = System.Drawing.Color.White;
-            this.labelPanel2.Inlinelabel = false;
+            this.labelPanel2.Inlinelabel = true;
             this.labelPanel2.InlineWidth = 100;
             this.labelPanel2.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelPanel2.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel2.LabelForeColor = System.Drawing.Color.WhiteSmoke;
-            this.labelPanel2.Location = new System.Drawing.Point(0, 39);
+            this.labelPanel2.Location = new System.Drawing.Point(0, 26);
             this.labelPanel2.Name = "labelPanel2";
             this.labelPanel2.OverrideCollapseControl = false;
-            this.labelPanel2.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.labelPanel2.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
             this.labelPanel2.PanelCollapsible = false;
             this.labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel2.ShowCloseButton = false;
-            this.labelPanel2.Size = new System.Drawing.Size(315, 39);
+            this.labelPanel2.Size = new System.Drawing.Size(315, 26);
             this.labelPanel2.TabIndex = 2;
             this.labelPanel2.Text = "Compare To";
             // 
@@ -148,9 +148,9 @@
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(5, 18);
+            this.textBox2.Location = new System.Drawing.Point(113, 5);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(305, 16);
+            this.textBox2.Size = new System.Drawing.Size(197, 16);
             this.textBox2.TabIndex = 0;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
@@ -290,7 +290,7 @@
             this.lstMonitor.Items.Add(listItem5);
             this.lstMonitor.Items.Add(listItem6);
             this.lstMonitor.LineMarkerIndex = 0;
-            this.lstMonitor.Location = new System.Drawing.Point(0, 147);
+            this.lstMonitor.Location = new System.Drawing.Point(0, 121);
             this.lstMonitor.MarkerBorderColor = System.Drawing.Color.LimeGreen;
             this.lstMonitor.MarkerFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(50)))), ((int)(((byte)(205)))), ((int)(((byte)(50)))));
             this.lstMonitor.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -306,7 +306,7 @@
             this.lstMonitor.ShowGrid = false;
             this.lstMonitor.ShowMarker = false;
             this.lstMonitor.ShowRowColors = false;
-            this.lstMonitor.Size = new System.Drawing.Size(315, 167);
+            this.lstMonitor.Size = new System.Drawing.Size(315, 193);
             this.lstMonitor.SpanColumn = 0;
             this.lstMonitor.TabIndex = 3;
             this.lstMonitor.UseLocalList = true;

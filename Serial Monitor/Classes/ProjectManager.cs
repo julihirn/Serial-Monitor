@@ -84,6 +84,7 @@ namespace Serial_Monitor.Classes {
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:InType=" + StringHandler.EncapsulateString(EnumManager.InputFormatToString(Sm.InputFormat).B)));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:OutType=" + StringHandler.EncapsulateString(EnumManager.OutputFormatToString(Sm.OutputFormat).B)));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:ModbusMstr=" + Sm.IsMaster.ToString()));
+                        Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:OutputToMstr=" + Sm.OutputToMasterTerminal.ToString()));
                         Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                         i++;
                     }
@@ -190,6 +191,10 @@ namespace Serial_Monitor.Classes {
                     catch { }
                     try {
                         Sm.IsMaster = DocumentHandler.GetBooleanVariable(Pstrc, "ModbusMstr");
+                    }
+                    catch { }
+                    try {
+                        Sm.OutputToMasterTerminal = DocumentHandler.GetBooleanVariable(Pstrc, "OutputToMstr");
                     }
                     catch { }
 

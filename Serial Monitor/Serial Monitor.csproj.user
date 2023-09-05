@@ -37,10 +37,16 @@
     <Compile Update="WindowForms\Monitor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="WindowForms\Oscilloscope.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="WindowForms\ProgramProperties.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="WindowForms\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WindowForms\Terminal.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="WindowForms\TextComparator.cs">

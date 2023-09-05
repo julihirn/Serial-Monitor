@@ -97,7 +97,7 @@
       }
     },
     "C:\\Users\\Chann\\OneDrive\\Apps\\repos\\Serial Monitor\\Serial Monitor\\Serial Monitor.csproj": {
-      "version": "1.3.126.1",
+      "version": "1.4.132.1",
       "restore": {
         "projectUniqueName": "C:\\Users\\Chann\\OneDrive\\Apps\\repos\\Serial Monitor\\Serial Monitor\\Serial Monitor.csproj",
         "projectName": "Serial Monitor",
@@ -146,6 +146,10 @@
             "System.IO.Ports": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "WinForms.DataVisualization": {
+              "target": "Package",
+              "version": "[1.8.0, )"
             }
           },
           "imports": [

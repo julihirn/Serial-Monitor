@@ -115,6 +115,8 @@ namespace Serial_Monitor.Classes {
                 if ((ChannelIndex < SerialManagers.Count) && (ChannelIndex != -1)) {
                     SerialManagers[ChannelIndex].CommandProcessed -= SerManager_CommandProcessed;
                     SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
+                    ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
+
                     SerialManagers.RemoveAt(ChannelIndex);
                     ChannelRemoved?.Invoke(ChannelIndex);
                 }

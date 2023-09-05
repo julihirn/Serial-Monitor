@@ -15,7 +15,9 @@ namespace Serial_Monitor.Classes {
     public class SerialManager {
         //Thread TrFramer;
         //bool FramerRunning = true;
+
         public SerialManager() {
+            iD = Guid.NewGuid().ToString();
             Port.DataReceived += Port_DataReceived;
             Port.WriteTimeout = 1000;
             //TrFramer = new Thread(Framer);
@@ -33,7 +35,7 @@ namespace Serial_Monitor.Classes {
 
         }
         public void CleanUp() {
-            Array.Clear(coils,0, coils.Length);
+            Array.Clear(coils, 0, coils.Length);
             Array.Clear(discreteInputs, 0, discreteInputs.Length);
             Array.Clear(inputRegisters, 0, inputRegisters.Length);
             Array.Clear(holdingRegisters, 0, holdingRegisters.Length);
@@ -50,6 +52,8 @@ namespace Serial_Monitor.Classes {
             catch { }
 
         }
+        public event NameChangedHandler? NameChanged;
+        public delegate void NameChangedHandler(object sender, string Data);
 
         public event CommandProcessedHandler? CommandProcessed;
         public delegate void CommandProcessedHandler(object sender, string Data);
@@ -72,10 +76,19 @@ namespace Serial_Monitor.Classes {
             }
         }
         #region Properties
+        string iD = "";
+        public string ID {
+            get { return iD; }
+        }
         bool selected = false;
         public bool Selected {
             get { return selected; }
             set { selected = value; }
+        }
+        bool outputToMasterTerminal = true;
+        public bool OutputToMasterTerminal {
+            get { return outputToMasterTerminal; }
+            set { outputToMasterTerminal = value; }
         }
         bool isMaster = false;
         public bool IsMaster {
@@ -93,9 +106,16 @@ namespace Serial_Monitor.Classes {
             set { systemEnabled = value; }
         }
         string name = "Untitled";
+        string nameOld = "Untitled";
         public string Name {
             get { return name; }
-            set { name = value; }
+            set {
+                name = value;
+                if (name != nameOld) {
+                    NameChanged?.Invoke(this, name);
+                    nameOld = value;
+                }
+            }
         }
         long SilenceLength = 29166;
         public int BaudRate {
