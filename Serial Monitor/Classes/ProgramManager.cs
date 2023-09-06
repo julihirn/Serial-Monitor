@@ -398,13 +398,13 @@ namespace Serial_Monitor.Classes {
         public static void Print(ErrorType Severity, string ErrorCode, string Msg) {
             if (MainInstance == null) { return; }
             if (Severity == ErrorType.M_Error) {
-                MainInstance.MethodPrinting("ERROR: " + ErrorCode + " " + Msg, Color.FromArgb(207, 137, 87));
+                MainInstance.MethodPrinting("ERROR: " + ErrorCode + " " + Msg, 1);
             }
             else if (Severity == ErrorType.M_CriticalError) {
-                MainInstance.MethodPrinting("STOP: " + ErrorCode + " " + Msg, Color.FromArgb(207, 137, 87));
+                MainInstance.MethodPrinting("STOP: " + ErrorCode + " " + Msg, 1);
             }
             else if (Severity == ErrorType.M_Warning) {
-                MainInstance.MethodPrinting("WARNING: " + ErrorCode + " " + Msg, Color.FromArgb(215, 191, 107));
+                MainInstance.MethodPrinting("WARNING: " + ErrorCode + " " + Msg, 0);
             }
             else if (Severity == ErrorType.M_Notification) {
                 MainInstance.MethodPrinting(Msg);

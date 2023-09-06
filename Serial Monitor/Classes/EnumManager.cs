@@ -55,6 +55,20 @@ namespace Serial_Monitor.Classes {
             else if (Input == System.IO.Ports.Parity.Space) { return "S"; }
             return "N";
         }
+        public static System.IO.Ports.Handshake StringToHandshake(string Input) {
+            if (Input == "cfNone") { return System.IO.Ports.Handshake.None; }
+            else if (Input == "cfXONXOFF") { return System.IO.Ports.Handshake.XOnXOff; }
+            else if (Input == "cfRTSCTS") { return System.IO.Ports.Handshake.RequestToSend; }
+            else if (Input == "cfDSRSTR") { return System.IO.Ports.Handshake.RequestToSendXOnXOff; }
+            return System.IO.Ports.Handshake.None;
+        }
+        public static string HandshakeToString(System.IO.Ports.Handshake Input) {
+            if (Input == System.IO.Ports.Handshake.None) { return "cfNone"; }
+            else if (Input == System.IO.Ports.Handshake.XOnXOff) { return "cfXONXOFF"; }
+            else if (Input == System.IO.Ports.Handshake.RequestToSend) { return "cfRTSCTS"; }
+            else if (Input == System.IO.Ports.Handshake.RequestToSendXOnXOff) { return "cfDSRSTR"; }
+            return "cfNone";
+        }
         public static StreamInputFormat StringToInputFormat(string Input) {
             if (Input == "frmTxt") {
                 return StreamInputFormat.Text;

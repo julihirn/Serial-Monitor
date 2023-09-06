@@ -105,6 +105,16 @@ namespace Serial_Monitor.Classes {
             SerialManager SerMan = new SerialManager();
             SystemManager.SerialManagers.Add(SerMan);
             SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
+            try {
+                SerMan.Port.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
+            }
+            catch {
+                SerMan.Port.DataBits = 8;
+            }
+            SerMan.Port.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
+            SerMan.Port.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
+            SerMan.InputFormat = EnumManager.StringToInputFormat(Properties.Settings.Default.DEF_STR_InputFormat);
+            SerMan.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
             SerMan.Name = ManagerName;
             SerMan.CommandProcessed += SerManager_CommandProcessed;
             SerMan.DataReceived += SerMan_DataReceived;

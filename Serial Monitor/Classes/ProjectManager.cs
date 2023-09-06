@@ -81,6 +81,7 @@ namespace Serial_Monitor.Classes {
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,int:DataSize=" + Sm.Port.DataBits));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:StopBits=" + StringHandler.EncapsulateString(EnumManager.StopBitsToString(Sm.Port.StopBits))));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Parity=" + StringHandler.EncapsulateString(EnumManager.ParityToString(Sm.Port.Parity))));
+                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:ControlFlow=" + StringHandler.EncapsulateString(EnumManager.HandshakeToString(Sm.Port.Handshake))));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:InType=" + StringHandler.EncapsulateString(EnumManager.InputFormatToString(Sm.InputFormat).B)));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:OutType=" + StringHandler.EncapsulateString(EnumManager.OutputFormatToString(Sm.OutputFormat).B)));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:ModbusMstr=" + Sm.IsMaster.ToString()));
@@ -179,6 +180,10 @@ namespace Serial_Monitor.Classes {
                     catch { }
                     try {
                         Sm.Port.Parity = EnumManager.StringToParity(DocumentHandler.GetStringVariable(Pstrc, "Parity", "N"));
+                    }
+                    catch { }
+                    try {
+                        Sm.Port.Handshake = EnumManager.StringToHandshake(DocumentHandler.GetStringVariable(Pstrc, "ControlFlow", ""));
                     }
                     catch { }
                     try {

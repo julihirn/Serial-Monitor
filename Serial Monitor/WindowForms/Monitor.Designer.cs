@@ -378,6 +378,7 @@
             // 
             this.btnSaveLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnSaveLog.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveLog.Image")));
+            this.btnSaveLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSaveLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveLog.Name = "btnSaveLog";
             this.btnSaveLog.Size = new System.Drawing.Size(23, 22);
@@ -388,6 +389,7 @@
             // 
             this.btnOpenLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOpenLog.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenLog.Image")));
+            this.btnOpenLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpenLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenLog.Name = "btnOpenLog";
             this.btnOpenLog.Size = new System.Drawing.Size(23, 22);
@@ -399,6 +401,7 @@
             this.btnOpenLogLocation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOpenLogLocation.Enabled = false;
             this.btnOpenLogLocation.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenLogLocation.Image")));
+            this.btnOpenLogLocation.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpenLogLocation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenLogLocation.Name = "btnOpenLogLocation";
             this.btnOpenLogLocation.Size = new System.Drawing.Size(23, 22);
@@ -410,6 +413,7 @@
             this.btnOpenExcelDoc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOpenExcelDoc.Enabled = false;
             this.btnOpenExcelDoc.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenExcelDoc.Image")));
+            this.btnOpenExcelDoc.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpenExcelDoc.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenExcelDoc.Name = "btnOpenExcelDoc";
             this.btnOpenExcelDoc.Size = new System.Drawing.Size(23, 22);
@@ -426,6 +430,7 @@
             this.btnStartLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnStartLog.Enabled = false;
             this.btnStartLog.Image = ((System.Drawing.Image)(resources.GetObject("btnStartLog.Image")));
+            this.btnStartLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnStartLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStartLog.Name = "btnStartLog";
             this.btnStartLog.Size = new System.Drawing.Size(23, 22);
@@ -437,6 +442,7 @@
             this.btnStopLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnStopLog.Enabled = false;
             this.btnStopLog.Image = ((System.Drawing.Image)(resources.GetObject("btnStopLog.Image")));
+            this.btnStopLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnStopLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStopLog.Name = "btnStopLog";
             this.btnStopLog.Size = new System.Drawing.Size(23, 22);
@@ -455,6 +461,7 @@
             this.btnOptRegSingleMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnOptRegSingleMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOptRegSingleMode.Image = ((System.Drawing.Image)(resources.GetObject("btnOptRegSingleMode.Image")));
+            this.btnOptRegSingleMode.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOptRegSingleMode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOptRegSingleMode.Name = "btnOptRegSingleMode";
             this.btnOptRegSingleMode.Size = new System.Drawing.Size(23, 22);
@@ -466,6 +473,7 @@
             this.btnOptRegMultiMode.CheckOnClick = true;
             this.btnOptRegMultiMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOptRegMultiMode.Image = ((System.Drawing.Image)(resources.GetObject("btnOptRegMultiMode.Image")));
+            this.btnOptRegMultiMode.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOptRegMultiMode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOptRegMultiMode.Name = "btnOptRegMultiMode";
             this.btnOptRegMultiMode.Size = new System.Drawing.Size(23, 22);
@@ -481,6 +489,7 @@
             // 
             this.btnOnTop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOnTop.Image = ((System.Drawing.Image)(resources.GetObject("btnOnTop.Image")));
+            this.btnOnTop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOnTop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOnTop.Name = "btnOnTop";
             this.btnOnTop.Size = new System.Drawing.Size(23, 22);

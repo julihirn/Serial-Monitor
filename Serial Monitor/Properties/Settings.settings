@@ -83,5 +83,20 @@
     <Setting Name="THM_COL_ButtonChecked" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">70, 70, 70</Value>
     </Setting>
+    <Setting Name="DEF_INT_DataBits" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="DEF_STR_StopBits" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="DEF_STR_ParityBit" Type="System.String" Scope="User">
+      <Value Profile="(Default)">N</Value>
+    </Setting>
+    <Setting Name="DEF_STR_InputFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">frmTxt</Value>
+    </Setting>
+    <Setting Name="DEF_STR_OutputFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">frmTxt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

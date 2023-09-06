@@ -88,6 +88,47 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="msMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>105, 17</value>
+  </metadata>
+  <data name="openToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFUSURBVDhPlZK9SgNBFIXnCcQnkLyA4CPkHayFdBY22mqj
+        paVlxCKCoBaClUQLESNRC4OE4EKQrAbcYBKy62Z/ynHOzUwcMzuyDhzYGc795tw7y2ZXFEVLSZI8p2la
+        kkf5lywO1vZr/MH54LkhwlgQKsZxvC4AfHHjjM+tHOaDiKIKiqDqk0s6rbUJoCDCsy3t5kJh+bJFZrZ8
+        YGhh9ZjgSIeUUgVZPgHot2HfGwbTNu4aTf75UuW+50wVhSMAKwRwugO6aevokYohfQbDzj1/vdj8pffb
+        PfJREpUAEPSOvXoFBdSFBIDgmxIgTr3lEkRPYZMOwDwYDtzrXToATPVp06B9QwB8o4YAipjVr02dqx0T
+        gOHMGm3qNc8nL6EAX33XMP2l8cj7mQEOvMaJYbKpWy/zMAzf6BVE9ADF6CnLnCXMCn8mAUSMEiCYwX/k
+        +/48Y4x9AwxhsnXBwZZBAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="saveToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABzSURBVDhPY/j69WvDt2/f/pODQXoZQIyYCfv+MwTPIQmD
+        9ID0gg3ApoAYjGHAh/cficLD2QBS8SA1AJufkTGyWtoagM5HFwdhmAEfkPMCukJkzcjiIAw24MuXLwbI
+        hqArRNaMLA7CYANAAGYISIA0/O0/AID67ECmnhNDAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnStartLogging.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACRSURBVDhPY/j27dt/SjDYACcnJ7IwigEf3n8kCZNswPNb
+        J/+f6DYF0yA+yQac6Db5f6hWCmwIiE+mC0wIu2DS2Vf/F1x6DefjwlgNyNr34r/0wkdgTMgQDAOQNRNj
+        CIoBOg0rMTTDMLIhIHbriZeYBmDTiIxBGkEYxge5liQDsGGQqykyAISpZwAlmIEywMAAAAc1/Jwvt6sN
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnStopLogging.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACRSURBVDhPY/j27dt/SjDYACcnJ7IwigEf3n8kCZNswPNb
+        J/+f6DYF0yA+yQac6Db5f6hWCmwIiE+mC0wIu2DS2Vf/F1x6DefjwlgNyNr34r/0wkdgTMgQDAOQNRNj
+        CIoBOg0rMTTDMLIhIHbriZeYBmDTiIxBGkEYxge5liQDsGGQqykyAISpZwAlmIEywMAAAAc1/Jwvt6sN
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAgAEBAAAAEAIABoBAAAhgAAABgYAAABACAAiAkAAO4EAAAgIAAAAQAgAKgQAAB2DgAAMDAAAAEA

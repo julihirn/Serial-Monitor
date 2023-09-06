@@ -52,6 +52,7 @@ namespace Serial_Monitor {
                     ddbPorts.Text = value.Port.PortName;
                     SystemRunning(value.Port.IsOpen);
                     btnMenuModbusMaster.Checked = value.IsMaster;
+                    CheckControlFlow(EnumManager.HandshakeToString(value.Port.Handshake));
                 }
             }
         }
@@ -93,14 +94,8 @@ namespace Serial_Monitor {
             LoadProgramOperations();
             RefreshPorts();
             SelectFirstPort();
-            LoadAllBauds();
-            CheckParity(ddbParity.Text);
-            CheckBits(ddbBits.Text);
-            CheckStopBits(ddbStopBits.Text);
-            SystemRunning(false);
-            CheckInputFormat("frmTxt");
-            CheckOutputFormat("frmTxt");
-            SetDefaultStyleValues();
+          
+            LoadDefaults();
             Output.FlashCursor = true;
             navigator1.LinkedList = SystemManager.SerialManagers;
             lstStepProgram.Items.Clear();
@@ -111,6 +106,36 @@ namespace Serial_Monitor {
             SetTitle("Untitled");
             //DetermineTabs();
             DocumentEdited = false;
+        }
+        private void LoadDefaults() {
+            if (currentManager != null) {
+                try {
+                    currentManager.Port.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
+                    ddbBits.Text = Properties.Settings.Default.DEF_INT_DataBits.ToString();
+                }
+                catch {
+                    currentManager.Port.DataBits = 8;
+                    ddbBits.Text = "8";
+                }
+                currentManager.Port.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
+                ddbParity.Text = EnumManager.ParityToString(currentManager.Port.Parity);
+                currentManager.Port.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
+                ddbStopBits.Text = EnumManager.StopBitsToString(currentManager.Port.StopBits);
+                currentManager.InputFormat = EnumManager.StringToInputFormat(Properties.Settings.Default.DEF_STR_InputFormat);
+                ddbInputFormat.Text = EnumManager.InputFormatToString(currentManager.InputFormat, false).A;
+                currentManager.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
+                ddbOutputFormat.Text = EnumManager.OutputFormatToString(currentManager.OutputFormat, false).A;
+                CheckInputFormat(EnumManager.InputFormatToString(currentManager.InputFormat, false).B);
+                CheckOutputFormat(EnumManager.OutputFormatToString(currentManager.OutputFormat, false).B);
+           
+            }
+            LoadAllBauds();
+            CheckParity(ddbParity.Text);
+            CheckBits(ddbBits.Text);
+            CheckStopBits(ddbStopBits.Text);
+            SystemRunning(false);
+       
+            SetDefaultStyleValues();
         }
         #region Theming and Icons
         public void ApplyTheme() {
@@ -481,13 +506,13 @@ namespace Serial_Monitor {
         }
         private void Print(ErrorType Severity, string ErrorCode, string Msg) {
             if (Severity == ErrorType.M_Error) {
-                Output.Print("ERROR: " + ErrorCode + " " + Msg, Color.FromArgb(207, 137, 87));
+                Output.Print("ERROR: " + ErrorCode + " " + Msg, 1);
             }
             else if (Severity == ErrorType.M_CriticalError) {
-                Output.Print("STOP: " + ErrorCode + " " + Msg, Color.FromArgb(207, 137, 87));
+                Output.Print("STOP: " + ErrorCode + " " + Msg, 1);
             }
             else if (Severity == ErrorType.M_Warning) {
-                Output.Print("WARNING: " + ErrorCode + " " + Msg, Color.FromArgb(215, 191, 107));
+                Output.Print("WARNING: " + ErrorCode + " " + Msg, 0);
             }
             else if (Severity == ErrorType.M_Notification) {
                 Output.Print(Msg);
@@ -651,7 +676,10 @@ namespace Serial_Monitor {
                 LoadBAUDRate(i);
             }
             CheckBaudRate(Properties.Settings.Default.DEF_INT_BaudRate);
-            ddbBAUDRate.Text = Properties.Settings.Default.DEF_INT_BaudRate.ToString();
+            if (currentManager != null){
+                currentManager.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
+                ddbBAUDRate.Text = Properties.Settings.Default.DEF_INT_BaudRate.ToString();
+            }
         }
         private void LoadBAUDRate(int Rate) {
             ToolStripMenuItem BaudRateBtn = new ToolStripMenuItem();
@@ -865,6 +893,38 @@ namespace Serial_Monitor {
         }
 
         #endregion
+        #region Control Flow Settings
+        private void SetControlFlow(Handshake HandShake) {
+            if (CurrentManager != null) {
+                CurrentManager.Port.Handshake = HandShake;
+            }
+            CheckControlFlow(EnumManager.HandshakeToString(HandShake));
+            DocumentEdited = true;
+        }
+        private void CheckControlFlow(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelFlowCtrl.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        private void noneToolStripMenuItem_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.None);
+        }
+        private void xONXOFFToolStripMenuItem_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.XOnXOff);
+        }
+        private void btnChannelFlowRTSCTS_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.RequestToSend);
+        }
+        private void btnChannelFlowDSRDTR_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.RequestToSendXOnXOff);
+        }
+        #endregion
+
         private void Output_CommandEntered(object sender, CommandEnteredEventArgs e) {
             try {
                 if (CurrentManager != null) {
@@ -1095,6 +1155,10 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Channel Settings
+        private void resetCountersToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (currentManager == null) { return; }
+            currentManager.ResetCounters();
+        }
         private void btnMenuOpenNewTerminal_Click(object sender, EventArgs e) {
             ApplicationManager.OpenSerialTerminal(currentManager, true);
         }
@@ -1996,6 +2060,11 @@ namespace Serial_Monitor {
                 this.Output.Print(Input, DisplayColor);
             }));
         }
+        public void MethodPrinting(string Input, int DisplayColorIndex) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.Output.Print(Input, DisplayColorIndex);
+            }));
+        }
         public void MethodClearing() {
             this.BeginInvoke(new MethodInvoker(delegate {
                 this.Output.Clear();
@@ -2616,8 +2685,7 @@ namespace Serial_Monitor {
             DocumentEdited = true;
             lstStepProgram.Invalidate();
         }
-
-       
+        
     }
     public enum StreamInputFormat {
         Text = 0x01,

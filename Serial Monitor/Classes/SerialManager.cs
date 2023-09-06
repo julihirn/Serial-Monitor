@@ -167,6 +167,12 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Reporting
+        public void ResetCounters() {
+            commandsSent = 0;
+            commandsReceived = 0;
+            bytesReceived = 0;
+            bytesSent = 0;
+        }
         ulong commandsSent = 0;
         public ulong CommandsSent {
             get { return commandsSent; }

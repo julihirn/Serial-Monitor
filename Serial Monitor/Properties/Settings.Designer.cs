@@ -345,5 +345,65 @@ namespace Serial_Monitor.Properties {
                 this["THM_COL_ButtonChecked"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public int DEF_INT_DataBits {
+            get {
+                return ((int)(this["DEF_INT_DataBits"]));
+            }
+            set {
+                this["DEF_INT_DataBits"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string DEF_STR_StopBits {
+            get {
+                return ((string)(this["DEF_STR_StopBits"]));
+            }
+            set {
+                this["DEF_STR_StopBits"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("N")]
+        public string DEF_STR_ParityBit {
+            get {
+                return ((string)(this["DEF_STR_ParityBit"]));
+            }
+            set {
+                this["DEF_STR_ParityBit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("frmTxt")]
+        public string DEF_STR_InputFormat {
+            get {
+                return ((string)(this["DEF_STR_InputFormat"]));
+            }
+            set {
+                this["DEF_STR_InputFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("frmTxt")]
+        public string DEF_STR_OutputFormat {
+            get {
+                return ((string)(this["DEF_STR_OutputFormat"]));
+            }
+            set {
+                this["DEF_STR_OutputFormat"] = value;
+            }
+        }
     }
 }
