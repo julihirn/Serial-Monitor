@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qAzfoSEKLGQamEnJmpEQOjO4dDMdHq5H7MoQcn4QiGU3/4d+VrNYjz/7QPLwz3vC/xeLT4r8u0iWTVbK0JIhrw==",
+  "dgSpecHash": "Z7JV8eBnh1cB1gtYwRUUmTZrh8wC+eTJXJRJTQWRifkwQYpRllhV/gKoWUQ0Ugx+LuUJCFWBh3ISifJiZcYrrw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Chann\\OneDrive\\Apps\\repos\\Serial Monitor\\Serial Monitor\\Serial Monitor.csproj",
   "expectedPackageFiles": [
@@ -10,7 +10,9 @@
     "C:\\Users\\Chann\\.nuget\\packages\\runtime.native.system.io.ports\\7.0.0\\runtime.native.system.io.ports.7.0.0.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\runtime.osx-arm64.runtime.native.system.io.ports\\7.0.0\\runtime.osx-arm64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\7.0.0\\runtime.osx-x64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\Chann\\.nuget\\packages\\system.codedom\\7.0.0\\system.codedom.7.0.0.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\system.io.ports\\7.0.0\\system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\Chann\\.nuget\\packages\\system.management\\7.0.2\\system.management.7.0.2.nupkg.sha512",
     "C:\\Users\\Chann\\.nuget\\packages\\winforms.datavisualization\\1.8.0\\winforms.datavisualization.1.8.0.nupkg.sha512"
   ],
   "logs": []

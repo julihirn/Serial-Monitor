@@ -63,6 +63,9 @@
             this.numericTextbox1.LabelForeColor = System.Drawing.Color.Gray;
             this.numericTextbox1.LabelText = "";
             this.numericTextbox1.Location = new System.Drawing.Point(3, 0);
+            this.numericTextbox1.Marked = false;
+            this.numericTextbox1.MarkedBackColor = System.Drawing.Color.Empty;
+            this.numericTextbox1.MarkedBorderColor = System.Drawing.Color.Beige;
             numericalString1.DisplayValue = "100";
             numericalString1.Value = "100";
             this.numericTextbox1.Maximum = numericalString1;
@@ -70,6 +73,7 @@
             numericalString2.Value = "0";
             this.numericTextbox1.Minimum = numericalString2;
             this.numericTextbox1.Name = "numericTextbox1";
+            this.numericTextbox1.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
             this.numericTextbox1.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
             this.numericTextbox1.NumericalLeftRadixDigitsMaximum = 7;
             this.numericTextbox1.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
@@ -177,7 +181,7 @@
             this.DoubleBuffered = true;
             this.Name = "EditValue";
             this.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.Size = new System.Drawing.Size(271, 157);
+            this.Size = new System.Drawing.Size(271, 109);
             this.Load += new System.EventHandler(this.EditValue_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditValue_KeyDown);
             this.Leave += new System.EventHandler(this.EditValue_Leave);

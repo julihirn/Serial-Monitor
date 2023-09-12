@@ -113,6 +113,7 @@ namespace Serial_Monitor.Classes {
                 name = value;
                 if (name != nameOld) {
                     NameChanged?.Invoke(this, name);
+                    SystemManager.InvokeChannelRename();
                     nameOld = value;
                 }
             }
@@ -127,6 +128,19 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     Port.BaudRate = value;
                     SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
+                }
+            }
+        }
+        public string PortName {
+            get {
+                if (Port != null) { return Port.PortName; }
+                return "COM1";
+            }
+            set {
+                if (Port != null) {
+                    Port.PortName = value;
+                    NameChanged?.Invoke(this, name);
+                    SystemManager.InvokeChannelRename();
                 }
             }
         }

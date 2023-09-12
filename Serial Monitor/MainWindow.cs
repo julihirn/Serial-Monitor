@@ -1,21 +1,15 @@
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
+
 using System.IO.Ports;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows.Forms;
 using Handlers;
 using ODModules;
 using Serial_Monitor.Classes;
 using Svg;
 using static System.Windows.Forms.LinkLabel;
 using Serial_Monitor.Classes.Step_Programs;
-using System.Runtime.ConstrainedExecution;
 using Serial_Monitor.Interfaces;
-using System.DirectoryServices.ActiveDirectory;
+using System.Management;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -578,22 +572,36 @@ namespace Serial_Monitor {
                 }
             }
         }
+        private List<StringPair> GetSerialPort() {
+            var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
+            List<StringPair> Results = new List<StringPair>();
+            foreach (ManagementObject result in searcher.Get()) {
+                StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ??"");
+                Results.Add(Sp);
+            }
+            return Results;
+        }
         private void RefreshPorts() {
             CleanHandlers();
-            string[] ports = SerialPort.GetPortNames();
-            Array.Sort(ports, StringComparer.CurrentCultureIgnoreCase);
-            foreach (string port in ports) {
-                if (ItemExists(port) == false) {
+            GetSerialPort();
+            //string[] ports = SerialPort.GetPortNames();
+            List<StringPair> ports = GetSerialPort();
+            //Array.Sort(ports, StringComparer.OrdinalIgnoreCase);
+            //string[] Ports = ports.OrderBy(x => x.Length).ThenBy(x => x).ToArray();
+            List<StringPair> Ports = ports.OrderBy(x => x.A.Length).ThenBy(x => x.A).ToList();
+            foreach (StringPair port in Ports) {
+                if (ItemExists(port.A) == false) {
                     ToolStripMenuItem Itm = new ToolStripMenuItem();
-                    Itm.Text = port;
-                    Itm.Tag = port;
+                    Itm.Text = port.A;
+                    Itm.Tag = port.A;
+                    Itm.ToolTipText = port.B;
                     Itm.ImageScaling = ToolStripItemImageScaling.None;
                     Itm.CheckOnClick = true;
                     Itm.Click += Itm_Click;
                     ddbPorts.DropDownItems.Add(Itm);
                     ToolStripMenuItem Itm2 = new ToolStripMenuItem();
-                    Itm2.Text = port;
-                    Itm2.Tag = port;
+                    Itm2.Text = port.A;
+                    Itm2.Tag = port.A;
                     Itm2.ImageScaling = ToolStripItemImageScaling.None;
                     Itm2.CheckOnClick = true;
                     Itm2.Click += Itm_Click;
@@ -618,7 +626,7 @@ namespace Serial_Monitor {
             foreach (object Item in ddbPorts.DropDownItems) {
                 if (Item.GetType() == typeof(ToolStripMenuItem)) {
                     if (((ToolStripMenuItem)Item).Tag != null) {
-                        if (((ToolStripMenuItem)Item).Text == Name) {
+                        if (((ToolStripMenuItem)Item).Tag.ToString() == Name) {
                             return true;
                         }
                     }
@@ -629,11 +637,13 @@ namespace Serial_Monitor {
         private void Itm_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                string SelectedPort = "COM1";
                 if (CurrentManager != null) {
                     ddbPorts.Text = ((ToolStripMenuItem)sender).Text;
-                    CurrentManager.Port.PortName = ddbPorts.Text;
+                    SelectedPort = ((ToolStripMenuItem)sender).Tag.ToString() ?? "COM1";
+                    CurrentManager.PortName = SelectedPort;
                 }
-                CheckPort(ddbPorts.Text);
+                CheckPort(SelectedPort);
                 navigator1.Invalidate();
                 DocumentEdited = true;
             }
@@ -645,7 +655,7 @@ namespace Serial_Monitor {
             if (ddbPorts.DropDownItems.Count > 0) {
                 if (CurrentManager != null) {
                     ddbPorts.Text = ddbPorts.DropDownItems[0].Text;
-                    CurrentManager.Port.PortName = ddbPorts.Text;
+                    CurrentManager.PortName = ddbPorts.Text;
                 }
                 CheckPort(ddbPorts.Text);
             }
@@ -2096,7 +2106,7 @@ namespace Serial_Monitor {
 
         private void SetPort(SerialManager? SerMan, string Arguments) {
             try {
-                SystemManager.SerialManagers[ProgramManager.Program_CurrentManager].Port.PortName = Arguments;
+                SystemManager.SerialManagers[ProgramManager.Program_CurrentManager].PortName = Arguments;
             }
             catch {
                 Print(ErrorType.M_Error, "COM_PSET", "'" + Arguments + "' is already in use or is an unrecognized port name");
@@ -2685,7 +2695,18 @@ namespace Serial_Monitor {
             DocumentEdited = true;
             lstStepProgram.Invalidate();
         }
-        
+
+        private void deviceManagerToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                Process proc = new Process();
+                proc.StartInfo.FileName = "mmc.exe";
+                proc.StartInfo.Arguments = "devmgmt.msc";
+                proc.StartInfo.UseShellExecute = true;
+                proc.StartInfo.Verb = "runas";
+                proc.Start();
+            }
+            catch { }
+        }
     }
     public enum StreamInputFormat {
         Text = 0x01,

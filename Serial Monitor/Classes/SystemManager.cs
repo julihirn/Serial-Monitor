@@ -13,13 +13,19 @@ namespace Serial_Monitor.Classes {
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();
 
-        public static event ChanneAddedHandler? ChannelAdded;
-        public delegate void ChanneAddedHandler(int RemovedIndex);
+        public static event ChannelAddedHandler? ChannelAdded;
+        public delegate void ChannelAddedHandler(int RemovedIndex);
         public static event ChannelRemovedHandler? ChannelRemoved;
         public delegate void ChannelRemovedHandler(int RemovedIndex);
+        public static event ChannelRenamedHandler? ChannelRenamed;
+        public delegate void ChannelRenamedHandler();
 
         public static event ModbusReceivedHandler? ModbusReceived;
         public delegate void ModbusReceivedHandler(object Data, int Index, DataSelection DataType);
+
+        public static void InvokeChannelRename() {
+            ChannelRenamed?.Invoke();
+        }
         public static void RegisterValueChanged(object Data, int Index, DataSelection DataType) {
             ModbusReceived?.Invoke(Data, Index, DataType);
         }

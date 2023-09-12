@@ -30,6 +30,7 @@ namespace Serial_Monitor {
             AddIcons();
             SystemManager.ChannelAdded += SystemManager_ChannelAdded;
             SystemManager.ChannelRemoved += SystemManager_ChannelRemoved;
+            SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             navigator1.LinkedList = SystemManager.SerialManagers;
             navigator1.SelectedItem = 0;
@@ -43,6 +44,11 @@ namespace Serial_Monitor {
             }
             LoadRegisters();
             lstMonitor.ScaleColumnWidths();
+        }
+
+        private void SystemManager_ChannelRenamed() {
+            navigator1.Invalidate();
+
         }
         #region Theme
         public void ApplyTheme() {
@@ -109,7 +115,7 @@ namespace Serial_Monitor {
             lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lstMonitor.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
             lstMonitor.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
-        
+
             foreach (object obj in tsMain.Items) {
                 if (obj.GetType() == typeof(ToolStripSplitButton)) {
                     ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -143,6 +149,9 @@ namespace Serial_Monitor {
         private void SystemManager_ChannelRemoved(int RemovedIndex) {
             if (navigator1.SelectedItem >= navigator1.ItemCount) {
                 navigator1.SelectedItem -= 1;
+            }
+            else {
+                navigator1.Invalidate();
             }
         }
         private void ChangeLockedIcon(bool Input) {
@@ -253,6 +262,9 @@ namespace Serial_Monitor {
         }
 
         private void ModbusRegisters_FormClosing(object sender, FormClosingEventArgs e) {
+            SystemManager.ChannelAdded -= SystemManager_ChannelAdded;
+            SystemManager.ChannelRemoved -= SystemManager_ChannelRemoved;
+            SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
         }
         private void SystemManager_ModbusReceived(object Data, int Index, DataSelection DataType) {
@@ -298,7 +310,7 @@ namespace Serial_Monitor {
             if (LstItem == null) { return; }
             if (e.Column == 1) {
                 EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Label, LstItem.SubItems[0].Text, lstMonitor, LstItem, null, LstItem.Tag, false);
-              
+
                 EdVal.Sz = e.ItemSize;
                 EdVal.Location = e.ScreenLocation;
                 EdVal.Show();

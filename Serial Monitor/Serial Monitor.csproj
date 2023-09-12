@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.8.0" />
   </ItemGroup>
 
