@@ -324,6 +324,7 @@
             this.btnOpenLogLocation.Name = "btnOpenLogLocation";
             this.btnOpenLogLocation.Size = new System.Drawing.Size(190, 22);
             this.btnOpenLogLocation.Text = "Open &Log Location";
+            this.btnOpenLogLocation.Click += new System.EventHandler(this.btnOpenLogLocation_Click);
             // 
             // toolStripSeparator5
             // 

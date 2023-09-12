@@ -102,8 +102,8 @@ namespace Serial_Monitor.WindowForms {
         }
         private void PushToBuffer(string Data) {
             string Output = ""; DateTime Now = DateTime.Now;
-            Output += StringHandler.EncapsulateString(Now.ToString("dd/MM/yyyy")) + ", ";
-            Output += StringHandler.EncapsulateString(Now.ToString("HH:mm:ss")) + ", ";
+            Output += StringHandler.EncapsulateString(Now.ToString("dd/MM/yyyy")) + ",";
+            Output += StringHandler.EncapsulateString(Now.ToString("HH:mm:ss")) + ",";
             Output += StringHandler.EncapsulateString(Data);
             if (WriteToFirst == true) {
                 FirstBuffer.Add(Output);
@@ -494,7 +494,7 @@ namespace Serial_Monitor.WindowForms {
                 try {
                     using (StreamWriter Sw = new StreamWriter(LogFile, true)) {
                         if (WriteToFirst == true) {
-                            Debug.Print("A");
+                            //Debug.Print("A");
                             //Read from second
                             if (SecondBuffer.Count > 0) {
                                 for (int i = 0; i < SecondBuffer.Count; i++) {
@@ -505,7 +505,7 @@ namespace Serial_Monitor.WindowForms {
                             WriteToFirst = false;
                         }
                         else {
-                            Debug.Print("B");
+                            //Debug.Print("B");
                             if (FirstBuffer.Count > 0) {
                                 for (int i = 0; i < FirstBuffer.Count; i++) {
                                     Sw.WriteLine(FirstBuffer[i]); LogSize++;
@@ -526,5 +526,13 @@ namespace Serial_Monitor.WindowForms {
             }
         }
         #endregion
+
+        private void btnOpenLogLocation_Click(object sender, EventArgs e) {
+            if (!File.Exists(LogFile)) {
+                return;
+            }
+            string argument = "/select, \"" + LogFile + "\"";
+            System.Diagnostics.Process.Start("explorer.exe", argument);
+        }
     }
 }

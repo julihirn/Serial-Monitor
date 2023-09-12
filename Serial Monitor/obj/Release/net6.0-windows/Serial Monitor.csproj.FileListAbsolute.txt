@@ -45,3 +45,10 @@ C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.WindowForms.TextComparator.resources
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.Components.EditValue.resources
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.WindowForms.KeypadButtonProperties.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Release\net6.0-windows\System.CodeDom.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Release\net6.0-windows\System.Management.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Release\net6.0-windows\WinForms.DataVisualization.Utilities.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Release\net6.0-windows\WinForms.DataVisualization.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Release\net6.0-windows\runtimes\win\lib\net6.0\System.Management.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.WindowForms.Oscilloscope.resources
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Release\net6.0-windows\Serial_Monitor.WindowForms.Terminal.resources
