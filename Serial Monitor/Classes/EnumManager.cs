@@ -138,5 +138,41 @@ namespace Serial_Monitor.Classes {
             }
             return new StringPair("Text", "frmTxt");
         }
+        public static LineFormatting StringToLineFormatting(string Input) {
+            if (Input == "frmLineNone") {
+                return LineFormatting.None;
+            }
+            else if (Input == "btnOptFrmLineLF") {
+                return LineFormatting.LF;
+            }
+            else if (Input == "frmLineCRLF") {
+                return LineFormatting.CRLF;
+            }
+            else if (Input == "frmLineCR") {
+                return LineFormatting.CR;
+            }
+            return LineFormatting.None;
+        }
+        public static string LineFormattingToString(LineFormatting Input) {
+            if (Input == LineFormatting.None) {
+                return "frmLineNone";
+            }
+            else if (Input == LineFormatting.LF) {
+                return "frmLineLF";
+            }
+            else if (Input == LineFormatting.CRLF) {
+                return "frmLineCRLF";
+            }
+            else if (Input == LineFormatting.CR) {
+                return "frmLineCR";
+            }
+            return "frmLineNone";
+        }
+    }
+    public enum LineFormatting {
+        None = 0x00,
+        LF = 0x01,
+        CR = 0x02,
+        CRLF = 0x03
     }
 }

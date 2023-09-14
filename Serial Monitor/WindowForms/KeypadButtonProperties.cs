@@ -76,6 +76,12 @@ namespace Serial_Monitor.WindowForms {
             keypad1.BorderColorNorth = Properties.Settings.Default.THM_COL_BorderColor;
             keypad1.BorderColorSouth = Properties.Settings.Default.THM_COL_BorderColor;
 
+            keypad1.BackColorMarkedNorth = Properties.Settings.Default.THM_COL_SelectedColor;
+            keypad1.BackColorMarkedSouth = Properties.Settings.Default.THM_COL_SelectedColor;
+
+            keypad1.BorderColorMarkedNorth = Properties.Settings.Default.THM_COL_BorderColor;
+            keypad1.BorderColorMarkedSouth = Properties.Settings.Default.THM_COL_BorderColor;
+
             keypad1.BackColorHoverNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             keypad1.BackColorHoverSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
         }
@@ -92,7 +98,7 @@ namespace Serial_Monitor.WindowForms {
             if (AllowEditing == false) { return; }
             command = textBox2.Text;
         }
-        private void keypad1_ButtonClicked(object Sender, KeypadButton Button, Point GridLocation) {
+        private void keypad1_ButtonClicked(object Sender, KeypadButton Button, Point GridLocation, int Index) {
             int CmdType = 0;
             int.TryParse(Button.Command, out CmdType);
             commandType = (Classes.Button_Commands.CommandType)CmdType;

@@ -166,12 +166,19 @@
             this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMenuOutputMaster = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuModbusMaster = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMenuTextFormat = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOptFrmLineNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOptFrmLineLF = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOptFrmLineCRLF = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOptFrmLineCR = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator38 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMenuOpenNewTerminal = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMenuConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuDisconnect = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator34 = new System.Windows.Forms.ToolStripSeparator();
+            this.propertiesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator41 = new System.Windows.Forms.ToolStripSeparator();
             this.btnChannelPort = new System.Windows.Forms.ToolStripMenuItem();
             this.btnChannelBaud = new System.Windows.Forms.ToolStripMenuItem();
             this.btnChannelDataBits = new System.Windows.Forms.ToolStripMenuItem();
@@ -259,6 +266,11 @@
             this.lblTxBytes = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblRxBytes = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cRLFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmPrograms = new ODModules.ContextMenu();
             this.cmRunProgram = new System.Windows.Forms.ToolStripMenuItem();
             this.cmbtnSetAsActive = new System.Windows.Forms.ToolStripMenuItem();
@@ -1747,12 +1759,15 @@
             this.toolStripSeparator28,
             this.btnMenuOutputMaster,
             this.btnMenuModbusMaster,
+            this.btnMenuTextFormat,
             this.toolStripSeparator38,
             this.btnMenuOpenNewTerminal,
             this.toolStripSeparator23,
             this.btnMenuConnect,
             this.btnMenuDisconnect,
             this.toolStripSeparator34,
+            this.propertiesToolStripMenuItem1,
+            this.toolStripSeparator41,
             this.btnChannelPort,
             this.btnChannelBaud,
             this.btnChannelDataBits,
@@ -1842,6 +1857,61 @@
             this.btnMenuModbusMaster.Text = "&Modbus Master";
             this.btnMenuModbusMaster.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // btnMenuTextFormat
+            // 
+            this.btnMenuTextFormat.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnOptFrmLineNone,
+            this.btnOptFrmLineLF,
+            this.btnOptFrmLineCRLF,
+            this.btnOptFrmLineCR});
+            this.btnMenuTextFormat.ForeColor = System.Drawing.Color.White;
+            this.btnMenuTextFormat.Name = "btnMenuTextFormat";
+            this.btnMenuTextFormat.Size = new System.Drawing.Size(239, 22);
+            this.btnMenuTextFormat.Text = "Text Formatting";
+            // 
+            // btnOptFrmLineNone
+            // 
+            this.btnOptFrmLineNone.AutoToolTip = true;
+            this.btnOptFrmLineNone.Checked = true;
+            this.btnOptFrmLineNone.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.btnOptFrmLineNone.ForeColor = System.Drawing.Color.White;
+            this.btnOptFrmLineNone.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnOptFrmLineNone.Name = "btnOptFrmLineNone";
+            this.btnOptFrmLineNone.Size = new System.Drawing.Size(104, 22);
+            this.btnOptFrmLineNone.Tag = "frmLineNone";
+            this.btnOptFrmLineNone.Text = "None";
+            this.btnOptFrmLineNone.Click += new System.EventHandler(this.btnOptFrmLineNone_Click);
+            // 
+            // btnOptFrmLineLF
+            // 
+            this.btnOptFrmLineLF.ForeColor = System.Drawing.Color.White;
+            this.btnOptFrmLineLF.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnOptFrmLineLF.Name = "btnOptFrmLineLF";
+            this.btnOptFrmLineLF.Size = new System.Drawing.Size(104, 22);
+            this.btnOptFrmLineLF.Tag = "frmLineLF";
+            this.btnOptFrmLineLF.Text = "LF";
+            this.btnOptFrmLineLF.Click += new System.EventHandler(this.btnOptFrmLineLF_Click);
+            // 
+            // btnOptFrmLineCRLF
+            // 
+            this.btnOptFrmLineCRLF.ForeColor = System.Drawing.Color.White;
+            this.btnOptFrmLineCRLF.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnOptFrmLineCRLF.Name = "btnOptFrmLineCRLF";
+            this.btnOptFrmLineCRLF.Size = new System.Drawing.Size(104, 22);
+            this.btnOptFrmLineCRLF.Tag = "frmLineCRLF";
+            this.btnOptFrmLineCRLF.Text = "CR LF";
+            this.btnOptFrmLineCRLF.Click += new System.EventHandler(this.btnOptFrmLineCRLF_Click);
+            // 
+            // btnOptFrmLineCR
+            // 
+            this.btnOptFrmLineCR.ForeColor = System.Drawing.Color.White;
+            this.btnOptFrmLineCR.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnOptFrmLineCR.Name = "btnOptFrmLineCR";
+            this.btnOptFrmLineCR.Size = new System.Drawing.Size(104, 22);
+            this.btnOptFrmLineCR.Tag = "frmLineCR";
+            this.btnOptFrmLineCR.Text = "CR";
+            this.btnOptFrmLineCR.Click += new System.EventHandler(this.btnOptFrmLineCR_Click);
+            // 
             // toolStripSeparator38
             // 
             this.toolStripSeparator38.Name = "toolStripSeparator38";
@@ -1886,6 +1956,20 @@
             // 
             this.toolStripSeparator34.Name = "toolStripSeparator34";
             this.toolStripSeparator34.Size = new System.Drawing.Size(236, 6);
+            // 
+            // propertiesToolStripMenuItem1
+            // 
+            this.propertiesToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
+            this.propertiesToolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.propertiesToolStripMenuItem1.Name = "propertiesToolStripMenuItem1";
+            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.propertiesToolStripMenuItem1.Text = "Properties";
+            this.propertiesToolStripMenuItem1.Click += new System.EventHandler(this.propertiesToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator41
+            // 
+            this.toolStripSeparator41.Name = "toolStripSeparator41";
+            this.toolStripSeparator41.Size = new System.Drawing.Size(236, 6);
             // 
             // btnChannelPort
             // 
@@ -2492,10 +2576,10 @@
             // 
             // keyPadToolStripMenuItem
             // 
-            this.keyPadToolStripMenuItem.Enabled = false;
             this.keyPadToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.keyPadToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.keyPadToolStripMenuItem.Name = "keyPadToolStripMenuItem";
+            this.keyPadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
             this.keyPadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.keyPadToolStripMenuItem.Text = "&Keypad";
             this.keyPadToolStripMenuItem.Click += new System.EventHandler(this.keyPadToolStripMenuItem_Click);
@@ -2774,19 +2858,35 @@
             // 
             // smMain
             // 
+            this.smMain.BackColorNorth = System.Drawing.Color.DodgerBlue;
+            this.smMain.BackColorNorthFadeIn = System.Drawing.Color.DodgerBlue;
+            this.smMain.BackColorSouth = System.Drawing.Color.DodgerBlue;
             this.smMain.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.smMain.ItemForeColor = System.Drawing.Color.Black;
             this.smMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.lblTxBytes,
             this.toolStripStatusLabel3,
-            this.lblRxBytes});
+            this.lblRxBytes,
+            this.toolStripDropDownButton1});
+            this.smMain.ItemSelectedBackColorNorth = System.Drawing.Color.White;
+            this.smMain.ItemSelectedBackColorSouth = System.Drawing.Color.White;
+            this.smMain.ItemSelectedForeColor = System.Drawing.Color.Black;
+            this.smMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.smMain.Location = new System.Drawing.Point(0, 361);
+            this.smMain.MenuBackColorNorth = System.Drawing.Color.Gray;
+            this.smMain.MenuBackColorSouth = System.Drawing.Color.Silver;
+            this.smMain.MenuBorderColor = System.Drawing.Color.WhiteSmoke;
             this.smMain.MenuSeparatorColor = System.Drawing.Color.WhiteSmoke;
+            this.smMain.MenuSymbolColor = System.Drawing.Color.WhiteSmoke;
             this.smMain.Name = "smMain";
             this.smMain.Size = new System.Drawing.Size(607, 22);
             this.smMain.SizingGrip = false;
+            this.smMain.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
+            this.smMain.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.smMain.TabIndex = 4;
-            this.smMain.Text = "statusMenu1";
+            this.smMain.Text = "Status Menu";
+            this.smMain.UseNorthFadeIn = false;
             // 
             // toolStripStatusLabel1
             // 
@@ -2815,6 +2915,52 @@
             this.lblRxBytes.Name = "lblRxBytes";
             this.lblRxBytes.Size = new System.Drawing.Size(13, 17);
             this.lblRxBytes.Text = "0";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noneToolStripMenuItem,
+            this.lFToolStripMenuItem,
+            this.cRLFToolStripMenuItem,
+            this.cRToolStripMenuItem});
+            this.toolStripDropDownButton1.ForeColor = System.Drawing.Color.White;
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(49, 20);
+            this.toolStripDropDownButton1.Text = "None";
+            this.toolStripDropDownButton1.Visible = false;
+            // 
+            // noneToolStripMenuItem
+            // 
+            this.noneToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
+            this.noneToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.noneToolStripMenuItem.Text = "None";
+            // 
+            // lFToolStripMenuItem
+            // 
+            this.lFToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.lFToolStripMenuItem.Name = "lFToolStripMenuItem";
+            this.lFToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.lFToolStripMenuItem.Text = "LF";
+            // 
+            // cRLFToolStripMenuItem
+            // 
+            this.cRLFToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.cRLFToolStripMenuItem.Name = "cRLFToolStripMenuItem";
+            this.cRLFToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.cRLFToolStripMenuItem.Text = "CR LF";
+            // 
+            // cRToolStripMenuItem
+            // 
+            this.cRToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.cRToolStripMenuItem.Name = "cRToolStripMenuItem";
+            this.cRToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.cRToolStripMenuItem.Text = "CR";
             // 
             // cmPrograms
             // 
@@ -3178,5 +3324,17 @@
         private ToolStripMenuItem btnChannelFlowDSRDTR;
         private ToolStripMenuItem deviceManagerToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator40;
+        private ToolStripMenuItem btnMenuTextFormat;
+        private ToolStripMenuItem btnOptFrmLineNone;
+        private ToolStripMenuItem btnOptFrmLineLF;
+        private ToolStripMenuItem btnOptFrmLineCRLF;
+        private ToolStripMenuItem btnOptFrmLineCR;
+        private ToolStripMenuItem propertiesToolStripMenuItem1;
+        private ToolStripSeparator toolStripSeparator41;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem noneToolStripMenuItem;
+        private ToolStripMenuItem lFToolStripMenuItem;
+        private ToolStripMenuItem cRLFToolStripMenuItem;
+        private ToolStripMenuItem cRToolStripMenuItem;
     }
 }

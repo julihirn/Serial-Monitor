@@ -18,13 +18,19 @@ namespace Serial_Monitor.Classes {
         public static event ChannelRemovedHandler? ChannelRemoved;
         public delegate void ChannelRemovedHandler(int RemovedIndex);
         public static event ChannelRenamedHandler? ChannelRenamed;
-        public delegate void ChannelRenamedHandler();
+        public delegate void ChannelRenamedHandler(SerialManager sender);
+
+        public static event ChannelPropertyChangedHandler? ChannelPropertyChanged;
+        public delegate void ChannelPropertyChangedHandler(SerialManager sender);
 
         public static event ModbusReceivedHandler? ModbusReceived;
         public delegate void ModbusReceivedHandler(object Data, int Index, DataSelection DataType);
 
-        public static void InvokeChannelRename() {
-            ChannelRenamed?.Invoke();
+        public static void InvokeChannelRename(SerialManager sender) {
+            ChannelRenamed?.Invoke(sender);
+        }
+        public static void InvokeChannelPropertiesChanged(SerialManager sender) {
+            ChannelPropertyChanged?.Invoke(sender);
         }
         public static void RegisterValueChanged(object Data, int Index, DataSelection DataType) {
             ModbusReceived?.Invoke(Data, Index, DataType);
@@ -132,7 +138,7 @@ namespace Serial_Monitor.Classes {
                     SerialManagers[ChannelIndex].CommandProcessed -= SerManager_CommandProcessed;
                     SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
                     ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
-
+                    ApplicationManager.CloseInternalApplication("PROP_" + SerialManagers[ChannelIndex].ID);
                     SerialManagers.RemoveAt(ChannelIndex);
                     ChannelRemoved?.Invoke(ChannelIndex);
                 }

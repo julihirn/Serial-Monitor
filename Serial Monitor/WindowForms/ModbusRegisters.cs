@@ -46,7 +46,7 @@ namespace Serial_Monitor {
             lstMonitor.ScaleColumnWidths();
         }
 
-        private void SystemManager_ChannelRenamed() {
+        private void SystemManager_ChannelRenamed(SerialManager sender) {
             navigator1.Invalidate();
 
         }

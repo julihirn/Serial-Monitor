@@ -61,6 +61,7 @@ namespace Serial_Monitor.Classes {
         public event DataProcessedHandler? DataReceived;
         const uint MAX_COMMAND_LENGTH = 500;
         public SerialPort Port = new SerialPort();
+        [Browsable(false)]
         public string StateName {
             get {
                 if (Port == null) {
@@ -77,48 +78,68 @@ namespace Serial_Monitor.Classes {
         }
         #region Properties
         string iD = "";
+        [Browsable(false)]
         public string ID {
             get { return iD; }
         }
         bool selected = false;
+        [Browsable(false)]
         public bool Selected {
             get { return selected; }
             set { selected = value; }
         }
         bool outputToMasterTerminal = true;
+        [Category("General")]
+        [DisplayName("Output to Terminal")]
         public bool OutputToMasterTerminal {
             get { return outputToMasterTerminal; }
-            set { outputToMasterTerminal = value; }
+            set { outputToMasterTerminal = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
         }
         bool isMaster = false;
+        [Category("Modbus")]
+        [DisplayName("Modbus Master")]
         public bool IsMaster {
             get { return isMaster; }
-            set { isMaster = value; }
+            set { isMaster = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
         }
         uint unitAddress = 1;
+        [Category("Modbus")]
+        [DisplayName("Unit Address")]
         public uint UnitAddress {
             get { return unitAddress; }
-            set { unitAddress = value; }
+            set { unitAddress = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
         }
         bool systemEnabled = true;
+        [Browsable(false)]
         public bool SystemEnabled {
             get { return systemEnabled; }
-            set { systemEnabled = value; }
+            set { systemEnabled = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
         }
         string name = "Untitled";
         string nameOld = "Untitled";
+        [Category("General")]
         public string Name {
             get { return name; }
             set {
                 name = value;
                 if (name != nameOld) {
                     NameChanged?.Invoke(this, name);
-                    SystemManager.InvokeChannelRename();
+                    SystemManager.InvokeChannelRename(this);
                     nameOld = value;
                 }
             }
         }
         long SilenceLength = 29166;
+        [Category("Port")]
+        [DisplayName("Baud Rate")]
         public int BaudRate {
             get {
                 if (Port != null) { return Port.BaudRate; }
@@ -128,9 +149,12 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     Port.BaudRate = value;
                     SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
+                    SystemManager.InvokeChannelPropertiesChanged(this);
                 }
             }
         }
+        [Category("Port")]
+        [DisplayName("Port")]
         public string PortName {
             get {
                 if (Port != null) { return Port.PortName; }
@@ -140,43 +164,70 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     Port.PortName = value;
                     NameChanged?.Invoke(this, name);
-                    SystemManager.InvokeChannelRename();
+                    SystemManager.InvokeChannelRename(this);
                 }
             }
         }
         private ModbusCoil[] coils = new ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue);//new ModbusCoil[short.MaxValue];
+        [Browsable(false)]
         public ModbusCoil[] Coils {
             get { return coils; }
         }
         private ModbusCoil[] discreteInputs = new ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue); //new bool[short.MaxValue];
+        [Browsable(false)]
         public ModbusCoil[] DiscreteInputs {
             get { return discreteInputs; }
         }//ModbusRegister
         private ModbusRegister[] inputRegisters = new ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
+        [Browsable(false)]
         public ModbusRegister[] InputRegisters {
             get { return inputRegisters; }
         }
         private ModbusRegister[] holdingRegisters = new ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
+        [Browsable(false)]
         public ModbusRegister[] HoldingRegisters {
             get { return holdingRegisters; }
         }
         StreamInputFormat inputFormat = StreamInputFormat.Text;
+        [Category("Data Formatting")]
+        [DisplayName("Input Format")]
         public StreamInputFormat InputFormat {
             get { return inputFormat; }
-            set { inputFormat = value; }
+            set { 
+                inputFormat = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
         }
         StreamOutputFormat outputFormat = StreamOutputFormat.Text;
+        [Category("Data Formatting")]
+        [DisplayName("Output Format")]
         public StreamOutputFormat OutputFormat {
             get { return outputFormat; }
-            set { outputFormat = value; }
+            set { 
+                outputFormat = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
         }
         bool useCheckSums = true;
+        [Category("Commands")]
+        [DisplayName("Command Check Sum")]
         public bool UseCheckSums {
             get {
                 return useCheckSums;
             }
             set {
                 useCheckSums = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        LineFormatting lineFormat = LineFormatting.None;
+        [Category("Data Formatting")]
+        [DisplayName("Line Format")]
+        public LineFormatting LineFormat {
+            get { return lineFormat; }
+            set { 
+                lineFormat = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
         #endregion
@@ -188,36 +239,63 @@ namespace Serial_Monitor.Classes {
             bytesSent = 0;
         }
         ulong commandsSent = 0;
+        [Browsable(false)]
         public ulong CommandsSent {
             get { return commandsSent; }
         }
         ulong commandsReceived = 0;
+        [Browsable(false)]
         public ulong CommandsReceived {
             get { return commandsReceived; }
         }
         ulong bytesSent = 0;
+        [Browsable(false)]
         public ulong BytesSent {
             get { return bytesSent; }
         }
         ulong bytesReceived = 0;
+        [Browsable(false)]
         public ulong BytesReceived {
             get { return bytesReceived; }
         }
         DateTime lastCommandReceivedTime = DateTime.Now;
+        [Browsable(false)]
         public DateTime LastCommandReceivedTime {
             get { return lastCommandReceivedTime; }
         }
         DateTime lastReceivedTime = DateTime.Now;
+        [Browsable(false)]
         public DateTime LastReceivedTime {
             get { return lastReceivedTime; }
         }
         DateTime lastTransmittedTime = DateTime.UtcNow;
+        [Browsable(false)]
         public DateTime LastTransmittedTime {
             get { return lastTransmittedTime; }
         }
         #endregion
         #region Transmission
-        public bool Post(string Data, bool WriteLine = true) {
+        public bool Post(string Data) {
+            if (outputFormat == StreamOutputFormat.Text) {
+                string Appendage = "";
+                bool NewLine = false;
+                switch (lineFormat) {
+                    case LineFormatting.LF:
+                        Appendage = "\n"; break;
+                    case LineFormatting.CRLF:
+                        Appendage = "\r\n"; break;
+                    case LineFormatting.CR:
+                        Appendage = "\r"; break;
+                    default:
+                        break;
+                }
+                return Post(Data + Appendage, false);
+            }
+            else {
+                return Post(Data, false);
+            }
+        }
+        public bool Post(string Data, bool WriteLine = false) {
             try {
                 switch (outputFormat) {
                     case StreamOutputFormat.Text:

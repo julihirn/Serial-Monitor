@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Serial_Monitor.WindowForms;
+using System.Threading.Channels;
 
 namespace Serial_Monitor.Classes {
     public class ApplicationManager {
@@ -58,6 +59,19 @@ namespace Serial_Monitor.Classes {
                 Term.Name = ID;
                 if (BringToFront == true) { Term.BringToFront(); }
                 Term.Show();
+            }
+        }
+        public static void OpenSerialProperties(SerialManager? Manager, bool BringToFront = true) {
+            if (Manager == null) { return; }
+            string ID = "PROP_" + Manager.ID;
+            if (IsInternalApplicationOpen(ID)) {
+                if (BringToFront == true) { BringInternalApplicationToFront(ID); }
+            }
+            else {
+                ChannelProperties ChanProp = new ChannelProperties(Manager);
+                ChanProp.Name = ID;
+                if (BringToFront == true) { ChanProp.BringToFront(); }
+                ChanProp.Show();
             }
         }
         public static void ReapplyThemeToAll() {

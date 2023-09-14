@@ -303,6 +303,26 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] MoveLeft {
+            get {
+                object obj = ResourceManager.GetObject("MoveLeft", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MoveRight {
+            get {
+                object obj = ResourceManager.GetObject("MoveRight", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] MoveUp {
             get {
                 object obj = ResourceManager.GetObject("MoveUp", resourceCulture);
@@ -386,6 +406,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] Pause_16x {
             get {
                 object obj = ResourceManager.GetObject("Pause_16x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Property {
+            get {
+                object obj = ResourceManager.GetObject("Property", resourceCulture);
                 return ((byte[])(obj));
             }
         }

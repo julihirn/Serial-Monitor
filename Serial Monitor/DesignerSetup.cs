@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Handlers;
+using ODModules;
 using Svg;
 
 namespace Serial_Monitor {
@@ -91,6 +92,9 @@ namespace Serial_Monitor {
                 }
                 else if (t == typeof(ToolStripDropDownButton)) {
                     ((ToolStripDropDownButton)LinkedControl).Image = Img;
+                }
+                else if (t == typeof(KeypadButton)) {
+                    ((KeypadButton)LinkedControl).Icon = Img;
                 }
             }
         }

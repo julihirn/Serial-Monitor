@@ -15,8 +15,8 @@ using DataType = Handlers.DataType;
 namespace Serial_Monitor.Classes {
     public static class ProjectManager {
         public static List<KeypadButton> Buttons = new List<KeypadButton>();
-        private const int MaximumButtons = 20;
-        public static void SetKeypadButton(int Index, string CmdType, string CmcLine, string DisplayText, string Channel) {
+        private const int MaximumButtons = 25;
+        public static void SetKeypadButton(int Index, string CmdType, string CmcLine, string DisplayText, string Channel, int Symbol, int CommandShortcut) {
             if (Buttons.Count == MaximumButtons) {
                 if (Index < MaximumButtons) {
                     KeypadButton Btn = Buttons[Index];
@@ -25,7 +25,7 @@ namespace Serial_Monitor.Classes {
                         if (TagData.GetType() == typeof(BtnCommand)) {
                             Btn.Text = DisplayText;
                             BtnCommand Data = (BtnCommand)TagData;
-                            Data.SetValue(EnumManager.StringToCommandType(CmdType), CmcLine, Channel);
+                            Data.SetValue(EnumManager.StringToCommandType(CmdType), CmcLine, Channel, Symbol, CommandShortcut);
                         }
                     }
                 }
@@ -49,10 +49,17 @@ namespace Serial_Monitor.Classes {
                 KeypadButton kBtn = new KeypadButton();
                 kBtn.Tag = Cmd;
                 Buttons.Add(kBtn);
+                Cmd.LinkedButton = Buttons[i];
             }
         }
         public static event FileOpenedHandler? ProgramNameChanged;
         public delegate void FileOpenedHandler(string Address);
+
+        public static event ButtonPropertyChangedHandler? ButtonPropertyChanged;
+        public delegate void ButtonPropertyChangedHandler(KeypadButton sender);
+        public static void InvokeButtonPropertyChanged(KeypadButton sender) {
+            ButtonPropertyChanged?.Invoke(sender);
+        }
         public static void WriteFile(string FileAddress) {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -84,6 +91,7 @@ namespace Serial_Monitor.Classes {
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:ControlFlow=" + StringHandler.EncapsulateString(EnumManager.HandshakeToString(Sm.Port.Handshake))));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:InType=" + StringHandler.EncapsulateString(EnumManager.InputFormatToString(Sm.InputFormat).B)));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,str:OutType=" + StringHandler.EncapsulateString(EnumManager.OutputFormatToString(Sm.OutputFormat).B)));
+                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:LineFormat=" + StringHandler.EncapsulateString(EnumManager.LineFormattingToString(Sm.LineFormat))));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:ModbusMstr=" + Sm.IsMaster.ToString()));
                         Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:OutputToMstr=" + Sm.OutputToMasterTerminal.ToString()));
                         Sw.WriteLine(StringHandler.AddTabs(1, "}"));
@@ -133,8 +141,8 @@ namespace Serial_Monitor.Classes {
                                     Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Command=" + StringHandler.EncapsulateString(CmdSet.CommandLine)));
                                     Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Type=" + StringHandler.EncapsulateString(EnumManager.CommandTypeToString(CmdSet.Type))));
                                     Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Channel=" + StringHandler.EncapsulateString(CmdSet.Channel)));
-
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "}"));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,int:Symbol=" + ((int)CmdSet.DisplaySymbol).ToString()));
+                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,int:Shortcut=" + ((int)CmdSet.Shortcut).ToString()));
                                     Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                                 }
                             }
@@ -195,6 +203,10 @@ namespace Serial_Monitor.Classes {
                     }
                     catch { }
                     try {
+                        Sm.LineFormat = EnumManager.StringToLineFormatting(DocumentHandler.GetStringVariable(Pstrc, "LineFormat", "frmLineNone"));
+                    }
+                    catch { }
+                    try {
                         Sm.IsMaster = DocumentHandler.GetBooleanVariable(Pstrc, "ModbusMstr");
                     }
                     catch { }
@@ -215,7 +227,9 @@ namespace Serial_Monitor.Classes {
                         string CommandText = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Command", "");
                         string CommandType = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", "NONE");
                         string CommandChannel = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Channel", "");
-                        SetKeypadButton(Index, CommandType, CommandText, ButtonText, CommandChannel);
+                        int CommandSymbol = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Symbol", 0);
+                        int CommandShortcut = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Shortcut", 0);
+                        SetKeypadButton(Index, CommandType, CommandText, ButtonText, CommandChannel, CommandSymbol, CommandShortcut);
                     }
                 }
                 else if (ParameterName.StartsWith("STEP")) {

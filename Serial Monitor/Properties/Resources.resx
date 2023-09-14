@@ -190,6 +190,12 @@
   <data name="MoveDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MoveDown.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="MoveLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MoveLeft.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MoveRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MoveRight.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="MoveUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MoveUp.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -216,6 +222,9 @@
   </data>
   <data name="Pause_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pause_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Property" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Property.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PropertyGridEditorPart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PropertyGridEditorPart.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

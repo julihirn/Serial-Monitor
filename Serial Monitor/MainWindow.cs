@@ -10,6 +10,8 @@ using Serial_Monitor.Interfaces;
 using System.Management;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -21,36 +23,39 @@ namespace Serial_Monitor {
             get { return currentManager; }
             set {
                 currentManager = value;
-                if (value != null) {
-                    ddbBAUDRate.Text = value.Port.BaudRate.ToString();
-                    ddbBAUDRate.Tag = value.Port.BaudRate;
-                    CheckBaudRate(value.Port.BaudRate);
-                    ddbBits.Text = value.Port.DataBits.ToString();
-                    ddbBits.Tag = value.Port.DataBits.ToString();
-                    string StopBits = EnumManager.StopBitsToString(value.Port.StopBits);
-                    ddbStopBits.Text = StopBits;
-                    ddbStopBits.Tag = StopBits;
-                    CheckStopBits(ddbStopBits.Text);
-                    string Parity = EnumManager.ParityToString(value.Port.Parity);
-                    ddbParity.Text = Parity;
-                    ddbParity.Tag = Parity;
-                    CheckParity(ddbParity.Text);
-                    StringPair SelectIn = EnumManager.InputFormatToString(value.InputFormat, false);
-                    StringPair SelectOut = EnumManager.OutputFormatToString(value.OutputFormat, false);
-                    ddbInputFormat.Text = SelectIn.A;
-                    ddbInputFormat.Tag = SelectIn.B;
-                    CheckInputFormat(SelectIn.B);
-                    ddbOutputFormat.Text = SelectOut.A;
-                    ddbOutputFormat.Tag = SelectOut.B;
-                    CheckOutputFormat(SelectOut.B);
-                    ddbPorts.Text = value.Port.PortName;
-                    SystemRunning(value.Port.IsOpen);
-                    btnMenuModbusMaster.Checked = value.IsMaster;
-                    CheckControlFlow(EnumManager.HandshakeToString(value.Port.Handshake));
-                }
+                InvokePropertyChange();
             }
         }
-
+        private void InvokePropertyChange() {
+            if (currentManager != null) {
+                ddbBAUDRate.Text = currentManager.Port.BaudRate.ToString();
+                ddbBAUDRate.Tag = currentManager.Port.BaudRate;
+                CheckBaudRate(currentManager.Port.BaudRate);
+                ddbBits.Text = currentManager.Port.DataBits.ToString();
+                ddbBits.Tag = currentManager.Port.DataBits.ToString();
+                string StopBits = EnumManager.StopBitsToString(currentManager.Port.StopBits);
+                ddbStopBits.Text = StopBits;
+                ddbStopBits.Tag = StopBits;
+                CheckStopBits(ddbStopBits.Text);
+                string Parity = EnumManager.ParityToString(currentManager.Port.Parity);
+                ddbParity.Text = Parity;
+                ddbParity.Tag = Parity;
+                CheckParity(ddbParity.Text);
+                StringPair SelectIn = EnumManager.InputFormatToString(currentManager.InputFormat, false);
+                StringPair SelectOut = EnumManager.OutputFormatToString(currentManager.OutputFormat, false);
+                ddbInputFormat.Text = SelectIn.A;
+                ddbInputFormat.Tag = SelectIn.B;
+                CheckInputFormat(SelectIn.B);
+                ddbOutputFormat.Text = SelectOut.A;
+                ddbOutputFormat.Tag = SelectOut.B;
+                CheckOutputFormat(SelectOut.B);
+                ddbPorts.Text = currentManager.Port.PortName;
+                SystemRunning(currentManager.Port.IsOpen);
+                btnMenuModbusMaster.Checked = currentManager.IsMaster;
+                CheckControlFlow(EnumManager.HandshakeToString(currentManager.Port.Handshake));
+                CheckLineFormat();
+            }
+        }
         public MainWindow() {
             InitializeComponent();
             ProgramManager.MainInstance = this;
@@ -88,7 +93,7 @@ namespace Serial_Monitor {
             LoadProgramOperations();
             RefreshPorts();
             SelectFirstPort();
-          
+
             LoadDefaults();
             Output.FlashCursor = true;
             navigator1.LinkedList = SystemManager.SerialManagers;
@@ -97,10 +102,28 @@ namespace Serial_Monitor {
             msMain.BackColorNorthFadeIn = FadeInColor;
             RefreshChannels();
             ProgramManager.ProgramListingChanged += ProgramManager_ProgramListingChanged;
+            SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
+            SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SetTitle("Untitled");
             //DetermineTabs();
             DocumentEdited = false;
         }
+
+        private void SystemManager_ChannelRenamed(SerialManager sender) {
+            if (currentManager == null) { return; }
+            if (sender.ID == currentManager.ID) {
+                InvokePropertyChange();
+                navigator1.Invalidate();
+            }
+
+        }
+        private void SystemManager_ChannelPropertyChanged(SerialManager sender) {
+            if (currentManager == null) { return; }
+            if (sender.ID == currentManager.ID) {
+                InvokePropertyChange();
+            }
+        }
+
         private void LoadDefaults() {
             if (currentManager != null) {
                 try {
@@ -121,14 +144,14 @@ namespace Serial_Monitor {
                 ddbOutputFormat.Text = EnumManager.OutputFormatToString(currentManager.OutputFormat, false).A;
                 CheckInputFormat(EnumManager.InputFormatToString(currentManager.InputFormat, false).B);
                 CheckOutputFormat(EnumManager.OutputFormatToString(currentManager.OutputFormat, false).B);
-           
+
             }
             LoadAllBauds();
             CheckParity(ddbParity.Text);
             CheckBits(ddbBits.Text);
             CheckStopBits(ddbStopBits.Text);
             SystemRunning(false);
-       
+
             SetDefaultStyleValues();
         }
         #region Theming and Icons
@@ -159,6 +182,8 @@ namespace Serial_Monitor {
             msMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             msMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
             msMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+            smMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+            smMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
@@ -166,12 +191,18 @@ namespace Serial_Monitor {
             msMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
             tsMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+            smMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+            smMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
             smMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
 
             msMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             msMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
             tsMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             tsMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            smMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            smMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            smMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            smMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
             msMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
             msMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
             tsMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
@@ -180,25 +211,30 @@ namespace Serial_Monitor {
 
             msMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
             tsMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+            smMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
 
             msMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
             tsMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+            smMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
             thPrograms.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
 
             msMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
             tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
+            smMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
 
             tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
             tsMain.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_SymbolColor;
 
             tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             msMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            smMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             tsMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.CloseColor = Properties.Settings.Default.THM_COL_ForeColor;
             navigator1.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
 
             msMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            smMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             tsMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
@@ -284,6 +320,8 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, ddbOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, btnChannelInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, btnChannelOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Property, propertiesToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.RunStart_16x, runFromStartToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -576,7 +614,7 @@ namespace Serial_Monitor {
             var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
             List<StringPair> Results = new List<StringPair>();
             foreach (ManagementObject result in searcher.Get()) {
-                StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ??"");
+                StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
                 Results.Add(Sp);
             }
             return Results;
@@ -686,7 +724,7 @@ namespace Serial_Monitor {
                 LoadBAUDRate(i);
             }
             CheckBaudRate(Properties.Settings.Default.DEF_INT_BaudRate);
-            if (currentManager != null){
+            if (currentManager != null) {
                 currentManager.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
                 ddbBAUDRate.Text = Properties.Settings.Default.DEF_INT_BaudRate.ToString();
             }
@@ -938,7 +976,7 @@ namespace Serial_Monitor {
         private void Output_CommandEntered(object sender, CommandEnteredEventArgs e) {
             try {
                 if (CurrentManager != null) {
-                    CurrentManager.Post(e.Command, false);
+                    CurrentManager.Post(e.Command);
                 }
             }
             catch {
@@ -1041,6 +1079,40 @@ namespace Serial_Monitor {
         }
         private void btnOutFormModbusRTU_Click(object sender, EventArgs e) {
             OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+        }
+        private void btnOptFrmLineNone_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.None);
+        }
+        private void btnOptFrmLineLF_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.LF);
+        }
+        private void btnOptFrmLineCRLF_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.CRLF);
+        }
+        private void btnOptFrmLineCR_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.CR);
+        }
+        private void SetLineFormat(LineFormatting Format) {
+            if (currentManager != null) {
+                currentManager.LineFormat = Format;
+                CheckLineFormat(EnumManager.LineFormattingToString(currentManager.LineFormat));
+            }
+        }
+        private void CheckLineFormat() {
+            if (currentManager != null) {
+                CheckLineFormat(EnumManager.LineFormattingToString(currentManager.LineFormat));
+            }
+        }
+        private void CheckLineFormat(string FormatString) {
+            foreach (ToolStripMenuItem Tmi in btnMenuTextFormat.DropDownItems) {
+                if (Tmi.Tag != null) {
+                    if (Tmi.Tag.ToString() == FormatString) {
+                        Tmi.Checked = true;
+                    }
+                    else { Tmi.Checked = false; }
+                }
+                else { Tmi.Checked = false; }
+            }
         }
         #endregion
         #region View Settings
@@ -1211,6 +1283,7 @@ namespace Serial_Monitor {
                 btnMenuModbusMaster.Checked = currentManager.IsMaster;
                 btnMenuOutputMaster.Checked = currentManager.OutputToMasterTerminal;
             }
+            CheckLineFormat();
         }
         private void modbusMasterToolStripMenuItem_Click(object sender, EventArgs e) {
             TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
@@ -2707,16 +2780,25 @@ namespace Serial_Monitor {
             }
             catch { }
         }
+
+        private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e) {
+            ApplicationManager.OpenSerialProperties(currentManager, true);
+        }
     }
     public enum StreamInputFormat {
         Text = 0x01,
+        [Description("Binary Stream")]
         BinaryStream = 0x02,
+        [Description("Command")]
         CCommand = 0x04,
+        [Description("Modbus RTU")]
         ModbusRTU = 0x05
     }
     public enum StreamOutputFormat {
         Text = 0x01,
+        [Description("Command")]
         CCommand = 0x02,
+        [Description("Modbus RTU")]
         ModbusRTU = 0x05
     }
 

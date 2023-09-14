@@ -52,3 +52,4 @@ C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\System.CodeDom.dll
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\System.Management.dll
 C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Management.dll
+C:\Users\Chann\OneDrive\Apps\repos\Serial Monitor\Serial Monitor\obj\Debug\net6.0-windows\Serial_Monitor.WindowForms.ChannelProperties.resources
