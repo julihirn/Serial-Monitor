@@ -24,7 +24,12 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
   
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/d05bd3ec-9ba7-418e-b24f-6063fc3be267)
 
-- **Configuration and Step Program Saving**: The Serial Monitor Project allows you to save your configurations and step programs to files. This ensures that you can quickly replicate setups and program sequences without manual reconfiguration.
+- **Configuration and Step Program Saving**: Serial Monitor allows you to save your configurations and step programs to files. This ensures that you can quickly replicate setups and program sequences without manual reconfiguration.
+
+- **Configurable Keypad**: Design and set keypad for quick prototyping of serial devices.
+
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/2f19bfc0-ef50-4224-a30e-0e60956f641c)
+
 
 ## System Requirements
 * Windows 7 or higher.
@@ -35,7 +40,6 @@ Requires: ODModules, ODHandles.
 ## Future Work
 This project is still a bit of a work in progress, I am actively working on adding multiple step program support to project files. You may notice that the program tabs are not yet functional. 
 Current Development Roadmap:
-* Keypad functions
 * Modbus register editor patch up
 * Undo/redo and editing history
 * Graphing
