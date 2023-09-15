@@ -58,15 +58,14 @@
             this.btngridCommands.IconInline = false;
             this.btngridCommands.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             this.btngridCommands.ImageSize = new System.Drawing.Size(32, 32);
-            this.btngridCommands.Location = new System.Drawing.Point(0, 32);
-            this.btngridCommands.Margin = new System.Windows.Forms.Padding(6);
+            this.btngridCommands.Location = new System.Drawing.Point(0, 16);
             this.btngridCommands.Name = "btngridCommands";
-            this.btngridCommands.Padding = new System.Windows.Forms.Padding(9, 11, 9, 11);
+            this.btngridCommands.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btngridCommands.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btngridCommands.ScrollBarNorth = System.Drawing.Color.DarkTurquoise;
             this.btngridCommands.ScrollBarSouth = System.Drawing.Color.DeepSkyBlue;
             this.btngridCommands.SecondaryFont = null;
-            this.btngridCommands.Size = new System.Drawing.Size(509, 337);
+            this.btngridCommands.Size = new System.Drawing.Size(274, 157);
             this.btngridCommands.Style = ODModules.ButtonStyle.Round;
             this.btngridCommands.TabIndex = 0;
             this.btngridCommands.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Left;
@@ -81,10 +80,9 @@
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(6);
             this.textBox1.Name = "textBox1";
             this.textBox1.PlaceholderText = "Search";
-            this.textBox1.Size = new System.Drawing.Size(509, 32);
+            this.textBox1.Size = new System.Drawing.Size(274, 16);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
@@ -92,21 +90,23 @@
             // 
             // CommandPalette
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 369);
+            this.ClientSize = new System.Drawing.Size(274, 173);
             this.Controls.Add(this.btngridCommands);
             this.Controls.Add(this.textBox1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "CommandPalette";
             this.ShowInTaskbar = false;
             this.Text = "Command Palette";
             this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CommandPalette_FormClosed);
             this.Load += new System.EventHandler(this.CommandPalette_Load);
+            this.SizeChanged += new System.EventHandler(this.CommandPalette_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.CommandPalette_VisibleChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CommandPalette_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CommandPalette_KeyPress);
             this.ResumeLayout(false);

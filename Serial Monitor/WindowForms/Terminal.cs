@@ -534,5 +534,19 @@ namespace Serial_Monitor.WindowForms {
             string argument = "/select, \"" + LogFile + "\"";
             System.Diagnostics.Process.Start("explorer.exe", argument);
         }
+
+        private void msMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+
+        }
+
+        private void Terminal_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Terminal_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Terminal_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

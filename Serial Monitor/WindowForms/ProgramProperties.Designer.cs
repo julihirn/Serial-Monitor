@@ -44,7 +44,10 @@
             this.labelPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelPanel1.DropShadow = false;
             this.labelPanel1.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelPanel1.FixedInlineWidth = false;
             this.labelPanel1.ForeColor = System.Drawing.Color.White;
+            this.labelPanel1.Inlinelabel = false;
+            this.labelPanel1.InlineWidth = 100;
             this.labelPanel1.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel1.LabelForeColor = System.Drawing.Color.WhiteSmoke;
@@ -83,7 +86,10 @@
             this.labelPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelPanel2.DropShadow = false;
             this.labelPanel2.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelPanel2.FixedInlineWidth = false;
             this.labelPanel2.ForeColor = System.Drawing.Color.White;
+            this.labelPanel2.Inlinelabel = false;
+            this.labelPanel2.InlineWidth = 100;
             this.labelPanel2.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelPanel2.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel2.LabelForeColor = System.Drawing.Color.WhiteSmoke;
@@ -124,7 +130,10 @@
             this.Padding = new System.Windows.Forms.Padding(5);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Program Properties";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProgramProperties_FormClosing);
             this.Load += new System.EventHandler(this.ProgramProperties_Load);
+            this.SizeChanged += new System.EventHandler(this.ProgramProperties_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.ProgramProperties_VisibleChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProgramProperties_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ProgramProperties_KeyPress);
             this.labelPanel1.ResumeLayout(false);

@@ -93,5 +93,15 @@ namespace Serial_Monitor.WindowForms {
             }
             catch { }
         }
+
+        private void TextComparator_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void TextComparator_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void TextComparator_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

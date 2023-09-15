@@ -55,5 +55,8 @@
     <Compile Update="WindowForms\TextComparator.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="WindowForms\WindowManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

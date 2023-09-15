@@ -154,5 +154,15 @@ namespace Serial_Monitor {
                 kpCommands.Focus();
             }
         }
+
+        private void Keypad_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Keypad_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Keypad_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

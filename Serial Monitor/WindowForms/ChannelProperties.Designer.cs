@@ -59,7 +59,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChannelProperties";
             this.Text = "Channel Properties";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChannelProperties_FormClosed);
             this.Load += new System.EventHandler(this.ChannelProperties_Load);
+            this.SizeChanged += new System.EventHandler(this.ChannelProperties_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.ChannelProperties_VisibleChanged);
             this.ResumeLayout(false);
 
         }

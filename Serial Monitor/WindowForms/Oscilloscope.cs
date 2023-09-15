@@ -13,5 +13,15 @@ namespace Serial_Monitor.WindowForms {
         public Oscilloscope() {
             InitializeComponent();
         }
+
+        private void Oscilloscope_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Oscilloscope_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Oscilloscope_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

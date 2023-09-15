@@ -447,7 +447,7 @@
             this.ddbOptDB5.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB5.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB5.Name = "ddbOptDB5";
-            this.ddbOptDB5.Size = new System.Drawing.Size(180, 22);
+            this.ddbOptDB5.Size = new System.Drawing.Size(102, 22);
             this.ddbOptDB5.Tag = "5";
             this.ddbOptDB5.Text = "5 Bits";
             this.ddbOptDB5.Click += new System.EventHandler(this.ddbOptDB5_Click);
@@ -457,7 +457,7 @@
             this.ddbOptDB6.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB6.Name = "ddbOptDB6";
-            this.ddbOptDB6.Size = new System.Drawing.Size(180, 22);
+            this.ddbOptDB6.Size = new System.Drawing.Size(102, 22);
             this.ddbOptDB6.Tag = "6";
             this.ddbOptDB6.Text = "6 Bits";
             this.ddbOptDB6.Click += new System.EventHandler(this.ddbOptDB6_Click);
@@ -467,7 +467,7 @@
             this.ddbOptDB7.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB7.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB7.Name = "ddbOptDB7";
-            this.ddbOptDB7.Size = new System.Drawing.Size(180, 22);
+            this.ddbOptDB7.Size = new System.Drawing.Size(102, 22);
             this.ddbOptDB7.Tag = "7";
             this.ddbOptDB7.Text = "7 Bits";
             this.ddbOptDB7.Click += new System.EventHandler(this.ddbOptDB7_Click);
@@ -479,7 +479,7 @@
             this.ddbOptDB8.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB8.Name = "ddbOptDB8";
-            this.ddbOptDB8.Size = new System.Drawing.Size(180, 22);
+            this.ddbOptDB8.Size = new System.Drawing.Size(102, 22);
             this.ddbOptDB8.Tag = "8";
             this.ddbOptDB8.Text = "8 Bits";
             this.ddbOptDB8.Click += new System.EventHandler(this.ddbOptDB8_Click);
@@ -668,7 +668,10 @@
             this.Text = "Settings";
             this.Activated += new System.EventHandler(this.Settings_Activated);
             this.Deactivate += new System.EventHandler(this.Settings_Deactivate);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Settings_FormClosed);
             this.Load += new System.EventHandler(this.Settings_Load);
+            this.SizeChanged += new System.EventHandler(this.Settings_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.Settings_VisibleChanged);
             this.lblPnlTheme.ResumeLayout(false);
             this.flowPnlTheme.ResumeLayout(false);
             this.hiddenTabControl1.ResumeLayout(false);

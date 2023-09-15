@@ -383,5 +383,15 @@ namespace Serial_Monitor {
         private void ddbOptSB2_Click(object sender, EventArgs e) {
             SetPortStopBits(StopBits.Two);
         }
+
+        private void Settings_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Settings_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Settings_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

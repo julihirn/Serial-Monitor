@@ -134,5 +134,15 @@ namespace Serial_Monitor {
                 textBox1.SelectionLength = 0;
             }
         }
+
+        private void CommandPalette_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void CommandPalette_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void CommandPalette_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

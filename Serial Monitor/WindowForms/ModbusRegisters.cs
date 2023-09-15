@@ -345,5 +345,15 @@ namespace Serial_Monitor {
             LockedEditor = !LockedEditor;
             ChangeLockedIcon(LockedEditor);
         }
+
+        private void ModbusRegisters_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void ModbusRegisters_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void ModbusRegisters_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

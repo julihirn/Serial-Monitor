@@ -289,6 +289,7 @@
             this.msMain.TabIndex = 3;
             this.msMain.Text = "menuStrip1";
             this.msMain.UseNorthFadeIn = false;
+            this.msMain.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.msMain_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -544,7 +545,7 @@
             this.btnStartLog.ForeColor = System.Drawing.Color.White;
             this.btnStartLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnStartLog.Name = "btnStartLog";
-            this.btnStartLog.Size = new System.Drawing.Size(145, 22);
+            this.btnStartLog.Size = new System.Drawing.Size(180, 22);
             this.btnStartLog.Text = "Start Logging";
             this.btnStartLog.Click += new System.EventHandler(this.btnStartLog_Click);
             // 
@@ -554,7 +555,7 @@
             this.btnStopLog.ForeColor = System.Drawing.Color.White;
             this.btnStopLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnStopLog.Name = "btnStopLog";
-            this.btnStopLog.Size = new System.Drawing.Size(145, 22);
+            this.btnStopLog.Size = new System.Drawing.Size(180, 22);
             this.btnStopLog.Text = "Stop Logging";
             this.btnStopLog.Click += new System.EventHandler(this.btnStopLog_Click);
             // 
@@ -572,7 +573,7 @@
             this.optionsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.optionsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -598,7 +599,10 @@
             this.Name = "Terminal";
             this.Text = "Terminal";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Terminal_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Terminal_FormClosed);
             this.Load += new System.EventHandler(this.Terminal_Load);
+            this.SizeChanged += new System.EventHandler(this.Terminal_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.Terminal_VisibleChanged);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Terminal_KeyPress);
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();

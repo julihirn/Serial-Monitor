@@ -322,6 +322,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, btnChannelOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Property, propertiesToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Settings_16x, optionsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.RunStart_16x, runFromStartToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -2473,6 +2474,12 @@ namespace Serial_Monitor {
                 btnRun.Text = "Main";
                 CurrentDocument = "";
                 documentEdited = false;
+                if (CurrentDocument.Trim(' ') == "") {
+                    btnOpenLocation.Enabled = false;
+                }
+                else {
+                    btnOpenLocation.Enabled = true;
+                }
                 SetTitle("Untitled");
             }
         }
@@ -2493,6 +2500,13 @@ namespace Serial_Monitor {
         }
         private void btnSaveAsStep_Click(object sender, EventArgs e) {
             Save(true);
+        }
+        private void btnOpenLocation_Click(object sender, EventArgs e) {
+            if (!File.Exists(CurrentDocument)) {
+                return;
+            }
+            string argument = "/select, \"" + CurrentDocument + "\"";
+            System.Diagnostics.Process.Start("explorer.exe", argument);
         }
         private void btnOpenStep_Click(object sender, EventArgs e) {
             OpenFileDialog OpenDia = new OpenFileDialog();
@@ -2527,6 +2541,12 @@ namespace Serial_Monitor {
             else {
                 ProjectManager.WriteFile(CurrentDocument);
                 DocumentEdited = false;
+            }
+            if (CurrentDocument.Trim(' ') == "") {
+                btnOpenLocation.Enabled = false;
+            }
+            else {
+                btnOpenLocation.Enabled = true;
             }
             AddFiletoRecentFiles(CurrentDocument);
         }
@@ -2579,6 +2599,12 @@ namespace Serial_Monitor {
             ProgramManager.CurrentProgram = ProgramManager.Programs[0];
             lstStepProgram.Invalidate();
             CurrentDocument = FileAddress;
+            if (CurrentDocument.Trim(' ') == "") {
+                btnOpenLocation.Enabled = false;
+            }
+            else {
+                btnOpenLocation.Enabled = true;
+            }
             DetermineName();
             DetermineTabs();
             thPrograms.SelectedIndex = 0;
@@ -2675,6 +2701,20 @@ namespace Serial_Monitor {
         }
 
 
+        #endregion
+        #region Window Management
+        private void btnWinWindowManager_Click(object sender, EventArgs e) {
+            WindowForms.WindowManager WindowMan = new WindowForms.WindowManager();
+            Classes.ApplicationManager.OpenInternalApplicationOnce(WindowMan, true);
+        }
+        private void btnWinCloseAll_Click(object sender, EventArgs e) {
+            FormCollection fc = Application.OpenForms;
+            for (int i = fc.Count - 1; i >= 0; i--) {
+                if ((fc[i].GetType() != typeof(MainWindow))) {
+                    fc[i].Close();
+                }
+            }
+        }
         #endregion
         private void Form1_KeyPress(object sender, KeyPressEventArgs e) {
             if (InRenameMode == false) {
@@ -2784,6 +2824,8 @@ namespace Serial_Monitor {
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e) {
             ApplicationManager.OpenSerialProperties(currentManager, true);
         }
+
+        
     }
     public enum StreamInputFormat {
         Text = 0x01,

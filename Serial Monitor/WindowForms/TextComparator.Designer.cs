@@ -326,7 +326,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TextComparator";
             this.Text = "Text Comparator";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TextComparator_FormClosed);
             this.Load += new System.EventHandler(this.TextComparator_Load);
+            this.SizeChanged += new System.EventHandler(this.TextComparator_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.TextComparator_VisibleChanged);
             this.labelPanel1.ResumeLayout(false);
             this.labelPanel1.PerformLayout();
             this.labelPanel2.ResumeLayout(false);

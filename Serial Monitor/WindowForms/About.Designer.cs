@@ -176,7 +176,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "About";
             this.Text = "About";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.About_FormClosed);
             this.Load += new System.EventHandler(this.About_Load);
+            this.SizeChanged += new System.EventHandler(this.About_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.About_VisibleChanged);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

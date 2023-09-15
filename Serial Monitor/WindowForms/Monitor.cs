@@ -528,6 +528,16 @@ namespace Serial_Monitor {
             Settings ConfigApp = new Settings();
             ApplicationManager.OpenInternalApplicationOnce(ConfigApp, true);
         }
+
+        private void Monitor_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Monitor_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void Monitor_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
     public enum MonitorDataType {
         Actor = 0x01,

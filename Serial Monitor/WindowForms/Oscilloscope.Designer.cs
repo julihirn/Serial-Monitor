@@ -60,6 +60,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Oscilloscope";
             this.Text = "Oscilloscope";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Oscilloscope_FormClosed);
+            this.SizeChanged += new System.EventHandler(this.Oscilloscope_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.Oscilloscope_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 

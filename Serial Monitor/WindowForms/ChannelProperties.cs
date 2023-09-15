@@ -48,5 +48,15 @@ namespace Serial_Monitor.WindowForms {
         private void ChannelProperties_Load(object sender, EventArgs e) {
             ApplyTheme();
         }
+
+        private void ChannelProperties_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void ChannelProperties_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void ChannelProperties_FormClosed(object sender, FormClosedEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
     }
 }

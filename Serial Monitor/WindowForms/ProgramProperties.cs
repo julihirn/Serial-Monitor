@@ -29,7 +29,9 @@ namespace Serial_Monitor {
             }
         }
         private void ProgramProperties_Load(object sender, EventArgs e) {
-
+            if (DesignerSetup.IsWindows10OrGreater() == true) {
+                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e) {
@@ -53,6 +55,16 @@ namespace Serial_Monitor {
             if (e.KeyData == Keys.Enter) {
                 this.Close();
             }
+        }
+
+        private void ProgramProperties_VisibleChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void ProgramProperties_SizeChanged(object sender, EventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        private void ProgramProperties_FormClosing(object sender, FormClosingEventArgs e) {
+            Classes.ApplicationManager.InvokeApplicationEvent();
         }
     }
 }

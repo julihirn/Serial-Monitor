@@ -147,7 +147,10 @@
             this.Name = "Keypad";
             this.Text = "Keypad";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Keypad_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Keypad_FormClosed);
             this.Load += new System.EventHandler(this.Keypad_Load);
+            this.SizeChanged += new System.EventHandler(this.Keypad_SizeChanged);
+            this.VisibleChanged += new System.EventHandler(this.Keypad_VisibleChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Keypad_KeyDown);
             this.pnlProperties.ResumeLayout(false);
             this.ResumeLayout(false);
