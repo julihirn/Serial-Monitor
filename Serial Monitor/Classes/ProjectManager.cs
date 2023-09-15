@@ -63,50 +63,50 @@ namespace Serial_Monitor.Classes {
         public static void WriteFile(string FileAddress) {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-            string ProgramVersion = fvi.ProductMajorPart + "." + fvi.ProductMinorPart.ToString();
+            string TempVer = fvi.ProductMajorPart + "." + fvi.ProductMinorPart.ToString();
+            decimal ProgramVersion = 0; decimal.TryParse(TempVer, out ProgramVersion);
             using (StreamWriter Sw = new StreamWriter(FileAddress)) {
                 Sw.WriteLine("--------------------------");
                 Sw.WriteLine("-- SERIAL MONITOR");
                 Sw.WriteLine("-- VERSION " + ProgramVersion + " (Build " + fvi.ProductBuildPart.ToString() + ")");
                 Sw.WriteLine("--------------------------");
                 Sw.WriteLine("");
-                Sw.WriteLine("Begin,");
-                Sw.WriteLine("Create Lines(1),");
-                Sw.WriteLine("--  Document Details");
-                Sw.WriteLine(StringHandler.AddTabs(1, "def,str:ProgramName=" + StringHandler.EncapsulateString("")));
-                Sw.WriteLine(StringHandler.AddTabs(1, "def,str:Author=" + StringHandler.EncapsulateString(Environment.UserName)));
-                Sw.WriteLine(StringHandler.AddTabs(1, "def,dec:Version=" + ProgramVersion));
+                DocumentHandler.WriteEntry(Sw, "1");
+                DocumentHandler.WriteComment(Sw, 0, "  Document Details");
+                DocumentHandler.Write(Sw, 1, "ProgramName", "");
+                DocumentHandler.Write(Sw, 1, "Author", Environment.UserName);
+                DocumentHandler.Write(Sw, 1, "Version", ProgramVersion);
                 Sw.WriteLine("");
                 if (SystemManager.SerialManagers.Count > 0) {
-                    Sw.WriteLine("--  Channels");
+                    DocumentHandler.WriteComment(Sw, 0, "  Channels");
                     int i = 0;
                     foreach (SerialManager Sm in SystemManager.SerialManagers) {
-                        Sw.WriteLine(StringHandler.AddTabs(1, "def,parm:CHAN_" + i.ToString() + "{"));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Name=" + StringHandler.EncapsulateString(Sm.Name)));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Port=" + StringHandler.EncapsulateString(Sm.Port.PortName)));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,int:Baud=" + Sm.Port.BaudRate));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,int:DataSize=" + Sm.Port.DataBits));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:StopBits=" + StringHandler.EncapsulateString(EnumManager.StopBitsToString(Sm.Port.StopBits))));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Parity=" + StringHandler.EncapsulateString(EnumManager.ParityToString(Sm.Port.Parity))));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:ControlFlow=" + StringHandler.EncapsulateString(EnumManager.HandshakeToString(Sm.Port.Handshake))));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:InType=" + StringHandler.EncapsulateString(EnumManager.InputFormatToString(Sm.InputFormat).B)));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:OutType=" + StringHandler.EncapsulateString(EnumManager.OutputFormatToString(Sm.OutputFormat).B)));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,str:LineFormat=" + StringHandler.EncapsulateString(EnumManager.LineFormattingToString(Sm.LineFormat))));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:ModbusMstr=" + Sm.IsMaster.ToString()));
-                        Sw.WriteLine(StringHandler.AddTabs(2, "def,bol:OutputToMstr=" + Sm.OutputToMasterTerminal.ToString()));
+                        DocumentHandler.Write(Sw, 1, "CHAN_" + i.ToString());
+                        DocumentHandler.Write(Sw, 2, "Name", Sm.Name);
+                        DocumentHandler.Write(Sw, 2, "Port", Sm.Port.PortName);
+                        DocumentHandler.Write(Sw, 2, "Baud", Sm.Port.BaudRate);
+                        DocumentHandler.Write(Sw, 2, "DataSize", Sm.Port.DataBits);
+                        DocumentHandler.Write(Sw, 2, "StopBits", EnumManager.StopBitsToString(Sm.Port.StopBits));
+                        DocumentHandler.Write(Sw, 2, "Parity", EnumManager.ParityToString(Sm.Port.Parity));
+                        DocumentHandler.Write(Sw, 2, "ControlFlow", EnumManager.HandshakeToString(Sm.Port.Handshake));
+                        DocumentHandler.Write(Sw, 2, "InType", EnumManager.InputFormatToString(Sm.InputFormat).B);
+                        DocumentHandler.Write(Sw, 2, "OutType", EnumManager.OutputFormatToString(Sm.OutputFormat).B);
+                        DocumentHandler.Write(Sw, 2, "LineFormat", EnumManager.LineFormattingToString(Sm.LineFormat));
+                        DocumentHandler.Write(Sw, 2, "ModbusMstr", Sm.IsMaster);
+                        DocumentHandler.Write(Sw, 2, "OutputToMstr", Sm.OutputToMasterTerminal);
                         Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                         i++;
                     }
                 }
                 Sw.WriteLine("");
                 if (ProgramManager.Programs.Count > 0) {
-                    Sw.WriteLine("--  Step Programs");
+                    DocumentHandler.WriteComment(Sw, 0, "  Step Programs");
                     int Cnt = 0;
                     foreach (ProgramObject Prg in ProgramManager.Programs) {
                         if (Prg.Program.Count > 0) {
-                            Sw.WriteLine(StringHandler.AddTabs(1, "def,parm:STEP_" + Cnt.ToString() + "{"));
-                            Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Name=" + StringHandler.EncapsulateString(Prg.Name)));
-                            Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Command=" + StringHandler.EncapsulateString(Prg.Command)));
+                            DocumentHandler.Write(Sw, 1, "STEP_" + Cnt.ToString());
+                            DocumentHandler.Write(Sw, 2, "Name", Prg.Name);
+                            DocumentHandler.Write(Sw, 2, "Command", Prg.Command);
                             Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Data={"));
                             foreach (ListItem LstItm in Prg.Program) {
                                 if (LstItm.SubItems.Count == 3) {
@@ -129,20 +129,20 @@ namespace Serial_Monitor.Classes {
                     }
                 }
                 if (Buttons.Count > 0) {
-                    Sw.WriteLine("--  Keypad Buttons");
+                    DocumentHandler.WriteComment(Sw, 0, "  Keypad Buttons");
                     int Cnt = 0;
                     foreach (KeypadButton Btn in Buttons) {
                         if (Btn.Tag != null) {
                             if (Btn.Tag.GetType() == typeof(BtnCommand)) {
                                 BtnCommand CmdSet = (BtnCommand)Btn.Tag;
                                 if ((CmdSet.IsSet == true) || (CmdSet.IsEdited == true)) {
-                                    Sw.WriteLine(StringHandler.AddTabs(1, "def,parm:KBTN_" + Cnt.ToString() + "{"));
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Text=" + StringHandler.EncapsulateString(Btn.Text)));
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Command=" + StringHandler.EncapsulateString(CmdSet.CommandLine)));
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Type=" + StringHandler.EncapsulateString(EnumManager.CommandTypeToString(CmdSet.Type))));
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,str:Channel=" + StringHandler.EncapsulateString(CmdSet.Channel)));
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,int:Symbol=" + ((int)CmdSet.DisplaySymbol).ToString()));
-                                    Sw.WriteLine(StringHandler.AddTabs(2, "def,int:Shortcut=" + ((int)CmdSet.Shortcut).ToString()));
+                                    DocumentHandler.Write(Sw, 1, "KBTN_" + Cnt.ToString());
+                                    DocumentHandler.Write(Sw, 2, "Text", Btn.Text);
+                                    DocumentHandler.Write(Sw, 2, "Command", CmdSet.CommandLine);
+                                    DocumentHandler.Write(Sw, 2, "Type", EnumManager.CommandTypeToString(CmdSet.Type));
+                                    DocumentHandler.Write(Sw, 2, "Channel", CmdSet.Channel);
+                                    DocumentHandler.Write(Sw, 2, "Symbol", (int)CmdSet.DisplaySymbol);
+                                    DocumentHandler.Write(Sw, 2, "Shortcut", (int)CmdSet.Shortcut);
                                     Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                                 }
                             }
@@ -151,6 +151,9 @@ namespace Serial_Monitor.Classes {
                     }
                 }
             }
+        }
+        private static void Write(StreamWriter StrWriter, int Tabs, string Name, int Value) {
+
         }
         private static List<string> GetList(object Input) {
             if (Input == null) {

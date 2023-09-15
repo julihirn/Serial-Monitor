@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightVolume</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M8.5,2V14l-4-3.5H.5v-5h4Z" />
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M10.5,8A2,2,0,0,1,9,9.929V6.071A2,2,0,0,1,10.5,8Z" />
+      <path class="light-defaultgrey" d="M11,8a2.5,2.5,0,0,1-2,2.449V9.408A1.491,1.491,0,0,0,9,6.592V5.551A2.5,2.5,0,0,1,11,8Z" />
+    </g>
+    <path class="light-defaultgrey" d="M8.171,1.624,4.313,5H.5L0,5.5v5l.5.5H4.313l3.858,3.376L9,14V2ZM4,10H1V6H4Zm4,2.9L5,10.273V5.727L8,3.1Z" />
+    <path class="light-defaultgrey" d="M13.5,8a4.966,4.966,0,0,1-1.464,3.535l-.707-.707a4,4,0,0,0,0-5.656l.707-.707A4.966,4.966,0,0,1,13.5,8Zm.3-5.3L13.1,3.4a6.51,6.51,0,0,1,0,9.194l.707.707A7.511,7.511,0,0,0,13.8,2.7Z" />
+  </g>
+</svg>

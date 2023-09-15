@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-red-10{fill: #c50b17; opacity: 0.1;}.light-red{fill: #c50b17; opacity: 1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightAudioMute</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-red-10" d="M12,8.5A3.5,3.5,0,1,1,8.5,12,3.5,3.5,0,0,1,12,8.5Z" />
+    <path class="light-red" d="M12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm3,4a2.97,2.97,0,0,1-.56,1.733L10.267,9.56A2.97,2.97,0,0,1,12,9,3,3,0,0,1,15,12ZM9,12a2.97,2.97,0,0,1,.56-1.733l4.173,4.173A2.97,2.97,0,0,1,12,15,3,3,0,0,1,9,12Z" />
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M9,8.026V5.071A2,2,0,0,1,10.5,7a2.057,2.057,0,0,1-.022.262A4.955,4.955,0,0,0,9,8.026Z" />
+      <path class="light-defaultgrey" d="M9,5.592V4.551A2.5,2.5,0,0,1,11,7c0,.035-.008.068-.009.1a4.95,4.95,0,0,0-1.065.361A1.491,1.491,0,0,0,9,5.592Z" />
+    </g>
+    <path class="light-defaultgrey-10" d="M7.029,11.713,4.5,9.5H.5v-5h4L8.5,1V8.438A4.973,4.973,0,0,0,7.029,11.713Z" />
+    <path class="light-defaultgrey" d="M7,12a4.915,4.915,0,0,1,.091-.9L5,9.273V4.727L8,2.1V9.031A5.012,5.012,0,0,1,9,8.026V1L8.171.624,4.313,4H.5L0,4.5v5l.5.5H4.313l2.726,2.386C7.029,12.256,7,12.132,7,12ZM4,9H1V5H4Z" />
+  </g>
+</svg>

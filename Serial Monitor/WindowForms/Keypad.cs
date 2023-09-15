@@ -125,6 +125,15 @@ namespace Serial_Monitor {
 
             kpCommands.BorderColorMarkedNorth = Properties.Settings.Default.THM_COL_BorderColor;
             kpCommands.BorderColorMarkedSouth = Properties.Settings.Default.THM_COL_BorderColor;
+
+            foreach (KeypadButton Kbtn in ProjectManager.Buttons) {
+                if (Kbtn.Tag != null) {
+                    if (Kbtn.Tag.GetType() == typeof(BtnCommand)) {
+                        BtnCommand btnCommand = (BtnCommand)Kbtn.Tag;
+                        BtnCommand.SetDisplaySymbol(btnCommand.DisplaySymbol, Kbtn);
+                    }
+                }
+            }
         }
 
         private void pnlProperties_CloseButtonClicked(object sender, Point HitPoint) {

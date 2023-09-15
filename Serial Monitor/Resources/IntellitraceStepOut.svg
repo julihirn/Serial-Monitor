@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IntellitraceStepOut</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey" d="M10.354,6.354l-.708-.708L11.293,4H4v9h7v1H3.5L3,13.5V3.5L3.5,3h7.793L9.646,1.354l.708-.708,2.5,2.5v.708Z" />
+  </g>
+</svg>

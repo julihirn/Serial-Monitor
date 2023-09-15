@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-blue{fill: #005dba; opacity: 1;}</style>
+  </defs>
+  <title>IconLightStepInto</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-blue" d="M7.5,14.5a2,2,0,1,1,2-2A2,2,0,0,1,7.5,14.5Z" />
+    <path class="light-blue" d="M11.036,5.657,7.854,8.839H7.146L3.964,5.657l.708-.707L7,7.278V0H8V7.278L10.328,4.95Z" />
+  </g>
+</svg>

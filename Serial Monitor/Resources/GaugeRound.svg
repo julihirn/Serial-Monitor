@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-red{fill: #c50b17; opacity: 1;}.light-green{fill: #1f801f; opacity: 1;}</style>
+  </defs>
+  <title>IconLightGaugeRound</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M14.5,7.5a7,7,0,1,1-7-7A7,7,0,0,1,14.5,7.5Z" />
+    <path class="light-defaultgrey" d="M7.5,0A7.5,7.5,0,1,0,15,7.5,7.508,7.508,0,0,0,7.5,0Zm0,14A6.5,6.5,0,1,1,14,7.5,6.508,6.508,0,0,1,7.5,14Z" />
+    <path class="light-red" d="M9.9,2.55l-.437.9A4.448,4.448,0,0,0,7.5,3a4.5,4.5,0,0,0-3.15,7.713l-.7.715A5.5,5.5,0,0,1,9.9,2.55Z" />
+    <path class="light-green" d="M13,7.5a5.459,5.459,0,0,1-1.65,3.928l-.7-.715a4.5,4.5,0,0,0,.9-5.176l.9-.437A5.45,5.45,0,0,1,13,7.5Z" />
+    <path class="light-defaultgrey-10" d="M8.5,7.5a1,1,0,1,1-1-1A1,1,0,0,1,8.5,7.5Z" />
+    <path class="light-defaultgrey" d="M11.854,3.854l-.708-.708-3,3a1.514,1.514,0,1,0,.707.707ZM7.5,8A.5.5,0,1,1,8,7.5.5.5,0,0,1,7.5,8Z" />
+  </g>
+</svg>

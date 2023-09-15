@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightTime</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M14.5,8A6.5,6.5,0,1,1,8,1.5,6.5,6.5,0,0,1,14.5,8Z" />
+    <path class="light-defaultgrey" d="M8,1a7,7,0,1,0,7,7A7.008,7.008,0,0,0,8,1ZM8,14a6,6,0,1,1,6-6A6.006,6.006,0,0,1,8,14Z" />
+    <path class="light-defaultgrey" d="M11,8V9H7.5L7,8.5V4H8V8Z" />
+  </g>
+</svg>

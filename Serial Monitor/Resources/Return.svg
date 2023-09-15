@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-blue{fill: #005dba; opacity: 1;}</style>
+  </defs>
+  <title>IconLightReturn</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-blue" d="M2.146,10.854v-.708l3.5-3.5.708.708L3.707,10H10.5a3.5,3.5,0,0,0,0-7V2a4.5,4.5,0,0,1,0,9H3.707l2.647,2.646-.708.708Z" />
+  </g>
+</svg>
