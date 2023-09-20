@@ -114,8 +114,8 @@ namespace Serial_Monitor.Classes {
                                     string Command = "";
                                     object? CommandObj = LstItm.SubItems[1].Tag;
                                     if (CommandObj != null) {
-                                        if (CommandObj.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                                            Command = ((int)((StepEnumerations.StepExecutable)CommandObj)).ToString("00000000");
+                                        if (CommandObj.GetType() == typeof(StepEnumerations.StepExecutable)) {      //4294967295
+                                            Command = ((long)((StepEnumerations.StepExecutable)CommandObj)).ToString("0000000000");
                                         }
                                     }
                                     string Arguments = LstItm.SubItems[2].Text;

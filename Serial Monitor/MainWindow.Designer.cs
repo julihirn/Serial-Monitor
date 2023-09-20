@@ -243,6 +243,7 @@
             this.keyPadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.modbusRegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oscilloscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.textComparatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
@@ -2579,6 +2580,7 @@
             this.keyPadToolStripMenuItem,
             this.btnMonitor,
             this.modbusRegistersToolStripMenuItem,
+            this.oscilloscopeToolStripMenuItem,
             this.toolStripSeparator14,
             this.textComparatorToolStripMenuItem,
             this.toolStripSeparator31,
@@ -2619,6 +2621,15 @@
             this.modbusRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modbusRegistersToolStripMenuItem.Text = "Modbus &Registers";
             this.modbusRegistersToolStripMenuItem.Click += new System.EventHandler(this.modbusRegistersToolStripMenuItem_Click);
+            // 
+            // oscilloscopeToolStripMenuItem
+            // 
+            this.oscilloscopeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.oscilloscopeToolStripMenuItem.Name = "oscilloscopeToolStripMenuItem";
+            this.oscilloscopeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oscilloscopeToolStripMenuItem.Text = "O&scilloscope";
+            this.oscilloscopeToolStripMenuItem.Visible = false;
+            this.oscilloscopeToolStripMenuItem.Click += new System.EventHandler(this.oscilloscopeToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
@@ -3394,5 +3405,6 @@
         private ToolStripMenuItem btnWinWindowManager;
         private ToolStripMenuItem btnWinCloseAll;
         private ToolStripSeparator toolStripSeparator42;
+        private ToolStripMenuItem oscilloscopeToolStripMenuItem;
     }
 }

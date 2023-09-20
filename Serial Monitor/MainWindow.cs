@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.ComponentModel;
+using Serial_Monitor.WindowForms;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -1499,9 +1500,11 @@ namespace Serial_Monitor {
         private void LoadProgramOperations() {
             StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));
             int Index = 0;
-            int LastValue = 0;
+            long LastValue = 0;
             foreach (StepEnumerations.StepExecutable StepEx in Steps) {
-                int Value = (int)StepEx & 0xFF0000;
+                long Value = (long)StepEx & 0x00FF0000;
+                bool CommandInvisable = ((long)StepEx & 0xF0000000) >= 0x10000000? true: false;
+                if (CommandInvisable == true) { continue; }
                 if (Index != 0) {
                     if (LastValue != Value) {
                         cmStepPrg.Items.Add(new ToolStripSeparator());
@@ -2822,10 +2825,13 @@ namespace Serial_Monitor {
         }
 
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e) {
-            ApplicationManager.OpenSerialProperties(currentManager, true);
+            ApplicationManager.OpenSerialProperties(currentManager, false, true);
         }
 
-        
+        private void oscilloscopeToolStripMenuItem_Click(object sender, EventArgs e) {
+            Oscilloscope Scope = new Oscilloscope();
+            ApplicationManager.OpenInternalApplicationOnce(Scope, true);
+        }
     }
     public enum StreamInputFormat {
         Text = 0x01,

@@ -13,18 +13,22 @@ using System.Windows.Forms;
 namespace Serial_Monitor.WindowForms {
     public partial class ChannelProperties : Form, ITheme {
         SerialManager? manager = null;
-        private SerialManager? Manager {
+        public SerialManager? Manager {
             get { return manager; }
+            set { 
+                manager = value;
+                if (manager != null) {
+                    propertyGrid1.SelectedObject = Manager;
+                }
+            }
         }
         public ChannelProperties(SerialManager Manager) {
             InitializeComponent();
-            this.manager = Manager;
+            this.Manager = Manager;
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
-            if (Manager != null) {
-                propertyGrid1.SelectedObject = Manager;
-            }
+         
         }
 
         public void ApplyTheme() {

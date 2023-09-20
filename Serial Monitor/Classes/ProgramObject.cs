@@ -46,13 +46,13 @@ namespace Serial_Monitor.Classes {
                 ListItem Lip = new ListItem();
                 ListSubItem LiE = new ListSubItem(FCommand[0] == '1' ? true : false);
                 ListSubItem LiC = new ListSubItem();
-                string CmdStr = FCommand.Substring(2, 8);
-                int CmdInt = 0; int.TryParse(CmdStr, out CmdInt);
+                string CmdStr = StringHandler.GetStringInEncapulated(FCommand, ':', ':', 0, 1);//FCommand.Substring(2, 8);
+                long CmdInt = 0; long.TryParse(CmdStr, out CmdInt);
                 LiC.Tag = (StepEnumerations.StepExecutable)CmdInt;
                 LiC.Text = ProgramManager.StepExecutableToString((StepEnumerations.StepExecutable)CmdInt);
 
                 ListSubItem LiA = new ListSubItem();
-                LiA.Text = FCommand.Remove(0, 11);
+                LiA.Text = StringHandler.GetStringInEncapulated(FCommand, ':', ':', 1, -1);//FCommand.Remove(0, 11);
                 Lip.SubItems.Add(LiE);
                 Lip.SubItems.Add(LiC);
                 Lip.SubItems.Add(LiA);

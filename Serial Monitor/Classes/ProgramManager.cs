@@ -1,8 +1,10 @@
 ﻿using Handlers;
+using Handlers.ShadowX;
 using ODModules;
 using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -159,12 +161,13 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Program Execution
+        static DateTime LastUICommand = DateTime.UtcNow;
         public static void StepProgram() {
             bool CleanAll = false;
             try {
                 while (true) {
                     if (CurrentProgram != null) {
-                        if(ProgramStep < 0) {
+                        if (ProgramStep < 0) {
                             ProgramState = StepEnumerations.StepState.Stopped;
                         }
                         if (CurrentProgram.Program.Count > 0) {
@@ -213,7 +216,7 @@ namespace Serial_Monitor.Classes {
                     }
                 }
             }
-            catch (Exception e){
+            catch (Exception e) {
                 ProgramState = StepEnumerations.StepState.Stopped;
                 Print(ErrorType.M_Error, "PROG_THREAD_DEAD", "The program execution thread has exited due to a caught exception...");
                 Print(ErrorType.M_Error, "", e.Message);
@@ -275,23 +278,19 @@ namespace Serial_Monitor.Classes {
                     Call(Arguments);
                     break;
                 case StepEnumerations.StepExecutable.Clear:
-                    if (MainInstance != null) { MainInstance.MethodClearing(); }
+                    ClearTerminal();
                     break;
                 case StepEnumerations.StepExecutable.Print:
-                    if (MainInstance != null) { MainInstance.MethodPrinting(Arguments); }
+                    Print(Arguments);
                     break;
                 case StepEnumerations.StepExecutable.PrintVariable:
-                    if (MainInstance != null) { MainInstance.MethodPrinting(GetVariable(Arguments)); }
+                    Print(GetVariable(Arguments));
                     break;
                 case StepEnumerations.StepExecutable.Open:
-                    if (MainInstance != null) {
-                        MainInstance.ProgramSerialManagement(Function, Arguments);
-                    }
+                    ProgramSerialManagement(Function, Arguments);
                     break;
                 case StepEnumerations.StepExecutable.Close:
-                    if (MainInstance != null) {
-                        MainInstance.ProgramSerialManagement(Function, Arguments);
-                    }
+                    ProgramSerialManagement(Function, Arguments);
                     break;
                 case StepEnumerations.StepExecutable.Label:
                     SetLabel(Arguments);
@@ -322,15 +321,61 @@ namespace Serial_Monitor.Classes {
                     //}));
                     break;
                 case StepEnumerations.StepExecutable.SendKeys:
-                    if (MainInstance != null) {
-                        MainInstance.MethodSendKeys(Arguments);
-                    }
+                    SendKeys(Arguments);
                     break;
                 default:
                     break;
             }
         }
-        #endregion 
+        #endregion
+        #region UI Commands
+        static ulong OverPollCount = 100;
+        private static bool IsExecutionAllowed() {
+            DateTime Now = DateTime.UtcNow;
+            double Result = ConversionHandler.DateIntervalDifference(LastUICommand, Now, ConversionHandler.Interval.Microsecond);
+            if (Result > 500) {
+                OverPollCount = 0;
+                return true;
+            }
+            OverPollCount++;
+            if (OverPollCount < 10) {
+                return true;
+            }
+            return false;
+        }
+        private static void ProgramSerialManagement(StepEnumerations.StepExecutable Function, string Arguments) {
+            if (IsExecutionAllowed()) {
+                if (MainInstance != null) {
+                    LastUICommand = DateTime.UtcNow;
+                    MainInstance.ProgramSerialManagement(Function, Arguments);
+                }
+            }
+        }
+        private static void SendKeys(string Arguments) {
+            if (IsExecutionAllowed()) {
+                if (MainInstance != null) {
+                    LastUICommand = DateTime.UtcNow;
+                    MainInstance.MethodSendKeys(Arguments);
+                }
+            }
+        }
+        private static void Print(string Arguments) {
+            if (IsExecutionAllowed()) {
+                if (MainInstance != null) {
+                    LastUICommand = DateTime.UtcNow;
+                    MainInstance.MethodPrinting(Arguments);
+                }
+            }
+        }
+        private static void ClearTerminal() {
+            if (IsExecutionAllowed()) {
+                if (MainInstance != null) {
+                    LastUICommand = DateTime.UtcNow;
+                    MainInstance.MethodClearing();
+                }
+            }
+        }
+        #endregion
         #region Data Transmission
         public static void SendByte(string Arguments) {
             byte Data = 0x00;

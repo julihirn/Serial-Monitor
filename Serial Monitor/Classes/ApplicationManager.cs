@@ -22,6 +22,15 @@ namespace Serial_Monitor.Classes {
             }
             return false;
         }
+        public static Form? GetFormByName(string Name) {
+            FormCollection fc = Application.OpenForms;
+            foreach (Form frm in fc) {
+                if (frm.Name == Name) {
+                    return frm;
+                }
+            }
+            return null;
+        }
         public static void CloseInternalApplication(string Name) {
             FormCollection fc = Application.OpenForms;
             foreach (Form frm in fc) {
@@ -61,18 +70,39 @@ namespace Serial_Monitor.Classes {
                 Term.Show();
             }
         }
-        public static void OpenSerialProperties(SerialManager? Manager, bool BringToFront = true) {
+        public static void OpenSerialProperties(SerialManager? Manager, bool NewPropetyWindow = false, bool BringToFront = true) {
             if (Manager == null) { return; }
-            string ID = "PROP_" + Manager.ID;
-            if (IsInternalApplicationOpen(ID)) {
-                if (BringToFront == true) { BringInternalApplicationToFront(ID); }
+            if (NewPropetyWindow == true) {
+                string ID = "PROP_" + Manager.ID;
+                if (IsInternalApplicationOpen(ID)) {
+                    if (BringToFront == true) { BringInternalApplicationToFront(ID); }
+                }
+                else {
+                    ChannelProperties ChanProp = new ChannelProperties(Manager);
+                    ChanProp.Name = ID;
+                    if (BringToFront == true) { ChanProp.BringToFront(); }
+                    ChanProp.Show();
+                }
             }
             else {
-                ChannelProperties ChanProp = new ChannelProperties(Manager);
-                ChanProp.Name = ID;
-                if (BringToFront == true) { ChanProp.BringToFront(); }
-                ChanProp.Show();
+                string ID = "PROP_ALL";
+                if (IsInternalApplicationOpen(ID)) {
+                    Form? Temp = GetFormByName(ID);
+                    if (Temp != null) {
+                        if (Temp.GetType() == typeof(ChannelProperties)) {
+                            ((ChannelProperties)Temp).Manager = Manager;
+                        }
+                    }
+                    if (BringToFront == true) { BringInternalApplicationToFront(ID); }
+                }
+                else {
+                    ChannelProperties ChanProp = new ChannelProperties(Manager);
+                    ChanProp.Name = ID;
+                    if (BringToFront == true) { ChanProp.BringToFront(); }
+                    ChanProp.Show();
+                }
             }
+            
         }
         public static void ReapplyThemeToAll() {
             FormCollection fc = Application.OpenForms;
