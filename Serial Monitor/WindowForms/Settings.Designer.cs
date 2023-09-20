@@ -33,6 +33,8 @@
             this.thSettings = new ODModules.TabHeader();
             this.hiddenTabControl1 = new ODModules.HiddenTabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.labelPanel4 = new ODModules.LabelPanel();
+            this.chbxAnimateCurStep = new System.Windows.Forms.CheckBox();
             this.lblPnlDefaults = new ODModules.LabelPanel();
             this.labelPanel2 = new ODModules.LabelPanel();
             this.toolStrip2 = new ODModules.ToolStrip();
@@ -64,6 +66,7 @@
             this.flowPnlTheme.SuspendLayout();
             this.hiddenTabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.labelPanel4.SuspendLayout();
             this.lblPnlDefaults.SuspendLayout();
             this.labelPanel2.SuspendLayout();
             this.toolStrip2.SuspendLayout();
@@ -208,6 +211,7 @@
             this.thSettings.TabSelectedShadowColor = System.Drawing.Color.Black;
             this.thSettings.TabStyle = ODModules.TabHeader.TabStyles.Normal;
             this.thSettings.UseBindingTabControl = true;
+            this.thSettings.Load += new System.EventHandler(this.thSettings_Load);
             // 
             // hiddenTabControl1
             // 
@@ -229,6 +233,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.labelPanel4);
             this.tabPage3.Controls.Add(this.lblPnlDefaults);
             this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
@@ -238,6 +243,49 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "General";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // labelPanel4
+            // 
+            this.labelPanel4.ArrowColor = System.Drawing.Color.Black;
+            this.labelPanel4.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
+            this.labelPanel4.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.labelPanel4.CloseColor = System.Drawing.Color.Black;
+            this.labelPanel4.CloseMouseOverColor = System.Drawing.Color.Red;
+            this.labelPanel4.Collapsed = false;
+            this.labelPanel4.Controls.Add(this.chbxAnimateCurStep);
+            this.labelPanel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelPanel4.DropShadow = false;
+            this.labelPanel4.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelPanel4.FixedInlineWidth = false;
+            this.labelPanel4.Inlinelabel = false;
+            this.labelPanel4.InlineWidth = 100;
+            this.labelPanel4.LabelBackColor = System.Drawing.Color.White;
+            this.labelPanel4.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelPanel4.LabelForeColor = System.Drawing.Color.Black;
+            this.labelPanel4.Location = new System.Drawing.Point(3, 109);
+            this.labelPanel4.Name = "labelPanel4";
+            this.labelPanel4.OverrideCollapseControl = true;
+            this.labelPanel4.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.labelPanel4.PanelCollapsible = true;
+            this.labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            this.labelPanel4.ShowCloseButton = false;
+            this.labelPanel4.Size = new System.Drawing.Size(336, 97);
+            this.labelPanel4.TabIndex = 2;
+            this.labelPanel4.Text = "Program Execution";
+            // 
+            // chbxAnimateCurStep
+            // 
+            this.chbxAnimateCurStep.AutoSize = true;
+            this.chbxAnimateCurStep.Checked = true;
+            this.chbxAnimateCurStep.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbxAnimateCurStep.ForeColor = System.Drawing.Color.Black;
+            this.chbxAnimateCurStep.Location = new System.Drawing.Point(5, 30);
+            this.chbxAnimateCurStep.Name = "chbxAnimateCurStep";
+            this.chbxAnimateCurStep.Size = new System.Drawing.Size(208, 19);
+            this.chbxAnimateCurStep.TabIndex = 3;
+            this.chbxAnimateCurStep.Text = "Animate Program Cursor Stepping";
+            this.chbxAnimateCurStep.UseVisualStyleBackColor = true;
+            this.chbxAnimateCurStep.CheckedChanged += new System.EventHandler(this.chbxAnimateCurStep_CheckedChanged);
             // 
             // lblPnlDefaults
             // 
@@ -266,7 +314,7 @@
             this.lblPnlDefaults.PanelCollapsible = true;
             this.lblPnlDefaults.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblPnlDefaults.ShowCloseButton = false;
-            this.lblPnlDefaults.Size = new System.Drawing.Size(336, 170);
+            this.lblPnlDefaults.Size = new System.Drawing.Size(336, 106);
             this.lblPnlDefaults.TabIndex = 1;
             this.lblPnlDefaults.Text = "Defaults";
             // 
@@ -676,6 +724,8 @@
             this.flowPnlTheme.ResumeLayout(false);
             this.hiddenTabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.labelPanel4.ResumeLayout(false);
+            this.labelPanel4.PerformLayout();
             this.lblPnlDefaults.ResumeLayout(false);
             this.lblPnlDefaults.PerformLayout();
             this.labelPanel2.ResumeLayout(false);
@@ -729,5 +779,7 @@
         private ToolStripDropDownButton ddbInputFormat;
         private ToolStripLabel toolStripLabel2;
         private ToolStripDropDownButton ddbOutputFormat;
+        private ODModules.LabelPanel labelPanel4;
+        private CheckBox chbxAnimateCurStep;
     }
 }

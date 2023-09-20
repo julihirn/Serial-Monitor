@@ -1503,7 +1503,7 @@ namespace Serial_Monitor {
             long LastValue = 0;
             foreach (StepEnumerations.StepExecutable StepEx in Steps) {
                 long Value = (long)StepEx & 0x00FF0000;
-                bool CommandInvisable = ((long)StepEx & 0xF0000000) >= 0x10000000? true: false;
+                bool CommandInvisable = ((long)StepEx & 0xF0000000) >= 0x10000000 ? true : false;
                 if (CommandInvisable == true) { continue; }
                 if (Index != 0) {
                     if (LastValue != Value) {
@@ -1864,15 +1864,7 @@ namespace Serial_Monitor {
         //StepEnumerations.StepState LastProgramState = StepEnumerations.StepState.Stopped;
         DateTime LastUpdate = DateTime.Now;
         private void tmrProg_Tick(object sender, EventArgs e) {
-            if (ProgramManager.LastProgramStep != ProgramManager.ProgramStep) {
-                if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
-                    lstStepProgram.LineMarkerIndex = ProgramManager.ProgramStep;
-                }
-                if (ProgramManager.CurrentProgram != null) {
-                    ProgramManager.CurrentProgram.ProgramMarker = ProgramManager.ProgramStep;
-                }
-                ProgramManager.LastProgramStep = ProgramManager.ProgramStep;
-            }
+
             //if (LastProgramState != ProgramManager.ProgramState) {
             if (ConversionHandler.DateIntervalDifference(LastUpdate, DateTime.Now, ConversionHandler.Interval.Millisecond) > 10) {
                 if (ProgramManager.ProgramState == StepEnumerations.StepState.Running) {
@@ -1903,6 +1895,17 @@ namespace Serial_Monitor {
                 }
                 LastUpdate = DateTime.Now;
                 // LastProgramState = ProgramManager.ProgramState;
+            }
+            if (ProgramManager.LastProgramStep != ProgramManager.ProgramStep) {
+                if (Properties.Settings.Default.PRG_BOL_AnimateCursor) {
+                    if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
+                        lstStepProgram.LineMarkerIndex = ProgramManager.ProgramStep;
+                    }
+                    if (ProgramManager.CurrentProgram != null) {
+                        ProgramManager.CurrentProgram.ProgramMarker = ProgramManager.ProgramStep;
+                    }
+                }
+                ProgramManager.LastProgramStep = ProgramManager.ProgramStep;
             }
             if (currentManager != null) {
                 string RxCount = currentManager.BytesReceived.ToString();
@@ -2720,6 +2723,12 @@ namespace Serial_Monitor {
         }
         #endregion
         private void Form1_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == (char)27) {
+                if (ProgramManager.ProgramState != StepEnumerations.StepState.Stopped) {
+                    ProgramManager.ProgramState = StepEnumerations.StepState.Stopped;
+                    ProgramManager.ProgramStep = 0;
+                }
+            }
             if (InRenameMode == false) {
                 if (pnlRenamePanel.Visible == false) {
                     Output.Focus();

@@ -234,6 +234,7 @@ namespace Serial_Monitor {
                 SetPortParityBits(EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit), false);
                 SetPortStopBits(EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits), false);
                 SetPortBits(Properties.Settings.Default.DEF_INT_DataBits,false);
+                chbxAnimateCurStep.Checked = Properties.Settings.Default.PRG_BOL_AnimateCursor;
             }
             catch { }
             PreventWriting = false;
@@ -392,6 +393,16 @@ namespace Serial_Monitor {
         }
         private void Settings_FormClosed(object sender, FormClosedEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+
+        private void thSettings_Load(object sender, EventArgs e) {
+
+        }
+
+        private void chbxAnimateCurStep_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_AnimateCursor = chbxAnimateCurStep.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

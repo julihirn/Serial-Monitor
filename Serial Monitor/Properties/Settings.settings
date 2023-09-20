@@ -98,5 +98,8 @@
     <Setting Name="DEF_STR_OutputFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">frmTxt</Value>
     </Setting>
+    <Setting Name="PRG_BOL_AnimateCursor" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

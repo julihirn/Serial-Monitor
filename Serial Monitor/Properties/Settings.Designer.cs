@@ -405,5 +405,17 @@ namespace Serial_Monitor.Properties {
                 this["DEF_STR_OutputFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_AnimateCursor {
+            get {
+                return ((bool)(this["PRG_BOL_AnimateCursor"]));
+            }
+            set {
+                this["PRG_BOL_AnimateCursor"] = value;
+            }
+        }
     }
 }

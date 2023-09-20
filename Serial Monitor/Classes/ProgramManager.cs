@@ -77,13 +77,13 @@ namespace Serial_Monitor.Classes {
             ProgramManager.ProgramStep = 0;
             ProgramManager.ProgramState = StepEnumerations.StepState.Running;
         }
-        public static void RunFromStart(string ProgramName, bool UseProgramCommand = true) {
+        public static void RunFromStart(string ProgramName, bool UseProgramCommand = false) {
             bool ProgramFound = false;
             if (ProgramName.Length > 0) {
                 bool Resulted = false;
                 string ProName = "";
                 foreach (ProgramObject PrgObj in Programs) {
-                    if (UseProgramCommand == true) {
+                    if (UseProgramCommand == false) {
                         if (PrgObj.Name == ProgramName) {
                             CurrentProgram = PrgObj;
                             ProgramFound = true;
@@ -117,7 +117,6 @@ namespace Serial_Monitor.Classes {
                 SetupProgram();
                 ProgramStep = 0;
                 ProgramState = StepEnumerations.StepState.Running;
-
             }
         }
         #endregion
@@ -338,7 +337,7 @@ namespace Serial_Monitor.Classes {
                 return true;
             }
             OverPollCount++;
-            if (OverPollCount < 10) {
+            if (OverPollCount < 50) {
                 return true;
             }
             return false;
@@ -461,10 +460,9 @@ namespace Serial_Monitor.Classes {
         //private static delAddText safeAddText = new delAddText(AddText);
         private static void Call(string Arguments) {
             ProgramState = StepEnumerations.StepState.Paused;
-            RunFromStart(Arguments);
             CleanProgramData();
-            SetupProgram();
             NoStepProgramIncrement = true;
+            RunFromStart(Arguments, false);
         }
         public static void GotoLabel(string Arguments) {
             bool LabelExists = false;
@@ -746,10 +744,10 @@ namespace Serial_Monitor.Classes {
         public static void ExecuteProgram(string ProgramCommand) {
             if (ProgramCommand.Trim(' ') == "") { return; }
             ProgramState = StepEnumerations.StepState.Paused;
-            RunFromStart(ProgramCommand, false);
+            TestThread();
             CleanProgramData();
-            SetupProgram();
-            NoStepProgramIncrement = true;
+            //SetupProgram();
+            RunFromStart(ProgramCommand, true);
         }
         #endregion
     }
