@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Serial Monitor": {
+      "commandName": "Project",
+      "nativeDebugging": false,
+      "hotReloadEnabled": true
+    }
+  }
+}

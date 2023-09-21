@@ -25,6 +25,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
             SwitchSender    =   0x020001,
             Open =              0x020020,
             Close =             0x020040,
+            SendVariable      = 0x030001,
             SendByte =          0x030002,
             SendString =        0x030004,
             SendLine =          0x030008,
@@ -36,7 +37,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
             DeclareVariable =   0x050001,
             IncrementVariable = 0x050002,
             DecrementVariable = 0x050003,
-           
+            EvaluateExpression = 0x05F001,
             ///SelectChannel = 0x050400,
             //NewChannel = 0x050800,
             //DeleteChannel = 0x051000,

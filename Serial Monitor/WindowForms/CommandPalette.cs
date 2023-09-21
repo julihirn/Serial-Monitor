@@ -67,7 +67,6 @@ namespace Serial_Monitor {
             }
         }
         public void ApplyTheme() {
-
             RecolorAll();
         }
         private void RecolorAll() {

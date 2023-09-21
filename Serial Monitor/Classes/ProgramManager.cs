@@ -234,6 +234,8 @@ namespace Serial_Monitor.Classes {
                     break;
                 case StepEnumerations.StepExecutable.SwitchSender:
                     CurrentSender = Arguments; break;
+                case StepEnumerations.StepExecutable.SendVariable:
+                    SendString(GetVariable(Arguments), false); break;
                 case StepEnumerations.StepExecutable.SendByte:
                     SendByte(Arguments); break;
                 case StepEnumerations.StepExecutable.SendString:
@@ -300,6 +302,8 @@ namespace Serial_Monitor.Classes {
                     IncrementDecrementVariable(Arguments, false); break;
                 case StepEnumerations.StepExecutable.DecrementVariable:
                     IncrementDecrementVariable(Arguments, true); break;
+                case StepEnumerations.StepExecutable.EvaluateExpression:
+                    EvaluateExpression(Arguments); break;
                 case StepEnumerations.StepExecutable.If:
                     EvaluateConditional(Arguments); break;
                 case StepEnumerations.StepExecutable.GoTo:
@@ -371,6 +375,7 @@ namespace Serial_Monitor.Classes {
                 if (MainInstance != null) {
                     LastUICommand = DateTime.UtcNow;
                     MainInstance.MethodClearing();
+
                 }
             }
         }
@@ -436,6 +441,75 @@ namespace Serial_Monitor.Classes {
                 VariableLinkage LblLink = new VariableLinkage(VarName, VarValue);
                 CurrentProgram.Variables.Add(LblLink);
             }
+        }
+        public static void EvaluateExpression(string Argument) {
+            if (CurrentProgram == null) { return; }
+            string VarName = Argument.Split('=')[0];
+            string VarExpression = StringHandler.SpiltAndCombineAfter(Argument, '=', 1).Value[1];
+            VariableLinkage? Assignment = GetVariableAssignment(VarName);
+            if (Assignment == null) { return; }
+            List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression);
+            List<VariableResult> VarResult = GetVariables(Vars);
+            bool StringExpression = IsStringExpression(VarResult);
+            if (StringExpression) {
+                string Output = "";
+                STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(VarExpression, '+');
+                foreach (string Str in Spilts.Value) {
+                    int Index = GetVariableIndex(VarResult, Str);
+                    if (Index >= 0) {
+                        Output += VarResult[Index].Value;
+                    }
+                    else {
+                        Output += Str;
+                    }
+                }
+                Assignment.Value = Output;
+            }
+            else {
+                Assignment.Value = MathHandler.EvaluateExpression(VarExpression, ConvertVariables(VarResult)).ToString();
+            }
+        }
+        private static int GetVariableIndex(List<VariableResult> VarResult, string Name) {
+            int Index = 0;
+            foreach (VariableResult Var in VarResult) {
+                if (Var.Name == Name) { return Index; }
+                Index++;
+            }
+            return -1;
+        }
+        private static List<MathVariable> ConvertVariables(List<VariableResult> Results) {
+            List<MathVariable> Variables = new List<MathVariable>();
+            foreach (VariableResult Result in Results) {
+                Variables.Add(new MathVariable(Result.Name, Result.Value));
+            }
+            return Variables;
+        }
+        private static VariableLinkage? GetVariableAssignment(string Argument) {
+            if (CurrentProgram == null) { return null; }
+            if (CurrentProgram.Variables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
+                    if (CurrentProgram.Variables[i].Name == Argument) {
+                        return CurrentProgram.Variables[i];
+                    }
+                }
+            }
+            return null;
+        }
+        private static List<VariableResult> GetVariables(List<string> Vars) {
+            List<VariableResult> VarResult = new List<VariableResult>();
+            if (CurrentProgram == null) { return VarResult; }
+            foreach (string Var in Vars) {
+                VarResult.Add(CurrentProgram.GetVariable(Var));
+            }
+            return VarResult;
+        }
+        private static bool IsStringExpression(List<VariableResult> VarResult) {
+            if (CurrentProgram == null) { return false; }
+            bool IsStringExp = false;
+            foreach (VariableResult Var in VarResult) {
+                if (ConversionHandler.IsNumeric(Var.Value) == false) { IsStringExp = true; break; }
+            }
+            return IsStringExp;
         }
         #endregion
         #region Debugging
@@ -637,6 +711,8 @@ namespace Serial_Monitor.Classes {
             switch (StepExe) {
                 case StepEnumerations.StepExecutable.Delay:
                     return DataType.Number;
+                case StepEnumerations.StepExecutable.SendVariable:
+                    return DataType.Text;
                 case StepEnumerations.StepExecutable.SendKeys:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.SendString:
@@ -673,6 +749,8 @@ namespace Serial_Monitor.Classes {
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.DecrementVariable:
                     return DataType.Text;
+                case StepEnumerations.StepExecutable.EvaluateExpression:
+                    return DataType.DualString;
                 case StepEnumerations.StepExecutable.If:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.MousePosition:
@@ -681,13 +759,16 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static bool AcceptsArguments(StepEnumerations.StepExecutable StepExe) {
-            if (StepExe == StepEnumerations.StepExecutable.NoOperation) { return false; }
-            else if (StepExe == StepEnumerations.StepExecutable.End) { return false; }
-            else if (StepExe == StepEnumerations.StepExecutable.EndIf) { return false; }
-            else if (StepExe == StepEnumerations.StepExecutable.Clear) { return false; }
-            else if (StepExe == StepEnumerations.StepExecutable.Close) { return false; }
-            else if (StepExe == StepEnumerations.StepExecutable.MouseLeftClick) { return false; }
+            DataType CmdType = StepExeutableToDataType(StepExe);
+            if (CmdType == DataType.Null) { return false; }
             return true;
+            //if (StepExe == StepEnumerations.StepExecutable.NoOperation) { return false; }
+            //else if (StepExe == StepEnumerations.StepExecutable.End) { return false; }
+            //else if (StepExe == StepEnumerations.StepExecutable.EndIf) { return false; }
+            //else if (StepExe == StepEnumerations.StepExecutable.Clear) { return false; }
+            //else if (StepExe == StepEnumerations.StepExecutable.Close) { return false; }
+            //else if (StepExe == StepEnumerations.StepExecutable.MouseLeftClick) { return false; }
+            //return true;
         }
         public static string CommandDefaultValue(StepEnumerations.StepExecutable StepExe) {
             switch (StepExe) {

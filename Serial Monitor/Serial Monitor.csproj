@@ -25,20 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="E:\User Files\Pictures\Program Icons\Other Icons\SerialMonitor.ico">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="ODModules" Version="2.0.3" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\ODModules\ODModules\ODModules.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,6 +64,10 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="SerialMonitor.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

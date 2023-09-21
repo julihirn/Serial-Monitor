@@ -293,6 +293,7 @@ namespace Serial_Monitor.Classes {
             }
             else {
                 return Post(Data, false);
+
             }
         }
         public bool Post(string Data, bool WriteLine = false) {

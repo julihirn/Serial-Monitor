@@ -159,7 +159,7 @@
 
         #endregion
 
-        private ODModules.Keypad keypad1;
+       // private ODModules.Keypad keypad1;
         private ODModules.Keypad kpCommands;
         private ODModules.LabelPanel pnlProperties;
         private PropertyGrid propertyGrid1;
