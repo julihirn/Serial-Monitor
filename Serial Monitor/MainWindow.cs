@@ -1938,50 +1938,43 @@ namespace Serial_Monitor {
             string Name = "";
             string StoredName = "";
             bool Resulted = false;
-            int Index = -1;
-            foreach (ProgramObject Prg in ProgramManager.Programs) {
-                Index++;
+            foreach (Tab PrgTab in thPrograms.Tabs) {
+                if (PrgTab.Tag == null) { continue; }
+                if (PrgTab.Tag.GetType() != typeof(ProgramObject)) { continue; }
+                ProgramObject Prg = (ProgramObject)PrgTab.Tag;
                 if (Prg.Name.Trim().Length == 0) {
-                    if (j > 0) {
-                        Name = "Untitled Program " + j.ToString();
-                    }
-                    else {
-                        Name = "Untitled Program";
-                    }
-                    j++;
+                    Name = GetUntitledText(ref j);
                 }
                 else {
                     Name = Prg.Name;
                 }
-                if (thPrograms.Tabs.Count > 0) {
-                    if ((Index >= 0) && (Index < thPrograms.Tabs.Count)) {
-                        thPrograms.Tabs[Index].Text = Name;
-                    }
-                }
+                PrgTab.Text = Name;
                 if (Prg == ProgramManager.CurrentProgram) {
                     StoredName = Name;
                     Resulted = true;
-                    // break;
                 }
-
             }
             if (Resulted == true) {
                 btnRun.Text = StoredName;
             }
             thPrograms.Invalidate();
         }
+        private string GetUntitledText(ref int Index) {
+            if (Index > 0) {
+                Name = "Untitled Program " + Index.ToString();
+            }
+            else {
+                Name = "Untitled Program";
+            }
+            Index++;
+            return Name;
+        }
         private void DetermineTabs() {
             int j = 0;
             string Name = "";
             foreach (ProgramObject Prg in ProgramManager.Programs) {
                 if (Prg.Name.Trim().Length == 0) {
-                    if (j > 0) {
-                        Name = "Untitled Program " + j.ToString();
-                    }
-                    else {
-                        Name = "Untitled Program";
-                    }
-                    j++;
+                    Name = GetUntitledText(ref j);
                 }
                 else {
                     Name = Prg.Name;
@@ -2389,8 +2382,13 @@ namespace Serial_Monitor {
                         object? Data = TCEA.SelectedTab;
                         if (Data == null) { return; }
                         if (Data.GetType() == typeof(Tab)) {
-                            ProgramManager.Programs[TCEA.Index].Name = TxBx.Text;
-                            thPrograms.Tabs[TCEA.Index].Text = TxBx.Text;
+                            Tab TabData = (Tab)Data;
+                            if (TabData.Tag != null) {
+                                if (TabData.Tag.GetType() == typeof(ProgramObject)) {
+                                    TabData.Text = TxBx.Text;
+                                    ((ProgramObject)TabData.Tag).Name = TxBx.Text;
+                                }
+                            }
                         }
                         else if (Data.GetType() == typeof(SerialManager)) {
                             SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text;
@@ -2526,6 +2524,18 @@ namespace Serial_Monitor {
                 }
             }
         }
+        private void ArrangeProgramOrderings() {
+            int Index = 0;
+            foreach(Tab TabPrg in thPrograms.Tabs) {
+                if (TabPrg.Tag != null) {
+                    if (TabPrg.Tag.GetType() == typeof(ProgramObject)) {
+                        ((ProgramObject)TabPrg.Tag).DisplayIndex = Index;
+                        Index++;
+                    }
+                }
+            }
+            ProgramManager.Programs = ProgramManager.Programs.OrderBy(x => x.DisplayIndex).ToList();
+        }
         public void Save(bool SaveAs = false) {
             bool IsExistingFile = false;
             if (CurrentDocument.Trim(' ') != "") {
@@ -2533,7 +2543,7 @@ namespace Serial_Monitor {
                     IsExistingFile = true;
                 }
             }
-
+            ArrangeProgramOrderings();
             if (SaveAs == true) { IsExistingFile = false; }
 
             if (IsExistingFile == false) {
@@ -2674,6 +2684,7 @@ namespace Serial_Monitor {
             }
             thPrograms.Invalidate();
             DocumentEdited = true;
+            DetermineName();
         }
         private void UpdateProgramNames() {
             int j = 0;

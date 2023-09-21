@@ -15,6 +15,13 @@ namespace Serial_Monitor.Classes {
         }
         public ProgramObject() {
         }
+        private int displayIndex = 0;
+        public int DisplayIndex {
+            get { return displayIndex; }
+            set {
+                displayIndex = value;
+            }
+        }
         private string name = "";
         public string Name {
             get { return name; }

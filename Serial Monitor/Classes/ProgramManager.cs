@@ -41,6 +41,13 @@ namespace Serial_Monitor.Classes {
         public static bool NoStepProgramIncrement = false;
 
         public static MainWindow? MainInstance = null;
+        static bool enableOverexecuteCheck = false;
+        public static bool EnableOverexecuteCheck {
+            get { return enableOverexecuteCheck; }
+            set {
+                enableOverexecuteCheck = value;
+            }
+        }
 
 
         public static StepEnumerations.StepExecutable LastFunction = StepEnumerations.StepExecutable.NoOperation;
@@ -73,6 +80,7 @@ namespace Serial_Monitor.Classes {
         }
         #region Program Transport
         public static void RunFromStart() {
+            
             ProgramManager.SetupProgram();
             ProgramManager.ProgramStep = 0;
             ProgramManager.ProgramState = StepEnumerations.StepState.Running;
@@ -136,6 +144,8 @@ namespace Serial_Monitor.Classes {
                     }
                 }
             }
+            LastUICommand = DateTime.UtcNow;
+            OverPollCount = 0;
         }
         public static void FindConditionalEnd(int StartIndex) {
             bool NothingMet = true;
@@ -334,14 +344,15 @@ namespace Serial_Monitor.Classes {
         #region UI Commands
         static ulong OverPollCount = 100;
         private static bool IsExecutionAllowed() {
+            if (enableOverexecuteCheck == false) { return true; }
             DateTime Now = DateTime.UtcNow;
             double Result = ConversionHandler.DateIntervalDifference(LastUICommand, Now, ConversionHandler.Interval.Microsecond);
-            if (Result > 500) {
+            if (Result > 5000) {
                 OverPollCount = 0;
                 return true;
             }
             OverPollCount++;
-            if (OverPollCount < 50) {
+            if (OverPollCount < 500) {
                 return true;
             }
             return false;
@@ -446,7 +457,7 @@ namespace Serial_Monitor.Classes {
             if (CurrentProgram == null) { return; }
             string VarName = Argument.Split('=')[0];
             string VarExpression = StringHandler.SpiltAndCombineAfter(Argument, '=', 1).Value[1];
-            VariableLinkage? Assignment = GetVariableAssignment(VarName);
+            VariableLinkage? Assignment = GetVariableAssignment(VarName.Trim(' '));
             if (Assignment == null) { return; }
             List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression);
             List<VariableResult> VarResult = GetVariables(Vars);
@@ -455,7 +466,7 @@ namespace Serial_Monitor.Classes {
                 string Output = "";
                 STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(VarExpression, '+');
                 foreach (string Str in Spilts.Value) {
-                    int Index = GetVariableIndex(VarResult, Str);
+                    int Index = GetVariableIndex(VarResult, Str.Trim(' '));
                     if (Index >= 0) {
                         Output += VarResult[Index].Value;
                     }

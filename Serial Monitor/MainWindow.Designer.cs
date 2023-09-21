@@ -2599,7 +2599,7 @@
             this.keyPadToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.keyPadToolStripMenuItem.Name = "keyPadToolStripMenuItem";
             this.keyPadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
-            this.keyPadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.keyPadToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.keyPadToolStripMenuItem.Text = "&Keypad";
             this.keyPadToolStripMenuItem.Click += new System.EventHandler(this.keyPadToolStripMenuItem_Click);
             // 
@@ -2609,7 +2609,7 @@
             this.btnMonitor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnMonitor.Name = "btnMonitor";
             this.btnMonitor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.btnMonitor.Size = new System.Drawing.Size(180, 22);
+            this.btnMonitor.Size = new System.Drawing.Size(168, 22);
             this.btnMonitor.Text = "&Monitor";
             this.btnMonitor.Click += new System.EventHandler(this.btnMonitor_Click);
             // 
@@ -2618,7 +2618,7 @@
             this.modbusRegistersToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.modbusRegistersToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.modbusRegistersToolStripMenuItem.Name = "modbusRegistersToolStripMenuItem";
-            this.modbusRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modbusRegistersToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.modbusRegistersToolStripMenuItem.Text = "Modbus &Registers";
             this.modbusRegistersToolStripMenuItem.Click += new System.EventHandler(this.modbusRegistersToolStripMenuItem_Click);
             // 
@@ -2626,7 +2626,7 @@
             // 
             this.oscilloscopeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.oscilloscopeToolStripMenuItem.Name = "oscilloscopeToolStripMenuItem";
-            this.oscilloscopeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oscilloscopeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.oscilloscopeToolStripMenuItem.Text = "O&scilloscope";
             this.oscilloscopeToolStripMenuItem.Visible = false;
             this.oscilloscopeToolStripMenuItem.Click += new System.EventHandler(this.oscilloscopeToolStripMenuItem_Click);
@@ -2634,42 +2634,42 @@
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(165, 6);
             // 
             // textComparatorToolStripMenuItem
             // 
             this.textComparatorToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.textComparatorToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.textComparatorToolStripMenuItem.Name = "textComparatorToolStripMenuItem";
-            this.textComparatorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.textComparatorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.textComparatorToolStripMenuItem.Text = "&Text Comparator";
             this.textComparatorToolStripMenuItem.Click += new System.EventHandler(this.textComparatorToolStripMenuItem_Click);
             // 
             // toolStripSeparator31
             // 
             this.toolStripSeparator31.Name = "toolStripSeparator31";
-            this.toolStripSeparator31.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator31.Size = new System.Drawing.Size(165, 6);
             // 
             // deviceManagerToolStripMenuItem
             // 
             this.deviceManagerToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.deviceManagerToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.deviceManagerToolStripMenuItem.Name = "deviceManagerToolStripMenuItem";
-            this.deviceManagerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deviceManagerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.deviceManagerToolStripMenuItem.Text = "Device Manager";
             this.deviceManagerToolStripMenuItem.Click += new System.EventHandler(this.deviceManagerToolStripMenuItem_Click);
             // 
             // toolStripSeparator40
             // 
             this.toolStripSeparator40.Name = "toolStripSeparator40";
-            this.toolStripSeparator40.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator40.Size = new System.Drawing.Size(165, 6);
             // 
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.customizeToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             this.customizeToolStripMenuItem.Visible = false;
             // 
@@ -2679,7 +2679,7 @@
             this.optionsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -2699,7 +2699,7 @@
             this.btnWinWindowManager.ForeColor = System.Drawing.Color.White;
             this.btnWinWindowManager.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnWinWindowManager.Name = "btnWinWindowManager";
-            this.btnWinWindowManager.Size = new System.Drawing.Size(180, 22);
+            this.btnWinWindowManager.Size = new System.Drawing.Size(168, 22);
             this.btnWinWindowManager.Text = "&Window Manager";
             this.btnWinWindowManager.Click += new System.EventHandler(this.btnWinWindowManager_Click);
             // 
@@ -2708,14 +2708,14 @@
             this.btnWinCloseAll.ForeColor = System.Drawing.Color.White;
             this.btnWinCloseAll.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnWinCloseAll.Name = "btnWinCloseAll";
-            this.btnWinCloseAll.Size = new System.Drawing.Size(180, 22);
+            this.btnWinCloseAll.Size = new System.Drawing.Size(168, 22);
             this.btnWinCloseAll.Text = "&Close All";
             this.btnWinCloseAll.Click += new System.EventHandler(this.btnWinCloseAll_Click);
             // 
             // toolStripSeparator42
             // 
             this.toolStripSeparator42.Name = "toolStripSeparator42";
-            this.toolStripSeparator42.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator42.Size = new System.Drawing.Size(165, 6);
             this.toolStripSeparator42.Visible = false;
             // 
             // helpToolStripMenuItem
@@ -3049,7 +3049,7 @@
             this.cmPrograms.SeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.cmPrograms.ShowInsetShadow = false;
             this.cmPrograms.ShowItemInsetShadow = false;
-            this.cmPrograms.Size = new System.Drawing.Size(190, 148);
+            this.cmPrograms.Size = new System.Drawing.Size(190, 170);
             // 
             // cmRunProgram
             // 
