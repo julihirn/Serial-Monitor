@@ -12,21 +12,21 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 - **Data Reception and Display Formats**:
   - **Binary/Hexadecimal Stream**: Receive and display data in binary or hexadecimal format, enabling you to visualize raw data as it comes in.
   - **Plain Text**: Interpret incoming data as plain text, perfect for human-readable messages and information.
-  - **C Command**: Process incoming data as C commands, providing flexibility in executing commands and actions.
-  - **Modbus RTU**: Seamlessly interact with devices using the Modbus RTU protocol, a common standard in industrial communication.
+  - **C Command**: Process incoming data as C commands.
+  - **Modbus RTU**: Seamlessly interact with devices using the Modbus RTU protocol.
 
 - **Data Transmission Formats**:
-  - **Plain Text**: Easily send plain text messages to your serial devices, enabling two-way communication.
-  - **C Command**: Send C commands to your devices, facilitating complex interactions beyond simple text messages.
+  - **Plain Text**: Easily send plain text messages to your serial devices.
+  - **C Command**: Send C commands to your devices.
   - **Modbus RTU**: Transmit data using the Modbus RTU protocol, ensuring compatibility with a wide range of industrial devices.
 
-- **Step Commands**: Take precise control over your serial communication by utilizing step commands. This feature allows you to break down complex actions into smaller, manageable steps.
+- **Step Program**: Take precise control over your serial communication by utilizing step commands. This feature allows you to automate complex or repetitive actions at the click of a button. Programs can print, send (text, text files) and control the flow of operations.
   
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/d05bd3ec-9ba7-418e-b24f-6063fc3be267)
 
 - **Configuration and Step Program Saving**: Serial Monitor allows you to save your configurations and step programs to files. This ensures that you can quickly replicate setups and program sequences without manual reconfiguration.
 
-- **Configurable Keypad**: Design and set keypad for quick prototyping of serial devices.
+- **Configurable Keypad**: Design and set keypad buttons for quick prototyping of serial devices.
 
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/2f19bfc0-ef50-4224-a30e-0e60956f641c)
 
@@ -38,7 +38,8 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 Requires: ODModules, ODHandles.
 
 ## Future Work
-This project is still a bit of a work in progress, I am actively working on adding multiple step program support to project files. You may notice that the program tabs are not yet functional. 
+This project is still a bit of a work in progress, I am actively working on adding new features.
+
 Current Development Roadmap:
 * Modbus register editor patch up
 * Undo/redo and editing history
@@ -51,3 +52,4 @@ Contributions to this application are welcome! If you find bugs, want to add fea
 ## License
 
 This project is licensed under the [MIT License](LICENSE), which means you're free to use, modify, and distribute it as per the terms of the license.
+
