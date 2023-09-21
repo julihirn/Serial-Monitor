@@ -35,7 +35,7 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 * Windows 7 or higher.
 * Requires .Net 7 to be installed.
 ## Project Dependencies
-Requires: ODModules, ODHandles.
+Requires: [ODModules](https://github.com/julihirn/ODModules), [ODHandles](https://github.com/julihirn/ODHandlers).
 
 ## Future Work
 This project is still a bit of a work in progress, I am actively working on adding new features.
