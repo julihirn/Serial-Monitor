@@ -268,7 +268,7 @@ namespace Serial_Monitor.Components {
         private class MyFilter : IMessageFilter {
 
             public delegate void LeftButtonDown();
-            public event LeftButtonDown MouseDown;
+            public event LeftButtonDown ?MouseDown;
 
             //public delegate void KeyPressUp(IntPtr target);
             //public event KeyPressUp KeyUp;

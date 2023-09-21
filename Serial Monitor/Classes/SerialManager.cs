@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO.Ports;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace Serial_Monitor.Classes {
     public class SerialManager {
@@ -278,7 +275,7 @@ namespace Serial_Monitor.Classes {
         public bool Post(string Data) {
             if (outputFormat == StreamOutputFormat.Text) {
                 string Appendage = "";
-                bool NewLine = false;
+                //bool NewLine = false;
                 switch (lineFormat) {
                     case LineFormatting.LF:
                         Appendage = "\n"; break;
@@ -476,7 +473,7 @@ namespace Serial_Monitor.Classes {
         #endregion
         #endregion
         #region Modbus
-        private Modbus.FunctionCode LastSentCode;
+       // private Modbus.FunctionCode LastSentCode = Modbus.FunctionCode.NoCommand;
         private short LastRequestedAddress = 0;
         private void ModbusPostException(int Address, Modbus.FunctionCode Function, ModbusException Code) {
             //Adr Fun Cde

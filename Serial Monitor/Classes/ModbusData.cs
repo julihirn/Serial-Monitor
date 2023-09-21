@@ -8,7 +8,7 @@ namespace Serial_Monitor.Classes {
     public class ModbusData {
         List<short> Registers = new List<short>();
         List<bool> Coils = new List<bool>();
-        Modbus.FunctionCode Code;
+        Modbus.FunctionCode Code = Modbus.FunctionCode.ReadCoils;
         public ModbusData() {
 
         }

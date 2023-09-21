@@ -312,11 +312,16 @@ namespace Serial_Monitor.Classes.Button_Commands {
         public EnumTypeConverter(Type type) : base(type) {
             enumType = type;
         }
-        public override bool CanConvertTo(ITypeDescriptorContext? context, Type destType) {
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type ?destType) {
             return destType == typeof(string);
         }
         public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destType) {
+#pragma warning disable CS8604 // Possible null reference argument.
             FieldInfo? fi = enumType.GetField(System.Enum.GetName(enumType, value) ?? "");
+#pragma warning restore CS8604 // Possible null reference argument.
+            if (fi == null) {
+                return value.ToString() ?? "";
+            }
             Attribute? Attrib = Attribute.GetCustomAttribute(fi, typeof(DescriptionAttribute));
             DescriptionAttribute? dna = null;
             if (Attrib != null) {

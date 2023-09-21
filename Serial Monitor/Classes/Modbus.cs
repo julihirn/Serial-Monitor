@@ -97,6 +97,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         public enum FunctionCode {
+            NoCommand = 0x00,
             ReadDiscreteInputs = 0x02,
             ReadCoils = 0x01,
             WriteSingleCoil = 0x05,

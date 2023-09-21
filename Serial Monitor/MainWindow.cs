@@ -1584,7 +1584,9 @@ namespace Serial_Monitor {
             //}
             Li.SubItems[2].Text = DefaultText;
         }
+#pragma warning disable IDE0052 // Remove unread private members
         bool InEditingMode = false;
+#pragma warning restore IDE0052 // Remove unread private members
         private void lstStepProgram_DropDownClicked(object sender, DropDownClickedEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
@@ -1643,7 +1645,7 @@ namespace Serial_Monitor {
             }
         }
         private const int WM_LBUTTONDOWN = 0x0201;
-        public event EventHandler<MouseDownEventArgs> MouseEvent;
+        public event EventHandler<MouseDownEventArgs> ?MouseEvent;
         public bool PreFilterMessage(ref Message m) {
             if (m.Msg == WM_LBUTTONDOWN) {
                 var pos = MousePosition;
@@ -2675,9 +2677,7 @@ namespace Serial_Monitor {
         }
         private void UpdateProgramNames() {
             int j = 0;
-            int Index = -1;
             foreach (ProgramObject Prg in ProgramManager.Programs) {
-                string PrgName = "";
                 if (Prg.Name.Trim().Length == 0) {
                     Prg.UntitledProgramNmber = j;
                     j++;

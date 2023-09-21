@@ -429,8 +429,9 @@ namespace Serial_Monitor.WindowForms {
                     btnStopLogging.Enabled = false;
                     btnSaveLog.Enabled = true;
                     btnOpenLog.Enabled = true;
-
-                    ChangeFormName(manager.StateName, LogFile);
+                    if (manager != null) {
+                        ChangeFormName(manager.StateName, LogFile);
+                    }
                     LogSize = 0;
                     System.IO.StreamReader myStreamReader = System.IO.File.OpenText(LogFile); ;
                     try {
@@ -472,7 +473,9 @@ namespace Serial_Monitor.WindowForms {
                     btnStopLog.Enabled = false;
                     btnStartLogging.Enabled = true;
                     btnStopLogging.Enabled = false;
-                    ChangeFormName(manager.StateName, LogFile);
+                    if (manager != null) {
+                        ChangeFormName(manager.StateName, LogFile);
+                    }
                 }
                 catch (Exception Ex) {
                     ExceptionHandler.PostMessage(ErrorType.M_Warning, "LOG_SAVE ->" + Ex.Message.ToString(), Application.ProductName, "Terminal", "TERM_LOG_SAVE");
