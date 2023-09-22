@@ -94,6 +94,7 @@ namespace Serial_Monitor.Classes {
                         DocumentHandler.Write(Sw, 2, "LineFormat", EnumManager.LineFormattingToString(Sm.LineFormat));
                         DocumentHandler.Write(Sw, 2, "ModbusMstr", Sm.IsMaster);
                         DocumentHandler.Write(Sw, 2, "OutputToMstr", Sm.OutputToMasterTerminal);
+                        DocumentHandler.Write(Sw, 2, "AutoConnect", Sm.AutoReconnect);
                         Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                         i++;
                     }
@@ -214,7 +215,11 @@ namespace Serial_Monitor.Classes {
                     }
                     catch { }
                     try {
-                        Sm.OutputToMasterTerminal = DocumentHandler.GetBooleanVariable(Pstrc, "OutputToMstr");
+                        Sm.OutputToMasterTerminal = DocumentHandler.GetBooleanVariable(Pstrc, "OutputToMstr", true);
+                    }
+                    catch { }
+                    try {
+                        Sm.AutoReconnect = DocumentHandler.GetBooleanVariable(Pstrc, "AutoConnect");
                     }
                     catch { }
 

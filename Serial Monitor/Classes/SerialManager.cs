@@ -1,5 +1,6 @@
 ﻿using Handlers;
 using ODModules;
+using Serial_Monitor.Classes.Modbus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,15 +9,19 @@ using System.IO.Ports;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serial_Monitor.Classes {
+namespace Serial_Monitor.Classes
+{
     public class SerialManager {
         //Thread TrFramer;
         //bool FramerRunning = true;
-
+        Thread HeartbeatThread = null; // new Thread();
         public SerialManager() {
             iD = Guid.NewGuid().ToString();
             Port.DataReceived += Port_DataReceived;
             Port.WriteTimeout = 1000;
+            HeartbeatThread = new Thread(HeartBeat);
+            HeartbeatThread.IsBackground = true;
+            HeartbeatThread.Start();
             //TrFramer = new Thread(Framer);
             //TrFramer.IsBackground = true;
             //TrFramer.Start();
@@ -32,6 +37,7 @@ namespace Serial_Monitor.Classes {
 
         }
         public void CleanUp() {
+            RunHeartBeat = false;
             Array.Clear(coils, 0, coils.Length);
             Array.Clear(discreteInputs, 0, discreteInputs.Length);
             Array.Clear(inputRegisters, 0, inputRegisters.Length);
@@ -47,7 +53,25 @@ namespace Serial_Monitor.Classes {
                 }
             }
             catch { }
-
+        }
+        bool RunHeartBeat = true;
+        bool OpenPrevious = false;
+        private void HeartBeat() {
+            while (RunHeartBeat) {
+                try {
+                    if (autoReconnect == true) {
+                        if (OpenPrevious != Port.IsOpen) {
+                            SystemManager.InvokePortStatusChanged(this);
+                            OpenPrevious = Port.IsOpen;
+                        }
+                        if (Port.IsOpen == false) {
+                            Port.Open();
+                        }
+                    }
+                }
+                catch { }
+                Thread.Sleep(1000);
+            }
         }
         public event NameChangedHandler? NameChanged;
         public delegate void NameChangedHandler(object sender, string Data);
@@ -56,7 +80,6 @@ namespace Serial_Monitor.Classes {
         public delegate void CommandProcessedHandler(object sender, string Data);
         public delegate void DataProcessedHandler(object sender, bool PrintLine, string Data);
         public event DataProcessedHandler? DataReceived;
-        const uint MAX_COMMAND_LENGTH = 500;
         public SerialPort Port = new SerialPort();
         [Browsable(false)]
         public string StateName {
@@ -90,7 +113,8 @@ namespace Serial_Monitor.Classes {
         [DisplayName("Output to Terminal")]
         public bool OutputToMasterTerminal {
             get { return outputToMasterTerminal; }
-            set { outputToMasterTerminal = value;
+            set {
+                outputToMasterTerminal = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
@@ -99,7 +123,8 @@ namespace Serial_Monitor.Classes {
         [DisplayName("Modbus Master")]
         public bool IsMaster {
             get { return isMaster; }
-            set { isMaster = value;
+            set {
+                isMaster = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
@@ -108,7 +133,17 @@ namespace Serial_Monitor.Classes {
         [DisplayName("Unit Address")]
         public uint UnitAddress {
             get { return unitAddress; }
-            set { unitAddress = value;
+            set {
+                unitAddress = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        bool autoReconnect = false;
+        [DisplayName("Auto Reconnect")]
+        public bool AutoReconnect {
+            get { return autoReconnect; }
+            set {
+                autoReconnect = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
@@ -116,7 +151,8 @@ namespace Serial_Monitor.Classes {
         [Browsable(false)]
         public bool SystemEnabled {
             get { return systemEnabled; }
-            set { systemEnabled = value;
+            set {
+                systemEnabled = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
@@ -144,9 +180,11 @@ namespace Serial_Monitor.Classes {
             }
             set {
                 if (Port != null) {
-                    Port.BaudRate = value;
-                    SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
-                    SystemManager.InvokeChannelPropertiesChanged(this);
+                    if (value > 0) {
+                        Port.BaudRate = value;
+                        SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
+                        SystemManager.InvokeChannelPropertiesChanged(this);
+                    }
                 }
             }
         }
@@ -165,24 +203,24 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        private ModbusCoil[] coils = new ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue);//new ModbusCoil[short.MaxValue];
+        private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue);//new ModbusCoil[short.MaxValue];
         [Browsable(false)]
-        public ModbusCoil[] Coils {
+        public Modbus.ModbusCoil[] Coils {
             get { return coils; }
         }
-        private ModbusCoil[] discreteInputs = new ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue); //new bool[short.MaxValue];
+        private Modbus.ModbusCoil[] discreteInputs = new Modbus.ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue); //new bool[short.MaxValue];
         [Browsable(false)]
-        public ModbusCoil[] DiscreteInputs {
+        public Modbus.ModbusCoil[] DiscreteInputs {
             get { return discreteInputs; }
         }//ModbusRegister
-        private ModbusRegister[] inputRegisters = new ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
+        private Modbus.ModbusRegister[] inputRegisters = new Modbus.ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
         [Browsable(false)]
-        public ModbusRegister[] InputRegisters {
+        public Modbus.ModbusRegister[] InputRegisters {
             get { return inputRegisters; }
         }
-        private ModbusRegister[] holdingRegisters = new ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
+        private Modbus.ModbusRegister[] holdingRegisters = new Modbus.ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
         [Browsable(false)]
-        public ModbusRegister[] HoldingRegisters {
+        public Modbus.ModbusRegister[] HoldingRegisters {
             get { return holdingRegisters; }
         }
         StreamInputFormat inputFormat = StreamInputFormat.Text;
@@ -190,7 +228,7 @@ namespace Serial_Monitor.Classes {
         [DisplayName("Input Format")]
         public StreamInputFormat InputFormat {
             get { return inputFormat; }
-            set { 
+            set {
                 inputFormat = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
@@ -200,7 +238,7 @@ namespace Serial_Monitor.Classes {
         [DisplayName("Output Format")]
         public StreamOutputFormat OutputFormat {
             get { return outputFormat; }
-            set { 
+            set {
                 outputFormat = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
@@ -222,7 +260,7 @@ namespace Serial_Monitor.Classes {
         [DisplayName("Line Format")]
         public LineFormatting LineFormat {
             get { return lineFormat; }
-            set { 
+            set {
                 lineFormat = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
@@ -395,10 +433,10 @@ namespace Serial_Monitor.Classes {
                 i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
                 for (int j = 0; j < BytesToRead; j++) {
                     string Result = "";
-                    Result += ByteToBinary(Buffer[j]) + "  ";
-                    Result += ByteToHex(Buffer[j]) + "  ";
+                    Result += Classes.Formatters.ByteToBinary(Buffer[j]) + "  ";
+                    Result += Classes.Formatters.ByteToHex(Buffer[j]) + "  ";
                     string Char = ((char)Buffer[j]).ToString();
-                    Result += ByteToChar(Buffer[j]);
+                    Result += Classes.Formatters.ByteToChar(Buffer[j]);
                     //Output.Print(Result);
                     DataReceived?.Invoke(this, true, Result);
                 }
@@ -420,19 +458,19 @@ namespace Serial_Monitor.Classes {
                 i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
                 Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
                 RXCurrentByte += BytesToRead;
-                if (Modbus.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
+                if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
                     DataReceived?.Invoke(this, true, PrintStream(Buffer));
                     if (isMaster == true) {
-                        Modbus.FunctionCode Func = (Modbus.FunctionCode)Buffer[1];
+                        ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
                         switch (Func) {
-                            case Modbus.FunctionCode.ReadCoils:
+                            case ModbusSupport.FunctionCode.ReadCoils:
                                 ModbusMasterReadCoils(Buffer, RXCurrentByte, false); break;
-                            case Modbus.FunctionCode.WriteSingleCoil:
-                            case Modbus.FunctionCode.ReadDiscreteInputs:
+                            case ModbusSupport.FunctionCode.WriteSingleCoil:
+                            case ModbusSupport.FunctionCode.ReadDiscreteInputs:
                                 ModbusMasterReadCoils(Buffer, RXCurrentByte); break;
-                            case Modbus.FunctionCode.ReadHoldingRegisters:
+                            case ModbusSupport.FunctionCode.ReadHoldingRegisters:
                                 ModbusMasterReadRegisters(Buffer, RXCurrentByte); break;
-                            case Modbus.FunctionCode.ReadInputRegisters:
+                            case ModbusSupport.FunctionCode.ReadInputRegisters:
                                 ModbusMasterReadRegisters(Buffer, RXCurrentByte, false); break;
                             default:
                                 //ModbusPostException(Buffer[0], (Modbus.FunctionCode)Buffer[1], ModbusException.IllegalFunction);
@@ -441,24 +479,24 @@ namespace Serial_Monitor.Classes {
                     }
                     else {
                         if (Buffer[0] == unitAddress) {
-                            Modbus.FunctionCode Func = (Modbus.FunctionCode)Buffer[1];
+                            ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
                             switch (Func) {
-                                case Modbus.FunctionCode.ReadCoils:
+                                case ModbusSupport.FunctionCode.ReadCoils:
                                     ModbusSlaveReadCoils(Buffer, RXCurrentByte, false); break;
-                                case Modbus.FunctionCode.WriteSingleCoil:
+                                case ModbusSupport.FunctionCode.WriteSingleCoil:
                                     ModbusSlaveWriteCoil(Buffer, RXCurrentByte); break;
-                                case Modbus.FunctionCode.ReadDiscreteInputs:
+                                case ModbusSupport.FunctionCode.ReadDiscreteInputs:
                                     ModbusSlaveReadCoils(Buffer, RXCurrentByte); break;
-                                case Modbus.FunctionCode.ReadHoldingRegisters:
+                                case ModbusSupport.FunctionCode.ReadHoldingRegisters:
                                     ModbusSlaveReadRegisters(Buffer, RXCurrentByte); break;
-                                case Modbus.FunctionCode.ReadInputRegisters:
+                                case ModbusSupport.FunctionCode.ReadInputRegisters:
                                     ModbusSlaveReadRegisters(Buffer, RXCurrentByte, false); break;
-                                case Modbus.FunctionCode.WriteSingleHoldingRegister:
+                                case ModbusSupport.FunctionCode.WriteSingleHoldingRegister:
                                     ModbusSlaveWriteRegister(Buffer, RXCurrentByte); break;
-                                case Modbus.FunctionCode.WriteMultipleHoldingRegisters:
+                                case ModbusSupport.FunctionCode.WriteMultipleHoldingRegisters:
                                     ModbusSlaveWriteRegisters(Buffer, RXCurrentByte); break;
                                 default:
-                                    ModbusPostException(Buffer[0], (Modbus.FunctionCode)Buffer[1], ModbusException.IllegalFunction);
+                                    ModbusPostException(Buffer[0], (ModbusSupport.FunctionCode)Buffer[1], ModbusException.IllegalFunction);
                                     break;
                             }
                         }
@@ -473,9 +511,9 @@ namespace Serial_Monitor.Classes {
         #endregion
         #endregion
         #region Modbus
-       // private Modbus.FunctionCode LastSentCode = Modbus.FunctionCode.NoCommand;
+        // private Modbus.FunctionCode LastSentCode = Modbus.FunctionCode.NoCommand;
         private short LastRequestedAddress = 0;
-        private void ModbusPostException(int Address, Modbus.FunctionCode Function, ModbusException Code) {
+        private void ModbusPostException(int Address, ModbusSupport.FunctionCode Function, ModbusException Code) {
             //Adr Fun Cde
             byte[] Output = new byte[5];
             byte[] Temp = new byte[3];
@@ -484,7 +522,7 @@ namespace Serial_Monitor.Classes {
             Temp[2] = (byte)Code;//Len
 
             Array.Copy(Temp, 0, Output, 0, 3);
-            ushort CRC = Modbus.CalculateCRC(Temp, (ushort)(3), 0);
+            ushort CRC = ModbusSupport.CalculateCRC(Temp, (ushort)(3), 0);
 
             Output[4] = (byte)(CRC & 0xFF);
             Output[5] = (byte)(CRC >> 8);
@@ -499,7 +537,7 @@ namespace Serial_Monitor.Classes {
                     int StartAddress = (int)((Input[2] << 8) | Input[3]);
                     short CoilCount = (short)((Input[4] << 8) | Input[5]);
                     if ((CoilCount < 0x01) || (CoilCount > 0x07D0)) {
-                        ModbusPostException(Input[0], (Modbus.FunctionCode)Input[1], ModbusException.IllegalDataValue);
+                        ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusException.IllegalDataValue);
                         return;
                     }
                     int Bytes = (CoilCount + 7) / 8;
@@ -554,7 +592,7 @@ namespace Serial_Monitor.Classes {
                     int StartAddress = (int)((Input[2] << 8) | Input[3]);
                     short RegisterCount = (short)((Input[4] << 8) | Input[5]);
                     if ((RegisterCount < 0x01) || (RegisterCount > 0x7D)) {
-                        ModbusPostException(Input[0], (Modbus.FunctionCode)Input[1], ModbusException.IllegalDataValue);
+                        ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusException.IllegalDataValue);
                         return;
                     }
                     int ArrayLength = 3 + (RegisterCount * 2);
@@ -605,7 +643,7 @@ namespace Serial_Monitor.Classes {
                     int StartAddress = (int)((Input[2] << 8) | Input[3]);
                     int Count = (int)((Input[4] << 8) | Input[5]);
                     if (Count > 0x007B) {
-                        ModbusPostException(Input[0], (Modbus.FunctionCode)Input[1], ModbusException.IllegalDataValue);
+                        ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusException.IllegalDataValue);
                         return;
                     }
                     int Bytes = Input[6];
@@ -661,7 +699,7 @@ namespace Serial_Monitor.Classes {
         private string PrintStream(byte[] Data) {
             string Temp = "";
             for (int i = 0; i < Data.Length; i++) {
-                Temp += ByteToHex(Data[i]) + " ";
+                Temp += Classes.Formatters.ByteToHex(Data[i]) + " ";
             }
             return Temp;
         }
@@ -676,7 +714,7 @@ namespace Serial_Monitor.Classes {
             }
             byte[] Temp = new byte[6];
             Temp[0] = (byte)Device;//Adr
-            Temp[1] = (byte)Modbus.FunctionCode.ReadCoils;//Fun
+            Temp[1] = (byte)ModbusSupport.FunctionCode.ReadCoils;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1
             Temp[3] = (byte)(Address & 0xFF);//Str1
             Temp[4] = (byte)(Count >> 8);//Cnt1
@@ -693,7 +731,7 @@ namespace Serial_Monitor.Classes {
             }
             byte[] Temp = new byte[6];
             Temp[0] = (byte)Device;//Adr
-            Temp[1] = (byte)Modbus.FunctionCode.ReadDiscreteInputs;//Fun
+            Temp[1] = (byte)ModbusSupport.FunctionCode.ReadDiscreteInputs;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1
             Temp[3] = (byte)(Address & 0xFF);//Str1
             Temp[4] = (byte)(Count >> 8);//Cnt1
@@ -710,7 +748,7 @@ namespace Serial_Monitor.Classes {
             }
             byte[] Temp = new byte[5];
             Temp[0] = (byte)Device;//Adr
-            Temp[1] = (byte)Modbus.FunctionCode.ReadInputRegisters;//Fun
+            Temp[1] = (byte)ModbusSupport.FunctionCode.ReadInputRegisters;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1
             Temp[3] = (byte)(Address & 0xFF);//Str1
             Temp[4] = (byte)(Count >> 8);//Cnt1
@@ -727,7 +765,7 @@ namespace Serial_Monitor.Classes {
             }
             byte[] Temp = new byte[6];
             Temp[0] = (byte)Device;//Adr
-            Temp[1] = (byte)Modbus.FunctionCode.ReadDiscreteInputs;//Fun
+            Temp[1] = (byte)ModbusSupport.FunctionCode.ReadDiscreteInputs;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1
             Temp[3] = (byte)(Address & 0xFF);//Str1
             Temp[4] = (byte)(Count >> 8);//Cnt1
@@ -741,7 +779,7 @@ namespace Serial_Monitor.Classes {
             }
             byte[] Temp = new byte[6];
             Temp[0] = (byte)Device;//Adr
-            Temp[1] = (byte)Modbus.FunctionCode.WriteSingleCoil;//Fun
+            Temp[1] = (byte)ModbusSupport.FunctionCode.WriteSingleCoil;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1
             Temp[3] = (byte)(Address & 0xFF);//Str1
             if (Value == true) {
@@ -760,7 +798,7 @@ namespace Serial_Monitor.Classes {
             }
             byte[] Temp = new byte[6];
             Temp[0] = (byte)Device;//Adr
-            Temp[1] = (byte)Modbus.FunctionCode.WriteSingleHoldingRegister;//Fun
+            Temp[1] = (byte)ModbusSupport.FunctionCode.WriteSingleHoldingRegister;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1
             Temp[3] = (byte)(Address & 0xFF);//Str1
             Temp[4] = (byte)(Value >> 8);//Cnt1
@@ -772,7 +810,7 @@ namespace Serial_Monitor.Classes {
             if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
 
                 byte[] Output = new byte[Data.Length + 2];
-                ushort CRC = Modbus.CalculateCRC(Data, (ushort)Data.Length, 0);
+                ushort CRC = ModbusSupport.CalculateCRC(Data, (ushort)Data.Length, 0);
                 Array.Copy(Data, 0, Output, 0, Data.Length);
                 Output[Output.Length - 2] = (byte)(CRC & 0xFF);
                 Output[Output.Length - 1] = (byte)(CRC >> 8);
@@ -871,96 +909,7 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Data Formatting
-        private string ByteToChar(byte Input) {
-            char Val = (char)Input;
-            switch (Val) {
-                case '\r':
-                    return "[CR]";
-                case '\n':
-                    return "[LF]";
-                case (char)0x00:
-                    return "[NUL]";
-                case (char)0x01:
-                    return "[SOH]";
-                case (char)0x02:
-                    return "[STX]";
-                case (char)0x03:
-                    return "[ETX]";
-                case (char)0x04:
-                    return "[EOT]";
-                case (char)0x05:
-                    return "[ENQ]";
-                case (char)0x06:
-                    return "[ACK]";
-                case (char)0x07:
-                    return "[BEL]";
-                case (char)0x08:
-                    return "[BS]";
-                case (char)0x09:
-                    return "[TAB]";
-                case (char)0x0B:
-                    return "[VT]";
-                case (char)0x0C:
-                    return "[FF]";
-                case (char)0x0E:
-                    return "[SO]";
-                case (char)0x0F:
-                    return "[SI]";
-                case (char)0x10:
-                    return "[DLE]";
-                case (char)0x11:
-                    return "[DC1]";
-                case (char)0x12:
-                    return "[DC2]";
-                case (char)0x13:
-                    return "[DC3]";
-                case (char)0x14:
-                    return "[DC4]";
-                case (char)0x15:
-                    return "[NAK]";
-                case (char)0x16:
-                    return "[SYN]";
-                case (char)0x17:
-                    return "[ETB]";
-                case (char)0x18:
-                    return "[CAN]";
-                case (char)0x19:
-                    return "[EM]";
-                case (char)0x1A:
-                    return "[SUB]";
-                case (char)0x1B:
-                    return "[ESC]";
-                case (char)0x1C:
-                    return "[FS]";
-                case (char)0x1D:
-                    return "[GS]";
-                case (char)0x1E:
-                    return "[RS]";
-                case (char)0x1F:
-                    return "[US]";
-                default:
-                    return Val.ToString();
-            }
-        }
-        private string ByteToBinary(byte Input) {
-            string Result = "";
-            for (int i = 7; i >= 0; i--) {
-                uint Shift = (uint)(0x01 << i);
 
-                Result += (Input & Shift) == Shift ? "1" : "0";
-            }
-            return Result;
-        }
-        private string ByteToHex(byte Input) {
-            byte[] bytes = new byte[1];
-            bytes[0] = Input;
-            string str = BitConverter.ToString(bytes);
-            if (str.Length == 1) {
-                str = "0x0" + str;
-            }
-            else { str = "0x" + str; }
-            return str;
-        }
 
         #endregion
         public bool Transmit(string Input, bool OverrideChecksum = false) {
@@ -1017,6 +966,7 @@ namespace Serial_Monitor.Classes {
         MessageState State = MessageState.Ready;
         DateTime LastReceiveTime = DateTime.Now;
         uint CurrentByte = 0;
+        const uint MAX_COMMAND_LENGTH = 500;
         public void ProcessByte(byte Input) {
             char TextByte = Convert.ToChar(Input);
             // Debug.Print(((char)TextByte).ToString());
@@ -1084,70 +1034,6 @@ namespace Serial_Monitor.Classes {
             IllegalDataAddress = 0x02,
             IllegalDataValue = 0x03,
             SlaveDeviceFailure = 0x04
-        }
-    }
-    public class ModbusCoil {
-        int Index = 0;
-        DataSelection typeData = DataSelection.ModbusDataCoils;
-        public DataSelection ComponentType {
-            get { return typeData; }
-        }
-        public int Address {
-            get { return Index; }
-        }
-        public ModbusCoil(int index, DataSelection Type) {
-            Index = index;
-            typeData = Type;
-        }
-        bool coilValue = false;
-        public bool Value {
-            get { return coilValue; }
-            set {
-                coilValue = value;
-                SystemManager.RegisterValueChanged(this, Index, typeData);
-            }
-        }
-        string name = "";
-        public string Name {
-            get { return name; }
-            set {
-                name = value;
-            }
-        }
-        bool userChanged = false;
-        public bool UserChanged {
-            get { return userChanged; }
-        }
-    }
-    public class ModbusRegister {
-        int Index = 0;
-        DataSelection typeData = DataSelection.ModbusDataCoils;
-        public DataSelection ComponentType {
-            get { return typeData; }
-        }
-        public int Address {
-            get { return Index; }
-        }
-        public ModbusRegister(int index, DataSelection Type) {
-            Index = index;
-            typeData = Type;
-        }
-        short regValue = 0;
-        public short Value {
-            get { return regValue; }
-            set {
-                regValue = value;
-                SystemManager.RegisterValueChanged(this, Index, typeData);
-            }
-        }
-        string name = "";
-        public string Name {
-            get { return name; }
-            set { name = value; }
-        }
-        bool userChanged = false;
-        public bool UserChanged {
-            get { return userChanged; }
         }
     }
     public enum DataSelection {

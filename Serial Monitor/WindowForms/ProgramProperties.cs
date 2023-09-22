@@ -1,4 +1,6 @@
-﻿using Serial_Monitor.Classes;
+﻿using ODModules;
+using Serial_Monitor.Classes;
+using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor {
-    public partial class ProgramProperties : Form {
+    public partial class ProgramProperties : Form, ITheme {
         public ProgramProperties() {
             InitializeComponent();
         }
@@ -32,6 +34,7 @@ namespace Serial_Monitor {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
+            RecolorAll();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e) {
@@ -65,6 +68,26 @@ namespace Serial_Monitor {
         }
         private void ProgramProperties_FormClosing(object sender, FormClosingEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+        public void ApplyTheme() {
+            RecolorAll();
+        }
+        private void RecolorAll() {
+
+            labelPanel1.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            labelPanel1.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
+            labelPanel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            labelPanel2.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            labelPanel2.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
+            labelPanel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            textBox1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            textBox2.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            textBox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            BackColor = Properties.Settings.Default.THM_COL_Editor;
         }
     }
 }

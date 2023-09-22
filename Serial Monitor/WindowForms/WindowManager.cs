@@ -25,20 +25,7 @@ namespace Serial_Monitor.WindowForms {
             listView1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             listView1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
-            msMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            msMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            msMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-            msMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            msMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            Classes.Theming.ThemeManager.ThemeControl(msMain);
         }
         public void UpdateWindows() {
             RefreshWindows();

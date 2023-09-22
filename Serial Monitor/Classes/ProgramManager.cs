@@ -73,7 +73,7 @@ namespace Serial_Monitor.Classes {
                     LaunchThread();
                 }
                 catch {
-                    Print(ErrorType.M_Notification, "PROG_THREAD_FAIL", "Porgram thread could not be launched!");
+                    Print(ErrorType.M_Notification, "PROG_THREAD_FAIL", "Program thread could not be launched!");
                     executionThreadRunning = false;
                 }
             }
@@ -222,6 +222,11 @@ namespace Serial_Monitor.Classes {
                     }
                     if (ProgramState != StepEnumerations.StepState.Running) {
                         Thread.Sleep(1);
+                    }
+                    else {
+                        if (Properties.Settings.Default.PRG_BOL_LimitExecution1ms == true) {
+                            Thread.Sleep(1);
+                        }
                     }
                 }
             }
@@ -459,14 +464,14 @@ namespace Serial_Monitor.Classes {
             string VarExpression = StringHandler.SpiltAndCombineAfter(Argument, '=', 1).Value[1];
             VariableLinkage? Assignment = GetVariableAssignment(VarName.Trim(' '));
             if (Assignment == null) { return; }
-            List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression);
+            List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression.Replace('=',(char)0x01));
             List<VariableResult> VarResult = GetVariables(Vars);
             bool StringExpression = IsStringExpression(VarResult);
             if (StringExpression) {
                 string Output = "";
                 STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(VarExpression, '+');
                 foreach (string Str in Spilts.Value) {
-                    int Index = GetVariableIndex(VarResult, Str.Trim(' '));
+                    int Index = GetVariableIndex(VarResult, Str.Replace((char)0x01, '=').Trim(' '));
                     if (Index >= 0) {
                         Output += VarResult[Index].Value;
                     }

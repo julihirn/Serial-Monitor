@@ -23,17 +23,18 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            ODModules.GridButton gridButton1 = new ODModules.GridButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.lblPnlTheme = new ODModules.LabelPanel();
-            this.flowPnlTheme = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btngrThemes = new ODModules.ButtonGrid();
             this.thSettings = new ODModules.TabHeader();
             this.hiddenTabControl1 = new ODModules.HiddenTabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.labelPanel5 = new ODModules.LabelPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chbxUseLegacyListing = new System.Windows.Forms.CheckBox();
             this.labelPanel4 = new ODModules.LabelPanel();
+            this.chbxLimitExecutionBy1ms = new System.Windows.Forms.CheckBox();
             this.chbxAnimateCurStep = new System.Windows.Forms.CheckBox();
             this.lblPnlDefaults = new ODModules.LabelPanel();
             this.labelPanel2 = new ODModules.LabelPanel();
@@ -63,9 +64,9 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.lblPnlTheme.SuspendLayout();
-            this.flowPnlTheme.SuspendLayout();
             this.hiddenTabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.labelPanel5.SuspendLayout();
             this.labelPanel4.SuspendLayout();
             this.lblPnlDefaults.SuspendLayout();
             this.labelPanel2.SuspendLayout();
@@ -84,7 +85,7 @@
             this.lblPnlTheme.CloseColor = System.Drawing.Color.Black;
             this.lblPnlTheme.CloseMouseOverColor = System.Drawing.Color.Red;
             this.lblPnlTheme.Collapsed = false;
-            this.lblPnlTheme.Controls.Add(this.flowPnlTheme);
+            this.lblPnlTheme.Controls.Add(this.btngrThemes);
             this.lblPnlTheme.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblPnlTheme.DropShadow = false;
             this.lblPnlTheme.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -101,84 +102,77 @@
             this.lblPnlTheme.PanelCollapsible = true;
             this.lblPnlTheme.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblPnlTheme.ShowCloseButton = false;
-            this.lblPnlTheme.Size = new System.Drawing.Size(336, 168);
+            this.lblPnlTheme.Size = new System.Drawing.Size(336, 217);
             this.lblPnlTheme.TabIndex = 0;
             this.lblPnlTheme.Text = "Theme";
             // 
-            // flowPnlTheme
+            // btngrThemes
             // 
-            this.flowPnlTheme.Controls.Add(this.button1);
-            this.flowPnlTheme.Controls.Add(this.button2);
-            this.flowPnlTheme.Controls.Add(this.button3);
-            this.flowPnlTheme.Controls.Add(this.button4);
-            this.flowPnlTheme.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowPnlTheme.Location = new System.Drawing.Point(0, 18);
-            this.flowPnlTheme.Name = "flowPnlTheme";
-            this.flowPnlTheme.Size = new System.Drawing.Size(336, 150);
-            this.flowPnlTheme.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.button1.FlatAppearance.BorderSize = 4;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 50);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Aa";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.button2.FlatAppearance.BorderSize = 4;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(59, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 50);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Aa";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.White;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(214)))), ((int)(((byte)(229)))));
-            this.button3.FlatAppearance.BorderSize = 4;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Location = new System.Drawing.Point(115, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(50, 50);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Aa";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(27)))), ((int)(((byte)(41)))));
-            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(74)))), ((int)(((byte)(67)))), ((int)(((byte)(120)))));
-            this.button4.FlatAppearance.BorderSize = 4;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(171, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(50, 50);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Aa";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btngrThemes.AllowTextWrapping = true;
+            this.btngrThemes.BackColorCheckedNorth = System.Drawing.Color.Orange;
+            this.btngrThemes.BackColorCheckedSouth = System.Drawing.Color.Orange;
+            this.btngrThemes.BackColorDownNorth = System.Drawing.Color.DimGray;
+            this.btngrThemes.BackColorDownSouth = System.Drawing.Color.DimGray;
+            this.btngrThemes.BackColorHoverNorth = System.Drawing.Color.SkyBlue;
+            this.btngrThemes.BackColorHoverSouth = System.Drawing.Color.SkyBlue;
+            this.btngrThemes.BackColorNorth = System.Drawing.Color.White;
+            this.btngrThemes.BackColorSouth = System.Drawing.Color.White;
+            this.btngrThemes.BorderColorCheckedNorth = System.Drawing.Color.Black;
+            this.btngrThemes.BorderColorCheckedSouth = System.Drawing.Color.Black;
+            this.btngrThemes.BorderColorDownNorth = System.Drawing.Color.DarkGray;
+            this.btngrThemes.BorderColorDownSouth = System.Drawing.Color.DarkGray;
+            this.btngrThemes.BorderColorHoverNorth = System.Drawing.Color.DarkGray;
+            this.btngrThemes.BorderColorHoverSouth = System.Drawing.Color.DarkGray;
+            this.btngrThemes.BorderColorNorth = System.Drawing.Color.LightGray;
+            this.btngrThemes.BorderColorShadow = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btngrThemes.BorderColorSouth = System.Drawing.Color.LightGray;
+            this.btngrThemes.BorderRadius = 5;
+            this.btngrThemes.ButtonPadding = new System.Windows.Forms.Padding(0, 0, 5, 5);
+            gridButton1.BackColorNorth = System.Drawing.Color.Gray;
+            gridButton1.BackColorSouth = System.Drawing.Color.Gray;
+            gridButton1.BorderColorNorth = System.Drawing.Color.Black;
+            gridButton1.BorderColorSouth = System.Drawing.Color.Black;
+            gridButton1.Checked = false;
+            gridButton1.Command = "";
+            gridButton1.Enabled = true;
+            gridButton1.Icon = null;
+            gridButton1.IconInline = false;
+            gridButton1.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            gridButton1.Position = new System.Drawing.Point(0, 0);
+            gridButton1.RadioButtonGroup = "";
+            gridButton1.SecondaryShortCutKeys = System.Windows.Forms.Keys.None;
+            gridButton1.SecondaryText = "";
+            gridButton1.ShortCutKeys = System.Windows.Forms.Keys.None;
+            gridButton1.Tag = null;
+            gridButton1.Text = "";
+            gridButton1.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            gridButton1.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            gridButton1.Type = ODModules.ButtonType.Button;
+            gridButton1.UseButtonFormatting = false;
+            gridButton1.UseCustomColors = false;
+            gridButton1.UseKeyCode = false;
+            this.btngrThemes.Buttons.Add(gridButton1);
+            this.btngrThemes.ButtonSize = new System.Drawing.Size(40, 40);
+            this.btngrThemes.CenterButtons = false;
+            this.btngrThemes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btngrThemes.Filter = "";
+            this.btngrThemes.IconInline = false;
+            this.btngrThemes.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            this.btngrThemes.ImageSize = new System.Drawing.Size(32, 32);
+            this.btngrThemes.Location = new System.Drawing.Point(0, 18);
+            this.btngrThemes.Name = "btngrThemes";
+            this.btngrThemes.Padding = new System.Windows.Forms.Padding(5);
+            this.btngrThemes.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btngrThemes.ScrollBarNorth = System.Drawing.Color.Silver;
+            this.btngrThemes.ScrollBarSouth = System.Drawing.Color.Silver;
+            this.btngrThemes.SecondaryFont = null;
+            this.btngrThemes.Size = new System.Drawing.Size(336, 199);
+            this.btngrThemes.Style = ODModules.ButtonStyle.Square;
+            this.btngrThemes.TabIndex = 0;
+            this.btngrThemes.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            this.btngrThemes.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            this.btngrThemes.VerScroll = 0;
+            this.btngrThemes.ButtonClicked += new ODModules.ButtonGrid.ButtonClickedEventHandler(this.btngrThemes_ButtonClicked);
             // 
             // thSettings
             // 
@@ -194,7 +188,7 @@
             this.thSettings.Location = new System.Drawing.Point(0, 0);
             this.thSettings.Name = "thSettings";
             this.thSettings.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.thSettings.SelectedIndex = 0;
+            this.thSettings.SelectedIndex = 1;
             this.thSettings.ShowAddButton = false;
             this.thSettings.ShowTabDividers = true;
             this.thSettings.Size = new System.Drawing.Size(350, 36);
@@ -233,6 +227,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.AutoScroll = true;
+            this.tabPage3.Controls.Add(this.labelPanel5);
             this.tabPage3.Controls.Add(this.labelPanel4);
             this.tabPage3.Controls.Add(this.lblPnlDefaults);
             this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -244,6 +240,59 @@
             this.tabPage3.Text = "General";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // labelPanel5
+            // 
+            this.labelPanel5.ArrowColor = System.Drawing.Color.Black;
+            this.labelPanel5.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
+            this.labelPanel5.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.labelPanel5.CloseColor = System.Drawing.Color.Black;
+            this.labelPanel5.CloseMouseOverColor = System.Drawing.Color.Red;
+            this.labelPanel5.Collapsed = false;
+            this.labelPanel5.Controls.Add(this.label1);
+            this.labelPanel5.Controls.Add(this.chbxUseLegacyListing);
+            this.labelPanel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelPanel5.DropShadow = false;
+            this.labelPanel5.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelPanel5.FixedInlineWidth = false;
+            this.labelPanel5.Inlinelabel = false;
+            this.labelPanel5.InlineWidth = 100;
+            this.labelPanel5.LabelBackColor = System.Drawing.Color.White;
+            this.labelPanel5.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelPanel5.LabelForeColor = System.Drawing.Color.Black;
+            this.labelPanel5.Location = new System.Drawing.Point(3, 182);
+            this.labelPanel5.Name = "labelPanel5";
+            this.labelPanel5.OverrideCollapseControl = true;
+            this.labelPanel5.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.labelPanel5.PanelCollapsible = true;
+            this.labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            this.labelPanel5.ShowCloseButton = false;
+            this.labelPanel5.Size = new System.Drawing.Size(336, 97);
+            this.labelPanel5.TabIndex = 3;
+            this.labelPanel5.Text = "Ports & Communications";
+            // 
+            // label1
+            // 
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(21, 43);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(293, 33);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Use this setting if your device is not listed. Hides Device Description.";
+            // 
+            // chbxUseLegacyListing
+            // 
+            this.chbxUseLegacyListing.AutoSize = true;
+            this.chbxUseLegacyListing.Checked = true;
+            this.chbxUseLegacyListing.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbxUseLegacyListing.ForeColor = System.Drawing.Color.Black;
+            this.chbxUseLegacyListing.Location = new System.Drawing.Point(5, 21);
+            this.chbxUseLegacyListing.Name = "chbxUseLegacyListing";
+            this.chbxUseLegacyListing.Size = new System.Drawing.Size(148, 19);
+            this.chbxUseLegacyListing.TabIndex = 3;
+            this.chbxUseLegacyListing.Text = "Use Legacy Port Listing";
+            this.chbxUseLegacyListing.UseVisualStyleBackColor = true;
+            this.chbxUseLegacyListing.CheckedChanged += new System.EventHandler(this.chbxUseLegacyListing_CheckedChanged);
+            // 
             // labelPanel4
             // 
             this.labelPanel4.ArrowColor = System.Drawing.Color.Black;
@@ -252,6 +301,7 @@
             this.labelPanel4.CloseColor = System.Drawing.Color.Black;
             this.labelPanel4.CloseMouseOverColor = System.Drawing.Color.Red;
             this.labelPanel4.Collapsed = false;
+            this.labelPanel4.Controls.Add(this.chbxLimitExecutionBy1ms);
             this.labelPanel4.Controls.Add(this.chbxAnimateCurStep);
             this.labelPanel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelPanel4.DropShadow = false;
@@ -269,9 +319,21 @@
             this.labelPanel4.PanelCollapsible = true;
             this.labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel4.ShowCloseButton = false;
-            this.labelPanel4.Size = new System.Drawing.Size(336, 97);
+            this.labelPanel4.Size = new System.Drawing.Size(336, 73);
             this.labelPanel4.TabIndex = 2;
             this.labelPanel4.Text = "Program Execution";
+            // 
+            // chbxLimitExecutionBy1ms
+            // 
+            this.chbxLimitExecutionBy1ms.AutoSize = true;
+            this.chbxLimitExecutionBy1ms.ForeColor = System.Drawing.Color.Black;
+            this.chbxLimitExecutionBy1ms.Location = new System.Drawing.Point(5, 37);
+            this.chbxLimitExecutionBy1ms.Name = "chbxLimitExecutionBy1ms";
+            this.chbxLimitExecutionBy1ms.Size = new System.Drawing.Size(185, 19);
+            this.chbxLimitExecutionBy1ms.TabIndex = 4;
+            this.chbxLimitExecutionBy1ms.Text = "Limit Time Between Execution";
+            this.chbxLimitExecutionBy1ms.UseVisualStyleBackColor = true;
+            this.chbxLimitExecutionBy1ms.CheckedChanged += new System.EventHandler(this.chbxLimitExecutionBy1ms_CheckedChanged);
             // 
             // chbxAnimateCurStep
             // 
@@ -279,7 +341,7 @@
             this.chbxAnimateCurStep.Checked = true;
             this.chbxAnimateCurStep.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbxAnimateCurStep.ForeColor = System.Drawing.Color.Black;
-            this.chbxAnimateCurStep.Location = new System.Drawing.Point(5, 30);
+            this.chbxAnimateCurStep.Location = new System.Drawing.Point(5, 21);
             this.chbxAnimateCurStep.Name = "chbxAnimateCurStep";
             this.chbxAnimateCurStep.Size = new System.Drawing.Size(208, 19);
             this.chbxAnimateCurStep.TabIndex = 3;
@@ -721,9 +783,10 @@
             this.SizeChanged += new System.EventHandler(this.Settings_SizeChanged);
             this.VisibleChanged += new System.EventHandler(this.Settings_VisibleChanged);
             this.lblPnlTheme.ResumeLayout(false);
-            this.flowPnlTheme.ResumeLayout(false);
             this.hiddenTabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.labelPanel5.ResumeLayout(false);
+            this.labelPanel5.PerformLayout();
             this.labelPanel4.ResumeLayout(false);
             this.labelPanel4.PerformLayout();
             this.lblPnlDefaults.ResumeLayout(false);
@@ -744,9 +807,6 @@
 
         #endregion
         private ODModules.LabelPanel lblPnlTheme;
-        private FlowLayoutPanel flowPnlTheme;
-        private Button button1;
-        private Button button2;
         private ODModules.TabHeader thSettings;
         private ODModules.HiddenTabControl hiddenTabControl1;
         private TabPage tabPage3;
@@ -754,8 +814,6 @@
         private ODModules.LabelPanel lblPnlDefaults;
         private ODModules.LabelPanel labelPanel1;
         private ComboBox comboBox1;
-        private Button button3;
-        private Button button4;
         private ODModules.LabelPanel labelPanel3;
         private ODModules.ToolStrip toolStrip1;
         private ToolStripDropDownButton ddbBits;
@@ -781,5 +839,10 @@
         private ToolStripDropDownButton ddbOutputFormat;
         private ODModules.LabelPanel labelPanel4;
         private CheckBox chbxAnimateCurStep;
+        private ODModules.LabelPanel labelPanel5;
+        private CheckBox chbxUseLegacyListing;
+        private Label label1;
+        private CheckBox chbxLimitExecutionBy1ms;
+        private ODModules.ButtonGrid btngrThemes;
     }
 }

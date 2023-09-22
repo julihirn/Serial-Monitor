@@ -44,8 +44,8 @@ namespace Serial_Monitor.Classes.Step_Programs {
             //JumpOnPress = 0x060001,
             MousePosition =     0x090001,
             MouseLeftClick =    0x090002,
-            SendKeys =          0x090010,
-            ResetChannelCounter = 0x10050400
+            SendKeys =          0x090010
+            //ResetChannelCounter = 0x10050400
         }
     }
 }

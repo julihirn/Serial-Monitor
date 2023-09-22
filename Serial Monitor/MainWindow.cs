@@ -57,7 +57,7 @@ namespace Serial_Monitor {
                 CheckLineFormat();
             }
         }
-        public MainWindow() {
+        private void Setup() {
             InitializeComponent();
             ProgramManager.MainInstance = this;
             thPrograms.Tabs.Clear();
@@ -70,6 +70,7 @@ namespace Serial_Monitor {
             ProgramManager.ProgramNameChanged += ProgramManager_ProgramNameChanged;
             SystemManager.ChannelRemoved += SystemManager_ChannelRemoved;
             SystemManager.ChannelAdded += SystemManager_ChannelAdded;
+            SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
 
             SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
             currentManager = SystemManager.SerialManagers[0];
@@ -79,6 +80,13 @@ namespace Serial_Monitor {
             ProgramManager.LaunchThread();
             LoadRecentItems();
             DocumentEdited = false;
+        }
+        public MainWindow() {
+            Setup();
+        }
+        public MainWindow(string File) {
+            Setup();
+            Open(File);
         }
         private void toolStripMenuItem3_Click(object sender, EventArgs e) {
             if (CurrentManager != null) {
@@ -164,141 +172,43 @@ namespace Serial_Monitor {
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
-            if (ApplicationManager.IsDark == true) {
-                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
-                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
-                navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
-                navigator1.SideShadowColor = Color.FromArgb(60, Temp.R, Temp.G, Temp.B);
-                thPrograms.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
-            }
-            else {
-                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
-                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
-                navigator1.SelectedColor = Color.FromArgb(20, 0, 0, 0);
-                navigator1.SideShadowColor = Color.FromArgb(20, Temp.R, Temp.G, Temp.B);
-                thPrograms.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
-            }
             BackColor = Properties.Settings.Default.THM_COL_Editor;
 
-            msMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            smMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            smMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            smMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            smMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            smMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            Classes.Theming.ThemeManager.ThemeControl(msMain);
+            Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(smMain);
+            Classes.Theming.ThemeManager.ThemeControl(lstStepProgram);
+            Classes.Theming.ThemeManager.ThemeControl(thPrograms);
+            Classes.Theming.ThemeManager.ThemeControl(Output);
+            Classes.Theming.ThemeManager.ThemeControl(navigator1);
 
-            msMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            smMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            smMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            smMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            smMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            thPrograms.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
-
-            msMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            tsMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            smMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-
-            msMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            tsMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            smMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            thPrograms.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-
-            msMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-            tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-            smMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-
-            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
-            tsMain.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_SymbolColor;
-
-            tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            msMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            smMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            tsMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.CloseColor = Properties.Settings.Default.THM_COL_ForeColor;
-            navigator1.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            msMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            smMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            tsMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             pnlStepProgram.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            thPrograms.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
-            thPrograms.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            thPrograms.TabSelectedForeColor = Properties.Settings.Default.THM_COL_TabSelectedForeColor;
-
-            thPrograms.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
-            thPrograms.TabSelectedBackColor = Properties.Settings.Default.THM_COL_TabSelectedColor;
-
-            lstStepProgram.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            Output.ForeColor = Properties.Settings.Default.THM_COL_TerminalForeColor;
-
-            Output.BackColor = Properties.Settings.Default.THM_COL_Editor;
-            lstStepProgram.BackColor = Properties.Settings.Default.THM_COL_Editor;
-
-            lstStepProgram.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
-
-            navigator1.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-            navigator1.MidColor = Properties.Settings.Default.THM_COL_Editor;
-            navigator1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            navigator1.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            lstStepProgram.RowColor = Properties.Settings.Default.THM_COL_RowColor;
-            lstStepProgram.GridlineColor = Properties.Settings.Default.THM_COL_GridLineColor;
-
             pnlStepProgram.LabelBackColor = Properties.Settings.Default.THM_COL_MenuBack;
             pnlStepProgram.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
-            thPrograms.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            lstStepProgram.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
-            lstStepProgram.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
-
-            Output.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
-            Output.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
-
-            lstStepProgram.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
-            lstStepProgram.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
-
-            lstStepProgram.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            foreach (object obj in tsMain.Items) {
-                if (obj.GetType() == typeof(ToolStripSplitButton)) {
-                    ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-                else if (obj.GetType() == typeof(ToolStripButton)) {
-                    ((ToolStripButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-                else if (obj.GetType() == typeof(ToolStripDropDownButton)) {
-                    ((ToolStripDropDownButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-                else if (obj.GetType() == typeof(ToolStripLabel)) {
-                    ((ToolStripLabel)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-            }
-
-            ColorForeColorContextMenu(cmStepEditor);
-            ColorForeColorContextMenu(cmStepPrg);
-            ColorForeColorContextMenu(cmPrograms);
-            ColorForeColorContextMenu(cmChannels);
+            Classes.Theming.ThemeManager.ThemeControl(cmStepEditor);
+            Classes.Theming.ThemeManager.ThemeControl(cmStepPrg);
+            Classes.Theming.ThemeManager.ThemeControl(cmPrograms);
+            Classes.Theming.ThemeManager.ThemeControl(cmChannels);
 
             lblRxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblTxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            pnlRenamePanel.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            button1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            button1.BackColorNorth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+            button1.BackColorSouth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+            button1.BackColorDownNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            button1.BackColorDownSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            button1.BorderColorNorth = Properties.Settings.Default.THM_COL_BorderColor;
+            button1.BorderColorSouth = Properties.Settings.Default.THM_COL_BorderColor;
+            button1.BorderColorDownNorth = Properties.Settings.Default.THM_COL_BorderColor;
+            button1.BorderColorDownSouth = Properties.Settings.Default.THM_COL_BorderColor;
+            pnlRenamePanel.BackColor = Properties.Settings.Default.THM_COL_BorderColor;
 
             toolStripStatusLabel1.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
             toolStripStatusLabel3.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
@@ -382,17 +292,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeSelectedToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
-        private void ColorForeColorContextMenu(ODModules.ContextMenu Cm) {
-            Cm.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            Cm.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            Cm.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            Cm.MouseOverColor = Properties.Settings.Default.THM_COL_ButtonSelected;
-            Cm.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            Cm.SeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            foreach (ToolStripItem CmI in Cm.Items) {
-                CmI.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            }
-        }
+
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
@@ -536,7 +436,13 @@ namespace Serial_Monitor {
             else {
                 SystemRunning(false);
             }
-
+        }
+        private void SystemManager_PortStatusChanged(SerialManager sender) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                if (CurrentManager != null) {
+                    SystemRunning(CurrentManager.Port.IsOpen);
+                }
+            }));
         }
         private void Print(ErrorType Severity, string ErrorCode, string Msg) {
             if (Severity == ErrorType.M_Error) {
@@ -564,6 +470,12 @@ namespace Serial_Monitor {
                     ddbParity.Enabled = false;
                     ddbBits.Enabled = false;
                     ddbStopBits.Enabled = false;
+                    btnChannelPort.Enabled = false;
+                    btnChannelBaud.Enabled = false;
+                    btnChannelDataBits.Enabled = false;
+                    btnChannelParity.Enabled = false;
+                    btnChannelStopBits.Enabled = false;
+                    btnChannelFlowCtrl.Enabled = false;
                 }
                 else {
                     btnConnect.Enabled = CurrentManager.SystemEnabled;
@@ -575,6 +487,12 @@ namespace Serial_Monitor {
                     ddbParity.Enabled = CurrentManager.SystemEnabled;
                     ddbBits.Enabled = CurrentManager.SystemEnabled;
                     ddbStopBits.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelPort.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelBaud.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelDataBits.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelParity.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelStopBits.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelFlowCtrl.Enabled = CurrentManager.SystemEnabled;
                 }
             }
             else {
@@ -587,6 +505,12 @@ namespace Serial_Monitor {
                 ddbParity.Enabled = false;
                 ddbBits.Enabled = false;
                 ddbStopBits.Enabled = false;
+                btnChannelPort.Enabled = false;
+                btnChannelBaud.Enabled = false;
+                btnChannelDataBits.Enabled = false;
+                btnChannelParity.Enabled = false;
+                btnChannelStopBits.Enabled = false;
+                btnChannelFlowCtrl.Enabled = false;
             }
 
         }
@@ -623,9 +547,18 @@ namespace Serial_Monitor {
         }
         private void RefreshPorts() {
             CleanHandlers();
-            GetSerialPort();
-            //string[] ports = SerialPort.GetPortNames();
-            List<StringPair> ports = GetSerialPort();
+            //GetSerialPort();
+            //
+            List<StringPair> ports = new List<StringPair>();
+            if (Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
+                string[] TempPorts = SerialPort.GetPortNames();
+                foreach (string Str in TempPorts) {
+                    ports.Add(new StringPair(Str, ""));
+                }
+            }
+            else {
+                ports = GetSerialPort();
+            }
             //Array.Sort(ports, StringComparer.OrdinalIgnoreCase);
             //string[] Ports = ports.OrderBy(x => x.Length).ThenBy(x => x).ToArray();
             List<StringPair> Ports = ports.OrderBy(x => x.A.Length).ThenBy(x => x.A).ToList();
@@ -1250,9 +1183,22 @@ namespace Serial_Monitor {
             TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
             if (TagData == null) { return; }
             if (TagData.SelectedTab.GetType() != typeof(SerialManager)) { return; }
-            SerialManager SerMan = ((SerialManager)TagData.SelectedTab);
-            Rectangle TabRectangle = TagData.TextArea;
-
+            ShowChannelRenameBox(TagData);
+        }
+        private void textBox1_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                if (CurrentManager != null) {
+                    CurrentManager.Name = textBox1.Text;
+                }
+                pnlRenamePanel.Hide();
+                navigator1.Invalidate();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+        private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
+            Rectangle TabRectangle = EventData.TextArea;
+            SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
             string CurrentText = SerMan.Name;
             TextBox RenameBox = new TextBox();
             RenameBox.Text = CurrentText;
@@ -1270,7 +1216,7 @@ namespace Serial_Monitor {
             RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
             RenameBox.Size = TabRectangle.Size;
             RenameBox.BringToFront();
-            RenameBox.Tag = cmChannels.Tag;
+            RenameBox.Tag = EventData;
             InRenameMode = true;
             navigator1.Controls.Add(RenameBox);
             RenameBox.Focus();
@@ -1386,10 +1332,22 @@ namespace Serial_Monitor {
         private void SystemManager_ChannelAdded(int RemovedIndex) {
             DocumentEdited = true;
             navigator1.Invalidate();
+            ChannelEditingContexts();
         }
         private void SystemManager_ChannelRemoved(int RemovedIndex) {
             if (navigator1.SelectedItem >= navigator1.ItemCount) {
                 navigator1.SelectedItem -= 1;
+            }
+            ChannelEditingContexts();
+        }
+        private void ChannelEditingContexts() {
+            if (SystemManager.SerialManagers.Count > 1) {
+                btnRemoveChannel.Enabled = true;
+                removeChannelToolStripMenuItem.Enabled = true;
+            }
+            else {
+                btnRemoveChannel.Enabled = false;
+                removeChannelToolStripMenuItem.Enabled = false;
             }
         }
         #endregion
@@ -1531,9 +1489,7 @@ namespace Serial_Monitor {
             if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
                 ProgramProperties PrgProp = new ProgramProperties();
                 PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
-                PrgProp.StartPosition = FormStartPosition.CenterParent;
-                PrgProp.Owner = this;
-                ApplicationManager.OpenInternalApplicationOnce(PrgProp, true);
+                ApplicationManager.OpenInternalApplicationAsDialog(PrgProp, this);
             }
         }
         private void StepOperationBtn_Click(object? sender, EventArgs e) {
@@ -1645,7 +1601,7 @@ namespace Serial_Monitor {
             }
         }
         private const int WM_LBUTTONDOWN = 0x0201;
-        public event EventHandler<MouseDownEventArgs> ?MouseEvent;
+        public event EventHandler<MouseDownEventArgs>? MouseEvent;
         public bool PreFilterMessage(ref Message m) {
             if (m.Msg == WM_LBUTTONDOWN) {
                 var pos = MousePosition;
@@ -2237,10 +2193,8 @@ namespace Serial_Monitor {
             ProgramObject? PrgObj = GetProgramObjectFromTab();
             if (PrgObj == null) { return; }
             ProgramProperties PrgProp = new ProgramProperties();
-            PrgProp.SelectedProgram = PrgObj;
-            PrgProp.StartPosition = FormStartPosition.CenterParent;
-            PrgProp.Owner = this;
-            ApplicationManager.OpenInternalApplicationOnce(PrgProp, true);
+            PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
+            ApplicationManager.OpenInternalApplicationAsDialog(PrgProp, this);
         }
         private void tabHeader1_AddButtonClicked(object sender) {
             NewProgram();
@@ -2526,7 +2480,7 @@ namespace Serial_Monitor {
         }
         private void ArrangeProgramOrderings() {
             int Index = 0;
-            foreach(Tab TabPrg in thPrograms.Tabs) {
+            foreach (Tab TabPrg in thPrograms.Tabs) {
                 if (TabPrg.Tag != null) {
                     if (TabPrg.Tag.GetType() == typeof(ProgramObject)) {
                         ((ProgramObject)TabPrg.Tag).DisplayIndex = Index;
@@ -2852,6 +2806,8 @@ namespace Serial_Monitor {
             Oscilloscope Scope = new Oscilloscope();
             ApplicationManager.OpenInternalApplicationOnce(Scope, true);
         }
+
+
     }
     public enum StreamInputFormat {
         Text = 0x01,

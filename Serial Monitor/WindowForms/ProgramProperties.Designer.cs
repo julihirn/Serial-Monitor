@@ -124,6 +124,8 @@
             this.ClientSize = new System.Drawing.Size(256, 108);
             this.Controls.Add(this.labelPanel2);
             this.Controls.Add(this.labelPanel1);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "ProgramProperties";

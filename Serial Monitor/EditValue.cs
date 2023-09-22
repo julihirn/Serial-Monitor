@@ -1,6 +1,7 @@
 ﻿using Handlers;
 using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;

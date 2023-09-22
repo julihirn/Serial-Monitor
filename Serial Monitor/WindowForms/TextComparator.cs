@@ -17,7 +17,11 @@ namespace Serial_Monitor.WindowForms {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
         }
-
+        private void AdjustUserInterface() {
+            labelPanel1.InlineWidth = DesignerSetup.ScaleInteger(labelPanel1.InlineWidth);
+            labelPanel2.InlineWidth = DesignerSetup.ScaleInteger(labelPanel2.InlineWidth);
+            lstMonitor.ScaleColumnWidths();
+        }
         private void textBox1_TextChanged(object sender, EventArgs e) {
             txtComparer.CompareFrom = textBox1.Text;
             Reevaluate();
@@ -30,9 +34,9 @@ namespace Serial_Monitor.WindowForms {
 
         private void TextComparator_Load(object sender, EventArgs e) {
             ApplyTheme();
+            AdjustUserInterface();
         }
         public void ApplyTheme() {
-
             RecolorAll();
         }
         private void RecolorAll() {

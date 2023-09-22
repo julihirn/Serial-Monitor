@@ -12,10 +12,12 @@ using Svg;
 
 namespace Serial_Monitor {
     public class DesignerSetup {
+        public static int VeryLargeIconSize = 48;
         public static int LargeIconSize = 32;
         public static int MediumIconSize = 24;
         public static int SmallIconSize = 16;
         public static void SetImageSizes(int DPI) {
+            VeryLargeIconSize = SetIconSize(48, DPI);
             LargeIconSize = SetIconSize(32, DPI);
             MediumIconSize = SetIconSize(24, DPI);
             SmallIconSize = SetIconSize(16, DPI);
@@ -37,6 +39,9 @@ namespace Serial_Monitor {
             }
             else if (IconSz == IconSize.Large) {
                 return new Size(LargeIconSize, LargeIconSize);
+            }
+            else if (IconSz == IconSize.VeryLarge) {
+                return new Size(VeryLargeIconSize, VeryLargeIconSize);
             }
             return new Size(SmallIconSize, SmallIconSize);
         }
@@ -140,7 +145,8 @@ namespace Serial_Monitor {
         public enum IconSize {
             Small = 0x00,
             Medium = 0x01,
-            Large = 0x02
+            Large = 0x02,
+            VeryLarge = 0x03
         }
         
         [DllImport("dwmapi.dll")]

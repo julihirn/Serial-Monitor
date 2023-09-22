@@ -1,5 +1,6 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Serial_Monitor {
+namespace Serial_Monitor
+{
     public partial class ModbusRegisters : Form, Interfaces.ITheme {
         public Form? Attached = null;
         public ModbusRegisters() {
@@ -59,77 +61,12 @@ namespace Serial_Monitor {
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
-            if (ApplicationManager.IsDark == true) {
-                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
-                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
-                navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
-                navigator1.SideShadowColor = Color.FromArgb(60, Temp.R, Temp.G, Temp.B);
-            }
-            else {
-                Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
-                navigator1.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);
-                navigator1.SelectedColor = Color.FromArgb(20, 0, 0, 0);
-                navigator1.SideShadowColor = Color.FromArgb(20, Temp.R, Temp.G, Temp.B);
-            }
             BackColor = Properties.Settings.Default.THM_COL_Editor;
 
-            tsMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+            Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(lstMonitor);
 
-            tsMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-
-
-            tsMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-
-            tsMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-
-            tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-
-            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonChecked;
-            tsMain.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonChecked;
-
-            tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            tsMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            tsMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            navigator1.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-            navigator1.MidColor = Properties.Settings.Default.THM_COL_Editor;
-            navigator1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            //pnlMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
-
-            lstMonitor.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            lstMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
-            lstMonitor.RowColor = Properties.Settings.Default.THM_COL_RowColor;
-            lstMonitor.GridlineColor = Properties.Settings.Default.THM_COL_GridLineColor;
-            lstMonitor.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
-            lstMonitor.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
-            lstMonitor.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
-            lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            lstMonitor.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
-            lstMonitor.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
-
-            foreach (object obj in tsMain.Items) {
-                if (obj.GetType() == typeof(ToolStripSplitButton)) {
-                    ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-                else if (obj.GetType() == typeof(ToolStripButton)) {
-                    ((ToolStripButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-                else if (obj.GetType() == typeof(ToolStripDropDownButton)) {
-                    ((ToolStripDropDownButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-                else if (obj.GetType() == typeof(ToolStripLabel)) {
-                    ((ToolStripLabel)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                }
-            }
+            Classes.Theming.ThemeManager.ThemeControl(navigator1);
             this.ResumeLayout();
         }
         #endregion

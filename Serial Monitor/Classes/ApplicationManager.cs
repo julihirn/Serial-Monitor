@@ -49,6 +49,12 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        public static DialogResult OpenInternalApplicationAsDialog(Form Application, Form Parent) {
+            //Application.Parent = Parent;
+            Application.ShowInTaskbar = false;
+            Application.StartPosition = FormStartPosition.CenterParent;
+            return Application.ShowDialog();
+        }
         public static void OpenInternalApplicationOnce(Form Application, bool BringToFront = true) {
             if (IsInternalApplicationOpen(Application.Name)) {
                 if (BringToFront == true) { BringInternalApplicationToFront(Application.Name); }

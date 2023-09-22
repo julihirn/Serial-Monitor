@@ -417,5 +417,29 @@ namespace Serial_Monitor.Properties {
                 this["PRG_BOL_AnimateCursor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CHAN_BOL_PreferLegacyPortListing {
+            get {
+                return ((bool)(this["CHAN_BOL_PreferLegacyPortListing"]));
+            }
+            set {
+                this["CHAN_BOL_PreferLegacyPortListing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PRG_BOL_LimitExecution1ms {
+            get {
+                return ((bool)(this["PRG_BOL_LimitExecution1ms"]));
+            }
+            set {
+                this["PRG_BOL_LimitExecution1ms"] = value;
+            }
+        }
     }
 }

@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serial_Monitor.Classes {
-    public static class Modbus {
-        public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length) {
+namespace Serial_Monitor.Classes.Modbus
+{
+    public static class ModbusSupport{
+        public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length)
+        {
             if (Length < 6) { return false; }
-            if ((InputBuffer[0] < 1) | (InputBuffer[0] > 247)) { return false; }
+            if (InputBuffer[0] < 1 | InputBuffer[0] > 247) { return false; }
             byte[] CRC = new byte[2];
             CRC = BitConverter.GetBytes(CalculateCRC(InputBuffer, (ushort)(Length - 2), 0));
-            if (CRC[0] != InputBuffer[Length - 2] | CRC[1] != InputBuffer[Length - 1]) {
+            if (CRC[0] != InputBuffer[Length - 2] | CRC[1] != InputBuffer[Length - 1])
+            {
                 return false;
             }
             return true;
         }
-        public static UInt16 CalculateCRC(byte[] Input, UInt16 BytesCount, int Start) {
+        public static ushort CalculateCRC(byte[] Input, ushort BytesCount, int Start)
+        {
             byte[] auchCRCHi = {
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
             0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
@@ -58,24 +62,28 @@ namespace Serial_Monitor.Classes {
             0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80,
             0x40
             };
-            UInt16 usDataLen = BytesCount;
+            ushort usDataLen = BytesCount;
             byte uchCRCHi = 0xFF;
             byte uchCRCLo = 0xFF;
             int i = 0;
             int uIndex;
-            while (usDataLen > 0) {
+            while (usDataLen > 0)
+            {
                 usDataLen--;
-                if ((i + Start) < Input.Length) {
+                if (i + Start < Input.Length)
+                {
                     uIndex = uchCRCLo ^ Input[i + Start];
                     uchCRCLo = (byte)(uchCRCHi ^ auchCRCHi[uIndex]);
                     uchCRCHi = auchCRCLo[uIndex];
                 }
                 i++;
             }
-            return (UInt16)((UInt16)uchCRCHi << 8 | uchCRCLo);
+            return (ushort)(uchCRCHi << 8 | uchCRCLo);
         }
-        public static string FunctionCodeToString(FunctionCode Code) {
-            switch (Code) {
+        public static string FunctionCodeToString(FunctionCode Code)
+        {
+            switch (Code)
+            {
                 case FunctionCode.ReadDiscreteInputs:
                     return "Read Discrete Inputs";
                 case FunctionCode.ReadCoils:
@@ -96,7 +104,8 @@ namespace Serial_Monitor.Classes {
                     return "";
             }
         }
-        public enum FunctionCode {
+        public enum FunctionCode
+        {
             NoCommand = 0x00,
             ReadDiscreteInputs = 0x02,
             ReadCoils = 0x01,

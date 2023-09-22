@@ -796,8 +796,8 @@
             this.pnlRenamePanel.Location = new System.Drawing.Point(0, 0);
             this.pnlRenamePanel.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.pnlRenamePanel.Name = "pnlRenamePanel";
-            this.pnlRenamePanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            this.pnlRenamePanel.Size = new System.Drawing.Size(607, 19);
+            this.pnlRenamePanel.Padding = new System.Windows.Forms.Padding(1);
+            this.pnlRenamePanel.Size = new System.Drawing.Size(607, 20);
             this.pnlRenamePanel.TabIndex = 3;
             this.pnlRenamePanel.Visible = false;
             this.pnlRenamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlRenamePanel_Paint);
@@ -809,19 +809,21 @@
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
+            this.textBox1.Location = new System.Drawing.Point(1, 1);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.textBox1.MaxLength = 20;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(512, 18);
+            this.textBox1.PlaceholderText = "Rename Channel";
+            this.textBox1.Size = new System.Drawing.Size(510, 18);
             this.textBox1.TabIndex = 2;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(512, 0);
+            this.panel2.Location = new System.Drawing.Point(511, 1);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(95, 18);
             this.panel2.TabIndex = 1;
@@ -876,7 +878,7 @@
             this.navigator1.Dock = System.Windows.Forms.DockStyle.Left;
             this.navigator1.ForeColor = System.Drawing.Color.White;
             this.navigator1.LinkedList = null;
-            this.navigator1.Location = new System.Drawing.Point(0, 19);
+            this.navigator1.Location = new System.Drawing.Point(0, 20);
             this.navigator1.MidColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.navigator1.Name = "navigator1";
             this.navigator1.SelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -884,7 +886,7 @@
             this.navigator1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.navigator1.ShowAnimations = true;
             this.navigator1.SideShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.navigator1.Size = new System.Drawing.Size(81, 135);
+            this.navigator1.Size = new System.Drawing.Size(81, 134);
             this.navigator1.TabIndex = 1;
             this.navigator1.SelectedIndexChanged += new ODModules.Navigator.SelectedIndexChangedHandler(this.navigator1_SelectedIndexChanged);
             this.navigator1.TabRightClicked += new ODModules.Navigator.TabClickedHandler(this.navigator1_TabRightClicked);
@@ -2896,7 +2898,7 @@
             0,
             0});
             this.Output.LineFormatting = true;
-            this.Output.Location = new System.Drawing.Point(81, 19);
+            this.Output.Location = new System.Drawing.Point(81, 20);
             this.Output.MaximumLength = 100;
             this.Output.Name = "Output";
             this.Output.OriginForeColor = System.Drawing.Color.Silver;
@@ -2908,7 +2910,7 @@
             this.Output.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Output.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(74)))));
             this.Output.ShowOrigin = true;
-            this.Output.Size = new System.Drawing.Size(526, 135);
+            this.Output.Size = new System.Drawing.Size(526, 134);
             this.Output.TabIndex = 0;
             this.Output.TimeStampForeColor = System.Drawing.Color.Gray;
             this.Output.TimeStamps = ODModules.ConsoleInterface.TimeStampFormat.NoTimeStamps;
@@ -3049,7 +3051,7 @@
             this.cmPrograms.SeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.cmPrograms.ShowInsetShadow = false;
             this.cmPrograms.ShowItemInsetShadow = false;
-            this.cmPrograms.Size = new System.Drawing.Size(190, 170);
+            this.cmPrograms.Size = new System.Drawing.Size(190, 148);
             // 
             // cmRunProgram
             // 

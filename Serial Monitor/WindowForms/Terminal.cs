@@ -169,51 +169,10 @@ namespace Serial_Monitor.WindowForms {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
-            Output.ForeColor = Properties.Settings.Default.THM_COL_TerminalForeColor;
+            Classes.Theming.ThemeManager.ThemeControl(Output);
+            Classes.Theming.ThemeManager.ThemeControl(msMain);
+            Classes.Theming.ThemeManager.ThemeControl(tsMain);
 
-            Output.BackColor = Properties.Settings.Default.THM_COL_Editor;
-
-            Output.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
-            Output.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
-
-            tsMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            tsMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            tsMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            tsMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            tsMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-
-            tsMain.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
-            tsMain.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_SymbolColor;
-
-            tsMain.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            tsMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            tsMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            msMain.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
-            msMain.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.ItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.StripItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.StripItemSelectedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            msMain.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            msMain.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            msMain.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-            msMain.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            msMain.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            foreach (ToolStripItem Itm in tsMain.Items) {
-                Itm.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            }
             this.ResumeLayout();
         }
         private void Terminal_FormClosing(object sender, FormClosingEventArgs e) {
