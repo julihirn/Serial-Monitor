@@ -153,6 +153,7 @@
             this.textBox2.ForeColor = System.Drawing.Color.White;
             this.textBox2.Location = new System.Drawing.Point(0, 0);
             this.textBox2.Name = "textBox2";
+            this.textBox2.PlaceholderText = "Name";
             this.textBox2.Size = new System.Drawing.Size(86, 18);
             this.textBox2.TabIndex = 0;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
@@ -166,6 +167,7 @@
             this.textBox3.ForeColor = System.Drawing.Color.White;
             this.textBox3.Location = new System.Drawing.Point(0, 0);
             this.textBox3.Name = "textBox3";
+            this.textBox3.PlaceholderText = "Assignment/Expression";
             this.textBox3.Size = new System.Drawing.Size(178, 18);
             this.textBox3.TabIndex = 1;
             this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);

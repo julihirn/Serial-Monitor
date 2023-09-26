@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.FormatEnums;
 
 namespace Serial_Monitor.Classes
 {

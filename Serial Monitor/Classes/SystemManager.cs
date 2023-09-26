@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -158,13 +160,42 @@ namespace Serial_Monitor.Classes {
                 SerialManagers.RemoveAt(i);
             }
         }
-        public static SerialManager ?GetChannel(int ChannelIndex) {
+        public static SerialManager? GetChannel(int ChannelIndex) {
             if (SerialManagers.Count > 0) {
                 if ((ChannelIndex < SerialManagers.Count) && (ChannelIndex != -1)) {
                     return SerialManagers[ChannelIndex];
                 }
             }
             return null;
+        }
+        #endregion
+        #region Ports and Listing
+        public static List<StringPair> GetSerialPortSettingBased() {
+            List<StringPair> Results = new List<StringPair>();
+            if (Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
+                Results = GetSerialPortLegacyListing();
+            }
+            else {
+                Results = GetSerialPort();
+            }
+            return Results.OrderBy(x => x.A.Length).ThenBy(x => x.A).ToList();
+        }
+        private static List<StringPair> GetSerialPort() {
+            var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
+            List<StringPair> Results = new List<StringPair>();
+            foreach (ManagementObject result in searcher.Get()) {
+                StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
+                Results.Add(Sp);
+            }
+            return Results;
+        }
+        private static List<StringPair> GetSerialPortLegacyListing() {
+            List<StringPair> Results = new List<StringPair>();
+            string[] TempPorts = SerialPort.GetPortNames();
+            foreach (string Str in TempPorts) {
+                Results.Add(new StringPair(Str, ""));
+            }
+            return Results;
         }
         #endregion
     }

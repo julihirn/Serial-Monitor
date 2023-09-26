@@ -24,8 +24,6 @@ namespace Serial_Monitor {
           
             AdjustUserInterface();
             hiddenTabControl1.DefaultColor1 = BackColor;
-            LoadInputFormats();
-            LoadOutputFormats();
             ApplyTheme();
             LoadConfigurations();
             LoadSettings();
@@ -33,7 +31,7 @@ namespace Serial_Monitor {
         }
         private void AdjustUserInterface() {
             btngrThemes.ImageSize = DesignerSetup.GetSize(DesignerSetup.IconSize.Large);
-            btngrThemes.ButtonSize = DesignerSetup.ScaleSize(new Size(DesignerSetup.VeryLargeIconSize + 20, DesignerSetup.VeryLargeIconSize + 20));
+            btngrThemes.ButtonSize = DesignerSetup.ScaleSize(new Size(DesignerSetup.VeryLargeIconSize, DesignerSetup.VeryLargeIconSize));
             btngrThemes.IconInline = false;
             hiddenTabControl1.DebugMode = false;
             ScaleLabelPanels(tabPage3);
@@ -46,36 +44,6 @@ namespace Serial_Monitor {
                         LblPnl.InlineWidth = DesignerSetup.ScaleInteger(LblPnl.InlineWidth);
                     }
                 }
-            }
-        }
-        private void LoadInputFormats() {
-            StreamInputFormat[] Formats = (StreamInputFormat[])StreamInputFormat.GetValues(typeof(StreamInputFormat));
-            foreach (StreamInputFormat Frmt in Formats) {
-                StringPair Data = EnumManager.InputFormatToString(Frmt, true);
-                ToolStripMenuItem Tsi = new ToolStripMenuItem();
-                Tsi.Text = Data.A;
-                Tsi.Tag = Data.B;
-                if (Data.B == Properties.Settings.Default.DEF_STR_InputFormat) {
-                    Tsi.Checked = true;
-                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-                }
-                Tsi.Click += InputFormatClicked;
-                ddbInputFormat.DropDownItems.Add(Tsi);
-            }
-        }
-        private void LoadOutputFormats() {
-            StreamOutputFormat[] Formats = (StreamOutputFormat[])StreamOutputFormat.GetValues(typeof(StreamOutputFormat));
-            foreach (StreamOutputFormat Frmt in Formats) {
-                StringPair Data = EnumManager.OutputFormatToString(Frmt, true);
-                ToolStripMenuItem Tsi = new ToolStripMenuItem();
-                Tsi.Text = Data.A;
-                Tsi.Tag = Data.B;
-                if (Data.B == Properties.Settings.Default.DEF_STR_OutputFormat) {
-                    Tsi.Checked = true;
-                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-                }
-                Tsi.Click += OutputFormatClicked;
-                ddbOutputFormat.DropDownItems.Add(Tsi);
             }
         }
         private void LoadThemes() {
@@ -119,9 +87,10 @@ namespace Serial_Monitor {
             }
         }
         private void LoadConfigurations() {
+            EnumManager.LoadInputFormats(ddbInputFormat, InputFormatClicked, true);
+            EnumManager.LoadOutputFormats(ddbOutputFormat, OutputFormatClicked, true);
             foreach (int i in SystemManager.DefaultBauds) {
                 comboBox1.Items.Add(i.ToString());
-
             }
         }
         private void LoadSettings() {

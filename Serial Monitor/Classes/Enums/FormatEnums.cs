@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace Serial_Monitor.Classes.Enums {
+    public static class FormatEnums {
+        public enum StreamInputFormat {
+            Text = 0x01,
+            [Description("Binary Stream")]
+            BinaryStream = 0x02,
+            [Description("Command")]
+            CCommand = 0x04,
+            [Description("Modbus RTU")]
+            ModbusRTU = 0x05
+        }
+        public enum StreamOutputFormat {
+            Text = 0x01,
+            [Description("Command")]
+            CCommand = 0x02,
+            [Description("Modbus RTU")]
+            ModbusRTU = 0x05
+        }
+    }
+}

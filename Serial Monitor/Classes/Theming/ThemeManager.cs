@@ -149,6 +149,14 @@ namespace Serial_Monitor.Classes.Theming {
                 Cons.ForeColor = Properties.Settings.Default.THM_COL_TerminalForeColor;
                 Cons.BackColor = Properties.Settings.Default.THM_COL_Editor;
             }
+            else if (ControlObject.GetType() == typeof(ODModules.HiddenTabControl)) {
+                ODModules.HiddenTabControl tCtrl = (ODModules.HiddenTabControl)ControlObject;
+                tCtrl.DefaultColor1 = Properties.Settings.Default.THM_COL_Editor;
+                foreach (TabPage tab in tCtrl.TabPages) {
+                    tab.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                    tab.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+            }
         }
         #endregion
         public static Image DrawIcon(Theme Thm, Font ParentFont) {

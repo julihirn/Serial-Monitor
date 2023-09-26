@@ -7,6 +7,30 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
     public static class EnumManager {
+        public static DataSelection StringToModbusDataSelection(string Input) {
+            if (Input == "viewRegTypeCoils") {
+                return DataSelection.ModbusDataCoils;
+            }
+            else if (Input == "viewRegTypeHolding") {
+                return DataSelection.ModbusDataHoldingRegisters;
+            }
+            else if (Input == "viewRegTypeDiscrete") {
+                return DataSelection.ModbusDataDiscreteInputs;
+            }
+            else if (Input == "viewRegTypeRegisters") {
+                return DataSelection.ModbusDataInputRegisters;
+            }
+            return DataSelection.ModbusDataCoils;
+        }
+        public static string ModbusDataSelectionToString(DataSelection Input) {
+            if (Input == DataSelection.ModbusDataCoils) { return "viewRegTypeCoils"; }
+            else if (Input == DataSelection.ModbusDataHoldingRegisters) { return "viewRegTypeHolding"; }
+            else if (Input == DataSelection.ModbusDataDiscreteInputs) { return "viewRegTypeDiscrete"; }
+            else if (Input == DataSelection.ModbusDataInputRegisters) { return "viewRegTypeRegisters"; }
+            else {
+                return "viewRegTypeCoils";
+            }
+        }
         public static CommandType StringToCommandType(string Input) {
             if (Input.ToUpper() == "NONE") { return CommandType.NoAssignedCommand; }
             else if (Input.ToUpper() == "SENDSTR") { return CommandType.SendString; }
@@ -69,63 +93,63 @@ namespace Serial_Monitor.Classes {
             else if (Input == System.IO.Ports.Handshake.RequestToSendXOnXOff) { return "cfDSRSTR"; }
             return "cfNone";
         }
-        public static StreamInputFormat StringToInputFormat(string Input) {
+        public static Enums.FormatEnums.StreamInputFormat StringToInputFormat(string Input) {
             if (Input == "frmTxt") {
-                return StreamInputFormat.Text;
+                return Enums.FormatEnums.StreamInputFormat.Text;
             }
             else if (Input == "frmStream") {
-                return StreamInputFormat.BinaryStream;
+                return Enums.FormatEnums.StreamInputFormat.BinaryStream;
             }
             else if (Input == "frmCCommand") {
-                return StreamInputFormat.CCommand;
+                return Enums.FormatEnums.StreamInputFormat.CCommand;
             }
             else if (Input == "frmModbusRTU") {
-                return StreamInputFormat.ModbusRTU;
+                return Enums.FormatEnums.StreamInputFormat.ModbusRTU;
             }
-            return StreamInputFormat.Text;
+            return Enums.FormatEnums.StreamInputFormat.Text;
         }
-        public static StringPair InputFormatToString(StreamInputFormat Input, bool UseLongName = true) {
-            if (Input == StreamInputFormat.Text) {
-                return new StringPair("Text", "frmTxt");
+        public static StringPair InputFormatToString(Enums.FormatEnums.StreamInputFormat Input, bool UseLongName = true) {
+            if (Input == Enums.FormatEnums.StreamInputFormat.Text) {
+                return new StringPair("&Text", "frmTxt");
             }
-            else if (Input == StreamInputFormat.BinaryStream) {
+            else if (Input == Enums.FormatEnums.StreamInputFormat.BinaryStream) {
                 if (UseLongName == true) {
-                    return new StringPair("Binary Stream", "frmStream");
+                    return new StringPair("&Binary Stream", "frmStream");
                 }
                 else {
                     return new StringPair("Stream", "frmStream");
                 }
             }
-            else if (Input == StreamInputFormat.CCommand) {
+            else if (Input == Enums.FormatEnums.StreamInputFormat.CCommand) {
                 if (UseLongName == true) {
-                    return new StringPair("C Command", "frmCCommand");
+                    return new StringPair("C &Command", "frmCCommand");
                 }
                 else {
                     return new StringPair("Command", "frmCCommand");
                 }
             }
-            else if (Input == StreamInputFormat.ModbusRTU) {
-                return new StringPair("Modbus RTU", "frmModbusRTU");
+            else if (Input == Enums.FormatEnums.StreamInputFormat.ModbusRTU) {
+                return new StringPair("Modbus &RTU", "frmModbusRTU");
             }
             return new StringPair("Text", "frmTxt");
         }
-        public static StreamOutputFormat StringToOutputFormat(string Input) {
+        public static Enums.FormatEnums.StreamOutputFormat StringToOutputFormat(string Input) {
             if (Input == "frmTxt") {
-                return StreamOutputFormat.Text;
+                return Enums.FormatEnums.StreamOutputFormat.Text;
             }
             else if (Input == "frmCCommand") {
-                return StreamOutputFormat.CCommand;
+                return Enums.FormatEnums.StreamOutputFormat.CCommand;
             }
             else if (Input == "frmModbusRTU") {
-                return StreamOutputFormat.ModbusRTU;
+                return Enums.FormatEnums.StreamOutputFormat.ModbusRTU;
             }
-            return StreamOutputFormat.Text;
+            return Enums.FormatEnums.StreamOutputFormat.Text;
         }
-        public static StringPair OutputFormatToString(StreamOutputFormat Input, bool UseLongName = true) {
-            if (Input == StreamOutputFormat.Text) {
+        public static StringPair OutputFormatToString(Enums.FormatEnums.StreamOutputFormat Input, bool UseLongName = true) {
+            if (Input == Enums.FormatEnums.StreamOutputFormat.Text) {
                 return new StringPair("Text", "frmTxt");
             }
-            else if (Input == StreamOutputFormat.CCommand) {
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.CCommand) {
                 if (UseLongName == true) {
                     return new StringPair("C Command", "frmCCommand");
                 }
@@ -133,7 +157,7 @@ namespace Serial_Monitor.Classes {
                     return new StringPair("Command", "frmCCommand");
                 }
             }
-            else if (Input == StreamOutputFormat.ModbusRTU) {
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.ModbusRTU) {
                 return new StringPair("Modbus RTU", "frmModbusRTU");
             }
             return new StringPair("Text", "frmTxt");
@@ -167,6 +191,72 @@ namespace Serial_Monitor.Classes {
                 return "frmLineCR";
             }
             return "frmLineNone";
+        }
+
+
+        public static void LoadInputFormats(object DropDownList, EventHandler FormatClick, bool ApplyText = false) {
+            Enums.FormatEnums.StreamInputFormat[] Formats = (Enums.FormatEnums.StreamInputFormat[])Enums.FormatEnums.StreamInputFormat.GetValues(typeof(Enums.FormatEnums.StreamInputFormat));
+            foreach (Enums.FormatEnums.StreamInputFormat Frmt in Formats) {
+                StringPair Data = EnumManager.InputFormatToString(Frmt, true);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data.A;
+                Tsi.Tag = Data.B;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                if (Data.B == Properties.Settings.Default.DEF_STR_InputFormat) {
+                    Tsi.Checked = true;
+                    if (ApplyText == true) {
+                        if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                            ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                            Btn.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+                        }
+                        else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                            ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                            Btn.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+                        }
+                    }
+                }
+                Tsi.Click += FormatClick;
+                if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
+        public static void LoadOutputFormats(object DropDownList, EventHandler FormatClick, bool ApplyText = false) {
+            Enums.FormatEnums.StreamOutputFormat[] Formats = (Enums.FormatEnums.StreamOutputFormat[])Enums.FormatEnums.StreamOutputFormat.GetValues(typeof(Enums.FormatEnums.StreamOutputFormat));
+            foreach (Enums.FormatEnums.StreamOutputFormat Frmt in Formats) {
+                StringPair Data = EnumManager.OutputFormatToString(Frmt, true);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data.A;
+                Tsi.Tag = Data.B;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                if (Data.B == Properties.Settings.Default.DEF_STR_OutputFormat) {
+                    Tsi.Checked = true;
+                    if (ApplyText == true) {
+                        if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                            ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                            Btn.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+                        }
+                        else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                            ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                            Btn.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+                        }
+                    }
+                }
+                Tsi.Click += FormatClick;
+                if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
         }
     }
     public enum LineFormatting {

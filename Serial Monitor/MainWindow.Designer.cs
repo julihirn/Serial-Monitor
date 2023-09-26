@@ -59,14 +59,7 @@
             this.btnDisconnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ddbInputFormat = new System.Windows.Forms.ToolStripDropDownButton();
-            this.btnInFormText = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnInFormStream = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnInFormCCommand = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnInFormModbusRTU = new System.Windows.Forms.ToolStripMenuItem();
             this.ddbOutputFormat = new System.Windows.Forms.ToolStripDropDownButton();
-            this.btnOutFormText = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnOutFormCCommand = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnOutFormModbusRTU = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRun = new System.Windows.Forms.ToolStripSplitButton();
             this.runFromStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -205,14 +198,7 @@
             this.btnChannelFlowDSRDTR = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
             this.btnChannelInputFormat = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselInputTextFrmt = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselInputBinary = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselInputCommand = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselInputModbus = new System.Windows.Forms.ToolStripMenuItem();
             this.btnChannelOutputFormat = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselOutputTextFrmt = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselOutputCommandFrmt = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnselOutputModbusRTUFrmt = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator39 = new System.Windows.Forms.ToolStripSeparator();
             this.resetCountersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPrgNewStepLine = new System.Windows.Forms.ToolStripMenuItem();
@@ -591,11 +577,6 @@
             // 
             // ddbInputFormat
             // 
-            this.ddbInputFormat.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnInFormText,
-            this.btnInFormStream,
-            this.btnInFormCCommand,
-            this.btnInFormModbusRTU});
             this.ddbInputFormat.ForeColor = System.Drawing.Color.White;
             this.ddbInputFormat.Image = ((System.Drawing.Image)(resources.GetObject("ddbInputFormat.Image")));
             this.ddbInputFormat.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -605,52 +586,8 @@
             this.ddbInputFormat.Text = "Text";
             this.ddbInputFormat.ToolTipText = "Input Format";
             // 
-            // btnInFormText
-            // 
-            this.btnInFormText.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnInFormText.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnInFormText.Name = "btnInFormText";
-            this.btnInFormText.Size = new System.Drawing.Size(147, 22);
-            this.btnInFormText.Tag = "frmTxt";
-            this.btnInFormText.Text = "Text";
-            this.btnInFormText.Click += new System.EventHandler(this.btnInFormText_Click);
-            // 
-            // btnInFormStream
-            // 
-            this.btnInFormStream.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnInFormStream.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnInFormStream.Name = "btnInFormStream";
-            this.btnInFormStream.Size = new System.Drawing.Size(147, 22);
-            this.btnInFormStream.Tag = "frmStream";
-            this.btnInFormStream.Text = "Binary Stream";
-            this.btnInFormStream.Click += new System.EventHandler(this.btnInFormStream_Click);
-            // 
-            // btnInFormCCommand
-            // 
-            this.btnInFormCCommand.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnInFormCCommand.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnInFormCCommand.Name = "btnInFormCCommand";
-            this.btnInFormCCommand.Size = new System.Drawing.Size(147, 22);
-            this.btnInFormCCommand.Tag = "frmCCommand";
-            this.btnInFormCCommand.Text = "C Command";
-            this.btnInFormCCommand.Click += new System.EventHandler(this.btnInFormCCommand_Click);
-            // 
-            // btnInFormModbusRTU
-            // 
-            this.btnInFormModbusRTU.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnInFormModbusRTU.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnInFormModbusRTU.Name = "btnInFormModbusRTU";
-            this.btnInFormModbusRTU.Size = new System.Drawing.Size(147, 22);
-            this.btnInFormModbusRTU.Tag = "frmModbusRTU";
-            this.btnInFormModbusRTU.Text = "Modbus RTU";
-            this.btnInFormModbusRTU.Click += new System.EventHandler(this.btnInFormModbusRTU_Click);
-            // 
             // ddbOutputFormat
             // 
-            this.ddbOutputFormat.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOutFormText,
-            this.btnOutFormCCommand,
-            this.btnOutFormModbusRTU});
             this.ddbOutputFormat.ForeColor = System.Drawing.Color.White;
             this.ddbOutputFormat.Image = ((System.Drawing.Image)(resources.GetObject("ddbOutputFormat.Image")));
             this.ddbOutputFormat.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -660,36 +597,6 @@
             this.ddbOutputFormat.Tag = "frmTxt";
             this.ddbOutputFormat.Text = "Text";
             this.ddbOutputFormat.ToolTipText = "Output Format";
-            // 
-            // btnOutFormText
-            // 
-            this.btnOutFormText.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnOutFormText.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnOutFormText.Name = "btnOutFormText";
-            this.btnOutFormText.Size = new System.Drawing.Size(142, 22);
-            this.btnOutFormText.Tag = "frmTxt";
-            this.btnOutFormText.Text = "Text";
-            this.btnOutFormText.Click += new System.EventHandler(this.btnOutFormText_Click);
-            // 
-            // btnOutFormCCommand
-            // 
-            this.btnOutFormCCommand.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnOutFormCCommand.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnOutFormCCommand.Name = "btnOutFormCCommand";
-            this.btnOutFormCCommand.Size = new System.Drawing.Size(142, 22);
-            this.btnOutFormCCommand.Tag = "frmCCommand";
-            this.btnOutFormCCommand.Text = "C Command";
-            this.btnOutFormCCommand.Click += new System.EventHandler(this.btnOutFormCCommand_Click);
-            // 
-            // btnOutFormModbusRTU
-            // 
-            this.btnOutFormModbusRTU.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnOutFormModbusRTU.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnOutFormModbusRTU.Name = "btnOutFormModbusRTU";
-            this.btnOutFormModbusRTU.Size = new System.Drawing.Size(142, 22);
-            this.btnOutFormModbusRTU.Tag = "frmModbusRTU";
-            this.btnOutFormModbusRTU.Text = "Modbus RTU";
-            this.btnOutFormModbusRTU.Click += new System.EventHandler(this.btnOutFormModbusRTU_Click);
             // 
             // toolStripSeparator4
             // 
@@ -2240,98 +2147,19 @@
             // 
             // btnChannelInputFormat
             // 
-            this.btnChannelInputFormat.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnselInputTextFrmt,
-            this.btnselInputBinary,
-            this.btnselInputCommand,
-            this.btnselInputModbus});
             this.btnChannelInputFormat.ForeColor = System.Drawing.Color.White;
             this.btnChannelInputFormat.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnChannelInputFormat.Name = "btnChannelInputFormat";
             this.btnChannelInputFormat.Size = new System.Drawing.Size(239, 22);
             this.btnChannelInputFormat.Text = "&Input Format";
             // 
-            // btnselInputTextFrmt
-            // 
-            this.btnselInputTextFrmt.ForeColor = System.Drawing.Color.White;
-            this.btnselInputTextFrmt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselInputTextFrmt.Name = "btnselInputTextFrmt";
-            this.btnselInputTextFrmt.Size = new System.Drawing.Size(147, 22);
-            this.btnselInputTextFrmt.Tag = "frmTxt";
-            this.btnselInputTextFrmt.Text = "&Text";
-            this.btnselInputTextFrmt.Click += new System.EventHandler(this.btnselInputTextFrmt_Click);
-            // 
-            // btnselInputBinary
-            // 
-            this.btnselInputBinary.ForeColor = System.Drawing.Color.White;
-            this.btnselInputBinary.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselInputBinary.Name = "btnselInputBinary";
-            this.btnselInputBinary.Size = new System.Drawing.Size(147, 22);
-            this.btnselInputBinary.Tag = "frmStream";
-            this.btnselInputBinary.Text = "&Binary Stream";
-            this.btnselInputBinary.Click += new System.EventHandler(this.btnselInputBinary_Click);
-            // 
-            // btnselInputCommand
-            // 
-            this.btnselInputCommand.ForeColor = System.Drawing.Color.White;
-            this.btnselInputCommand.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselInputCommand.Name = "btnselInputCommand";
-            this.btnselInputCommand.Size = new System.Drawing.Size(147, 22);
-            this.btnselInputCommand.Tag = "frmCCommand";
-            this.btnselInputCommand.Text = "C &Command";
-            this.btnselInputCommand.Click += new System.EventHandler(this.btnselInputCommand_Click);
-            // 
-            // btnselInputModbus
-            // 
-            this.btnselInputModbus.ForeColor = System.Drawing.Color.White;
-            this.btnselInputModbus.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselInputModbus.Name = "btnselInputModbus";
-            this.btnselInputModbus.Size = new System.Drawing.Size(147, 22);
-            this.btnselInputModbus.Tag = "frmModbusRTU";
-            this.btnselInputModbus.Text = "Modbus &RTU";
-            this.btnselInputModbus.Click += new System.EventHandler(this.btnselInputModbus_Click);
-            // 
             // btnChannelOutputFormat
             // 
-            this.btnChannelOutputFormat.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnselOutputTextFrmt,
-            this.btnselOutputCommandFrmt,
-            this.btnselOutputModbusRTUFrmt});
             this.btnChannelOutputFormat.ForeColor = System.Drawing.Color.White;
             this.btnChannelOutputFormat.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnChannelOutputFormat.Name = "btnChannelOutputFormat";
             this.btnChannelOutputFormat.Size = new System.Drawing.Size(239, 22);
             this.btnChannelOutputFormat.Text = "&Output Format";
-            // 
-            // btnselOutputTextFrmt
-            // 
-            this.btnselOutputTextFrmt.ForeColor = System.Drawing.Color.White;
-            this.btnselOutputTextFrmt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselOutputTextFrmt.Name = "btnselOutputTextFrmt";
-            this.btnselOutputTextFrmt.Size = new System.Drawing.Size(142, 22);
-            this.btnselOutputTextFrmt.Tag = "frmTxt";
-            this.btnselOutputTextFrmt.Text = "&Text";
-            this.btnselOutputTextFrmt.Click += new System.EventHandler(this.btnselOutputTextFrmt_Click);
-            // 
-            // btnselOutputCommandFrmt
-            // 
-            this.btnselOutputCommandFrmt.ForeColor = System.Drawing.Color.White;
-            this.btnselOutputCommandFrmt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselOutputCommandFrmt.Name = "btnselOutputCommandFrmt";
-            this.btnselOutputCommandFrmt.Size = new System.Drawing.Size(142, 22);
-            this.btnselOutputCommandFrmt.Tag = "frmCCommand";
-            this.btnselOutputCommandFrmt.Text = "C &Command";
-            this.btnselOutputCommandFrmt.Click += new System.EventHandler(this.btnselOutputCommandFrmt_Click);
-            // 
-            // btnselOutputModbusRTUFrmt
-            // 
-            this.btnselOutputModbusRTUFrmt.ForeColor = System.Drawing.Color.White;
-            this.btnselOutputModbusRTUFrmt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnselOutputModbusRTUFrmt.Name = "btnselOutputModbusRTUFrmt";
-            this.btnselOutputModbusRTUFrmt.Size = new System.Drawing.Size(142, 22);
-            this.btnselOutputModbusRTUFrmt.Tag = "frmModbusRTU";
-            this.btnselOutputModbusRTUFrmt.Text = "Modbus &RTU";
-            this.btnselOutputModbusRTUFrmt.Click += new System.EventHandler(this.btnselOutputModbusRTUFrmt_Click);
             // 
             // toolStripSeparator39
             // 
@@ -3183,11 +3011,6 @@
         private ToolStripDropDownButton ddbInputFormat;
         private ToolStripButton btnStop;
         private ToolStripButton btnPause;
-        private ToolStripMenuItem btnInFormText;
-        private ToolStripMenuItem btnInFormStream;
-        private ToolStripMenuItem btnInFormCCommand;
-        private ToolStripMenuItem btnOutFormText;
-        private ToolStripMenuItem btnOutFormCCommand;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripButton btnClearTerminal;
         private ToolStripButton btnTopMost;
@@ -3298,8 +3121,6 @@
         private ToolStripStatusLabel toolStripStatusLabel3;
         private ToolStripStatusLabel lblRxBytes;
         private ToolStripMenuItem keyPadToolStripMenuItem;
-        private ToolStripMenuItem btnInFormModbusRTU;
-        private ToolStripMenuItem btnOutFormModbusRTU;
         private ToolStripSeparator toolStripSeparator24;
         private ToolStripMenuItem btnMenuModbusMaster;
         private ToolStripMenuItem modbusRegistersToolStripMenuItem;
@@ -3348,14 +3169,7 @@
         public ODModules.ConsoleInterface Output;
         private ToolStripSeparator toolStripSeparator32;
         private ToolStripMenuItem btnChannelInputFormat;
-        private ToolStripMenuItem btnselInputTextFrmt;
-        private ToolStripMenuItem btnselInputBinary;
-        private ToolStripMenuItem btnselInputCommand;
-        private ToolStripMenuItem btnselInputModbus;
         private ToolStripMenuItem btnChannelOutputFormat;
-        private ToolStripMenuItem btnselOutputTextFrmt;
-        private ToolStripMenuItem btnselOutputCommandFrmt;
-        private ToolStripMenuItem btnselOutputModbusRTUFrmt;
         private ToolStripMenuItem cutToolStripMenuItem1;
         private ToolStripMenuItem copyToolStripMenuItem1;
         private ToolStripMenuItem pasteToolStripMenuItem1;

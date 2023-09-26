@@ -302,6 +302,9 @@ namespace Serial_Monitor.Classes {
                 case StepEnumerations.StepExecutable.PrintVariable:
                     Print(GetVariable(Arguments));
                     break;
+                case StepEnumerations.StepExecutable.SelectChannel:
+                    ProgramSerialManagement(Function, Arguments);
+                    break;
                 case StepEnumerations.StepExecutable.Open:
                     ProgramSerialManagement(Function, Arguments);
                     break;
@@ -753,10 +756,12 @@ namespace Serial_Monitor.Classes {
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.Label:
                     return DataType.Text;
+                case StepEnumerations.StepExecutable.SelectChannel:
+                    return DataType.Text;
                 case StepEnumerations.StepExecutable.Open:
                     return DataType.EnumVal;
-                case StepEnumerations.StepExecutable.Close:
-                    return DataType.EnumVal;
+                //case StepEnumerations.StepExecutable.Close:
+                //    return DataType.EnumVal;
                 case StepEnumerations.StepExecutable.SwitchSender:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.DeclareVariable:

@@ -25,6 +25,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
             SwitchSender    =   0x020001,
             Open =              0x020020,
             Close =             0x020040,
+            SelectChannel =     0x020060,
             SendVariable      = 0x030001,
             SendByte =          0x030002,
             SendString =        0x030004,

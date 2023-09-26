@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Serial_Monitor.WindowForms;
+using static Serial_Monitor.Classes.Enums.FormatEnums;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -134,6 +135,10 @@ namespace Serial_Monitor {
         }
 
         private void LoadDefaults() {
+            EnumManager.LoadInputFormats(ddbInputFormat, InputFormat_Click, true);
+            EnumManager.LoadInputFormats(btnChannelInputFormat, InputFormat_Click, false);
+            EnumManager.LoadOutputFormats(ddbOutputFormat, OutputFormat_Click, true);
+            EnumManager.LoadOutputFormats(btnChannelOutputFormat, OutputFormat_Click, false);
             if (currentManager != null) {
                 try {
                     currentManager.Port.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
@@ -536,32 +541,10 @@ namespace Serial_Monitor {
                 }
             }
         }
-        private List<StringPair> GetSerialPort() {
-            var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
-            List<StringPair> Results = new List<StringPair>();
-            foreach (ManagementObject result in searcher.Get()) {
-                StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
-                Results.Add(Sp);
-            }
-            return Results;
-        }
+
         private void RefreshPorts() {
             CleanHandlers();
-            //GetSerialPort();
-            //
-            List<StringPair> ports = new List<StringPair>();
-            if (Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
-                string[] TempPorts = SerialPort.GetPortNames();
-                foreach (string Str in TempPorts) {
-                    ports.Add(new StringPair(Str, ""));
-                }
-            }
-            else {
-                ports = GetSerialPort();
-            }
-            //Array.Sort(ports, StringComparer.OrdinalIgnoreCase);
-            //string[] Ports = ports.OrderBy(x => x.Length).ThenBy(x => x).ToArray();
-            List<StringPair> Ports = ports.OrderBy(x => x.A.Length).ThenBy(x => x.A).ToList();
+            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
             foreach (StringPair port in Ports) {
                 if (ItemExists(port.A) == false) {
                     ToolStripMenuItem Itm = new ToolStripMenuItem();
@@ -973,46 +956,40 @@ namespace Serial_Monitor {
             }
             CheckOutputFormat(ControlText);
         }
-        private void btnInFormText_Click(object sender, EventArgs e) {
+        private void InputFormatClicked(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
+            foreach (ToolStripMenuItem Tsi in ddbInputFormat.DropDownItems) {
+                if (Tsi.Tag.ToString() == Cmd) {
+                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+                    Tsi.Checked = true;
+                    Properties.Settings.Default.DEF_STR_InputFormat = Tsi.Tag.ToString();
+                    Properties.Settings.Default.Save();
+                }
+                else { Tsi.Checked = false; }
+            }
+        }
+        private void OutputFormatClicked(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
+            foreach (ToolStripMenuItem Tsi in ddbOutputFormat.DropDownItems) {
+                if (Tsi.Tag.ToString() == Cmd) {
+                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+                    Tsi.Checked = true;
+                    Properties.Settings.Default.DEF_STR_OutputFormat = Tsi.Tag.ToString();
+                    Properties.Settings.Default.Save();
+                }
+                else { Tsi.Checked = false; }
+            }
+        }
+        private void InputFormat_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
             InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
         }
-        private void btnInFormStream_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnInFormCCommand_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnInFormModbusRTU_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselInputTextFrmt_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselInputBinary_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselInputCommand_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselInputModbus_Click(object sender, EventArgs e) {
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselOutputTextFrmt_Click(object sender, EventArgs e) {
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselOutputCommandFrmt_Click(object sender, EventArgs e) {
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnselOutputModbusRTUFrmt_Click(object sender, EventArgs e) {
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnOutFormText_Click(object sender, EventArgs e) {
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnOutFormCCommand_Click(object sender, EventArgs e) {
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
-        }
-        private void btnOutFormModbusRTU_Click(object sender, EventArgs e) {
+        private void OutputFormat_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
             OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
         }
         private void btnOptFrmLineNone_Click(object sender, EventArgs e) {
@@ -1576,10 +1553,9 @@ namespace Serial_Monitor {
                         Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
                         Components.EditValue EdVal = new Components.EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem, 3, null, false, Rect, ParRect);
                         if ((StepExe == StepEnumerations.StepExecutable.Open) || (StepExe == StepEnumerations.StepExecutable.Close)) {
-                            string[] ports = SerialPort.GetPortNames();
-                            Array.Sort(ports, StringComparer.CurrentCultureIgnoreCase);
-                            foreach (string port in ports) {
-                                EdVal.flatComboBox1.Items.Add(port);
+                            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
+                            foreach (StringPair port in Ports) {
+                                EdVal.flatComboBox1.Items.Add(port.A);
                             }
                         }
                         lstStepProgram.Controls.Add(EdVal);
@@ -2131,7 +2107,25 @@ namespace Serial_Monitor {
                         this.Disconnect(SystemManager.SerialManagers[ProgramManager.Program_CurrentManager]);
                     }));
                 }
+                else if (StepEx == StepEnumerations.StepExecutable.SelectChannel) {
+                    int Index = -1;
+                    int i = 0;
+                    foreach (SerialManager SerMan in SystemManager.SerialManagers) {
+                        if (SerMan.StateName == Arguments.Trim()) {
+                            Index = i; break;
+                        }
+                        i++;
+                    }
+                    if (i > 0) {
+                        try {
+                            this.BeginInvoke(new MethodInvoker(delegate {
+                                this.navigator1.SelectedItem = i;
+                            }));
+                        }
+                        catch { }
+                    }
 
+                }
             }
         }
 
@@ -2809,22 +2803,7 @@ namespace Serial_Monitor {
 
 
     }
-    public enum StreamInputFormat {
-        Text = 0x01,
-        [Description("Binary Stream")]
-        BinaryStream = 0x02,
-        [Description("Command")]
-        CCommand = 0x04,
-        [Description("Modbus RTU")]
-        ModbusRTU = 0x05
-    }
-    public enum StreamOutputFormat {
-        Text = 0x01,
-        [Description("Command")]
-        CCommand = 0x02,
-        [Description("Modbus RTU")]
-        ModbusRTU = 0x05
-    }
+
 
     public class FullScreenStyle {
         public bool IsFullScreen = false;
