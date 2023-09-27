@@ -10,8 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 
-namespace Serial_Monitor.Classes
-{
+namespace Serial_Monitor.Classes {
     public class SerialManager {
         //Thread TrFramer;
         //bool FramerRunning = true;
@@ -821,6 +820,7 @@ namespace Serial_Monitor.Classes
             }
         }
         public void ModbusCommand(string Input) {
+            if (isMaster == false) { return; }
             string Temp = Input.ToUpper().TrimStart(' ').TrimStart('\t');
             int Unit = 1;
             int Start = 0;
@@ -859,7 +859,7 @@ namespace Serial_Monitor.Classes
                 }
             }
             else if (TestKeyword(ref Temp, "WRITE")) {
-                if (GetValue(ref Temp, "COIL", out Start)) {
+                if (GetValue(ref Temp, "COIL", out Start, true)) {
                     if (TestKeyword(ref Temp, "=")) {
                         bool Tbool = false;
                         if (Temp.Trim(' ') == "TRUE") {
@@ -874,7 +874,7 @@ namespace Serial_Monitor.Classes
                         ModbusWriteCoil(Unit, (short)Start, Tbool);
                     }
                 }
-                else if (GetValue(ref Temp, "REGISTER", out Start)) {
+                else if (GetValue(ref Temp, "REGISTER", out Start, true)) {
                     int Value = 0;
                     if (GetValue(ref Temp, "=", out Value)) {
                         ModbusWriteRegister(Unit, (short)Start, (short)Value);
@@ -883,12 +883,19 @@ namespace Serial_Monitor.Classes
                 }
             }
         }
-        private bool GetValue(ref string Input, string Compare, out int Value) {
+        private bool GetValue(ref string Input, string Compare, out int Value, bool DelimitOnEquals = false) {
             if (TestKeyword(ref Input, Compare)) {
-                string StrAddress = ReadAndRemove(ref Input);
-
-                bool Success = int.TryParse(StrAddress, out Value);
-                if (Success == false) { return false; }
+                
+                if (DelimitOnEquals) {
+                    string StrAddress = ReadAndRemove(ref Input,'=').TrimStart(' ');
+                    bool Success = int.TryParse(StrAddress, out Value);
+                    if (Success == false) { return false; }
+                }
+                else {
+                    string StrAddress = ReadAndRemove(ref Input).TrimStart(' ');
+                    bool Success = int.TryParse(StrAddress, out Value);
+                    if (Success == false) { return false; }
+                }
                 return true;
             }
             Value = 0;
@@ -902,8 +909,8 @@ namespace Serial_Monitor.Classes
             }
             return false;
         }
-        private string ReadAndRemove(ref string Input) {
-            string Temp = Input.Split(' ')[0];
+        private string ReadAndRemove(ref string Input, char RemoveChar = ' ') {
+            string Temp = Input.Split(RemoveChar)[0];
             Input = Input.Remove(0, Temp.Length);
             Input = Input.TrimStart(' ');
             return Temp;

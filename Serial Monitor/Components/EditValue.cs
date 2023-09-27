@@ -1,5 +1,7 @@
 ﻿using Handlers;
 using ODModules;
+using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Interfaces;
 using System;
@@ -62,9 +64,13 @@ namespace Serial_Monitor.Components {
         DataType Type = DataType.Null;
         ODModules.ListControl? lstControl = null;
         ListItem? ListItem = null;
+        int Column = 0;
         int Index = 0;
         object? Parameter = null;
         Rectangle ParentBounds = Rectangle.Empty;
+        object? LinkedControl = null;
+        bool UseLinked = false;
+        DataSelection Selection = DataSelection.ModbusDataCoils;
         public EditValue(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Index, object? Parameter, bool IgnoreChanges, Rectangle ObjectBounds, Rectangle ParentBounds) {
             InitializeComponent();
             this.OnClick(new EventArgs());
@@ -76,7 +82,7 @@ namespace Serial_Monitor.Components {
             this.lstControl = ListCtrl;
             this.Parameter = Parameter;
             this.ParentBounds = ParentBounds;
-            this.Index = Index;
+            this.Column = Index;
             foreach (object Ctrl in this.Controls) {
                 if (Ctrl.GetType() == typeof(NumericTextbox)) {
                     NumericTextbox txt = (NumericTextbox)Ctrl;
@@ -92,6 +98,38 @@ namespace Serial_Monitor.Components {
             //this.IgnoreChanges = IgnoreChanges;
             this.Focus();
             Initalise(StepExe, InputValue, ListCtrl, Item);
+        }
+        public EditValue(string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Column, int Index, object? Parameter, object LinkedObject, Rectangle ObjectBounds, Rectangle ParentBounds, DataSelection Dsel = DataSelection.ModbusDataCoils) {
+            InitializeComponent();
+            this.OnClick(new EventArgs());
+            //if (mf == null) {
+            //    mf = new MyFilter();
+            //    Application.AddMessageFilter(mf);
+            //    mf.MouseDown += new MyFilter.LeftButtonDown(mf_MouseDown);
+            //}
+            UseLinked = true;
+            Selection = Dsel;
+            this.lstControl = ListCtrl;
+            this.Parameter = Parameter;
+            this.ParentBounds = ParentBounds;
+            this.LinkedControl = LinkedObject;
+            this.Column = Column;
+            this.Index = Index;
+            foreach (object Ctrl in this.Controls) {
+                if (Ctrl.GetType() == typeof(NumericTextbox)) {
+                    NumericTextbox txt = (NumericTextbox)Ctrl;
+                    txt.Height = textBox1.Height;
+                }
+                else if (Ctrl.GetType() == typeof(SplitContainer)) {
+                    SplitContainer txt = (SplitContainer)Ctrl;
+                    txt.Height = textBox1.Height;
+                }
+            }
+            this.Size = ObjectBounds.Size;
+            this.Location = ObjectBounds.Location;
+            //this.IgnoreChanges = IgnoreChanges;
+            this.Focus();
+            Initalise(StepEnumerations.StepExecutable.Label, InputValue, ListCtrl, Item);
         }
         bool AllowEditChanges = false;
        
@@ -171,30 +209,32 @@ namespace Serial_Monitor.Components {
         }
         private void PushValue() {
             if (ListItem == null) { return; }
-            if (ListItem.SubItems.Count < Index) { return; }
+            if (ListItem.SubItems.Count < Column) { return; }
             if (AllowEditChanges == false) { return; }
             switch (Type) {
                 case DataType.Text:
-                    ListItem[Index].Text = TempString1;
+                    ListItem[Column].Text = TempString1;
+                    PushValueToControl(TempString1);
                     textBox1.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.Number:
-                    ListItem[Index].Text = numericTextbox1.Value.ToString() ?? "0";
+                    ListItem[Column].Text = numericTextbox1.Value.ToString() ?? "0";
+                    PushValueToControl(numericTextbox1.Value.ToString() ?? "0");
                     numericTextbox1.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.Byte:
-                    ListItem[Index].Text = MathHandler.HexadecimalToDecimal(numericTextbox1.Value.ToString() ?? "0", BinaryFormatFlags.Length8Bit).ToString(); //;
+                    ListItem[Column].Text = MathHandler.HexadecimalToDecimal(numericTextbox1.Value.ToString() ?? "0", BinaryFormatFlags.Length8Bit).ToString(); //;
                     break;
                 case DataType.DualString:
-                    ListItem[Index].Text = textBox2.Text + "=" + textBox3.Text;
+                    ListItem[Column].Text = textBox2.Text + "=" + textBox3.Text;
                     break;
                 case DataType.CursorLocation:
 
                     break;
                 case DataType.EnumVal:
-                    ListItem[Index].Text = flatComboBox1.Text;
+                    ListItem[Column].Text = flatComboBox1.Text;
                     break;
 
                 default:
@@ -211,7 +251,21 @@ namespace Serial_Monitor.Components {
                 }
             }
         }
+        private void PushValueToControl(object Data) {
+            if (UseLinked == false) { return; }
+            if (LinkedControl == null) { return; }
+            if (LinkedControl.GetType() == typeof(ModbusCoil)) {
+                ModbusCoil coil = (ModbusCoil)LinkedControl;
+                coil.Name = Data.ToString() ?? "";
+                SystemManager.RegisterNameChanged(coil, Index, Selection);
+            }
+            else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
+                ModbusRegister coil = (ModbusRegister)LinkedControl;
+                coil.Name = Data.ToString() ?? "";
+                SystemManager.RegisterNameChanged(coil, Index, Selection);
+            }
 
+        }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e) {
 
         }

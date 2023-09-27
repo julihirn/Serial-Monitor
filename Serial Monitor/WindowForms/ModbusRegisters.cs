@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor {
     public partial class ModbusRegisters : Form, Interfaces.ITheme {
@@ -35,6 +36,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRemoved += SystemManager_ChannelRemoved;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
+            SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
             navigator1.LinkedList = SystemManager.SerialManagers;
             navigator1.SelectedItem = 0;
             navigator1.Invalidate();
@@ -48,6 +50,27 @@ namespace Serial_Monitor {
             LoadRegisters();
             lstMonitor.ScaleColumnWidths();
             mdiClient.MdiForm.MainMenuStrip = msMain;
+        }
+
+        private void SystemManager_ModbusRegisterRenamed(object Data, int Index, DataSelection DataType) {
+            if (Data == null) { return; }
+            if (Data.GetType() == typeof(ModbusCoil)) {
+                if (DataSet == DataType) {
+                    ModbusCoil DigitalData = (ModbusCoil)Data;
+                    if (ItemInBounds(Index, 1)) {
+                        lstMonitor.Items[Index][1].Text = DigitalData.Name.ToString();
+                    }
+                }
+            }
+            else if (Data.GetType() == typeof(ModbusRegister)) {
+                if (DataSet == DataType) {
+                    ModbusRegister DigitalData = (ModbusRegister)Data;
+                    if (ItemInBounds(Index, 1)) {
+                        lstMonitor.Items[Index][1].Text = DigitalData.Name.ToString();
+                    }
+                }
+            }
+            navigator1.Invalidate();
         }
 
         private void SystemManager_ChannelRenamed(SerialManager sender) {
@@ -237,6 +260,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRemoved -= SystemManager_ChannelRemoved;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
+            SystemManager.ModbusRegisterRenamed -= SystemManager_ModbusRegisterRenamed;
         }
         private void SystemManager_ModbusReceived(object Data, int Index, DataSelection DataType) {
             if (Data == null) { return; }
@@ -259,6 +283,7 @@ namespace Serial_Monitor {
             lstMonitor.Invalidate();
         }
         private bool ItemInBounds(int Index, uint Column) {
+            if (Index < 0) { return false; }
             if (lstMonitor.Items.Count > 0) {
                 if (Index < lstMonitor.Items.Count) {
                     if (Column == 0) {
@@ -275,17 +300,43 @@ namespace Serial_Monitor {
             }
             return false;
         }
+        private void AddRenameBox(DropDownClickedEventArgs e, ListControl LstCtrl) {
+            ListItem? LstItem = e.ParentItem;
+            if (LstItem == null) { return; }
+            if (LstItem.Tag == null) { return; }
+            if (e.ParentItem == null) { return; }
+            if (e.ParentItem.SubItems == null) { return; }
 
+            if (LstItem.Tag.GetType() == typeof(ModbusCoil)) {
+                ModbusCoil coil = (ModbusCoil)LstItem.Tag;
+                Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
+                Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
+                Components.EditValue EdVal = new Components.EditValue(coil.Name, LstCtrl, e.ParentItem, 1, e.Item, null, coil, Rect, ParRect, DataSet);
+                LstCtrl.Controls.Add(EdVal);
+                EdVal.Focus();
+                EdVal.Show();
+            }
+            else if (LstItem.Tag.GetType() == typeof(ModbusRegister)) {
+                ModbusRegister reg = (ModbusRegister)LstItem.Tag;
+                Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
+                Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
+                Components.EditValue EdVal = new Components.EditValue(reg.Name, LstCtrl, e.ParentItem, 1, e.Item, null, reg, Rect, ParRect, DataSet);
+                LstCtrl.Controls.Add(EdVal);
+                EdVal.Focus();
+                EdVal.Show();
+            }
+        }
+        bool ApplyOnClick = false;
         private void lstMonitor_DropDownClicked(object sender, DropDownClickedEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
             if (e.Column == 1) {
-                EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Label, LstItem.SubItems[0].Text, lstMonitor, LstItem, null, LstItem.Tag, false);
-
-                EdVal.Sz = e.ItemSize;
-                EdVal.Location = e.ScreenLocation;
-                EdVal.Show();
-
+                //EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Label, LstItem.SubItems[0].Text, lstMonitor, LstItem, null, LstItem.Tag, false);
+                //
+                //EdVal.Sz = e.ItemSize;
+                //EdVal.Location = e.ScreenLocation;
+                //EdVal.Show();
+                AddRenameBox(e, lstMonitor);
             }
             else if (e.Column == 3) {
                 if (LockedEditor == true) { return; }
@@ -377,7 +428,7 @@ namespace Serial_Monitor {
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister();
+            ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm(SystemManager.SerialManagers[0], DataSelection.ModbusDataCoils, 12, 10);
             mdiClient.AddChild(frm);
         }
     }

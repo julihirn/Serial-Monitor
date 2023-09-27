@@ -4,23 +4,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serial_Monitor.Classes.Modbus
-{
-    public static class ModbusSupport{
-        public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length)
-        {
+namespace Serial_Monitor.Classes.Modbus {
+    public static class ModbusSupport {
+        public static List<ModbusSnapshot> Snapshots = new List<ModbusSnapshot>();
+        public static void NewSnapshot(SerialManager Serman, DataSelection Selection, int Index, int Count) {
+            ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count);
+            Snapshots.Add(Snap);
+        }
+        public static ToolWindows.ModbusRegister NewSnapshotForm(SerialManager Serman, DataSelection Selection, int Index, int Count) {
+            ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count);
+            Snapshots.Add(Snap);
+            ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap);
+            return frm;
+        }
+        public static void CloseSnapshot(SerialManager Manager) {
+            for (int i = Snapshots.Count - 1; i >= 0; i--) {
+                SerialManager? CurrentManager = Snapshots[i].Manager;
+                if (CurrentManager != null) {
+                    if (CurrentManager.ID == Manager.ID) {
+                        Snapshots[i].Close();
+                        Snapshots.RemoveAt(i);
+                    }
+                }
+            }
+        }
+        public static void ClearSnapshots() {
+            for (int i = Snapshots.Count - 1; i >= 0; i--) {
+                SerialManager? CurrentManager = Snapshots[i].Manager;
+                if (CurrentManager != null) {
+                    Snapshots[i].Close();
+                    Snapshots.RemoveAt(i);
+                }
+            }
+        }
+        public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length) {
             if (Length < 6) { return false; }
             if (InputBuffer[0] < 1 | InputBuffer[0] > 247) { return false; }
             byte[] CRC = new byte[2];
             CRC = BitConverter.GetBytes(CalculateCRC(InputBuffer, (ushort)(Length - 2), 0));
-            if (CRC[0] != InputBuffer[Length - 2] | CRC[1] != InputBuffer[Length - 1])
-            {
+            if (CRC[0] != InputBuffer[Length - 2] | CRC[1] != InputBuffer[Length - 1]) {
                 return false;
             }
             return true;
         }
-        public static ushort CalculateCRC(byte[] Input, ushort BytesCount, int Start)
-        {
+        public static ushort CalculateCRC(byte[] Input, ushort BytesCount, int Start) {
             byte[] auchCRCHi = {
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
             0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
@@ -67,11 +94,9 @@ namespace Serial_Monitor.Classes.Modbus
             byte uchCRCLo = 0xFF;
             int i = 0;
             int uIndex;
-            while (usDataLen > 0)
-            {
+            while (usDataLen > 0) {
                 usDataLen--;
-                if (i + Start < Input.Length)
-                {
+                if (i + Start < Input.Length) {
                     uIndex = uchCRCLo ^ Input[i + Start];
                     uchCRCLo = (byte)(uchCRCHi ^ auchCRCHi[uIndex]);
                     uchCRCHi = auchCRCLo[uIndex];
@@ -80,10 +105,8 @@ namespace Serial_Monitor.Classes.Modbus
             }
             return (ushort)(uchCRCHi << 8 | uchCRCLo);
         }
-        public static string FunctionCodeToString(FunctionCode Code)
-        {
-            switch (Code)
-            {
+        public static string FunctionCodeToString(FunctionCode Code) {
+            switch (Code) {
                 case FunctionCode.ReadDiscreteInputs:
                     return "Read Discrete Inputs";
                 case FunctionCode.ReadCoils:
@@ -104,8 +127,7 @@ namespace Serial_Monitor.Classes.Modbus
                     return "";
             }
         }
-        public enum FunctionCode
-        {
+        public enum FunctionCode {
             NoCommand = 0x00,
             ReadDiscreteInputs = 0x02,
             ReadCoils = 0x01,

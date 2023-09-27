@@ -36,7 +36,7 @@
             this.lstRegisters.ColumnColor = System.Drawing.Color.LightGray;
             this.lstRegisters.ColumnForeColor = System.Drawing.Color.Black;
             this.lstRegisters.ColumnLineColor = System.Drawing.Color.DimGray;
-            column1.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column1.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column1.CountOffset = 0;
             column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
             column1.DropDownRight = false;
@@ -50,9 +50,9 @@
             column1.Width = 50;
             column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
             column2.CountOffset = 0;
-            column2.DisplayType = ODModules.ColumnDisplayType.Text;
+            column2.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column2.DropDownRight = false;
-            column2.DropDownVisible = true;
+            column2.DropDownVisible = false;
             column2.FixedWidth = false;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column2.Text = "Name";
@@ -62,9 +62,9 @@
             column2.Width = 100;
             column3.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
             column3.CountOffset = 0;
-            column3.DisplayType = ODModules.ColumnDisplayType.Text;
+            column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column3.DropDownRight = false;
-            column3.DropDownVisible = true;
+            column3.DropDownVisible = false;
             column3.FixedWidth = false;
             column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column3.Text = "Value";
@@ -108,8 +108,9 @@
             this.lstRegisters.Size = new System.Drawing.Size(244, 221);
             this.lstRegisters.SpanColumn = 0;
             this.lstRegisters.TabIndex = 0;
-            this.lstRegisters.UseLocalList = true;
+            this.lstRegisters.UseLocalList = false;
             this.lstRegisters.VerScroll = 0;
+            this.lstRegisters.DropDownClicked += new ODModules.ListControl.DropDownClickedHandler(this.lstRegisters_DropDownClicked);
             // 
             // ModbusRegister
             // 
@@ -122,6 +123,7 @@
             this.Name = "ModbusRegister";
             this.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
             this.Text = "Modbus Register";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ModbusRegister_FormClosing);
             this.Load += new System.EventHandler(this.ModbusRegister_Load);
             this.ResumeLayout(false);
 

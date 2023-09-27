@@ -7,6 +7,39 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
     public static class EnumManager {
+        public static DataSelection StringToDataSelection(string Input) {
+            if (Input == "mbTypeCoils") {
+                return DataSelection.ModbusDataCoils;
+            }
+            else if (Input == "mbTypeDiscrete") {
+                return DataSelection.ModbusDataDiscreteInputs;
+            }
+            else if (Input == "mbTypeHolding") {
+                return DataSelection.ModbusDataHoldingRegisters;
+            }
+            else if (Input == "mbTypeInput") {
+                return DataSelection.ModbusDataInputRegisters;
+            }
+            return DataSelection.ModbusDataCoils;
+        }
+        public static StringPair DataSelectionToString(DataSelection Input) {
+            if (Input == DataSelection.ModbusDataCoils) {
+                return new StringPair("Coils", "mbTypeCoils");
+            }
+            else if (Input == DataSelection.ModbusDataDiscreteInputs) {
+                return new StringPair("Discrete", "mbTypeDiscrete");
+            }
+            else if (Input == DataSelection.ModbusDataHoldingRegisters) {
+                return new StringPair("Holding Registers", "mbTypeHolding");
+            }
+            else if (Input == DataSelection.ModbusDataInputRegisters) {
+                return new StringPair("Input Registers", "mbTypeInput");
+            }
+            return new StringPair("Coils", "mbTypeCoils");
+        }
+
+
+
         public static DataSelection StringToModbusDataSelection(string Input) {
             if (Input == "viewRegTypeCoils") {
                 return DataSelection.ModbusDataCoils;

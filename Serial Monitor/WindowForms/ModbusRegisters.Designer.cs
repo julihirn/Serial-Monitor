@@ -48,8 +48,8 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMenuTopMost = new System.Windows.Forms.ToolStripButton();
             this.tbDataPages = new ODModules.HiddenTabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tpRegisters = new System.Windows.Forms.TabPage();
+            this.tpRegisterFiltering = new System.Windows.Forms.TabPage();
             this.mdiClient = new Serial_Monitor.Components.MdiClientPanel();
             this.thDataPagesHeader = new ODModules.TabHeader();
             this.msMain = new ODModules.MenuStrip();
@@ -86,8 +86,8 @@
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain.SuspendLayout();
             this.tbDataPages.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tpRegisters.SuspendLayout();
+            this.tpRegisterFiltering.SuspendLayout();
             this.msMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -377,8 +377,8 @@
             // 
             // tbDataPages
             // 
-            this.tbDataPages.Controls.Add(this.tabPage1);
-            this.tbDataPages.Controls.Add(this.tabPage2);
+            this.tbDataPages.Controls.Add(this.tpRegisters);
+            this.tbDataPages.Controls.Add(this.tpRegisterFiltering);
             this.tbDataPages.DebugMode = true;
             this.tbDataPages.DefaultColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
             this.tbDataPages.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -393,29 +393,29 @@
             this.tbDataPages.Size = new System.Drawing.Size(503, 260);
             this.tbDataPages.TabIndex = 5;
             // 
-            // tabPage1
+            // tpRegisters
             // 
-            this.tabPage1.Controls.Add(this.lstMonitor);
-            this.tabPage1.Controls.Add(this.navigator1);
-            this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(495, 232);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Data Listing";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tpRegisters.Controls.Add(this.lstMonitor);
+            this.tpRegisters.Controls.Add(this.navigator1);
+            this.tpRegisters.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tpRegisters.Location = new System.Drawing.Point(4, 24);
+            this.tpRegisters.Name = "tpRegisters";
+            this.tpRegisters.Size = new System.Drawing.Size(495, 232);
+            this.tpRegisters.TabIndex = 0;
+            this.tpRegisters.Text = "Master View";
+            this.tpRegisters.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tpRegisterFiltering
             // 
-            this.tabPage2.Controls.Add(this.mdiClient);
-            this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(495, 232);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Custom Filtering";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tpRegisterFiltering.Controls.Add(this.mdiClient);
+            this.tpRegisterFiltering.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tpRegisterFiltering.Location = new System.Drawing.Point(4, 24);
+            this.tpRegisterFiltering.Name = "tpRegisterFiltering";
+            this.tpRegisterFiltering.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRegisterFiltering.Size = new System.Drawing.Size(495, 232);
+            this.tpRegisterFiltering.TabIndex = 1;
+            this.tpRegisterFiltering.Text = "Snapshot View";
+            this.tpRegisterFiltering.UseVisualStyleBackColor = true;
             // 
             // mdiClient
             // 
@@ -443,7 +443,7 @@
             this.thDataPagesHeader.Location = new System.Drawing.Point(0, 49);
             this.thDataPagesHeader.Name = "thDataPagesHeader";
             this.thDataPagesHeader.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.thDataPagesHeader.SelectedIndex = 1;
+            this.thDataPagesHeader.SelectedIndex = 0;
             this.thDataPagesHeader.ShowAddButton = false;
             this.thDataPagesHeader.ShowTabDividers = true;
             this.thDataPagesHeader.Size = new System.Drawing.Size(503, 27);
@@ -816,8 +816,8 @@
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
             this.tbDataPages.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.tpRegisters.ResumeLayout(false);
+            this.tpRegisterFiltering.ResumeLayout(false);
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
             this.ResumeLayout(false);
@@ -839,8 +839,8 @@
         private ToolStripButton btnApplyOnClick;
         private ToolStripButton btnLockEditor;
         private ODModules.HiddenTabControl tbDataPages;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private TabPage tpRegisters;
+        private TabPage tpRegisterFiltering;
         private ODModules.TabHeader thDataPagesHeader;
         private ODModules.MenuStrip msMain;
         private ToolStripMenuItem fileToolStripMenuItem;

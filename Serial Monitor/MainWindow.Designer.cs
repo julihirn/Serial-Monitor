@@ -910,6 +910,7 @@
             this.lstStepProgram.ColumnForeColor = System.Drawing.Color.WhiteSmoke;
             this.lstStepProgram.ColumnLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             column1.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column1.CountOffset = 0;
             column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
             column1.DropDownRight = false;
             column1.DropDownVisible = true;
@@ -921,6 +922,7 @@
             column1.Visible = true;
             column1.Width = 50;
             column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column2.CountOffset = 0;
             column2.DisplayType = ODModules.ColumnDisplayType.Checkbox;
             column2.DropDownRight = false;
             column2.DropDownVisible = true;
@@ -932,6 +934,7 @@
             column2.Visible = true;
             column2.Width = 40;
             column3.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column3.CountOffset = 0;
             column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column3.DropDownRight = false;
             column3.DropDownVisible = true;
@@ -943,6 +946,7 @@
             column3.Visible = true;
             column3.Width = 100;
             column4.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column4.CountOffset = 0;
             column4.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column4.DropDownRight = false;
             column4.DropDownVisible = true;

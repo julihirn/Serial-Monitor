@@ -28,6 +28,8 @@ namespace Serial_Monitor.Classes {
         public static event PortStatusChangedHandler? PortStatusChanged;
         public delegate void PortStatusChangedHandler(SerialManager sender);
 
+        public static event ModbusRegisterRenamedHandler? ModbusRegisterRenamed;
+        public delegate void ModbusRegisterRenamedHandler(object Data, int Index, DataSelection DataType);
         public static event ModbusReceivedHandler? ModbusReceived;
         public delegate void ModbusReceivedHandler(object Data, int Index, DataSelection DataType);
 
@@ -39,6 +41,9 @@ namespace Serial_Monitor.Classes {
         }
         public static void InvokeChannelPropertiesChanged(SerialManager sender) {
             ChannelPropertyChanged?.Invoke(sender);
+        }
+        public static void RegisterNameChanged(object Data, int Index, DataSelection DataType) {
+            ModbusRegisterRenamed?.Invoke(Data, Index, DataType);
         }
         public static void RegisterValueChanged(object Data, int Index, DataSelection DataType) {
             ModbusReceived?.Invoke(Data, Index, DataType);
@@ -147,12 +152,15 @@ namespace Serial_Monitor.Classes {
                     SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
                     ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
                     ApplicationManager.CloseInternalApplication("PROP_" + SerialManagers[ChannelIndex].ID);
+                    Modbus.ModbusSupport.CloseSnapshot(SerialManagers[ChannelIndex]);
+
                     SerialManagers.RemoveAt(ChannelIndex);
                     ChannelRemoved?.Invoke(ChannelIndex);
                 }
             }
         }
         public static void ClearChannels(CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+            Modbus.ModbusSupport.ClearSnapshots();
             for (int i = SerialManagers.Count - 1; i >= 0; i--) {
                 SerialManagers[i].CleanUp();
                 SerialManagers[i].CommandProcessed -= SerManager_CommandProcessed;
