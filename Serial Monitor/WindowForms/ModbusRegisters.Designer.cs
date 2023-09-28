@@ -84,6 +84,8 @@
             this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.tsMain.SuspendLayout();
             this.tbDataPages.SuspendLayout();
             this.tpRegisters.SuspendLayout();
@@ -339,7 +341,6 @@
             // btnApplyOnClick
             // 
             this.btnApplyOnClick.Checked = true;
-            this.btnApplyOnClick.CheckOnClick = true;
             this.btnApplyOnClick.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnApplyOnClick.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnApplyOnClick.Image = ((System.Drawing.Image)(resources.GetObject("btnApplyOnClick.Image")));
@@ -501,6 +502,7 @@
             this.newToolStripMenuItem,
             this.printToolStripMenuItem,
             this.printPreviewToolStripMenuItem,
+            this.toolStripSeparator7,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -515,8 +517,8 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.newToolStripMenuItem.Text = "&New Custom View";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.newToolStripMenuItem.Text = "&New View";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
@@ -527,7 +529,7 @@
             this.printToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.printToolStripMenuItem.Text = "&Print";
             this.printToolStripMenuItem.Visible = false;
             // 
@@ -539,7 +541,7 @@
             this.printPreviewToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             this.printPreviewToolStripMenuItem.Visible = false;
             // 
@@ -549,7 +551,7 @@
             this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -576,7 +578,7 @@
             this.undoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.undoToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
@@ -585,13 +587,13 @@
             this.redoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.redoToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.redoToolStripMenuItem.Text = "&Redo";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(119, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -600,7 +602,7 @@
             this.cutToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cutToolStripMenuItem.Text = "Cu&t";
             // 
             // copyToolStripMenuItem
@@ -610,7 +612,7 @@
             this.copyToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -620,20 +622,20 @@
             this.pasteToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.selectAllToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // viewToolStripMenuItem
@@ -657,7 +659,7 @@
             this.viewCoilsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.viewCoilsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.viewCoilsToolStripMenuItem.Name = "viewCoilsToolStripMenuItem";
-            this.viewCoilsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.viewCoilsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewCoilsToolStripMenuItem.Tag = "viewRegTypeCoils";
             this.viewCoilsToolStripMenuItem.Text = "&Coils";
             this.viewCoilsToolStripMenuItem.Click += new System.EventHandler(this.viewCoilsToolStripMenuItem_Click);
@@ -667,7 +669,7 @@
             this.viewDiscreteInputsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.viewDiscreteInputsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.viewDiscreteInputsToolStripMenuItem.Name = "viewDiscreteInputsToolStripMenuItem";
-            this.viewDiscreteInputsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.viewDiscreteInputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewDiscreteInputsToolStripMenuItem.Tag = "viewRegTypeDiscrete";
             this.viewDiscreteInputsToolStripMenuItem.Text = "&Discrete Inputs";
             this.viewDiscreteInputsToolStripMenuItem.Click += new System.EventHandler(this.viewDiscreteInputsToolStripMenuItem_Click);
@@ -677,7 +679,7 @@
             this.viewHoldingRegistersToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.viewHoldingRegistersToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.viewHoldingRegistersToolStripMenuItem.Name = "viewHoldingRegistersToolStripMenuItem";
-            this.viewHoldingRegistersToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.viewHoldingRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewHoldingRegistersToolStripMenuItem.Tag = "viewRegTypeHolding";
             this.viewHoldingRegistersToolStripMenuItem.Text = "&Holding Registers";
             this.viewHoldingRegistersToolStripMenuItem.Click += new System.EventHandler(this.viewHoldingRegistersToolStripMenuItem_Click);
@@ -687,7 +689,7 @@
             this.viewInputRegistersToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.viewInputRegistersToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.viewInputRegistersToolStripMenuItem.Name = "viewInputRegistersToolStripMenuItem";
-            this.viewInputRegistersToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.viewInputRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewInputRegistersToolStripMenuItem.Tag = "viewRegTypeRegisters";
             this.viewInputRegistersToolStripMenuItem.Text = "Input &Registers";
             this.viewInputRegistersToolStripMenuItem.Click += new System.EventHandler(this.viewInputRegistersToolStripMenuItem_Click);
@@ -695,14 +697,14 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // btnTopMost
             // 
             this.btnTopMost.ForeColor = System.Drawing.Color.White;
             this.btnTopMost.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnTopMost.Name = "btnTopMost";
-            this.btnTopMost.Size = new System.Drawing.Size(167, 22);
+            this.btnTopMost.Size = new System.Drawing.Size(180, 22);
             this.btnTopMost.Text = "&Top Most";
             this.btnTopMost.Click += new System.EventHandler(this.windowTopMostToolStripMenuItem_Click);
             // 
@@ -724,7 +726,7 @@
             this.writeCoilToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.writeCoilToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.writeCoilToolStripMenuItem.Name = "writeCoilToolStripMenuItem";
-            this.writeCoilToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.writeCoilToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.writeCoilToolStripMenuItem.Text = "Write Coil";
             // 
             // writeRegisterToolStripMenuItem
@@ -732,13 +734,13 @@
             this.writeRegisterToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.writeRegisterToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.writeRegisterToolStripMenuItem.Name = "writeRegisterToolStripMenuItem";
-            this.writeRegisterToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.writeRegisterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.writeRegisterToolStripMenuItem.Text = "Write Register";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // btnModbusApplyonClick
             // 
@@ -747,7 +749,7 @@
             this.btnModbusApplyonClick.ForeColor = System.Drawing.Color.White;
             this.btnModbusApplyonClick.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnModbusApplyonClick.Name = "btnModbusApplyonClick";
-            this.btnModbusApplyonClick.Size = new System.Drawing.Size(151, 22);
+            this.btnModbusApplyonClick.Size = new System.Drawing.Size(180, 22);
             this.btnModbusApplyonClick.Text = "Apply on Click";
             this.btnModbusApplyonClick.Click += new System.EventHandler(this.btnModbusApplyonClick_Click);
             // 
@@ -756,7 +758,7 @@
             this.btnModbusLockEditors.ForeColor = System.Drawing.Color.White;
             this.btnModbusLockEditors.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnModbusLockEditors.Name = "btnModbusLockEditors";
-            this.btnModbusLockEditors.Size = new System.Drawing.Size(151, 22);
+            this.btnModbusLockEditors.Size = new System.Drawing.Size(180, 22);
             this.btnModbusLockEditors.Text = "Lock Editors";
             this.btnModbusLockEditors.Click += new System.EventHandler(this.btnModbusLockEditors_Click);
             // 
@@ -774,7 +776,7 @@
             // 
             this.customizeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             this.customizeToolStripMenuItem.Visible = false;
             // 
@@ -782,16 +784,32 @@
             // 
             this.optionsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
+            this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.windowManagerToolStripMenuItem});
             this.windowToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.windowToolStripMenuItem.Text = "&Window";
+            // 
+            // windowManagerToolStripMenuItem
+            // 
+            this.windowManagerToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.windowManagerToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
+            this.windowManagerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.windowManagerToolStripMenuItem.Text = "&Window Manager";
+            this.windowManagerToolStripMenuItem.Click += new System.EventHandler(this.windowManagerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(166, 6);
             // 
             // ModbusRegisters
             // 
@@ -877,5 +895,7 @@
         private ToolStripButton btnMenuTopMost;
         private Components.MdiClientPanel mdiClient;
         private ToolStripMenuItem windowToolStripMenuItem;
+        private ToolStripMenuItem windowManagerToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator7;
     }
 }

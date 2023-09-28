@@ -169,12 +169,21 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static SerialManager? GetChannel(int ChannelIndex) {
+            if (ChannelIndex < 0) { return null; }
             if (SerialManagers.Count > 0) {
                 if ((ChannelIndex < SerialManagers.Count) && (ChannelIndex != -1)) {
                     return SerialManagers[ChannelIndex];
                 }
             }
             return null;
+        }
+        public static int GetChannelIndex(SerialManager? Channel) {
+            if (Channel == null) { return -1; }
+            if (SerialManagers.Count > 0) {
+                int Output = SerialManagers.IndexOf(Channel);
+                return Output;
+            }
+            return -1;
         }
         #endregion
         #region Ports and Listing

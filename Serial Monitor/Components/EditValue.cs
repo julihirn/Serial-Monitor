@@ -191,7 +191,6 @@ namespace Serial_Monitor.Components {
             textBox2.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox3.BackColor = Properties.Settings.Default.THM_COL_Editor;
             numericTextbox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
-            flatComboBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             this.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -199,6 +198,7 @@ namespace Serial_Monitor.Components {
             textBox3.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             numericTextbox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             flatComboBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            flatComboBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             numericTextbox1.BorderColor = Color.Transparent;
             numericTextbox1.SelectedBorderColor = Color.Transparent;
         }

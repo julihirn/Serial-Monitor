@@ -2,6 +2,7 @@
 using ODModules;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,46 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
+        string name = "";
+        public string BaseName {
+            get { return name; }
+        }
+        public string Name {
+            get {
+                if (name.Trim().Length > 0) {
+                    return name;
+                }
+                else {
+                    if (manager != null) {
+                        string Range = "(" + StartIndex.ToString() + ", " + EndIndex.ToString() + ")";
+                        return manager.StateName + " - " + EnumManager.DataSelectionToString(Selection).A + Range;
+                    }
+                    else {
+                        return name;
+                    }
+                }
+            }
+            set { name = value; }
+        }
+        Rectangle bounds = new Rectangle();
+        public Rectangle Bounds {
+            get { return bounds; }
+            set { bounds = value; }
+        }
+        public  Size Size {
+            get { return bounds.Size; }
+            set {
+                Rectangle Temp = bounds;
+                bounds = new Rectangle(Temp.Location, value); 
+            }
+        }
+        public Point Location {
+            get { return bounds.Location; }
+            set {
+                Rectangle Temp = bounds;
+                bounds = new Rectangle(value, Temp.Size);
+            }
+        }
         DataSelection selection = DataSelection.ModbusDataCoils;
         public DataSelection Selection {
             get { return selection; }
@@ -45,6 +86,11 @@ namespace Serial_Monitor.Classes.Modbus {
         private List<ListItem> listings = new List<ListItem>();
         public List<ListItem> Listings {
             get { return listings; }
+        }
+        string iD = "";
+        [Browsable(false)]
+        public string ID {
+            get { return iD; }
         }
         public void Close() {
             SnapshotRemoved?.Invoke(this);
@@ -104,6 +150,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count) {
+            iD = Guid.NewGuid().ToString();
             manager = serialManager;
             this.selection = selection;
             this.startIndex = StartIndex;
@@ -113,6 +160,19 @@ namespace Serial_Monitor.Classes.Modbus {
                 AddLine(Offset);
                 Offset++;
             }
+        }
+        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count, Rectangle Bounds) {
+            iD = Guid.NewGuid().ToString();
+            manager = serialManager;
+            this.selection = selection;
+            this.startIndex = StartIndex;
+            this.count = Count;
+            int Offset = StartIndex;
+            for (int i = 0; i < Count; i++) {
+                AddLine(Offset);
+                Offset++;
+            }
+            this.Bounds = Bounds;
         }
         private void AddLine(int Index) {
             if (Index > short.MaxValue) { return; }

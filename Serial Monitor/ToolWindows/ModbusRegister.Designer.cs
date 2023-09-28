@@ -42,8 +42,8 @@
             column1.DropDownRight = false;
             column1.DropDownVisible = true;
             column1.FixedWidth = false;
-            column1.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column1.Text = "Register";
+            column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column1.Text = "";
             column1.UseItemBackColor = false;
             column1.UseItemForeColor = false;
             column1.Visible = true;
@@ -105,7 +105,7 @@
             this.lstRegisters.ShowGrid = true;
             this.lstRegisters.ShowMarker = false;
             this.lstRegisters.ShowRowColors = true;
-            this.lstRegisters.Size = new System.Drawing.Size(244, 221);
+            this.lstRegisters.Size = new System.Drawing.Size(240, 227);
             this.lstRegisters.SpanColumn = 0;
             this.lstRegisters.TabIndex = 0;
             this.lstRegisters.UseLocalList = false;
@@ -116,15 +116,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(254, 244);
+            this.ClientSize = new System.Drawing.Size(250, 250);
+            this.CloseButtonCloses = false;
             this.Controls.Add(this.lstRegisters);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MinimumSize = new System.Drawing.Size(250, 100);
             this.Name = "ModbusRegister";
             this.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
             this.Text = "Modbus Register";
+            this.CloseButtonClicked += new Serial_Monitor.Components.MdiClientForm.CloseButtonClickedHandler(this.ModbusRegister_CloseButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ModbusRegister_FormClosing);
             this.Load += new System.EventHandler(this.ModbusRegister_Load);
+            this.SizeChanged += new System.EventHandler(this.ModbusRegister_SizeChanged);
+            this.Move += new System.EventHandler(this.ModbusRegister_Move);
             this.ResumeLayout(false);
 
         }

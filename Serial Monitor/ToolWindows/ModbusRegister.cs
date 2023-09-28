@@ -19,7 +19,17 @@ namespace Serial_Monitor.ToolWindows {
         public Classes.Modbus.ModbusSnapshot Snapshot {
             get { return snapshot; }
         }
+
         public ModbusRegister(Classes.Modbus.ModbusSnapshot snapShot) {
+            Intialise(snapShot);
+        }
+        public ModbusRegister(Classes.Modbus.ModbusSnapshot snapShot, bool UseBounds) {
+            Intialise(snapShot);
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = snapShot.Location;
+            this.Size = snapShot.Size;
+        }
+        private void Intialise(Classes.Modbus.ModbusSnapshot snapShot) {
             InitializeComponent();
             snapshot = snapShot;
             if (lstRegisters.Columns.Count > 0) {
@@ -29,13 +39,13 @@ namespace Serial_Monitor.ToolWindows {
             lstRegisters.Invalidate();
             UpdateWindowName();
         }
-
         private void ModbusRegister_Load(object sender, EventArgs e) {
             ApplyTheme();
             snapshot.SnapshotRemoved += Snapshot_SnapshotRemoved;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
+            IgnoreBoundsChange = false;
         }
 
         private void SystemManager_ModbusRegisterRenamed(object Data, int Index, DataSelection DataType) {
@@ -51,9 +61,7 @@ namespace Serial_Monitor.ToolWindows {
             }
         }
         private void UpdateWindowName() {
-            if (snapshot.Manager == null) { return; }
-            string Range = "(" + snapshot.StartIndex.ToString() + ", " + snapshot.EndIndex.ToString() + ")";
-            this.Text = snapshot.Manager.StateName + " - " + EnumManager.DataSelectionToString(snapshot.Selection).A + Range;
+            this.Text = snapshot.Name;
         }
         private void SystemManager_ModbusReceived(object Data, int Index, DataSelection DataType) {
             if (snapshot.Selection != DataType) { return; }
@@ -119,6 +127,20 @@ namespace Serial_Monitor.ToolWindows {
                 //EdVal.Show();
                 AddRenameBox(e, lstRegisters);
             }
+        }
+        bool IgnoreBoundsChange = true;
+        private void ModbusRegister_SizeChanged(object sender, EventArgs e) {
+            if (IgnoreBoundsChange) { return; }
+            snapshot.Size = this.Size;
+        }
+        private void ModbusRegister_Move(object sender, EventArgs e) {
+            if (IgnoreBoundsChange) { return; }
+            snapshot.Location = this.Location;
+        }
+
+        private void ModbusRegister_CloseButtonClicked(object sender) {
+            ModbusSupport.RemoveSnapshot(snapshot);
+            this.Close();
         }
     }
 }

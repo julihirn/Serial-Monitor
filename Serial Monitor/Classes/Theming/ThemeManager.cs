@@ -157,6 +157,47 @@ namespace Serial_Monitor.Classes.Theming {
                     tab.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 }
             }
+            else if (ControlObject.GetType() == typeof(ODModules.LabelPanel)) {
+                ODModules.LabelPanel lblPnl = (ODModules.LabelPanel)ControlObject;
+                lblPnl.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                lblPnl.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
+                lblPnl.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            }
+            else if (ControlObject.GetType() == typeof(ODModules.ButtonGrid)) {
+                ODModules.ButtonGrid btnGrid = (ODModules.ButtonGrid)ControlObject;
+                btnGrid.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                btnGrid.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+                btnGrid.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+                btnGrid.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+                btnGrid.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
+                btnGrid.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
+                btnGrid.BorderColorNorth = Properties.Settings.Default.THM_COL_BorderColor;
+                btnGrid.BorderColorSouth = Properties.Settings.Default.THM_COL_BorderColor;
+
+                btnGrid.BackColorHoverNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+                btnGrid.BackColorHoverSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            }
+            else if (ControlObject.GetType() == typeof(ODModules.NumericTextbox)) {
+                ODModules.NumericTextbox numTxt = (ODModules.NumericTextbox)ControlObject;
+                numTxt.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                numTxt.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                numTxt.SelectedBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                numTxt.SelectedBackColor = Properties.Settings.Default.THM_COL_Editor;
+                numTxt.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            }
+            else if (ControlObject.GetType() == typeof(ODModules.Button)) {
+                ODModules.Button btn = (ODModules.Button)ControlObject;
+                btn.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                btn.BackColorNorth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                btn.BackColorSouth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                btn.BackColorDownNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+                btn.BackColorDownSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+                btn.BorderColorNorth = Properties.Settings.Default.THM_COL_BorderColor;
+                btn.BorderColorSouth = Properties.Settings.Default.THM_COL_BorderColor;
+                btn.BorderColorDownNorth = Properties.Settings.Default.THM_COL_BorderColor;
+                btn.BorderColorDownSouth = Properties.Settings.Default.THM_COL_BorderColor;
+            }
         }
         #endregion
         public static Image DrawIcon(Theme Thm, Font ParentFont) {

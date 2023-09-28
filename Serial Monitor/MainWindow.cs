@@ -204,15 +204,7 @@ namespace Serial_Monitor {
             pnlRenamePanel.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            button1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            button1.BackColorNorth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-            button1.BackColorSouth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-            button1.BackColorDownNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            button1.BackColorDownSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
-            button1.BorderColorNorth = Properties.Settings.Default.THM_COL_BorderColor;
-            button1.BorderColorSouth = Properties.Settings.Default.THM_COL_BorderColor;
-            button1.BorderColorDownNorth = Properties.Settings.Default.THM_COL_BorderColor;
-            button1.BorderColorDownSouth = Properties.Settings.Default.THM_COL_BorderColor;
+            Classes.Theming.ThemeManager.ThemeControl(button1);
             pnlRenamePanel.BackColor = Properties.Settings.Default.THM_COL_BorderColor;
 
             toolStripStatusLabel1.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;

@@ -69,6 +69,8 @@
             this.btnStopLog = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LogUpdater = new System.Windows.Forms.Timer(this.components);
             this.tsMain.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -272,7 +274,8 @@
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.loggingToolStripMenuItem,
-            this.toolsToolStripMenuItem});
+            this.toolsToolStripMenuItem,
+            this.windowToolStripMenuItem});
             this.msMain.ItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.msMain.ItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.msMain.ItemSelectedForeColor = System.Drawing.Color.Black;
@@ -545,8 +548,9 @@
             this.btnStartLog.ForeColor = System.Drawing.Color.White;
             this.btnStartLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnStartLog.Name = "btnStartLog";
-            this.btnStartLog.Size = new System.Drawing.Size(180, 22);
-            this.btnStartLog.Text = "Start Logging";
+            this.btnStartLog.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.btnStartLog.Size = new System.Drawing.Size(210, 22);
+            this.btnStartLog.Text = "&Start Logging";
             this.btnStartLog.Click += new System.EventHandler(this.btnStartLog_Click);
             // 
             // btnStopLog
@@ -555,8 +559,9 @@
             this.btnStopLog.ForeColor = System.Drawing.Color.White;
             this.btnStopLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnStopLog.Name = "btnStopLog";
-            this.btnStopLog.Size = new System.Drawing.Size(180, 22);
-            this.btnStopLog.Text = "Stop Logging";
+            this.btnStopLog.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
+            this.btnStopLog.Size = new System.Drawing.Size(210, 22);
+            this.btnStopLog.Text = "Stop &Logging";
             this.btnStopLog.Click += new System.EventHandler(this.btnStopLog_Click);
             // 
             // toolsToolStripMenuItem
@@ -576,6 +581,24 @@
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // windowToolStripMenuItem
+            // 
+            this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.windowManagerToolStripMenuItem});
+            this.windowToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+            this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.windowToolStripMenuItem.Text = "&Window";
+            // 
+            // windowManagerToolStripMenuItem
+            // 
+            this.windowManagerToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.windowManagerToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
+            this.windowManagerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.windowManagerToolStripMenuItem.Text = "&Window Manager";
+            this.windowManagerToolStripMenuItem.Click += new System.EventHandler(this.windowManagerToolStripMenuItem_Click);
             // 
             // LogUpdater
             // 
@@ -660,5 +683,7 @@
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripMenuItem btnOpenLogLocation;
         private System.Windows.Forms.Timer LogUpdater;
+        private ToolStripMenuItem windowToolStripMenuItem;
+        private ToolStripMenuItem windowManagerToolStripMenuItem;
     }
 }

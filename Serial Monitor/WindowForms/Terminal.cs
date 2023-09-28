@@ -510,5 +510,10 @@ namespace Serial_Monitor.WindowForms {
         private void Terminal_FormClosed(object sender, FormClosedEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
         }
+
+        private void windowManagerToolStripMenuItem_Click(object sender, EventArgs e) {
+            WindowForms.WindowManager WindowMan = new WindowForms.WindowManager();
+            Classes.ApplicationManager.OpenInternalApplicationOnce(WindowMan, true);
+        }
     }
 }

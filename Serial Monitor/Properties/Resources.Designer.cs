@@ -483,6 +483,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] NewItem {
+            get {
+                object obj = ResourceManager.GetObject("NewItem", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] NewRow {
             get {
                 object obj = ResourceManager.GetObject("NewRow", resourceCulture);

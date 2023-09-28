@@ -83,6 +83,9 @@ namespace Serial_Monitor.Components {
             FormClosed += OnFormClosed;
 
         }
+
+        public event CloseButtonClickedHandler? CloseButtonClicked;
+        public delegate void CloseButtonClickedHandler(object sender);
         void OnFormClosed(object? sender, FormClosedEventArgs e) {
             MyMdiContainer.ChildClosed(this);
         }
@@ -118,6 +121,16 @@ namespace Serial_Monitor.Components {
             base.OnResize(e);
         }
 
+        private bool closeButtonCloses = true;
+        [System.ComponentModel.Category("Control")]
+        public bool CloseButtonCloses {
+            get {
+                return closeButtonCloses;
+            }
+            set {
+                closeButtonCloses = value;
+            }
+        }
         private Color borderColor = Color.Gray;
         [System.ComponentModel.Category("Appearance")]
         public Color BorderColor {
@@ -249,7 +262,12 @@ namespace Serial_Monitor.Components {
         bool CloseMarker_MouseInRegion = false;
         protected override void OnMouseClick(MouseEventArgs e) {
             if (CloseMarker.Contains(e.Location)) {
-                this.Close();
+                if (closeButtonCloses) {
+                    this.Close();
+                }
+                else {
+                    CloseButtonClicked?.Invoke(this);
+                }
             }
             base.OnMouseClick(e);
         }

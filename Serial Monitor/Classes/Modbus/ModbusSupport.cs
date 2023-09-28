@@ -11,8 +11,13 @@ namespace Serial_Monitor.Classes.Modbus {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count);
             Snapshots.Add(Snap);
         }
-        public static ToolWindows.ModbusRegister NewSnapshotForm(SerialManager Serman, DataSelection Selection, int Index, int Count) {
+        public static void NewSnapshot(SerialManager Serman, DataSelection Selection, int Index, int Count, Rectangle Bounds) {
+            ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count, Bounds);
+            Snapshots.Add(Snap);
+        }
+        public static ToolWindows.ModbusRegister NewSnapshotForm(string Name, SerialManager Serman, DataSelection Selection, int Index, int Count) {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count);
+            Snap.Name = Name;
             Snapshots.Add(Snap);
             ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap);
             return frm;
@@ -27,6 +32,16 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
                 }
             }
+            GC.Collect();
+        }
+        public static void RemoveSnapshot(ModbusSnapshot Snapshot) {
+            for (int i = Snapshots.Count - 1; i >= 0; i--) {
+                if (Snapshots[i].ID == Snapshot.ID) {
+                    Snapshots[i].Close();
+                    Snapshots.RemoveAt(i);
+                }
+            }
+            GC.Collect();
         }
         public static void ClearSnapshots() {
             for (int i = Snapshots.Count - 1; i >= 0; i--) {
@@ -36,6 +51,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Snapshots.RemoveAt(i);
                 }
             }
+            GC.Collect();
         }
         public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length) {
             if (Length < 6) { return false; }

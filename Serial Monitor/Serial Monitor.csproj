@@ -13,10 +13,10 @@
     <Copyright>Copyright © Julian Hirniak 2023</Copyright>
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
-    <AssemblyVersion>1.5.170.3</AssemblyVersion>
-    <FileVersion>1.5.170.3</FileVersion>
+    <AssemblyVersion>1.6.201.0</AssemblyVersion>
+    <FileVersion>1.6.201.0</FileVersion>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.5.170.3</Version>
+    <Version>1.6.201.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 

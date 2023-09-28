@@ -244,6 +244,9 @@
   <data name="NewDeploymentPackage_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewDeploymentPackage_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="NewItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewItem.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="NewRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewRow.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

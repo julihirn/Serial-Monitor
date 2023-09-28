@@ -37,6 +37,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
+            ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
             navigator1.LinkedList = SystemManager.SerialManagers;
             navigator1.SelectedItem = 0;
             navigator1.Invalidate();
@@ -50,8 +51,17 @@ namespace Serial_Monitor {
             LoadRegisters();
             lstMonitor.ScaleColumnWidths();
             mdiClient.MdiForm.MainMenuStrip = msMain;
+            LoadForms();
         }
 
+     
+
+        private void LoadForms() {
+            foreach(ModbusSnapshot Snap in ModbusSupport.Snapshots) {
+                ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap, true);
+                mdiClient.AddChild(frm);
+            }
+        }
         private void SystemManager_ModbusRegisterRenamed(object Data, int Index, DataSelection DataType) {
             if (Data == null) { return; }
             if (Data.GetType() == typeof(ModbusCoil)) {
@@ -72,10 +82,12 @@ namespace Serial_Monitor {
             }
             navigator1.Invalidate();
         }
-
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             navigator1.Invalidate();
 
+        }
+        private void ProjectManager_DocumentLoaded() {
+            LoadForms();
         }
         #region Theme
         public void ApplyTheme() {
@@ -107,7 +119,7 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.BringForward, btnMenuTopMost, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
-            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewItem, newToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ApplyCodeChanges, btnApplyOnClick, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             ChangeLockedIcon(LockedEditor);
@@ -149,7 +161,7 @@ namespace Serial_Monitor {
             foreach (ToolStripItem Tsi in viewToolStripMenuItem.DropDownItems) {
                 if (Tsi.Tag != null) {
                     string TagData = Tsi.Tag.ToString() ?? "";
-                    if (TagData.StartsWith("viewRegType")){
+                    if (TagData.StartsWith("viewRegType")) {
                         if (TagData == DataView) {
                             ((ToolStripMenuItem)Tsi).Checked = true;
                         }
@@ -261,6 +273,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
             SystemManager.ModbusRegisterRenamed -= SystemManager_ModbusRegisterRenamed;
+            ProjectManager.DocumentLoaded -= ProjectManager_DocumentLoaded;
         }
         private void SystemManager_ModbusReceived(object Data, int Index, DataSelection DataType) {
             if (Data == null) { return; }
@@ -364,10 +377,12 @@ namespace Serial_Monitor {
             lstMonitor.Invalidate();
         }
         private void btnApplyOnClick_Click(object sender, EventArgs e) {
+            btnApplyOnClick.Checked = !btnApplyOnClick.Checked;
             btnModbusApplyonClick.Checked = btnApplyOnClick.Checked;
         }
         private void btnModbusApplyonClick_Click(object sender, EventArgs e) {
-
+            btnModbusApplyonClick.Checked = !btnModbusApplyonClick.Checked;
+            btnApplyOnClick.Checked = btnModbusApplyonClick.Checked;
         }
         private void btnModbusLockEditors_Click(object sender, EventArgs e) {
             UnlockLockEditors();
@@ -413,7 +428,7 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(ConfigApp, true);
         }
 
-     
+
         private void TopMostSetting() {
             btnTopMost.Checked = !btnTopMost.Checked;
             btnMenuTopMost.Checked = !btnMenuTopMost.Checked;
@@ -428,8 +443,20 @@ namespace Serial_Monitor {
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm(SystemManager.SerialManagers[0], DataSelection.ModbusDataCoils, 12, 10);
-            mdiClient.AddChild(frm);
+            Dialogs.InsertModbusSnapshot InsSnap = new Dialogs.InsertModbusSnapshot();
+            // PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
+            ApplicationManager.OpenInternalApplicationAsDialog(InsSnap, this);
+            if (InsSnap.DialogResult == DialogResult.OK) {
+                if (InsSnap.Manager != null) {
+                    ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm(InsSnap.DisplayName,InsSnap.Manager, InsSnap.DataSet, InsSnap.Address, InsSnap.Quantity);
+                    mdiClient.AddChild(frm);
+                }
+            }
+
+        }
+        private void windowManagerToolStripMenuItem_Click(object sender, EventArgs e) {
+            WindowForms.WindowManager WindowMan = new WindowForms.WindowManager();
+            Classes.ApplicationManager.OpenInternalApplicationOnce(WindowMan, true);
         }
     }
 }

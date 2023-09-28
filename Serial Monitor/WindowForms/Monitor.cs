@@ -20,6 +20,34 @@ namespace Serial_Monitor {
         public Form? Attached = null;
         public Monitor() {
             InitializeComponent();
+            lstMonitor.Items.Clear();
+        }
+        #region User Interface and Loading
+        private void Monitor_Load(object sender, EventArgs e) {
+            RecolorAll();
+            AddIcons();
+            if (Attached != null) {
+                if (Attached.GetType() == typeof(MainWindow)) {
+                    ((MainWindow)Attached).CommandProcessed += Monitor_CommandProcessed;
+                }
+            }
+            if (DesignerSetup.IsWindows10OrGreater() == true) {
+                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
+            }
+            AdjustUserInterface();
+        }
+        private void AdjustUserInterface() {
+            msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
+            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            lstMonitor.ScaleColumnWidths();
+            lstSelector.ScaleColumnWidths();
+        }
+        private void Monitor_FormClosing(object sender, FormClosingEventArgs e) {
+            if (Attached != null) {
+                if (Attached.GetType() == typeof(MainWindow)) {
+                    ((MainWindow)Attached).CommandProcessed -= Monitor_CommandProcessed;
+                }
+            }
         }
         public void AddIcons() {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, btnSaveLog, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -34,6 +62,12 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, btnStartLog, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, btnStopLog, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, startLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, stopLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addToMonitorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeFromMonitorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ExcelWorksheetView, btnOpenExcelDoc, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.BringForward, btnOnTop, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -43,6 +77,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ItemListView, btnOptRegMultiMode, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             //DesignerSetup.LinkSVGtoControl(Properties.Resources.Timeline, showlastupdate, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
+        #endregion
         string LogFile = "";
         bool IsRunning = false;
         long LogSize = 0;
@@ -87,12 +122,18 @@ namespace Serial_Monitor {
         private void openToolStripMenuItem_Click(object sender, EventArgs e) {
             OpenLog();
         }
-        private void btnOpenLogLocation_Click(object sender, EventArgs e) {
+        private void OpenLogLocation() {
             if (!File.Exists(LogFile)) {
                 return;
             }
             string argument = "/select, \"" + LogFile + "\"";
             System.Diagnostics.Process.Start("explorer.exe", argument);
+        }
+        private void btnOpenLogLocation_Click(object sender, EventArgs e) {
+            OpenLogLocation();
+        }
+        private void openLogLocationToolStripMenuItem_Click(object sender, EventArgs e) {
+            OpenLogLocation();
         }
         private void btnOpenExcelDoc_Click(object sender, EventArgs e) {
             try {
@@ -103,6 +144,8 @@ namespace Serial_Monitor {
                     IsRunning = false;
                     btnStartLog.Enabled = true;
                     btnStopLog.Enabled = false;
+                    startLoggingToolStripMenuItem.Enabled = true;
+                    stopLoggingToolStripMenuItem.Enabled = false;
                     btnSaveLog.Enabled = true;
                     btnOpenLog.Enabled = true;
 
@@ -116,14 +159,18 @@ namespace Serial_Monitor {
                     if (CurrentLogState == true) {
                         btnStartLog.Enabled = false;
                         btnStopLog.Enabled = true;
+                        startLoggingToolStripMenuItem.Enabled = false;
+                        stopLoggingToolStripMenuItem.Enabled = true;
                         IsRunning = CurrentLogState;
                     }
                 }
             }
             catch { }
         }
-        private void btnStartLog_Click(object sender, EventArgs e) {
+        private void StartLog() {
             IsRunning = true;
+            startLoggingToolStripMenuItem.Enabled = false;
+            stopLoggingToolStripMenuItem.Enabled = true;
             btnStartLog.Enabled = false;
             btnStopLog.Enabled = true;
             btnSaveLog.Enabled = false;
@@ -131,6 +178,29 @@ namespace Serial_Monitor {
             saveToolStripMenuItem.Enabled = false;
             openToolStripMenuItem.Enabled = false;
             LoggingStart = DateTime.Now;
+        }
+        private void StopLog() {
+            IsRunning = false;
+            btnStopLog.Enabled = false;
+            btnStartLog.Enabled = true;
+            startLoggingToolStripMenuItem.Enabled = true;
+            stopLoggingToolStripMenuItem.Enabled = false;
+            btnSaveLog.Enabled = true;
+            btnOpenLog.Enabled = true;
+            saveToolStripMenuItem.Enabled = true;
+            openToolStripMenuItem.Enabled = true;
+        }
+        private void btnStartLog_Click(object sender, EventArgs e) {
+            StartLog();
+        }
+        private void startLoggingToolStripMenuItem_Click(object sender, EventArgs e) {
+            StartLog();
+        }
+        private void stopLoggingToolStripMenuItem_Click(object sender, EventArgs e) {
+            StopLog();
+        }
+        private void btnStopLog_Click(object sender, EventArgs e) {
+            StopLog();
         }
         private void SaveLog() {
             SaveFileDialog SaveDialog = new SaveFileDialog();
@@ -150,8 +220,11 @@ namespace Serial_Monitor {
                     }
                     IsRunning = false;
                     btnOpenLogLocation.Enabled = true;
+                    openLogLocationToolStripMenuItem.Enabled = true;
                     btnStartLog.Enabled = true;
                     btnStopLog.Enabled = false;
+                    startLoggingToolStripMenuItem.Enabled = true;
+                    stopLoggingToolStripMenuItem.Enabled = false;
                     btnOpenExcelDoc.Enabled = true;
                     this.Text = Path.GetFileNameWithoutExtension(LogFile) + " - Monitor";
                 }
@@ -169,8 +242,11 @@ namespace Serial_Monitor {
                     LogFile = OpenDialog.FileName;
                     IsRunning = false;
                     btnOpenLogLocation.Enabled = true;
+                    openLogLocationToolStripMenuItem.Enabled = true;
                     btnStartLog.Enabled = true;
                     btnStopLog.Enabled = false;
+                    startLoggingToolStripMenuItem.Enabled = true;
+                    stopLoggingToolStripMenuItem.Enabled = false;
                     btnOpenExcelDoc.Enabled = true;
                     btnSaveLog.Enabled = true;
                     btnOpenLog.Enabled = true;
@@ -199,15 +275,7 @@ namespace Serial_Monitor {
             }
         }
 
-        private void btnStopLog_Click(object sender, EventArgs e) {
-            IsRunning = false;
-            btnStopLog.Enabled = false;
-            btnStartLog.Enabled = true;
-            btnSaveLog.Enabled = true;
-            btnOpenLog.Enabled = true;
-            saveToolStripMenuItem.Enabled = true;
-            openToolStripMenuItem.Enabled = true;
-        }
+
         private void btnOnTop_Click(object sender, EventArgs e) {
             this.TopMost = !this.TopMost;
             btnOnTop.Checked = !btnOnTop.Checked;
@@ -300,32 +368,7 @@ namespace Serial_Monitor {
             lstMonitor.Invalidate();
         }
 
-        private void Monitor_Load(object sender, EventArgs e) {
-            RecolorAll();
-            AddIcons();
-            if (Attached != null) {
-                if (Attached.GetType() == typeof(MainWindow)) {
-                    ((MainWindow)Attached).CommandProcessed += Monitor_CommandProcessed;
-                }
-            }
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
-            AdjustUserInterface();
-        }
-        private void AdjustUserInterface() {
-            msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
-            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
-            lstMonitor.ScaleColumnWidths();
-            lstSelector.ScaleColumnWidths();
-        }
-        private void Monitor_FormClosing(object sender, FormClosingEventArgs e) {
-            if (Attached != null) {
-                if (Attached.GetType() == typeof(MainWindow)) {
-                    ((MainWindow)Attached).CommandProcessed -= Monitor_CommandProcessed;
-                }
-            }
-        }
+        
 
         private void Monitor_CommandProcessed(object sender, string Data) {
             if (sender.GetType() == typeof(Classes.SerialManager)) {
@@ -343,6 +386,7 @@ namespace Serial_Monitor {
                 AssignActor(Port, Name, Assignment);
             }
         }
+        #region Adding and Removing Monitor
         bool ActorAdded = false;
         private void AssignActor(string Port, string Name, string Assignment) {
             bool ItemExists = false;
@@ -435,7 +479,39 @@ namespace Serial_Monitor {
             //    lstMonitor.Items.RemoveAt(RemoveIndex);
             //}
         }
-
+        private void addToMonitorToolStripMenuItem_Click(object sender, EventArgs e) {
+            foreach (ListItem Item in lstSelector.Items) {
+                if (Item.Selected == true) {
+                    if (Item.Tag != null) {
+                        if (Item.Tag.GetType() == typeof(DataObject)) {
+                            DataObject Dobj = ((DataObject)Item.Tag);
+                            Item.Checked = true;
+                            if (Item.CheckedChanged == true) {
+                                Item.ResetChangedChanged();
+                                AddActorToMonitor(Dobj);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void removeFromMonitorToolStripMenuItem_Click(object sender, EventArgs e) {
+            foreach (ListItem Item in lstSelector.Items) {
+                if (Item.Selected == true) {
+                    if (Item.Tag != null) {
+                        if (Item.Tag.GetType() == typeof(DataObject)) {
+                            DataObject Dobj = ((DataObject)Item.Tag);
+                            Item.Checked = false;
+                            if (Item.CheckedChanged == true) {
+                                Item.ResetChangedChanged();
+                                DeleteActorToMonitor(Dobj);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
         private void btnOptRegSingleMode_Click(object sender, EventArgs e) {
             if (btnOptRegSingleMode.Checked == true) {
                 btnOptRegMultiMode.Checked = false;
@@ -492,6 +568,15 @@ namespace Serial_Monitor {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        }
+
+        private void windowManagerToolStripMenuItem_Click(object sender, EventArgs e) {
+            WindowForms.WindowManager WindowMan = new WindowForms.WindowManager();
+            Classes.ApplicationManager.OpenInternalApplicationOnce(WindowMan, true);
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e) {
+
         }
     }
     public enum MonitorDataType {
