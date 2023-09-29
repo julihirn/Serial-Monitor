@@ -28,8 +28,8 @@ namespace Serial_Monitor.Classes {
             for (int i = 0; i < short.MaxValue; i++) {
                 coils[i] = new ModbusCoil(i, DataSelection.ModbusDataCoils);
                 discreteInputs[i] = new ModbusCoil(i, DataSelection.ModbusDataDiscreteInputs);
-                inputRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataInputRegisters);
-                holdingRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataHoldingRegisters);
+                inputRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataInputRegisters, this);
+                holdingRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataHoldingRegisters, this);
             }
         }
         ~SerialManager() {
@@ -53,6 +53,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
             catch { }
+            GC.Collect();
         }
         bool RunHeartBeat = true;
         bool OpenPrevious = false;

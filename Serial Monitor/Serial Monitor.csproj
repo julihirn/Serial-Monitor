@@ -13,11 +13,12 @@
     <Copyright>Copyright © Julian Hirniak 2023</Copyright>
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
-    <AssemblyVersion>1.6.201.0</AssemblyVersion>
-    <FileVersion>1.6.201.0</FileVersion>
+    <AssemblyVersion>1.7.265.0</AssemblyVersion>
+    <FileVersion>1.7.265.0</FileVersion>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.6.201.0</Version>
+    <Version>1.7.265.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ODModules" Version="2.0.5" />
+    <PackageReference Include="ODModules" Version="2.0.7" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.8.0" />

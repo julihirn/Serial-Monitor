@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSnapshot {
+        const int Indx_Name = 1;
+        const int Indx_Display = 2;
+        const int Indx_Size = 3;
+        const int Indx_Signed = 4;
+        const int Indx_Value = 2;
+
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
 
@@ -43,7 +49,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 else {
                     if (manager != null) {
                         string Range = "(" + StartIndex.ToString() + ", " + EndIndex.ToString() + ")";
-                        return manager.StateName + " - " + EnumManager.DataSelectionToString(Selection).A + Range;
+                        return manager.StateName + " - " + EnumManager.ModbusDataSelectionToString(Selection).A + Range;
                     }
                     else {
                         return name;
@@ -57,11 +63,11 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return bounds; }
             set { bounds = value; }
         }
-        public  Size Size {
+        public Size Size {
             get { return bounds.Size; }
             set {
                 Rectangle Temp = bounds;
-                bounds = new Rectangle(Temp.Location, value); 
+                bounds = new Rectangle(Temp.Location, value);
             }
         }
         public Point Location {
@@ -103,50 +109,82 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         public void RenameFromRegister(int Index) {
             if (manager == null) { return; }
-            int NormalisedIndex = Index - startIndex;
             if (listings.Count <= 0) { return; }
-            if (NormalisedIndex >= listings.Count) { return; }
-            if (NormalisedIndex < 0) { return; }
-            if (listings[NormalisedIndex].SubItems.Count >= 2) {
+            int LocalIndex = GetListIndex(Index, ref listings);
+            if (LocalIndex >= listings.Count) { return; }
+            if (LocalIndex < 0) { return; }
+            if (listings[LocalIndex].SubItems.Count >= 2) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
-                        listings[NormalisedIndex][1].Text = manager.Coils[Index].Name;
+                        listings[LocalIndex][Indx_Name].Text = manager.Coils[Index].Name;
                         break;
                     case DataSelection.ModbusDataDiscreteInputs:
-                        listings[NormalisedIndex][1].Text = manager.DiscreteInputs[Index].Name;
+                        listings[LocalIndex][Indx_Name].Text = manager.DiscreteInputs[Index].Name;
                         break;
                     case DataSelection.ModbusDataInputRegisters:
-                        listings[NormalisedIndex][1].Text = manager.InputRegisters[Index].Name;
+                        listings[LocalIndex][Indx_Name].Text = manager.InputRegisters[Index].Name;
                         break;
                     case DataSelection.ModbusDataHoldingRegisters:
-                        listings[NormalisedIndex][1].Text = manager.HoldingRegisters[Index].Name;
+                        listings[LocalIndex][Indx_Name].Text = manager.HoldingRegisters[Index].Name;
                         break;
                 }
 
             }
         }
-        public void SetValue(int Index) {
+        public void UpdateRow(int Index) {
             if (manager == null) { return; }
-            int NormalisedIndex = Index - startIndex;
             if (listings.Count <= 0) { return; }
-            if (NormalisedIndex >= listings.Count) { return; }
-            if (NormalisedIndex < 0) { return; }
-            if (listings[NormalisedIndex].SubItems.Count >= 2) {
+            int LocalIndex = GetListIndex(Index, ref listings);
+            if (LocalIndex >= listings.Count) { return; }
+            if (LocalIndex < 0) { return; }
+            if (listings[LocalIndex].SubItems.Count >= Indx_Value) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
-                        listings[NormalisedIndex][2].Text = manager.Coils[Index].Value.ToString();
+                        listings[LocalIndex][Indx_Value].Text = manager.Coils[Index].Value.ToString();
                         break;
                     case DataSelection.ModbusDataDiscreteInputs:
-                        listings[NormalisedIndex][2].Text = manager.DiscreteInputs[Index].Value.ToString();
+                        listings[LocalIndex][Indx_Value].Text = manager.DiscreteInputs[Index].Value.ToString();
                         break;
                     case DataSelection.ModbusDataInputRegisters:
-                        listings[NormalisedIndex][2].Text = manager.InputRegisters[Index].Value.ToString();
+                        listings[LocalIndex][Indx_Value].Text = manager.InputRegisters[Index].FormattedValue;
                         break;
                     case DataSelection.ModbusDataHoldingRegisters:
-                        listings[NormalisedIndex][2].Text = manager.HoldingRegisters[Index].Value.ToString();
+                        listings[LocalIndex][Indx_Value].Text = manager.HoldingRegisters[Index].FormattedValue;
                         break;
                 }
-                
+            }
+        }
+        private static int GetListIndex(int AbsoluteIndex, ref List<ListItem> List) {
+            if (List.Count <= 0) { return -1; }
+            for (int i = 0; i < List.Count; i++) {
+                if (List[i].Value == AbsoluteIndex) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        public void SetValue(int Index) {
+            if (manager == null) { return; }
+            int LocalIndex = GetListIndex(Index, ref listings);
+            if (listings.Count <= 0) { return; }
+            if (LocalIndex >= listings.Count) { return; }
+            if (LocalIndex < 0) { return; }
+            if (listings[LocalIndex].SubItems.Count >= Indx_Value) {
+                switch (selection) {
+                    case DataSelection.ModbusDataCoils:
+                        listings[LocalIndex][Indx_Value].Text = manager.Coils[Index].Value.ToString();
+                        break;
+                    case DataSelection.ModbusDataDiscreteInputs:
+                        listings[LocalIndex][Indx_Value].Text = manager.DiscreteInputs[Index].Value.ToString();
+                        break;
+                    case DataSelection.ModbusDataInputRegisters:
+                        listings[LocalIndex][Indx_Value].Text = manager.InputRegisters[Index].FormattedValue;
+                        break;
+                    case DataSelection.ModbusDataHoldingRegisters:
+                        listings[LocalIndex][Indx_Value].Text = manager.HoldingRegisters[Index].FormattedValue;
+                        break;
+                }
+
             }
         }
         public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count) {
@@ -178,6 +216,7 @@ namespace Serial_Monitor.Classes.Modbus {
             if (Index > short.MaxValue) { return; }
             if (manager == null) { return; }
             ListItem PLi = new ListItem();
+            PLi.Value = Index;
             ListSubItem CLi1 = new ListSubItem();
             ListSubItem CLi3 = new ListSubItem();
             if (selection == DataSelection.ModbusDataCoils) {
@@ -193,12 +232,12 @@ namespace Serial_Monitor.Classes.Modbus {
             else if (selection == DataSelection.ModbusDataHoldingRegisters) {
                 PLi.Tag = manager.HoldingRegisters[Index];
                 CLi1.Text = manager.HoldingRegisters[Index].Name;
-                CLi3.Text = manager.HoldingRegisters[Index].Value.ToString();
+                CLi3.Text = manager.HoldingRegisters[Index].FormattedValue;
             }
             else if (selection == DataSelection.ModbusDataInputRegisters) {
                 PLi.Tag = manager.InputRegisters[Index];
                 CLi1.Text = manager.InputRegisters[Index].Name;
-                CLi3.Text = manager.InputRegisters[Index].Value.ToString();
+                CLi3.Text = manager.InputRegisters[Index].FormattedValue;
             }
             PLi.SubItems.Add(CLi1);
             PLi.SubItems.Add(CLi3);

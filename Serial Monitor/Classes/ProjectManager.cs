@@ -181,7 +181,7 @@ namespace Serial_Monitor.Classes {
 
                         DocumentHandler.Write(Sw, 2, "Name", Mss.BaseName);
                         DocumentHandler.Write(Sw, 2, "Channel", SystemManager.GetChannelIndex(Mss.Manager));
-                        DocumentHandler.Write(Sw, 2, "Type", EnumManager.DataSelectionToString(Mss.Selection).B);
+                        DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mss.Selection).B);
                         DocumentHandler.Write(Sw, 2, "Address", Mss.StartIndex);
                         DocumentHandler.Write(Sw, 2, "Count", Mss.Count);
                         DocumentHandler.Write(Sw, 2, "Bounds", RectangleToString(Mss.Bounds));
@@ -307,7 +307,7 @@ namespace Serial_Monitor.Classes {
                 }
                 else if (ParameterName.StartsWith("MSPSH")) {
                     string Snapshot_Name = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Name", "");
-                    DataSelection Snapshot_Type = EnumManager.StringToModbusDataSelection(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", ""));
+                    DataSelection Snapshot_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", ""));
                     SerialManager ?Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Channel", -1));
                     if (Snapshot_Channel != null) {
                         int Address = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Address", 0);

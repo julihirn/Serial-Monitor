@@ -48,6 +48,9 @@ namespace Serial_Monitor {
                     ((MainWindow)Attached).CommandProcessed -= Monitor_CommandProcessed;
                 }
             }
+            lstMonitor.LineRemoveAll();
+            lstSelector.LineRemoveAll();
+            GC.Collect();
         }
         public void AddIcons() {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, btnSaveLog, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));

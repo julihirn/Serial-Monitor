@@ -20,5 +20,11 @@ namespace Serial_Monitor.Classes.Enums {
             [Description("Modbus RTU")]
             ModbusRTU = 0x05
         }
+        public enum LineFormatting {
+            None = 0x00,
+            LF = 0x01,
+            CR = 0x02,
+            CRLF = 0x03
+        }
     }
 }

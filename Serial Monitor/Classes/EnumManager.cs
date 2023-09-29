@@ -1,28 +1,130 @@
-﻿using Serial_Monitor.Classes.Button_Commands;
+﻿using ODModules;
+using Serial_Monitor.Classes.Button_Commands;
+using Serial_Monitor.Classes.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
 namespace Serial_Monitor.Classes {
     public static class EnumManager {
-        public static DataSelection StringToDataSelection(string Input) {
+
+        #region Modbus Data Size
+        public static DataSize IntegerToDataSize(int Input) {
+            if (Input == 8) {
+                return DataSize.Bits8;
+            }
+            else if (Input == 1) {
+                return DataSize.Bits16;
+            }
+            else if (Input == 32) {
+                return DataSize.Bits32;
+            }
+            else if (Input == 64) {
+                return DataSize.Bits64;
+            }
+            return DataSize.Bits16;
+        }
+        public static int DataSizeToInteger(DataSize Input) {
+            if (Input == DataSize.Bits8) {
+                return 8;
+            }
+            else if (Input == DataSize.Bits16) {
+                return 16;
+            }
+            else if (Input == DataSize.Bits32) {
+                return 32;
+            }
+            else if (Input == DataSize.Bits64) {
+                return 64;
+            }
+            return 16;
+        }
+        public static string DataSizeToString(DataSize Input) {
+            if (Input == DataSize.Bits8) {
+                return "8 Bits";
+            }
+            else if (Input == DataSize.Bits16) {
+                return "16 Bits";
+            }
+            else if (Input == DataSize.Bits32) {
+                return "32 Bits";
+            }
+            else if (Input == DataSize.Bits64) {
+                return "64 Bits";
+            }
+            return "16 Bits";
+        }
+        #endregion
+        #region Modbus Data Format
+        public static DataFormat StringToDataFormat(string Input) {
+            if (Input == "mbDataFrmtBinary") {
+                return DataFormat.Binary;
+            }
+            else if (Input == "mbDataFrmtOctal") {
+                return DataFormat.Octal;
+            }
+            else if (Input == "mbDataFrmtDecimal") {
+                return DataFormat.Decimal;
+            }
+            else if (Input == "mbDataFrmtHexadecimal") {
+                return DataFormat.Hexadecimal;
+            }
+            else if (Input == "mbDataFrmtChar") {
+                return DataFormat.Char;
+            }
+            else if (Input == "mbDataFrmtFloat") {
+                return DataFormat.Float;
+            }
+            else if (Input == "mbDataFrmtDouble") {
+                return DataFormat.Double;
+            }
+            return DataFormat.Decimal;
+        }
+        public static StringPair DataFormatToString(DataFormat Input) {
+            if (Input == DataFormat.Binary) {
+                return new StringPair("Binary", "mbDataFrmtBinary");
+            }
+            else if (Input == DataFormat.Octal) {
+                return new StringPair("Octal", "mbDataFrmtOctal");
+            }
+            else if (Input == DataFormat.Decimal) {
+                return new StringPair("Integer", "mbDataFrmtDecimal");
+            }
+            else if (Input == DataFormat.Hexadecimal) {
+                return new StringPair("Hexadecimal", "mbDataFrmtHexadecimal");
+            }
+            else if (Input == DataFormat.Char) {
+                return new StringPair("Character", "mbDataFrmtChar");
+            }
+            else if (Input == DataFormat.Float) {
+                return new StringPair("Float", "mbDataFrmtFloat");
+            }
+            else if (Input == DataFormat.Double) {
+                return new StringPair("Double", "mbDataFrmtDouble");
+            }
+            return new StringPair("Integer", "mbDataFrmtDecimal");
+        }
+        #endregion
+        #region Modbus Data Selection
+        public static DataSelection ModbusStringToDataSelection(string Input) {
             if (Input == "mbTypeCoils") {
                 return DataSelection.ModbusDataCoils;
             }
             else if (Input == "mbTypeDiscrete") {
                 return DataSelection.ModbusDataDiscreteInputs;
             }
-            else if (Input == "mbTypeHolding") {
+            else if (Input == "mbTypeRegHolding") {
                 return DataSelection.ModbusDataHoldingRegisters;
             }
-            else if (Input == "mbTypeInput") {
+            else if (Input == "mbTypeRegInput") {
                 return DataSelection.ModbusDataInputRegisters;
             }
             return DataSelection.ModbusDataCoils;
         }
-        public static StringPair DataSelectionToString(DataSelection Input) {
+        public static StringPair ModbusDataSelectionToString(DataSelection Input) {
             if (Input == DataSelection.ModbusDataCoils) {
                 return new StringPair("Coils", "mbTypeCoils");
             }
@@ -30,40 +132,15 @@ namespace Serial_Monitor.Classes {
                 return new StringPair("Discrete", "mbTypeDiscrete");
             }
             else if (Input == DataSelection.ModbusDataHoldingRegisters) {
-                return new StringPair("Holding Registers", "mbTypeHolding");
+                return new StringPair("Holding Registers", "mbTypeRegHolding");
             }
             else if (Input == DataSelection.ModbusDataInputRegisters) {
-                return new StringPair("Input Registers", "mbTypeInput");
+                return new StringPair("Input Registers", "mbTypeRegInput");
             }
             return new StringPair("Coils", "mbTypeCoils");
         }
-
-
-
-        public static DataSelection StringToModbusDataSelection(string Input) {
-            if (Input == "viewRegTypeCoils") {
-                return DataSelection.ModbusDataCoils;
-            }
-            else if (Input == "viewRegTypeHolding") {
-                return DataSelection.ModbusDataHoldingRegisters;
-            }
-            else if (Input == "viewRegTypeDiscrete") {
-                return DataSelection.ModbusDataDiscreteInputs;
-            }
-            else if (Input == "viewRegTypeRegisters") {
-                return DataSelection.ModbusDataInputRegisters;
-            }
-            return DataSelection.ModbusDataCoils;
-        }
-        public static string ModbusDataSelectionToString(DataSelection Input) {
-            if (Input == DataSelection.ModbusDataCoils) { return "viewRegTypeCoils"; }
-            else if (Input == DataSelection.ModbusDataHoldingRegisters) { return "viewRegTypeHolding"; }
-            else if (Input == DataSelection.ModbusDataDiscreteInputs) { return "viewRegTypeDiscrete"; }
-            else if (Input == DataSelection.ModbusDataInputRegisters) { return "viewRegTypeRegisters"; }
-            else {
-                return "viewRegTypeCoils";
-            }
-        }
+        #endregion
+        #region Keypad Button Command Types
         public static CommandType StringToCommandType(string Input) {
             if (Input.ToUpper() == "NONE") { return CommandType.NoAssignedCommand; }
             else if (Input.ToUpper() == "SENDSTR") { return CommandType.SendString; }
@@ -82,6 +159,8 @@ namespace Serial_Monitor.Classes {
                 return "NONE";
             }
         }
+        #endregion
+        #region Serial Port Stop Bits
         public static System.IO.Ports.StopBits StringToStopBits(string Input) {
             if (Input == "0") { return System.IO.Ports.StopBits.None; }
             else if (Input == "1") { return System.IO.Ports.StopBits.One; }
@@ -96,6 +175,8 @@ namespace Serial_Monitor.Classes {
             else if (Input == System.IO.Ports.StopBits.Two) { return "2"; }
             return "1";
         }
+        #endregion
+        #region Serial Port Parity
         public static System.IO.Ports.Parity StringToParity(string Input) {
             if (Input == "N") { return System.IO.Ports.Parity.None; }
             else if (Input == "M") { return System.IO.Ports.Parity.Mark; }
@@ -112,6 +193,8 @@ namespace Serial_Monitor.Classes {
             else if (Input == System.IO.Ports.Parity.Space) { return "S"; }
             return "N";
         }
+        #endregion
+        #region Serial Port Handshakes
         public static System.IO.Ports.Handshake StringToHandshake(string Input) {
             if (Input == "cfNone") { return System.IO.Ports.Handshake.None; }
             else if (Input == "cfXONXOFF") { return System.IO.Ports.Handshake.XOnXOff; }
@@ -126,6 +209,8 @@ namespace Serial_Monitor.Classes {
             else if (Input == System.IO.Ports.Handshake.RequestToSendXOnXOff) { return "cfDSRSTR"; }
             return "cfNone";
         }
+        #endregion
+        #region Input Formatting
         public static Enums.FormatEnums.StreamInputFormat StringToInputFormat(string Input) {
             if (Input == "frmTxt") {
                 return Enums.FormatEnums.StreamInputFormat.Text;
@@ -166,6 +251,8 @@ namespace Serial_Monitor.Classes {
             }
             return new StringPair("Text", "frmTxt");
         }
+        #endregion
+        #region Output Formatting
         public static Enums.FormatEnums.StreamOutputFormat StringToOutputFormat(string Input) {
             if (Input == "frmTxt") {
                 return Enums.FormatEnums.StreamOutputFormat.Text;
@@ -195,37 +282,39 @@ namespace Serial_Monitor.Classes {
             }
             return new StringPair("Text", "frmTxt");
         }
-        public static LineFormatting StringToLineFormatting(string Input) {
+        #endregion
+        #region Line Formatting
+        public static Enums.FormatEnums.LineFormatting StringToLineFormatting(string Input) {
             if (Input == "frmLineNone") {
-                return LineFormatting.None;
+                return Enums.FormatEnums.LineFormatting.None;
             }
             else if (Input == "btnOptFrmLineLF") {
-                return LineFormatting.LF;
+                return Enums.FormatEnums.LineFormatting.LF;
             }
             else if (Input == "frmLineCRLF") {
-                return LineFormatting.CRLF;
+                return Enums.FormatEnums.LineFormatting.CRLF;
             }
             else if (Input == "frmLineCR") {
-                return LineFormatting.CR;
+                return Enums.FormatEnums.LineFormatting.CR;
             }
-            return LineFormatting.None;
+            return Enums.FormatEnums.LineFormatting.None;
         }
-        public static string LineFormattingToString(LineFormatting Input) {
-            if (Input == LineFormatting.None) {
+        public static string LineFormattingToString(Enums.FormatEnums.LineFormatting Input) {
+            if (Input == Enums.FormatEnums.LineFormatting.None) {
                 return "frmLineNone";
             }
-            else if (Input == LineFormatting.LF) {
+            else if (Input == Enums.FormatEnums.LineFormatting.LF) {
                 return "frmLineLF";
             }
-            else if (Input == LineFormatting.CRLF) {
+            else if (Input == Enums.FormatEnums.LineFormatting.CRLF) {
                 return "frmLineCRLF";
             }
-            else if (Input == LineFormatting.CR) {
+            else if (Input == Enums.FormatEnums.LineFormatting.CR) {
                 return "frmLineCR";
             }
             return "frmLineNone";
         }
-
+        #endregion
 
         public static void LoadInputFormats(object DropDownList, EventHandler FormatClick, bool ApplyText = false) {
             Enums.FormatEnums.StreamInputFormat[] Formats = (Enums.FormatEnums.StreamInputFormat[])Enums.FormatEnums.StreamInputFormat.GetValues(typeof(Enums.FormatEnums.StreamInputFormat));
@@ -291,11 +380,70 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        public static void ClearClickHandles(object DropDownList, EventHandler FormatClick) {
+            if (DropDownList.GetType() == typeof(ContextMenu)) {
+                ContextMenu Btn = (ContextMenu)DropDownList;
+                foreach (ToolStripItem Tsi in Btn.Items) {
+                    Btn.Click -= FormatClick;
+                }
+            }
+            else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                foreach (ToolStripItem Tsi in Btn.DropDownItems) {
+                    Btn.Click -= FormatClick;
+                }
+            }
+        }
+        public static void LoadDataFormats(object DropDownList, EventHandler FormatClick) {
+            DataFormat[] Formats = (DataFormat[])DataFormat.GetValues(typeof(Enums.ModbusEnums.DataFormat));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.DataFormat Frmt in Formats) {
+                StringPair Data = DataFormatToString(Frmt);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data.A;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
+        public static void LoadDataSizes(object DropDownList, EventHandler FormatClick) {
+            Enums.ModbusEnums.DataSize[] Formats = (DataSize[])DataSize.GetValues(typeof(Enums.ModbusEnums.DataSize));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.DataSize Frmt in Formats) {
+                string Data = DataSizeToString(Frmt);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
     }
-    public enum LineFormatting {
-        None = 0x00,
-        LF = 0x01,
-        CR = 0x02,
-        CRLF = 0x03
-    }
+
 }

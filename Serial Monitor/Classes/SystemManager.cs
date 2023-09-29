@@ -28,6 +28,8 @@ namespace Serial_Monitor.Classes {
         public static event PortStatusChangedHandler? PortStatusChanged;
         public delegate void PortStatusChangedHandler(SerialManager sender);
 
+        public static event ModbusPropertyChangedHandler? ModbusPropertyChanged;
+        public delegate void ModbusPropertyChangedHandler(object Data, int Index, DataSelection DataType);
         public static event ModbusRegisterRenamedHandler? ModbusRegisterRenamed;
         public delegate void ModbusRegisterRenamedHandler(object Data, int Index, DataSelection DataType);
         public static event ModbusReceivedHandler? ModbusReceived;
@@ -41,6 +43,9 @@ namespace Serial_Monitor.Classes {
         }
         public static void InvokeChannelPropertiesChanged(SerialManager sender) {
             ChannelPropertyChanged?.Invoke(sender);
+        }
+        public static void ModbusRegisterPropertyChanged(object Data, int Index, DataSelection DataType) {
+            ModbusPropertyChanged?.Invoke(Data, Index, DataType);
         }
         public static void RegisterNameChanged(object Data, int Index, DataSelection DataType) {
             ModbusRegisterRenamed?.Invoke(Data, Index, DataType);

@@ -44,8 +44,15 @@ namespace Serial_Monitor.ToolWindows {
             snapshot.SnapshotRemoved += Snapshot_SnapshotRemoved;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
+            SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
             SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
             IgnoreBoundsChange = false;
+        }
+
+        private void SystemManager_ModbusPropertyChanged(object Data, int Index, DataSelection DataType) {
+            // lstRegisters.ExternalItems[Index]
+            snapshot.UpdateRow(Index);
+            lstRegisters.Invalidate();
         }
 
         private void SystemManager_ModbusRegisterRenamed(object Data, int Index, DataSelection DataType) {
@@ -85,6 +92,7 @@ namespace Serial_Monitor.ToolWindows {
             snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
+            SystemManager.ModbusPropertyChanged -= SystemManager_ModbusPropertyChanged;
         }
 
 

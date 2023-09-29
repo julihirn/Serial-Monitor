@@ -38,7 +38,7 @@ namespace Serial_Monitor.Dialogs {
             }
             DataSelection[] Formats = (DataSelection[])DataSelection.GetValues(typeof(DataSelection));
             foreach (DataSelection Frmt in Formats) {
-                StringPair Data = EnumManager.DataSelectionToString(Frmt);
+                StringPair Data = EnumManager.ModbusDataSelectionToString(Frmt);
                 cmbxDataSet.Items.Add(Data.A);
             }
             cmbxDataSet.SelectedIndex = 0;
