@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,14 @@ using System.Windows.Forms;
 using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 
 namespace Serial_Monitor.Components {
-    public partial class EditValue : UserControl, Interfaces.ITheme{
+    public partial class EditValue : UserControl, Interfaces.ITheme {
+        public event ArrowKeyPressedHandler? ArrowKeyPress;
+        public delegate void ArrowKeyPressedHandler(bool IsUp);
+
         private bool m_MouseEventSubscribed = false;
         protected override void OnHandleCreated(EventArgs e) {
             base.OnHandleCreated(e);
-        
+
             var form = this.ParentForm;
             if (form != null && form is IMouseHandler && !m_MouseEventSubscribed) {
                 m_MouseEventSubscribed = true;
@@ -36,14 +40,18 @@ namespace Serial_Monitor.Components {
 
         private static MyFilter? mf = null;
         public EditValue() {
-        
+
             InitializeComponent();
-           
+
 
             SetStyle(ControlStyles.ContainerControl, true);
             this.LostFocus += EditValue_LostFocus;
         }
-
+        Color selectedColor = Color.Blue;
+        public Color SelectedColor {
+            get { return selectedColor; }
+            set { selectedColor = value; Invalidate(); }
+        }
 
         private void mf_MouseDown() {
             if (this.Visible) {
@@ -96,6 +104,7 @@ namespace Serial_Monitor.Components {
             this.Size = ObjectBounds.Size;
             this.Location = ObjectBounds.Location;
             //this.IgnoreChanges = IgnoreChanges;
+            BindParentEvents();
             this.Focus();
             Initalise(StepExe, InputValue, ListCtrl, Item);
         }
@@ -125,14 +134,61 @@ namespace Serial_Monitor.Components {
                     txt.Height = textBox1.Height;
                 }
             }
+            BindParentEvents();
             this.Size = ObjectBounds.Size;
             this.Location = ObjectBounds.Location;
             //this.IgnoreChanges = IgnoreChanges;
             this.Focus();
             Initalise(StepEnumerations.StepExecutable.Label, InputValue, ListCtrl, Item);
         }
+        private void BindParentEvents() {
+            if (lstControl == null) { return; }
+            lstControl.MouseClick += Ctrl_MouseClick;
+            lstControl.MouseWheel += LstControl_MouseWheel;
+            lstControl.MouseDown += LstControl_MouseDown;
+            lstControl.LostFocus += LstControl_LostFocus;
+            lstControl.Resize += LstControl_Resize;
+        }
+
+        private void LstControl_Resize(object? sender, EventArgs e) {
+            PushValue();
+        }
+
+        private void UnbindParentEvents() {
+            if (lstControl == null) { return; }
+            lstControl.MouseWheel -= LstControl_MouseWheel;
+            lstControl.MouseClick -= Ctrl_MouseClick;
+            lstControl.MouseDown -= LstControl_MouseDown;
+            lstControl.LostFocus -= LstControl_LostFocus;
+            lstControl.Resize -= LstControl_Resize;
+            if (ArrowKeyPress != null) {
+                Delegate[] clientList = ArrowKeyPress.GetInvocationList();
+                foreach (var d in clientList) {
+                    ArrowKeyPress -= (d as ArrowKeyPressedHandler);
+                }
+            }
+        }
+        private void LstControl_LostFocus(object? sender, EventArgs e) {
+          
+        }
+
+        private void LstControl_MouseDown(object? sender, MouseEventArgs e) {
+            PushValue();
+        }
+
+        private void LstControl_MouseWheel(object? sender, MouseEventArgs e) {
+            if (e.Delta != 0) {
+                PushValue();
+            }
+        }
+
+    
+        private void Ctrl_MouseClick(object? sender, MouseEventArgs e) {
+            PushValue();
+        }
+
         bool AllowEditChanges = false;
-       
+
         private void Initalise(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             Type = Classes.ProgramManager.StepExeutableToDataType(StepExe);
             ListItem = Item;
@@ -201,13 +257,17 @@ namespace Serial_Monitor.Components {
             flatComboBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             numericTextbox1.BorderColor = Color.Transparent;
             numericTextbox1.SelectedBorderColor = Color.Transparent;
+            SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            splitContainer1.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            splitContainer1.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            splitContainer1.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
         }
 
         private void EditValue_Leave(object sender, EventArgs e) {
             PushValue();
-            
+
         }
-        private void PushValue() {
+        public void PushValue() {
             if (ListItem == null) { return; }
             if (ListItem.SubItems.Count < Column) { return; }
             if (AllowEditChanges == false) { return; }
@@ -240,6 +300,7 @@ namespace Serial_Monitor.Components {
                 default:
                     break;
             }
+            UnbindParentEvents();
             if (lstControl != null) {
                 this.LostFocus -= EditValue_LostFocus;
                 lstControl.Controls.Remove(this);
@@ -275,6 +336,12 @@ namespace Serial_Monitor.Components {
                 PushValue();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Down) {
+                PushValue();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                ArrowKeyPress?.Invoke(false);
             }
         }
         private void textBox3_KeyDown(object sender, KeyEventArgs e) {
@@ -322,7 +389,7 @@ namespace Serial_Monitor.Components {
         private class MyFilter : IMessageFilter {
 
             public delegate void LeftButtonDown();
-            public event LeftButtonDown ?MouseDown;
+            public event LeftButtonDown? MouseDown;
 
             //public delegate void KeyPressUp(IntPtr target);
             //public event KeyPressUp KeyUp;
@@ -368,6 +435,20 @@ namespace Serial_Monitor.Components {
         string TempString1 = "";
         private void textBox1_TextChanged(object sender, EventArgs e) {
             TempString1 = textBox1.Text;
+        }
+
+        protected override void OnPaint(PaintEventArgs e) {
+            using(SolidBrush BrdBr = new SolidBrush(selectedColor)) {
+                using(Pen BrdPn = new Pen(BrdBr)) {
+                    e.Graphics.DrawRectangle(BrdPn,new Rectangle(0,0,Width-1,Height-1));
+                }
+            }
+            base.OnPaint(e);
+        }
+
+        protected override void OnResize(EventArgs e) {
+            Invalidate();
+            base.OnResize(e);
         }
     }
 }

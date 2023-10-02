@@ -17,6 +17,8 @@ namespace Serial_Monitor.Dialogs {
     public partial class InsertModbusSnapshot : Form, Interfaces.ITheme {
         public InsertModbusSnapshot() {
             InitializeComponent();
+            numtxtAddress.Height = cmbxDataSet.Height;
+            numtxtQuantity.Height = cmbxDataSet.Height;
         }
 
         private void InsertModbusSnapshot_Load(object sender, EventArgs e) {

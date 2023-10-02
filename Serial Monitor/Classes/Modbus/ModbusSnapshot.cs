@@ -17,7 +17,10 @@ namespace Serial_Monitor.Classes.Modbus {
 
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
-
+        Classes.Enums.ModbusEnums.SnapshotSelectionType selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
+        public Classes.Enums.ModbusEnums.SnapshotSelectionType SelectionType {
+            get { return selectType; }
+        }
         int startIndex = 0;
         public int StartIndex {
             get { return startIndex; }
@@ -187,8 +190,23 @@ namespace Serial_Monitor.Classes.Modbus {
 
             }
         }
+        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, List<int> Indices) {
+            InitaliseCustom(serialManager,selection, Indices);
+        }
+        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, List<int> Indices, Rectangle Bounds) {
+            InitaliseCustom(serialManager, selection, Indices);
+            this.Bounds = Bounds;
+        }
         public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count) {
+            InitaliseConcurrent(serialManager, selection, StartIndex, Count);
+        }
+        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count, Rectangle Bounds) {
+            InitaliseConcurrent(serialManager, selection, StartIndex, Count);
+            this.Bounds = Bounds;
+        }
+        private void InitaliseConcurrent(SerialManager serialManager, DataSelection selection, int StartIndex, int Count) {
             iD = Guid.NewGuid().ToString();
+            selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
             manager = serialManager;
             this.selection = selection;
             this.startIndex = StartIndex;
@@ -199,24 +217,27 @@ namespace Serial_Monitor.Classes.Modbus {
                 Offset++;
             }
         }
-        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count, Rectangle Bounds) {
+        private void InitaliseCustom(SerialManager serialManager, DataSelection selection, List<int> Indices) {
             iD = Guid.NewGuid().ToString();
+            selectType = Enums.ModbusEnums.SnapshotSelectionType.Custom;
             manager = serialManager;
             this.selection = selection;
-            this.startIndex = StartIndex;
-            this.count = Count;
-            int Offset = StartIndex;
-            for (int i = 0; i < Count; i++) {
-                AddLine(Offset);
-                Offset++;
+            if (Indices.Count > 0) {
+                this.startIndex = Indices[0];
+                this.count = Indices.Count;
+                foreach (int x in Indices) {
+                    AddLine(x);
+                }
             }
-            this.Bounds = Bounds;
         }
         private void AddLine(int Index) {
             if (Index > short.MaxValue) { return; }
             if (manager == null) { return; }
             ListItem PLi = new ListItem();
             PLi.Value = Index;
+            if (selectType == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
+                PLi.Text = Index.ToString();
+            }
             ListSubItem CLi1 = new ListSubItem();
             ListSubItem CLi3 = new ListSubItem();
             if (selection == DataSelection.ModbusDataCoils) {

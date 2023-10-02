@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -178,12 +179,21 @@ namespace Serial_Monitor.Classes {
                 foreach (ModbusSnapshot Mss in ModbusSupport.Snapshots) {
                     if (Mss.Manager != null) {
                         DocumentHandler.Write(Sw, 1, "MSPSH_" + Cnt.ToString());
-
+                        DocumentHandler.Write(Sw, 2, "SnapshotType", EnumManager.ModbusSnapshotTypeToString(Mss.SelectionType).B);
                         DocumentHandler.Write(Sw, 2, "Name", Mss.BaseName);
                         DocumentHandler.Write(Sw, 2, "Channel", SystemManager.GetChannelIndex(Mss.Manager));
                         DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mss.Selection).B);
-                        DocumentHandler.Write(Sw, 2, "Address", Mss.StartIndex);
-                        DocumentHandler.Write(Sw, 2, "Count", Mss.Count);
+                        if (Mss.SelectionType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
+                            DocumentHandler.Write(Sw, 2, "Address", Mss.StartIndex);
+                            DocumentHandler.Write(Sw, 2, "Count", Mss.Count);
+                        }
+                        else {
+                            Sw.WriteLine(StringHandler.AddTabs(2, "def,a(int):Indices={"));
+                            foreach (ListItem Li in Mss.Listings) {
+                                Sw.WriteLine(StringHandler.AddTabs(3, Li.Value.ToString()));
+                            }
+                            Sw.WriteLine(StringHandler.AddTabs(2, "}"));
+                        }
                         DocumentHandler.Write(Sw, 2, "Bounds", RectangleToString(Mss.Bounds));
 
                         Sw.WriteLine(StringHandler.AddTabs(1, "}"));
@@ -202,7 +212,7 @@ namespace Serial_Monitor.Classes {
             int y = 0; int.TryParse(Spilt.Value[1], out y);
             int w = 0; int.TryParse(Spilt.Value[2], out w);
             int h = 0; int.TryParse(Spilt.Value[3], out h);
-            return new Rectangle(x,y,w,h);
+            return new Rectangle(x, y, w, h);
         }
         private static List<string> GetList(object Input) {
             if (Input == null) {
@@ -212,6 +222,15 @@ namespace Serial_Monitor.Classes {
                 return (List<string>)Input;
             }
             return new List<string>();
+        }
+        private static List<int> GetIntegerList(object Input) {
+            if (Input == null) {
+                return new List<int>();
+            }
+            if (Input.GetType() == typeof(List<int>)) {
+                return (List<int>)Input;
+            }
+            return new List<int>();
         }
         public static void ReadSMPFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
             ProgramManager.Programs.Add(new ProgramObject());
@@ -308,12 +327,22 @@ namespace Serial_Monitor.Classes {
                 else if (ParameterName.StartsWith("MSPSH")) {
                     string Snapshot_Name = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Name", "");
                     DataSelection Snapshot_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", ""));
-                    SerialManager ?Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Channel", -1));
+                    SerialManager? Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Channel", -1));
                     if (Snapshot_Channel != null) {
-                        int Address = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Address", 0);
-                        int Count = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Count", 10);
-                        Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Bounds", ""));
-                        ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Address, Count, Bounds);
+                        Enums.ModbusEnums.SnapshotSelectionType Snapshot_Selection = EnumManager.ModbusStringToSnapshotType(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "SnapshotType", ""));
+                        if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
+                            int Address = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Address", 0);
+                            int Count = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Count", 10);
+                            Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Bounds", ""));
+                            ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Address, Count, Bounds);
+                        }
+                        else if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
+                            List<int> Data = GetIntegerList(DocumentHandler.PARM[i].GetVariable("Indices", false, DataType.INT));
+                            Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Bounds", ""));
+                            if (Data.Count > 0) {
+                                ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Data, Bounds);
+                            }
+                        }
                     }
 
                 }

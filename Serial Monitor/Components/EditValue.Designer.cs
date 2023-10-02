@@ -53,7 +53,7 @@
             this.numericTextbox1.ButtonDownColor = System.Drawing.Color.Gray;
             this.numericTextbox1.ButtonHoverColor = System.Drawing.Color.LightGray;
             this.numericTextbox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.numericTextbox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.numericTextbox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numericTextbox1.ForeColor = System.Drawing.Color.White;
             this.numericTextbox1.FormatOutput = true;
             this.numericTextbox1.HasUnit = true;
@@ -62,7 +62,7 @@
             this.numericTextbox1.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numericTextbox1.LabelForeColor = System.Drawing.Color.Gray;
             this.numericTextbox1.LabelText = "";
-            this.numericTextbox1.Location = new System.Drawing.Point(3, 0);
+            this.numericTextbox1.Location = new System.Drawing.Point(3, 1);
             this.numericTextbox1.Marked = false;
             this.numericTextbox1.MarkedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox1.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -85,7 +85,7 @@
             this.numericTextbox1.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox1.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox1.ShowLabel = true;
-            this.numericTextbox1.Size = new System.Drawing.Size(268, 29);
+            this.numericTextbox1.Size = new System.Drawing.Size(267, 29);
             this.numericTextbox1.TabIndex = 2;
             this.numericTextbox1.Unit = "";
             this.numericTextbox1.Value = "0";
@@ -98,12 +98,12 @@
             this.flatComboBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.flatComboBox1.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.flatComboBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flatComboBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.flatComboBox1.Font = new System.Drawing.Font("Segoe UI", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.flatComboBox1.ForeColor = System.Drawing.Color.White;
             this.flatComboBox1.FormattingEnabled = true;
-            this.flatComboBox1.Location = new System.Drawing.Point(3, 29);
+            this.flatComboBox1.Location = new System.Drawing.Point(3, 30);
             this.flatComboBox1.Name = "flatComboBox1";
-            this.flatComboBox1.Size = new System.Drawing.Size(268, 21);
+            this.flatComboBox1.Size = new System.Drawing.Size(267, 23);
             this.flatComboBox1.TabIndex = 3;
             this.flatComboBox1.Visible = false;
             this.flatComboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.flatComboBox1_KeyDown);
@@ -113,11 +113,11 @@
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(3, 50);
+            this.textBox1.Location = new System.Drawing.Point(3, 53);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(268, 18);
+            this.textBox1.Size = new System.Drawing.Size(267, 16);
             this.textBox1.TabIndex = 4;
             this.textBox1.Visible = false;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
@@ -128,7 +128,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 68);
+            this.splitContainer1.Location = new System.Drawing.Point(3, 69);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -138,8 +138,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBox3);
-            this.splitContainer1.Size = new System.Drawing.Size(268, 29);
-            this.splitContainer1.SplitterDistance = 86;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.splitContainer1.Size = new System.Drawing.Size(267, 29);
+            this.splitContainer1.SplitterDistance = 85;
             this.splitContainer1.TabIndex = 6;
             this.splitContainer1.TabStop = false;
             this.splitContainer1.Visible = false;
@@ -149,12 +150,12 @@
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox2.ForeColor = System.Drawing.Color.White;
             this.textBox2.Location = new System.Drawing.Point(0, 0);
             this.textBox2.Name = "textBox2";
             this.textBox2.PlaceholderText = "Name";
-            this.textBox2.Size = new System.Drawing.Size(86, 18);
+            this.textBox2.Size = new System.Drawing.Size(85, 16);
             this.textBox2.TabIndex = 0;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
@@ -163,12 +164,12 @@
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(0, 0);
+            this.textBox3.Location = new System.Drawing.Point(3, 0);
             this.textBox3.Name = "textBox3";
             this.textBox3.PlaceholderText = "Assignment/Expression";
-            this.textBox3.Size = new System.Drawing.Size(178, 18);
+            this.textBox3.Size = new System.Drawing.Size(175, 16);
             this.textBox3.TabIndex = 1;
             this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
             // 
@@ -182,7 +183,7 @@
             this.Controls.Add(this.numericTextbox1);
             this.DoubleBuffered = true;
             this.Name = "EditValue";
-            this.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.Padding = new System.Windows.Forms.Padding(3, 1, 1, 1);
             this.Size = new System.Drawing.Size(271, 109);
             this.Load += new System.EventHandler(this.EditValue_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditValue_KeyDown);

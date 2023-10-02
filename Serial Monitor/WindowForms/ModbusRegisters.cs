@@ -32,7 +32,17 @@ namespace Serial_Monitor {
             InitializeComponent();
             tbDataPages.DebugMode = false;
         }
-
+        bool showFormats = true;
+        public bool ShowFormats {
+            get {
+                return showFormats;
+            }
+            set {
+                showFormatsToolStripMenuItem.Checked = value;
+                showFormats = value;
+                ShowHideColumns();
+            }
+        }
         private void ModbusRegisters_Load(object sender, EventArgs e) {
             //if (Attached != null) {
             //    if (Attached.GetType() == typeof(Form1)) {
@@ -210,6 +220,10 @@ namespace Serial_Monitor {
 
         }
         private void ProjectManager_DocumentLoaded() {
+            navigator1.SelectedItem = 0;
+            CurrentManager = SystemManager.SerialManagers[0];
+            LoadRegisters();
+           
             LoadForms();
         }
         #region Theme
@@ -312,8 +326,17 @@ namespace Serial_Monitor {
                     ddbDisplayFormat.Enabled = false;
                     ddpDataSize.Enabled = false;
                 }
+                ClearEditors();
+                ShowHideColumns();
                 LoadRegisters();
                 CheckModbusDataSelection();
+            }
+        }
+        private void ClearEditors() {
+            foreach (Control ctrl in lstMonitor.Controls) {
+                if (ctrl.GetType() == typeof(Components.EditValue)) {
+                    ((Components.EditValue)ctrl).PushValue();
+                }
             }
         }
         private void CheckModbusDataSelection() {
@@ -340,33 +363,60 @@ namespace Serial_Monitor {
                 }
             }
         }
+        private void ShowHideColumns() {
+            if (showFormats == false) {
+                lstMonitor.Columns[Indx_Size].Visible = false;
+                lstMonitor.Columns[Indx_Signed].Visible = false;
+                lstMonitor.Columns[Indx_Display].Visible = false;
+                return;
+            }
+            else {
+                lstMonitor.Columns[Indx_Display].Visible = true;
+            }
+            if (DataSet == DataSelection.ModbusDataCoils) {
+                if (showFormats == true) {
+                    lstMonitor.Columns[Indx_Size].Visible = false;
+                    lstMonitor.Columns[Indx_Signed].Visible = false;
+                }
+            }
+            else if (DataSet == DataSelection.ModbusDataDiscreteInputs) {
+                if (showFormats == true) {
+                    lstMonitor.Columns[Indx_Size].Visible = false;
+                    lstMonitor.Columns[Indx_Signed].Visible = false;
+                }
+            }
+            else if (DataSet == DataSelection.ModbusDataInputRegisters) {
+                if (showFormats == true) {
+                    lstMonitor.Columns[Indx_Size].Visible = true;
+                    lstMonitor.Columns[Indx_Signed].Visible = true;
+                }
+            }
+            else if (DataSet == DataSelection.ModbusDataHoldingRegisters) {
+                if (showFormats == true) {
+                    lstMonitor.Columns[Indx_Size].Visible = true;
+                    lstMonitor.Columns[Indx_Signed].Visible = true;
+                }
+            }
+        }
         private void LoadRegisters() {
             lstMonitor.LineRemoveAll();
             if (CurrentManager == null) { return; }
             if (DataSet == DataSelection.ModbusDataCoils) {
-                lstMonitor.Columns[Indx_Size].Visible = false;
-                lstMonitor.Columns[Indx_Signed].Visible = false;
                 foreach (ModbusCoil Coil in CurrentManager.Coils) {
                     AddMonitorItem(Coil);
                 }
             }
             else if (DataSet == DataSelection.ModbusDataDiscreteInputs) {
-                lstMonitor.Columns[Indx_Size].Visible = false;
-                lstMonitor.Columns[Indx_Signed].Visible = false;
                 foreach (ModbusCoil Coil in CurrentManager.DiscreteInputs) {
                     AddMonitorItem(Coil);
                 }
             }
             else if (DataSet == DataSelection.ModbusDataInputRegisters) {
-                lstMonitor.Columns[Indx_Size].Visible = true;
-                lstMonitor.Columns[Indx_Signed].Visible = true;
                 foreach (ModbusRegister Coil in CurrentManager.InputRegisters) {
                     AddMonitorItem(Coil);
                 }
             }
             else if (DataSet == DataSelection.ModbusDataHoldingRegisters) {
-                lstMonitor.Columns[Indx_Size].Visible = true;
-                lstMonitor.Columns[Indx_Signed].Visible = true;
                 foreach (ModbusRegister Coil in CurrentManager.HoldingRegisters) {
                     AddMonitorItem(Coil);
                 }
@@ -471,8 +521,10 @@ namespace Serial_Monitor {
             }
             return false;
         }
+        Point LastPoint = Point.Empty;
         private void AddRenameBox(DropDownClickedEventArgs e, ListControl LstCtrl) {
             ListItem? LstItem = e.ParentItem;
+            LastPoint = new Point(e.Column, e.Item);
             if (LstItem == null) { return; }
             object? DataTag = LstItem.Tag;
             if (DataTag == null) { return; }
@@ -485,6 +537,7 @@ namespace Serial_Monitor {
                 Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
                 Components.EditValue EdVal = new Components.EditValue(coil.Name, LstCtrl, e.ParentItem, Indx_Name, e.Item, null, coil, Rect, ParRect, DataSet);
                 LstCtrl.Controls.Add(EdVal);
+                EdVal.ArrowKeyPress += EdVal_ArrowKeyPress;
                 EdVal.Focus();
                 EdVal.Show();
             }
@@ -494,10 +547,17 @@ namespace Serial_Monitor {
                 Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
                 Components.EditValue EdVal = new Components.EditValue(reg.Name, LstCtrl, e.ParentItem, Indx_Name, e.Item, null, reg, Rect, ParRect, DataSet);
                 LstCtrl.Controls.Add(EdVal);
+                EdVal.ArrowKeyPress += EdVal_ArrowKeyPress;
                 EdVal.Focus();
                 EdVal.Show();
             }
         }
+        private void EdVal_ArrowKeyPress(bool IsUp) {
+            if (IsUp == false) {
+
+            }
+        }
+
         bool ApplyOnClick = false;
         private void lstMonitor_ItemCheckedChanged(object sender, ItemCheckedChangeEventArgs e) {
             ListItem? LstItem = e.ParentItem;
@@ -699,11 +759,62 @@ namespace Serial_Monitor {
             if (lstMonitor.SelectedItems() >= 1) {
                 int Address = lstMonitor.SelectedIndex;
                 int Count = lstMonitor.SelectedItems();
-                ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager, DataSet, Address, Count);
-                mdiClient.AddChild(frm);
+                bool IsConcurrent = true;
+                int ItemCount = 0;
+                bool LastSelectionStatus = true;
+                List<int> Values = new List<int>();
+                for (int i = Address; i < lstMonitor.Items.Count; i++) {
+                    if (LastSelectionStatus != lstMonitor.Items[i].Selected) {
+                        IsConcurrent = false;
+                    }
+                    if (lstMonitor.Items[i].Selected == true) {
+                        ItemCount++;
+                        LastSelectionStatus = true;
+                        Values.Add(i);
+                    }
+                    else {
+                        LastSelectionStatus = false;
+                    }
+                    if (ItemCount >= Count) {
+                        break;
+                    }
+                }
+                if (IsConcurrent) {
+                    ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager, DataSet, Address, Count);
+                    mdiClient.AddChild(frm);
+                }
+                else {
+                    if (Values.Count > 0) {
+                        ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager, DataSet, Values);
+                        mdiClient.AddChild(frm);
+                    }
+                }
+
             }
 
         }
 
+        private void showFormatsToolStripMenuItem_Click(object sender, EventArgs e) {
+            ShowFormats = !ShowFormats;
+        }
+
+        private void btnViewMaster_Click(object sender, EventArgs e) {
+            thDataPagesHeader.SelectedIndex = 0;
+        }
+        private void btnViewSnapshot_Click(object sender, EventArgs e) {
+            thDataPagesHeader.SelectedIndex = 1;
+        }
+
+        private void thDataPagesHeader_SelectedIndexChanged(object sender, int CurrentIndex, int PreviousIndex) {
+            if (CurrentIndex == 0) {
+                btnViewMaster.Checked = true;
+                btnViewSnapshot.Checked = false;
+            }
+            else if (CurrentIndex == 1) {
+                btnViewMaster.Checked = false;
+                btnViewSnapshot.Checked = true;
+
+            }
+        }
     }
 }

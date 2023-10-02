@@ -140,6 +140,26 @@ namespace Serial_Monitor.Classes {
             return new StringPair("Coils", "mbTypeCoils");
         }
         #endregion
+        #region Modbus Snapshot Type
+        public static SnapshotSelectionType ModbusStringToSnapshotType(string Input) {
+            if (Input == "mbSSTypeConcurrent") {
+                return SnapshotSelectionType.Concurrent;
+            }
+            else if (Input == "mbSSTypeCustom") {
+                return SnapshotSelectionType.Custom;
+            }
+            return SnapshotSelectionType.Concurrent;
+        }
+        public static StringPair ModbusSnapshotTypeToString(SnapshotSelectionType Input) {
+            if (Input == SnapshotSelectionType.Concurrent) {
+                return new StringPair("Concurrent", "mbSSTypeConcurrent");
+            }
+            else if (Input == SnapshotSelectionType.Custom) {
+                return new StringPair("Custom", "mbSSTypeCustom");
+            }
+            return new StringPair("Concurrent", "mbSSTypeConcurrent");
+        }
+        #endregion
         #region Keypad Button Command Types
         public static CommandType StringToCommandType(string Input) {
             if (Input.ToUpper() == "NONE") { return CommandType.NoAssignedCommand; }

@@ -33,6 +33,9 @@ namespace Serial_Monitor.ToolWindows {
             InitializeComponent();
             snapshot = snapShot;
             if (lstRegisters.Columns.Count > 0) {
+                if (snapshot.SelectionType == Classes.Enums.ModbusEnums.SnapshotSelectionType.Custom) {
+                    lstRegisters.Columns[0].DisplayType = ColumnDisplayType.Text;
+                }
                 lstRegisters.Columns[0].CountOffset = snapshot.StartIndex;
             }
             lstRegisters.ExternalItems = snapshot.Listings;
@@ -41,6 +44,7 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void ModbusRegister_Load(object sender, EventArgs e) {
             ApplyTheme();
+            lstRegisters.ScaleColumnWidths();
             snapshot.SnapshotRemoved += Snapshot_SnapshotRemoved;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
@@ -102,22 +106,23 @@ namespace Serial_Monitor.ToolWindows {
             if (LstItem.Tag == null) { return; }
             if (e.ParentItem == null) { return; }
             if (e.ParentItem.SubItems == null) { return; }
+            if (e.ParentItem.Tag == null) { return; }
+            object TagData = LstItem.Tag;
 
-
-            if (LstItem.Tag.GetType() == typeof(ModbusCoil)) {
+            if (TagData.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil coil = (ModbusCoil)LstItem.Tag;
                 Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
                 Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
-                Components.EditValue EdVal = new Components.EditValue(coil.Name, LstCtrl, e.ParentItem, 1, e.Item + snapshot.StartIndex, null, coil, Rect, ParRect, snapshot.Selection);
+                Components.EditValue EdVal = new Components.EditValue(coil.Name, LstCtrl, e.ParentItem, 1, e.ParentItem.Value, null, coil, Rect, ParRect, snapshot.Selection);
                 LstCtrl.Controls.Add(EdVal);
                 EdVal.Focus();
                 EdVal.Show();
             }
-            else if (LstItem.Tag.GetType() == typeof(ModbusRegister)) {
-                ModbusRegister reg = (ModbusRegister)LstItem.Tag;
+            else if (TagData.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
+                Classes.Modbus.ModbusRegister reg = (Classes.Modbus.ModbusRegister)LstItem.Tag;
                 Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
                 Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
-                Components.EditValue EdVal = new Components.EditValue(reg.Name, LstCtrl, e.ParentItem, 1, e.Item + snapshot.StartIndex, null, reg, Rect, ParRect, snapshot.Selection);
+                Components.EditValue EdVal = new Components.EditValue(reg.Name, LstCtrl, e.ParentItem, 1, e.ParentItem.Value, null, reg, Rect, ParRect, snapshot.Selection);
                 LstCtrl.Controls.Add(EdVal);
                 EdVal.Focus();
                 EdVal.Show();

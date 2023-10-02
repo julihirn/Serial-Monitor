@@ -15,8 +15,23 @@ namespace Serial_Monitor.Classes.Modbus {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count, Bounds);
             Snapshots.Add(Snap);
         }
+        public static void NewSnapshot(SerialManager Serman, DataSelection Selection,  List<int> Indices) {
+            ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Indices);
+            Snapshots.Add(Snap);
+        }
+        public static void NewSnapshot(SerialManager Serman, DataSelection Selection, List<int> Indices, Rectangle Bounds) {
+            ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Indices, Bounds);
+            Snapshots.Add(Snap);
+        }
         public static ToolWindows.ModbusRegister NewSnapshotForm(string Name, SerialManager Serman, DataSelection Selection, int Index, int Count) {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count);
+            Snap.Name = Name;
+            Snapshots.Add(Snap);
+            ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap);
+            return frm;
+        }
+        public static ToolWindows.ModbusRegister NewSnapshotForm(string Name, SerialManager Serman, DataSelection Selection, List<int> Indices) {
+            ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Indices);
             Snap.Name = Name;
             Snapshots.Add(Snap);
             ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap);
