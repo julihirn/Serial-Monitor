@@ -3,6 +3,7 @@ using ODModules;
 using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -112,9 +113,23 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "ModbusMstr", Sm.IsMaster);
                     DocumentHandler.Write(Sw, 2, "OutputToMstr", Sm.OutputToMasterTerminal);
                     DocumentHandler.Write(Sw, 2, "AutoConnect", Sm.AutoReconnect);
+                    WriteRegisters(Sw, Sm);
                     Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                     i++;
                 }
+            }
+        }
+        private static void WriteRegisters(StreamWriter Sw, SerialManager Sm) {
+            List<RegisterRequest> RegistersToWrite = Modbus.ModbusSupport.GetModifiedRegisters(Sm);
+            if (RegistersToWrite.Count > 0) {
+                Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
+                foreach (RegisterRequest Rq in RegistersToWrite) {
+                    ValidString Result = Modbus.ModbusSupport.BulidRegisterSerialisedString(Sm, Rq.Index, Rq.Selection);
+                    if (Result.IsValid == true) {
+                        Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString(Result.Value)));
+                    }
+                }
+                Sw.WriteLine(StringHandler.AddTabs(2, "}"));
             }
         }
         private static void WritePrograms(StreamWriter Sw) {

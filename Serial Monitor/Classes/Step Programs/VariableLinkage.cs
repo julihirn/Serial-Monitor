@@ -8,9 +8,10 @@ namespace Serial_Monitor.Classes.Step_Programs {
     public enum DataType {
         Text = 0x00,
         Number = 0x01,
-        Byte = 0x04,
-        EnumVal = 0x02,
-        DualString = 0x03,
+        Byte = 0x02,
+        ModbusCustom = 0x03,
+        EnumVal = 0x07,
+        DualString = 0x08,
         CursorLocation = 0x30,
         Null = 0xFFFFFF
     }

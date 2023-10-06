@@ -231,6 +231,7 @@ namespace Serial_Monitor.Classes.Theming {
             Themes.Add(Theme_ClassicDark());
             Themes.Add(Theme_PastelBlue());
             Themes.Add(Theme_MidnightBlue());
+            Themes.Add(Theme_HighContrastConsole());
         }
         private static Theme Theme_ClassicDark() {
             Theme Thm_Dark1 = new Theme();
@@ -359,6 +360,40 @@ namespace Serial_Monitor.Classes.Theming {
 
             Thm_Dark2.TabSelectedBorderColor = Color.FromArgb(67, 80, 113);
             Thm_Dark2.TabSelectedColor = Color.FromArgb(125, 144, 178);
+            Thm_Dark2.TabSelectedForeColor = Color.White;
+
+            Thm_Dark2.MatchColor = Color.FromArgb(0, 64, 0);
+            Thm_Dark2.MismatchedColor = Color.FromArgb(64, 0, 0);
+
+            Thm_Dark2.IsDarkTheme = true;
+            return Thm_Dark2;
+        }
+        private static Theme Theme_HighContrastConsole() {
+            Theme Thm_Dark2 = new Theme();
+
+            Thm_Dark2.ShadowColor = Color.Black;
+            Thm_Dark2.MenuBackColor = Color.Black;
+            Thm_Dark2.ButtonSelectedColor = Color.FromArgb(156, 30, 165);
+            Thm_Dark2.ButtonCheckedColor = Color.FromArgb(154, 30, 20);
+            Thm_Dark2.EditorColor = Color.Black;
+            Thm_Dark2.ForeColor = Color.White;
+            Thm_Dark2.SecondaryForeColor = Color.Silver;
+            Thm_Dark2.BorderColor = Color.Yellow;
+            Thm_Dark2.SeperatorColor = Color.Yellow;
+            Thm_Dark2.SelectedColor = Color.FromArgb(1,0,164);
+            Thm_Dark2.ScrollColor = Color.FromArgb(64, 64, 64);
+            Thm_Dark2.SymbolColor = Color.FromArgb(137, 251, 252);
+            Thm_Dark2.StopColor = Color.Red;
+            Thm_Dark2.SeconaryBackColor = Color.FromArgb(82, 82, 82);
+            Thm_Dark2.TerminalForeColor = Color.White;
+
+            Thm_Dark2.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
+
+            Thm_Dark2.RowColor = Color.FromArgb(0, 0, 0);
+            Thm_Dark2.GridLineColor = Color.FromArgb(85, 85, 85);
+
+            Thm_Dark2.TabSelectedBorderColor = Color.FromArgb(156, 30, 165);
+            Thm_Dark2.TabSelectedColor = Color.FromArgb(156, 30, 165);
             Thm_Dark2.TabSelectedForeColor = Color.White;
 
             Thm_Dark2.MatchColor = Color.FromArgb(0, 64, 0);

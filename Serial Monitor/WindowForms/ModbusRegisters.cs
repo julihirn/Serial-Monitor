@@ -13,6 +13,7 @@ using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
@@ -49,6 +50,8 @@ namespace Serial_Monitor {
             //        ((Form1)Attached).
             //    }
             //}
+
+            ShowHideColumns();
             EnumManager.LoadDataFormats(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.LoadDataSizes(cmDataSize, CmDisplaySize_Click);
             EnumManager.LoadDataFormats(ddbDisplayFormat, CmDisplayFormatList_Click);
@@ -76,6 +79,38 @@ namespace Serial_Monitor {
             mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
         }
+        private void RetroactivelyApplyFromatChanges(int CentreIndex) {
+            for (int i = 1; i <= 3; i++) {
+                int BeforeIndex = CentreIndex - i;
+                int AfterIndex = CentreIndex + i;
+                if (BeforeIndex >= 0) {
+                    Classes.Modbus.ModbusRegister? Itm = GetRegisterFromItem(BeforeIndex);
+                    if (Itm != null) {
+                        lstMonitor.Items[BeforeIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
+                        lstMonitor.Items[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
+                        lstMonitor.Items[BeforeIndex][Indx_Value].Text = Itm.FormattedValue;
+                    }
+                }
+                if (AfterIndex < lstMonitor.Items.Count) {
+                    Classes.Modbus.ModbusRegister? Itm = GetRegisterFromItem(AfterIndex);
+                    if (Itm != null) {
+                        lstMonitor.Items[AfterIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
+                        lstMonitor.Items[AfterIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
+                        lstMonitor.Items[AfterIndex][Indx_Value].Text = Itm.FormattedValue;
+                    }
+                }
+            }
+        }
+        private Classes.Modbus.ModbusRegister? GetRegisterFromItem(int Index) {
+            if (Index >= lstMonitor.Items.Count) { return null; }
+            if (Index < 0) { return null; }
+            object? Data = lstMonitor.Items[Index].Tag;
+            if (Data == null) { return null; }
+            if (Data.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
+                return (Classes.Modbus.ModbusRegister)Data;
+            }
+            return null;
+        }
         private void CmDisplayFormatList_Click(object? sender, EventArgs e) {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) { return; }
@@ -84,16 +119,41 @@ namespace Serial_Monitor {
 
             int SelectedCount = lstMonitor.SelectionCount;
             if (SelectedCount <= 0) { return; }
+            int CurrentIndex = -1;
+            int LastIndex = -10;
             foreach (ListItem Li in lstMonitor.Items) {
                 if (Li.SubItems.Count >= Indx_Value) {
                     if (Li.Selected == true) {
                         if (Li.Tag == null) { continue; }
                         if (Li.Tag.GetType() == typeof(ModbusRegister)) {
                             ModbusRegister Reg = (ModbusRegister)Li.Tag;
-                            Reg.Format = Frmt;
+                            DataSize SizeSet = EnumManager.DataFormatToDataSize(Frmt, Reg.Size);
+                            CurrentIndex = Reg.Address;
+                            if (SizeSet == DataSize.Bits32) {
+                                if (CurrentIndex - LastIndex > 1) {
+                                    Reg.Format = Frmt;
+                                    LastIndex = CurrentIndex;
+                                }
+                                else {
+                                    Reg.Format = EnumManager.ChangeSizeDependantDataFormat(Frmt);
+                                }
+                            }
+                            else if (SizeSet == DataSize.Bits64) {
+                                if (CurrentIndex - LastIndex > 3) {
+                                    Reg.Format = Frmt;
+                                    LastIndex = CurrentIndex;
+                                }
+                                else {
+                                    Reg.Format = EnumManager.ChangeSizeDependantDataFormat(Frmt);
+                                }
+                            }
+                            else {
+                                Reg.Format = Frmt;
+                            }
                             Li[Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                             Li[Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                             Li[Indx_Value].Text = Reg.FormattedValue;
+                            RetroactivelyApplyFromatChanges(Reg.Address);
                         }
                         SelectedCount--;
                     }
@@ -121,10 +181,12 @@ namespace Serial_Monitor {
                     Args.ParentItem[Args.Column].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[Indx_Value].Text = Reg.FormattedValue;
+                    RetroactivelyApplyFromatChanges(Args.Item);
                     lstMonitor.Invalidate();
                 }
             }
         }
+        
         private void CmDisplaySize_Click(object? sender, EventArgs e) {
             object? ButtonData = GetContextMenuItemData(sender);
             object? Data = GetContextMenuData(sender);
@@ -142,6 +204,7 @@ namespace Serial_Monitor {
                     Args.ParentItem[Args.Column].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[Indx_Value].Text = Reg.FormattedValue;
+                    RetroactivelyApplyFromatChanges(Args.Item);
                     lstMonitor.Invalidate();
                 }
             }
@@ -154,16 +217,40 @@ namespace Serial_Monitor {
 
             int SelectedCount = lstMonitor.SelectionCount;
             if (SelectedCount <= 0) { return; }
+            int CurrentIndex = -1;
+            int LastIndex = -10;
             foreach (ListItem Li in lstMonitor.Items) {
                 if (Li.SubItems.Count >= Indx_Value) {
                     if (Li.Selected == true) {
                         if (Li.Tag == null) { continue; }
                         if (Li.Tag.GetType() == typeof(ModbusRegister)) {
                             ModbusRegister Reg = (ModbusRegister)Li.Tag;
-                            Reg.Size = Frmt;
+                            CurrentIndex = Reg.Address;
+                            if (Frmt == DataSize.Bits32) {
+                                if (CurrentIndex - LastIndex > 1) {
+                                    Reg.Size = DataSize.Bits32;
+                                    LastIndex = CurrentIndex;
+                                }
+                                else {
+                                    Reg.Size = DataSize.Bits16;
+                                }
+                            }
+                            else if (Frmt == DataSize.Bits64) {
+                                if (CurrentIndex - LastIndex > 3) {
+                                    Reg.Size = DataSize.Bits64;
+                                    LastIndex = CurrentIndex;
+                                }
+                                else {
+                                    Reg.Size = DataSize.Bits16;
+                                }
+                            }
+                            else {
+                                Reg.Size = Frmt;
+                            }
                             Li[Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                             Li[Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                             Li[Indx_Value].Text = Reg.FormattedValue;
+                            RetroactivelyApplyFromatChanges(Reg.Address);
                         }
                         SelectedCount--;
                     }
@@ -223,7 +310,7 @@ namespace Serial_Monitor {
             navigator1.SelectedItem = 0;
             CurrentManager = SystemManager.SerialManagers[0];
             LoadRegisters();
-           
+
             LoadForms();
         }
         #region Theme
@@ -552,6 +639,25 @@ namespace Serial_Monitor {
                 EdVal.Show();
             }
         }
+        private void AddValueBox(DropDownClickedEventArgs e, ListControl LstCtrl) {
+            ListItem? LstItem = e.ParentItem;
+            LastPoint = new Point(e.Column, e.Item);
+            if (LstItem == null) { return; }
+            object? DataTag = LstItem.Tag;
+            if (DataTag == null) { return; }
+            if (e.ParentItem == null) { return; }
+            if (e.ParentItem.SubItems == null) { return; }
+            if (DataTag.GetType() == typeof(ModbusRegister)) {
+                ModbusRegister reg = (ModbusRegister)DataTag;
+                Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
+                Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
+                Components.EditValue EdVal = new Components.EditValue(reg.FormattedValue, LstCtrl, e.ParentItem, Indx_Value, e.Item, reg, Rect, ParRect, DataSet);
+                LstCtrl.Controls.Add(EdVal);
+                EdVal.ArrowKeyPress += EdVal_ArrowKeyPress;
+                EdVal.Focus();
+                EdVal.Show();
+            }
+        }
         private void EdVal_ArrowKeyPress(bool IsUp) {
             if (IsUp == false) {
 
@@ -580,11 +686,6 @@ namespace Serial_Monitor {
             if (DataTag == null) { return; }
             if (LstItem.SubItems.Count < 5) { return; }
             if (e.Column == Indx_Name) {
-                //EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Label, LstItem.SubItems[0].Text, lstMonitor, LstItem, null, LstItem.Tag, false);
-                //
-                //EdVal.Sz = e.ItemSize;
-                //EdVal.Location = e.ScreenLocation;
-                //EdVal.Show();
                 AddRenameBox(e, lstMonitor);
             }
             else if (e.Column == Indx_Display) {
@@ -612,12 +713,13 @@ namespace Serial_Monitor {
                     SystemManager.SendModbusCommand(CurrentManager, DataSet, "Write Coil " + e.Item.ToString() + " = " + coil.Value.ToString());
                 }
                 else if (DataTag.GetType() == typeof(ModbusRegister)) {
-                    ModbusRegister reg = (ModbusRegister)DataTag;
-                    EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Delay, LstItem.SubItems[4].Text, lstMonitor, LstItem, CurrentManager, reg, !btnApplyOnClick.Checked);
-                    EdVal.Location = e.ScreenLocation;
-                    EdVal.Sz = e.ItemSize;
-                    EdVal.Show();
-                    LstItem[Indx_Value].Text = reg.Value.ToString();
+                    AddValueBox(e, lstMonitor);
+                    //ModbusRegister reg = (ModbusRegister)DataTag;
+                    //EditValue EdVal = new EditValue(StepEnumerations.StepExecutable.Delay, LstItem.SubItems[4].Text, lstMonitor, LstItem, CurrentManager, reg, !btnApplyOnClick.Checked);
+                    //EdVal.Location = e.ScreenLocation;
+                    //EdVal.Sz = e.ItemSize;
+                    //EdVal.Show();
+                    //LstItem[Indx_Value].Text = reg.Value.ToString();
                 }
             }
             lstMonitor.Invalidate();

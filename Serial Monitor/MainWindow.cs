@@ -14,8 +14,10 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using Serial_Monitor.WindowForms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
+using Serial_Monitor.Classes.Structures;
 
-namespace Serial_Monitor {
+namespace Serial_Monitor
+{
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object sender, string Data);

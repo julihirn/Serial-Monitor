@@ -11,6 +11,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,6 +83,8 @@ namespace Serial_Monitor.Components {
         public EditValue(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Index, object? Parameter, bool IgnoreChanges, Rectangle ObjectBounds, Rectangle ParentBounds) {
             InitializeComponent();
             this.OnClick(new EventArgs());
+            AdjustUI();
+
             //if (mf == null) {
             //    mf = new MyFilter();
             //    Application.AddMessageFilter(mf);
@@ -91,16 +94,16 @@ namespace Serial_Monitor.Components {
             this.Parameter = Parameter;
             this.ParentBounds = ParentBounds;
             this.Column = Index;
-            foreach (object Ctrl in this.Controls) {
-                if (Ctrl.GetType() == typeof(NumericTextbox)) {
-                    NumericTextbox txt = (NumericTextbox)Ctrl;
-                    txt.Height = textBox1.Height;
-                }
-                else if (Ctrl.GetType() == typeof(SplitContainer)) {
-                    SplitContainer txt = (SplitContainer)Ctrl;
-                    txt.Height = textBox1.Height;
-                }
-            }
+            //foreach (object Ctrl in this.Controls) {
+            //    if (Ctrl.GetType() == typeof(NumericTextbox)) {
+            //        NumericTextbox txt = (NumericTextbox)Ctrl;
+            //        txt.Height = textBox1.Height;
+            //    }
+            //    else if (Ctrl.GetType() == typeof(SplitContainer)) {
+            //        SplitContainer txt = (SplitContainer)Ctrl;
+            //        txt.Height = textBox1.Height;
+            //    }
+            //}
             this.Size = ObjectBounds.Size;
             this.Location = ObjectBounds.Location;
             //this.IgnoreChanges = IgnoreChanges;
@@ -110,12 +113,8 @@ namespace Serial_Monitor.Components {
         }
         public EditValue(string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Column, int Index, object? Parameter, object LinkedObject, Rectangle ObjectBounds, Rectangle ParentBounds, DataSelection Dsel = DataSelection.ModbusDataCoils) {
             InitializeComponent();
+            AdjustUI();
             this.OnClick(new EventArgs());
-            //if (mf == null) {
-            //    mf = new MyFilter();
-            //    Application.AddMessageFilter(mf);
-            //    mf.MouseDown += new MyFilter.LeftButtonDown(mf_MouseDown);
-            //}
             UseLinked = true;
             Selection = Dsel;
             this.lstControl = ListCtrl;
@@ -124,22 +123,29 @@ namespace Serial_Monitor.Components {
             this.LinkedControl = LinkedObject;
             this.Column = Column;
             this.Index = Index;
-            foreach (object Ctrl in this.Controls) {
-                if (Ctrl.GetType() == typeof(NumericTextbox)) {
-                    NumericTextbox txt = (NumericTextbox)Ctrl;
-                    txt.Height = textBox1.Height;
-                }
-                else if (Ctrl.GetType() == typeof(SplitContainer)) {
-                    SplitContainer txt = (SplitContainer)Ctrl;
-                    txt.Height = textBox1.Height;
-                }
-            }
             BindParentEvents();
             this.Size = ObjectBounds.Size;
             this.Location = ObjectBounds.Location;
-            //this.IgnoreChanges = IgnoreChanges;
             this.Focus();
             Initalise(StepEnumerations.StepExecutable.Label, InputValue, ListCtrl, Item);
+        }
+        public EditValue(string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Column, int Index, object LinkedObject, Rectangle ObjectBounds, Rectangle ParentBounds, DataSelection Dsel = DataSelection.ModbusDataCoils) {
+            InitializeComponent();
+            AdjustUI();
+            this.OnClick(new EventArgs());
+            UseLinked = true;
+            Selection = Dsel;
+            this.lstControl = ListCtrl;
+            //this.Parameter = Parameter;
+            this.ParentBounds = ParentBounds;
+            this.LinkedControl = LinkedObject;
+            this.Column = Column;
+            this.Index = Index;
+            BindParentEvents();
+            this.Size = ObjectBounds.Size;
+            this.Location = ObjectBounds.Location;
+            this.Focus();
+            InitaliseWithType(DataType.ModbusCustom, InputValue, ListCtrl, Item);
         }
         private void BindParentEvents() {
             if (lstControl == null) { return; }
@@ -149,7 +155,13 @@ namespace Serial_Monitor.Components {
             lstControl.LostFocus += LstControl_LostFocus;
             lstControl.Resize += LstControl_Resize;
         }
-
+        private void AdjustUI() {
+            textBox1.AutoSize = false;
+            textBox2.AutoSize = false;
+            textBox3.AutoSize = false;
+            spPnlPoint.Width = DesignerSetup.ScaleInteger(spPnlPoint.Width);
+            btnGrabPoint.Width = DesignerSetup.ScaleInteger(btnGrabPoint.Width);
+        }
         private void LstControl_Resize(object? sender, EventArgs e) {
             PushValue();
         }
@@ -169,7 +181,7 @@ namespace Serial_Monitor.Components {
             }
         }
         private void LstControl_LostFocus(object? sender, EventArgs e) {
-          
+
         }
 
         private void LstControl_MouseDown(object? sender, MouseEventArgs e) {
@@ -182,7 +194,7 @@ namespace Serial_Monitor.Components {
             }
         }
 
-    
+
         private void Ctrl_MouseClick(object? sender, MouseEventArgs e) {
             PushValue();
         }
@@ -190,77 +202,227 @@ namespace Serial_Monitor.Components {
         bool AllowEditChanges = false;
 
         private void Initalise(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
-            Type = Classes.ProgramManager.StepExeutableToDataType(StepExe);
+            InitaliseWithType(Classes.ProgramManager.StepExeutableToDataType(StepExe), InputValue, ListCtrl, Item);
+        }
+        private void InitaliseWithType(DataType StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
+            textBox1.AutoSize = false;
+            textBox2.AutoSize = false;
+            textBox3.AutoSize = false;
+            Type = StepExe;
             ListItem = Item;
+            numericTextbox1.NumberTextAlign = NumericTextbox.TextAlign.Left;
             switch (Type) {
                 case DataType.Text:
                     textBox1.Text = InputValue;
-                    textBox1.Show();
+                    pnlText.Dock = DockStyle.Fill;
+                    pnlText.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.Number:
-                    numericTextbox1.Value = InputValue;
+                    if (InputValue.Length > 0) {
+                        numericTextbox1.Value = InputValue;
+                    }
+                    else { numericTextbox1.Value = 0; }
                     numericTextbox1.Show();
+                    pnlNumber.Dock = DockStyle.Fill;
+                    pnlNumber.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.Byte:
-                    numericTextbox1.Value = InputValue;
+                    if (InputValue.Length > 0) {
+                        numericTextbox1.Value = InputValue;
+                    }
+                    else { numericTextbox1.Value = 0; }
                     numericTextbox1.Base = NumericTextbox.NumberBase.Base16;
                     numericTextbox1.RangeLimited = true;
                     numericTextbox1.Maximum = new Handlers.NumericalString(255);
                     numericTextbox1.Show();
+                    pnlNumber.Dock = DockStyle.Fill;
+                    pnlNumber.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.DualString:
                     AssignDual(InputValue, '=');
-                    splitContainer1.Show();
+                    pnlDualText.Dock = DockStyle.Fill;
+                    pnlDualText.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.CursorLocation:
-
+                    AssignDual(InputValue, ',', Type);
+                    pnlPoint.Dock = DockStyle.Fill;
+                    pnlPoint.Show();
+                    AllowEditChanges = true;
                     break;
                 case DataType.EnumVal:
                     flatComboBox1.Text = InputValue;
                     flatComboBox1.Show();
                     AllowEditChanges = true;
                     break;
+                case DataType.ModbusCustom:
+                    numericTextbox1.NumberTextAlign = NumericTextbox.TextAlign.Right;
+                    SetupModbusRegisterLinkage(InputValue, ListCtrl, Item);
 
+                    break;
                 default:
                     break;
             }
         }
-        private void AssignDual(string Value, char Spiltter = '=') {
+        private void SetupModbusRegisterLinkage(string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
+            numericTextbox1.RangeLimited = true;
+            if (LinkedControl != null) {
+                if (LinkedControl.GetType() == typeof(ModbusRegister)) {
+                    ModbusRegister Reg = (ModbusRegister)LinkedControl;
+                    numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Decimal;
+                    if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Binary) {
+                        numericTextbox1.Base = NumericTextbox.NumberBase.Base2;
+                        DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                        numericTextbox1.Minimum = DualNum.A;
+                        numericTextbox1.Maximum = DualNum.B;
+                        InputValue = InputValue.TrimStart('0');
+                    }
+                    else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Octal) {
+                        numericTextbox1.Base = NumericTextbox.NumberBase.Base8;
+                        DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                        numericTextbox1.Minimum = DualNum.A;
+                        numericTextbox1.Maximum = DualNum.B;
+                        InputValue = InputValue.TrimStart('0');
+                    }
+                    else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Decimal) {
+                        numericTextbox1.Base = NumericTextbox.NumberBase.Base10;
+                        numericTextbox1.AllowFractionals = false;
+                        numericTextbox1.AllowNegatives = Reg.Signed;
+                        DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                        numericTextbox1.Minimum = DualNum.A;
+                        numericTextbox1.Maximum = DualNum.B;
+                    }
+                    else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Hexadecimal) {
+                        numericTextbox1.Base = NumericTextbox.NumberBase.Base16;
+                        DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                        numericTextbox1.Minimum = DualNum.A;
+                        numericTextbox1.Maximum = DualNum.B;
+                        InputValue = InputValue.TrimStart('0');
+                    }
+                    else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Double) {
+                        numericTextbox1.AllowFractionals = true;
+                        numericTextbox1.AllowNegatives = true;
+                        numericTextbox1.Minimum = MathHandler.EvaluateExpression("-1.7976931348623157*(10^(308))", null);
+                        numericTextbox1.Maximum = MathHandler.EvaluateExpression("1.7976931348623157*(10^(308))", null);
+                        numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                        if (InputValue.Contains('E')) {
+                            InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
+                        }
+                    }
+                    else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Float) {
+                        numericTextbox1.AllowFractionals = true;
+                        numericTextbox1.AllowNegatives = true;
+                        numericTextbox1.Minimum = MathHandler.EvaluateExpression("-3.4028235*(10^(38))", null);
+                        numericTextbox1.Maximum = MathHandler.EvaluateExpression("3.4028235*(10^(38))", null);
+                        numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                        if (InputValue.Contains('E')) {
+                            InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
+                        }
+                        
+                    }
+                    else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Char) {
+
+                    }
+                }
+            }
+
+            if (InputValue.Length > 0) {
+                numericTextbox1.Value = InputValue;
+            }
+            else { numericTextbox1.Value = 0; }
+            numericTextbox1.Show();
+            pnlNumber.Dock = DockStyle.Fill;
+            pnlNumber.Show();
+            AllowEditChanges = true;
+        }
+        private void AssignDual(string Value, char Spiltter = '=', DataType Set = DataType.DualString) {
             string ArgumentLeft = StringHandler.SpiltString(Value, Spiltter, 0);
             string ArgumentRight = "";
             if (Value.Contains(Spiltter)) {
                 ArgumentRight = StringHandler.SpiltAndCombineAfter(Value, Spiltter, 1).Value[1];
             }
-            textBox2.Text = ArgumentLeft;
-            textBox3.Text = ArgumentRight;
+            if (Set == DataType.DualString) {
+                textBox2.Text = ArgumentLeft;
+                textBox3.Text = ArgumentRight;
+            }
+            else if (Set == DataType.CursorLocation) {
+                ArgumentLeft = ArgumentLeft.Replace(" ", "");
+                ArgumentRight = ArgumentRight.Replace(" ", "");
+                if (ArgumentLeft.Length > 0) {
+                    numericTextbox2.Value = ArgumentLeft;
+                }
+                else {
+                    numericTextbox2.Value = 0;
+                }
+                if (ArgumentRight.Length > 0) {
+                    numericTextbox3.Value = ArgumentRight;
+                }
+                else {
+                    numericTextbox3.Value = 0;
+                }
+            }
         }
         private void EditValue_Load(object sender, EventArgs e) {
             ApplyTheme();
         }
         public void ApplyTheme() {
             this.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            pnlPoint.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox2.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox3.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            lblX.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lblX.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
+            lblY.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lblY.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
+
+
             numericTextbox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            numericTextbox1.BorderColor = Color.Transparent;
+            numericTextbox1.SelectedBorderColor = Color.Transparent;
+            numericTextbox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            numericTextbox2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            numericTextbox2.BorderColor = Color.Transparent;
+            numericTextbox2.SelectedBorderColor = Color.Transparent;
+            numericTextbox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            numericTextbox3.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            numericTextbox3.BorderColor = Color.Transparent;
+            numericTextbox3.SelectedBorderColor = Color.Transparent;
+            numericTextbox3.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
             this.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox3.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            numericTextbox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
             flatComboBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             flatComboBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
-            numericTextbox1.BorderColor = Color.Transparent;
-            numericTextbox1.SelectedBorderColor = Color.Transparent;
+
+
             SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
-            splitContainer1.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
-            splitContainer1.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
-            splitContainer1.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            spPnlPoint.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            spPnlPoint.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            spPnlPoint.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            pnlDualText.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            pnlDualText.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            pnlDualText.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            btnGrabPoint.BackColorNorth = Properties.Settings.Default.THM_COL_SelectedColor;
+            btnGrabPoint.BackColorSouth = Properties.Settings.Default.THM_COL_SelectedColor;
+            btnGrabPoint.BorderColorNorth = Properties.Settings.Default.THM_COL_SelectedColor;
+            btnGrabPoint.BorderColorSouth = Properties.Settings.Default.THM_COL_SelectedColor;
+
+            btnGrabPoint.BorderColorHoverNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            btnGrabPoint.BorderColorHoverSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            btnGrabPoint.BackColorHoverNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            btnGrabPoint.BackColorHoverSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
+            btnGrabPoint.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
         }
 
         private void EditValue_Leave(object sender, EventArgs e) {
@@ -274,13 +436,12 @@ namespace Serial_Monitor.Components {
             switch (Type) {
                 case DataType.Text:
                     ListItem[Column].Text = TempString1;
-                    PushValueToControl(TempString1);
+                    PushNameToControl(TempString1);
                     textBox1.Show();
                     AllowEditChanges = true;
                     break;
                 case DataType.Number:
                     ListItem[Column].Text = numericTextbox1.Value.ToString() ?? "0";
-                    PushValueToControl(numericTextbox1.Value.ToString() ?? "0");
                     numericTextbox1.Show();
                     AllowEditChanges = true;
                     break;
@@ -291,10 +452,15 @@ namespace Serial_Monitor.Components {
                     ListItem[Column].Text = textBox2.Text + "=" + textBox3.Text;
                     break;
                 case DataType.CursorLocation:
-
+                    ListItem[Column].Text = numericTextbox2.Value.ToString() + ", " + numericTextbox3.Value.ToString();
                     break;
                 case DataType.EnumVal:
                     ListItem[Column].Text = flatComboBox1.Text;
+                    break;
+                case DataType.ModbusCustom:
+
+                    //ListItem[Column].Text = flatComboBox1.Text;
+                    PushValueToControl(numericTextbox1.Value.ToString() ?? "0");
                     break;
 
                 default:
@@ -312,7 +478,7 @@ namespace Serial_Monitor.Components {
                 }
             }
         }
-        private void PushValueToControl(object Data) {
+        private void PushNameToControl(object Data) {
             if (UseLinked == false) { return; }
             if (LinkedControl == null) { return; }
             if (LinkedControl.GetType() == typeof(ModbusCoil)) {
@@ -325,7 +491,17 @@ namespace Serial_Monitor.Components {
                 coil.Name = Data.ToString() ?? "";
                 SystemManager.RegisterNameChanged(coil, Index, Selection);
             }
-
+        }
+        private void PushValueToControl(object Data) {
+            if (UseLinked == false) { return; }
+            if (LinkedControl == null) { return; }
+            else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
+                ModbusRegister coil = (ModbusRegister)LinkedControl;
+                coil.PushValue(Formatters.StringToLong(Data.ToString() ?? "0", coil.Format, coil.Size, coil.Signed), false);
+                //coil.Value = Data.ToString() ?? "";
+                //Needs attention!
+                //SystemManager.RegisterValueChanged(coil, Index, Selection);
+            }
         }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e) {
 
@@ -438,9 +614,9 @@ namespace Serial_Monitor.Components {
         }
 
         protected override void OnPaint(PaintEventArgs e) {
-            using(SolidBrush BrdBr = new SolidBrush(selectedColor)) {
-                using(Pen BrdPn = new Pen(BrdBr)) {
-                    e.Graphics.DrawRectangle(BrdPn,new Rectangle(0,0,Width-1,Height-1));
+            using (SolidBrush BrdBr = new SolidBrush(selectedColor)) {
+                using (Pen BrdPn = new Pen(BrdBr)) {
+                    e.Graphics.DrawRectangle(BrdPn, new Rectangle(0, 0, Width - 1, Height - 1));
                 }
             }
             base.OnPaint(e);
@@ -449,6 +625,65 @@ namespace Serial_Monitor.Components {
         protected override void OnResize(EventArgs e) {
             Invalidate();
             base.OnResize(e);
+        }
+
+        private void EditValue_Resize(object sender, EventArgs e) {
+            //        int wfactor = 4; // half the line width, kinda
+            //                         // create 6 points for path
+            //        Point[] pts = {
+            //new Point(0, 0),
+            //new Point(wfactor, 0),
+            //new Point(Width, Height - wfactor),
+            //new Point(Width, Height) ,
+            //new Point(Width - wfactor, Height),
+            //new Point(0, wfactor) };
+            //        // magic numbers! 
+            //        byte[] types = {
+            //0, // start point
+            //1, // line
+            //1, // line
+            //1, // line
+            //1, // line
+            //1 }; // line 
+            //        GraphicsPath path = new GraphicsPath(pts, types);
+            //        this.Region = new Region(path);
+        }
+        bool MoveLock = false;
+        private void btnGrabPoint_MouseDown(object sender, MouseEventArgs e) {
+            MoveLock = true;
+            Cursor.Current = Cursors.Cross;
+        }
+        private void btnGrabPoint_MouseUp(object sender, MouseEventArgs e) {
+            MoveLock = false;
+            Cursor.Current = Cursors.Default;
+        }
+        private void btnGrabPoint_MouseMove(object sender, MouseEventArgs e) {
+            if (MoveLock == true) {
+                string PointData = Cursor.Position.X.ToString() + "," + Cursor.Position.Y.ToString();
+                AssignDual(PointData, ',', Type);
+            }
+        }
+
+        private void numericTextbox2_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                PushValue();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+        private void numericTextbox3_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                PushValue();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+        private void numericTextbox1_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                PushValue();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }

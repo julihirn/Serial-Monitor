@@ -1,4 +1,5 @@
 using Serial_Monitor.Classes.Theming;
+using System.Diagnostics;
 
 namespace Serial_Monitor {
     internal static class Program {
@@ -18,6 +19,7 @@ namespace Serial_Monitor {
                 Application.Run(new MainWindow());
             }
             //Application.Run(new Form2());
+            Debug.Print(float.MinValue.ToString());
         }
     }
 }

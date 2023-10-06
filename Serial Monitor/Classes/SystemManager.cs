@@ -1,4 +1,5 @@
 ﻿using Handlers;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.SerialManager;
 
-namespace Serial_Monitor.Classes {
+namespace Serial_Monitor.Classes
+{
     public static class SystemManager {
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();

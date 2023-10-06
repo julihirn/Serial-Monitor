@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serial_Monitor.Classes {
-    public class StringPair {
+namespace Serial_Monitor.Classes.Structures
+{
+    public class StringPair
+    {
         public string A;
         public string B;
-        public StringPair(string a, string b) {
+        public StringPair(string a, string b)
+        {
             A = a;
             B = b;
         }

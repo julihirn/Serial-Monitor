@@ -1,6 +1,7 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Enums;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
-namespace Serial_Monitor.Classes {
+namespace Serial_Monitor.Classes
+{
     public static class EnumManager {
 
         #region Modbus Data Size
@@ -16,7 +18,7 @@ namespace Serial_Monitor.Classes {
             if (Input == 8) {
                 return DataSize.Bits8;
             }
-            else if (Input == 1) {
+            else if (Input == 16) {
                 return DataSize.Bits16;
             }
             else if (Input == 32) {
@@ -56,6 +58,27 @@ namespace Serial_Monitor.Classes {
                 return "64 Bits";
             }
             return "16 Bits";
+        }
+        public static DataSize DataFormatToDataSize(DataFormat Input, DataSize CurrentSize) {
+            if (Input == DataFormat.Double) {
+                return DataSize.Bits64;
+            }
+            else if (Input == DataFormat.Float) {
+                return DataSize.Bits32;
+            }
+            else if (Input == DataFormat.Char) {
+                return DataSize.Bits16;
+            }
+            return CurrentSize;
+        }
+        public static DataFormat ChangeSizeDependantDataFormat(DataFormat Input) {
+            if (Input == DataFormat.Double) {
+                return DataFormat.Decimal;
+            }
+            else if (Input == DataFormat.Float) {
+                return DataFormat.Decimal;
+            }
+            return Input;
         }
         #endregion
         #region Modbus Data Format

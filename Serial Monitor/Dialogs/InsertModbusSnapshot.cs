@@ -1,5 +1,6 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Structures;
 using Svg;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Serial_Monitor.Dialogs {
+namespace Serial_Monitor.Dialogs
+{
     public partial class InsertModbusSnapshot : Form, Interfaces.ITheme {
         public InsertModbusSnapshot() {
             InitializeComponent();

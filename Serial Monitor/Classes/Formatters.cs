@@ -11,6 +11,9 @@ namespace Serial_Monitor.Classes {
         public static unsafe int SingleToInt32Bits(float value) {
             return *(int*)(&value);
         }
+        public static unsafe long DoubleToInt64Bits(double value) {
+            return *(long*)(&value);
+        }
         public static unsafe float Int32BitsToSingle(int value) {
             return *(float*)(&value);
         }
@@ -259,12 +262,12 @@ namespace Serial_Monitor.Classes {
                 Output = StringToDecimal(Input, Size, IsSigned);
             }
             else if (Format == DataFormat.Float) {
-                float Temp = 0; float.TryParse(Input, out Temp);
-                Output = (int)Temp;
+                float InputTemp = 0; float.TryParse(Input, out InputTemp);
+                Output = (long)SingleToInt32Bits(InputTemp);
             }
             else if (Format == DataFormat.Double) {
-                double Temp = 0; double.TryParse(Input, out Temp);
-                Output = (long)Temp;
+                double InputTemp = 0; double.TryParse(Input, out InputTemp);
+                Output = DoubleToInt64Bits(InputTemp);
             }
             else if (Format == DataFormat.Char) {
                 char Temp = (char)0; char.TryParse(Input, out Temp);
@@ -331,7 +334,10 @@ namespace Serial_Monitor.Classes {
             }
             return Output;
         }
-
+        public static DualNumericalString GetBounds(DataSize Size, bool IsSigned) {
+            BinaryFormatFlags Flags = GetFlags(Size, IsSigned);
+            return MathHandler.GetBinaryFormatRange(Flags);
+        }
         #endregion 
     }
   
