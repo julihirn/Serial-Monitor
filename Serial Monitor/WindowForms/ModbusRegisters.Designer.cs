@@ -106,12 +106,11 @@
             this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.windowManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cmDisplayFormats = new ODModules.ContextMenu();
             this.cmDataSize = new ODModules.ContextMenu();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmMonitor.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tbDataPages.SuspendLayout();
@@ -581,8 +580,7 @@
             this.modbusToolStripMenuItem,
             this.formatToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.windowToolStripMenuItem,
-            this.toolStripMenuItem1});
+            this.windowToolStripMenuItem});
             this.msMain.ItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.msMain.ItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.msMain.ItemSelectedForeColor = System.Drawing.Color.Black;
@@ -1045,7 +1043,7 @@
             // 
             this.customizeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(259, 44);
             this.customizeToolStripMenuItem.Text = "&Customize";
             this.customizeToolStripMenuItem.Visible = false;
             // 
@@ -1053,7 +1051,7 @@
             // 
             this.optionsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(259, 44);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -1068,6 +1066,20 @@
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(121, 38);
             this.windowToolStripMenuItem.Text = "&Window";
             // 
+            // tileHorizontalToolStripMenuItem
+            // 
+            this.tileHorizontalToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.tileHorizontalToolStripMenuItem.Text = "Tile Windows";
+            this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(356, 6);
+            // 
             // windowManagerToolStripMenuItem
             // 
             this.windowManagerToolStripMenuItem.ForeColor = System.Drawing.Color.White;
@@ -1076,12 +1088,6 @@
             this.windowManagerToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.windowManagerToolStripMenuItem.Text = "&Window Manager";
             this.windowManagerToolStripMenuItem.Click += new System.EventHandler(this.windowManagerToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(20, 38);
             // 
             // cmDisplayFormats
             // 
@@ -1116,20 +1122,6 @@
             this.cmDataSize.ShowInsetShadow = false;
             this.cmDataSize.ShowItemInsetShadow = false;
             this.cmDataSize.Size = new System.Drawing.Size(61, 4);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(356, 6);
-            // 
-            // tileHorizontalToolStripMenuItem
-            // 
-            this.tileHorizontalToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
-            this.tileHorizontalToolStripMenuItem.Text = "Tile Horizontal";
-            this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalToolStripMenuItem_Click);
             // 
             // ModbusRegisters
             // 
@@ -1225,7 +1217,6 @@
         private ToolStripMenuItem btnSelectionToSnapshot;
         private ODModules.ContextMenu cmDisplayFormats;
         private ODModules.ContextMenu cmDataSize;
-        private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem formatToolStripMenuItem;
         private ToolStripMenuItem ddbDisplayFormat;
         private ToolStripMenuItem ddpDataSize;

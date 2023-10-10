@@ -927,7 +927,8 @@ namespace Serial_Monitor {
             }
         }
         private void tileHorizontalToolStripMenuItem_Click(object sender, EventArgs e) {
-            mdiClient.LayoutMDI(MdiLayout.TileHorizontal);
+            mdiClient.TileWindows = !mdiClient.TileWindows;
+            tileHorizontalToolStripMenuItem.Checked = !tileHorizontalToolStripMenuItem.Checked;
         }
     }
 }

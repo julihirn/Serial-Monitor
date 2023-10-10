@@ -95,14 +95,15 @@
             this.lblPnlTheme.LabelBackColor = System.Drawing.Color.White;
             this.lblPnlTheme.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblPnlTheme.LabelForeColor = System.Drawing.Color.Black;
-            this.lblPnlTheme.Location = new System.Drawing.Point(3, 3);
+            this.lblPnlTheme.Location = new System.Drawing.Point(6, 6);
+            this.lblPnlTheme.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblPnlTheme.Name = "lblPnlTheme";
             this.lblPnlTheme.OverrideCollapseControl = false;
-            this.lblPnlTheme.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.lblPnlTheme.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
             this.lblPnlTheme.PanelCollapsible = true;
             this.lblPnlTheme.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblPnlTheme.ShowCloseButton = false;
-            this.lblPnlTheme.Size = new System.Drawing.Size(336, 217);
+            this.lblPnlTheme.Size = new System.Drawing.Size(630, 463);
             this.lblPnlTheme.TabIndex = 0;
             this.lblPnlTheme.Text = "Theme";
             // 
@@ -159,14 +160,15 @@
             this.btngrThemes.IconInline = false;
             this.btngrThemes.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             this.btngrThemes.ImageSize = new System.Drawing.Size(32, 32);
-            this.btngrThemes.Location = new System.Drawing.Point(0, 18);
+            this.btngrThemes.Location = new System.Drawing.Point(0, 37);
+            this.btngrThemes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btngrThemes.Name = "btngrThemes";
-            this.btngrThemes.Padding = new System.Windows.Forms.Padding(5);
+            this.btngrThemes.Padding = new System.Windows.Forms.Padding(9, 11, 9, 11);
             this.btngrThemes.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btngrThemes.ScrollBarNorth = System.Drawing.Color.Silver;
             this.btngrThemes.ScrollBarSouth = System.Drawing.Color.Silver;
             this.btngrThemes.SecondaryFont = null;
-            this.btngrThemes.Size = new System.Drawing.Size(336, 199);
+            this.btngrThemes.Size = new System.Drawing.Size(630, 426);
             this.btngrThemes.Style = ODModules.ButtonStyle.Square;
             this.btngrThemes.TabIndex = 0;
             this.btngrThemes.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -186,12 +188,13 @@
             this.thSettings.CloseHoverColor = System.Drawing.Color.Red;
             this.thSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.thSettings.Location = new System.Drawing.Point(0, 0);
+            this.thSettings.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.thSettings.Name = "thSettings";
-            this.thSettings.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.thSettings.SelectedIndex = 1;
+            this.thSettings.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.thSettings.SelectedIndex = 0;
             this.thSettings.ShowAddButton = false;
             this.thSettings.ShowTabDividers = true;
-            this.thSettings.Size = new System.Drawing.Size(350, 36);
+            this.thSettings.Size = new System.Drawing.Size(650, 77);
             this.thSettings.TabBackColor = System.Drawing.Color.Transparent;
             this.thSettings.TabBorderColor = System.Drawing.Color.Transparent;
             this.thSettings.TabClickedBackColor = System.Drawing.Color.DarkGray;
@@ -217,12 +220,12 @@
             this.hiddenTabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.hiddenTabControl1.ForeColor = System.Drawing.Color.White;
             this.hiddenTabControl1.ItemSize = new System.Drawing.Size(20, 20);
-            this.hiddenTabControl1.Location = new System.Drawing.Point(0, 36);
+            this.hiddenTabControl1.Location = new System.Drawing.Point(0, 77);
             this.hiddenTabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.hiddenTabControl1.Multiline = true;
             this.hiddenTabControl1.Name = "hiddenTabControl1";
             this.hiddenTabControl1.SelectedIndex = 0;
-            this.hiddenTabControl1.Size = new System.Drawing.Size(350, 339);
+            this.hiddenTabControl1.Size = new System.Drawing.Size(650, 723);
             this.hiddenTabControl1.TabIndex = 2;
             // 
             // tabPage3
@@ -233,9 +236,10 @@
             this.tabPage3.Controls.Add(this.lblPnlDefaults);
             this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(342, 311);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage3.Size = new System.Drawing.Size(642, 695);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "General";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -259,23 +263,25 @@
             this.labelPanel5.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel5.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel5.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel5.Location = new System.Drawing.Point(3, 182);
+            this.labelPanel5.Location = new System.Drawing.Point(6, 388);
+            this.labelPanel5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel5.Name = "labelPanel5";
             this.labelPanel5.OverrideCollapseControl = true;
-            this.labelPanel5.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.labelPanel5.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
             this.labelPanel5.PanelCollapsible = true;
             this.labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel5.ShowCloseButton = false;
-            this.labelPanel5.Size = new System.Drawing.Size(336, 97);
+            this.labelPanel5.Size = new System.Drawing.Size(630, 207);
             this.labelPanel5.TabIndex = 3;
             this.labelPanel5.Text = "Ports & Communications";
             // 
             // label1
             // 
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(21, 43);
+            this.label1.Location = new System.Drawing.Point(39, 92);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(293, 33);
+            this.label1.Size = new System.Drawing.Size(544, 70);
             this.label1.TabIndex = 4;
             this.label1.Text = "Use this setting if your device is not listed. Hides Device Description.";
             // 
@@ -285,9 +291,10 @@
             this.chbxUseLegacyListing.Checked = true;
             this.chbxUseLegacyListing.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbxUseLegacyListing.ForeColor = System.Drawing.Color.Black;
-            this.chbxUseLegacyListing.Location = new System.Drawing.Point(5, 21);
+            this.chbxUseLegacyListing.Location = new System.Drawing.Point(9, 44);
+            this.chbxUseLegacyListing.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.chbxUseLegacyListing.Name = "chbxUseLegacyListing";
-            this.chbxUseLegacyListing.Size = new System.Drawing.Size(148, 19);
+            this.chbxUseLegacyListing.Size = new System.Drawing.Size(290, 36);
             this.chbxUseLegacyListing.TabIndex = 3;
             this.chbxUseLegacyListing.Text = "Use Legacy Port Listing";
             this.chbxUseLegacyListing.UseVisualStyleBackColor = true;
@@ -312,14 +319,15 @@
             this.labelPanel4.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel4.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel4.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel4.Location = new System.Drawing.Point(3, 109);
+            this.labelPanel4.Location = new System.Drawing.Point(6, 232);
+            this.labelPanel4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel4.Name = "labelPanel4";
             this.labelPanel4.OverrideCollapseControl = true;
-            this.labelPanel4.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.labelPanel4.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
             this.labelPanel4.PanelCollapsible = true;
             this.labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel4.ShowCloseButton = false;
-            this.labelPanel4.Size = new System.Drawing.Size(336, 73);
+            this.labelPanel4.Size = new System.Drawing.Size(630, 156);
             this.labelPanel4.TabIndex = 2;
             this.labelPanel4.Text = "Program Execution";
             // 
@@ -327,9 +335,10 @@
             // 
             this.chbxLimitExecutionBy1ms.AutoSize = true;
             this.chbxLimitExecutionBy1ms.ForeColor = System.Drawing.Color.Black;
-            this.chbxLimitExecutionBy1ms.Location = new System.Drawing.Point(5, 37);
+            this.chbxLimitExecutionBy1ms.Location = new System.Drawing.Point(9, 78);
+            this.chbxLimitExecutionBy1ms.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.chbxLimitExecutionBy1ms.Name = "chbxLimitExecutionBy1ms";
-            this.chbxLimitExecutionBy1ms.Size = new System.Drawing.Size(185, 19);
+            this.chbxLimitExecutionBy1ms.Size = new System.Drawing.Size(367, 36);
             this.chbxLimitExecutionBy1ms.TabIndex = 4;
             this.chbxLimitExecutionBy1ms.Text = "Limit Time Between Execution";
             this.chbxLimitExecutionBy1ms.UseVisualStyleBackColor = true;
@@ -341,9 +350,10 @@
             this.chbxAnimateCurStep.Checked = true;
             this.chbxAnimateCurStep.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbxAnimateCurStep.ForeColor = System.Drawing.Color.Black;
-            this.chbxAnimateCurStep.Location = new System.Drawing.Point(5, 21);
+            this.chbxAnimateCurStep.Location = new System.Drawing.Point(9, 44);
+            this.chbxAnimateCurStep.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.chbxAnimateCurStep.Name = "chbxAnimateCurStep";
-            this.chbxAnimateCurStep.Size = new System.Drawing.Size(208, 19);
+            this.chbxAnimateCurStep.Size = new System.Drawing.Size(410, 36);
             this.chbxAnimateCurStep.TabIndex = 3;
             this.chbxAnimateCurStep.Text = "Animate Program Cursor Stepping";
             this.chbxAnimateCurStep.UseVisualStyleBackColor = true;
@@ -369,14 +379,15 @@
             this.lblPnlDefaults.LabelBackColor = System.Drawing.Color.White;
             this.lblPnlDefaults.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblPnlDefaults.LabelForeColor = System.Drawing.Color.Black;
-            this.lblPnlDefaults.Location = new System.Drawing.Point(3, 3);
+            this.lblPnlDefaults.Location = new System.Drawing.Point(6, 6);
+            this.lblPnlDefaults.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblPnlDefaults.Name = "lblPnlDefaults";
             this.lblPnlDefaults.OverrideCollapseControl = true;
-            this.lblPnlDefaults.Padding = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.lblPnlDefaults.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
             this.lblPnlDefaults.PanelCollapsible = true;
             this.lblPnlDefaults.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblPnlDefaults.ShowCloseButton = false;
-            this.lblPnlDefaults.Size = new System.Drawing.Size(336, 106);
+            this.lblPnlDefaults.Size = new System.Drawing.Size(630, 226);
             this.lblPnlDefaults.TabIndex = 1;
             this.lblPnlDefaults.Text = "Defaults";
             // 
@@ -399,14 +410,15 @@
             this.labelPanel2.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel2.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel2.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel2.Location = new System.Drawing.Point(0, 78);
+            this.labelPanel2.Location = new System.Drawing.Point(0, 143);
+            this.labelPanel2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel2.Name = "labelPanel2";
             this.labelPanel2.OverrideCollapseControl = true;
-            this.labelPanel2.Padding = new System.Windows.Forms.Padding(113, 0, 3, 3);
+            this.labelPanel2.Padding = new System.Windows.Forms.Padding(127, 0, 6, 6);
             this.labelPanel2.PanelCollapsible = true;
             this.labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel2.ShowCloseButton = false;
-            this.labelPanel2.Size = new System.Drawing.Size(336, 28);
+            this.labelPanel2.Size = new System.Drawing.Size(630, 48);
             this.labelPanel2.TabIndex = 5;
             this.labelPanel2.Text = "Data Format";
             // 
@@ -416,6 +428,7 @@
             this.toolStrip2.BackColorNorth = System.Drawing.SystemColors.ButtonFace;
             this.toolStrip2.BackColorSouth = System.Drawing.SystemColors.ButtonFace;
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip2.ItemCheckedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.toolStrip2.ItemCheckedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.toolStrip2.ItemForeColor = System.Drawing.Color.Black;
@@ -427,14 +440,15 @@
             this.toolStrip2.ItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.toolStrip2.ItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.toolStrip2.ItemSelectedForeColor = System.Drawing.Color.Black;
-            this.toolStrip2.Location = new System.Drawing.Point(113, 0);
+            this.toolStrip2.Location = new System.Drawing.Point(127, 0);
             this.toolStrip2.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.toolStrip2.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.toolStrip2.MenuBorderColor = System.Drawing.Color.Gray;
             this.toolStrip2.MenuSeparatorColor = System.Drawing.Color.WhiteSmoke;
             this.toolStrip2.MenuSymbolColor = System.Drawing.Color.DimGray;
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(220, 25);
+            this.toolStrip2.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.toolStrip2.Size = new System.Drawing.Size(497, 42);
             this.toolStrip2.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.toolStrip2.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.toolStrip2.TabIndex = 3;
@@ -444,7 +458,7 @@
             // 
             this.toolStripLabel1.ForeColor = System.Drawing.Color.DimGray;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(38, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(75, 36);
             this.toolStripLabel1.Text = "Input:";
             // 
             // ddbInputFormat
@@ -454,7 +468,7 @@
             this.ddbInputFormat.Image = ((System.Drawing.Image)(resources.GetObject("ddbInputFormat.Image")));
             this.ddbInputFormat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbInputFormat.Name = "ddbInputFormat";
-            this.ddbInputFormat.Size = new System.Drawing.Size(41, 22);
+            this.ddbInputFormat.Size = new System.Drawing.Size(79, 36);
             this.ddbInputFormat.Text = "Text";
             this.ddbInputFormat.ToolTipText = "Input Format";
             // 
@@ -462,7 +476,7 @@
             // 
             this.toolStripLabel2.ForeColor = System.Drawing.Color.DimGray;
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(45, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(90, 36);
             this.toolStripLabel2.Text = "Output";
             // 
             // ddbOutputFormat
@@ -473,7 +487,7 @@
             this.ddbOutputFormat.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOutputFormat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbOutputFormat.Name = "ddbOutputFormat";
-            this.ddbOutputFormat.Size = new System.Drawing.Size(41, 22);
+            this.ddbOutputFormat.Size = new System.Drawing.Size(79, 36);
             this.ddbOutputFormat.Text = "Text";
             this.ddbOutputFormat.ToolTipText = "Output Format";
             // 
@@ -496,14 +510,15 @@
             this.labelPanel3.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel3.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel3.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel3.Location = new System.Drawing.Point(0, 47);
+            this.labelPanel3.Location = new System.Drawing.Point(0, 89);
+            this.labelPanel3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel3.Name = "labelPanel3";
             this.labelPanel3.OverrideCollapseControl = true;
-            this.labelPanel3.Padding = new System.Windows.Forms.Padding(113, 3, 3, 3);
+            this.labelPanel3.Padding = new System.Windows.Forms.Padding(127, 6, 6, 6);
             this.labelPanel3.PanelCollapsible = true;
             this.labelPanel3.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel3.ShowCloseButton = false;
-            this.labelPanel3.Size = new System.Drawing.Size(336, 31);
+            this.labelPanel3.Size = new System.Drawing.Size(630, 54);
             this.labelPanel3.TabIndex = 4;
             this.labelPanel3.Text = "Packet Format";
             // 
@@ -513,6 +528,7 @@
             this.toolStrip1.BackColorNorth = System.Drawing.SystemColors.ButtonFace;
             this.toolStrip1.BackColorSouth = System.Drawing.SystemColors.ButtonFace;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.ItemCheckedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.toolStrip1.ItemCheckedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.toolStrip1.ItemForeColor = System.Drawing.Color.Black;
@@ -523,14 +539,15 @@
             this.toolStrip1.ItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.toolStrip1.ItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.toolStrip1.ItemSelectedForeColor = System.Drawing.Color.Black;
-            this.toolStrip1.Location = new System.Drawing.Point(113, 3);
+            this.toolStrip1.Location = new System.Drawing.Point(127, 6);
             this.toolStrip1.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.toolStrip1.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.toolStrip1.MenuBorderColor = System.Drawing.Color.Gray;
             this.toolStrip1.MenuSeparatorColor = System.Drawing.Color.WhiteSmoke;
             this.toolStrip1.MenuSymbolColor = System.Drawing.Color.DimGray;
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(220, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(497, 42);
             this.toolStrip1.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.toolStrip1.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.toolStrip1.TabIndex = 2;
@@ -548,7 +565,7 @@
             this.ddbBits.Image = ((System.Drawing.Image)(resources.GetObject("ddbBits.Image")));
             this.ddbBits.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbBits.Name = "ddbBits";
-            this.ddbBits.Size = new System.Drawing.Size(26, 22);
+            this.ddbBits.Size = new System.Drawing.Size(49, 36);
             this.ddbBits.Text = "8";
             this.ddbBits.ToolTipText = "Data Bits";
             // 
@@ -557,7 +574,7 @@
             this.ddbOptDB5.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB5.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB5.Name = "ddbOptDB5";
-            this.ddbOptDB5.Size = new System.Drawing.Size(102, 22);
+            this.ddbOptDB5.Size = new System.Drawing.Size(205, 44);
             this.ddbOptDB5.Tag = "5";
             this.ddbOptDB5.Text = "5 Bits";
             this.ddbOptDB5.Click += new System.EventHandler(this.ddbOptDB5_Click);
@@ -567,7 +584,7 @@
             this.ddbOptDB6.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB6.Name = "ddbOptDB6";
-            this.ddbOptDB6.Size = new System.Drawing.Size(102, 22);
+            this.ddbOptDB6.Size = new System.Drawing.Size(205, 44);
             this.ddbOptDB6.Tag = "6";
             this.ddbOptDB6.Text = "6 Bits";
             this.ddbOptDB6.Click += new System.EventHandler(this.ddbOptDB6_Click);
@@ -577,7 +594,7 @@
             this.ddbOptDB7.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB7.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB7.Name = "ddbOptDB7";
-            this.ddbOptDB7.Size = new System.Drawing.Size(102, 22);
+            this.ddbOptDB7.Size = new System.Drawing.Size(205, 44);
             this.ddbOptDB7.Tag = "7";
             this.ddbOptDB7.Text = "7 Bits";
             this.ddbOptDB7.Click += new System.EventHandler(this.ddbOptDB7_Click);
@@ -589,7 +606,7 @@
             this.ddbOptDB8.ForeColor = System.Drawing.Color.Black;
             this.ddbOptDB8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptDB8.Name = "ddbOptDB8";
-            this.ddbOptDB8.Size = new System.Drawing.Size(102, 22);
+            this.ddbOptDB8.Size = new System.Drawing.Size(205, 44);
             this.ddbOptDB8.Tag = "8";
             this.ddbOptDB8.Text = "8 Bits";
             this.ddbOptDB8.Click += new System.EventHandler(this.ddbOptDB8_Click);
@@ -608,7 +625,7 @@
             this.ddbParity.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbParity.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbParity.Name = "ddbParity";
-            this.ddbParity.Size = new System.Drawing.Size(29, 22);
+            this.ddbParity.Size = new System.Drawing.Size(54, 36);
             this.ddbParity.Text = "N";
             this.ddbParity.ToolTipText = "Parity Bit";
             // 
@@ -619,7 +636,7 @@
             this.ddbOptPBNone.ForeColor = System.Drawing.Color.Black;
             this.ddbOptPBNone.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptPBNone.Name = "ddbOptPBNone";
-            this.ddbOptPBNone.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptPBNone.Size = new System.Drawing.Size(275, 44);
             this.ddbOptPBNone.Tag = "N";
             this.ddbOptPBNone.Text = "No Parity";
             this.ddbOptPBNone.Click += new System.EventHandler(this.ddbOptPBNone_Click);
@@ -629,7 +646,7 @@
             this.ddbOptPBEven.ForeColor = System.Drawing.Color.Black;
             this.ddbOptPBEven.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptPBEven.Name = "ddbOptPBEven";
-            this.ddbOptPBEven.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptPBEven.Size = new System.Drawing.Size(275, 44);
             this.ddbOptPBEven.Tag = "E";
             this.ddbOptPBEven.Text = "Even Parity";
             this.ddbOptPBEven.Click += new System.EventHandler(this.ddbOptPBEven_Click);
@@ -639,7 +656,7 @@
             this.ddbOptPBOdd.ForeColor = System.Drawing.Color.Black;
             this.ddbOptPBOdd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptPBOdd.Name = "ddbOptPBOdd";
-            this.ddbOptPBOdd.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptPBOdd.Size = new System.Drawing.Size(275, 44);
             this.ddbOptPBOdd.Tag = "O";
             this.ddbOptPBOdd.Text = "Odd Parity";
             this.ddbOptPBOdd.Click += new System.EventHandler(this.ddbOptPBOdd_Click);
@@ -649,7 +666,7 @@
             this.ddbOptPBSpace.ForeColor = System.Drawing.Color.Black;
             this.ddbOptPBSpace.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptPBSpace.Name = "ddbOptPBSpace";
-            this.ddbOptPBSpace.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptPBSpace.Size = new System.Drawing.Size(275, 44);
             this.ddbOptPBSpace.Tag = "S";
             this.ddbOptPBSpace.Text = "Space Parity";
             this.ddbOptPBSpace.Click += new System.EventHandler(this.ddbOptPBSpace_Click);
@@ -659,7 +676,7 @@
             this.ddbOptPBMark.ForeColor = System.Drawing.Color.Black;
             this.ddbOptPBMark.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptPBMark.Name = "ddbOptPBMark";
-            this.ddbOptPBMark.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptPBMark.Size = new System.Drawing.Size(275, 44);
             this.ddbOptPBMark.Tag = "M";
             this.ddbOptPBMark.Text = "Mark Parity";
             this.ddbOptPBMark.Click += new System.EventHandler(this.ddbOptPBMark_Click);
@@ -676,7 +693,7 @@
             this.ddbOptSB1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptSB1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbOptSB1.Name = "ddbOptSB1";
-            this.ddbOptSB1.Size = new System.Drawing.Size(26, 22);
+            this.ddbOptSB1.Size = new System.Drawing.Size(49, 36);
             this.ddbOptSB1.Text = "1";
             this.ddbOptSB1.ToolTipText = "Stop Bits";
             // 
@@ -687,7 +704,7 @@
             this.stopBitToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.stopBitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.stopBitToolStripMenuItem.Name = "stopBitToolStripMenuItem";
-            this.stopBitToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.stopBitToolStripMenuItem.Size = new System.Drawing.Size(278, 44);
             this.stopBitToolStripMenuItem.Tag = "1";
             this.stopBitToolStripMenuItem.Text = "1 Stop Bit";
             this.stopBitToolStripMenuItem.Click += new System.EventHandler(this.stopBitToolStripMenuItem_Click);
@@ -697,7 +714,7 @@
             this.ddbOptSB15.ForeColor = System.Drawing.Color.Black;
             this.ddbOptSB15.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptSB15.Name = "ddbOptSB15";
-            this.ddbOptSB15.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptSB15.Size = new System.Drawing.Size(278, 44);
             this.ddbOptSB15.Tag = "2.5";
             this.ddbOptSB15.Text = "1.5 Stop Bits";
             this.ddbOptSB15.Click += new System.EventHandler(this.ddbOptSB15_Click);
@@ -707,7 +724,7 @@
             this.ddbOptSB2.ForeColor = System.Drawing.Color.Black;
             this.ddbOptSB2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ddbOptSB2.Name = "ddbOptSB2";
-            this.ddbOptSB2.Size = new System.Drawing.Size(138, 22);
+            this.ddbOptSB2.Size = new System.Drawing.Size(278, 44);
             this.ddbOptSB2.Tag = "2";
             this.ddbOptSB2.Text = "2 Stop Bits";
             this.ddbOptSB2.Click += new System.EventHandler(this.ddbOptSB2_Click);
@@ -731,14 +748,15 @@
             this.labelPanel1.LabelBackColor = System.Drawing.Color.White;
             this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel1.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel1.Location = new System.Drawing.Point(0, 18);
+            this.labelPanel1.Location = new System.Drawing.Point(0, 37);
+            this.labelPanel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel1.Name = "labelPanel1";
             this.labelPanel1.OverrideCollapseControl = true;
-            this.labelPanel1.Padding = new System.Windows.Forms.Padding(113, 3, 3, 3);
+            this.labelPanel1.Padding = new System.Windows.Forms.Padding(127, 6, 6, 6);
             this.labelPanel1.PanelCollapsible = true;
             this.labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel1.ShowCloseButton = false;
-            this.labelPanel1.Size = new System.Drawing.Size(336, 29);
+            this.labelPanel1.Size = new System.Drawing.Size(630, 52);
             this.labelPanel1.TabIndex = 2;
             this.labelPanel1.Text = "Baud Rate";
             // 
@@ -747,9 +765,10 @@
             this.comboBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(113, 3);
+            this.comboBox1.Location = new System.Drawing.Point(127, 6);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(220, 23);
+            this.comboBox1.Size = new System.Drawing.Size(497, 40);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -758,22 +777,24 @@
             this.tabPage4.Controls.Add(this.lblPnlTheme);
             this.tabPage4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(342, 311);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage4.Size = new System.Drawing.Size(642, 695);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Display";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(350, 375);
+            this.ClientSize = new System.Drawing.Size(650, 800);
             this.Controls.Add(this.hiddenTabControl1);
             this.Controls.Add(this.thSettings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "Settings";
             this.Text = "Settings";
             this.Activated += new System.EventHandler(this.Settings_Activated);

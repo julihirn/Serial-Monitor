@@ -31,7 +31,7 @@ namespace Serial_Monitor {
         }
         private void AdjustUserInterface() {
             btngrThemes.ImageSize = DesignerSetup.GetSize(DesignerSetup.IconSize.Large);
-            btngrThemes.ButtonSize = DesignerSetup.ScaleSize(new Size(DesignerSetup.VeryLargeIconSize, DesignerSetup.VeryLargeIconSize));
+            btngrThemes.ButtonSize = DesignerSetup.GetSize(DesignerSetup.IconSize.VeryLarge);
             btngrThemes.IconInline = false;
             hiddenTabControl1.DebugMode = false;
             ScaleLabelPanels(tabPage3);

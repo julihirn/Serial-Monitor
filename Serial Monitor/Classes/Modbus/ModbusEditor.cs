@@ -17,6 +17,8 @@ namespace Serial_Monitor.Classes.Modbus {
         public const int Indx_Signed = 4;
         public const int Indx_Value = 5;
 
+        public static Size MinimumSize = new Size(464, 213);
+
         public static void AddRenameBox(DropDownClickedEventArgs e, ListControl LstCtrl, DataSelection DataSet, Components.EditValue.ArrowKeyPressedHandler arrowKeyPressed, bool UseItemIndex = false) {
             ListItem? LstItem = e.ParentItem;
             //LastPoint = new Point(e.Column, e.Item);
