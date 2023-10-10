@@ -30,6 +30,10 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/2f19bfc0-ef50-4224-a30e-0e60956f641c)
 
+- **Modbus Coil and Register Editor/Monitor (Coming Soon)**: Edit, view and monitor your Modbus devices with the Modbus Registers editor.
+  
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/5bfc7342-ad28-4795-b471-10fa3645b162)
+
 
 ## System Requirements
 * Windows 7 or higher.
