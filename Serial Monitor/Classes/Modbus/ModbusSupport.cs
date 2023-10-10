@@ -10,6 +10,18 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public static class ModbusSupport {
+        public const int MaximumRegisters = short.MaxValue;
+
+        static bool applyOnChange = true;
+        public static bool SendOnChange {
+            get {
+                return applyOnChange;
+            }
+            set {
+                applyOnChange = value;
+            }
+        }
+
         #region Coil/Register Support
         public static bool IsRegsiterEdited(object? Input, bool CheckValues = false) {
             if (Input == null) { return false; }
@@ -31,7 +43,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return false;
         }
-        public static Structures.ValidString BulidRegisterSerialisedString(SerialManager ?Manager, int Index, DataSelection Select, bool IncludeValue = false) {
+        public static Structures.ValidString BulidRegisterSerialisedString(SerialManager? Manager, int Index, DataSelection Select, bool IncludeValue = false) {
             if (Manager == null) { return new ValidString(); }
             try {
                 if (Select == DataSelection.ModbusDataCoils) {
@@ -129,7 +141,7 @@ namespace Serial_Monitor.Classes.Modbus {
             List<RegisterRequest> Registers = new List<RegisterRequest>();
             if (CurrentManager == null) { return Registers; }
             try {
-                for (int i = 0; i < short.MaxValue; i++) {
+                for (int i = 0; i < MaximumRegisters; i++) {
                     if (i < CurrentManager.Coils.Count()) {
                         bool Result = IsRegsiterEdited(CurrentManager.Coils[i]);
                         if (Result == true) {
@@ -159,6 +171,7 @@ namespace Serial_Monitor.Classes.Modbus {
             catch { }
             return Registers;
         }
+        
         #endregion
         #region Snapshots
         public static List<ModbusSnapshot> Snapshots = new List<ModbusSnapshot>();

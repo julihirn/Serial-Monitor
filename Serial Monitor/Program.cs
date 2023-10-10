@@ -19,7 +19,6 @@ namespace Serial_Monitor {
                 Application.Run(new MainWindow());
             }
             //Application.Run(new Form2());
-            Debug.Print(float.MinValue.ToString());
         }
     }
 }

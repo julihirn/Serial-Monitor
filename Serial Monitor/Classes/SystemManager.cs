@@ -31,11 +31,11 @@ namespace Serial_Monitor.Classes
         public delegate void PortStatusChangedHandler(SerialManager sender);
 
         public static event ModbusPropertyChangedHandler? ModbusPropertyChanged;
-        public delegate void ModbusPropertyChangedHandler(object Data, int Index, DataSelection DataType);
+        public delegate void ModbusPropertyChangedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
         public static event ModbusRegisterRenamedHandler? ModbusRegisterRenamed;
-        public delegate void ModbusRegisterRenamedHandler(object Data, int Index, DataSelection DataType);
+        public delegate void ModbusRegisterRenamedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
         public static event ModbusReceivedHandler? ModbusReceived;
-        public delegate void ModbusReceivedHandler(object Data, int Index, DataSelection DataType);
+        public delegate void ModbusReceivedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
 
         public static void InvokePortStatusChanged(SerialManager sender) {
             PortStatusChanged?.Invoke(sender);
@@ -46,14 +46,17 @@ namespace Serial_Monitor.Classes
         public static void InvokeChannelPropertiesChanged(SerialManager sender) {
             ChannelPropertyChanged?.Invoke(sender);
         }
-        public static void ModbusRegisterPropertyChanged(object Data, int Index, DataSelection DataType) {
-            ModbusPropertyChanged?.Invoke(Data, Index, DataType);
+        public static void ModbusRegisterPropertyChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
+            if (Sender == null) { return; }
+            ModbusPropertyChanged?.Invoke(Sender, Data, Index, DataType);
         }
-        public static void RegisterNameChanged(object Data, int Index, DataSelection DataType) {
-            ModbusRegisterRenamed?.Invoke(Data, Index, DataType);
+        public static void RegisterNameChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
+            if (Sender == null) { return; }
+            ModbusRegisterRenamed?.Invoke(Sender, Data, Index, DataType);
         }
-        public static void RegisterValueChanged(object Data, int Index, DataSelection DataType) {
-            ModbusReceived?.Invoke(Data, Index, DataType);
+        public static void RegisterValueChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
+           if (Sender == null) { return; }
+            ModbusReceived?.Invoke(Sender, Data, Index, DataType);
         }
         public static void SendModbusCommand(SerialManager? CurrentManager, DataSelection DataSet, string Command) {
             if (CurrentManager == null) { return; }

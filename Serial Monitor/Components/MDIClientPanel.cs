@@ -34,6 +34,10 @@ namespace Serial_Monitor.Components {
             this.SetBevel(false);
         }
 
+        public void LayoutMDI(MdiLayout InputLayout) {
+            _mdiForm.LayoutMdi(InputLayout);
+        }
+
         private Form _mdiForm = null;
         public Form MdiForm {
             get {

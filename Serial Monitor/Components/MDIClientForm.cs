@@ -26,35 +26,35 @@ namespace Serial_Monitor.Components {
             if (m.Msg != 0x5) {
                 base.WndProc(ref m);
             }
-
+            int ScaleGrip = DesignerSetup.ScaleInteger(5);
             try {
                 switch (m.Msg) {
                     case WM_NCHITTEST: {
                             base.WndProc(ref m);
                             var pt = new Point(m.LParam.ToInt32());
                             pt = this.PointToClient(pt);
-                            if (pt.X < 5 && pt.Y < 5) {
+                            if (pt.X < ScaleGrip && pt.Y < ScaleGrip) {
                                 m.Result = new IntPtr(HTTOPLEFT);
                             }
-                            else if (pt.X > this.Width - 5 && pt.Y < 5) {
+                            else if (pt.X > this.Width - ScaleGrip && pt.Y < ScaleGrip) {
                                 m.Result = new IntPtr(HTTOPRIGHT);
                             }
-                            else if (pt.Y < 5) {
+                            else if (pt.Y < ScaleGrip) {
                                 m.Result = new IntPtr(HTTOP);
                             }
-                            else if (pt.X < 5 && pt.Y > this.Height - 5) {
+                            else if (pt.X < ScaleGrip && pt.Y > this.Height - ScaleGrip) {
                                 m.Result = new IntPtr(HTBOTTOMLEFT);
                             }
-                            else if (pt.X > this.Width - 5 && pt.Y > this.Height - 5) {
+                            else if (pt.X > this.Width - ScaleGrip && pt.Y > this.Height - ScaleGrip) {
                                 m.Result = new IntPtr(HTBOTTOMRIGHT);
                             }
-                            else if (pt.Y > this.Height - 5) {
+                            else if (pt.Y > this.Height - ScaleGrip) {
                                 m.Result = new IntPtr(HTBOTTOM);
                             }
-                            else if (pt.X < 5) {
+                            else if (pt.X < ScaleGrip) {
                                 m.Result = new IntPtr(HTLEFT);
                             }
-                            else if (pt.X > this.Width - 5) {
+                            else if (pt.X > this.Width - ScaleGrip) {
                                 m.Result = new IntPtr(HTRIGHT);
                             }
                             else {
@@ -64,7 +64,10 @@ namespace Serial_Monitor.Components {
                                 if (m.Result == (IntPtr)HTCLIENT) {
                                     m.Result = (IntPtr)HTCAPTION;
                                 }
-                                CloseMarker_MouseInRegion = false;
+                                if (CloseMarker_MouseInRegion == true) {
+                                    CloseMarker_MouseInRegion = false;
+                                    Invalidate();
+                                }
                             }
 
                             break;
@@ -78,16 +81,26 @@ namespace Serial_Monitor.Components {
         }
         public MdiClientPanel MyMdiContainer { get; set; }
         public MdiClientForm() {
+            iD = Guid.NewGuid().ToString();
             labelFont = new Font(Font.FontFamily, 8);
             Activated += OnFormActivated;
             FormClosed += OnFormClosed;
 
         }
 
+
+
+        string iD = "";
+        [Browsable(false)]
+        public string ID {
+            get { return iD; }
+        }
         public event CloseButtonClickedHandler? CloseButtonClicked;
         public delegate void CloseButtonClickedHandler(object sender);
         void OnFormClosed(object? sender, FormClosedEventArgs e) {
             MyMdiContainer.ChildClosed(this);
+            Activated -= OnFormActivated;
+            FormClosed -= OnFormClosed;
         }
         private void OnFormActivated(object? sender, EventArgs e) {
             MyMdiContainer.ChildActivated(this);

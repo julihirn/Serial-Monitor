@@ -17,6 +17,13 @@ using System.Windows.Forms;
 namespace Serial_Monitor.Dialogs
 {
     public partial class InsertModbusSnapshot : Form, Interfaces.ITheme {
+        protected override CreateParams CreateParams {
+            get {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+                return handleParam;
+            }
+        }
         public InsertModbusSnapshot() {
             InitializeComponent();
             numtxtAddress.Height = cmbxDataSet.Height;

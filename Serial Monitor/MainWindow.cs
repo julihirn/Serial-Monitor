@@ -22,6 +22,13 @@ namespace Serial_Monitor
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object sender, string Data);
 
+        protected override CreateParams CreateParams {
+            get {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+                return handleParam;
+            }
+        }
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
             get { return currentManager; }
@@ -178,7 +185,7 @@ namespace Serial_Monitor
         }
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
-            this.SuspendLayout();
+           // this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             Classes.Theming.ThemeManager.ThemeControl(msMain);
@@ -211,7 +218,7 @@ namespace Serial_Monitor
 
             toolStripStatusLabel1.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
             toolStripStatusLabel3.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
-            this.ResumeLayout();
+            //this.ResumeLayout();
         }
         private void AddIcons() {
             DesignerSetup.SetImageSizes(RenderHandler.DPI());
@@ -295,6 +302,10 @@ namespace Serial_Monitor
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            cmChannels.Padding = DesignerSetup.ScalePadding(cmChannels.Padding);
+            cmPrograms.Padding = DesignerSetup.ScalePadding(cmPrograms.Padding);
+            cmStepEditor.Padding = DesignerSetup.ScalePadding(cmStepEditor.Padding);
+            cmStepPrg.Padding = DesignerSetup.ScalePadding(cmStepPrg.Padding);
             lstStepProgram.ScaleColumnWidths();
             //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
         }
@@ -2399,7 +2410,7 @@ namespace Serial_Monitor
                 }
             }
         }
-        private void New() {
+        public void New() {
             bool ProceedNew = true;
             if (DocumentEdited == true) {
 
@@ -2457,6 +2468,9 @@ namespace Serial_Monitor
             System.Diagnostics.Process.Start("explorer.exe", argument);
         }
         private void btnOpenStep_Click(object sender, EventArgs e) {
+            OpenFileViaDialog();
+        }
+        public void OpenFileViaDialog() {
             OpenFileDialog OpenDia = new OpenFileDialog();
             OpenDia.Filter = @"Serial Monitor Program (*.smp)|*.smp|Legacy Step File (*.cms)|*.cms";
             if (OpenDia.ShowDialog() == DialogResult.OK) {

@@ -36,7 +36,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (ParentManager != null) {
                     CheckPreviousRegisters(Index, typeData, ParentManager);
                 }
-                SystemManager.RegisterValueChanged(this, Index, typeData);
+                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
             }
         }
         string formattedValue = "0";
@@ -44,7 +44,7 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return formattedValue; }
             set {
                 formattedValue = value;
-                SystemManager.RegisterValueChanged(this, Index, typeData);
+                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
             }
         }
         string name = "";
@@ -78,7 +78,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     dataSize = ModbusEnums.DataSize.Bits16;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
             }
         }
         ModbusEnums.DataSize dataSize = ModbusEnums.DataSize.Bits16;
@@ -105,7 +105,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     dataSize = ModbusEnums.DataSize.Bits16;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
             }
         }
         bool signed = false;
@@ -125,7 +125,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     signed = value;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
             }
         }
         private static bool CheckAndChangeNeighbouringFormats(int Index, SerialManager? parentManager, ModbusEnums.DataSize Size, DataSelection Selection) {
@@ -215,7 +215,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (ParentManager != null) {
                     CheckPreviousRegisters(Index, typeData, ParentManager);
                 }
-                SystemManager.RegisterValueChanged(this, Index, typeData);
+                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
                 if ((AllowTransmit) && (parentManager.IsMaster)) {
                     SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
@@ -227,7 +227,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 regValue = (short)(0xFFFF & Input);
 
                 ModifyValue();
-                SystemManager.RegisterValueChanged(this, Index, typeData);
+                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
                 if ((AllowTransmit) && (parentManager.IsMaster)) {
                     SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
@@ -239,7 +239,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     SetData(Index + 3, 3, Input, typeData, parentManager, AllowTransmit);
                 }
                 regValue = (short)(0xFFFF & Input);
-                SystemManager.RegisterValueChanged(this, Index, typeData);
+                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
                 ModifyValue();
                 if ((AllowTransmit) && (parentManager.IsMaster)) {
                     SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
@@ -263,7 +263,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 if (MarkedIndex >= 0) {
                     parentManager.InputRegisters[MarkedIndex].ModifyValue();
-                    SystemManager.RegisterValueChanged(parentManager.InputRegisters[MarkedIndex], MarkedIndex, typeData);
+                    SystemManager.RegisterValueChanged(parentManager, parentManager.InputRegisters[MarkedIndex], MarkedIndex, typeData);
                 }
             }
             else if (typeData == DataSelection.ModbusDataHoldingRegisters) {
@@ -279,7 +279,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 if (MarkedIndex >= 0) {
                     parentManager.HoldingRegisters[MarkedIndex].ModifyValue();
-                    SystemManager.RegisterValueChanged(parentManager.HoldingRegisters[MarkedIndex], MarkedIndex, typeData);
+                    SystemManager.RegisterValueChanged(parentManager, parentManager.HoldingRegisters[MarkedIndex], MarkedIndex, typeData);
                 }
             }
         }

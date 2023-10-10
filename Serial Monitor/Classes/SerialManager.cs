@@ -25,9 +25,9 @@ namespace Serial_Monitor.Classes {
             //TrFramer = new Thread(Framer);
             //TrFramer.IsBackground = true;
             //TrFramer.Start();
-            for (int i = 0; i < short.MaxValue; i++) {
-                coils[i] = new ModbusCoil(i, DataSelection.ModbusDataCoils);
-                discreteInputs[i] = new ModbusCoil(i, DataSelection.ModbusDataDiscreteInputs);
+            for (int i = 0; i < Modbus.ModbusSupport.MaximumRegisters; i++) {
+                coils[i] = new ModbusCoil(i, DataSelection.ModbusDataCoils, this);
+                discreteInputs[i] = new ModbusCoil(i, DataSelection.ModbusDataDiscreteInputs, this);
                 inputRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataInputRegisters, this);
                 holdingRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataHoldingRegisters, this);
             }
@@ -204,22 +204,22 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue);//new ModbusCoil[short.MaxValue];
+        private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters);//new ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];
         [Browsable(false)]
         public Modbus.ModbusCoil[] Coils {
             get { return coils; }
         }
-        private Modbus.ModbusCoil[] discreteInputs = new Modbus.ModbusCoil[short.MaxValue];//new List<ModbusCoil>(short.MaxValue); //new bool[short.MaxValue];
+        private Modbus.ModbusCoil[] discreteInputs = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters); //new bool[Modbus.ModbusSupport.MaximumRegisters];
         [Browsable(false)]
         public Modbus.ModbusCoil[] DiscreteInputs {
             get { return discreteInputs; }
         }//ModbusRegister
-        private Modbus.ModbusRegister[] inputRegisters = new Modbus.ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
+        private Modbus.ModbusRegister[] inputRegisters = new Modbus.ModbusRegister[Modbus.ModbusSupport.MaximumRegisters]; //new short[Modbus.ModbusSupport.MaximumRegisters];
         [Browsable(false)]
         public Modbus.ModbusRegister[] InputRegisters {
             get { return inputRegisters; }
         }
-        private Modbus.ModbusRegister[] holdingRegisters = new Modbus.ModbusRegister[short.MaxValue]; //new short[short.MaxValue];
+        private Modbus.ModbusRegister[] holdingRegisters = new Modbus.ModbusRegister[Modbus.ModbusSupport.MaximumRegisters]; //new short[Modbus.ModbusSupport.MaximumRegisters];
         [Browsable(false)]
         public Modbus.ModbusRegister[] HoldingRegisters {
             get { return holdingRegisters; }
@@ -467,6 +467,9 @@ namespace Serial_Monitor.Classes {
                             case ModbusSupport.FunctionCode.ReadCoils:
                                 ModbusMasterReadCoils(Buffer, RXCurrentByte, false); break;
                             case ModbusSupport.FunctionCode.WriteSingleCoil:
+                                ModbusMasterWriteCoilReturn(Buffer, RXCurrentByte); break;
+                            case ModbusSupport.FunctionCode.WriteSingleHoldingRegister:
+                                ModbusMasterWriteRegisterReturn(Buffer, RXCurrentByte); break;
                             case ModbusSupport.FunctionCode.ReadDiscreteInputs:
                                 ModbusMasterReadCoils(Buffer, RXCurrentByte); break;
                             case ModbusSupport.FunctionCode.ReadHoldingRegisters:
@@ -567,6 +570,16 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        private void ModbusMasterWriteCoilReturn(byte[] Input, int Length) {
+            //ADR FUN ST1 STR2 LN1 LN2
+            if (Port != null) {
+                if (Port.IsOpen) {
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    int Val = (int)((Input[4] << 8) | Input[5]);
+                    coils[StartAddress].Value = Val == 0xFF00 ? true : false;
+                }
+            }
+        }
         private void ModbusSlaveWriteCoil(byte[] Input, int Length) {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port != null) {
@@ -634,6 +647,16 @@ namespace Serial_Monitor.Classes {
                     Temp[4] = Input[4];//Val1
                     Temp[5] = Input[5];//Val2
                     TransmitFrame(Temp);
+                }
+            }
+        }
+        private void ModbusMasterWriteRegisterReturn(byte[] Input, int Length) {
+            //ADR FUN ST1 STR2 LN1 LN2
+            if (Port != null) {
+                if (Port.IsOpen) {
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    int Val = (int)((Input[4] << 8) | Input[5]);
+                    holdingRegisters[StartAddress].Value = (short)Val;
                 }
             }
         }

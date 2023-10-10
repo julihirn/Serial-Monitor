@@ -41,6 +41,8 @@ namespace Serial_Monitor {
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
             lstMonitor.ScaleColumnWidths();
             lstSelector.ScaleColumnWidths();
+           
+            //pnlMonitor.Panel1.Width = DesignerSetup.ScaleInteger(pnlMonitor.Panel1.Width);
         }
         private void Monitor_FormClosing(object sender, FormClosingEventArgs e) {
             if (Attached != null) {

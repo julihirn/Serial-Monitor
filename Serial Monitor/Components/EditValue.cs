@@ -269,6 +269,7 @@ namespace Serial_Monitor.Components {
         }
         private void SetupModbusRegisterLinkage(string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             numericTextbox1.RangeLimited = true;
+            HasSent = false;
             if (LinkedControl != null) {
                 if (LinkedControl.GetType() == typeof(ModbusRegister)) {
                     ModbusRegister Reg = (ModbusRegister)LinkedControl;
@@ -484,24 +485,28 @@ namespace Serial_Monitor.Components {
             if (LinkedControl.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil coil = (ModbusCoil)LinkedControl;
                 coil.Name = Data.ToString() ?? "";
-                SystemManager.RegisterNameChanged(coil, Index, Selection);
+                SystemManager.RegisterNameChanged(coil.ParentManager, coil, Index, Selection);
             }
             else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
                 ModbusRegister coil = (ModbusRegister)LinkedControl;
                 coil.Name = Data.ToString() ?? "";
-                SystemManager.RegisterNameChanged(coil, Index, Selection);
+                SystemManager.RegisterNameChanged(coil.ParentManager, coil, Index, Selection);
             }
         }
+        bool HasSent = false;
         private void PushValueToControl(object Data) {
+            if (HasSent == true) { return; }
             if (UseLinked == false) { return; }
             if (LinkedControl == null) { return; }
             else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
                 ModbusRegister coil = (ModbusRegister)LinkedControl;
                 coil.PushValue(Formatters.StringToLong(Data.ToString() ?? "0", coil.Format, coil.Size, coil.Signed), false);
+                SystemManager.SendModbusCommand(coil.ParentManager, coil.ComponentType, "Write Register " + coil.Address + " = " + coil.Value.ToString());
                 //coil.Value = Data.ToString() ?? "";
                 //Needs attention!
                 //SystemManager.RegisterValueChanged(coil, Index, Selection);
             }
+            HasSent = true;
         }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e) {
 
