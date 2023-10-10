@@ -161,6 +161,7 @@ namespace Serial_Monitor.ToolWindows {
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusPropertyChanged -= SystemManager_ModbusPropertyChanged;
+        
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
             this.GotFocus -= ModbusRegister_GotFocus;
@@ -225,6 +226,7 @@ namespace Serial_Monitor.ToolWindows {
         private void ModbusRegister_CloseButtonClicked(object sender) {
             ModbusSupport.RemoveSnapshot(snapshot);
             this.Close();
+            ModbusSupport.SnapshotClosedApp();
         }
         private void EdVal_ArrowKeyPress(bool IsUp) {
             if (IsUp == false) {

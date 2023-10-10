@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSnapshot {
-       //public event SnapshotAppearanceChangedHandler? AppearanceChanged;
-       //public delegate void SnapshotAppearanceChangedHandler(object sender);
+        //public event SnapshotAppearanceChangedHandler? AppearanceChanged;
+        //public delegate void SnapshotAppearanceChangedHandler(object sender);
+    
 
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
         Classes.Enums.ModbusEnums.SnapshotSelectionType selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
+        
+     
+        
         public Classes.Enums.ModbusEnums.SnapshotSelectionType SelectionType {
             get { return selectType; }
         }
@@ -200,6 +204,7 @@ namespace Serial_Monitor.Classes.Modbus {
 
             }
         }
+
         public ModbusSnapshot(SerialManager serialManager, DataSelection selection, List<int> Indices) {
             InitaliseCustom(serialManager,selection, Indices);
         }

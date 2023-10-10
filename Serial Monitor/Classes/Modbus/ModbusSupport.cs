@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public static class ModbusSupport {
+        public static event SnapshotClosedHandler? SnapshotClosed;
+        public delegate void SnapshotClosedHandler();
+
         public const int MaximumRegisters = short.MaxValue;
 
         static bool applyOnChange = true;
@@ -20,6 +23,10 @@ namespace Serial_Monitor.Classes.Modbus {
             set {
                 applyOnChange = value;
             }
+        }
+
+        public static void SnapshotClosedApp() {
+            SnapshotClosed?.Invoke();
         }
 
         #region Coil/Register Support

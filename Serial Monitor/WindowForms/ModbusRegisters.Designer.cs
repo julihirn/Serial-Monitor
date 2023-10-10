@@ -138,7 +138,7 @@
             this.navigator1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.navigator1.ShowAnimations = true;
             this.navigator1.SideShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.navigator1.Size = new System.Drawing.Size(150, 547);
+            this.navigator1.Size = new System.Drawing.Size(150, 549);
             this.navigator1.TabIndex = 2;
             this.navigator1.SelectedIndexChanged += new ODModules.Navigator.SelectedIndexChangedHandler(this.navigator1_SelectedIndexChanged);
             // 
@@ -302,7 +302,7 @@
             this.lstMonitor.ShowGrid = true;
             this.lstMonitor.ShowMarker = false;
             this.lstMonitor.ShowRowColors = true;
-            this.lstMonitor.Size = new System.Drawing.Size(1018, 547);
+            this.lstMonitor.Size = new System.Drawing.Size(1018, 549);
             this.lstMonitor.SpanColumn = -1;
             this.lstMonitor.TabIndex = 3;
             this.lstMonitor.UseLocalList = true;
@@ -358,7 +358,7 @@
             this.tsMain.ItemSelectedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tsMain.ItemSelectedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tsMain.ItemSelectedForeColor = System.Drawing.Color.WhiteSmoke;
-            this.tsMain.Location = new System.Drawing.Point(0, 46);
+            this.tsMain.Location = new System.Drawing.Point(0, 44);
             this.tsMain.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.tsMain.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.tsMain.MenuBorderColor = System.Drawing.Color.DimGray;
@@ -480,12 +480,12 @@
             this.tbDataPages.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tbDataPages.ForeColor = System.Drawing.Color.White;
             this.tbDataPages.ItemSize = new System.Drawing.Size(20, 20);
-            this.tbDataPages.Location = new System.Drawing.Point(0, 142);
+            this.tbDataPages.Location = new System.Drawing.Point(0, 140);
             this.tbDataPages.Margin = new System.Windows.Forms.Padding(0);
             this.tbDataPages.Multiline = true;
             this.tbDataPages.Name = "tbDataPages";
             this.tbDataPages.SelectedIndex = 0;
-            this.tbDataPages.Size = new System.Drawing.Size(1176, 575);
+            this.tbDataPages.Size = new System.Drawing.Size(1176, 577);
             this.tbDataPages.TabIndex = 5;
             // 
             // tpRegisters
@@ -496,7 +496,7 @@
             this.tpRegisters.Location = new System.Drawing.Point(4, 24);
             this.tpRegisters.Margin = new System.Windows.Forms.Padding(6);
             this.tpRegisters.Name = "tpRegisters";
-            this.tpRegisters.Size = new System.Drawing.Size(1168, 547);
+            this.tpRegisters.Size = new System.Drawing.Size(1168, 549);
             this.tpRegisters.TabIndex = 0;
             this.tpRegisters.Text = "Master View";
             this.tpRegisters.UseVisualStyleBackColor = true;
@@ -524,6 +524,7 @@
             this.mdiClient.Name = "mdiClient";
             this.mdiClient.Size = new System.Drawing.Size(1156, 535);
             this.mdiClient.TabIndex = 0;
+            this.mdiClient.TileWindows = false;
             this.mdiClient.OnChildActivated += new Serial_Monitor.Components.MdiClientPanel.ActivateHandler(this.mdiClient_OnChildActivated);
             // 
             // thDataPagesHeader
@@ -539,11 +540,11 @@
             this.thDataPagesHeader.CloseHoverColor = System.Drawing.Color.Brown;
             this.thDataPagesHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.thDataPagesHeader.ForeColor = System.Drawing.Color.White;
-            this.thDataPagesHeader.Location = new System.Drawing.Point(0, 84);
+            this.thDataPagesHeader.Location = new System.Drawing.Point(0, 82);
             this.thDataPagesHeader.Margin = new System.Windows.Forms.Padding(6);
             this.thDataPagesHeader.Name = "thDataPagesHeader";
             this.thDataPagesHeader.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.thDataPagesHeader.SelectedIndex = 1;
+            this.thDataPagesHeader.SelectedIndex = 0;
             this.thDataPagesHeader.ShowAddButton = false;
             this.thDataPagesHeader.ShowTabDividers = true;
             this.thDataPagesHeader.Size = new System.Drawing.Size(1176, 58);
@@ -592,7 +593,7 @@
             this.msMain.MenuSymbolColor = System.Drawing.Color.WhiteSmoke;
             this.msMain.Name = "msMain";
             this.msMain.Padding = new System.Windows.Forms.Padding(11, 4, 0, 4);
-            this.msMain.Size = new System.Drawing.Size(1176, 46);
+            this.msMain.Size = new System.Drawing.Size(1176, 44);
             this.msMain.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
             this.msMain.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
             this.msMain.TabIndex = 7;
@@ -615,7 +616,7 @@
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(71, 38);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(71, 36);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -730,7 +731,7 @@
             this.selectAllToolStripMenuItem});
             this.editToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(74, 38);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(74, 36);
             this.editToolStripMenuItem.Text = "&Edit";
             this.editToolStripMenuItem.Visible = false;
             // 
@@ -816,7 +817,7 @@
             this.btnTopMost});
             this.viewToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(85, 38);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(85, 36);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // viewCoilsToolStripMenuItem
@@ -932,7 +933,7 @@
             this.btnSelectionToSnapshot});
             this.modbusToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.modbusToolStripMenuItem.Name = "modbusToolStripMenuItem";
-            this.modbusToolStripMenuItem.Size = new System.Drawing.Size(122, 38);
+            this.modbusToolStripMenuItem.Size = new System.Drawing.Size(122, 36);
             this.modbusToolStripMenuItem.Text = "&Modbus";
             // 
             // writeCoilToolStripMenuItem
@@ -975,7 +976,7 @@
             this.btnModbusLockEditors.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnModbusLockEditors.Name = "btnModbusLockEditors";
             this.btnModbusLockEditors.Size = new System.Drawing.Size(430, 44);
-            this.btnModbusLockEditors.Text = "Lock Editors";
+            this.btnModbusLockEditors.Text = "Lock Editor";
             this.btnModbusLockEditors.Click += new System.EventHandler(this.btnModbusLockEditors_Click);
             // 
             // toolStripSeparator8
@@ -999,7 +1000,7 @@
             this.btnSigned});
             this.formatToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.formatToolStripMenuItem.Name = "formatToolStripMenuItem";
-            this.formatToolStripMenuItem.Size = new System.Drawing.Size(109, 38);
+            this.formatToolStripMenuItem.Size = new System.Drawing.Size(109, 36);
             this.formatToolStripMenuItem.Text = "&Format";
             // 
             // ddbDisplayFormat
@@ -1036,7 +1037,7 @@
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(89, 38);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(89, 36);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // customizeToolStripMenuItem
@@ -1063,29 +1064,31 @@
             this.windowManagerToolStripMenuItem});
             this.windowToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            this.windowToolStripMenuItem.Size = new System.Drawing.Size(121, 38);
+            this.windowToolStripMenuItem.Size = new System.Drawing.Size(121, 36);
             this.windowToolStripMenuItem.Text = "&Window";
             // 
             // tileHorizontalToolStripMenuItem
             // 
+            this.tileHorizontalToolStripMenuItem.Checked = true;
+            this.tileHorizontalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tileHorizontalToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(336, 44);
             this.tileHorizontalToolStripMenuItem.Text = "Tile Windows";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(356, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(333, 6);
             // 
             // windowManagerToolStripMenuItem
             // 
             this.windowManagerToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.windowManagerToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
-            this.windowManagerToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.windowManagerToolStripMenuItem.Size = new System.Drawing.Size(336, 44);
             this.windowManagerToolStripMenuItem.Text = "&Window Manager";
             this.windowManagerToolStripMenuItem.Click += new System.EventHandler(this.windowManagerToolStripMenuItem_Click);
             // 
