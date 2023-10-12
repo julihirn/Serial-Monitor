@@ -2809,7 +2809,9 @@ namespace Serial_Monitor
             ApplicationManager.OpenInternalApplicationOnce(Scope, true);
         }
 
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
 
+        }
     }
 
 

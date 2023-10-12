@@ -844,74 +844,77 @@ namespace Serial_Monitor.Classes {
             }
         }
         public void ModbusCommand(string Input) {
-            if (isMaster == false) { return; }
-            string Temp = Input.ToUpper().TrimStart(' ').TrimStart('\t');
-            int Unit = 1;
-            int Start = 0;
-            int Count = 1;
-            if (TestKeyword(ref Temp, "UNIT")) {
-                string StrAddress = ReadAndRemove(ref Temp);
+            try {
+                if (isMaster == false) { return; }
+                string Temp = Input.ToUpper().TrimStart(' ').TrimStart('\t');
+                int Unit = 1;
+                int Start = 0;
+                int Count = 1;
+                if (TestKeyword(ref Temp, "UNIT")) {
+                    string StrAddress = ReadAndRemove(ref Temp);
 
-                bool Success = int.TryParse(StrAddress, out Unit);
-                if (Success == false) { return; }
+                    bool Success = int.TryParse(StrAddress, out Unit);
+                    if (Success == false) { return; }
 
-            }
-            if (TestKeyword(ref Temp, "READ")) {
-                if (GetValue(ref Temp, "COILS", out Start)) {
-                    if (GetValue(ref Temp, "QTY", out Count)) {
-                        ModbusReadCoils(Unit, (short)Start, (short)Count);
-                    }
-                    else { ModbusReadCoils(Unit, (short)Start, (short)1); }
                 }
-                else if (GetValue(ref Temp, "DISCRETE", out Start)) {
-                    if (GetValue(ref Temp, "QTY", out Count)) {
-                        ModbusReadDiscreteInputs(Unit, (short)Start, (short)Count);
-                    }
-                    else { ModbusReadDiscreteInputs(Unit, (short)Start, (short)1); }
-                }
-                else if (GetValue(ref Temp, "REGISTERS", out Start)) {
-                    if (GetValue(ref Temp, "QTY", out Count)) {
-                        ModbusReadHoldingRegisters(Unit, (short)Start, (short)Count);
-                    }
-                    else { ModbusReadHoldingRegisters(Unit, (short)Start, (short)1); }
-                }
-                else if (GetValue(ref Temp, "INREGISTERS", out Start)) {
-                    if (GetValue(ref Temp, "QTY", out Count)) {
-                        ModbusReadInputRegisters(Unit, (short)Start, (short)Count);
-                    }
-                    else { ModbusReadInputRegisters(Unit, (short)Start, (short)1); }
-                }
-            }
-            else if (TestKeyword(ref Temp, "WRITE")) {
-                if (GetValue(ref Temp, "COIL", out Start, true)) {
-                    if (TestKeyword(ref Temp, "=")) {
-                        bool Tbool = false;
-                        if (Temp.Trim(' ') == "TRUE") {
-                            Tbool = true;
+                if (TestKeyword(ref Temp, "READ")) {
+                    if (GetValue(ref Temp, "COILS", out Start)) {
+                        if (GetValue(ref Temp, "QTY", out Count)) {
+                            ModbusReadCoils(Unit, (short)Start, (short)Count);
                         }
-                        else if (Temp.Trim(' ') == "T") {
-                            Tbool = true;
+                        else { ModbusReadCoils(Unit, (short)Start, (short)1); }
+                    }
+                    else if (GetValue(ref Temp, "DISCRETE", out Start)) {
+                        if (GetValue(ref Temp, "QTY", out Count)) {
+                            ModbusReadDiscreteInputs(Unit, (short)Start, (short)Count);
                         }
-                        else if (Temp.Trim(' ') == "1") {
-                            Tbool = true;
+                        else { ModbusReadDiscreteInputs(Unit, (short)Start, (short)1); }
+                    }
+                    else if (GetValue(ref Temp, "REGISTERS", out Start)) {
+                        if (GetValue(ref Temp, "QTY", out Count)) {
+                            ModbusReadHoldingRegisters(Unit, (short)Start, (short)Count);
                         }
-                        ModbusWriteCoil(Unit, (short)Start, Tbool);
+                        else { ModbusReadHoldingRegisters(Unit, (short)Start, (short)1); }
+                    }
+                    else if (GetValue(ref Temp, "INREGISTERS", out Start)) {
+                        if (GetValue(ref Temp, "QTY", out Count)) {
+                            ModbusReadInputRegisters(Unit, (short)Start, (short)Count);
+                        }
+                        else { ModbusReadInputRegisters(Unit, (short)Start, (short)1); }
                     }
                 }
-                else if (GetValue(ref Temp, "REGISTER", out Start, true)) {
-                    int Value = 0;
-                    if (GetValue(ref Temp, "=", out Value)) {
-                        ModbusWriteRegister(Unit, (short)Start, (short)Value);
+                else if (TestKeyword(ref Temp, "WRITE")) {
+                    if (GetValue(ref Temp, "COIL", out Start, true)) {
+                        if (TestKeyword(ref Temp, "=")) {
+                            bool Tbool = false;
+                            if (Temp.Trim(' ') == "TRUE") {
+                                Tbool = true;
+                            }
+                            else if (Temp.Trim(' ') == "T") {
+                                Tbool = true;
+                            }
+                            else if (Temp.Trim(' ') == "1") {
+                                Tbool = true;
+                            }
+                            ModbusWriteCoil(Unit, (short)Start, Tbool);
+                        }
                     }
-                    else { ModbusWriteRegister(Unit, (short)Start, (short)0); }
+                    else if (GetValue(ref Temp, "REGISTER", out Start, true)) {
+                        int Value = 0;
+                        if (GetValue(ref Temp, "=", out Value)) {
+                            ModbusWriteRegister(Unit, (short)Start, (short)Value);
+                        }
+                        else { ModbusWriteRegister(Unit, (short)Start, (short)0); }
+                    }
                 }
             }
+            catch { }
         }
         private bool GetValue(ref string Input, string Compare, out int Value, bool DelimitOnEquals = false) {
             if (TestKeyword(ref Input, Compare)) {
-                
+
                 if (DelimitOnEquals) {
-                    string StrAddress = ReadAndRemove(ref Input,'=').TrimStart(' ');
+                    string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
                     bool Success = int.TryParse(StrAddress, out Value);
                     if (Success == false) { return false; }
                 }

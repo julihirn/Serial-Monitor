@@ -84,7 +84,6 @@
             this.numericTextbox1.LabelForeColor = System.Drawing.Color.Gray;
             this.numericTextbox1.LabelText = "";
             this.numericTextbox1.Location = new System.Drawing.Point(0, 0);
-            this.numericTextbox1.Margin = new System.Windows.Forms.Padding(6);
             this.numericTextbox1.Marked = false;
             this.numericTextbox1.MarkedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox1.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -107,7 +106,7 @@
             this.numericTextbox1.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox1.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox1.ShowLabel = true;
-            this.numericTextbox1.Size = new System.Drawing.Size(494, 85);
+            this.numericTextbox1.Size = new System.Drawing.Size(266, 40);
             this.numericTextbox1.TabIndex = 2;
             this.numericTextbox1.Unit = "";
             this.numericTextbox1.UseFixedNumericPadding = false;
@@ -124,10 +123,9 @@
             this.flatComboBox1.Font = new System.Drawing.Font("Segoe UI", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.flatComboBox1.ForeColor = System.Drawing.Color.White;
             this.flatComboBox1.FormattingEnabled = true;
-            this.flatComboBox1.Location = new System.Drawing.Point(7, 66);
-            this.flatComboBox1.Margin = new System.Windows.Forms.Padding(6);
+            this.flatComboBox1.Location = new System.Drawing.Point(4, 31);
             this.flatComboBox1.Name = "flatComboBox1";
-            this.flatComboBox1.Size = new System.Drawing.Size(494, 39);
+            this.flatComboBox1.Size = new System.Drawing.Size(266, 23);
             this.flatComboBox1.TabIndex = 3;
             this.flatComboBox1.Visible = false;
             this.flatComboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.flatComboBox1_KeyDown);
@@ -140,9 +138,8 @@
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(494, 32);
+            this.textBox1.Size = new System.Drawing.Size(266, 16);
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
@@ -152,8 +149,7 @@
             // pnlDualText
             // 
             this.pnlDualText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDualText.Location = new System.Drawing.Point(7, 105);
-            this.pnlDualText.Margin = new System.Windows.Forms.Padding(6);
+            this.pnlDualText.Location = new System.Drawing.Point(4, 54);
             this.pnlDualText.Name = "pnlDualText";
             // 
             // pnlDualText.Panel1
@@ -163,10 +159,9 @@
             // pnlDualText.Panel2
             // 
             this.pnlDualText.Panel2.Controls.Add(this.textBox3);
-            this.pnlDualText.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlDualText.Size = new System.Drawing.Size(494, 62);
-            this.pnlDualText.SplitterDistance = 156;
-            this.pnlDualText.SplitterWidth = 7;
+            this.pnlDualText.Panel2.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.pnlDualText.Size = new System.Drawing.Size(266, 29);
+            this.pnlDualText.SplitterDistance = 84;
             this.pnlDualText.TabIndex = 6;
             this.pnlDualText.TabStop = false;
             this.pnlDualText.Visible = false;
@@ -179,10 +174,9 @@
             this.textBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox2.ForeColor = System.Drawing.Color.White;
             this.textBox2.Location = new System.Drawing.Point(0, 0);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(6);
             this.textBox2.Name = "textBox2";
             this.textBox2.PlaceholderText = "Name";
-            this.textBox2.Size = new System.Drawing.Size(156, 32);
+            this.textBox2.Size = new System.Drawing.Size(84, 16);
             this.textBox2.TabIndex = 0;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
@@ -193,11 +187,10 @@
             this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(6, 0);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(6);
+            this.textBox3.Location = new System.Drawing.Point(3, 0);
             this.textBox3.Name = "textBox3";
             this.textBox3.PlaceholderText = "Assignment/Expression";
-            this.textBox3.Size = new System.Drawing.Size(325, 32);
+            this.textBox3.Size = new System.Drawing.Size(175, 16);
             this.textBox3.TabIndex = 1;
             this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
             // 
@@ -205,10 +198,9 @@
             // 
             this.pnlText.Controls.Add(this.textBox1);
             this.pnlText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlText.Location = new System.Drawing.Point(7, 2);
-            this.pnlText.Margin = new System.Windows.Forms.Padding(6);
+            this.pnlText.Location = new System.Drawing.Point(4, 1);
             this.pnlText.Name = "pnlText";
-            this.pnlText.Size = new System.Drawing.Size(494, 64);
+            this.pnlText.Size = new System.Drawing.Size(266, 30);
             this.pnlText.TabIndex = 7;
             this.pnlText.Visible = false;
             // 
@@ -216,10 +208,9 @@
             // 
             this.pnlNumber.Controls.Add(this.numericTextbox1);
             this.pnlNumber.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlNumber.Location = new System.Drawing.Point(7, 167);
-            this.pnlNumber.Margin = new System.Windows.Forms.Padding(6);
+            this.pnlNumber.Location = new System.Drawing.Point(4, 83);
             this.pnlNumber.Name = "pnlNumber";
-            this.pnlNumber.Size = new System.Drawing.Size(494, 85);
+            this.pnlNumber.Size = new System.Drawing.Size(266, 40);
             this.pnlNumber.TabIndex = 8;
             this.pnlNumber.Visible = false;
             // 
@@ -228,10 +219,9 @@
             this.pnlPoint.Controls.Add(this.btnGrabPoint);
             this.pnlPoint.Controls.Add(this.spPnlPoint);
             this.pnlPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlPoint.Location = new System.Drawing.Point(7, 252);
-            this.pnlPoint.Margin = new System.Windows.Forms.Padding(6);
+            this.pnlPoint.Location = new System.Drawing.Point(4, 123);
             this.pnlPoint.Name = "pnlPoint";
-            this.pnlPoint.Size = new System.Drawing.Size(494, 49);
+            this.pnlPoint.Size = new System.Drawing.Size(266, 23);
             this.pnlPoint.TabIndex = 9;
             this.pnlPoint.Visible = false;
             // 
@@ -259,13 +249,12 @@
             this.btnGrabPoint.Checked = false;
             this.btnGrabPoint.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnGrabPoint.GroupMaximumChecked = 2;
-            this.btnGrabPoint.Location = new System.Drawing.Point(357, 0);
-            this.btnGrabPoint.Margin = new System.Windows.Forms.Padding(6);
+            this.btnGrabPoint.Location = new System.Drawing.Point(192, 0);
             this.btnGrabPoint.Name = "btnGrabPoint";
             this.btnGrabPoint.RadioButtonGroup = "";
             this.btnGrabPoint.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnGrabPoint.SecondaryText = "";
-            this.btnGrabPoint.Size = new System.Drawing.Size(137, 49);
+            this.btnGrabPoint.Size = new System.Drawing.Size(74, 23);
             this.btnGrabPoint.Style = ODModules.ButtonStyle.Square;
             this.btnGrabPoint.TabIndex = 8;
             this.btnGrabPoint.Text = "Get Point";
@@ -281,7 +270,6 @@
             this.spPnlPoint.Dock = System.Windows.Forms.DockStyle.Left;
             this.spPnlPoint.IsSplitterFixed = true;
             this.spPnlPoint.Location = new System.Drawing.Point(0, 0);
-            this.spPnlPoint.Margin = new System.Windows.Forms.Padding(6);
             this.spPnlPoint.Name = "spPnlPoint";
             // 
             // spPnlPoint.Panel1
@@ -293,10 +281,9 @@
             // 
             this.spPnlPoint.Panel2.Controls.Add(this.numericTextbox3);
             this.spPnlPoint.Panel2.Controls.Add(this.lblY);
-            this.spPnlPoint.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.spPnlPoint.Size = new System.Drawing.Size(245, 49);
-            this.spPnlPoint.SplitterDistance = 122;
-            this.spPnlPoint.SplitterWidth = 7;
+            this.spPnlPoint.Panel2.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.spPnlPoint.Size = new System.Drawing.Size(132, 23);
+            this.spPnlPoint.SplitterDistance = 65;
             this.spPnlPoint.TabIndex = 7;
             this.spPnlPoint.TabStop = false;
             // 
@@ -326,8 +313,7 @@
             this.numericTextbox2.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numericTextbox2.LabelForeColor = System.Drawing.Color.Gray;
             this.numericTextbox2.LabelText = "";
-            this.numericTextbox2.Location = new System.Drawing.Point(28, 0);
-            this.numericTextbox2.Margin = new System.Windows.Forms.Padding(6);
+            this.numericTextbox2.Location = new System.Drawing.Point(14, 0);
             this.numericTextbox2.Marked = false;
             this.numericTextbox2.MarkedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox2.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -350,7 +336,7 @@
             this.numericTextbox2.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox2.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox2.ShowLabel = true;
-            this.numericTextbox2.Size = new System.Drawing.Size(94, 49);
+            this.numericTextbox2.Size = new System.Drawing.Size(51, 23);
             this.numericTextbox2.TabIndex = 3;
             this.numericTextbox2.Unit = "";
             this.numericTextbox2.UseFixedNumericPadding = false;
@@ -362,9 +348,8 @@
             this.lblX.AutoSize = true;
             this.lblX.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblX.Location = new System.Drawing.Point(0, 0);
-            this.lblX.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblX.Name = "lblX";
-            this.lblX.Size = new System.Drawing.Size(28, 32);
+            this.lblX.Size = new System.Drawing.Size(14, 15);
             this.lblX.TabIndex = 4;
             this.lblX.Text = "X";
             // 
@@ -394,8 +379,7 @@
             this.numericTextbox3.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numericTextbox3.LabelForeColor = System.Drawing.Color.Gray;
             this.numericTextbox3.LabelText = "";
-            this.numericTextbox3.Location = new System.Drawing.Point(33, 0);
-            this.numericTextbox3.Margin = new System.Windows.Forms.Padding(6);
+            this.numericTextbox3.Location = new System.Drawing.Point(17, 0);
             this.numericTextbox3.Marked = false;
             this.numericTextbox3.MarkedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox3.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -418,7 +402,7 @@
             this.numericTextbox3.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox3.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox3.ShowLabel = true;
-            this.numericTextbox3.Size = new System.Drawing.Size(83, 49);
+            this.numericTextbox3.Size = new System.Drawing.Size(46, 23);
             this.numericTextbox3.TabIndex = 3;
             this.numericTextbox3.Unit = "";
             this.numericTextbox3.UseFixedNumericPadding = false;
@@ -429,16 +413,15 @@
             // 
             this.lblY.AutoSize = true;
             this.lblY.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblY.Location = new System.Drawing.Point(6, 0);
-            this.lblY.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblY.Location = new System.Drawing.Point(3, 0);
             this.lblY.Name = "lblY";
-            this.lblY.Size = new System.Drawing.Size(27, 32);
+            this.lblY.Size = new System.Drawing.Size(14, 15);
             this.lblY.TabIndex = 5;
             this.lblY.Text = "Y";
             // 
             // EditValue
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnlPoint);
             this.Controls.Add(this.pnlNumber);
@@ -446,10 +429,9 @@
             this.Controls.Add(this.flatComboBox1);
             this.Controls.Add(this.pnlText);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "EditValue";
-            this.Padding = new System.Windows.Forms.Padding(7, 2, 2, 2);
-            this.Size = new System.Drawing.Size(503, 333);
+            this.Padding = new System.Windows.Forms.Padding(4, 1, 1, 1);
+            this.Size = new System.Drawing.Size(271, 156);
             this.Load += new System.EventHandler(this.EditValue_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditValue_KeyDown);
             this.Leave += new System.EventHandler(this.EditValue_Leave);

@@ -22,11 +22,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\EditValue-C3M_MEDIA2.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Components\EditValue-C3M_MEDIA2.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="SerialMonitor.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ODModules" Version="2.0.8" />
+    <PackageReference Include="ODModules" Version="2.0.9" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.8.0" />
