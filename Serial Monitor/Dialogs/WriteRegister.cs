@@ -31,6 +31,9 @@ namespace Serial_Monitor.Dialogs {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
+            numtxtAddress.Height = cmbxDataSet.Height;
+            numtxtUnit.Height = cmbxDataSet.Height;
+            numtxtValue.Height = cmbxDataSet.Height;
         }
         public void ApplyTheme() {
             RecolorAll();
@@ -65,7 +68,7 @@ namespace Serial_Monitor.Dialogs {
             if (manager.IsMaster == false) { return; }
             string Query = "UNIT " + numtxtUnit.Value.ToString() + " ";
             Query += "WRITE REGISTER " + numtxtAddress.Value.ToString();
-            Query += " = " + numtxtAddress.Value.ToString();
+            Query += " = " + numtxtValue.Value.ToString();
             SystemManager.SendModbusCommand(manager, DataSelection.ModbusDataHoldingRegisters, Query);
         }
 

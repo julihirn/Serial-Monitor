@@ -127,7 +127,7 @@ namespace Serial_Monitor {
                                 btnMenuModbusMaster.Enabled = true;
                                 btnMenuModbusMaster.Checked = false;
                                 SerialManager? Man = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot.Manager;
-                                if (Man  != null) {
+                                if (Man != null) {
                                     btnMenuModbusMaster.Checked = Man.IsMaster;
                                 }
                                 else {
@@ -167,10 +167,16 @@ namespace Serial_Monitor {
             }
             else {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        if (((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot.Selection > DataSelection.ModbusDataDiscreteInputs) {
-                            ddbDisplayFormat.Enabled = true;
-                            ddpDataSize.Enabled = true;
+                    if (SnapshotCurrentIndex >= 0) {
+                        if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                            if (((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot.Selection > DataSelection.ModbusDataDiscreteInputs) {
+                                ddbDisplayFormat.Enabled = true;
+                                ddpDataSize.Enabled = true;
+                            }
+                            else {
+                                ddbDisplayFormat.Enabled = false;
+                                ddpDataSize.Enabled = false;
+                            }
                         }
                         else {
                             ddbDisplayFormat.Enabled = false;
@@ -181,6 +187,7 @@ namespace Serial_Monitor {
                         ddbDisplayFormat.Enabled = false;
                         ddpDataSize.Enabled = false;
                     }
+
                 }
                 catch {
                     ddbDisplayFormat.Enabled = false;
@@ -237,6 +244,8 @@ namespace Serial_Monitor {
             navigator1.Invalidate();
             try {
                 CurrentManager = SystemManager.SerialManagers[0];
+                navigator1.SelectedItem = 0;
+                CurrentEditorView = currentEditorView;
             }
             catch { }
             if (DesignerSetup.IsWindows10OrGreater() == true) {

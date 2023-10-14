@@ -504,7 +504,7 @@ namespace Serial_Monitor.Components {
                 SystemManager.SendModbusCommand(coil.ParentManager, coil.ComponentType, "Write Register " + coil.Address + " = " + coil.Value.ToString());
                 //coil.Value = Data.ToString() ?? "";
                 //Needs attention!
-                //SystemManager.RegisterValueChanged(coil, Index, Selection);
+                SystemManager.RegisterValueChanged(coil.ParentManager, coil.FormattedValue, coil.Address, Selection);
             }
             HasSent = true;
         }

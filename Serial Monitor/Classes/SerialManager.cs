@@ -770,7 +770,7 @@ namespace Serial_Monitor.Classes {
             if ((Device < 1) || (Count > 0x7D)) {
                 return;
             }
-            byte[] Temp = new byte[5];
+            byte[] Temp = new byte[6];
             Temp[0] = (byte)Device;//Adr
             Temp[1] = (byte)ModbusSupport.FunctionCode.ReadInputRegisters;//Fun
             Temp[2] = (byte)(Address >> 8);//Str1

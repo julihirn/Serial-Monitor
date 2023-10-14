@@ -32,6 +32,8 @@ namespace Serial_Monitor.Dialogs {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
+            numtxtAddress.Height = cmbxDataSet.Height;
+            numtxtUnit.Height = cmbxDataSet.Height;
         }
         public void ApplyTheme() {
             RecolorAll();

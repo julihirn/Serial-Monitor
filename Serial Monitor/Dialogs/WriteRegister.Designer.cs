@@ -67,14 +67,15 @@
             this.lblpnlValue.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlValue.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlValue.LabelForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblpnlValue.Location = new System.Drawing.Point(10, 132);
+            this.lblpnlValue.Location = new System.Drawing.Point(19, 221);
+            this.lblpnlValue.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlValue.Name = "lblpnlValue";
             this.lblpnlValue.OverrideCollapseControl = false;
-            this.lblpnlValue.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.lblpnlValue.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
             this.lblpnlValue.PanelCollapsible = false;
             this.lblpnlValue.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlValue.ShowCloseButton = false;
-            this.lblpnlValue.Size = new System.Drawing.Size(264, 46);
+            this.lblpnlValue.Size = new System.Drawing.Size(489, 71);
             this.lblpnlValue.TabIndex = 13;
             this.lblpnlValue.Text = "Value";
             // 
@@ -101,7 +102,8 @@
             this.numtxtValue.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numtxtValue.LabelForeColor = System.Drawing.Color.Gray;
             this.numtxtValue.LabelText = "";
-            this.numtxtValue.Location = new System.Drawing.Point(5, 18);
+            this.numtxtValue.Location = new System.Drawing.Point(9, 37);
+            this.numtxtValue.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numtxtValue.Marked = false;
             this.numtxtValue.MarkedBackColor = System.Drawing.Color.Empty;
             this.numtxtValue.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -124,7 +126,7 @@
             this.numtxtValue.SelectedBackColor = System.Drawing.Color.Empty;
             this.numtxtValue.SelectedBorderColor = System.Drawing.Color.Beige;
             this.numtxtValue.ShowLabel = true;
-            this.numtxtValue.Size = new System.Drawing.Size(254, 23);
+            this.numtxtValue.Size = new System.Drawing.Size(471, 23);
             this.numtxtValue.TabIndex = 1;
             this.numtxtValue.Unit = "";
             this.numtxtValue.UseFixedNumericPadding = true;
@@ -151,14 +153,15 @@
             this.lblpnlRegisters.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlRegisters.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlRegisters.LabelForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblpnlRegisters.Location = new System.Drawing.Point(10, 10);
+            this.lblpnlRegisters.Location = new System.Drawing.Point(19, 21);
+            this.lblpnlRegisters.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlRegisters.Name = "lblpnlRegisters";
             this.lblpnlRegisters.OverrideCollapseControl = false;
-            this.lblpnlRegisters.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.lblpnlRegisters.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
             this.lblpnlRegisters.PanelCollapsible = false;
             this.lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlRegisters.ShowCloseButton = false;
-            this.lblpnlRegisters.Size = new System.Drawing.Size(264, 122);
+            this.lblpnlRegisters.Size = new System.Drawing.Size(489, 200);
             this.lblpnlRegisters.TabIndex = 10;
             this.lblpnlRegisters.Text = "Register Selection";
             // 
@@ -181,14 +184,15 @@
             this.lblpnlQuantity.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlQuantity.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlQuantity.LabelForeColor = System.Drawing.Color.Black;
-            this.lblpnlQuantity.Location = new System.Drawing.Point(5, 84);
+            this.lblpnlQuantity.Location = new System.Drawing.Point(9, 144);
+            this.lblpnlQuantity.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlQuantity.Name = "lblpnlQuantity";
             this.lblpnlQuantity.OverrideCollapseControl = false;
-            this.lblpnlQuantity.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.lblpnlQuantity.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.lblpnlQuantity.PanelCollapsible = false;
             this.lblpnlQuantity.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlQuantity.ShowCloseButton = false;
-            this.lblpnlQuantity.Size = new System.Drawing.Size(254, 33);
+            this.lblpnlQuantity.Size = new System.Drawing.Size(471, 45);
             this.lblpnlQuantity.TabIndex = 2;
             this.lblpnlQuantity.Text = "Address";
             // 
@@ -215,7 +219,8 @@
             this.numtxtAddress.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numtxtAddress.LabelForeColor = System.Drawing.Color.Gray;
             this.numtxtAddress.LabelText = "";
-            this.numtxtAddress.Location = new System.Drawing.Point(113, 5);
+            this.numtxtAddress.Location = new System.Drawing.Point(127, 11);
+            this.numtxtAddress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numtxtAddress.Marked = false;
             this.numtxtAddress.MarkedBackColor = System.Drawing.Color.Empty;
             this.numtxtAddress.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -238,7 +243,7 @@
             this.numtxtAddress.SelectedBackColor = System.Drawing.Color.Empty;
             this.numtxtAddress.SelectedBorderColor = System.Drawing.Color.Beige;
             this.numtxtAddress.ShowLabel = true;
-            this.numtxtAddress.Size = new System.Drawing.Size(136, 23);
+            this.numtxtAddress.Size = new System.Drawing.Size(335, 23);
             this.numtxtAddress.TabIndex = 0;
             this.numtxtAddress.Unit = "";
             this.numtxtAddress.UseFixedNumericPadding = true;
@@ -263,14 +268,15 @@
             this.lblpnlAddress.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlAddress.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlAddress.LabelForeColor = System.Drawing.Color.Black;
-            this.lblpnlAddress.Location = new System.Drawing.Point(5, 51);
+            this.lblpnlAddress.Location = new System.Drawing.Point(9, 99);
+            this.lblpnlAddress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlAddress.Name = "lblpnlAddress";
             this.lblpnlAddress.OverrideCollapseControl = false;
-            this.lblpnlAddress.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.lblpnlAddress.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.lblpnlAddress.PanelCollapsible = false;
             this.lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlAddress.ShowCloseButton = false;
-            this.lblpnlAddress.Size = new System.Drawing.Size(254, 33);
+            this.lblpnlAddress.Size = new System.Drawing.Size(471, 45);
             this.lblpnlAddress.TabIndex = 1;
             this.lblpnlAddress.Text = "Slave";
             // 
@@ -297,7 +303,8 @@
             this.numtxtUnit.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numtxtUnit.LabelForeColor = System.Drawing.Color.Gray;
             this.numtxtUnit.LabelText = "";
-            this.numtxtUnit.Location = new System.Drawing.Point(113, 5);
+            this.numtxtUnit.Location = new System.Drawing.Point(127, 11);
+            this.numtxtUnit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numtxtUnit.Marked = false;
             this.numtxtUnit.MarkedBackColor = System.Drawing.Color.Empty;
             this.numtxtUnit.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -320,7 +327,7 @@
             this.numtxtUnit.SelectedBackColor = System.Drawing.Color.Empty;
             this.numtxtUnit.SelectedBorderColor = System.Drawing.Color.Beige;
             this.numtxtUnit.ShowLabel = true;
-            this.numtxtUnit.Size = new System.Drawing.Size(136, 23);
+            this.numtxtUnit.Size = new System.Drawing.Size(335, 23);
             this.numtxtUnit.TabIndex = 0;
             this.numtxtUnit.Unit = "";
             this.numtxtUnit.UseFixedNumericPadding = true;
@@ -345,14 +352,15 @@
             this.labelPanel1.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel1.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel1.Location = new System.Drawing.Point(5, 18);
+            this.labelPanel1.Location = new System.Drawing.Point(9, 37);
+            this.labelPanel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel1.Name = "labelPanel1";
             this.labelPanel1.OverrideCollapseControl = false;
-            this.labelPanel1.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.labelPanel1.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.labelPanel1.PanelCollapsible = false;
             this.labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel1.ShowCloseButton = false;
-            this.labelPanel1.Size = new System.Drawing.Size(254, 33);
+            this.labelPanel1.Size = new System.Drawing.Size(471, 62);
             this.labelPanel1.TabIndex = 0;
             this.labelPanel1.Text = "Data Set";
             this.labelPanel1.Visible = false;
@@ -361,9 +369,10 @@
             // 
             this.cmbxDataSet.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbxDataSet.FormattingEnabled = true;
-            this.cmbxDataSet.Location = new System.Drawing.Point(113, 5);
+            this.cmbxDataSet.Location = new System.Drawing.Point(127, 11);
+            this.cmbxDataSet.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.cmbxDataSet.Name = "cmbxDataSet";
-            this.cmbxDataSet.Size = new System.Drawing.Size(136, 23);
+            this.cmbxDataSet.Size = new System.Drawing.Size(335, 40);
             this.cmbxDataSet.TabIndex = 0;
             // 
             // btnAccept
@@ -390,12 +399,13 @@
             this.btnAccept.BorderRadius = 5;
             this.btnAccept.Checked = false;
             this.btnAccept.GroupMaximumChecked = 2;
-            this.btnAccept.Location = new System.Drawing.Point(82, 220);
+            this.btnAccept.Location = new System.Drawing.Point(152, 469);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.RadioButtonGroup = "";
             this.btnAccept.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAccept.SecondaryText = "";
-            this.btnAccept.Size = new System.Drawing.Size(93, 28);
+            this.btnAccept.Size = new System.Drawing.Size(173, 60);
             this.btnAccept.Style = ODModules.ButtonStyle.Square;
             this.btnAccept.TabIndex = 11;
             this.btnAccept.Text = "Send";
@@ -428,12 +438,13 @@
             this.btnCancel.BorderRadius = 5;
             this.btnCancel.Checked = false;
             this.btnCancel.GroupMaximumChecked = 2;
-            this.btnCancel.Location = new System.Drawing.Point(181, 220);
+            this.btnCancel.Location = new System.Drawing.Point(336, 469);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.RadioButtonGroup = "";
             this.btnCancel.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCancel.SecondaryText = "";
-            this.btnCancel.Size = new System.Drawing.Size(93, 28);
+            this.btnCancel.Size = new System.Drawing.Size(173, 60);
             this.btnCancel.Style = ODModules.ButtonStyle.Square;
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
@@ -444,9 +455,9 @@
             // 
             // WriteRegister
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(527, 557);
             this.Controls.Add(this.lblpnlValue);
             this.Controls.Add(this.lblpnlRegisters);
             this.Controls.Add(this.btnAccept);
@@ -454,8 +465,9 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "WriteRegister";
-            this.Padding = new System.Windows.Forms.Padding(10);
+            this.Padding = new System.Windows.Forms.Padding(19, 21, 19, 21);
             this.ShowInTaskbar = false;
             this.Text = "Write Register";
             this.Load += new System.EventHandler(this.WriteRegister_Load);

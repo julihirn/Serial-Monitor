@@ -145,7 +145,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             for (int i = 1; i <= ItemsToCheck; i++) {
                 int NextIndex = Index + i;
-                if (NextIndex < short.MaxValue) {
+                if (NextIndex < ModbusSupport.MaximumRegisters) {
                     ModbusEnums.DataSize NextSize = GetDataSize(NextIndex, parentManager, Selection);
                     if (IsSizeAndDistanceInScope(NextSize, i, true) == true) {
                         ResetFormats(NextIndex, parentManager, Selection);
@@ -221,7 +221,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             else if (dataSize == ModbusEnums.DataSize.Bits32) {
-                if (Index + 1 < short.MaxValue) {
+                if (Index + 1 < ModbusSupport.MaximumRegisters) {
                     SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
                 }
                 regValue = (short)(0xFFFF & Input);
@@ -233,7 +233,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             else if (dataSize == ModbusEnums.DataSize.Bits64) {
-                if (Index + 3 < short.MaxValue) {
+                if (Index + 3 < ModbusSupport.MaximumRegisters) {
                     SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
                     SetData(Index + 2, 2, Input, typeData, parentManager, AllowTransmit);
                     SetData(Index + 3, 3, Input, typeData, parentManager, AllowTransmit);
@@ -294,7 +294,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Temp = (long)(ushort)regValue;
                 }
                 else {
-                    if (Index + 1 < short.MaxValue - 1) {
+                    if (Index + 1 < ModbusSupport.MaximumRegisters - 1) {
                         Temp = (long)(ushort)regValue;
                         Temp |= AppendData(Index + 1, 1, typeData, parentManager);
                     }
@@ -308,7 +308,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Temp = (long)(ushort)regValue;
                 }
                 else {
-                    if (Index + 3 < short.MaxValue - 3) {
+                    if (Index + 3 < ModbusSupport.MaximumRegisters - 3) {
                         Temp = (long)(ushort)regValue;
                         Temp |= AppendData(Index + 1, 1, typeData, parentManager);
                         Temp |= AppendData(Index + 2, 2, typeData, parentManager);
