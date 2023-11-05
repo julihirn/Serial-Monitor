@@ -202,8 +202,11 @@ namespace Serial_Monitor.Components {
         bool AllowEditChanges = false;
 
         private void Initalise(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
+            Step = StepExe;
             InitaliseWithType(Classes.ProgramManager.StepExeutableToDataType(StepExe), InputValue, ListCtrl, Item);
         }
+        bool IsPositionOffset = false;
+        StepEnumerations.StepExecutable Step = StepEnumerations.StepExecutable.NoOperation;
         private void InitaliseWithType(DataType StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             textBox1.AutoSize = false;
             textBox2.AutoSize = false;
@@ -248,6 +251,9 @@ namespace Serial_Monitor.Components {
                     AllowEditChanges = true;
                     break;
                 case DataType.CursorLocation:
+                    if (Step == StepEnumerations.StepExecutable.MousePosition) {
+                        IsPositionOffset = true;
+                    }
                     AssignDual(InputValue, ',', Type);
                     pnlPoint.Dock = DockStyle.Fill;
                     pnlPoint.Show();
@@ -322,7 +328,7 @@ namespace Serial_Monitor.Components {
                         if (InputValue.Contains('E')) {
                             InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
                         }
-                        
+
                     }
                     else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Char) {
 
@@ -500,8 +506,8 @@ namespace Serial_Monitor.Components {
             if (LinkedControl == null) { return; }
             else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
                 ModbusRegister coil = (ModbusRegister)LinkedControl;
-                coil.PushValue(Formatters.StringToLong(Data.ToString() ?? "0", coil.Format, coil.Size, coil.Signed), false);
-                SystemManager.SendModbusCommand(coil.ParentManager, coil.ComponentType, "Write Register " + coil.Address + " = " + coil.Value.ToString());
+                coil.PushValue(Formatters.StringToLong(Data.ToString() ?? "0", coil.Format, coil.Size, coil.Signed), true);
+                //SystemManager.SendModbusCommand(coil.ParentManager, coil.ComponentType, "Write Register " + coil.Address + " = " + coil.Value.ToString());
                 //coil.Value = Data.ToString() ?? "";
                 //Needs attention!
                 SystemManager.RegisterValueChanged(coil.ParentManager, coil.FormattedValue, coil.Address, Selection);
@@ -661,11 +667,19 @@ namespace Serial_Monitor.Components {
         private void btnGrabPoint_MouseUp(object sender, MouseEventArgs e) {
             MoveLock = false;
             Cursor.Current = Cursors.Default;
+            UseOffset = false;
         }
         private void btnGrabPoint_MouseMove(object sender, MouseEventArgs e) {
             if (MoveLock == true) {
-                string PointData = Cursor.Position.X.ToString() + "," + Cursor.Position.Y.ToString();
-                AssignDual(PointData, ',', Type);
+                if (UseOffset == false) {
+                    string PointData = Cursor.Position.X.ToString() + "," + Cursor.Position.Y.ToString();
+                    AssignDual(PointData, ',', Type);
+                }
+                else {
+                    Point Diff = new Point(Cursor.Position.X - SetPoint.X, Cursor.Position.Y - SetPoint.Y);
+                    string PointData = Diff.X.ToString() + "," + Diff.Y.ToString();
+                    AssignDual(PointData, ',', Type);
+                }
             }
         }
 
@@ -688,6 +702,15 @@ namespace Serial_Monitor.Components {
                 PushValue();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+        }
+        Point SetPoint = Point.Empty;
+        bool UseOffset = false;
+        private void btnGrabPoint_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == ' ') {
+                SetPoint = Cursor.Position;
+                UseOffset = true;
+                e.Handled = true;
             }
         }
     }

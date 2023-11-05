@@ -255,10 +255,12 @@ namespace Serial_Monitor {
 
             mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
+            EnableDisableDialogEditors();
         }
 
         private void SystemManager_ChannelPropertyChanged(SerialManager sender) {
             CurrentEditorView = currentEditorView;
+            EnableDisableDialogEditors();
         }
 
         private void AdjustUserInterface() {
@@ -508,7 +510,23 @@ namespace Serial_Monitor {
                 if ((SelectedIndex >= 0) && (SelectedIndex < SystemManager.SerialManagers.Count)) {
                     CurrentManager = SystemManager.SerialManagers[SelectedIndex];
                     LoadRegisters();
+                    EnableDisableDialogEditors();
                 }
+            }
+        }
+        private void EnableDisableDialogEditors() {
+            if (CurrentManager == null) {
+                writeCoilToolStripMenuItem.Enabled = false;
+                writeRegisterToolStripMenuItem.Enabled = false;
+                return;
+            }
+            if (CurrentManager.IsMaster == true) {
+                writeCoilToolStripMenuItem.Enabled = true;
+                writeRegisterToolStripMenuItem.Enabled = true;
+            }
+            else {
+                writeCoilToolStripMenuItem.Enabled = false;
+                writeRegisterToolStripMenuItem.Enabled = false;
             }
         }
         private void ShowHideColumns() {

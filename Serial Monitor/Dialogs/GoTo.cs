@@ -19,6 +19,9 @@ namespace Serial_Monitor.Dialogs {
         }
 
         private void GoTo_Load(object sender, EventArgs e) {
+            lblpnlAddress.InlineWidth = DesignerSetup.ScaleInteger(lblpnlAddress.InlineWidth);
+            lblpnlName.InlineWidth = DesignerSetup.ScaleInteger(lblpnlName.InlineWidth);
+            numtxtAddress.Height = textBox2.Height;
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }

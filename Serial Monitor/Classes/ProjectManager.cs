@@ -157,6 +157,13 @@ namespace Serial_Monitor.Classes {
                             }
                         }
                         Sw.WriteLine(StringHandler.AddTabs(2, "}"));
+                        if (Prg.Array.Count > 0) {
+                            Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Array={"));
+                            foreach (string val in Prg.Array) {
+                                Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString(val)));
+                            }
+                            Sw.WriteLine(StringHandler.AddTabs(2, "}"));
+                        }
                         Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                     }
                     Cnt++;
@@ -334,6 +341,12 @@ namespace Serial_Monitor.Classes {
                         List<string> Data = GetList(DocumentHandler.PARM[i].GetVariable("Data", false, DataType.STR));
                         for (int j = 0; j < Data.Count; j++) {
                             ProgramManager.Programs[CurrentProgramIndex].DecodeFileCommand(Data[j]);
+                        }
+                    }
+                    if (DocumentHandler.IsDefinedInParameter("Array", DocumentHandler.PARM[i])) {
+                        List<string> Data = GetList(DocumentHandler.PARM[i].GetVariable("Array", false, DataType.STR));
+                        for (int j = 0; j < Data.Count; j++) {
+                            ProgramManager.Programs[CurrentProgramIndex].Array.Add(Data[j]);
                         }
                     }
                     CurrentProgramIndex++;

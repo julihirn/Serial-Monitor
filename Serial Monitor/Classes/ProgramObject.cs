@@ -7,13 +7,23 @@ using System.Threading.Tasks;
 using Serial_Monitor.Classes.Step_Programs;
 using Handlers;
 using static Serial_Monitor.Classes.Step_Programs.StepEnumerations;
+using System.ComponentModel;
 
 namespace Serial_Monitor.Classes {
     public class ProgramObject {
         public ProgramObject(string Name) {
             this.name = Name;
+            iD = Guid.NewGuid().ToString();
         }
+
         public ProgramObject() {
+            iD = Guid.NewGuid().ToString();
+        }
+
+        string iD = "";
+        [Browsable(false)]
+        public string ID {
+            get { return iD; }
         }
         private int displayIndex = 0;
         public int DisplayIndex {
@@ -21,6 +31,10 @@ namespace Serial_Monitor.Classes {
             set {
                 displayIndex = value;
             }
+        }
+        private List<string> array = new List<string>();
+        public List<string> Array {
+            get { return array; }
         }
         private string name = "";
         public string Name {
@@ -98,6 +112,7 @@ namespace Serial_Monitor.Classes {
             return new VariableResult(Name);
         }
         public void Clear() {
+            array.Clear();
             variables.Clear();
             for (int i = program.Count - 1; i >= 0; i--) {
                 program[i].SubItems.Clear();

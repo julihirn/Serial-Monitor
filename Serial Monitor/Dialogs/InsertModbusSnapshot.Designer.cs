@@ -70,14 +70,15 @@
             this.lblpnlDisplayName.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlDisplayName.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlDisplayName.LabelForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblpnlDisplayName.Location = new System.Drawing.Point(10, 10);
+            this.lblpnlDisplayName.Location = new System.Drawing.Point(19, 21);
+            this.lblpnlDisplayName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlDisplayName.Name = "lblpnlDisplayName";
             this.lblpnlDisplayName.OverrideCollapseControl = false;
-            this.lblpnlDisplayName.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.lblpnlDisplayName.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
             this.lblpnlDisplayName.PanelCollapsible = false;
             this.lblpnlDisplayName.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlDisplayName.ShowCloseButton = false;
-            this.lblpnlDisplayName.Size = new System.Drawing.Size(323, 39);
+            this.lblpnlDisplayName.Size = new System.Drawing.Size(599, 80);
             this.lblpnlDisplayName.TabIndex = 1;
             this.lblpnlDisplayName.Text = "Display Name";
             // 
@@ -87,9 +88,10 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(5, 18);
+            this.textBox1.Location = new System.Drawing.Point(9, 37);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(313, 16);
+            this.textBox1.Size = new System.Drawing.Size(581, 32);
             this.textBox1.TabIndex = 0;
             // 
             // lblpnlRegisters
@@ -113,14 +115,15 @@
             this.lblpnlRegisters.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlRegisters.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlRegisters.LabelForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblpnlRegisters.Location = new System.Drawing.Point(10, 158);
+            this.lblpnlRegisters.Location = new System.Drawing.Point(19, 334);
+            this.lblpnlRegisters.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlRegisters.Name = "lblpnlRegisters";
             this.lblpnlRegisters.OverrideCollapseControl = false;
-            this.lblpnlRegisters.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.lblpnlRegisters.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
             this.lblpnlRegisters.PanelCollapsible = false;
             this.lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlRegisters.ShowCloseButton = false;
-            this.lblpnlRegisters.Size = new System.Drawing.Size(323, 122);
+            this.lblpnlRegisters.Size = new System.Drawing.Size(599, 200);
             this.lblpnlRegisters.TabIndex = 3;
             this.lblpnlRegisters.Text = "Register Selection";
             // 
@@ -143,14 +146,15 @@
             this.lblpnlQuantity.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlQuantity.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlQuantity.LabelForeColor = System.Drawing.Color.Black;
-            this.lblpnlQuantity.Location = new System.Drawing.Point(5, 84);
+            this.lblpnlQuantity.Location = new System.Drawing.Point(9, 144);
+            this.lblpnlQuantity.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlQuantity.Name = "lblpnlQuantity";
             this.lblpnlQuantity.OverrideCollapseControl = false;
-            this.lblpnlQuantity.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.lblpnlQuantity.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.lblpnlQuantity.PanelCollapsible = false;
             this.lblpnlQuantity.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlQuantity.ShowCloseButton = false;
-            this.lblpnlQuantity.Size = new System.Drawing.Size(313, 33);
+            this.lblpnlQuantity.Size = new System.Drawing.Size(581, 45);
             this.lblpnlQuantity.TabIndex = 2;
             this.lblpnlQuantity.Text = "Quantity";
             // 
@@ -177,7 +181,8 @@
             this.numtxtQuantity.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numtxtQuantity.LabelForeColor = System.Drawing.Color.Gray;
             this.numtxtQuantity.LabelText = "";
-            this.numtxtQuantity.Location = new System.Drawing.Point(113, 5);
+            this.numtxtQuantity.Location = new System.Drawing.Point(127, 11);
+            this.numtxtQuantity.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numtxtQuantity.Marked = false;
             this.numtxtQuantity.MarkedBackColor = System.Drawing.Color.Empty;
             this.numtxtQuantity.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -200,7 +205,7 @@
             this.numtxtQuantity.SelectedBackColor = System.Drawing.Color.Empty;
             this.numtxtQuantity.SelectedBorderColor = System.Drawing.Color.Beige;
             this.numtxtQuantity.ShowLabel = true;
-            this.numtxtQuantity.Size = new System.Drawing.Size(195, 23);
+            this.numtxtQuantity.Size = new System.Drawing.Size(445, 23);
             this.numtxtQuantity.TabIndex = 0;
             this.numtxtQuantity.Unit = "";
             this.numtxtQuantity.UseFixedNumericPadding = true;
@@ -225,14 +230,15 @@
             this.lblpnlAddress.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlAddress.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlAddress.LabelForeColor = System.Drawing.Color.Black;
-            this.lblpnlAddress.Location = new System.Drawing.Point(5, 51);
+            this.lblpnlAddress.Location = new System.Drawing.Point(9, 99);
+            this.lblpnlAddress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlAddress.Name = "lblpnlAddress";
             this.lblpnlAddress.OverrideCollapseControl = false;
-            this.lblpnlAddress.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.lblpnlAddress.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.lblpnlAddress.PanelCollapsible = false;
             this.lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlAddress.ShowCloseButton = false;
-            this.lblpnlAddress.Size = new System.Drawing.Size(313, 33);
+            this.lblpnlAddress.Size = new System.Drawing.Size(581, 45);
             this.lblpnlAddress.TabIndex = 1;
             this.lblpnlAddress.Text = "Address";
             // 
@@ -259,7 +265,8 @@
             this.numtxtAddress.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numtxtAddress.LabelForeColor = System.Drawing.Color.Gray;
             this.numtxtAddress.LabelText = "";
-            this.numtxtAddress.Location = new System.Drawing.Point(113, 5);
+            this.numtxtAddress.Location = new System.Drawing.Point(127, 11);
+            this.numtxtAddress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numtxtAddress.Marked = false;
             this.numtxtAddress.MarkedBackColor = System.Drawing.Color.Empty;
             this.numtxtAddress.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -282,7 +289,7 @@
             this.numtxtAddress.SelectedBackColor = System.Drawing.Color.Empty;
             this.numtxtAddress.SelectedBorderColor = System.Drawing.Color.Beige;
             this.numtxtAddress.ShowLabel = true;
-            this.numtxtAddress.Size = new System.Drawing.Size(195, 23);
+            this.numtxtAddress.Size = new System.Drawing.Size(445, 23);
             this.numtxtAddress.TabIndex = 0;
             this.numtxtAddress.Unit = "";
             this.numtxtAddress.UseFixedNumericPadding = true;
@@ -307,14 +314,15 @@
             this.labelPanel1.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPanel1.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel1.Location = new System.Drawing.Point(5, 18);
+            this.labelPanel1.Location = new System.Drawing.Point(9, 37);
+            this.labelPanel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.labelPanel1.Name = "labelPanel1";
             this.labelPanel1.OverrideCollapseControl = false;
-            this.labelPanel1.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.labelPanel1.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.labelPanel1.PanelCollapsible = false;
             this.labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.labelPanel1.ShowCloseButton = false;
-            this.labelPanel1.Size = new System.Drawing.Size(313, 33);
+            this.labelPanel1.Size = new System.Drawing.Size(581, 62);
             this.labelPanel1.TabIndex = 0;
             this.labelPanel1.Text = "Data Set";
             // 
@@ -322,9 +330,10 @@
             // 
             this.cmbxDataSet.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbxDataSet.FormattingEnabled = true;
-            this.cmbxDataSet.Location = new System.Drawing.Point(113, 5);
+            this.cmbxDataSet.Location = new System.Drawing.Point(127, 11);
+            this.cmbxDataSet.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.cmbxDataSet.Name = "cmbxDataSet";
-            this.cmbxDataSet.Size = new System.Drawing.Size(195, 23);
+            this.cmbxDataSet.Size = new System.Drawing.Size(445, 40);
             this.cmbxDataSet.TabIndex = 0;
             // 
             // btnCancel
@@ -351,12 +360,13 @@
             this.btnCancel.BorderRadius = 5;
             this.btnCancel.Checked = false;
             this.btnCancel.GroupMaximumChecked = 2;
-            this.btnCancel.Location = new System.Drawing.Point(235, 320);
+            this.btnCancel.Location = new System.Drawing.Point(436, 683);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.RadioButtonGroup = "";
             this.btnCancel.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCancel.SecondaryText = "";
-            this.btnCancel.Size = new System.Drawing.Size(93, 28);
+            this.btnCancel.Size = new System.Drawing.Size(173, 60);
             this.btnCancel.Style = ODModules.ButtonStyle.Square;
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
@@ -389,12 +399,13 @@
             this.btnAccept.BorderRadius = 5;
             this.btnAccept.Checked = false;
             this.btnAccept.GroupMaximumChecked = 2;
-            this.btnAccept.Location = new System.Drawing.Point(136, 320);
+            this.btnAccept.Location = new System.Drawing.Point(253, 683);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.RadioButtonGroup = "";
             this.btnAccept.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAccept.SecondaryText = "";
-            this.btnAccept.Size = new System.Drawing.Size(93, 28);
+            this.btnAccept.Size = new System.Drawing.Size(173, 60);
             this.btnAccept.Style = ODModules.ButtonStyle.Square;
             this.btnAccept.TabIndex = 4;
             this.btnAccept.Text = "Accept";
@@ -406,9 +417,10 @@
             // 
             // btnHiddenAccept
             // 
-            this.btnHiddenAccept.Location = new System.Drawing.Point(102, 328);
+            this.btnHiddenAccept.Location = new System.Drawing.Point(189, 700);
+            this.btnHiddenAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnHiddenAccept.Name = "btnHiddenAccept";
-            this.btnHiddenAccept.Size = new System.Drawing.Size(10, 10);
+            this.btnHiddenAccept.Size = new System.Drawing.Size(19, 21);
             this.btnHiddenAccept.TabIndex = 5;
             this.btnHiddenAccept.Text = "Acc";
             this.btnHiddenAccept.UseVisualStyleBackColor = true;
@@ -417,9 +429,10 @@
             // 
             // btnHiddenCancel
             // 
-            this.btnHiddenCancel.Location = new System.Drawing.Point(90, 328);
+            this.btnHiddenCancel.Location = new System.Drawing.Point(167, 700);
+            this.btnHiddenCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnHiddenCancel.Name = "btnHiddenCancel";
-            this.btnHiddenCancel.Size = new System.Drawing.Size(11, 10);
+            this.btnHiddenCancel.Size = new System.Drawing.Size(20, 21);
             this.btnHiddenCancel.TabIndex = 6;
             this.btnHiddenCancel.Text = "Can";
             this.btnHiddenCancel.UseVisualStyleBackColor = true;
@@ -444,14 +457,15 @@
             this.lblpnlChannel.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlChannel.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlChannel.LabelForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblpnlChannel.Location = new System.Drawing.Point(10, 49);
+            this.lblpnlChannel.Location = new System.Drawing.Point(19, 101);
+            this.lblpnlChannel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlChannel.Name = "lblpnlChannel";
             this.lblpnlChannel.OverrideCollapseControl = false;
-            this.lblpnlChannel.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.lblpnlChannel.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
             this.lblpnlChannel.PanelCollapsible = false;
             this.lblpnlChannel.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlChannel.ShowCloseButton = false;
-            this.lblpnlChannel.Size = new System.Drawing.Size(323, 109);
+            this.lblpnlChannel.Size = new System.Drawing.Size(599, 233);
             this.lblpnlChannel.TabIndex = 2;
             this.lblpnlChannel.Text = "Channel";
             // 
@@ -484,14 +498,15 @@
             this.btngridChannels.IconInline = false;
             this.btngridChannels.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             this.btngridChannels.ImageSize = new System.Drawing.Size(32, 32);
-            this.btngridChannels.Location = new System.Drawing.Point(5, 18);
+            this.btngridChannels.Location = new System.Drawing.Point(9, 37);
+            this.btngridChannels.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btngridChannels.Name = "btngridChannels";
-            this.btngridChannels.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.btngridChannels.Padding = new System.Windows.Forms.Padding(0, 11, 0, 0);
             this.btngridChannels.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btngridChannels.ScrollBarNorth = System.Drawing.Color.DarkTurquoise;
             this.btngridChannels.ScrollBarSouth = System.Drawing.Color.DeepSkyBlue;
             this.btngridChannels.SecondaryFont = null;
-            this.btngridChannels.Size = new System.Drawing.Size(313, 86);
+            this.btngridChannels.Size = new System.Drawing.Size(581, 185);
             this.btngridChannels.Style = ODModules.ButtonStyle.Square;
             this.btngridChannels.TabIndex = 0;
             this.btngridChannels.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -502,11 +517,11 @@
             // InsertModbusSnapshot
             // 
             this.AcceptButton = this.btnHiddenAccept;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.CancelButton = this.btnHiddenCancel;
-            this.ClientSize = new System.Drawing.Size(343, 361);
+            this.ClientSize = new System.Drawing.Size(637, 770);
             this.Controls.Add(this.lblpnlRegisters);
             this.Controls.Add(this.lblpnlChannel);
             this.Controls.Add(this.btnHiddenCancel);
@@ -518,8 +533,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "InsertModbusSnapshot";
-            this.Padding = new System.Windows.Forms.Padding(10);
+            this.Padding = new System.Windows.Forms.Padding(19, 21, 19, 21);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Insert Modbus Snapshot";

@@ -18,6 +18,11 @@ namespace Serial_Monitor.Classes {
     public static class ProgramManager {
         public static Thread? ThreadStepExecutable;
 
+        public static event ProgramArrayChangedHandler? ArrayChanged;
+        public delegate void ProgramArrayChangedHandler(int Index, bool ItemRemoved);
+
+        public static event ProgramRemovedHandler? ProgramRemoved;
+        public delegate void ProgramRemovedHandler(string ID);
         public static event ProgramListingChangedHandler? ProgramListingChanged;
         public delegate void ProgramListingChangedHandler();
         public static event ProgramNameChangedHandler? ProgramNameChanged;
@@ -80,7 +85,7 @@ namespace Serial_Monitor.Classes {
         }
         #region Program Transport
         public static void RunFromStart() {
-            
+
             ProgramManager.SetupProgram();
             ProgramManager.ProgramStep = 0;
             ProgramManager.ProgramState = StepEnumerations.StepState.Running;
@@ -316,12 +321,20 @@ namespace Serial_Monitor.Classes {
                     break;
                 case StepEnumerations.StepExecutable.DeclareVariable:
                     SetVariable(Arguments); break;
+                case StepEnumerations.StepExecutable.CopyText:
+                    CopyText(Arguments); break;
+                case StepEnumerations.StepExecutable.CopyVariable:
+                    CopyVariableValue(Arguments); break;
                 case StepEnumerations.StepExecutable.IncrementVariable:
                     IncrementDecrementVariable(Arguments, false); break;
                 case StepEnumerations.StepExecutable.DecrementVariable:
                     IncrementDecrementVariable(Arguments, true); break;
                 case StepEnumerations.StepExecutable.EvaluateExpression:
                     EvaluateExpression(Arguments); break;
+                case StepEnumerations.StepExecutable.RemoveFirstArrayItem:
+                    RemoveFirstArrayItem(); break;
+                case StepEnumerations.StepExecutable.PushArrayValue:
+                    PushArrayValue(Arguments); break;
                 case StepEnumerations.StepExecutable.If:
                     EvaluateConditional(Arguments); break;
                 case StepEnumerations.StepExecutable.GoTo:
@@ -333,6 +346,11 @@ namespace Serial_Monitor.Classes {
                 case StepEnumerations.StepExecutable.MousePosition:
                     //invoke(new MethodInvoker(delegate {
                     SetMousePosition(Arguments);
+                    // }));
+                    break;
+                case StepEnumerations.StepExecutable.MousePositionOffset:
+                    //invoke(new MethodInvoker(delegate {
+                    SetMousePositionOffset(Arguments);
                     // }));
                     break;
                 case StepEnumerations.StepExecutable.MouseLeftClick:
@@ -442,6 +460,16 @@ namespace Serial_Monitor.Classes {
             if (UseInput == true) { return Argument; }
             return "";
         }
+        public static void CopyVariableValue(string Argument) {
+            if (MainInstance != null) {
+                MainInstance.MethodCopying(GetVariable(Argument, false));
+            }
+        }
+        public static void CopyText(string Argument) {
+            if (MainInstance != null) {
+                MainInstance.MethodCopying(Argument);
+            }
+        }
         public static void SetVariable(string Arguments) {
             bool ExistsInVariables = false;
             if (!Arguments.Contains('=')) { return; }
@@ -461,13 +489,38 @@ namespace Serial_Monitor.Classes {
                 CurrentProgram.Variables.Add(LblLink);
             }
         }
+        public static void RemoveFirstArrayItem() {
+            if (CurrentProgram == null) { return; }
+            if (CurrentProgram.Array.Count > 1) {
+                CurrentProgram.Array.RemoveAt(0);
+                ArrayChanged?.Invoke(0, true);
+            }
+        }
+        public static void PushArrayValue(string Argument) {
+            if (CurrentProgram == null) { return; }
+            string VarName = Argument.Split('=')[0];
+            string VarExpression = StringHandler.SpiltAndCombineAfter(Argument, '=', 1).Value[1];
+            VariableLinkage? Assignment = GetVariableAssignment(VarName.Trim(' '));
+            if (Assignment == null) { return; }
+            List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression.Replace('=', (char)0x01));
+            List<VariableResult> VarResult = GetVariables(Vars);
+            bool StringExpression = IsStringExpression(VarResult);
+            if (StringExpression == false) {
+                int Temp = -1; int.TryParse(MathHandler.EvaluateExpression(VarExpression, ConvertVariables(VarResult)).ToString(), out Temp);
+                if ((Temp >= 0) && (Temp < CurrentProgram.Array.Count)) {
+                    if (CurrentProgram.Array.Count > 0) {
+                        Assignment.Value = CurrentProgram.Array[Temp];
+                    }
+                }
+            }
+        }
         public static void EvaluateExpression(string Argument) {
             if (CurrentProgram == null) { return; }
             string VarName = Argument.Split('=')[0];
             string VarExpression = StringHandler.SpiltAndCombineAfter(Argument, '=', 1).Value[1];
             VariableLinkage? Assignment = GetVariableAssignment(VarName.Trim(' '));
             if (Assignment == null) { return; }
-            List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression.Replace('=',(char)0x01));
+            List<string> Vars = Handlers.MathHandler.ExtractVariablesFromExpression(VarExpression.Replace('=', (char)0x01));
             List<VariableResult> VarResult = GetVariables(Vars);
             bool StringExpression = IsStringExpression(VarResult);
             if (StringExpression) {
@@ -724,6 +777,18 @@ namespace Serial_Monitor.Classes {
                 Cursor.Position = new Point(X, Y);
             }
         }
+        private static void SetMousePositionOffset(string Arguments) {
+            string Args = Arguments.Replace(" ", "");
+            if (Args.Contains(",")) {
+                string XStr = Args.Split(',')[0];
+                string YStr = Args.Split(',')[1];
+                int X = 0; int Y = 0;
+                int.TryParse(XStr, out X);
+                int.TryParse(YStr, out Y);
+                Point Temp = Cursor.Position;
+                Cursor.Position = new Point(Temp.X + X, Temp.Y + Y);
+            }
+        }
         #endregion
         #region Program Editing
         public static DataType StepExeutableToDataType(StepEnumerations.StepExecutable StepExe) {
@@ -731,6 +796,10 @@ namespace Serial_Monitor.Classes {
                 case StepEnumerations.StepExecutable.Delay:
                     return DataType.Number;
                 case StepEnumerations.StepExecutable.SendVariable:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.CopyVariable:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.CopyText:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.SendKeys:
                     return DataType.Text;
@@ -772,9 +841,13 @@ namespace Serial_Monitor.Classes {
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.EvaluateExpression:
                     return DataType.DualString;
+                case StepEnumerations.StepExecutable.PushArrayValue:
+                    return DataType.DualString;
                 case StepEnumerations.StepExecutable.If:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.MousePosition:
+                    return DataType.CursorLocation;
+                case StepEnumerations.StepExecutable.MousePositionOffset:
                     return DataType.CursorLocation;
                 default: return DataType.Null;
             }
@@ -852,5 +925,15 @@ namespace Serial_Monitor.Classes {
             RunFromStart(ProgramCommand, true);
         }
         #endregion
+        public static void RemoveProgram(int Index) {
+            ProgramRemoved?.Invoke(Programs[Index].ID);
+            Programs[Index].Clear();
+            Programs.RemoveAt(Index);
+        }
+        public static void RemoveProgram(ProgramObject Objct) {
+            ProgramRemoved?.Invoke(Objct.ID);
+            Objct.Clear();
+            Programs.Remove(Objct);
+        }
     }
 }

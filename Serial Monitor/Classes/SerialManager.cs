@@ -14,7 +14,8 @@ namespace Serial_Monitor.Classes {
     public class SerialManager {
         //Thread TrFramer;
         //bool FramerRunning = true;
-        Thread HeartbeatThread = null; // new Thread();
+        Thread? HeartbeatThread = null; // new Thread();
+        Thread? ModbusRTUFramerThread = null;
         public SerialManager() {
             iD = Guid.NewGuid().ToString();
             Port.DataReceived += Port_DataReceived;
@@ -22,6 +23,10 @@ namespace Serial_Monitor.Classes {
             HeartbeatThread = new Thread(HeartBeat);
             HeartbeatThread.IsBackground = true;
             HeartbeatThread.Start();
+
+            ModbusRTUFramerThread = new Thread(ModbusFramer);
+            ModbusRTUFramerThread.IsBackground = true;
+
             //TrFramer = new Thread(Framer);
             //TrFramer.IsBackground = true;
             //TrFramer.Start();
@@ -830,17 +835,39 @@ namespace Serial_Monitor.Classes {
 
             TransmitFrame(Temp);
         }
-        private void TransmitFrame(byte[] Data) {
+        private List<byte[]> ModbusTransmitBuffer = new List<byte[]>();
+        private void ModbusFramer() {
             if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
-
-                byte[] Output = new byte[Data.Length + 2];
-                ushort CRC = ModbusSupport.CalculateCRC(Data, (ushort)Data.Length, 0);
-                Array.Copy(Data, 0, Output, 0, Data.Length);
-                Output[Output.Length - 2] = (byte)(CRC & 0xFF);
-                Output[Output.Length - 1] = (byte)(CRC >> 8);
-                Port.Write(Output, 0, Output.Length);
-                bytesSent += (ulong)Output.Length;
-                DataReceived?.Invoke(this, true, PrintStream(Output));
+                lastTransmittedTime = DateTime.UtcNow;
+                if (ModbusTransmitBuffer.Count > 0) {
+                    byte[] Data = ModbusTransmitBuffer[0];
+                    TransmitFrame(Data);
+                    ModbusTransmitBuffer.RemoveAt(0);
+                }
+            }
+        }
+        private void TransmitFrame(byte[] Data) {
+            if (outputFormat == StreamOutputFormat.ModbusRTU) {
+                if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
+                    byte[] Output = new byte[Data.Length + 2];
+                    ushort CRC = ModbusSupport.CalculateCRC(Data, (ushort)Data.Length, 0);
+                    Array.Copy(Data, 0, Output, 0, Data.Length);
+                    Output[Output.Length - 2] = (byte)(CRC & 0xFF);
+                    Output[Output.Length - 1] = (byte)(CRC >> 8);
+                    lastTransmittedTime = DateTime.UtcNow;
+                    Port.Write(Output, 0, Output.Length);
+                    lastTransmittedTime = DateTime.UtcNow;
+                    bytesSent += (ulong)Output.Length;
+                    DataReceived?.Invoke(this, true, PrintStream(Output));
+                }
+                else {
+                    ModbusTransmitBuffer.Add(Data);
+                    if (ModbusRTUFramerThread != null) {
+                        if (ModbusRTUFramerThread.ThreadState != System.Threading.ThreadState.Running) {
+                            ModbusRTUFramerThread.Start();
+                        }
+                    }
+                }
             }
         }
         public void ModbusCommand(string Input) {

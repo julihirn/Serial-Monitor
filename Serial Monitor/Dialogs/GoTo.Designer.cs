@@ -57,14 +57,15 @@
             this.lblpnlName.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlName.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlName.LabelForeColor = System.Drawing.Color.Black;
-            this.lblpnlName.Location = new System.Drawing.Point(5, 38);
+            this.lblpnlName.Location = new System.Drawing.Point(9, 56);
+            this.lblpnlName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlName.Name = "lblpnlName";
             this.lblpnlName.OverrideCollapseControl = false;
-            this.lblpnlName.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.lblpnlName.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.lblpnlName.PanelCollapsible = false;
             this.lblpnlName.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlName.ShowCloseButton = false;
-            this.lblpnlName.Size = new System.Drawing.Size(292, 26);
+            this.lblpnlName.Size = new System.Drawing.Size(543, 54);
             this.lblpnlName.TabIndex = 7;
             this.lblpnlName.Text = "Go To Name";
             // 
@@ -74,9 +75,10 @@
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(113, 5);
+            this.textBox2.Location = new System.Drawing.Point(127, 11);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(174, 16);
+            this.textBox2.Size = new System.Drawing.Size(407, 32);
             this.textBox2.TabIndex = 2;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
@@ -101,14 +103,15 @@
             this.lblpnlAddress.LabelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.lblpnlAddress.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblpnlAddress.LabelForeColor = System.Drawing.Color.Black;
-            this.lblpnlAddress.Location = new System.Drawing.Point(5, 5);
+            this.lblpnlAddress.Location = new System.Drawing.Point(9, 11);
+            this.lblpnlAddress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblpnlAddress.Name = "lblpnlAddress";
             this.lblpnlAddress.OverrideCollapseControl = false;
-            this.lblpnlAddress.Padding = new System.Windows.Forms.Padding(113, 5, 5, 5);
+            this.lblpnlAddress.Padding = new System.Windows.Forms.Padding(127, 11, 9, 11);
             this.lblpnlAddress.PanelCollapsible = false;
             this.lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             this.lblpnlAddress.ShowCloseButton = false;
-            this.lblpnlAddress.Size = new System.Drawing.Size(292, 33);
+            this.lblpnlAddress.Size = new System.Drawing.Size(543, 45);
             this.lblpnlAddress.TabIndex = 6;
             this.lblpnlAddress.Text = "Go To Address";
             // 
@@ -135,7 +138,8 @@
             this.numtxtAddress.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numtxtAddress.LabelForeColor = System.Drawing.Color.Gray;
             this.numtxtAddress.LabelText = "";
-            this.numtxtAddress.Location = new System.Drawing.Point(113, 5);
+            this.numtxtAddress.Location = new System.Drawing.Point(127, 11);
+            this.numtxtAddress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numtxtAddress.Marked = false;
             this.numtxtAddress.MarkedBackColor = System.Drawing.Color.Empty;
             this.numtxtAddress.MarkedBorderColor = System.Drawing.Color.Beige;
@@ -158,7 +162,7 @@
             this.numtxtAddress.SelectedBackColor = System.Drawing.Color.Empty;
             this.numtxtAddress.SelectedBorderColor = System.Drawing.Color.Beige;
             this.numtxtAddress.ShowLabel = true;
-            this.numtxtAddress.Size = new System.Drawing.Size(174, 23);
+            this.numtxtAddress.Size = new System.Drawing.Size(407, 23);
             this.numtxtAddress.TabIndex = 0;
             this.numtxtAddress.Unit = "";
             this.numtxtAddress.UseFixedNumericPadding = true;
@@ -191,12 +195,13 @@
             this.btnAccept.BorderRadius = 5;
             this.btnAccept.Checked = false;
             this.btnAccept.GroupMaximumChecked = 2;
-            this.btnAccept.Location = new System.Drawing.Point(105, 77);
+            this.btnAccept.Location = new System.Drawing.Point(195, 164);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.RadioButtonGroup = "";
             this.btnAccept.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAccept.SecondaryText = "";
-            this.btnAccept.Size = new System.Drawing.Size(93, 28);
+            this.btnAccept.Size = new System.Drawing.Size(173, 60);
             this.btnAccept.Style = ODModules.ButtonStyle.Square;
             this.btnAccept.TabIndex = 8;
             this.btnAccept.Text = "Ok";
@@ -229,12 +234,13 @@
             this.btnCancel.BorderRadius = 5;
             this.btnCancel.Checked = false;
             this.btnCancel.GroupMaximumChecked = 2;
-            this.btnCancel.Location = new System.Drawing.Point(204, 77);
+            this.btnCancel.Location = new System.Drawing.Point(379, 164);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.RadioButtonGroup = "";
             this.btnCancel.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCancel.SecondaryText = "";
-            this.btnCancel.Size = new System.Drawing.Size(93, 28);
+            this.btnCancel.Size = new System.Drawing.Size(173, 60);
             this.btnCancel.Style = ODModules.ButtonStyle.Square;
             this.btnCancel.TabIndex = 9;
             this.btnCancel.Text = "Cancel";
@@ -245,9 +251,10 @@
             // 
             // btnHiddenCancel
             // 
-            this.btnHiddenCancel.Location = new System.Drawing.Point(8, 77);
+            this.btnHiddenCancel.Location = new System.Drawing.Point(15, 164);
+            this.btnHiddenCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnHiddenCancel.Name = "btnHiddenCancel";
-            this.btnHiddenCancel.Size = new System.Drawing.Size(11, 10);
+            this.btnHiddenCancel.Size = new System.Drawing.Size(20, 21);
             this.btnHiddenCancel.TabIndex = 11;
             this.btnHiddenCancel.Text = "Can";
             this.btnHiddenCancel.UseVisualStyleBackColor = true;
@@ -256,9 +263,10 @@
             // 
             // btnHiddenAccept
             // 
-            this.btnHiddenAccept.Location = new System.Drawing.Point(20, 77);
+            this.btnHiddenAccept.Location = new System.Drawing.Point(37, 164);
+            this.btnHiddenAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnHiddenAccept.Name = "btnHiddenAccept";
-            this.btnHiddenAccept.Size = new System.Drawing.Size(10, 10);
+            this.btnHiddenAccept.Size = new System.Drawing.Size(19, 21);
             this.btnHiddenAccept.TabIndex = 10;
             this.btnHiddenAccept.Text = "Acc";
             this.btnHiddenAccept.UseVisualStyleBackColor = true;
@@ -268,10 +276,10 @@
             // GoTo
             // 
             this.AcceptButton = this.btnHiddenAccept;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnHiddenCancel;
-            this.ClientSize = new System.Drawing.Size(302, 113);
+            this.ClientSize = new System.Drawing.Size(561, 241);
             this.Controls.Add(this.btnHiddenCancel);
             this.Controls.Add(this.btnHiddenAccept);
             this.Controls.Add(this.lblpnlName);
@@ -281,8 +289,9 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "GoTo";
-            this.Padding = new System.Windows.Forms.Padding(5);
+            this.Padding = new System.Windows.Forms.Padding(9, 11, 9, 11);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Go To";

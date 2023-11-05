@@ -133,7 +133,8 @@
             0,
             0});
             this.lstRegisters.LineMarkerIndex = 0;
-            this.lstRegisters.Location = new System.Drawing.Point(5, 18);
+            this.lstRegisters.Location = new System.Drawing.Point(9, 37);
+            this.lstRegisters.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lstRegisters.MarkerBorderColor = System.Drawing.Color.LimeGreen;
             this.lstRegisters.MarkerFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(50)))), ((int)(((byte)(205)))), ((int)(((byte)(50)))));
             this.lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -149,7 +150,7 @@
             this.lstRegisters.ShowGrid = true;
             this.lstRegisters.ShowMarker = false;
             this.lstRegisters.ShowRowColors = true;
-            this.lstRegisters.Size = new System.Drawing.Size(310, 227);
+            this.lstRegisters.Size = new System.Drawing.Size(576, 485);
             this.lstRegisters.SpanColumn = 0;
             this.lstRegisters.TabIndex = 0;
             this.lstRegisters.UseLocalList = false;
@@ -194,16 +195,17 @@
             // 
             // ModbusRegister
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 250);
+            this.ClientSize = new System.Drawing.Size(594, 533);
             this.CloseButtonCloses = false;
             this.Controls.Add(this.lstRegisters);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.MinimumSize = new System.Drawing.Size(250, 100);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.MinimumSize = new System.Drawing.Size(464, 213);
             this.Name = "ModbusRegister";
-            this.Padding = new System.Windows.Forms.Padding(5, 18, 5, 5);
+            this.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
             this.Text = "Modbus Register";
             this.CloseButtonClicked += new Serial_Monitor.Components.MdiClientForm.CloseButtonClickedHandler(this.ModbusRegister_CloseButtonClicked);
             this.Activated += new System.EventHandler(this.ModbusRegister_Activated);

@@ -38,13 +38,20 @@ namespace Serial_Monitor.Classes.Step_Programs {
             DeclareVariable =   0x050001,
             IncrementVariable = 0x050002,
             DecrementVariable = 0x050003,
-            EvaluateExpression = 0x05F001,
+            EvaluateExpression =    0x05F001,
+            PushArrayValue = 0x1005F001,
+            RemoveFirstArrayItem = 0x1005FC04,
+            CopyText = 0x1005FE01,
+            CopyVariable = 0x1005FF01,
             ///SelectChannel = 0x050400,
             //NewChannel = 0x050800,
             //DeleteChannel = 0x051000,
             //JumpOnPress = 0x060001,
             MousePosition =     0x090001,
             MouseLeftClick =    0x090002,
+            // MouseMiddleClick =    0x090003,
+            // MouseRightClick =    0x090004,
+            MousePositionOffset =    0x090005,
             SendKeys =          0x090010
             //ResetChannelCounter = 0x10050400
         }

@@ -16,8 +16,7 @@ using Serial_Monitor.WindowForms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 using Serial_Monitor.Classes.Structures;
 
-namespace Serial_Monitor
-{
+namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object sender, string Data);
@@ -185,7 +184,7 @@ namespace Serial_Monitor
         }
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
-           // this.SuspendLayout();
+            // this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             Classes.Theming.ThemeManager.ThemeControl(msMain);
@@ -1466,6 +1465,24 @@ namespace Serial_Monitor
         }
         #endregion
         #region Program Settings
+        private void variablesToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (lstStepProgram.Tag == null) { return; }
+            if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
+                if (ApplicationManager.IsInternalApplicationOpen("Variables")) {
+                    Form? Temp = ApplicationManager.GetFormByName("Variables");
+                    if (Temp != null) {
+                        if (Temp.GetType() == typeof(ToolWindows.Variables)) {
+                            ((ToolWindows.Variables)Temp).SelectedProgram = (ProgramObject)lstStepProgram.Tag;
+                        }
+                    }
+                }
+                else {
+                    ToolWindows.Variables PrgVars = new ToolWindows.Variables();
+                    ApplicationManager.OpenInternalApplicationOnce(PrgVars);
+                    PrgVars.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
+                }
+            }
+        }
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e) {
             if (lstStepProgram.Tag == null) { return; }
             if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
@@ -2067,6 +2084,12 @@ namespace Serial_Monitor
 
         #endregion
         #region Program
+        public void MethodCopying(string Input) {
+            if (Input.Length <= 0) { return; }
+            this.BeginInvoke(new MethodInvoker(delegate {
+               Clipboard.SetText(Input);
+            }));
+        }
         public void MethodSetRunText(string Input) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 this.btnRun.Text = Input;
@@ -2535,8 +2558,7 @@ namespace Serial_Monitor
         private void ClearPrograms() {
             thPrograms.ClearTabs();
             for (int i = ProgramManager.Programs.Count - 1; i >= 0; i--) {
-                ProgramManager.Programs[i].Clear();
-                ProgramManager.Programs.RemoveAt(i);
+                ProgramManager.RemoveProgram(i);
             }
         }
         private void CleanProjectData() {
@@ -2614,8 +2636,8 @@ namespace Serial_Monitor
                     ChangeEditingProgram = true;
                 }
                 try {
-                    ProgramManager.Programs.Remove(PrgObj);
                     thPrograms.Tabs.RemoveAt(Index);
+                    ProgramManager.RemoveProgram(PrgObj);
                 }
                 catch { }
             }
@@ -2812,6 +2834,8 @@ namespace Serial_Monitor
         private void resetToolStripMenuItem_Click(object sender, EventArgs e) {
 
         }
+
+
     }
 
 
