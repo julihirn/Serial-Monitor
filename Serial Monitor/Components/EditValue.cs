@@ -110,6 +110,7 @@ namespace Serial_Monitor.Components {
             BindParentEvents();
             this.Focus();
             Initalise(StepExe, InputValue, ListCtrl, Item);
+            ApplyTheme();
         }
         public EditValue(string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Column, int Index, object? Parameter, object LinkedObject, Rectangle ObjectBounds, Rectangle ParentBounds, DataSelection Dsel = DataSelection.ModbusDataCoils) {
             InitializeComponent();
@@ -128,6 +129,7 @@ namespace Serial_Monitor.Components {
             this.Location = ObjectBounds.Location;
             this.Focus();
             Initalise(StepEnumerations.StepExecutable.Label, InputValue, ListCtrl, Item);
+            ApplyTheme();
         }
         public EditValue(string InputValue, ODModules.ListControl ListCtrl, ListItem Item, int Column, int Index, object LinkedObject, Rectangle ObjectBounds, Rectangle ParentBounds, DataSelection Dsel = DataSelection.ModbusDataCoils) {
             InitializeComponent();
@@ -146,6 +148,7 @@ namespace Serial_Monitor.Components {
             this.Location = ObjectBounds.Location;
             this.Focus();
             InitaliseWithType(DataType.ModbusCustom, InputValue, ListCtrl, Item);
+            ApplyTheme();
         }
         private void BindParentEvents() {
             if (lstControl == null) { return; }
@@ -267,7 +270,13 @@ namespace Serial_Monitor.Components {
                 case DataType.ModbusCustom:
                     numericTextbox1.NumberTextAlign = NumericTextbox.TextAlign.Right;
                     SetupModbusRegisterLinkage(InputValue, ListCtrl, Item);
-
+                
+                    break;
+                case DataType.WaitUntilRX:
+                    AssignWaitUnitRX(InputValue);
+                    pnlWaitUntilReceived.Dock = DockStyle.Fill;
+                    pnlWaitUntilReceived.Show();
+                    AllowEditChanges = true;
                     break;
                 default:
                     break;
@@ -372,6 +381,17 @@ namespace Serial_Monitor.Components {
                 }
             }
         }
+        private void AssignWaitUnitRX(string Value) {
+            STR_MVSSF Arguments = StringHandler.SpiltAndCombineAfter(Value, ',', 3);
+            if (Arguments.Count < 4) { return; }
+            string Channel = ProgramManager.StripAwayTag("Channel = ", Arguments.Value[0]);
+            string TimeOut = ProgramManager.StripAwayTag("TimeOut = ", Arguments.Value[1]);
+            string Contains = Arguments.Value[2];
+            string ValueExpress = ProgramManager.StripAwayTag("Value = ", Arguments.Value[3]);
+            textBox4.Text = Channel;
+            textBox5.Text = ValueExpress;
+            numericTextbox4.Value = TimeOut;
+        }
         private void EditValue_Load(object sender, EventArgs e) {
             ApplyTheme();
         }
@@ -381,12 +401,22 @@ namespace Serial_Monitor.Components {
             textBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox2.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox3.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox4.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox5.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             lblX.BackColor = Properties.Settings.Default.THM_COL_Editor;
             lblX.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
             lblY.BackColor = Properties.Settings.Default.THM_COL_Editor;
             lblY.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
 
+            lblChannel.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lblChannel.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
+
+            lblTimeOut.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lblTimeOut.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
+
+            lblWaitFor.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            lblWaitFor.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
 
             numericTextbox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             numericTextbox1.BorderColor = Color.Transparent;
@@ -403,10 +433,17 @@ namespace Serial_Monitor.Components {
             numericTextbox3.SelectedBorderColor = Color.Transparent;
             numericTextbox3.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
+            numericTextbox4.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            numericTextbox4.BorderColor = Color.Transparent;
+            numericTextbox4.SelectedBorderColor = Color.Transparent;
+            numericTextbox4.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
             this.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox3.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            textBox4.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            textBox5.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
             flatComboBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             flatComboBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -419,6 +456,14 @@ namespace Serial_Monitor.Components {
             pnlDualText.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
             pnlDualText.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             pnlDualText.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            pnlWaitUntilReceived.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            pnlWaitUntilReceived.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            pnlWaitUntilReceived.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            pnlSubWaitUnitRX.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            pnlSubWaitUnitRX.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            pnlSubWaitUnitRX.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             btnGrabPoint.BackColorNorth = Properties.Settings.Default.THM_COL_SelectedColor;
             btnGrabPoint.BackColorSouth = Properties.Settings.Default.THM_COL_SelectedColor;
@@ -442,6 +487,7 @@ namespace Serial_Monitor.Components {
             if (AllowEditChanges == false) { return; }
             switch (Type) {
                 case DataType.Text:
+                    TempString1 = textBox1.Text;
                     ListItem[Column].Text = TempString1;
                     PushNameToControl(TempString1);
                     textBox1.Show();
@@ -469,7 +515,9 @@ namespace Serial_Monitor.Components {
                     //ListItem[Column].Text = flatComboBox1.Text;
                     PushValueToControl(numericTextbox1.Value.ToString() ?? "0");
                     break;
-
+                case DataType.WaitUntilRX:
+                    ListItem[Column].Text = "Channel = " + textBox4.Text + ",TimeOut = " + numericTextbox4.Value.ToString() + ",Contains,Value = " + textBox5.Text;
+                    break;
                 default:
                     break;
             }

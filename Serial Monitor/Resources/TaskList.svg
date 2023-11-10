@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-yellow{fill: #996f00; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightTaskList</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M12.5,3.5v11H2.5V3.5Z" />
+      <path class="light-defaultgrey" d="M12.5,3H2.5L2,3.5v11l.5.5h10l.5-.5V3.5ZM12,14H3V4h9Z" />
+    </g>
+    <path class="light-defaultgrey" d="M9.5,2a2,2,0,0,0-4,0H4V4h7V2Zm-2-1a1,1,0,1,1-1,1A1,1,0,0,1,7.5,1Z" />
+    <path class="light-yellow" d="M11,6V7H4V6ZM4,9h7V8H4Zm0,2h7V10H4Z" />
+  </g>
+</svg>

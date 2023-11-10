@@ -17,7 +17,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Serial_Monitor {
-    public partial class Keypad : Form, Interfaces.ITheme {
+    public partial class Keypad : Form, Interfaces.ITheme, Interfaces.Application.IGenerics {
         public Keypad() {
             InitializeComponent();
             if (DesignerSetup.IsWindows10OrGreater() == true) {
@@ -77,7 +77,7 @@ namespace Serial_Monitor {
                     ResumeLayout();
                 }
                 kpCommands.MarkedIndex = Index;
-               propertyGrid1.SelectedObject = btnCommand;
+                propertyGrid1.SelectedObject = btnCommand;
                 kpCommands.Invalidate();
             }
         }
@@ -91,6 +91,8 @@ namespace Serial_Monitor {
             kpCommands.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
             kpCommands.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
             kpCommands.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            Classes.Theming.ThemeManager.ThemeControl(msMain);
 
             //kpCommands.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
             //kpCommands.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
@@ -164,6 +166,16 @@ namespace Serial_Monitor {
         }
         private void Keypad_FormClosed(object sender, FormClosedEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+
+        private void topMostToolStripMenuItem_Click(object sender, EventArgs e) {
+            ProjectManager.KeypadTopMost = !ProjectManager.KeypadTopMost;
+        }
+        bool TopMostState = false;
+        public void SetTopMost(bool State) {
+            TopMostState = State;
+            topMostToolStripMenuItem.Checked = TopMostState;
+            this.TopMost = State;
         }
     }
 }

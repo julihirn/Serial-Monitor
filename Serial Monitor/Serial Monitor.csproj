@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
-    <PackageReference Include="ODModules" Version="2.0.9" />
+    <PackageReference Include="ODModules" Version="2.0.10" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.1" />

@@ -203,9 +203,12 @@ namespace Serial_Monitor.Classes {
             }
             set {
                 if (Port != null) {
-                    Port.PortName = value;
-                    NameChanged?.Invoke(this, name);
-                    SystemManager.InvokeChannelRename(this);
+                    try {
+                        Port.PortName = value;
+                        NameChanged?.Invoke(this, name);
+                        SystemManager.InvokeChannelRename(this);
+                    }
+                    catch { }
                 }
             }
         }
@@ -413,6 +416,7 @@ namespace Serial_Monitor.Classes {
                     string Result = ((char)Buffer[j]).ToString();
                     //Output.AttendToLastLine(((char)Buffer[j]).ToString(), true);
                     DataReceived?.Invoke(this, false, Result);
+                    ProgramManager.ProgramDataRecieved(this.ID, Result);
                 }
             }
             catch { }
@@ -445,6 +449,7 @@ namespace Serial_Monitor.Classes {
                     Result += Classes.Formatters.ByteToChar(Buffer[j]);
                     //Output.Print(Result);
                     DataReceived?.Invoke(this, true, Result);
+                    ProgramManager.ProgramDataRecieved(this.ID, Result);
                 }
             }
             catch { }
@@ -465,7 +470,9 @@ namespace Serial_Monitor.Classes {
                 Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
                 RXCurrentByte += BytesToRead;
                 if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
-                    DataReceived?.Invoke(this, true, PrintStream(Buffer));
+                    string StringBuffer = PrintStream(Buffer);
+                    DataReceived?.Invoke(this, true, StringBuffer);
+                    ProgramManager.ProgramDataRecieved(this.ID, StringBuffer);
                     if (isMaster == true) {
                         ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
                         switch (Func) {
@@ -841,7 +848,7 @@ namespace Serial_Monitor.Classes {
                 lastTransmittedTime = DateTime.UtcNow;
                 if (ModbusTransmitBuffer.Count > 0) {
                     byte[] Data = ModbusTransmitBuffer[0];
-                    TransmitFrame(Data);
+                    TransmitRTUFrame(Data);
                     ModbusTransmitBuffer.RemoveAt(0);
                 }
             }
@@ -849,26 +856,35 @@ namespace Serial_Monitor.Classes {
         private void TransmitFrame(byte[] Data) {
             if (outputFormat == StreamOutputFormat.ModbusRTU) {
                 if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
-                    byte[] Output = new byte[Data.Length + 2];
-                    ushort CRC = ModbusSupport.CalculateCRC(Data, (ushort)Data.Length, 0);
-                    Array.Copy(Data, 0, Output, 0, Data.Length);
-                    Output[Output.Length - 2] = (byte)(CRC & 0xFF);
-                    Output[Output.Length - 1] = (byte)(CRC >> 8);
-                    lastTransmittedTime = DateTime.UtcNow;
-                    Port.Write(Output, 0, Output.Length);
-                    lastTransmittedTime = DateTime.UtcNow;
-                    bytesSent += (ulong)Output.Length;
-                    DataReceived?.Invoke(this, true, PrintStream(Output));
+                    TransmitRTUFrame(Data);
                 }
                 else {
                     ModbusTransmitBuffer.Add(Data);
+                    bool StartThread = false;
                     if (ModbusRTUFramerThread != null) {
                         if (ModbusRTUFramerThread.ThreadState != System.Threading.ThreadState.Running) {
-                            ModbusRTUFramerThread.Start();
+                            StartThread = true;
                         }
+                    }
+                    else { StartThread = true; }
+                    if (StartThread) {
+                        ModbusRTUFramerThread = new Thread(ModbusFramer);
+                        ModbusRTUFramerThread.Start();
                     }
                 }
             }
+        }
+        private void TransmitRTUFrame(byte[] Data) {
+            byte[] Output = new byte[Data.Length + 2];
+            ushort CRC = ModbusSupport.CalculateCRC(Data, (ushort)Data.Length, 0);
+            Array.Copy(Data, 0, Output, 0, Data.Length);
+            Output[Output.Length - 2] = (byte)(CRC & 0xFF);
+            Output[Output.Length - 1] = (byte)(CRC >> 8);
+            lastTransmittedTime = DateTime.UtcNow;
+            Port.Write(Output, 0, Output.Length);
+            lastTransmittedTime = DateTime.UtcNow;
+            bytesSent += (ulong)Output.Length;
+            DataReceived?.Invoke(this, true, PrintStream(Output));
         }
         public void ModbusCommand(string Input) {
             try {
@@ -1067,6 +1083,7 @@ namespace Serial_Monitor.Classes {
                 State = MessageState.Ready;
                 if (useCheckSums == false) {
                     CommandProcessed?.Invoke(this, CurrentCommand);
+                    ProgramManager.ProgramDataRecieved(this.ID, CurrentCommand);
                 }
                 else {
                     if (EvaluateCheckSum(CurrentCommand) == true) {

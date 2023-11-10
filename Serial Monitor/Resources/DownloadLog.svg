@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-teal-10{fill: #006758; opacity: 0.1;}.light-teal{fill: #006758; opacity: 1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightDownloadLog</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M13.5,7V1.5H2.5v13H10V15h.879L9.732,13.854,12,11.586V9h2V7Zm-2-1.5h-6v-2h6Z" />
+    <path class="light-teal-10" d="M11.5,5.5h-6v-2h6Z" />
+    <path class="light-teal" d="M11.5,3h-6L5,3.5v2l.5.5h6l.5-.5v-2ZM11,5H6V4h5Z" />
+    <path class="light-defaultgrey" d="M10.879,15H2.5L2,14.5V1.5L2.5,1h11l.5.5V9H13V2H3V14H9.879Z" />
+    <g class="cls-1">
+      <path class="light-defaultgrey" d="M4,3V4H1V3ZM1,7H4V6H1Zm0,3H4V9H1Zm0,3H4V12H1Z" />
+    </g>
+    <path class="light-blue" d="M13.146,15.854l-2-2,.708-.708L13,14.293V10h1v4.293l1.146-1.147.708.708-2,2Z" />
+  </g>
+</svg>

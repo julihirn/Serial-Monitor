@@ -1181,7 +1181,7 @@ namespace Serial_Monitor {
             Rectangle TabRectangle = EventData.TextArea;
             SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
             string CurrentText = SerMan.Name;
-            TextBox RenameBox = new TextBox();
+            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
             // RenameBox.BorderStyle = BorderStyle.None;
@@ -2087,7 +2087,7 @@ namespace Serial_Monitor {
         public void MethodCopying(string Input) {
             if (Input.Length <= 0) { return; }
             this.BeginInvoke(new MethodInvoker(delegate {
-               Clipboard.SetText(Input);
+                Clipboard.SetText(Input);
             }));
         }
         public void MethodSetRunText(string Input) {
@@ -2278,7 +2278,7 @@ namespace Serial_Monitor {
             ProgramObject? PrgObj = GetProgramObjectFromTab();
             if (PrgObj == null) { return; }
             string CurrentText = GetTextFromTab();
-            TextBox RenameBox = new TextBox();
+            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
             // RenameBox.BorderStyle = BorderStyle.None;
@@ -2327,8 +2327,8 @@ namespace Serial_Monitor {
             }
         }
         private void RemoveFromControl(object Ctrl) {
-            if (Ctrl.GetType() == typeof(TextBox)) {
-                TextBox TxBx = (TextBox)Ctrl;
+            if (Ctrl.GetType() == typeof(System.Windows.Forms.TextBox)) {
+                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)Ctrl;
                 if (TxBx.Tag == null) { return; }
                 if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
                     TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
@@ -2340,13 +2340,13 @@ namespace Serial_Monitor {
                         navigator1.Controls.Remove(TxBx);
                     }
                 }
-                DeregisterTextbox((TextBox)Ctrl);
+                DeregisterTextbox((System.Windows.Forms.TextBox)Ctrl);
             }
         }
         private void RenameBox_TextChanged(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(TextBox)) {
-                TextBox TxBx = (TextBox)sender;
+            if (sender.GetType() == typeof(System.Windows.Forms.TextBox)) {
+                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)sender;
                 if (TxBx.Tag == null) {
                     //DeregisterTextbox(TxBx);
                     //thPrograms.Controls.Remove(TxBx);
@@ -2383,7 +2383,7 @@ namespace Serial_Monitor {
             //}
             RemoveFromControl(sender);
         }
-        private void DeregisterTextbox(TextBox Tb) {
+        private void DeregisterTextbox(System.Windows.Forms.TextBox Tb) {
             Tb.Tag = null;
             Tb.Leave -= RenameBox_Leave;
             Tb.LostFocus -= RenameBox_LostFocus;

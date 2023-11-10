@@ -23,6 +23,37 @@ namespace Serial_Monitor.Classes {
 
         public static List<KeypadButton> Buttons = new List<KeypadButton>();
         private const int MaximumButtons = 25;
+
+
+        static bool keypadTopMost = false;
+        public static bool KeypadTopMost {
+            get { return keypadTopMost; }
+            set { 
+                keypadTopMost = value;
+                Form ? Keyp = ApplicationManager.GetFormByName("Keypad");
+                if (Keyp == null) { return; }
+                if (typeof(Interfaces.Application.IGenerics).IsAssignableFrom(Keyp.GetType())) {
+                    ((Interfaces.Application.IGenerics)Keyp).SetTopMost(value);
+                }
+
+            }
+        }
+        public static decimal ProgramVersion {
+            get {
+                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+                string TempVer = fvi.ProductMajorPart + "." + fvi.ProductMinorPart.ToString();
+                decimal TempProgramVersion = 0; decimal.TryParse(TempVer, out TempProgramVersion);
+                return TempProgramVersion;
+            }
+        }
+        public static int ProgramBulid {
+            get {
+                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+                return fvi.ProductBuildPart;
+            }
+        }
         public static void SetKeypadButton(int Index, string CmdType, string CmcLine, string DisplayText, string Channel, int Symbol, int CommandShortcut) {
             if (Buttons.Count == MaximumButtons) {
                 if (Index < MaximumButtons) {
@@ -68,21 +99,15 @@ namespace Serial_Monitor.Classes {
             ButtonPropertyChanged?.Invoke(sender);
         }
         public static void WriteFile(string FileAddress) {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-            string TempVer = fvi.ProductMajorPart + "." + fvi.ProductMinorPart.ToString();
-            decimal ProgramVersion = 0; decimal.TryParse(TempVer, out ProgramVersion);
             using (StreamWriter Sw = new StreamWriter(FileAddress)) {
                 Sw.WriteLine("--------------------------");
                 Sw.WriteLine("-- SERIAL MONITOR");
-                Sw.WriteLine("-- VERSION " + ProgramVersion + " (Build " + fvi.ProductBuildPart.ToString() + ")");
+                Sw.WriteLine("-- VERSION " + ProgramVersion + " (Build " + ProgramBulid.ToString() + ")");
                 Sw.WriteLine("--------------------------");
                 Sw.WriteLine("");
                 DocumentHandler.WriteEntry(Sw, "1");
-                DocumentHandler.WriteComment(Sw, 0, "  Document Details");
-                DocumentHandler.Write(Sw, 1, "ProgramName", "");
-                DocumentHandler.Write(Sw, 1, "Author", Environment.UserName);
-                DocumentHandler.Write(Sw, 1, "Version", ProgramVersion);
+                WriteProperties(Sw);
+
                 Sw.WriteLine("");
                 WriteChannels(Sw);
                 Sw.WriteLine("");
@@ -93,6 +118,14 @@ namespace Serial_Monitor.Classes {
                 WriteKeypad(Sw);
 
             }
+        }
+        private static void WriteProperties(StreamWriter Sw) {
+            DocumentHandler.WriteComment(Sw, 0, "  Document Details");
+            DocumentHandler.Write(Sw, 1, "ProgramName", "");
+            DocumentHandler.Write(Sw, 1, "Author", Environment.UserName);
+            DocumentHandler.Write(Sw, 1, "Version", ProgramVersion);
+            Sw.WriteLine("");
+            DocumentHandler.Write(Sw, 1, "KeypadTopMost", keypadTopMost);
         }
         private static void WriteChannels(StreamWriter Sw) {
             if (SystemManager.SerialManagers.Count > 0) {
@@ -259,124 +292,134 @@ namespace Serial_Monitor.Classes {
             int CurrentProgramIndex = 0;
             for (int i = 0; i < DocumentHandler.PARM.Count; i++) {
                 string ParameterName = DocumentHandler.PARM[i].Name;
+                ParameterStructure Pstrc = DocumentHandler.PARM[i];
                 if (ParameterName.StartsWith("CHAN")) {
-                    ParameterStructure Pstrc = DocumentHandler.PARM[i];
-                    SerialManager Sm = new SerialManager();
-                    Sm.Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
-                    try {
-                        Sm.Port.PortName = DocumentHandler.GetStringVariable(Pstrc, "Port", "");
-                    }
-                    catch { }
-                    try {
-                        Sm.BaudRate = DocumentHandler.GetIntegerVariable(Pstrc, "Baud", 9600);
-                    }
-                    catch { }
-                    try {
-                        Sm.Port.DataBits = DocumentHandler.GetIntegerVariable(Pstrc, "DataSize", 8);
-                    }
-                    catch { }
-                    try {
-                        Sm.Port.StopBits = EnumManager.StringToStopBits(DocumentHandler.GetStringVariable(Pstrc, "StopBits", "1"));
-                    }
-                    catch { }
-                    try {
-                        Sm.Port.Parity = EnumManager.StringToParity(DocumentHandler.GetStringVariable(Pstrc, "Parity", "N"));
-                    }
-                    catch { }
-                    try {
-                        Sm.Port.Handshake = EnumManager.StringToHandshake(DocumentHandler.GetStringVariable(Pstrc, "ControlFlow", ""));
-                    }
-                    catch { }
-                    try {
-                        Sm.InputFormat = EnumManager.StringToInputFormat(DocumentHandler.GetStringVariable(Pstrc, "InType", "frmTxt"));
-                    }
-                    catch { }
-                    try {
-                        Sm.OutputFormat = EnumManager.StringToOutputFormat(DocumentHandler.GetStringVariable(Pstrc, "OutType", "frmTxt"));
-                    }
-                    catch { }
-                    try {
-                        Sm.LineFormat = EnumManager.StringToLineFormatting(DocumentHandler.GetStringVariable(Pstrc, "LineFormat", "frmLineNone"));
-                    }
-                    catch { }
-                    try {
-                        Sm.IsMaster = DocumentHandler.GetBooleanVariable(Pstrc, "ModbusMstr");
-                    }
-                    catch { }
-                    try {
-                        Sm.OutputToMasterTerminal = DocumentHandler.GetBooleanVariable(Pstrc, "OutputToMstr", true);
-                    }
-                    catch { }
-                    try {
-                        Sm.AutoReconnect = DocumentHandler.GetBooleanVariable(Pstrc, "AutoConnect");
-                    }
-                    catch { }
-
-                    Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
-                    Sm.DataReceived += DataProc;// SerMan_DataReceived;
-                    SystemManager.SerialManagers.Add(Sm);
+                    LoadChannel(Pstrc, CmdProc, DataProc);
                 }
                 else if (ParameterName.StartsWith("KBTN")) {
-                    if (ParameterName.Split('_').Length == 2) {
-                        string IndexStr = ParameterName.Split('_')[1];
-                        int Index = 0; int.TryParse(IndexStr, out Index);
-                        string ButtonText = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Text", "");
-                        string CommandText = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Command", "");
-                        string CommandType = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", "NONE");
-                        string CommandChannel = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Channel", "");
-                        int CommandSymbol = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Symbol", 0);
-                        int CommandShortcut = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Shortcut", 0);
-                        SetKeypadButton(Index, CommandType, CommandText, ButtonText, CommandChannel, CommandSymbol, CommandShortcut);
-                    }
+                    LoadKeypadButton(Pstrc);
                 }
                 else if (ParameterName.StartsWith("STEP")) {
-                    if (CurrentProgramIndex > 0) {
-                        ProgramManager.Programs.Add(new ProgramObject());
-                    }
-                    //E:00000000:
-                    ProgramManager.Programs[CurrentProgramIndex].Name = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Name", "");
-                    ProgramManager.Programs[CurrentProgramIndex].Command = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Command", "");
-                    if (DocumentHandler.IsDefinedInParameter("Data", DocumentHandler.PARM[i])) {
-
-                        List<string> Data = GetList(DocumentHandler.PARM[i].GetVariable("Data", false, DataType.STR));
-                        for (int j = 0; j < Data.Count; j++) {
-                            ProgramManager.Programs[CurrentProgramIndex].DecodeFileCommand(Data[j]);
-                        }
-                    }
-                    if (DocumentHandler.IsDefinedInParameter("Array", DocumentHandler.PARM[i])) {
-                        List<string> Data = GetList(DocumentHandler.PARM[i].GetVariable("Array", false, DataType.STR));
-                        for (int j = 0; j < Data.Count; j++) {
-                            ProgramManager.Programs[CurrentProgramIndex].Array.Add(Data[j]);
-                        }
-                    }
-                    CurrentProgramIndex++;
-
+                    LoadStepProgram(Pstrc, ref CurrentProgramIndex);
                 }
                 else if (ParameterName.StartsWith("MSPSH")) {
-                    string Snapshot_Name = DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Name", "");
-                    DataSelection Snapshot_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Type", ""));
-                    SerialManager? Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Channel", -1));
-                    if (Snapshot_Channel != null) {
-                        Enums.ModbusEnums.SnapshotSelectionType Snapshot_Selection = EnumManager.ModbusStringToSnapshotType(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "SnapshotType", ""));
-                        if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
-                            int Address = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Address", 0);
-                            int Count = DocumentHandler.GetIntegerVariable(DocumentHandler.PARM[i], "Count", 10);
-                            Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Bounds", ""));
-                            ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Address, Count, Bounds);
-                        }
-                        else if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
-                            List<int> Data = GetIntegerList(DocumentHandler.PARM[i].GetVariable("Indices", false, DataType.INT));
-                            Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(DocumentHandler.PARM[i], "Bounds", ""));
-                            if (Data.Count > 0) {
-                                ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Data, Bounds);
-                            }
-                        }
-                    }
-
+                    LoadSnapshots(Pstrc);
                 }
                 //MSPSH
             }
             DocumentLoaded?.Invoke();
+        }
+        private static void LoadChannel(ParameterStructure Pstrc, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+            SerialManager Sm = new SerialManager();
+            Sm.Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
+            try {
+                Sm.Port.PortName = DocumentHandler.GetStringVariable(Pstrc, "Port", "");
+            }
+            catch { }
+            try {
+                Sm.BaudRate = DocumentHandler.GetIntegerVariable(Pstrc, "Baud", 9600);
+            }
+            catch { }
+            try {
+                Sm.Port.DataBits = DocumentHandler.GetIntegerVariable(Pstrc, "DataSize", 8);
+            }
+            catch { }
+            try {
+                Sm.Port.StopBits = EnumManager.StringToStopBits(DocumentHandler.GetStringVariable(Pstrc, "StopBits", "1"));
+            }
+            catch { }
+            try {
+                Sm.Port.Parity = EnumManager.StringToParity(DocumentHandler.GetStringVariable(Pstrc, "Parity", "N"));
+            }
+            catch { }
+            try {
+                Sm.Port.Handshake = EnumManager.StringToHandshake(DocumentHandler.GetStringVariable(Pstrc, "ControlFlow", ""));
+            }
+            catch { }
+            try {
+                Sm.InputFormat = EnumManager.StringToInputFormat(DocumentHandler.GetStringVariable(Pstrc, "InType", "frmTxt"));
+            }
+            catch { }
+            try {
+                Sm.OutputFormat = EnumManager.StringToOutputFormat(DocumentHandler.GetStringVariable(Pstrc, "OutType", "frmTxt"));
+            }
+            catch { }
+            try {
+                Sm.LineFormat = EnumManager.StringToLineFormatting(DocumentHandler.GetStringVariable(Pstrc, "LineFormat", "frmLineNone"));
+            }
+            catch { }
+            try {
+                Sm.IsMaster = DocumentHandler.GetBooleanVariable(Pstrc, "ModbusMstr");
+            }
+            catch { }
+            try {
+                Sm.OutputToMasterTerminal = DocumentHandler.GetBooleanVariable(Pstrc, "OutputToMstr", true);
+            }
+            catch { }
+            try {
+                Sm.AutoReconnect = DocumentHandler.GetBooleanVariable(Pstrc, "AutoConnect");
+            }
+            catch { }
+
+            Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
+            Sm.DataReceived += DataProc;// SerMan_DataReceived;
+            SystemManager.SerialManagers.Add(Sm);
+        }
+        private static void LoadKeypadButton(ParameterStructure Pstrc) {
+            if (Pstrc.Name.Split('_').Length == 2) {
+                string IndexStr = Pstrc.Name.Split('_')[1];
+                int Index = 0; int.TryParse(IndexStr, out Index);
+                string ButtonText = DocumentHandler.GetStringVariable(Pstrc, "Text", "");
+                string CommandText = DocumentHandler.GetStringVariable(Pstrc, "Command", "");
+                string CommandType = DocumentHandler.GetStringVariable(Pstrc, "Type", "NONE");
+                string CommandChannel = DocumentHandler.GetStringVariable(Pstrc, "Channel", "");
+                int CommandSymbol = DocumentHandler.GetIntegerVariable(Pstrc, "Symbol", 0);
+                int CommandShortcut = DocumentHandler.GetIntegerVariable(Pstrc, "Shortcut", 0);
+                SetKeypadButton(Index, CommandType, CommandText, ButtonText, CommandChannel, CommandSymbol, CommandShortcut);
+            }
+        }
+        private static void LoadStepProgram(ParameterStructure Pstrc, ref int CurrentProgramIndex) {
+            if (CurrentProgramIndex > 0) {
+                ProgramManager.Programs.Add(new ProgramObject());
+            }
+            //E:00000000:
+            ProgramManager.Programs[CurrentProgramIndex].Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
+            ProgramManager.Programs[CurrentProgramIndex].Command = DocumentHandler.GetStringVariable(Pstrc, "Command", "");
+            if (DocumentHandler.IsDefinedInParameter("Data", Pstrc)) {
+
+                List<string> Data = GetList(Pstrc.GetVariable("Data", false, DataType.STR));
+                for (int j = 0; j < Data.Count; j++) {
+                    ProgramManager.Programs[CurrentProgramIndex].DecodeFileCommand(Data[j]);
+                }
+            }
+            if (DocumentHandler.IsDefinedInParameter("Array", Pstrc)) {
+                List<string> Data = GetList(Pstrc.GetVariable("Array", false, DataType.STR));
+                for (int j = 0; j < Data.Count; j++) {
+                    ProgramManager.Programs[CurrentProgramIndex].Array.Add(Data[j]);
+                }
+            }
+            CurrentProgramIndex++;
+        }
+        private static void LoadSnapshots(ParameterStructure Pstrc) {
+            string Snapshot_Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
+            DataSelection Snapshot_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(Pstrc, "Type", ""));
+            SerialManager? Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(Pstrc, "Channel", -1));
+            if (Snapshot_Channel != null) {
+                Enums.ModbusEnums.SnapshotSelectionType Snapshot_Selection = EnumManager.ModbusStringToSnapshotType(DocumentHandler.GetStringVariable(Pstrc, "SnapshotType", ""));
+                if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
+                    int Address = DocumentHandler.GetIntegerVariable(Pstrc, "Address", 0);
+                    int Count = DocumentHandler.GetIntegerVariable(Pstrc, "Count", 10);
+                    Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(Pstrc, "Bounds", ""));
+                    ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Address, Count, Bounds);
+                }
+                else if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
+                    List<int> Data = GetIntegerList(Pstrc.GetVariable("Indices", false, DataType.INT));
+                    Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(Pstrc, "Bounds", ""));
+                    if (Data.Count > 0) {
+                        ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Data, Bounds);
+                    }
+                }
+            }
         }
         public static void ReadCMSLFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
             SerialManager Sm = new SerialManager();

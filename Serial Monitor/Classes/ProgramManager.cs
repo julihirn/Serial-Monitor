@@ -2,6 +2,7 @@
 using Handlers.ShadowX;
 using ODModules;
 using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Step_Programs.StepEnumerations;
 using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 
 namespace Serial_Monitor.Classes {
@@ -20,6 +22,9 @@ namespace Serial_Monitor.Classes {
 
         public static event ProgramArrayChangedHandler? ArrayChanged;
         public delegate void ProgramArrayChangedHandler(int Index, bool ItemRemoved);
+
+        public static event ProgramEditorChangedHandler? ProgramEditorChanged;
+        public delegate void ProgramEditorChangedHandler(ProgramObject ProgramObj);
 
         public static event ProgramRemovedHandler? ProgramRemoved;
         public delegate void ProgramRemovedHandler(string ID);
@@ -30,7 +35,19 @@ namespace Serial_Monitor.Classes {
         public static List<ProgramObject> Programs = new List<ProgramObject>(1);
 
         public static ProgramObject? CurrentProgram = null;
-        public static ProgramObject? CurrentEditingProgram = null;
+        private static ProgramObject? currentEditingProgram = null;
+        public static ProgramObject? CurrentEditingProgram {
+            get { return currentEditingProgram; }
+            set {
+                currentEditingProgram = value;
+                if (currentEditingProgram != null) {
+                    ProgramEditorChanged?.Invoke(currentEditingProgram);
+                }
+                else {
+                    ProgramEditorChanged?.Invoke(null);
+                }
+            }
+        }
 
         public static StepEnumerations.StepState ProgramState = StepEnumerations.StepState.Stopped;
         static bool executionThreadRunning = true;
@@ -135,43 +152,48 @@ namespace Serial_Monitor.Classes {
         #endregion
         #region Program Initalisation
         public static void SetupProgram() {
-            Conditionals.Clear();
+            WaitUntil_State = WaitUntilState.Ready;
+
             if (CurrentProgram == null) { return; }
-            for (int i = 0; i < CurrentProgram.Program.Count; i++) {
-                if (CurrentProgram.Program[i].SubItems.Count == 3) {
-                    object? TagData = CurrentProgram.Program[i].SubItems[1].Tag;
-                    if (TagData != null) {
-                        if (TagData.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                            if ((StepEnumerations.StepExecutable)TagData == StepEnumerations.StepExecutable.If) {
-                                FindConditionalEnd(i);
-                            }
-                        }
-                    }
-                }
-            }
+            FindConditionalEnd();
             LastUICommand = DateTime.UtcNow;
             OverPollCount = 0;
         }
-        public static void FindConditionalEnd(int StartIndex) {
-            bool NothingMet = true;
+        public static void FindConditionalEnd() {
+            Conditionals.Clear();
+            int IfDepth = 0;
             if (CurrentProgram == null) { return; }
-            for (int i = StartIndex; i < CurrentProgram.Program.Count; i++) {
-                if (CurrentProgram.Program[i].SubItems.Count == 3) {
-                    object? TagData = CurrentProgram.Program[i].SubItems[1].Tag;
-                    if (TagData != null) {
-                        if (TagData.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                            if ((StepEnumerations.StepExecutable)TagData == StepEnumerations.StepExecutable.EndIf) {
-                                Conditionals.Add(new ConditionalLinkage(StartIndex, i));
-                                NothingMet = false;
-                                break;
-                            }
+            for (int i = 0; i < CurrentProgram.Program.Count; i++) {
+                StepExecutable ExeStep = GetStepFunctionFromIndex(i);
+                if (ExeStep == StepEnumerations.StepExecutable.EndIf) {
+                    try {
+                        IfDepth--;
+                        Conditionals[IfDepth].End = i;
+                    }
+                    catch { }
+                }
+                else if (ExeStep == StepEnumerations.StepExecutable.If) {
+                    Conditionals.Add(new ConditionalLinkage(i, CurrentProgram.Program.Count));
+                    IfDepth++;
+                }
+                else if (ExeStep == StepEnumerations.StepExecutable.Else) {
+                    try {
+                        if (IfDepth > 0) {
+                            Conditionals[IfDepth - 1].ElseEnd = i;
                         }
                     }
+                    catch { }
                 }
             }
-            if (NothingMet == true) {
-                Conditionals.Add(new ConditionalLinkage(StartIndex, CurrentProgram.Program.Count));
+        }
+        private static StepEnumerations.StepExecutable GetStepFunctionFromIndex(int i) {
+            if (CurrentProgram == null) { return StepEnumerations.StepExecutable.NoOperation; }
+            if (CurrentProgram.Program[i].SubItems.Count == 3) {
+                object? TagData = CurrentProgram.Program[i].SubItems[1].Tag;
+                if (TagData == null) { return StepEnumerations.StepExecutable.NoOperation; }
+                return (StepEnumerations.StepExecutable)TagData;
             }
+            return StepEnumerations.StepExecutable.NoOperation;
         }
         #endregion
         #region Program Execution
@@ -337,12 +359,16 @@ namespace Serial_Monitor.Classes {
                     PushArrayValue(Arguments); break;
                 case StepEnumerations.StepExecutable.If:
                     EvaluateConditional(Arguments); break;
+                case StepEnumerations.StepExecutable.Else:
+                    EvatuateElseCondition(); break;
                 case StepEnumerations.StepExecutable.GoTo:
                     GotoLabel(Arguments);
                     break;
                 case StepEnumerations.StepExecutable.GoToLine:
                     GotoLine(Arguments);
                     break;
+                case StepEnumerations.StepExecutable.WaitUntilReceived:
+                    EvaluateWaitUntilReceieved(Arguments); break;
                 case StepEnumerations.StepExecutable.MousePosition:
                     //invoke(new MethodInvoker(delegate {
                     SetMousePosition(Arguments);
@@ -418,6 +444,44 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Data Transmission
+        static List<StringPair> Lines = new List<StringPair>();
+        private static void AttendToLastLine(string Source, string Text, bool CheckForNewLine = true) {
+            if (Lines.Count > 0) {
+                if ((Lines[Lines.Count - 1].A == Source) ? true : false) {
+                    Text = Text.Replace("\0", "");
+                    Lines[Lines.Count - 1].B += Text;
+                    if (CheckForNewLine) {
+                        string line = Lines[Lines.Count - 1].B;
+                        line = line.Replace("\u0084", "\n");
+                        if (line.Contains('\n')) {
+                            line = line.Replace("\r", "");
+                            STR_MVSSF list = StringHandler.SpiltStringMutipleValues(line, '\n');
+                            if (list.Count == 1) {
+                                Lines[Lines.Count - 1].B = list.Value[0];
+                            }
+                            else if (list.Count > 1) {
+                                Lines[Lines.Count - 1].B = list.Value[0];
+                                for (int i = 1; i < list.Count; i++) {
+                                    Lines.Add(new StringPair(Source, list.Value[i]));
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    Lines.Add(new StringPair(Source, Text));
+                }
+            }
+            else {
+                Lines.Add(new StringPair(Source, Text));
+            }
+            if (Lines.Count > 10) {
+                try {
+                    Lines.RemoveRange(0, 9);
+                }
+                catch { }
+            }
+        }
         public static void SendByte(string Arguments) {
             byte Data = 0x00;
             if (Arguments.ToLower().StartsWith("0x")) {
@@ -431,7 +495,7 @@ namespace Serial_Monitor.Classes {
                 if ((CurrentSender == "") || (CurrentSender.ToLower() == "all")) {
                     SerMan.Post(Data);
                 }
-                else if (CurrentSender == SerMan.Port.PortName) {
+                else if (CurrentSender == SerMan.StateName) {
                     SerMan.Post(Data);
                     break;
                 }
@@ -442,7 +506,7 @@ namespace Serial_Monitor.Classes {
                 if ((CurrentSender == "") || (CurrentSender.ToLower() == "all")) {
                     SerMan.Post(Arguments);
                 }
-                else if (CurrentSender == SerMan.Port.PortName) {
+                else if (CurrentSender == SerMan.StateName) {
                     SerMan.Post(Arguments, WriteLine);
                     break;
                 }
@@ -456,6 +520,11 @@ namespace Serial_Monitor.Classes {
             VariableResult VarResult = CurrentProgram.GetVariable(Argument);
             if (VarResult.IsValid == true) {
                 return VarResult.Value;
+            }
+            if (Argument.ToLower() == "waituntil") {
+                bool Temp = WaitUnit_ConditionMet;
+                WaitUnit_ConditionMet = false;
+                return Temp.ToString();
             }
             if (UseInput == true) { return Argument; }
             return "";
@@ -471,23 +540,36 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static void SetVariable(string Arguments) {
-            bool ExistsInVariables = false;
             if (!Arguments.Contains('=')) { return; }
             string VarName = Arguments.Split('=')[0];
             string VarValue = StringHandler.SpiltAndCombineAfter(Arguments, '=', 1).Value[1];
             if (CurrentProgram == null) { return; }
-            if (CurrentProgram.Variables.Count > 0) {
-                for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
-                    if (CurrentProgram.Variables[i].Name == VarName) {
-                        CurrentProgram.Variables[i].Value = VarValue;
-                        ExistsInVariables = true; break;
-                    }
-                }
-            }
+            bool ExistsInVariables = SetVariableInScope(VarName, VarValue);
             if (ExistsInVariables == false) {
                 VariableLinkage LblLink = new VariableLinkage(VarName, VarValue);
                 CurrentProgram.Variables.Add(LblLink);
             }
+        }
+        private static bool SetVariableInScope(string Name, string Value) {
+            bool ExistsInVariables = false;
+            if (CurrentProgram == null) { return ExistsInVariables; }
+            if (CurrentProgram.GlobalVariables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.GlobalVariables.Count; i++) {
+                    if (CurrentProgram.GlobalVariables[i].Name == Name) {
+                        CurrentProgram.GlobalVariables[i].Value = Value;
+                        return true;
+                    }
+                }
+            }
+            if (CurrentProgram.Variables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
+                    if (CurrentProgram.Variables[i].Name == Name) {
+                        CurrentProgram.Variables[i].Value = Value;
+                        return true;
+                    }
+                }
+            }
+            return ExistsInVariables;
         }
         public static void RemoveFirstArrayItem() {
             if (CurrentProgram == null) { return; }
@@ -558,6 +640,13 @@ namespace Serial_Monitor.Classes {
         }
         private static VariableLinkage? GetVariableAssignment(string Argument) {
             if (CurrentProgram == null) { return null; }
+            if (CurrentProgram.GlobalVariables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.GlobalVariables.Count; i++) {
+                    if (CurrentProgram.GlobalVariables[i].Name == Argument) {
+                        return CurrentProgram.GlobalVariables[i];
+                    }
+                }
+            }
             if (CurrentProgram.Variables.Count > 0) {
                 for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
                     if (CurrentProgram.Variables[i].Name == Argument) {
@@ -604,6 +693,132 @@ namespace Serial_Monitor.Classes {
         #region Control Flow
         //private delegate void delAddText(string text);
         //private static delAddText safeAddText = new delAddText(AddText);
+
+        private static int WaitUntil_Timeout = 1;
+        private static string WaitUntilRx_Condition = "";
+        private static string WaitUntilRx_Channel = "";
+        private static DateTime WaitUntil_TriggerTime = DateTime.UtcNow;
+
+        private static bool WaitUntil_Contains = true;
+
+        private static bool WaitUnit_ConditionMet = false;
+        private static WaitUntilState WaitUntil_State = WaitUntilState.Ready;
+        private enum WaitUntilState {
+            Ready = 0x00,
+            Waiting = 0x01,
+            Finished = 0x02
+        }
+        public static void ProgramDataRecieved(string ChannelID, string Value) {
+            if (WaitUntil_State != WaitUntilState.Waiting) { return; }
+            AttendToLastLine(ChannelID, Value);
+            if (Lines.Count == 0) { return; }
+            try {
+                if (WaitUntilRx_Channel == "") {
+                    if (WaitUntil_Contains) {
+                        if (Lines[Lines.Count - 1].B.Contains(WaitUntilRx_Condition)) {
+                            WaitUntil_State = WaitUntilState.Finished;
+                            WaitUnit_ConditionMet = true;
+                            try {
+                                Lines.RemoveAt(Lines.Count - 1);
+                            }
+                            catch { }
+                        }
+                    }
+                    else {
+                        if (Lines[Lines.Count - 1].B == WaitUntilRx_Condition) {
+                            WaitUntil_State = WaitUntilState.Finished;
+                            WaitUnit_ConditionMet = true;
+                            try {
+                                Lines.RemoveAt(Lines.Count - 1);
+                            }
+                            catch { }
+                        }
+                    }
+                }
+                else {
+                    if (ChannelID == WaitUntilRx_Channel) {
+                        for (int i = Lines.Count - 1; i >= 0; i--) {
+                            if (WaitUntil_Contains) {
+                                if (Lines[i].B.Contains(WaitUntilRx_Condition)) {
+                                    WaitUntil_State = WaitUntilState.Finished;
+                                    WaitUnit_ConditionMet = true;
+                                    try {
+                                        Lines.RemoveAt(i);
+                                    }
+                                    catch { }
+                                }
+                            }
+                            else {
+                                if (Lines[i].B == WaitUntilRx_Condition) {
+                                    WaitUntil_State = WaitUntilState.Finished;
+                                    WaitUnit_ConditionMet = true;
+                                    try {
+                                        Lines.RemoveAt(i);
+                                    }
+                                    catch { }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+        private static void EvaluateWaitUntilReceieved(string Argument) {
+            //Arguments Format Channel, TimeOut, Contains, Value
+            if (WaitUntil_State == WaitUntilState.Waiting) {
+                if (ConversionHandler.DateIntervalDifference(WaitUntil_TriggerTime, DateTime.UtcNow, ConversionHandler.Interval.Millisecond) >= WaitUntil_Timeout) {
+                    NoStepProgramIncrement = false;
+                    WaitUntil_State = WaitUntilState.Ready;
+                    WaitUnit_ConditionMet = false;
+                    return;
+                }
+                NoStepProgramIncrement = true;
+                return;
+            }
+            else if (WaitUntil_State == WaitUntilState.Finished) {
+                NoStepProgramIncrement = false;
+                WaitUntil_State = WaitUntilState.Ready;
+                return;
+            }
+            STR_MVSSF Arguments = StringHandler.SpiltAndCombineAfter(Argument, ',', 3);
+            if (Arguments.Count < 4) { return; }
+            string Channel = StripAwayTag("Channel = ", Arguments.Value[0]);
+            string TimeOut = StripAwayTag("TimeOut = ", Arguments.Value[1]);
+            string Contains = Arguments.Value[2];
+            bool ResultedInChannel = false;
+            try {
+
+                foreach (SerialManager SerMan in SystemManager.SerialManagers) {
+                    if (SerMan.StateName == Channel) {
+                        WaitUntilRx_Channel = SerMan.ID;
+                        ResultedInChannel = true;
+                        break;
+                    }
+                }
+            }
+            catch {
+                ResultedInChannel = false;
+            }
+            if (ResultedInChannel == false) {
+                WaitUntilRx_Channel = "";
+            }
+            WaitUntilRx_Condition = StripAwayTag("Value = ", Arguments.Value[3]);
+            int TempTimeout = 1;
+            int.TryParse(TimeOut, out TempTimeout);
+            if (TempTimeout >= 1) {
+                WaitUntil_Timeout = TempTimeout;
+            }
+            WaitUntil_TriggerTime = DateTime.UtcNow;
+            WaitUntil_State = WaitUntilState.Waiting;
+            NoStepProgramIncrement = true;
+        }
+        public static string StripAwayTag(string Tag, string Input) {
+            if (Input.Contains(Tag)) {
+                return Input.Remove(0, Tag.Length);
+            }
+            return Input;
+        }
         private static void Call(string Arguments) {
             ProgramState = StepEnumerations.StepState.Paused;
             CleanProgramData();
@@ -648,6 +863,19 @@ namespace Serial_Monitor.Classes {
         }
         public static void IncrementDecrementVariable(string Argument, bool Decrement) {
             if (CurrentProgram == null) { return; }
+            if (CurrentProgram.GlobalVariables.Count > 0) {
+                for (int i = 0; i < CurrentProgram.GlobalVariables.Count; i++) {
+                    if (CurrentProgram.GlobalVariables[i].Name == Argument) {
+                        if (ConversionHandler.IsNumeric(CurrentProgram.GlobalVariables[i].Value)) {
+                            decimal Value = 0;
+                            Decimal.TryParse(CurrentProgram.GlobalVariables[i].Value, out Value);
+                            Value += Decrement == true ? -1.0m : 1.0m;
+                            CurrentProgram.GlobalVariables[i].Value = Value.ToString();
+                            break;
+                        }
+                    }
+                }
+            }
             if (CurrentProgram.Variables.Count > 0) {
                 for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
                     if (CurrentProgram.Variables[i].Name == Argument) {
@@ -656,13 +884,40 @@ namespace Serial_Monitor.Classes {
                             Decimal.TryParse(CurrentProgram.Variables[i].Value, out Value);
                             Value += Decrement == true ? -1.0m : 1.0m;
                             CurrentProgram.Variables[i].Value = Value.ToString();
-                            break;
+                            return;
                         }
                     }
                 }
             }
         }
         public static void EvaluateConditional(string Arguments) {
+            bool Result = EvaluateSmallCondition(Arguments);
+            if (Result == false) {
+                int StartCounter = ProgramManager.ProgramStep;
+                foreach (ConditionalLinkage ConLnk in Conditionals) {
+                    if (ConLnk.Start == StartCounter) {
+                        if (ConLnk.ElseEnd == -1) {
+                            ProgramManager.ProgramStep = ConLnk.End;
+                        }
+                        else {
+                            ProgramManager.ProgramStep = ConLnk.ElseEnd;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        private static void EvatuateElseCondition() {
+            if (LastFunction == StepExecutable.If) { return; }
+            int StartCounter = ProgramManager.ProgramStep;
+            foreach (ConditionalLinkage ConLnk in Conditionals) {
+                if (ConLnk.ElseEnd == StartCounter) {
+                    ProgramManager.ProgramStep = ConLnk.End;
+                    break;
+                }
+            }
+        }
+        private static bool EvaluateSmallCondition(string Arguments) {
             bool Result = false;
             if (Arguments.Contains(">")) {
                 string LeftArg = Arguments.Split('>')[0];
@@ -706,17 +961,8 @@ namespace Serial_Monitor.Classes {
                     Result = LeftVal == RightVal ? true : false;
                 }
             }
-            if (Result == false) {
-                int StartCounter = ProgramManager.ProgramStep;
-                foreach (ConditionalLinkage ConLnk in Conditionals) {
-                    if (ConLnk.Start == StartCounter) {
-                        ProgramManager.ProgramStep = ConLnk.End;
-                        break;
-                    }
-                }
-            }
+            return Result;
         }
-
         public static void SetLabel(string Arguments) {
             if (LastFunction != StepEnumerations.StepExecutable.GoTo) {
                 bool ExistsInPositions = false;
@@ -849,6 +1095,8 @@ namespace Serial_Monitor.Classes {
                     return DataType.CursorLocation;
                 case StepEnumerations.StepExecutable.MousePositionOffset:
                     return DataType.CursorLocation;
+                case StepEnumerations.StepExecutable.WaitUntilReceived:
+                    return DataType.WaitUntilRX;
                 default: return DataType.Null;
             }
         }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-teal-10{fill: #006758; opacity: 0.1;}.light-teal{fill: #006758; opacity: 1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>TestVariable</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-teal-10" d="M13.52,12.96,12,10.5H7v3.32L6.9,14l-.29.5h6.07A1,1,0,0,0,13.52,12.96Z" />
+    <path class="light-teal" d="M13.94,12.7l-1.51-2.46-.01-.01L12,10H7v1h4.72l1.38,2.23a.507.507,0,0,1-.42.77H6.9l-.29.5-.13.22L6,15h6.68a1.479,1.479,0,0,0,1.31-.78A1.458,1.458,0,0,0,13.94,12.7Z" />
+    <path class="light-defaultgrey-10" d="M9.67,6.67V1.5h-3V6.67L5.55,8.38l.93.54.52.9V10h4.85Z" />
+    <path class="light-defaultgrey" d="M10,6.52V2h1V1H5V2H6V6.52L4.99,8.06l.56.32.31.18L6.92,6.94,7,6.67V2H9V6.67l.08.27,2,3.06H12l.42.23Z" />
+    <path class="light-defaultgrey-10" d="M5.5,10.026V13.49l-3,1.732-2-1.155V10.6l3-1.732Z" />
+    <path class="light-defaultgrey" d="M5.75,9.655,3.75,8.5h-.5l-3,1.732L0,10.665v3.464l.25.433,2,1.155h.5l3-1.733L6,13.552V10.088ZM3.5,9.51l1,.578-2,1.154-1-.577ZM1,11.531l1,.577v2.31L1,13.84Zm2,2.887v-2.31l2-1.155v2.31Z" />
+  </g>
+</svg>

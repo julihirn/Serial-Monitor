@@ -1,6 +1,8 @@
 ﻿using Handlers;
 using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +32,7 @@ namespace Serial_Monitor.ToolWindows {
                     AllowChanges = false;
                 }
                 ListArray();
+                ListGlobals();
             }
         }
         private void ListArray() {
@@ -44,6 +47,18 @@ namespace Serial_Monitor.ToolWindows {
             }
             lstArray.Invalidate();
         }
+        private void ListGlobals() {
+            lstGlobals.LineRemoveAll();
+            //lstArray.Invalidate();
+            if (selectedProgram == null) { return; }
+            foreach (VariableLinkage str in selectedProgram.GlobalVariables) {
+                ListItem Li = new ListItem(str.Name);
+                ListSubItem Lis = new ListSubItem(str.Value);
+                Li.SubItems.Add(Lis);
+                lstGlobals.Items.Add(Li);
+            }
+            lstGlobals.Invalidate();
+        }
         private void Variables_Load(object sender, EventArgs e) {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
@@ -52,6 +67,11 @@ namespace Serial_Monitor.ToolWindows {
             RecolorAll();
             ProgramManager.ProgramRemoved += ProgramManager_ProgramRemoved;
             ProgramManager.ArrayChanged += ProgramManager_ArrayChanged;
+            ProgramManager.ProgramEditorChanged += ProgramManager_ProgramEditorChanged;
+        }
+
+        private void ProgramManager_ProgramEditorChanged(ProgramObject ProgramObj) {
+            SelectedProgram = ProgramObj;
         }
 
         private void ProgramManager_ArrayChanged(int Index, bool ItemRemoved) {
@@ -71,7 +91,9 @@ namespace Serial_Monitor.ToolWindows {
             RecolorAll();
         }
         private void AdjustUserInterface() {
+            tbVars.DebugMode = false;
             lstArray.ScaleColumnWidths();
+            lstGlobals.ScaleColumnWidths();
             //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
         }
         private void RecolorAll() {
@@ -79,12 +101,14 @@ namespace Serial_Monitor.ToolWindows {
             Classes.Theming.ThemeManager.ThemeControl(thDataPagesHeader);
             Classes.Theming.ThemeManager.ThemeControl(tbVars);
             Classes.Theming.ThemeManager.ThemeControl(lstArray);
+            Classes.Theming.ThemeManager.ThemeControl(lstGlobals);
             Classes.Theming.ThemeManager.ThemeControl(cmArray);
         }
 
         private void Variables_FormClosing(object sender, FormClosingEventArgs e) {
             ProgramManager.ProgramRemoved -= ProgramManager_ProgramRemoved;
             ProgramManager.ArrayChanged -= ProgramManager_ArrayChanged;
+            ProgramManager.ProgramEditorChanged -= ProgramManager_ProgramEditorChanged;
         }
         private void ProgramManager_ProgramRemoved(string ID) {
             if (selectedProgram == null) { return; }
@@ -173,6 +197,18 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             DeleteArray();
+        }
+
+        private void lstGlobals_DropDownClicked(object sender, DropDownClickedEventArgs e) {
+            if (e.ParentItem == null) { return; }
+            if (e.ParentItem.SubItems == null) { return; }
+            Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
+            Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
+            Components.EditValue EdVal = new Components.EditValue(StepEnumerations.StepExecutable.SendString, e.ParentItem.SubItems[2].Text, lstGlobals, e.ParentItem, e.Column, null, false, Rect, ParRect);
+            
+            lstGlobals.Controls.Add(EdVal);
+            EdVal.Focus();
+            EdVal.Show();
         }
     }
 }

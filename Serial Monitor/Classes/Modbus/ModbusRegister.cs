@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Serial_Monitor.Classes.Modbus {
+   
     public class ModbusRegister {
         int Index = 0;
         SerialManager? parentManager = null;
@@ -219,13 +222,21 @@ namespace Serial_Monitor.Classes.Modbus {
                 if ((AllowTransmit) && (parentManager.IsMaster)) {
                     SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
+                #if DEBUG
+                    Debug.Print("Size: 16, Input: " + Input.ToString() + ", Set: " + regValue.ToString());
+                #endif
             }
             else if (dataSize == ModbusEnums.DataSize.Bits32) {
+#if DEBUG
+                Debug.Print("Size: 32, Input: " + Input.ToString());
+#endif
+                regValue = (short)(0xFFFF & Input);
+#if DEBUG
+                Debug.Print("Size: 16, Set: " + regValue.ToString());
+#endif
                 if (Index + 1 < ModbusSupport.MaximumRegisters) {
                     SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
                 }
-                regValue = (short)(0xFFFF & Input);
-
                 ModifyValue();
                 SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
                 if ((AllowTransmit) && (parentManager.IsMaster)) {
@@ -295,8 +306,16 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 else {
                     if (Index + 1 < ModbusSupport.MaximumRegisters - 1) {
+#if DEBUG
+                        Debug.Print("Size: 32, Formatter: ");
+                        Debug.Print(" - " + ((ushort)regValue).ToString());
+                        Debug.Print(" - " + AppendData(Index + 1, 1, typeData, parentManager).ToString());
+#endif
                         Temp = (long)(ushort)regValue;
                         Temp |= AppendData(Index + 1, 1, typeData, parentManager);
+#if DEBUG
+                        Debug.Print(" Results In: " + Temp.ToString());
+#endif
                     }
                 }
                 formattedValue = Formatters.LongToString(Temp, format, dataSize, signed);

@@ -172,6 +172,12 @@
   <data name="DomainType" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DomainType.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Download" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Download.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DownloadLog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DownloadLog.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="ExcelWorksheetView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExcelWorksheetView.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -210,6 +216,9 @@
   </data>
   <data name="ItemListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ItemListView.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ListMembers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListMembers.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Lock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Lock.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -336,6 +345,42 @@
   </data>
   <data name="Sync" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sync.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Task" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Task.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TaskList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TaskList.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TaskRunner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TaskRunner.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TerminateProcess" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TerminateProcess.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestList.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestPlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestPlan.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestResult.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestRun" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestRun.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestSettings.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestSuiteRequirement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestSuiteRequirement.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestVariable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestVariable.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TextLeft.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Time" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Time.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

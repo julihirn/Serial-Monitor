@@ -21,6 +21,8 @@ namespace Serial_Monitor.Classes.Step_Programs {
             End =               0x010200,
             SetProgram =        0x010001,
             If =                0x010081,
+            //ElseIf            = 0x010082,
+            Else              = 0x010083,
             EndIf =             0x01FFFF,
             SwitchSender    =   0x020001,
             Open =              0x020020,
@@ -52,7 +54,10 @@ namespace Serial_Monitor.Classes.Step_Programs {
             // MouseMiddleClick =    0x090003,
             // MouseRightClick =    0x090004,
             MousePositionOffset =    0x090005,
-            SendKeys =          0x090010
+            SendKeys =          0x090010,
+            //WaitUntil         = 0x101E001,
+            WaitUntilReceived = 0x101E002
+                             //0x1005FC04,
             //ResetChannelCounter = 0x10050400
         }
     }

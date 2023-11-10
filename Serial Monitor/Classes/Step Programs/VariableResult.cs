@@ -18,6 +18,23 @@ namespace Serial_Monitor.Classes.Step_Programs {
         public bool IsValid {
             get { return variableValid; }
         }
+        int index = -1;
+        public int Index {
+            get { return index; }
+            set { index = value; }
+        }
+        VariableScope scope = VariableScope.Global;
+        public VariableScope Scope {
+            get { return scope; }
+            set { scope = value; }
+        }
+        public VariableResult(string Name, string Value, VariableScope Scope, int Index) {
+            this.name = Name;
+            this.value = Value;
+            variableValid = true;
+            this.scope = Scope;
+            this.index = Index;
+        }
         public VariableResult(string Name, string Value) {
             this.name = Name;
             this.value = Value;
@@ -27,6 +44,12 @@ namespace Serial_Monitor.Classes.Step_Programs {
             this.name = Name;
             this.value = "";
             variableValid = false;
+            this.scope = VariableScope.None;
         }
+    }
+    public enum VariableScope {
+        Global = 0x00,
+        Local = 0x01,
+            None = 0xFF
     }
 }

@@ -243,6 +243,26 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Download {
+            get {
+                object obj = ResourceManager.GetObject("Download", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] DownloadLog {
+            get {
+                object obj = ResourceManager.GetObject("DownloadLog", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] ExcelWorksheetView {
             get {
                 object obj = ResourceManager.GetObject("ExcelWorksheetView", resourceCulture);
@@ -366,6 +386,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] ItemListView {
             get {
                 object obj = ResourceManager.GetObject("ItemListView", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ListMembers {
+            get {
+                object obj = ResourceManager.GetObject("ListMembers", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -786,6 +816,126 @@ namespace Serial_Monitor.Properties {
         internal static byte[] Sync {
             get {
                 object obj = ResourceManager.GetObject("Sync", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Task {
+            get {
+                object obj = ResourceManager.GetObject("Task", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TaskList {
+            get {
+                object obj = ResourceManager.GetObject("TaskList", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TaskRunner {
+            get {
+                object obj = ResourceManager.GetObject("TaskRunner", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TerminateProcess {
+            get {
+                object obj = ResourceManager.GetObject("TerminateProcess", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestList {
+            get {
+                object obj = ResourceManager.GetObject("TestList", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestPlan {
+            get {
+                object obj = ResourceManager.GetObject("TestPlan", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestResult {
+            get {
+                object obj = ResourceManager.GetObject("TestResult", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestRun {
+            get {
+                object obj = ResourceManager.GetObject("TestRun", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestSettings {
+            get {
+                object obj = ResourceManager.GetObject("TestSettings", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestSuiteRequirement {
+            get {
+                object obj = ResourceManager.GetObject("TestSuiteRequirement", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestVariable {
+            get {
+                object obj = ResourceManager.GetObject("TestVariable", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TextLeft {
+            get {
+                object obj = ResourceManager.GetObject("TextLeft", resourceCulture);
                 return ((byte[])(obj));
             }
         }

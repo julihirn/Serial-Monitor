@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightTextLeft</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey" d="M1,13H15v1H1Zm10-3H1v1H11ZM1,8H15V7H1ZM11,4H1V5H11ZM1,1V2H15V1Z" />
+  </g>
+</svg>

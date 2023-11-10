@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}</style>
+  </defs>
+  <title>IconLightListMembers</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey" d="M5,12h6v1H5Zm6-5H5.414L5,6.586V6h6ZM7.121,9H13v1H6.121ZM15,3V4H5V3Z" />
+    <path class="light-blue" d="M5.854,8.854l-2,2H3.146l-2-2,.708-.708L3,9.293V5H4V9.293L5.146,8.146Z" />
+  </g>
+</svg>

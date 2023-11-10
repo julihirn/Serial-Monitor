@@ -57,6 +57,10 @@ namespace Serial_Monitor.Classes {
         public List<VariableLinkage> Variables {
             get { return variables; }
         }
+        private List<VariableLinkage> globalVariables = new List<VariableLinkage>();
+        public List<VariableLinkage> GlobalVariables {
+            get { return globalVariables; }
+        }
         int programMarker = -1;
         public int ProgramMarker {
             get { return programMarker; }
@@ -104,10 +108,19 @@ namespace Serial_Monitor.Classes {
             variables.Clear();
         }
         public VariableResult GetVariable(string Name) {
+            int i = 0;
+            int j = 0;
+            foreach (VariableLinkage Var in globalVariables) {
+                if (Name == Var.Name) {
+                    return new VariableResult(Var.Name, Var.Value, VariableScope.Global, i);
+                }
+                i++;
+            }
             foreach (VariableLinkage Var in Variables) {
                 if (Name == Var.Name) {
-                    return new VariableResult(Var.Name, Var.Value);
+                    return new VariableResult(Var.Name, Var.Value, VariableScope.Local, j);
                 }
+                j++;
             }
             return new VariableResult(Name);
         }

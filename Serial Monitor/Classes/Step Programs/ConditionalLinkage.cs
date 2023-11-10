@@ -13,6 +13,12 @@ namespace Serial_Monitor.Classes.Step_Programs {
         int end = 0;
         public int End {
             get { return end; }
+            set { end = value; }
+        }
+        int elseend = -1;
+        public int ElseEnd {
+            get { return elseend; }
+            set { elseend = value; }
         }
         public ConditionalLinkage(int start, int end) {
             this.start = start;

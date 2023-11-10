@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-teal-10{fill: #006758; opacity: 0.1;}.light-teal{fill: #006758; opacity: 1;}</style>
+  </defs>
+  <title>IconLightTestPlan</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M13.5,1.5V9H9V8h1V5H7.5V1.5Z" />
+    <path class="light-defaultgrey" d="M14,1.5v8l-.5.5H9V9h4V2H8V5H6V4H7V3H6V2H7V1.5L7.5,1h6ZM12,4H9V3h3Z" />
+    <path class="light-teal-10" d="M9.6,13.971a1,1,0,0,1-.843,1.538H3.24A1,1,0,0,1,2.4,13.971l.933-1.462H8.67Z" />
+    <path class="light-defaultgrey-10" d="M3.649,12.009,4.5,10.676V6.509h3v4.167l.851,1.333Z" />
+    <path class="light-defaultgrey" d="M4,7.009H3v-1H9v1H8V10.53l1.091,1.71-.421-.231H7.757l-.679-1.063L7,10.676V7.009H5v3.667l-.078.27-.679,1.063H3.33l-.421.231L4,10.53Z" />
+    <path class="light-teal" d="M8.761,16.009H3.239A1.5,1.5,0,0,1,1.975,13.7l.933-1.463.422-.231H8.67l.422.231.933,1.462a1.5,1.5,0,0,1-1.264,2.307Zm-5.157-3-.786,1.232a.5.5,0,0,0,.421.768H8.761a.5.5,0,0,0,.421-.769L8.4,13.009Z" />
+  </g>
+</svg>

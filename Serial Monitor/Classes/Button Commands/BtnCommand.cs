@@ -175,6 +175,43 @@ namespace Serial_Monitor.Classes.Button_Commands {
                     DesignerSetup.LinkSVGtoControl(Properties.Resources.AudioMute, Btn, GenSize); break;
                 case DisplaySymbol.SymbolSound:
                     DesignerSetup.LinkSVGtoControl(Properties.Resources.Volume, Btn, GenSize); break;
+                case DisplaySymbol.Download:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.Download, Btn, GenSize); break;
+                case DisplaySymbol.DownloadLog:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.DownloadLog, Btn, GenSize); break;
+                case DisplaySymbol.Save:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, Btn, GenSize); break;
+                case DisplaySymbol.SaveAs:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.SaveAs_16x, Btn, GenSize); break;
+                case DisplaySymbol.Open:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, Btn, GenSize); break;
+                case DisplaySymbol.TestAll:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestSuiteRequirement, Btn, GenSize); break;
+                case DisplaySymbol.TestRun:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestRun, Btn, GenSize); break;
+                case DisplaySymbol.TestComponent:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestVariable, Btn, GenSize); break;
+                case DisplaySymbol.TestSettings:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestSettings, Btn, GenSize); break;
+                case DisplaySymbol.TestPlan:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestPlan, Btn, GenSize); break;
+                case DisplaySymbol.TestResult:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestResult, Btn, GenSize); break;
+                case DisplaySymbol.TestList:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TestList, Btn, GenSize); break;
+                case DisplaySymbol.ListMembers:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.ListMembers, Btn, GenSize); break;
+                case DisplaySymbol.List:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TextLeft, Btn, GenSize); break;
+
+                case DisplaySymbol.TerminateProcess:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TerminateProcess, Btn, GenSize); break;
+                case DisplaySymbol.Task:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.Task, Btn, GenSize); break;
+                case DisplaySymbol.TaskList:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TaskList, Btn, GenSize); break;
+                case DisplaySymbol.TaskRunner:
+                    DesignerSetup.LinkSVGtoControl(Properties.Resources.TaskRunner, Btn, GenSize); break;
                 default:
                     Btn.Icon = null; break;
             }
@@ -305,7 +342,44 @@ namespace Serial_Monitor.Classes.Button_Commands {
         [Description("Mute")]
         SymbolMute = 0x25,
         [Description("Sound")]
-        SymbolSound = 0x26
+        SymbolSound = 0x26,
+        [Description("Download")]
+        Download = 0x27,
+        [Description("Download Log")]
+        DownloadLog = 0x28,
+        [Description("Save")]
+        Save = 0x29,
+        [Description("Save As")]
+        SaveAs = 0x2A,
+        [Description("Open")]
+        Open = 0x2B,
+        [Description("List")]
+        List = 0x30,
+        [Description("List Members")]
+        ListMembers = 0x31,
+        [Description("Test Run")]
+        TestRun = 0x32,
+        [Description("Test All")]
+        TestAll = 0x33,
+        [Description("Test Component")]
+        TestComponent = 0x34,
+        [Description("Test Settings")]
+        TestSettings = 0x35,
+        [Description("Test Plan")]
+        TestPlan = 0x36,
+        [Description("Test Result")]
+        TestResult= 0x37,
+        [Description("Test List")]
+        TestList = 0x38,
+
+        [Description("Terminate Process")]
+        TerminateProcess = 0x40,
+        [Description("Task")]
+        Task = 0x41,
+        [Description("Task List")]
+        TaskList = 0x42,
+        [Description("Task Runner")]
+        TaskRunner= 0x43
     }
     class EnumTypeConverter : EnumConverter {
         private Type enumType;

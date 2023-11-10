@@ -58,9 +58,9 @@ namespace Serial_Monitor.WindowForms {
                     ((LabelPanel)Obj).LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
                     ((LabelPanel)Obj).LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                     foreach (object ChildObj in ((LabelPanel)Obj).Controls) {
-                        if (ChildObj.GetType() == typeof(TextBox)) {
-                            ((TextBox)ChildObj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                            ((TextBox)ChildObj).BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                        if (ChildObj.GetType() == typeof(System.Windows.Forms.TextBox)) {
+                            ((System.Windows.Forms.TextBox)ChildObj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                            ((System.Windows.Forms.TextBox)ChildObj).BackColor = Properties.Settings.Default.THM_COL_MenuBack;
                         }
                     }
                 }

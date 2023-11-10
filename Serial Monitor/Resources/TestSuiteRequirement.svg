@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-yellow-10{fill: #996f00; opacity: 0.1;}.light-yellow{fill: #996f00; opacity: 1;}.light-teal-10{fill: #006758; opacity: 0.1;}.light-teal{fill: #006758; opacity: 1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>TestSuiteRequirement</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-yellow-10" d="M10.437,8.5H7.27L7,8.07V7H8V4H4.5V1.5h4l1,1h4V8.112a4.51,4.51,0,0,0-3.063.388Z" />
+    <path class="light-yellow" d="M14,2.5,13.5,2H9.707l-.853-.854L8.5,1h-4L4,1.5V4H8.475l.354-.146L9.682,3H13V8h-.5a4.513,4.513,0,0,1,1.5.256ZM8.268,3H5V2H8.293l.488.488Zm1.4,6H7.582L7,8.07V8h5.5A4.481,4.481,0,0,0,9.672,9Z" />
+    <path class="light-teal-10" d="M7.579,11.735a.5.5,0,0,1-.424.765h-5.2a.5.5,0,0,1-.424-.765L2.307,10.5h4.5Z" />
+    <path class="light-teal" d="M6.883,13H2.12a1.12,1.12,0,0,1-.95-1.714L1.974,10H7.028l.8,1.287A1.12,1.12,0,0,1,6.883,13ZM2.529,11l-.511.816a.114.114,0,0,0,0,.122.116.116,0,0,0,.1.062H6.883a.12.12,0,0,0,.1-.183L6.474,11Z" />
+    <path class="light-defaultgrey-10" d="M2.557,10l.937-1.5v-3h2v3L6.432,10Z" />
+    <path class="light-defaultgrey" d="M3,6H2V5H7V6H6V8.356L7.028,10H5.849L5,8.644V6H4V8.644L3.153,10H1.974L3,8.356Z" />
+    <path class="light-defaultgrey" d="M16,11.444,13.659,12.5,16,13.557l-.8,1.391-2.084-1.5L13.365,16h-1.6l.249-2.553-2.084,1.5-.8-1.391L11.471,12.5,9.133,11.443l.8-1.391,2.084,1.5L11.765,9h1.6l-.249,2.553,2.084-1.5Z" />
+  </g>
+</svg>

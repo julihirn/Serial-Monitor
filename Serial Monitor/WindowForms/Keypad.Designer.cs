@@ -24,144 +24,198 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Keypad));
-            this.kpCommands = new ODModules.Keypad();
-            this.pnlProperties = new ODModules.LabelPanel();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.pnlProperties.SuspendLayout();
-            this.SuspendLayout();
+            kpCommands = new ODModules.Keypad();
+            pnlProperties = new ODModules.LabelPanel();
+            propertyGrid1 = new PropertyGrid();
+            msMain = new ODModules.MenuStrip();
+            viewToolStripMenuItem = new ToolStripMenuItem();
+            topMostToolStripMenuItem = new ToolStripMenuItem();
+            pnlProperties.SuspendLayout();
+            msMain.SuspendLayout();
+            SuspendLayout();
             // 
             // kpCommands
             // 
-            this.kpCommands.AllowTextWrapping = true;
-            this.kpCommands.BackColorCheckedNorth = System.Drawing.Color.Orange;
-            this.kpCommands.BackColorCheckedSouth = System.Drawing.Color.Orange;
-            this.kpCommands.BackColorDisabledNorth = System.Drawing.Color.Black;
-            this.kpCommands.BackColorDisabledSouth = System.Drawing.Color.Black;
-            this.kpCommands.BackColorDownNorth = System.Drawing.Color.DimGray;
-            this.kpCommands.BackColorDownSouth = System.Drawing.Color.DimGray;
-            this.kpCommands.BackColorHoverNorth = System.Drawing.Color.SkyBlue;
-            this.kpCommands.BackColorHoverSouth = System.Drawing.Color.SkyBlue;
-            this.kpCommands.BackColorMarkedNorth = System.Drawing.Color.Black;
-            this.kpCommands.BackColorMarkedSouth = System.Drawing.Color.Black;
-            this.kpCommands.BackColorNorth = System.Drawing.Color.DimGray;
-            this.kpCommands.BackColorSouth = System.Drawing.Color.DimGray;
-            this.kpCommands.BorderColorCheckedNorth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorCheckedSouth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorDisabledNorth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorDisabledSouth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorDownNorth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorDownSouth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorHoverNorth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorHoverSouth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorMarkedNorth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorMarkedSouth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorNorth = System.Drawing.Color.Black;
-            this.kpCommands.BorderColorShadow = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.kpCommands.BorderColorSouth = System.Drawing.Color.Black;
-            this.kpCommands.BorderRadius = 5;
-            this.kpCommands.ButtonPadding = new System.Windows.Forms.Padding(0);
-            this.kpCommands.Columns = 5;
-            this.kpCommands.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpCommands.ExternalItems = null;
-            this.kpCommands.IconInline = false;
-            this.kpCommands.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            this.kpCommands.ImageSize = new System.Drawing.Size(32, 32);
-            this.kpCommands.Location = new System.Drawing.Point(0, 0);
-            this.kpCommands.MarkedIndex = -1;
-            this.kpCommands.Name = "kpCommands";
-            this.kpCommands.Padding = new System.Windows.Forms.Padding(10);
-            this.kpCommands.Rows = 5;
-            this.kpCommands.SecondaryFont = null;
-            this.kpCommands.Size = new System.Drawing.Size(75, 361);
-            this.kpCommands.Style = ODModules.ButtonStyle.Round;
-            this.kpCommands.TabIndex = 0;
-            this.kpCommands.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            this.kpCommands.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            this.kpCommands.UseLocalList = false;
-            this.kpCommands.ButtonRightClicked += new ODModules.Keypad.ButtonClickedEventHandler(this.kpCommands_ButtonRightClicked);
-            this.kpCommands.ButtonClicked += new ODModules.Keypad.ButtonClickedEventHandler(this.keypad1_ButtonClicked);
+            kpCommands.AllowTextWrapping = true;
+            kpCommands.BackColorCheckedNorth = Color.Orange;
+            kpCommands.BackColorCheckedSouth = Color.Orange;
+            kpCommands.BackColorDisabledNorth = Color.Black;
+            kpCommands.BackColorDisabledSouth = Color.Black;
+            kpCommands.BackColorDownNorth = Color.DimGray;
+            kpCommands.BackColorDownSouth = Color.DimGray;
+            kpCommands.BackColorHoverNorth = Color.SkyBlue;
+            kpCommands.BackColorHoverSouth = Color.SkyBlue;
+            kpCommands.BackColorMarkedNorth = Color.Black;
+            kpCommands.BackColorMarkedSouth = Color.Black;
+            kpCommands.BackColorNorth = Color.DimGray;
+            kpCommands.BackColorSouth = Color.DimGray;
+            kpCommands.BorderColorCheckedNorth = Color.Black;
+            kpCommands.BorderColorCheckedSouth = Color.Black;
+            kpCommands.BorderColorDisabledNorth = Color.Black;
+            kpCommands.BorderColorDisabledSouth = Color.Black;
+            kpCommands.BorderColorDownNorth = Color.Black;
+            kpCommands.BorderColorDownSouth = Color.Black;
+            kpCommands.BorderColorHoverNorth = Color.Black;
+            kpCommands.BorderColorHoverSouth = Color.Black;
+            kpCommands.BorderColorMarkedNorth = Color.Black;
+            kpCommands.BorderColorMarkedSouth = Color.Black;
+            kpCommands.BorderColorNorth = Color.Black;
+            kpCommands.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            kpCommands.BorderColorSouth = Color.Black;
+            kpCommands.BorderRadius = 5;
+            kpCommands.ButtonPadding = new Padding(0);
+            kpCommands.Columns = 5;
+            kpCommands.Dock = DockStyle.Fill;
+            kpCommands.ExternalItems = null;
+            kpCommands.IconInline = false;
+            kpCommands.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            kpCommands.ImageSize = new Size(32, 32);
+            kpCommands.Location = new Point(0, 24);
+            kpCommands.MarkedIndex = -1;
+            kpCommands.Name = "kpCommands";
+            kpCommands.Padding = new Padding(10);
+            kpCommands.Rows = 5;
+            kpCommands.SecondaryFont = null;
+            kpCommands.Size = new Size(75, 337);
+            kpCommands.Style = ODModules.ButtonStyle.Round;
+            kpCommands.TabIndex = 0;
+            kpCommands.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            kpCommands.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            kpCommands.UseLocalList = false;
+            kpCommands.ButtonRightClicked += kpCommands_ButtonRightClicked;
+            kpCommands.ButtonClicked += keypad1_ButtonClicked;
             // 
             // pnlProperties
             // 
-            this.pnlProperties.ArrowColor = System.Drawing.Color.Black;
-            this.pnlProperties.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.pnlProperties.CloseColor = System.Drawing.Color.Black;
-            this.pnlProperties.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.pnlProperties.Collapsed = false;
-            this.pnlProperties.Controls.Add(this.propertyGrid1);
-            this.pnlProperties.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlProperties.DropShadow = false;
-            this.pnlProperties.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.pnlProperties.FixedInlineWidth = false;
-            this.pnlProperties.Inlinelabel = false;
-            this.pnlProperties.InlineWidth = 100;
-            this.pnlProperties.LabelBackColor = System.Drawing.Color.White;
-            this.pnlProperties.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.pnlProperties.LabelForeColor = System.Drawing.Color.Black;
-            this.pnlProperties.Location = new System.Drawing.Point(75, 0);
-            this.pnlProperties.Name = "pnlProperties";
-            this.pnlProperties.OverrideCollapseControl = false;
-            this.pnlProperties.Padding = new System.Windows.Forms.Padding(5, 18, 0, 0);
-            this.pnlProperties.PanelCollapsible = false;
-            this.pnlProperties.ResizeControl = ODModules.LabelPanel.ResizeDirection.Left;
-            this.pnlProperties.ShowCloseButton = true;
-            this.pnlProperties.Size = new System.Drawing.Size(259, 361);
-            this.pnlProperties.TabIndex = 1;
-            this.pnlProperties.Text = "Properties";
-            this.pnlProperties.Visible = false;
-            this.pnlProperties.CloseButtonClicked += new ODModules.LabelPanel.CloseClickedHandler(this.pnlProperties_CloseButtonClicked);
+            pnlProperties.ArrowColor = Color.Black;
+            pnlProperties.ArrowMouseOverColor = Color.DodgerBlue;
+            pnlProperties.CloseColor = Color.Black;
+            pnlProperties.CloseMouseOverColor = Color.Red;
+            pnlProperties.Collapsed = false;
+            pnlProperties.Controls.Add(propertyGrid1);
+            pnlProperties.Dock = DockStyle.Right;
+            pnlProperties.DropShadow = false;
+            pnlProperties.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            pnlProperties.FixedInlineWidth = false;
+            pnlProperties.Inlinelabel = false;
+            pnlProperties.InlineWidth = 100;
+            pnlProperties.LabelBackColor = Color.White;
+            pnlProperties.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            pnlProperties.LabelForeColor = Color.Black;
+            pnlProperties.Location = new Point(75, 24);
+            pnlProperties.Name = "pnlProperties";
+            pnlProperties.OverrideCollapseControl = false;
+            pnlProperties.Padding = new Padding(5, 18, 0, 0);
+            pnlProperties.PanelCollapsible = false;
+            pnlProperties.ResizeControl = ODModules.LabelPanel.ResizeDirection.Left;
+            pnlProperties.ShowCloseButton = true;
+            pnlProperties.Size = new Size(259, 337);
+            pnlProperties.TabIndex = 1;
+            pnlProperties.Text = "Properties";
+            pnlProperties.Visible = false;
+            pnlProperties.CloseButtonClicked += pnlProperties_CloseButtonClicked;
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.CanShowVisualStyleGlyphs = false;
-            this.propertyGrid1.CategoryForeColor = System.Drawing.Color.White;
-            this.propertyGrid1.CategorySplitterColor = System.Drawing.Color.Silver;
-            this.propertyGrid1.CommandsForeColor = System.Drawing.Color.White;
-            this.propertyGrid1.CommandsVisibleIfAvailable = false;
-            this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpBackColor = System.Drawing.Color.Gray;
-            this.propertyGrid1.HelpBorderColor = System.Drawing.Color.Gray;
-            this.propertyGrid1.HelpForeColor = System.Drawing.SystemColors.Window;
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.propertyGrid1.Location = new System.Drawing.Point(5, 18);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(254, 343);
-            this.propertyGrid1.TabIndex = 7;
-            this.propertyGrid1.ToolbarVisible = false;
-            this.propertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.propertyGrid1.ViewBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.propertyGrid1.ViewForeColor = System.Drawing.Color.White;
+            propertyGrid1.CanShowVisualStyleGlyphs = false;
+            propertyGrid1.CategoryForeColor = Color.White;
+            propertyGrid1.CategorySplitterColor = Color.Silver;
+            propertyGrid1.CommandsForeColor = Color.White;
+            propertyGrid1.CommandsVisibleIfAvailable = false;
+            propertyGrid1.DisabledItemForeColor = Color.FromArgb(127, 255, 255, 255);
+            propertyGrid1.Dock = DockStyle.Fill;
+            propertyGrid1.HelpBackColor = Color.Gray;
+            propertyGrid1.HelpBorderColor = Color.Gray;
+            propertyGrid1.HelpForeColor = SystemColors.Window;
+            propertyGrid1.HelpVisible = false;
+            propertyGrid1.LineColor = Color.FromArgb(40, 40, 40);
+            propertyGrid1.Location = new Point(5, 18);
+            propertyGrid1.Name = "propertyGrid1";
+            propertyGrid1.Size = new Size(254, 319);
+            propertyGrid1.TabIndex = 7;
+            propertyGrid1.ToolbarVisible = false;
+            propertyGrid1.ViewBackColor = Color.FromArgb(20, 20, 20);
+            propertyGrid1.ViewBorderColor = Color.FromArgb(20, 20, 20);
+            propertyGrid1.ViewForeColor = Color.White;
+            // 
+            // msMain
+            // 
+            msMain.BackColorNorth = Color.DodgerBlue;
+            msMain.BackColorNorthFadeIn = Color.DodgerBlue;
+            msMain.BackColorSouth = Color.DodgerBlue;
+            msMain.ItemForeColor = Color.Black;
+            msMain.Items.AddRange(new ToolStripItem[] { viewToolStripMenuItem });
+            msMain.ItemSelectedBackColorNorth = Color.White;
+            msMain.ItemSelectedBackColorSouth = Color.White;
+            msMain.ItemSelectedForeColor = Color.Black;
+            msMain.Location = new Point(0, 0);
+            msMain.MenuBackColorNorth = Color.DodgerBlue;
+            msMain.MenuBackColorSouth = Color.DodgerBlue;
+            msMain.MenuBorderColor = Color.WhiteSmoke;
+            msMain.MenuSeparatorColor = Color.WhiteSmoke;
+            msMain.MenuSymbolColor = Color.WhiteSmoke;
+            msMain.Name = "msMain";
+            msMain.Size = new Size(334, 24);
+            msMain.StripItemSelectedBackColorNorth = Color.White;
+            msMain.StripItemSelectedBackColorSouth = Color.White;
+            msMain.TabIndex = 2;
+            msMain.Text = "Main";
+            msMain.UseNorthFadeIn = false;
+            // 
+            // viewToolStripMenuItem
+            // 
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { topMostToolStripMenuItem });
+            viewToolStripMenuItem.ForeColor = Color.Black;
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new Size(44, 20);
+            viewToolStripMenuItem.Text = "&View";
+            // 
+            // topMostToolStripMenuItem
+            // 
+            topMostToolStripMenuItem.ForeColor = Color.Black;
+            topMostToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            topMostToolStripMenuItem.Name = "topMostToolStripMenuItem";
+            topMostToolStripMenuItem.Size = new Size(180, 22);
+            topMostToolStripMenuItem.Text = "&Top Most";
+            topMostToolStripMenuItem.Click += topMostToolStripMenuItem_Click;
             // 
             // Keypad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(334, 361);
-            this.Controls.Add(this.kpCommands);
-            this.Controls.Add(this.pnlProperties);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(350, 400);
-            this.Name = "Keypad";
-            this.Text = "Keypad";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Keypad_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Keypad_FormClosed);
-            this.Load += new System.EventHandler(this.Keypad_Load);
-            this.SizeChanged += new System.EventHandler(this.Keypad_SizeChanged);
-            this.VisibleChanged += new System.EventHandler(this.Keypad_VisibleChanged);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Keypad_KeyDown);
-            this.pnlProperties.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(16, 16, 16);
+            ClientSize = new Size(334, 361);
+            Controls.Add(kpCommands);
+            Controls.Add(pnlProperties);
+            Controls.Add(msMain);
+            DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
+            MainMenuStrip = msMain;
+            MinimumSize = new Size(346, 383);
+            Name = "Keypad";
+            Text = "Keypad";
+            FormClosing += Keypad_FormClosing;
+            FormClosed += Keypad_FormClosed;
+            Load += Keypad_Load;
+            SizeChanged += Keypad_SizeChanged;
+            VisibleChanged += Keypad_VisibleChanged;
+            KeyDown += Keypad_KeyDown;
+            pnlProperties.ResumeLayout(false);
+            msMain.ResumeLayout(false);
+            msMain.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-       // private ODModules.Keypad keypad1;
+        // private ODModules.Keypad keypad1;
         private ODModules.Keypad kpCommands;
         private ODModules.LabelPanel pnlProperties;
         private PropertyGrid propertyGrid1;
+        private ODModules.MenuStrip msMain;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem topMostToolStripMenuItem;
     }
 }
