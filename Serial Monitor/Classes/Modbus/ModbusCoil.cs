@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serial_Monitor.Classes.Structures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus
 {
-    public class ModbusCoil {
+    public class ModbusCoil: ModbusObject {
         SerialManager? parentManager = null;
         public SerialManager? ParentManager {
             get { return parentManager; }
@@ -32,16 +33,17 @@ namespace Serial_Monitor.Classes.Modbus
                 SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
             }
         }
-        string name = "";
-        public string Name {
-            get { return name; }
-            set {
-                name = value;
-            }
-        }
         bool userChanged = false;
         public bool UserChanged {
             get { return userChanged; }
+        }
+        public void Set(StringPair Input) {
+            if (Input.A.ToLower() == "name") {
+                Name = Input.B;
+            }
+            else if (Input.A.ToLower() == "value") {
+                Value = (Input.B == "1" ? true : false);
+            }
         }
     }
 }

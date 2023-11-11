@@ -360,7 +360,12 @@ namespace Serial_Monitor.Classes {
                 Sm.AutoReconnect = DocumentHandler.GetBooleanVariable(Pstrc, "AutoConnect");
             }
             catch { }
-
+            if (DocumentHandler.IsDefinedInParameter("Registers", Pstrc)) {
+                List<string> Data = GetList(Pstrc.GetVariable("Registers", false, DataType.STR));
+                for (int j = 0; j < Data.Count; j++) {
+                    ModbusSupport.DecodeFileRegsisterCommand(Data[j], Sm);
+                }
+            }
             Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
             Sm.DataReceived += DataProc;// SerMan_DataReceived;
             SystemManager.SerialManagers.Add(Sm);

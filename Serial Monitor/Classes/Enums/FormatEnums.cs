@@ -26,5 +26,10 @@ namespace Serial_Monitor.Classes.Enums {
             CR = 0x02,
             CRLF = 0x03
         }
+        public enum SignedState {
+            Unsigned = 0x00,
+            Signed = 0x01,
+            Toogle = 0x02
+        }
     }
 }

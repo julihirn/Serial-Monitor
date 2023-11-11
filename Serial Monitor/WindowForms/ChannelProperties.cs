@@ -15,7 +15,7 @@ namespace Serial_Monitor.WindowForms {
         SerialManager? manager = null;
         public SerialManager? Manager {
             get { return manager; }
-            set { 
+            set {
                 manager = value;
                 if (manager != null) {
                     propertyGrid1.SelectedObject = Manager;
@@ -28,7 +28,7 @@ namespace Serial_Monitor.WindowForms {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
-         
+
         }
 
         public void ApplyTheme() {
@@ -51,6 +51,13 @@ namespace Serial_Monitor.WindowForms {
 
         private void ChannelProperties_Load(object sender, EventArgs e) {
             ApplyTheme();
+            SystemManager.ChannelSelectedChanged += SystemManager_ChannelSelectedChanged;
+        }
+        private void ChannelProperties_FormClosing(object sender, FormClosingEventArgs e) {
+            SystemManager.ChannelSelectedChanged -= SystemManager_ChannelSelectedChanged;
+        }
+        private void SystemManager_ChannelSelectedChanged(SerialManager? sender) {
+            Manager = sender;
         }
 
         private void ChannelProperties_VisibleChanged(object sender, EventArgs e) {
@@ -62,5 +69,7 @@ namespace Serial_Monitor.WindowForms {
         private void ChannelProperties_FormClosed(object sender, FormClosedEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
         }
+
+
     }
 }

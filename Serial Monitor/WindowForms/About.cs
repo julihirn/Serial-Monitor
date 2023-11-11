@@ -35,10 +35,10 @@ namespace Serial_Monitor {
 
             for (int i = 0; i < assemblies.Length; i++) {
                 string AssemblyName = assemblies[i].GetName().Name ?? "";
-                if (AssemblyName.ToLower().StartsWith("system") || AssemblyName.ToLower().StartsWith("microsoft")) { }
+                if (AssemblyName.ToLower().StartsWith("system") || AssemblyName.ToLower().StartsWith("microsoft") || AssemblyName.ToLower().StartsWith("mscor")) { }
                 else if (AssemblyName.ToLower().StartsWith(Application.ProductName.ToLower())) { }
                 else if (AssemblyName.ToLower().StartsWith("netstandard")) { }
-                else { 
+                else {
                     try {
                         FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assemblies[i].Location);
                         Label lbl = new Label();

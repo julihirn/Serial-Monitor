@@ -9,8 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
-namespace Serial_Monitor.Classes
-{
+namespace Serial_Monitor.Classes {
     public static class EnumManager {
 
         #region Modbus Data Size
@@ -145,20 +144,44 @@ namespace Serial_Monitor.Classes
             else if (Input == "mbTypeRegInput") {
                 return DataSelection.ModbusDataInputRegisters;
             }
+            else if (Input == "C") {
+                return DataSelection.ModbusDataCoils;
+            }
+            else if (Input == "D") {
+                return DataSelection.ModbusDataDiscreteInputs;
+            }
+            else if (Input == "H") {
+                return DataSelection.ModbusDataHoldingRegisters;
+            }
+            else if (Input == "I") {
+                return DataSelection.ModbusDataInputRegisters;
+            }
             return DataSelection.ModbusDataCoils;
         }
-        public static StringPair ModbusDataSelectionToString(DataSelection Input) {
+        public static StringPair ModbusDataSelectionToString(DataSelection Input, bool UseShortenCode = false) {
             if (Input == DataSelection.ModbusDataCoils) {
-                return new StringPair("Coils", "mbTypeCoils");
+                if (UseShortenCode == false) {
+                    return new StringPair("Coils", "mbTypeCoils");
+                }
+                return new StringPair("Coils", "C");
             }
             else if (Input == DataSelection.ModbusDataDiscreteInputs) {
-                return new StringPair("Discrete", "mbTypeDiscrete");
+                if (UseShortenCode == false) {
+                    return new StringPair("Discrete", "mbTypeDiscrete");
+                }
+                return new StringPair("Discrete", "D");
             }
             else if (Input == DataSelection.ModbusDataHoldingRegisters) {
-                return new StringPair("Holding Registers", "mbTypeRegHolding");
+                if (UseShortenCode == false) {
+                    return new StringPair("Holding Registers", "mbTypeRegHolding");
+                }
+                return new StringPair("Holding Registers", "H");
             }
             else if (Input == DataSelection.ModbusDataInputRegisters) {
-                return new StringPair("Input Registers", "mbTypeRegInput");
+                if (UseShortenCode == false) {
+                    return new StringPair("Input Registers", "mbTypeRegInput");
+                }
+                return new StringPair("Input Registers", "I");
             }
             return new StringPair("Coils", "mbTypeCoils");
         }

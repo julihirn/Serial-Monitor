@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,14 @@ namespace Serial_Monitor {
             kpCommands.ExternalItems = Classes.ProjectManager.Buttons;
             RecolorAll();
             ProjectManager.ButtonPropertyChanged += ProjectManager_ButtonPropertyChanged;
+        }
+        private void AdjustUserInterface() {
+            msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
+            //tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            //lstMonitor.ScaleColumnWidths();
+            //lstSelector.ScaleColumnWidths();
+
+            //pnlMonitor.Panel1.Width = DesignerSetup.ScaleInteger(pnlMonitor.Panel1.Width);
         }
         private void Keypad_FormClosing(object sender, FormClosingEventArgs e) {
             ProjectManager.ButtonPropertyChanged -= ProjectManager_ButtonPropertyChanged;

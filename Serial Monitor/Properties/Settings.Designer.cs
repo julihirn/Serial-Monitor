@@ -12,7 +12,7 @@ namespace Serial_Monitor.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -439,6 +439,30 @@ namespace Serial_Monitor.Properties {
             }
             set {
                 this["PRG_BOL_LimitExecution1ms"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
+        public global::System.Drawing.Color THM_COL_MouseOverForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_MouseOverForeColor"]));
+            }
+            set {
+                this["THM_COL_MouseOverForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DimGray")]
+        public global::System.Drawing.Color THM_COL_MouseDownForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_MouseDownForeColor"]));
+            }
+            set {
+                this["THM_COL_MouseDownForeColor"] = value;
             }
         }
     }

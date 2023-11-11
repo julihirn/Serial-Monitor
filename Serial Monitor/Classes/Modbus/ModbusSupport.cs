@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
@@ -13,7 +14,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public static event SnapshotClosedHandler? SnapshotClosed;
         public delegate void SnapshotClosedHandler();
 
-        public const int MaximumRegisters = short.MaxValue;
+        public const int MaximumRegisters = ushort.MaxValue;
 
         static bool applyOnChange = true;
         public static bool SendOnChange {
@@ -30,7 +31,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
 
         #region Coil/Register Support
-        public static bool IsRegsiterEdited(object? Input, bool CheckValues = false) {
+        public static bool IsRegisterEdited(object? Input, bool CheckValues = false) {
             if (Input == null) { return false; }
             if (Input.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil Current = (ModbusCoil)Input;
@@ -80,69 +81,138 @@ namespace Serial_Monitor.Classes.Modbus {
         public static Structures.ValidString BulidRegisterSerialisedString(object? Input, bool IncludeValue = false) {
             string Output = "";
             if (Input == null) { return new Structures.ValidString(); }
-            if (IsRegsiterEdited(Input, IncludeValue) == false) { return new Structures.ValidString(); }
+            if (IsRegisterEdited(Input, IncludeValue) == false) { return new Structures.ValidString(); }
             if (Input.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil Current = (ModbusCoil)Input;
-                Output += EnumManager.ModbusDataSelectionToString(Current.ComponentType).B;
-                Output += ":" + Current.Address;
-                Output += ":" + ((Current.Value == true) ? "1" : "0");
-                Output += ":" + Current.Name;
+                string Address = EnumManager.ModbusDataSelectionToString(Current.ComponentType, true).B + Current.Address;
+                List<string> Values = new List<string>();
+                Values.Add(Address);
+                if (Current.Name.Length > 0) {
+                    Values.Add(TagData("Name", Current.Name));
+                }
+                Values.Add(TagData("Value", Current.Value));
 
+                Output = GenerateCommaSeperatedValues(Values);
             }
             else if (Input.GetType() == typeof(Modbus.ModbusRegister)) {
                 Modbus.ModbusRegister Current = (Modbus.ModbusRegister)Input;
-                Output += EnumManager.ModbusDataSelectionToString(Current.ComponentType).B;
-                Output += ":" + Current.Address;
-                Output += ":" + Current.Value;
-                Output += ":" + EnumManager.DataFormatToString(Current.Format).B;
-                Output += ":" + EnumManager.DataSizeToInteger(Current.Size).ToString();
-                Output += ":" + Current.Name;
+                string Address = EnumManager.ModbusDataSelectionToString(Current.ComponentType, true).B + Current.Address;
+                List<string> Values = new List<string>();
+                Values.Add(Address);
+                if (Current.Name.Length > 0) {
+                    Values.Add(TagData("Name", Current.Name));
+                }
+                if (Current.Format != Enums.ModbusEnums.DataFormat.Decimal) {
+                    Values.Add(TagData("Format", EnumManager.DataFormatToString(Current.Format).B));
+                }
+                if (Current.Size != Enums.ModbusEnums.DataSize.Bits16) {
+                    Values.Add(TagData("Size", EnumManager.DataSizeToInteger(Current.Size)));
+                }
+                Values.Add(TagData("Signed", Current.Signed));
+                Values.Add(TagData("Value", Current.Value));
+                if (Current.UseBackColor) {
+                    Values.Add(TagData("BackColor", Current.BackColor.ToArgb()));
+                }
+                if (Current.UseForeColor) {
+                    Values.Add(TagData("ForeColor", Current.ForeColor.ToArgb()));
+                }
+                Output = GenerateCommaSeperatedValues(Values);
             }
             return new Structures.ValidString(Output);
         }
-        public static void DecodeFileRegsisterCommand(string SerialisedString, SerialManager? CurrentManager) {
-            if (CurrentManager == null) { return; }
-            if (!SerialisedString.Contains(':')) { return; }
-            string TempStrSelection = SerialisedString.Split(':')[0];// StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 0, 1);
-            string TempStrIndex = StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 0, 1);
-            string TempStrValue = StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 1, 2);
-            int Index = -1; int.TryParse(TempStrIndex, out Index);
-            short Value = 0;
-            int DataSize = 16;
-            DataSelection Selection = EnumManager.ModbusStringToDataSelection(TempStrSelection);
-            try {
-                switch (Selection) {
-                    case DataSelection.ModbusDataCoils:
-                        CurrentManager.Coils[Index].Value = (TempStrValue == "1" ? true : false);
-                        CurrentManager.Coils[Index].Name = StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 2, -1);
-                        break;
-
-                    case DataSelection.ModbusDataDiscreteInputs:
-                        CurrentManager.DiscreteInputs[Index].Value = (TempStrValue == "1" ? true : false);
-                        CurrentManager.DiscreteInputs[Index].Name = StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 2, -1);
-                        break;
-                    case DataSelection.ModbusDataInputRegisters:
-                        short.TryParse(TempStrValue, out Value);
-                        CurrentManager.InputRegisters[Index].Format = EnumManager.StringToDataFormat(StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 2, 3));
-                        int.TryParse(StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 3, 4), out DataSize);
-                        CurrentManager.InputRegisters[Index].Size = EnumManager.IntegerToDataSize(DataSize);
-                        CurrentManager.InputRegisters[Index].Value = Value;
-                        CurrentManager.InputRegisters[Index].Name = StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 4, -1);
-                        break;
-                    case DataSelection.ModbusDataHoldingRegisters:
-                        short.TryParse(TempStrValue, out Value);
-                        CurrentManager.HoldingRegisters[Index].Format = EnumManager.StringToDataFormat(StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 2, 3));
-                        int.TryParse(StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 3, 4), out DataSize);
-                        CurrentManager.HoldingRegisters[Index].Size = EnumManager.IntegerToDataSize(DataSize);
-                        CurrentManager.HoldingRegisters[Index].Value = Value;
-                        CurrentManager.HoldingRegisters[Index].Name = StringHandler.GetStringInEncapulated(SerialisedString, ':', ':', 4, -1);
-                        break;
-
-                    default:
-                        return;
+        private static string GenerateCommaSeperatedValues(List<string> Values) {
+            string Output = "";
+            for (int i = 0; i < Values.Count; i++) {
+                Output += Values[i];
+                if (i < Values.Count - 1) { Output += ", "; }
+            }
+            return Output;
+        }
+        private static string TagData(string Name, string Value) {
+            return Name + " = " + StringHandler.EncapsulateString(Value);
+        }
+        private static string TagData(string Name, bool Value) {
+            return Name + " = " + ((Value == true) ? "1" : "0");
+        }
+        private static string TagData(string Name, int Value) {
+            return Name + " = " + Value.ToString();
+        }
+        private static string TagData(string Name, short Value) {
+            return Name + " = " + Value.ToString();
+        }
+        private static List<StringPair> GetTaggedData(string Input) {
+            List<StringPair> Output = new List<StringPair>();
+            STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(Input, ',');
+            List<string> Values = new List<string>();
+            for (int i = 0; i < Spilts.Count; i++) {
+                if (i == 0) {
+                    Values.Add(Spilts.Value[i]);
+                }
+                else {
+                    if ((Spilts.Value[i - 1].Contains("\"")) && (Spilts.Value[i].Contains("\""))) {
+                        Values[Values.Count - 1] += "," + Spilts.Value[i];
+                    }
+                    else if ((Spilts.Value[i - 1].Contains("\'")) && (Spilts.Value[i].Contains("\'"))) {
+                        Values[Values.Count - 1] += "," + Spilts.Value[i];
+                    }
+                    else {
+                        Values.Add(Spilts.Value[i]);
+                    }
                 }
             }
-            catch { }
+            for (int i = 0; i < Values.Count; i++) {
+                string Temp = Values[i].TrimStart(' ');
+                try {
+                    if (Temp.Contains("=")) {
+                        string Name = Temp.Split('=')[0].Trim(' ');
+                        string Assignment = StringHandler.SpiltAndCombineAfter(Temp,'=',1).Value[1].TrimStart(' ').TrimEnd(' ');
+                        if (Assignment.StartsWith('\"')&& Assignment.EndsWith('\"')) {
+                            Assignment = Assignment.Remove(Assignment.Length-1, 1);
+                            Assignment = Assignment.Remove(0, 1);
+                        }
+                        else if (Assignment.StartsWith('\'') && Assignment.EndsWith('\'')) {
+                            Assignment = Assignment.Remove(Assignment.Length - 1, 1);
+                            Assignment = Assignment.Remove(0, 1);
+                        }
+                        Output.Add(new StringPair(Name, Assignment));
+                    }
+                }
+                catch { }
+            }
+            return Output;
+        }
+        public static void DecodeFileRegsisterCommand(string SerialisedString, SerialManager? CurrentManager) {
+            if (CurrentManager == null) { return; }
+            if (!SerialisedString.Contains(',')) { return; }
+            string TempStrSelection = SerialisedString.Split(',')[0];
+            if (!Regex.IsMatch(TempStrSelection, "[A-Za-z][0-9]+")) { return; }
+            SerialisedString = StringHandler.SpiltAndCombineAfter(SerialisedString, ',', 1).Value[1];
+            string TempStrIndex = TempStrSelection.Remove(0, 1);
+            int Index = -1; int.TryParse(TempStrIndex, out Index);
+            DataSelection Selection = EnumManager.ModbusStringToDataSelection(TempStrSelection[0].ToString());
+            List<StringPair> Data = GetTaggedData(SerialisedString);
+            foreach (StringPair DataPair in Data) {
+                try {
+                    switch (Selection) {
+                        case DataSelection.ModbusDataCoils:
+                            CurrentManager.Coils[Index].Set(DataPair);
+                            break;
+                        case DataSelection.ModbusDataDiscreteInputs:
+                            CurrentManager.DiscreteInputs[Index].Set(DataPair);
+                            break;
+                        case DataSelection.ModbusDataInputRegisters:
+                            CurrentManager.InputRegisters[Index].Set(DataPair);
+                            break;
+                        case DataSelection.ModbusDataHoldingRegisters:
+                            CurrentManager.HoldingRegisters[Index].Set(DataPair);
+                            break;
+
+                        default:
+                            return;
+                    }
+                }
+                catch { }
+            }
         }
         public static List<RegisterRequest> GetModifiedRegisters(SerialManager? CurrentManager) {
             List<RegisterRequest> Registers = new List<RegisterRequest>();
@@ -150,25 +220,25 @@ namespace Serial_Monitor.Classes.Modbus {
             try {
                 for (int i = 0; i < MaximumRegisters; i++) {
                     if (i < CurrentManager.Coils.Count()) {
-                        bool Result = IsRegsiterEdited(CurrentManager.Coils[i]);
+                        bool Result = IsRegisterEdited(CurrentManager.Coils[i]);
                         if (Result == true) {
                             Registers.Add(new RegisterRequest(i, DataSelection.ModbusDataCoils));
                         }
                     }
                     if (i < CurrentManager.DiscreteInputs.Count()) {
-                        bool Result = IsRegsiterEdited(CurrentManager.DiscreteInputs[i]);
+                        bool Result = IsRegisterEdited(CurrentManager.DiscreteInputs[i]);
                         if (Result == true) {
                             Registers.Add(new RegisterRequest(i, DataSelection.ModbusDataDiscreteInputs));
                         }
                     }
                     if (i < CurrentManager.InputRegisters.Count()) {
-                        bool Result = IsRegsiterEdited(CurrentManager.InputRegisters[i]);
+                        bool Result = IsRegisterEdited(CurrentManager.InputRegisters[i]);
                         if (Result == true) {
                             Registers.Add(new RegisterRequest(i, DataSelection.ModbusDataInputRegisters));
                         }
                     }
                     if (i < CurrentManager.HoldingRegisters.Count()) {
-                        bool Result = IsRegsiterEdited(CurrentManager.HoldingRegisters[i]);
+                        bool Result = IsRegisterEdited(CurrentManager.HoldingRegisters[i]);
                         if (Result == true) {
                             Registers.Add(new RegisterRequest(i, DataSelection.ModbusDataHoldingRegisters));
                         }
@@ -178,7 +248,7 @@ namespace Serial_Monitor.Classes.Modbus {
             catch { }
             return Registers;
         }
-        
+
         #endregion
         #region Snapshots
         public static List<ModbusSnapshot> Snapshots = new List<ModbusSnapshot>();

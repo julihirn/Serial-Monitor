@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,8 @@ namespace Serial_Monitor.Classes.Theming {
                 Ts.MenuBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
                 Ts.MenuSeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
                 Ts.MenuSymbolColor = Properties.Settings.Default.THM_COL_SymbolColor;
-                Ts.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_SymbolColor;
-                Ts.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_SymbolColor;
+                Ts.ItemCheckedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonChecked;
+                Ts.ItemCheckedBackColorSouth = Properties.Settings.Default.THM_COL_ButtonChecked;
                 Ts.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 Ts.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 Ts.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -104,6 +105,9 @@ namespace Serial_Monitor.Classes.Theming {
                 LstCtrl.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
                 LstCtrl.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
                 LstCtrl.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+                LstCtrl.DropDownMouseDown = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                LstCtrl.DropDownMouseOver = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.Navigator)) {
                 ODModules.Navigator Nav = (ODModules.Navigator)ControlObject;
@@ -251,6 +255,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark1.SeconaryBackColor = Color.FromArgb(40, 40, 40);
             Thm_Dark1.TerminalForeColor = Color.FromArgb(255, 255, 192);
 
+            Thm_Dark1.MouseDownForeColor = Color.DimGray;
+            Thm_Dark1.MouseOverForeColor = Color.LightGray;
+
             Thm_Dark1.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
 
             Thm_Dark1.RowColor = Color.FromArgb(23, 23, 23);
@@ -284,6 +291,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light1.StopColor = Color.Brown;
             Thm_Light1.SeconaryBackColor = Color.FromArgb(215, 215, 215);
             Thm_Light1.TerminalForeColor = Color.FromArgb(0, 0, 63);
+
+            Thm_Light1.MouseOverForeColor = Color.DimGray;
+            Thm_Light1.MouseDownForeColor = Color.LightGray;
 
             Thm_Light1.ColumnSeperatorColor = Color.FromArgb(180, 180, 180);
 
@@ -319,6 +329,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.SeconaryBackColor = Color.FromArgb(207, 214, 229);
             Thm_Light2.TerminalForeColor = Color.FromArgb(0, 0, 63);
 
+            Thm_Light2.MouseDownForeColor = Color.FromArgb(88, 107, 138);
+            Thm_Light2.MouseOverForeColor = Color.FromArgb(48, 67, 98);
+
             Thm_Light2.ColumnSeperatorColor = Color.FromArgb(204, 206, 219);
 
             Thm_Light2.TabSelectedBorderColor = Color.FromArgb(142, 155, 188);
@@ -353,6 +366,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.SeconaryBackColor = Color.FromArgb(26, 33, 48);
             Thm_Dark2.TerminalForeColor = Color.FromArgb(255, 255, 192);
 
+            Thm_Dark2.MouseDownForeColor = Color.DimGray;
+            Thm_Dark2.MouseOverForeColor = Color.LightGray;
+
             Thm_Dark2.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
 
             Thm_Dark2.RowColor = Color.FromArgb(23, 23, 23);
@@ -386,6 +402,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.StopColor = Color.Red;
             Thm_Dark2.SeconaryBackColor = Color.FromArgb(82, 82, 82);
             Thm_Dark2.TerminalForeColor = Color.White;
+
+            Thm_Dark2.MouseDownForeColor = Color.DimGray;
+            Thm_Dark2.MouseOverForeColor = Color.LightGray;
 
             Thm_Dark2.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
 

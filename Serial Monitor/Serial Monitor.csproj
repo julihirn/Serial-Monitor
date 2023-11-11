@@ -13,15 +13,14 @@
     <Copyright>Copyright © Julian Hirniak 2023</Copyright>
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
-    <AssemblyVersion>1.7.265.0</AssemblyVersion>
-    <FileVersion>1.7.265.0</FileVersion>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.7.265.0</Version>
+    <Version>1.8.526.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\Modbus\ModbusData.cs" />
     <Compile Remove="Components\EditValue-C3M_MEDIA2.cs" />
   </ItemGroup>
 

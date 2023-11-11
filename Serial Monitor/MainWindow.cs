@@ -33,6 +33,7 @@ namespace Serial_Monitor {
             get { return currentManager; }
             set {
                 currentManager = value;
+                SystemManager.InvokeChannelSelectedChanged(currentManager);
                 InvokePropertyChange();
             }
         }

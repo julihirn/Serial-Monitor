@@ -43,6 +43,16 @@ namespace Serial_Monitor.Classes.Theming {
             get { return secondaryForeColor; }
             set { secondaryForeColor = value; }
         }
+        private Color mouseOverForeColor = Color.LightGray;
+        public Color MouseOverForeColor {
+            get { return mouseOverForeColor; }
+            set { mouseOverForeColor = value; }
+        }
+        private Color mouseDownForeColor = Color.DimGray;
+        public Color MouseDownForeColor {
+            get { return mouseDownForeColor; }
+            set { mouseDownForeColor = value; }
+        }
         private Color borderColor = Color.DimGray;
         public Color BorderColor {
             get { return borderColor; }
@@ -161,7 +171,10 @@ namespace Serial_Monitor.Classes.Theming {
             Properties.Settings.Default.THM_COL_TabSelectedForeColor = tabSelectedForeColor;
 
             Properties.Settings.Default.THM_COL_Match = matchColor; 
-            Properties.Settings.Default.THM_COL_Mismatched = mismatchedColor; 
+            Properties.Settings.Default.THM_COL_Mismatched = mismatchedColor;
+
+            Properties.Settings.Default.THM_COL_MouseDownForeColor = mouseDownForeColor;
+            Properties.Settings.Default.THM_COL_MouseOverForeColor = mouseOverForeColor;
 
             Properties.Settings.Default.THM_SET_IsDark = isDarkTheme;
             Classes.ApplicationManager.ReapplyThemeToAll();

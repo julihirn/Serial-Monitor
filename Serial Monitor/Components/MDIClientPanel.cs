@@ -12,7 +12,7 @@ namespace Serial_Monitor.Components {
 
 
 
-        public delegate void ActivateHandler(object sender, MdiClientForm child);
+        public delegate void ActivateHandler(object ?sender, MdiClientForm child);
         public event ActivateHandler OnChildActivated;
 
         [DllImport("User32.Dll", CharSet = CharSet.Auto)]
@@ -23,7 +23,7 @@ namespace Serial_Monitor.Components {
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_CLIENTEDGE = 0x200;
 
-        public Form ActiveMDIWnd {
+        public Form ?ActiveMDIWnd {
             get;
             set;
         }

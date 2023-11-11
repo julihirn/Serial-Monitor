@@ -21,8 +21,8 @@ namespace Serial_Monitor.ToolWindows {
     public partial class ModbusRegister : Components.MdiClientForm, ITheme {
 
 
-        Classes.Modbus.ModbusSnapshot snapshot;
-        public Classes.Modbus.ModbusSnapshot Snapshot {
+        Classes.Modbus.ModbusSnapshot? snapshot;
+        public Classes.Modbus.ModbusSnapshot? Snapshot {
             get { return snapshot; }
         }
         bool showFormats = true;
@@ -32,8 +32,10 @@ namespace Serial_Monitor.ToolWindows {
             }
             set {
                 showFormats = value;
-                ModbusEditor.ShowHideColumns(showFormats, snapshot.Selection, lstRegisters);
-                lstRegisters.Invalidate();
+                if (snapshot != null) {
+                    ModbusEditor.ShowHideColumns(showFormats, snapshot.Selection, lstRegisters);
+                    lstRegisters.Invalidate();
+                }
             }
         }
 
@@ -46,18 +48,20 @@ namespace Serial_Monitor.ToolWindows {
                 locked = value;
             }
         }
-        public ModbusRegister(Classes.Modbus.ModbusSnapshot snapShot) {
+        public ModbusRegister(Classes.Modbus.ModbusSnapshot? snapShot) {
             Intialise(snapShot);
         }
-        public ModbusRegister(Classes.Modbus.ModbusSnapshot snapShot, bool UseBounds) {
+        public ModbusRegister(Classes.Modbus.ModbusSnapshot? snapShot, bool UseBounds) {
             Intialise(snapShot);
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = snapShot.Location;
-            this.Size = snapShot.Size;
-
+            if (snapShot != null) {
+                this.Location = snapShot.Location;
+                this.Size = snapShot.Size;
+            }
         }
-        private void Intialise(Classes.Modbus.ModbusSnapshot snapShot) {
+        private void Intialise(Classes.Modbus.ModbusSnapshot? snapShot) {
             InitializeComponent();
+            if (snapShot == null) { return; }
             snapshot = snapShot;
             if (lstRegisters.Columns.Count > 0) {
                 if (snapshot.SelectionType == Classes.Enums.ModbusEnums.SnapshotSelectionType.Custom) {
@@ -75,21 +79,21 @@ namespace Serial_Monitor.ToolWindows {
             ApplyTheme();
             EnumManager.LoadDataFormats(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.LoadDataSizes(cmDataSize, CmDisplaySize_Click);
+            if (snapshot != null) {
+                snapshot.SnapshotRemoved += Snapshot_SnapshotRemoved;
+                SystemManager.ModbusReceived += SystemManager_ModbusReceived;
+                SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
+                SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
+                SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
 
-            snapshot.SnapshotRemoved += Snapshot_SnapshotRemoved;
-            SystemManager.ModbusReceived += SystemManager_ModbusReceived;
-            SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
-            SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
-            SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
-
-            this.GotFocus += ModbusRegister_GotFocus;
-            this.LostFocus += ModbusRegister_LostFocus;
-            IgnoreBoundsChange = false;
-
+                this.GotFocus += ModbusRegister_GotFocus;
+                this.LostFocus += ModbusRegister_LostFocus;
+                IgnoreBoundsChange = false;
+            }
         }
 
         private void ModbusRegister_LostFocus(object? sender, EventArgs e) {
-           
+
         }
 
         private void ModbusRegister_GotFocus(object? sender, EventArgs e) {
@@ -108,6 +112,7 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void SystemManager_ModbusPropertyChanged(SerialManager parentManager, object Data, int Index, DataSelection DataType) {
             // lstRegisters.ExternalItems[Index]
+            if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
             if (snapshot.Manager.ID == parentManager.ID) {
                 snapshot.UpdateRow(Index);
@@ -116,6 +121,7 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void SystemManager_ModbusRegisterRenamed(SerialManager parentManager, object Data, int Index, DataSelection DataType) {
+            if (snapshot == null) { return; }
             if (snapshot.Selection != DataType) { return; }
             if (snapshot.Manager == null) { return; }
             if (snapshot.Manager.ID == parentManager.ID) {
@@ -125,15 +131,18 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void SystemManager_ChannelRenamed(SerialManager sender) {
+            if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
             if (sender.ID == snapshot.Manager.ID) {
                 UpdateWindowName();
             }
         }
         private void UpdateWindowName() {
+            if (snapshot == null) { return; }
             this.Text = snapshot.Name;
         }
         private void SystemManager_ModbusReceived(SerialManager parentManager, object Data, int Index, DataSelection DataType) {
+            if (snapshot == null) { return; }
             if (snapshot.Selection != DataType) { return; }
             if (snapshot.Manager == null) { return; }
             if (snapshot.Manager.ID == parentManager.ID) {
@@ -157,11 +166,13 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void ModbusRegister_FormClosing(object sender, FormClosingEventArgs e) {
-            snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
+            if (snapshot != null) {
+                snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
+            }
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusPropertyChanged -= SystemManager_ModbusPropertyChanged;
-        
+
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
             this.GotFocus -= ModbusRegister_GotFocus;
@@ -178,7 +189,9 @@ namespace Serial_Monitor.ToolWindows {
             if (DataTag == null) { return; }
             if (e.ParentItem == null) { return; }
             if (e.Column == ModbusEditor.Indx_Name) {
-                ModbusEditor.AddRenameBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
+                if (snapshot != null) {
+                    ModbusEditor.AddRenameBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
+                }
             }
             else if (e.Column == ModbusEditor.Indx_Display) {
                 if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
@@ -198,33 +211,40 @@ namespace Serial_Monitor.ToolWindows {
                 if (locked == true) { return; }
                 if (DataTag.GetType() == typeof(Classes.Modbus.ModbusCoil)) {
                     Classes.Modbus.ModbusCoil coil = (Classes.Modbus.ModbusCoil)DataTag;
-                    if (ModbusEditor.CanChangeValue(snapshot.Manager, coil.ComponentType) == false) { return; }
-                    coil.Value = !coil.Value;
+                    if (snapshot != null) {
+                        if (ModbusEditor.CanChangeValue(snapshot.Manager, coil.ComponentType) == false) { return; }
+                        coil.Value = !coil.Value;
 
-                    LstItem[ModbusEditor.Indx_Value].Text = coil.Value.ToString();
-                    if (ModbusSupport.SendOnChange == false) { return; }
-                    SystemManager.SendModbusCommand(snapshot.Manager, snapshot.Selection, "Write Coil " + e.ParentItem.Value.ToString() + " = " + coil.Value.ToString());
+                        LstItem[ModbusEditor.Indx_Value].Text = coil.Value.ToString();
+                        if (ModbusSupport.SendOnChange == false) { return; }
+                        SystemManager.SendModbusCommand(snapshot.Manager, snapshot.Selection, "Write Coil " + e.ParentItem.Value.ToString() + " = " + coil.Value.ToString());
+                    }
                 }
                 else if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
-                    if (ModbusEditor.CanChangeValue(snapshot.Manager, ((Classes.Modbus.ModbusRegister)DataTag).ComponentType) == false) { return; }
-                    ModbusEditor.AddValueBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
+                    if (snapshot != null) {
+                        if (ModbusEditor.CanChangeValue(snapshot.Manager, ((Classes.Modbus.ModbusRegister)DataTag).ComponentType) == false) { return; }
+                        ModbusEditor.AddValueBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
+                    }
                 }
-
-
             }
         }
         bool IgnoreBoundsChange = true;
         private void ModbusRegister_SizeChanged(object sender, EventArgs e) {
             if (IgnoreBoundsChange) { return; }
-            snapshot.Size = this.Size;
+            if (snapshot != null) {
+                snapshot.Size = this.Size;
+            }
         }
         private void ModbusRegister_Move(object sender, EventArgs e) {
             if (IgnoreBoundsChange) { return; }
+            if (snapshot == null) { return; }
             snapshot.Location = this.Location;
         }
 
         private void ModbusRegister_CloseButtonClicked(object sender) {
-            ModbusSupport.RemoveSnapshot(snapshot);
+            if (snapshot != null) {
+                ModbusSupport.RemoveSnapshot(snapshot);
+            }
             this.Close();
             ModbusSupport.SnapshotClosedApp();
         }
@@ -300,10 +320,10 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void ModbusRegister_Activated(object sender, EventArgs e) {
-           
+
         }
-        private Form ?GetParent() {
-            Form ? Frm = this.FindForm();
+        private Form? GetParent() {
+            Form? Frm = this.FindForm();
             //Control ?Temp = this.Parent;
             //while(Temp != null) {
             //    if (Temp.GetType() == typeof(System.Windows.Forms.Form)) {  return (Form)Temp; }

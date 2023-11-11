@@ -25,125 +25,124 @@
         private void InitializeComponent() {
             ODModules.GridButton gridButton1 = new ODModules.GridButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
-            this.lblPnlTheme = new ODModules.LabelPanel();
-            this.btngrThemes = new ODModules.ButtonGrid();
-            this.thSettings = new ODModules.TabHeader();
-            this.hiddenTabControl1 = new ODModules.HiddenTabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.labelPanel5 = new ODModules.LabelPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chbxUseLegacyListing = new System.Windows.Forms.CheckBox();
-            this.labelPanel4 = new ODModules.LabelPanel();
-            this.chbxLimitExecutionBy1ms = new System.Windows.Forms.CheckBox();
-            this.chbxAnimateCurStep = new System.Windows.Forms.CheckBox();
-            this.lblPnlDefaults = new ODModules.LabelPanel();
-            this.labelPanel2 = new ODModules.LabelPanel();
-            this.toolStrip2 = new ODModules.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.ddbInputFormat = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.ddbOutputFormat = new System.Windows.Forms.ToolStripDropDownButton();
-            this.labelPanel3 = new ODModules.LabelPanel();
-            this.toolStrip1 = new ODModules.ToolStrip();
-            this.ddbBits = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ddbOptDB5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptDB6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptDB7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptDB8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbParity = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ddbOptPBNone = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptPBEven = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptPBOdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptPBSpace = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptPBMark = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptSB1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.stopBitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptSB15 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ddbOptSB2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelPanel1 = new ODModules.LabelPanel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.lblPnlTheme.SuspendLayout();
-            this.hiddenTabControl1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.labelPanel5.SuspendLayout();
-            this.labelPanel4.SuspendLayout();
-            this.lblPnlDefaults.SuspendLayout();
-            this.labelPanel2.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
-            this.labelPanel3.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            this.labelPanel1.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.SuspendLayout();
+            lblPnlTheme = new ODModules.LabelPanel();
+            btngrThemes = new ODModules.ButtonGrid();
+            thSettings = new ODModules.TabHeader();
+            hiddenTabControl1 = new ODModules.HiddenTabControl();
+            tabPage3 = new TabPage();
+            labelPanel5 = new ODModules.LabelPanel();
+            label1 = new Label();
+            chbxUseLegacyListing = new CheckBox();
+            labelPanel4 = new ODModules.LabelPanel();
+            chbxLimitExecutionBy1ms = new CheckBox();
+            chbxAnimateCurStep = new CheckBox();
+            lblPnlDefaults = new ODModules.LabelPanel();
+            labelPanel2 = new ODModules.LabelPanel();
+            toolStrip2 = new ODModules.ToolStrip();
+            toolStripLabel1 = new ToolStripLabel();
+            ddbInputFormat = new ToolStripDropDownButton();
+            toolStripLabel2 = new ToolStripLabel();
+            ddbOutputFormat = new ToolStripDropDownButton();
+            labelPanel3 = new ODModules.LabelPanel();
+            toolStrip1 = new ODModules.ToolStrip();
+            ddbBits = new ToolStripDropDownButton();
+            ddbOptDB5 = new ToolStripMenuItem();
+            ddbOptDB6 = new ToolStripMenuItem();
+            ddbOptDB7 = new ToolStripMenuItem();
+            ddbOptDB8 = new ToolStripMenuItem();
+            ddbParity = new ToolStripDropDownButton();
+            ddbOptPBNone = new ToolStripMenuItem();
+            ddbOptPBEven = new ToolStripMenuItem();
+            ddbOptPBOdd = new ToolStripMenuItem();
+            ddbOptPBSpace = new ToolStripMenuItem();
+            ddbOptPBMark = new ToolStripMenuItem();
+            ddbOptSB1 = new ToolStripDropDownButton();
+            stopBitToolStripMenuItem = new ToolStripMenuItem();
+            ddbOptSB15 = new ToolStripMenuItem();
+            ddbOptSB2 = new ToolStripMenuItem();
+            labelPanel1 = new ODModules.LabelPanel();
+            comboBox1 = new ComboBox();
+            tabPage4 = new TabPage();
+            lblPnlTheme.SuspendLayout();
+            hiddenTabControl1.SuspendLayout();
+            tabPage3.SuspendLayout();
+            labelPanel5.SuspendLayout();
+            labelPanel4.SuspendLayout();
+            lblPnlDefaults.SuspendLayout();
+            labelPanel2.SuspendLayout();
+            toolStrip2.SuspendLayout();
+            labelPanel3.SuspendLayout();
+            toolStrip1.SuspendLayout();
+            labelPanel1.SuspendLayout();
+            tabPage4.SuspendLayout();
+            SuspendLayout();
             // 
             // lblPnlTheme
             // 
-            this.lblPnlTheme.ArrowColor = System.Drawing.Color.Black;
-            this.lblPnlTheme.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.lblPnlTheme.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblPnlTheme.CloseColor = System.Drawing.Color.Black;
-            this.lblPnlTheme.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.lblPnlTheme.Collapsed = false;
-            this.lblPnlTheme.Controls.Add(this.btngrThemes);
-            this.lblPnlTheme.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblPnlTheme.DropShadow = false;
-            this.lblPnlTheme.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblPnlTheme.FixedInlineWidth = false;
-            this.lblPnlTheme.Inlinelabel = false;
-            this.lblPnlTheme.InlineWidth = 100;
-            this.lblPnlTheme.LabelBackColor = System.Drawing.Color.White;
-            this.lblPnlTheme.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblPnlTheme.LabelForeColor = System.Drawing.Color.Black;
-            this.lblPnlTheme.Location = new System.Drawing.Point(6, 6);
-            this.lblPnlTheme.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.lblPnlTheme.Name = "lblPnlTheme";
-            this.lblPnlTheme.OverrideCollapseControl = false;
-            this.lblPnlTheme.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
-            this.lblPnlTheme.PanelCollapsible = true;
-            this.lblPnlTheme.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.lblPnlTheme.ShowCloseButton = false;
-            this.lblPnlTheme.Size = new System.Drawing.Size(630, 463);
-            this.lblPnlTheme.TabIndex = 0;
-            this.lblPnlTheme.Text = "Theme";
+            lblPnlTheme.ArrowColor = Color.Black;
+            lblPnlTheme.ArrowMouseOverColor = Color.DodgerBlue;
+            lblPnlTheme.BackColor = SystemColors.ButtonFace;
+            lblPnlTheme.CloseColor = Color.Black;
+            lblPnlTheme.CloseMouseOverColor = Color.Red;
+            lblPnlTheme.Collapsed = false;
+            lblPnlTheme.Controls.Add(btngrThemes);
+            lblPnlTheme.Dock = DockStyle.Top;
+            lblPnlTheme.DropShadow = false;
+            lblPnlTheme.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblPnlTheme.FixedInlineWidth = false;
+            lblPnlTheme.Inlinelabel = false;
+            lblPnlTheme.InlineWidth = 100;
+            lblPnlTheme.LabelBackColor = Color.White;
+            lblPnlTheme.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            lblPnlTheme.LabelForeColor = Color.Black;
+            lblPnlTheme.Location = new Point(3, 3);
+            lblPnlTheme.Name = "lblPnlTheme";
+            lblPnlTheme.OverrideCollapseControl = false;
+            lblPnlTheme.Padding = new Padding(0, 18, 0, 0);
+            lblPnlTheme.PanelCollapsible = true;
+            lblPnlTheme.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblPnlTheme.ShowCloseButton = false;
+            lblPnlTheme.Size = new Size(336, 217);
+            lblPnlTheme.TabIndex = 0;
+            lblPnlTheme.Text = "Theme";
             // 
             // btngrThemes
             // 
-            this.btngrThemes.AllowTextWrapping = true;
-            this.btngrThemes.BackColorCheckedNorth = System.Drawing.Color.Orange;
-            this.btngrThemes.BackColorCheckedSouth = System.Drawing.Color.Orange;
-            this.btngrThemes.BackColorDownNorth = System.Drawing.Color.DimGray;
-            this.btngrThemes.BackColorDownSouth = System.Drawing.Color.DimGray;
-            this.btngrThemes.BackColorHoverNorth = System.Drawing.Color.SkyBlue;
-            this.btngrThemes.BackColorHoverSouth = System.Drawing.Color.SkyBlue;
-            this.btngrThemes.BackColorNorth = System.Drawing.Color.White;
-            this.btngrThemes.BackColorSouth = System.Drawing.Color.White;
-            this.btngrThemes.BorderColorCheckedNorth = System.Drawing.Color.Black;
-            this.btngrThemes.BorderColorCheckedSouth = System.Drawing.Color.Black;
-            this.btngrThemes.BorderColorDownNorth = System.Drawing.Color.DarkGray;
-            this.btngrThemes.BorderColorDownSouth = System.Drawing.Color.DarkGray;
-            this.btngrThemes.BorderColorHoverNorth = System.Drawing.Color.DarkGray;
-            this.btngrThemes.BorderColorHoverSouth = System.Drawing.Color.DarkGray;
-            this.btngrThemes.BorderColorNorth = System.Drawing.Color.LightGray;
-            this.btngrThemes.BorderColorShadow = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btngrThemes.BorderColorSouth = System.Drawing.Color.LightGray;
-            this.btngrThemes.BorderRadius = 5;
-            this.btngrThemes.ButtonPadding = new System.Windows.Forms.Padding(0, 0, 5, 5);
-            gridButton1.BackColorNorth = System.Drawing.Color.Gray;
-            gridButton1.BackColorSouth = System.Drawing.Color.Gray;
-            gridButton1.BorderColorNorth = System.Drawing.Color.Black;
-            gridButton1.BorderColorSouth = System.Drawing.Color.Black;
+            btngrThemes.AllowTextWrapping = true;
+            btngrThemes.BackColorCheckedNorth = Color.Orange;
+            btngrThemes.BackColorCheckedSouth = Color.Orange;
+            btngrThemes.BackColorDownNorth = Color.DimGray;
+            btngrThemes.BackColorDownSouth = Color.DimGray;
+            btngrThemes.BackColorHoverNorth = Color.SkyBlue;
+            btngrThemes.BackColorHoverSouth = Color.SkyBlue;
+            btngrThemes.BackColorNorth = Color.White;
+            btngrThemes.BackColorSouth = Color.White;
+            btngrThemes.BorderColorCheckedNorth = Color.Black;
+            btngrThemes.BorderColorCheckedSouth = Color.Black;
+            btngrThemes.BorderColorDownNorth = Color.DarkGray;
+            btngrThemes.BorderColorDownSouth = Color.DarkGray;
+            btngrThemes.BorderColorHoverNorth = Color.DarkGray;
+            btngrThemes.BorderColorHoverSouth = Color.DarkGray;
+            btngrThemes.BorderColorNorth = Color.LightGray;
+            btngrThemes.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            btngrThemes.BorderColorSouth = Color.LightGray;
+            btngrThemes.BorderRadius = 5;
+            btngrThemes.ButtonPadding = new Padding(0, 0, 5, 5);
+            gridButton1.BackColorNorth = Color.Gray;
+            gridButton1.BackColorSouth = Color.Gray;
+            gridButton1.BorderColorNorth = Color.Black;
+            gridButton1.BorderColorSouth = Color.Black;
             gridButton1.Checked = false;
             gridButton1.Command = "";
             gridButton1.Enabled = true;
             gridButton1.Icon = null;
             gridButton1.IconInline = false;
             gridButton1.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            gridButton1.Position = new System.Drawing.Point(0, 0);
+            gridButton1.Position = new Point(0, 0);
             gridButton1.RadioButtonGroup = "";
-            gridButton1.SecondaryShortCutKeys = System.Windows.Forms.Keys.None;
+            gridButton1.SecondaryShortCutKeys = Keys.None;
             gridButton1.SecondaryText = "";
-            gridButton1.ShortCutKeys = System.Windows.Forms.Keys.None;
+            gridButton1.ShortCutKeys = Keys.None;
             gridButton1.Tag = null;
             gridButton1.Text = "";
             gridButton1.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -152,678 +151,643 @@
             gridButton1.UseButtonFormatting = false;
             gridButton1.UseCustomColors = false;
             gridButton1.UseKeyCode = false;
-            this.btngrThemes.Buttons.Add(gridButton1);
-            this.btngrThemes.ButtonSize = new System.Drawing.Size(40, 40);
-            this.btngrThemes.CenterButtons = false;
-            this.btngrThemes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btngrThemes.Filter = "";
-            this.btngrThemes.IconInline = false;
-            this.btngrThemes.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            this.btngrThemes.ImageSize = new System.Drawing.Size(32, 32);
-            this.btngrThemes.Location = new System.Drawing.Point(0, 37);
-            this.btngrThemes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.btngrThemes.Name = "btngrThemes";
-            this.btngrThemes.Padding = new System.Windows.Forms.Padding(9, 11, 9, 11);
-            this.btngrThemes.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btngrThemes.ScrollBarNorth = System.Drawing.Color.Silver;
-            this.btngrThemes.ScrollBarSouth = System.Drawing.Color.Silver;
-            this.btngrThemes.SecondaryFont = null;
-            this.btngrThemes.Size = new System.Drawing.Size(630, 426);
-            this.btngrThemes.Style = ODModules.ButtonStyle.Square;
-            this.btngrThemes.TabIndex = 0;
-            this.btngrThemes.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            this.btngrThemes.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            this.btngrThemes.VerScroll = 0;
-            this.btngrThemes.ButtonClicked += new ODModules.ButtonGrid.ButtonClickedEventHandler(this.btngrThemes_ButtonClicked);
+            btngrThemes.Buttons.Add(gridButton1);
+            btngrThemes.ButtonSize = new Size(40, 40);
+            btngrThemes.CenterButtons = false;
+            btngrThemes.Dock = DockStyle.Fill;
+            btngrThemes.Filter = "";
+            btngrThemes.IconInline = false;
+            btngrThemes.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btngrThemes.ImageSize = new Size(32, 32);
+            btngrThemes.Location = new Point(0, 18);
+            btngrThemes.Name = "btngrThemes";
+            btngrThemes.Padding = new Padding(5, 5, 5, 5);
+            btngrThemes.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
+            btngrThemes.ScrollBarNorth = Color.Silver;
+            btngrThemes.ScrollBarSouth = Color.Silver;
+            btngrThemes.SecondaryFont = null;
+            btngrThemes.Size = new Size(336, 199);
+            btngrThemes.Style = ODModules.ButtonStyle.Square;
+            btngrThemes.TabIndex = 0;
+            btngrThemes.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btngrThemes.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            btngrThemes.VerScroll = 0;
+            btngrThemes.ButtonClicked += btngrThemes_ButtonClicked;
+            btngrThemes.Load += btngrThemes_Load;
             // 
             // thSettings
             // 
-            this.thSettings.AddHoverColor = System.Drawing.Color.LimeGreen;
-            this.thSettings.AllowDragReordering = true;
-            this.thSettings.AllowTabResize = true;
-            this.thSettings.ArrowColor = System.Drawing.Color.Black;
-            this.thSettings.ArrowDisabledColor = System.Drawing.Color.Black;
-            this.thSettings.ArrowHoverColor = System.Drawing.Color.Black;
-            this.thSettings.BindedTabControl = this.hiddenTabControl1;
-            this.thSettings.CloseHoverColor = System.Drawing.Color.Red;
-            this.thSettings.Dock = System.Windows.Forms.DockStyle.Top;
-            this.thSettings.Location = new System.Drawing.Point(0, 0);
-            this.thSettings.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.thSettings.Name = "thSettings";
-            this.thSettings.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.thSettings.SelectedIndex = 0;
-            this.thSettings.ShowAddButton = false;
-            this.thSettings.ShowTabDividers = true;
-            this.thSettings.Size = new System.Drawing.Size(650, 77);
-            this.thSettings.TabBackColor = System.Drawing.Color.Transparent;
-            this.thSettings.TabBorderColor = System.Drawing.Color.Transparent;
-            this.thSettings.TabClickedBackColor = System.Drawing.Color.DarkGray;
-            this.thSettings.TabDividerColor = System.Drawing.Color.White;
-            this.thSettings.TabHoverBackColor = System.Drawing.Color.LightGray;
-            this.thSettings.TabIndex = 1;
-            this.thSettings.TabRuleColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.thSettings.TabSelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.thSettings.TabSelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.thSettings.TabSelectedForeColor = System.Drawing.Color.WhiteSmoke;
-            this.thSettings.TabSelectedShadowColor = System.Drawing.Color.Black;
-            this.thSettings.TabStyle = ODModules.TabHeader.TabStyles.Normal;
-            this.thSettings.UseBindingTabControl = true;
-            this.thSettings.Load += new System.EventHandler(this.thSettings_Load);
+            thSettings.AddHoverColor = Color.LimeGreen;
+            thSettings.AllowDragReordering = true;
+            thSettings.AllowTabResize = true;
+            thSettings.ArrowColor = Color.Black;
+            thSettings.ArrowDisabledColor = Color.Black;
+            thSettings.ArrowHoverColor = Color.Black;
+            thSettings.BindedTabControl = hiddenTabControl1;
+            thSettings.CloseHoverColor = Color.Red;
+            thSettings.Dock = DockStyle.Top;
+            thSettings.Location = new Point(0, 0);
+            thSettings.Name = "thSettings";
+            thSettings.Padding = new Padding(5, 0, 0, 0);
+            thSettings.SelectedIndex = 1;
+            thSettings.ShowAddButton = false;
+            thSettings.ShowTabDividers = true;
+            thSettings.Size = new Size(350, 36);
+            thSettings.TabBackColor = Color.Transparent;
+            thSettings.TabBorderColor = Color.Transparent;
+            thSettings.TabClickedBackColor = Color.DarkGray;
+            thSettings.TabDividerColor = Color.White;
+            thSettings.TabHoverBackColor = Color.LightGray;
+            thSettings.TabIndex = 1;
+            thSettings.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
+            thSettings.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
+            thSettings.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
+            thSettings.TabSelectedForeColor = Color.WhiteSmoke;
+            thSettings.TabSelectedShadowColor = Color.Black;
+            thSettings.TabStyle = ODModules.TabHeader.TabStyles.Normal;
+            thSettings.UseBindingTabControl = true;
+            thSettings.Load += thSettings_Load;
             // 
             // hiddenTabControl1
             // 
-            this.hiddenTabControl1.Controls.Add(this.tabPage3);
-            this.hiddenTabControl1.Controls.Add(this.tabPage4);
-            this.hiddenTabControl1.DebugMode = true;
-            this.hiddenTabControl1.DefaultColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.hiddenTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.hiddenTabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.hiddenTabControl1.ForeColor = System.Drawing.Color.White;
-            this.hiddenTabControl1.ItemSize = new System.Drawing.Size(20, 20);
-            this.hiddenTabControl1.Location = new System.Drawing.Point(0, 77);
-            this.hiddenTabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.hiddenTabControl1.Multiline = true;
-            this.hiddenTabControl1.Name = "hiddenTabControl1";
-            this.hiddenTabControl1.SelectedIndex = 0;
-            this.hiddenTabControl1.Size = new System.Drawing.Size(650, 723);
-            this.hiddenTabControl1.TabIndex = 2;
+            hiddenTabControl1.Controls.Add(tabPage3);
+            hiddenTabControl1.Controls.Add(tabPage4);
+            hiddenTabControl1.DebugMode = true;
+            hiddenTabControl1.DefaultColor1 = Color.FromArgb(224, 224, 224);
+            hiddenTabControl1.Dock = DockStyle.Fill;
+            hiddenTabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+            hiddenTabControl1.ForeColor = Color.White;
+            hiddenTabControl1.ItemSize = new Size(20, 20);
+            hiddenTabControl1.Location = new Point(0, 36);
+            hiddenTabControl1.Margin = new Padding(0);
+            hiddenTabControl1.Multiline = true;
+            hiddenTabControl1.Name = "hiddenTabControl1";
+            hiddenTabControl1.SelectedIndex = 0;
+            hiddenTabControl1.Size = new Size(350, 339);
+            hiddenTabControl1.TabIndex = 2;
             // 
             // tabPage3
             // 
-            this.tabPage3.AutoScroll = true;
-            this.tabPage3.Controls.Add(this.labelPanel5);
-            this.tabPage3.Controls.Add(this.labelPanel4);
-            this.tabPage3.Controls.Add(this.lblPnlDefaults);
-            this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage3.Size = new System.Drawing.Size(642, 695);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "General";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            tabPage3.AutoScroll = true;
+            tabPage3.Controls.Add(labelPanel5);
+            tabPage3.Controls.Add(labelPanel4);
+            tabPage3.Controls.Add(lblPnlDefaults);
+            tabPage3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3, 3, 3, 3);
+            tabPage3.Size = new Size(342, 311);
+            tabPage3.TabIndex = 0;
+            tabPage3.Text = "General";
+            tabPage3.UseVisualStyleBackColor = true;
             // 
             // labelPanel5
             // 
-            this.labelPanel5.ArrowColor = System.Drawing.Color.Black;
-            this.labelPanel5.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.labelPanel5.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.labelPanel5.CloseColor = System.Drawing.Color.Black;
-            this.labelPanel5.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.labelPanel5.Collapsed = false;
-            this.labelPanel5.Controls.Add(this.label1);
-            this.labelPanel5.Controls.Add(this.chbxUseLegacyListing);
-            this.labelPanel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelPanel5.DropShadow = false;
-            this.labelPanel5.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel5.FixedInlineWidth = false;
-            this.labelPanel5.Inlinelabel = false;
-            this.labelPanel5.InlineWidth = 100;
-            this.labelPanel5.LabelBackColor = System.Drawing.Color.White;
-            this.labelPanel5.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelPanel5.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel5.Location = new System.Drawing.Point(6, 388);
-            this.labelPanel5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.labelPanel5.Name = "labelPanel5";
-            this.labelPanel5.OverrideCollapseControl = true;
-            this.labelPanel5.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
-            this.labelPanel5.PanelCollapsible = true;
-            this.labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.labelPanel5.ShowCloseButton = false;
-            this.labelPanel5.Size = new System.Drawing.Size(630, 207);
-            this.labelPanel5.TabIndex = 3;
-            this.labelPanel5.Text = "Ports & Communications";
+            labelPanel5.ArrowColor = Color.Black;
+            labelPanel5.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel5.BackColor = SystemColors.ButtonFace;
+            labelPanel5.CloseColor = Color.Black;
+            labelPanel5.CloseMouseOverColor = Color.Red;
+            labelPanel5.Collapsed = false;
+            labelPanel5.Controls.Add(label1);
+            labelPanel5.Controls.Add(chbxUseLegacyListing);
+            labelPanel5.Dock = DockStyle.Top;
+            labelPanel5.DropShadow = false;
+            labelPanel5.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel5.FixedInlineWidth = false;
+            labelPanel5.Inlinelabel = false;
+            labelPanel5.InlineWidth = 100;
+            labelPanel5.LabelBackColor = Color.White;
+            labelPanel5.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            labelPanel5.LabelForeColor = Color.Black;
+            labelPanel5.Location = new Point(3, 182);
+            labelPanel5.Name = "labelPanel5";
+            labelPanel5.OverrideCollapseControl = true;
+            labelPanel5.Padding = new Padding(0, 18, 0, 0);
+            labelPanel5.PanelCollapsible = true;
+            labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel5.ShowCloseButton = false;
+            labelPanel5.Size = new Size(336, 97);
+            labelPanel5.TabIndex = 3;
+            labelPanel5.Text = "Ports & Communications";
             // 
             // label1
             // 
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(39, 92);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(544, 70);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Use this setting if your device is not listed. Hides Device Description.";
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(21, 43);
+            label1.Name = "label1";
+            label1.Size = new Size(293, 33);
+            label1.TabIndex = 4;
+            label1.Text = "Use this setting if your device is not listed. Hides Device Description.";
             // 
             // chbxUseLegacyListing
             // 
-            this.chbxUseLegacyListing.AutoSize = true;
-            this.chbxUseLegacyListing.Checked = true;
-            this.chbxUseLegacyListing.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbxUseLegacyListing.ForeColor = System.Drawing.Color.Black;
-            this.chbxUseLegacyListing.Location = new System.Drawing.Point(9, 44);
-            this.chbxUseLegacyListing.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.chbxUseLegacyListing.Name = "chbxUseLegacyListing";
-            this.chbxUseLegacyListing.Size = new System.Drawing.Size(290, 36);
-            this.chbxUseLegacyListing.TabIndex = 3;
-            this.chbxUseLegacyListing.Text = "Use Legacy Port Listing";
-            this.chbxUseLegacyListing.UseVisualStyleBackColor = true;
-            this.chbxUseLegacyListing.CheckedChanged += new System.EventHandler(this.chbxUseLegacyListing_CheckedChanged);
+            chbxUseLegacyListing.AutoSize = true;
+            chbxUseLegacyListing.Checked = true;
+            chbxUseLegacyListing.CheckState = CheckState.Checked;
+            chbxUseLegacyListing.ForeColor = Color.Black;
+            chbxUseLegacyListing.Location = new Point(5, 22);
+            chbxUseLegacyListing.Name = "chbxUseLegacyListing";
+            chbxUseLegacyListing.Size = new Size(148, 19);
+            chbxUseLegacyListing.TabIndex = 3;
+            chbxUseLegacyListing.Text = "Use Legacy Port Listing";
+            chbxUseLegacyListing.UseVisualStyleBackColor = true;
+            chbxUseLegacyListing.CheckedChanged += chbxUseLegacyListing_CheckedChanged;
             // 
             // labelPanel4
             // 
-            this.labelPanel4.ArrowColor = System.Drawing.Color.Black;
-            this.labelPanel4.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.labelPanel4.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.labelPanel4.CloseColor = System.Drawing.Color.Black;
-            this.labelPanel4.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.labelPanel4.Collapsed = false;
-            this.labelPanel4.Controls.Add(this.chbxLimitExecutionBy1ms);
-            this.labelPanel4.Controls.Add(this.chbxAnimateCurStep);
-            this.labelPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelPanel4.DropShadow = false;
-            this.labelPanel4.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel4.FixedInlineWidth = false;
-            this.labelPanel4.Inlinelabel = false;
-            this.labelPanel4.InlineWidth = 100;
-            this.labelPanel4.LabelBackColor = System.Drawing.Color.White;
-            this.labelPanel4.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelPanel4.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel4.Location = new System.Drawing.Point(6, 232);
-            this.labelPanel4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.labelPanel4.Name = "labelPanel4";
-            this.labelPanel4.OverrideCollapseControl = true;
-            this.labelPanel4.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
-            this.labelPanel4.PanelCollapsible = true;
-            this.labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.labelPanel4.ShowCloseButton = false;
-            this.labelPanel4.Size = new System.Drawing.Size(630, 156);
-            this.labelPanel4.TabIndex = 2;
-            this.labelPanel4.Text = "Program Execution";
+            labelPanel4.ArrowColor = Color.Black;
+            labelPanel4.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel4.BackColor = SystemColors.ButtonFace;
+            labelPanel4.CloseColor = Color.Black;
+            labelPanel4.CloseMouseOverColor = Color.Red;
+            labelPanel4.Collapsed = false;
+            labelPanel4.Controls.Add(chbxLimitExecutionBy1ms);
+            labelPanel4.Controls.Add(chbxAnimateCurStep);
+            labelPanel4.Dock = DockStyle.Top;
+            labelPanel4.DropShadow = false;
+            labelPanel4.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel4.FixedInlineWidth = false;
+            labelPanel4.Inlinelabel = false;
+            labelPanel4.InlineWidth = 100;
+            labelPanel4.LabelBackColor = Color.White;
+            labelPanel4.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            labelPanel4.LabelForeColor = Color.Black;
+            labelPanel4.Location = new Point(3, 109);
+            labelPanel4.Name = "labelPanel4";
+            labelPanel4.OverrideCollapseControl = true;
+            labelPanel4.Padding = new Padding(0, 18, 0, 0);
+            labelPanel4.PanelCollapsible = true;
+            labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel4.ShowCloseButton = false;
+            labelPanel4.Size = new Size(336, 73);
+            labelPanel4.TabIndex = 2;
+            labelPanel4.Text = "Program Execution";
             // 
             // chbxLimitExecutionBy1ms
             // 
-            this.chbxLimitExecutionBy1ms.AutoSize = true;
-            this.chbxLimitExecutionBy1ms.ForeColor = System.Drawing.Color.Black;
-            this.chbxLimitExecutionBy1ms.Location = new System.Drawing.Point(9, 78);
-            this.chbxLimitExecutionBy1ms.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.chbxLimitExecutionBy1ms.Name = "chbxLimitExecutionBy1ms";
-            this.chbxLimitExecutionBy1ms.Size = new System.Drawing.Size(367, 36);
-            this.chbxLimitExecutionBy1ms.TabIndex = 4;
-            this.chbxLimitExecutionBy1ms.Text = "Limit Time Between Execution";
-            this.chbxLimitExecutionBy1ms.UseVisualStyleBackColor = true;
-            this.chbxLimitExecutionBy1ms.CheckedChanged += new System.EventHandler(this.chbxLimitExecutionBy1ms_CheckedChanged);
+            chbxLimitExecutionBy1ms.AutoSize = true;
+            chbxLimitExecutionBy1ms.ForeColor = Color.Black;
+            chbxLimitExecutionBy1ms.Location = new Point(5, 38);
+            chbxLimitExecutionBy1ms.Name = "chbxLimitExecutionBy1ms";
+            chbxLimitExecutionBy1ms.Size = new Size(185, 19);
+            chbxLimitExecutionBy1ms.TabIndex = 4;
+            chbxLimitExecutionBy1ms.Text = "Limit Time Between Execution";
+            chbxLimitExecutionBy1ms.UseVisualStyleBackColor = true;
+            chbxLimitExecutionBy1ms.CheckedChanged += chbxLimitExecutionBy1ms_CheckedChanged;
             // 
             // chbxAnimateCurStep
             // 
-            this.chbxAnimateCurStep.AutoSize = true;
-            this.chbxAnimateCurStep.Checked = true;
-            this.chbxAnimateCurStep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbxAnimateCurStep.ForeColor = System.Drawing.Color.Black;
-            this.chbxAnimateCurStep.Location = new System.Drawing.Point(9, 44);
-            this.chbxAnimateCurStep.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.chbxAnimateCurStep.Name = "chbxAnimateCurStep";
-            this.chbxAnimateCurStep.Size = new System.Drawing.Size(410, 36);
-            this.chbxAnimateCurStep.TabIndex = 3;
-            this.chbxAnimateCurStep.Text = "Animate Program Cursor Stepping";
-            this.chbxAnimateCurStep.UseVisualStyleBackColor = true;
-            this.chbxAnimateCurStep.CheckedChanged += new System.EventHandler(this.chbxAnimateCurStep_CheckedChanged);
+            chbxAnimateCurStep.AutoSize = true;
+            chbxAnimateCurStep.Checked = true;
+            chbxAnimateCurStep.CheckState = CheckState.Checked;
+            chbxAnimateCurStep.ForeColor = Color.Black;
+            chbxAnimateCurStep.Location = new Point(5, 22);
+            chbxAnimateCurStep.Name = "chbxAnimateCurStep";
+            chbxAnimateCurStep.Size = new Size(208, 19);
+            chbxAnimateCurStep.TabIndex = 3;
+            chbxAnimateCurStep.Text = "Animate Program Cursor Stepping";
+            chbxAnimateCurStep.UseVisualStyleBackColor = true;
+            chbxAnimateCurStep.CheckedChanged += chbxAnimateCurStep_CheckedChanged;
             // 
             // lblPnlDefaults
             // 
-            this.lblPnlDefaults.ArrowColor = System.Drawing.Color.Black;
-            this.lblPnlDefaults.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.lblPnlDefaults.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblPnlDefaults.CloseColor = System.Drawing.Color.Black;
-            this.lblPnlDefaults.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.lblPnlDefaults.Collapsed = false;
-            this.lblPnlDefaults.Controls.Add(this.labelPanel2);
-            this.lblPnlDefaults.Controls.Add(this.labelPanel3);
-            this.lblPnlDefaults.Controls.Add(this.labelPanel1);
-            this.lblPnlDefaults.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblPnlDefaults.DropShadow = false;
-            this.lblPnlDefaults.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblPnlDefaults.FixedInlineWidth = false;
-            this.lblPnlDefaults.Inlinelabel = false;
-            this.lblPnlDefaults.InlineWidth = 100;
-            this.lblPnlDefaults.LabelBackColor = System.Drawing.Color.White;
-            this.lblPnlDefaults.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblPnlDefaults.LabelForeColor = System.Drawing.Color.Black;
-            this.lblPnlDefaults.Location = new System.Drawing.Point(6, 6);
-            this.lblPnlDefaults.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.lblPnlDefaults.Name = "lblPnlDefaults";
-            this.lblPnlDefaults.OverrideCollapseControl = true;
-            this.lblPnlDefaults.Padding = new System.Windows.Forms.Padding(0, 37, 0, 0);
-            this.lblPnlDefaults.PanelCollapsible = true;
-            this.lblPnlDefaults.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.lblPnlDefaults.ShowCloseButton = false;
-            this.lblPnlDefaults.Size = new System.Drawing.Size(630, 226);
-            this.lblPnlDefaults.TabIndex = 1;
-            this.lblPnlDefaults.Text = "Defaults";
+            lblPnlDefaults.ArrowColor = Color.Black;
+            lblPnlDefaults.ArrowMouseOverColor = Color.DodgerBlue;
+            lblPnlDefaults.BackColor = SystemColors.ButtonFace;
+            lblPnlDefaults.CloseColor = Color.Black;
+            lblPnlDefaults.CloseMouseOverColor = Color.Red;
+            lblPnlDefaults.Collapsed = false;
+            lblPnlDefaults.Controls.Add(labelPanel2);
+            lblPnlDefaults.Controls.Add(labelPanel3);
+            lblPnlDefaults.Controls.Add(labelPanel1);
+            lblPnlDefaults.Dock = DockStyle.Top;
+            lblPnlDefaults.DropShadow = false;
+            lblPnlDefaults.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblPnlDefaults.FixedInlineWidth = false;
+            lblPnlDefaults.Inlinelabel = false;
+            lblPnlDefaults.InlineWidth = 100;
+            lblPnlDefaults.LabelBackColor = Color.White;
+            lblPnlDefaults.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            lblPnlDefaults.LabelForeColor = Color.Black;
+            lblPnlDefaults.Location = new Point(3, 3);
+            lblPnlDefaults.Name = "lblPnlDefaults";
+            lblPnlDefaults.OverrideCollapseControl = true;
+            lblPnlDefaults.Padding = new Padding(0, 18, 0, 0);
+            lblPnlDefaults.PanelCollapsible = true;
+            lblPnlDefaults.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblPnlDefaults.ShowCloseButton = false;
+            lblPnlDefaults.Size = new Size(336, 106);
+            lblPnlDefaults.TabIndex = 1;
+            lblPnlDefaults.Text = "Defaults";
             // 
             // labelPanel2
             // 
-            this.labelPanel2.ArrowColor = System.Drawing.Color.Black;
-            this.labelPanel2.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.labelPanel2.AutoSize = true;
-            this.labelPanel2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.labelPanel2.CloseColor = System.Drawing.Color.Black;
-            this.labelPanel2.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.labelPanel2.Collapsed = false;
-            this.labelPanel2.Controls.Add(this.toolStrip2);
-            this.labelPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelPanel2.DropShadow = false;
-            this.labelPanel2.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel2.FixedInlineWidth = true;
-            this.labelPanel2.Inlinelabel = true;
-            this.labelPanel2.InlineWidth = 100;
-            this.labelPanel2.LabelBackColor = System.Drawing.Color.White;
-            this.labelPanel2.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelPanel2.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel2.Location = new System.Drawing.Point(0, 143);
-            this.labelPanel2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.labelPanel2.Name = "labelPanel2";
-            this.labelPanel2.OverrideCollapseControl = true;
-            this.labelPanel2.Padding = new System.Windows.Forms.Padding(127, 0, 6, 6);
-            this.labelPanel2.PanelCollapsible = true;
-            this.labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.labelPanel2.ShowCloseButton = false;
-            this.labelPanel2.Size = new System.Drawing.Size(630, 48);
-            this.labelPanel2.TabIndex = 5;
-            this.labelPanel2.Text = "Data Format";
+            labelPanel2.ArrowColor = Color.Black;
+            labelPanel2.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel2.AutoSize = true;
+            labelPanel2.BackColor = SystemColors.ButtonFace;
+            labelPanel2.CloseColor = Color.Black;
+            labelPanel2.CloseMouseOverColor = Color.Red;
+            labelPanel2.Collapsed = false;
+            labelPanel2.Controls.Add(toolStrip2);
+            labelPanel2.Dock = DockStyle.Top;
+            labelPanel2.DropShadow = false;
+            labelPanel2.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel2.FixedInlineWidth = true;
+            labelPanel2.Inlinelabel = true;
+            labelPanel2.InlineWidth = 100;
+            labelPanel2.LabelBackColor = Color.White;
+            labelPanel2.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            labelPanel2.LabelForeColor = Color.Black;
+            labelPanel2.Location = new Point(0, 78);
+            labelPanel2.Name = "labelPanel2";
+            labelPanel2.OverrideCollapseControl = true;
+            labelPanel2.Padding = new Padding(113, 0, 3, 3);
+            labelPanel2.PanelCollapsible = true;
+            labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel2.ShowCloseButton = false;
+            labelPanel2.Size = new Size(336, 28);
+            labelPanel2.TabIndex = 5;
+            labelPanel2.Text = "Data Format";
             // 
             // toolStrip2
             // 
-            this.toolStrip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(201)))), ((int)(((byte)(201)))), ((int)(((byte)(201)))));
-            this.toolStrip2.BackColorNorth = System.Drawing.SystemColors.ButtonFace;
-            this.toolStrip2.BackColorSouth = System.Drawing.SystemColors.ButtonFace;
-            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip2.ItemCheckedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.toolStrip2.ItemCheckedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.toolStrip2.ItemForeColor = System.Drawing.Color.Black;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.ddbInputFormat,
-            this.toolStripLabel2,
-            this.ddbOutputFormat});
-            this.toolStrip2.ItemSelectedBackColorNorth = System.Drawing.Color.White;
-            this.toolStrip2.ItemSelectedBackColorSouth = System.Drawing.Color.White;
-            this.toolStrip2.ItemSelectedForeColor = System.Drawing.Color.Black;
-            this.toolStrip2.Location = new System.Drawing.Point(127, 0);
-            this.toolStrip2.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.toolStrip2.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.toolStrip2.MenuBorderColor = System.Drawing.Color.Gray;
-            this.toolStrip2.MenuSeparatorColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStrip2.MenuSymbolColor = System.Drawing.Color.DimGray;
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.toolStrip2.Size = new System.Drawing.Size(497, 42);
-            this.toolStrip2.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
-            this.toolStrip2.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
-            this.toolStrip2.TabIndex = 3;
-            this.toolStrip2.Text = "toolStrip2";
+            toolStrip2.BackColor = Color.FromArgb(201, 201, 201);
+            toolStrip2.BackColorNorth = SystemColors.ButtonFace;
+            toolStrip2.BackColorSouth = SystemColors.ButtonFace;
+            toolStrip2.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip2.ImageScalingSize = new Size(32, 32);
+            toolStrip2.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            toolStrip2.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            toolStrip2.ItemForeColor = Color.Black;
+            toolStrip2.Items.AddRange(new ToolStripItem[] { toolStripLabel1, ddbInputFormat, toolStripLabel2, ddbOutputFormat });
+            toolStrip2.ItemSelectedBackColorNorth = Color.White;
+            toolStrip2.ItemSelectedBackColorSouth = Color.White;
+            toolStrip2.ItemSelectedForeColor = Color.Black;
+            toolStrip2.Location = new Point(113, 0);
+            toolStrip2.MenuBackColorNorth = Color.FromArgb(224, 224, 224);
+            toolStrip2.MenuBackColorSouth = Color.FromArgb(224, 224, 224);
+            toolStrip2.MenuBorderColor = Color.Gray;
+            toolStrip2.MenuSeparatorColor = Color.WhiteSmoke;
+            toolStrip2.MenuSymbolColor = Color.DimGray;
+            toolStrip2.Name = "toolStrip2";
+            toolStrip2.Padding = new Padding(0, 0, 2, 0);
+            toolStrip2.Size = new Size(220, 25);
+            toolStrip2.StripItemSelectedBackColorNorth = Color.White;
+            toolStrip2.StripItemSelectedBackColorSouth = Color.White;
+            toolStrip2.TabIndex = 3;
+            toolStrip2.Text = "toolStrip2";
             // 
             // toolStripLabel1
             // 
-            this.toolStripLabel1.ForeColor = System.Drawing.Color.DimGray;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(75, 36);
-            this.toolStripLabel1.Text = "Input:";
+            toolStripLabel1.ForeColor = Color.DimGray;
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new Size(38, 22);
+            toolStripLabel1.Text = "Input:";
             // 
             // ddbInputFormat
             // 
-            this.ddbInputFormat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ddbInputFormat.ForeColor = System.Drawing.Color.Black;
-            this.ddbInputFormat.Image = ((System.Drawing.Image)(resources.GetObject("ddbInputFormat.Image")));
-            this.ddbInputFormat.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ddbInputFormat.Name = "ddbInputFormat";
-            this.ddbInputFormat.Size = new System.Drawing.Size(79, 36);
-            this.ddbInputFormat.Text = "Text";
-            this.ddbInputFormat.ToolTipText = "Input Format";
+            ddbInputFormat.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddbInputFormat.ForeColor = Color.Black;
+            ddbInputFormat.Image = (Image)resources.GetObject("ddbInputFormat.Image");
+            ddbInputFormat.ImageTransparentColor = Color.Magenta;
+            ddbInputFormat.Name = "ddbInputFormat";
+            ddbInputFormat.Size = new Size(41, 22);
+            ddbInputFormat.Text = "Text";
+            ddbInputFormat.ToolTipText = "Input Format";
             // 
             // toolStripLabel2
             // 
-            this.toolStripLabel2.ForeColor = System.Drawing.Color.DimGray;
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(90, 36);
-            this.toolStripLabel2.Text = "Output";
+            toolStripLabel2.ForeColor = Color.DimGray;
+            toolStripLabel2.Name = "toolStripLabel2";
+            toolStripLabel2.Size = new Size(45, 22);
+            toolStripLabel2.Text = "Output";
             // 
             // ddbOutputFormat
             // 
-            this.ddbOutputFormat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ddbOutputFormat.ForeColor = System.Drawing.Color.Black;
-            this.ddbOutputFormat.Image = ((System.Drawing.Image)(resources.GetObject("ddbOutputFormat.Image")));
-            this.ddbOutputFormat.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOutputFormat.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ddbOutputFormat.Name = "ddbOutputFormat";
-            this.ddbOutputFormat.Size = new System.Drawing.Size(79, 36);
-            this.ddbOutputFormat.Text = "Text";
-            this.ddbOutputFormat.ToolTipText = "Output Format";
+            ddbOutputFormat.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddbOutputFormat.ForeColor = Color.Black;
+            ddbOutputFormat.Image = (Image)resources.GetObject("ddbOutputFormat.Image");
+            ddbOutputFormat.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOutputFormat.ImageTransparentColor = Color.Magenta;
+            ddbOutputFormat.Name = "ddbOutputFormat";
+            ddbOutputFormat.Size = new Size(41, 22);
+            ddbOutputFormat.Text = "Text";
+            ddbOutputFormat.ToolTipText = "Output Format";
             // 
             // labelPanel3
             // 
-            this.labelPanel3.ArrowColor = System.Drawing.Color.Black;
-            this.labelPanel3.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.labelPanel3.AutoSize = true;
-            this.labelPanel3.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.labelPanel3.CloseColor = System.Drawing.Color.Black;
-            this.labelPanel3.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.labelPanel3.Collapsed = false;
-            this.labelPanel3.Controls.Add(this.toolStrip1);
-            this.labelPanel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelPanel3.DropShadow = false;
-            this.labelPanel3.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel3.FixedInlineWidth = true;
-            this.labelPanel3.Inlinelabel = true;
-            this.labelPanel3.InlineWidth = 100;
-            this.labelPanel3.LabelBackColor = System.Drawing.Color.White;
-            this.labelPanel3.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelPanel3.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel3.Location = new System.Drawing.Point(0, 89);
-            this.labelPanel3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.labelPanel3.Name = "labelPanel3";
-            this.labelPanel3.OverrideCollapseControl = true;
-            this.labelPanel3.Padding = new System.Windows.Forms.Padding(127, 6, 6, 6);
-            this.labelPanel3.PanelCollapsible = true;
-            this.labelPanel3.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.labelPanel3.ShowCloseButton = false;
-            this.labelPanel3.Size = new System.Drawing.Size(630, 54);
-            this.labelPanel3.TabIndex = 4;
-            this.labelPanel3.Text = "Packet Format";
+            labelPanel3.ArrowColor = Color.Black;
+            labelPanel3.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel3.AutoSize = true;
+            labelPanel3.BackColor = SystemColors.ButtonFace;
+            labelPanel3.CloseColor = Color.Black;
+            labelPanel3.CloseMouseOverColor = Color.Red;
+            labelPanel3.Collapsed = false;
+            labelPanel3.Controls.Add(toolStrip1);
+            labelPanel3.Dock = DockStyle.Top;
+            labelPanel3.DropShadow = false;
+            labelPanel3.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel3.FixedInlineWidth = true;
+            labelPanel3.Inlinelabel = true;
+            labelPanel3.InlineWidth = 100;
+            labelPanel3.LabelBackColor = Color.White;
+            labelPanel3.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            labelPanel3.LabelForeColor = Color.Black;
+            labelPanel3.Location = new Point(0, 47);
+            labelPanel3.Name = "labelPanel3";
+            labelPanel3.OverrideCollapseControl = true;
+            labelPanel3.Padding = new Padding(113, 3, 3, 3);
+            labelPanel3.PanelCollapsible = true;
+            labelPanel3.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel3.ShowCloseButton = false;
+            labelPanel3.Size = new Size(336, 31);
+            labelPanel3.TabIndex = 4;
+            labelPanel3.Text = "Packet Format";
             // 
             // toolStrip1
             // 
-            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(201)))), ((int)(((byte)(201)))), ((int)(((byte)(201)))));
-            this.toolStrip1.BackColorNorth = System.Drawing.SystemColors.ButtonFace;
-            this.toolStrip1.BackColorSouth = System.Drawing.SystemColors.ButtonFace;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip1.ItemCheckedBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.toolStrip1.ItemCheckedBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.toolStrip1.ItemForeColor = System.Drawing.Color.Black;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ddbBits,
-            this.ddbParity,
-            this.ddbOptSB1});
-            this.toolStrip1.ItemSelectedBackColorNorth = System.Drawing.Color.White;
-            this.toolStrip1.ItemSelectedBackColorSouth = System.Drawing.Color.White;
-            this.toolStrip1.ItemSelectedForeColor = System.Drawing.Color.Black;
-            this.toolStrip1.Location = new System.Drawing.Point(127, 6);
-            this.toolStrip1.MenuBackColorNorth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.toolStrip1.MenuBackColorSouth = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.toolStrip1.MenuBorderColor = System.Drawing.Color.Gray;
-            this.toolStrip1.MenuSeparatorColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStrip1.MenuSymbolColor = System.Drawing.Color.DimGray;
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(497, 42);
-            this.toolStrip1.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
-            this.toolStrip1.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
+            toolStrip1.BackColor = Color.FromArgb(201, 201, 201);
+            toolStrip1.BackColorNorth = SystemColors.ButtonFace;
+            toolStrip1.BackColorSouth = SystemColors.ButtonFace;
+            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.ImageScalingSize = new Size(32, 32);
+            toolStrip1.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            toolStrip1.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            toolStrip1.ItemForeColor = Color.Black;
+            toolStrip1.Items.AddRange(new ToolStripItem[] { ddbBits, ddbParity, ddbOptSB1 });
+            toolStrip1.ItemSelectedBackColorNorth = Color.White;
+            toolStrip1.ItemSelectedBackColorSouth = Color.White;
+            toolStrip1.ItemSelectedForeColor = Color.Black;
+            toolStrip1.Location = new Point(113, 3);
+            toolStrip1.MenuBackColorNorth = Color.FromArgb(224, 224, 224);
+            toolStrip1.MenuBackColorSouth = Color.FromArgb(224, 224, 224);
+            toolStrip1.MenuBorderColor = Color.Gray;
+            toolStrip1.MenuSeparatorColor = Color.WhiteSmoke;
+            toolStrip1.MenuSymbolColor = Color.DimGray;
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Padding = new Padding(0, 0, 2, 0);
+            toolStrip1.Size = new Size(220, 25);
+            toolStrip1.StripItemSelectedBackColorNorth = Color.White;
+            toolStrip1.StripItemSelectedBackColorSouth = Color.White;
+            toolStrip1.TabIndex = 2;
+            toolStrip1.Text = "toolStrip1";
             // 
             // ddbBits
             // 
-            this.ddbBits.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ddbBits.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ddbOptDB5,
-            this.ddbOptDB6,
-            this.ddbOptDB7,
-            this.ddbOptDB8});
-            this.ddbBits.ForeColor = System.Drawing.Color.Black;
-            this.ddbBits.Image = ((System.Drawing.Image)(resources.GetObject("ddbBits.Image")));
-            this.ddbBits.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ddbBits.Name = "ddbBits";
-            this.ddbBits.Size = new System.Drawing.Size(49, 36);
-            this.ddbBits.Text = "8";
-            this.ddbBits.ToolTipText = "Data Bits";
+            ddbBits.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddbBits.DropDownItems.AddRange(new ToolStripItem[] { ddbOptDB5, ddbOptDB6, ddbOptDB7, ddbOptDB8 });
+            ddbBits.ForeColor = Color.Black;
+            ddbBits.Image = (Image)resources.GetObject("ddbBits.Image");
+            ddbBits.ImageTransparentColor = Color.Magenta;
+            ddbBits.Name = "ddbBits";
+            ddbBits.Size = new Size(26, 22);
+            ddbBits.Text = "8";
+            ddbBits.ToolTipText = "Data Bits";
             // 
             // ddbOptDB5
             // 
-            this.ddbOptDB5.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptDB5.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptDB5.Name = "ddbOptDB5";
-            this.ddbOptDB5.Size = new System.Drawing.Size(205, 44);
-            this.ddbOptDB5.Tag = "5";
-            this.ddbOptDB5.Text = "5 Bits";
-            this.ddbOptDB5.Click += new System.EventHandler(this.ddbOptDB5_Click);
+            ddbOptDB5.ForeColor = Color.Black;
+            ddbOptDB5.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptDB5.Name = "ddbOptDB5";
+            ddbOptDB5.Size = new Size(102, 22);
+            ddbOptDB5.Tag = "5";
+            ddbOptDB5.Text = "5 Bits";
+            ddbOptDB5.Click += ddbOptDB5_Click;
             // 
             // ddbOptDB6
             // 
-            this.ddbOptDB6.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptDB6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptDB6.Name = "ddbOptDB6";
-            this.ddbOptDB6.Size = new System.Drawing.Size(205, 44);
-            this.ddbOptDB6.Tag = "6";
-            this.ddbOptDB6.Text = "6 Bits";
-            this.ddbOptDB6.Click += new System.EventHandler(this.ddbOptDB6_Click);
+            ddbOptDB6.ForeColor = Color.Black;
+            ddbOptDB6.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptDB6.Name = "ddbOptDB6";
+            ddbOptDB6.Size = new Size(102, 22);
+            ddbOptDB6.Tag = "6";
+            ddbOptDB6.Text = "6 Bits";
+            ddbOptDB6.Click += ddbOptDB6_Click;
             // 
             // ddbOptDB7
             // 
-            this.ddbOptDB7.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptDB7.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptDB7.Name = "ddbOptDB7";
-            this.ddbOptDB7.Size = new System.Drawing.Size(205, 44);
-            this.ddbOptDB7.Tag = "7";
-            this.ddbOptDB7.Text = "7 Bits";
-            this.ddbOptDB7.Click += new System.EventHandler(this.ddbOptDB7_Click);
+            ddbOptDB7.ForeColor = Color.Black;
+            ddbOptDB7.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptDB7.Name = "ddbOptDB7";
+            ddbOptDB7.Size = new Size(102, 22);
+            ddbOptDB7.Tag = "7";
+            ddbOptDB7.Text = "7 Bits";
+            ddbOptDB7.Click += ddbOptDB7_Click;
             // 
             // ddbOptDB8
             // 
-            this.ddbOptDB8.Checked = true;
-            this.ddbOptDB8.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ddbOptDB8.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptDB8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptDB8.Name = "ddbOptDB8";
-            this.ddbOptDB8.Size = new System.Drawing.Size(205, 44);
-            this.ddbOptDB8.Tag = "8";
-            this.ddbOptDB8.Text = "8 Bits";
-            this.ddbOptDB8.Click += new System.EventHandler(this.ddbOptDB8_Click);
+            ddbOptDB8.Checked = true;
+            ddbOptDB8.CheckState = CheckState.Checked;
+            ddbOptDB8.ForeColor = Color.Black;
+            ddbOptDB8.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptDB8.Name = "ddbOptDB8";
+            ddbOptDB8.Size = new Size(102, 22);
+            ddbOptDB8.Tag = "8";
+            ddbOptDB8.Text = "8 Bits";
+            ddbOptDB8.Click += ddbOptDB8_Click;
             // 
             // ddbParity
             // 
-            this.ddbParity.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ddbParity.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ddbOptPBNone,
-            this.ddbOptPBEven,
-            this.ddbOptPBOdd,
-            this.ddbOptPBSpace,
-            this.ddbOptPBMark});
-            this.ddbParity.ForeColor = System.Drawing.Color.Black;
-            this.ddbParity.Image = ((System.Drawing.Image)(resources.GetObject("ddbParity.Image")));
-            this.ddbParity.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbParity.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ddbParity.Name = "ddbParity";
-            this.ddbParity.Size = new System.Drawing.Size(54, 36);
-            this.ddbParity.Text = "N";
-            this.ddbParity.ToolTipText = "Parity Bit";
+            ddbParity.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddbParity.DropDownItems.AddRange(new ToolStripItem[] { ddbOptPBNone, ddbOptPBEven, ddbOptPBOdd, ddbOptPBSpace, ddbOptPBMark });
+            ddbParity.ForeColor = Color.Black;
+            ddbParity.Image = (Image)resources.GetObject("ddbParity.Image");
+            ddbParity.ImageScaling = ToolStripItemImageScaling.None;
+            ddbParity.ImageTransparentColor = Color.Magenta;
+            ddbParity.Name = "ddbParity";
+            ddbParity.Size = new Size(29, 22);
+            ddbParity.Text = "N";
+            ddbParity.ToolTipText = "Parity Bit";
             // 
             // ddbOptPBNone
             // 
-            this.ddbOptPBNone.Checked = true;
-            this.ddbOptPBNone.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ddbOptPBNone.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptPBNone.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptPBNone.Name = "ddbOptPBNone";
-            this.ddbOptPBNone.Size = new System.Drawing.Size(275, 44);
-            this.ddbOptPBNone.Tag = "N";
-            this.ddbOptPBNone.Text = "No Parity";
-            this.ddbOptPBNone.Click += new System.EventHandler(this.ddbOptPBNone_Click);
+            ddbOptPBNone.Checked = true;
+            ddbOptPBNone.CheckState = CheckState.Checked;
+            ddbOptPBNone.ForeColor = Color.Black;
+            ddbOptPBNone.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptPBNone.Name = "ddbOptPBNone";
+            ddbOptPBNone.Size = new Size(138, 22);
+            ddbOptPBNone.Tag = "N";
+            ddbOptPBNone.Text = "No Parity";
+            ddbOptPBNone.Click += ddbOptPBNone_Click;
             // 
             // ddbOptPBEven
             // 
-            this.ddbOptPBEven.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptPBEven.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptPBEven.Name = "ddbOptPBEven";
-            this.ddbOptPBEven.Size = new System.Drawing.Size(275, 44);
-            this.ddbOptPBEven.Tag = "E";
-            this.ddbOptPBEven.Text = "Even Parity";
-            this.ddbOptPBEven.Click += new System.EventHandler(this.ddbOptPBEven_Click);
+            ddbOptPBEven.ForeColor = Color.Black;
+            ddbOptPBEven.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptPBEven.Name = "ddbOptPBEven";
+            ddbOptPBEven.Size = new Size(138, 22);
+            ddbOptPBEven.Tag = "E";
+            ddbOptPBEven.Text = "Even Parity";
+            ddbOptPBEven.Click += ddbOptPBEven_Click;
             // 
             // ddbOptPBOdd
             // 
-            this.ddbOptPBOdd.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptPBOdd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptPBOdd.Name = "ddbOptPBOdd";
-            this.ddbOptPBOdd.Size = new System.Drawing.Size(275, 44);
-            this.ddbOptPBOdd.Tag = "O";
-            this.ddbOptPBOdd.Text = "Odd Parity";
-            this.ddbOptPBOdd.Click += new System.EventHandler(this.ddbOptPBOdd_Click);
+            ddbOptPBOdd.ForeColor = Color.Black;
+            ddbOptPBOdd.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptPBOdd.Name = "ddbOptPBOdd";
+            ddbOptPBOdd.Size = new Size(138, 22);
+            ddbOptPBOdd.Tag = "O";
+            ddbOptPBOdd.Text = "Odd Parity";
+            ddbOptPBOdd.Click += ddbOptPBOdd_Click;
             // 
             // ddbOptPBSpace
             // 
-            this.ddbOptPBSpace.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptPBSpace.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptPBSpace.Name = "ddbOptPBSpace";
-            this.ddbOptPBSpace.Size = new System.Drawing.Size(275, 44);
-            this.ddbOptPBSpace.Tag = "S";
-            this.ddbOptPBSpace.Text = "Space Parity";
-            this.ddbOptPBSpace.Click += new System.EventHandler(this.ddbOptPBSpace_Click);
+            ddbOptPBSpace.ForeColor = Color.Black;
+            ddbOptPBSpace.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptPBSpace.Name = "ddbOptPBSpace";
+            ddbOptPBSpace.Size = new Size(138, 22);
+            ddbOptPBSpace.Tag = "S";
+            ddbOptPBSpace.Text = "Space Parity";
+            ddbOptPBSpace.Click += ddbOptPBSpace_Click;
             // 
             // ddbOptPBMark
             // 
-            this.ddbOptPBMark.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptPBMark.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptPBMark.Name = "ddbOptPBMark";
-            this.ddbOptPBMark.Size = new System.Drawing.Size(275, 44);
-            this.ddbOptPBMark.Tag = "M";
-            this.ddbOptPBMark.Text = "Mark Parity";
-            this.ddbOptPBMark.Click += new System.EventHandler(this.ddbOptPBMark_Click);
+            ddbOptPBMark.ForeColor = Color.Black;
+            ddbOptPBMark.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptPBMark.Name = "ddbOptPBMark";
+            ddbOptPBMark.Size = new Size(138, 22);
+            ddbOptPBMark.Tag = "M";
+            ddbOptPBMark.Text = "Mark Parity";
+            ddbOptPBMark.Click += ddbOptPBMark_Click;
             // 
             // ddbOptSB1
             // 
-            this.ddbOptSB1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ddbOptSB1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.stopBitToolStripMenuItem,
-            this.ddbOptSB15,
-            this.ddbOptSB2});
-            this.ddbOptSB1.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptSB1.Image = ((System.Drawing.Image)(resources.GetObject("ddbOptSB1.Image")));
-            this.ddbOptSB1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptSB1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ddbOptSB1.Name = "ddbOptSB1";
-            this.ddbOptSB1.Size = new System.Drawing.Size(49, 36);
-            this.ddbOptSB1.Text = "1";
-            this.ddbOptSB1.ToolTipText = "Stop Bits";
+            ddbOptSB1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddbOptSB1.DropDownItems.AddRange(new ToolStripItem[] { stopBitToolStripMenuItem, ddbOptSB15, ddbOptSB2 });
+            ddbOptSB1.ForeColor = Color.Black;
+            ddbOptSB1.Image = (Image)resources.GetObject("ddbOptSB1.Image");
+            ddbOptSB1.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptSB1.ImageTransparentColor = Color.Magenta;
+            ddbOptSB1.Name = "ddbOptSB1";
+            ddbOptSB1.Size = new Size(26, 22);
+            ddbOptSB1.Text = "1";
+            ddbOptSB1.ToolTipText = "Stop Bits";
             // 
             // stopBitToolStripMenuItem
             // 
-            this.stopBitToolStripMenuItem.Checked = true;
-            this.stopBitToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.stopBitToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.stopBitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.stopBitToolStripMenuItem.Name = "stopBitToolStripMenuItem";
-            this.stopBitToolStripMenuItem.Size = new System.Drawing.Size(278, 44);
-            this.stopBitToolStripMenuItem.Tag = "1";
-            this.stopBitToolStripMenuItem.Text = "1 Stop Bit";
-            this.stopBitToolStripMenuItem.Click += new System.EventHandler(this.stopBitToolStripMenuItem_Click);
+            stopBitToolStripMenuItem.Checked = true;
+            stopBitToolStripMenuItem.CheckState = CheckState.Checked;
+            stopBitToolStripMenuItem.ForeColor = Color.Black;
+            stopBitToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            stopBitToolStripMenuItem.Name = "stopBitToolStripMenuItem";
+            stopBitToolStripMenuItem.Size = new Size(138, 22);
+            stopBitToolStripMenuItem.Tag = "1";
+            stopBitToolStripMenuItem.Text = "1 Stop Bit";
+            stopBitToolStripMenuItem.Click += stopBitToolStripMenuItem_Click;
             // 
             // ddbOptSB15
             // 
-            this.ddbOptSB15.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptSB15.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptSB15.Name = "ddbOptSB15";
-            this.ddbOptSB15.Size = new System.Drawing.Size(278, 44);
-            this.ddbOptSB15.Tag = "2.5";
-            this.ddbOptSB15.Text = "1.5 Stop Bits";
-            this.ddbOptSB15.Click += new System.EventHandler(this.ddbOptSB15_Click);
+            ddbOptSB15.ForeColor = Color.Black;
+            ddbOptSB15.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptSB15.Name = "ddbOptSB15";
+            ddbOptSB15.Size = new Size(138, 22);
+            ddbOptSB15.Tag = "2.5";
+            ddbOptSB15.Text = "1.5 Stop Bits";
+            ddbOptSB15.Click += ddbOptSB15_Click;
             // 
             // ddbOptSB2
             // 
-            this.ddbOptSB2.ForeColor = System.Drawing.Color.Black;
-            this.ddbOptSB2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ddbOptSB2.Name = "ddbOptSB2";
-            this.ddbOptSB2.Size = new System.Drawing.Size(278, 44);
-            this.ddbOptSB2.Tag = "2";
-            this.ddbOptSB2.Text = "2 Stop Bits";
-            this.ddbOptSB2.Click += new System.EventHandler(this.ddbOptSB2_Click);
+            ddbOptSB2.ForeColor = Color.Black;
+            ddbOptSB2.ImageScaling = ToolStripItemImageScaling.None;
+            ddbOptSB2.Name = "ddbOptSB2";
+            ddbOptSB2.Size = new Size(138, 22);
+            ddbOptSB2.Tag = "2";
+            ddbOptSB2.Text = "2 Stop Bits";
+            ddbOptSB2.Click += ddbOptSB2_Click;
             // 
             // labelPanel1
             // 
-            this.labelPanel1.ArrowColor = System.Drawing.Color.Black;
-            this.labelPanel1.ArrowMouseOverColor = System.Drawing.Color.DodgerBlue;
-            this.labelPanel1.AutoSize = true;
-            this.labelPanel1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.labelPanel1.CloseColor = System.Drawing.Color.Black;
-            this.labelPanel1.CloseMouseOverColor = System.Drawing.Color.Red;
-            this.labelPanel1.Collapsed = false;
-            this.labelPanel1.Controls.Add(this.comboBox1);
-            this.labelPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelPanel1.DropShadow = false;
-            this.labelPanel1.DropShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPanel1.FixedInlineWidth = true;
-            this.labelPanel1.Inlinelabel = true;
-            this.labelPanel1.InlineWidth = 100;
-            this.labelPanel1.LabelBackColor = System.Drawing.Color.White;
-            this.labelPanel1.LabelFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelPanel1.LabelForeColor = System.Drawing.Color.Black;
-            this.labelPanel1.Location = new System.Drawing.Point(0, 37);
-            this.labelPanel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.labelPanel1.Name = "labelPanel1";
-            this.labelPanel1.OverrideCollapseControl = true;
-            this.labelPanel1.Padding = new System.Windows.Forms.Padding(127, 6, 6, 6);
-            this.labelPanel1.PanelCollapsible = true;
-            this.labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            this.labelPanel1.ShowCloseButton = false;
-            this.labelPanel1.Size = new System.Drawing.Size(630, 52);
-            this.labelPanel1.TabIndex = 2;
-            this.labelPanel1.Text = "Baud Rate";
+            labelPanel1.ArrowColor = Color.Black;
+            labelPanel1.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel1.AutoSize = true;
+            labelPanel1.BackColor = SystemColors.ButtonFace;
+            labelPanel1.CloseColor = Color.Black;
+            labelPanel1.CloseMouseOverColor = Color.Red;
+            labelPanel1.Collapsed = false;
+            labelPanel1.Controls.Add(comboBox1);
+            labelPanel1.Dock = DockStyle.Top;
+            labelPanel1.DropShadow = false;
+            labelPanel1.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel1.FixedInlineWidth = true;
+            labelPanel1.Inlinelabel = true;
+            labelPanel1.InlineWidth = 100;
+            labelPanel1.LabelBackColor = Color.White;
+            labelPanel1.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            labelPanel1.LabelForeColor = Color.Black;
+            labelPanel1.Location = new Point(0, 18);
+            labelPanel1.Name = "labelPanel1";
+            labelPanel1.OverrideCollapseControl = true;
+            labelPanel1.Padding = new Padding(113, 3, 3, 3);
+            labelPanel1.PanelCollapsible = true;
+            labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel1.ShowCloseButton = false;
+            labelPanel1.Size = new Size(336, 29);
+            labelPanel1.TabIndex = 2;
+            labelPanel1.Text = "Baud Rate";
             // 
             // comboBox1
             // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(127, 6);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(497, 40);
-            this.comboBox1.TabIndex = 0;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            comboBox1.Dock = DockStyle.Top;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(113, 3);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(220, 23);
+            comboBox1.TabIndex = 0;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.lblPnlTheme);
-            this.tabPage4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPage4.Location = new System.Drawing.Point(4, 24);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage4.Size = new System.Drawing.Size(642, 695);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Display";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            tabPage4.Controls.Add(lblPnlTheme);
+            tabPage4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3, 3, 3, 3);
+            tabPage4.Size = new Size(342, 311);
+            tabPage4.TabIndex = 1;
+            tabPage4.Text = "Display";
+            tabPage4.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(650, 800);
-            this.Controls.Add(this.hiddenTabControl1);
-            this.Controls.Add(this.thSettings);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.Name = "Settings";
-            this.Text = "Settings";
-            this.Activated += new System.EventHandler(this.Settings_Activated);
-            this.Deactivate += new System.EventHandler(this.Settings_Deactivate);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Settings_FormClosed);
-            this.Load += new System.EventHandler(this.Settings_Load);
-            this.SizeChanged += new System.EventHandler(this.Settings_SizeChanged);
-            this.VisibleChanged += new System.EventHandler(this.Settings_VisibleChanged);
-            this.lblPnlTheme.ResumeLayout(false);
-            this.hiddenTabControl1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.labelPanel5.ResumeLayout(false);
-            this.labelPanel5.PerformLayout();
-            this.labelPanel4.ResumeLayout(false);
-            this.labelPanel4.PerformLayout();
-            this.lblPnlDefaults.ResumeLayout(false);
-            this.lblPnlDefaults.PerformLayout();
-            this.labelPanel2.ResumeLayout(false);
-            this.labelPanel2.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
-            this.labelPanel3.ResumeLayout(false);
-            this.labelPanel3.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.labelPanel1.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ScrollBar;
+            ClientSize = new Size(350, 375);
+            Controls.Add(hiddenTabControl1);
+            Controls.Add(thSettings);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "Settings";
+            Text = "Settings";
+            Activated += Settings_Activated;
+            Deactivate += Settings_Deactivate;
+            FormClosed += Settings_FormClosed;
+            Load += Settings_Load;
+            SizeChanged += Settings_SizeChanged;
+            VisibleChanged += Settings_VisibleChanged;
+            lblPnlTheme.ResumeLayout(false);
+            hiddenTabControl1.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            labelPanel5.ResumeLayout(false);
+            labelPanel5.PerformLayout();
+            labelPanel4.ResumeLayout(false);
+            labelPanel4.PerformLayout();
+            lblPnlDefaults.ResumeLayout(false);
+            lblPnlDefaults.PerformLayout();
+            labelPanel2.ResumeLayout(false);
+            labelPanel2.PerformLayout();
+            toolStrip2.ResumeLayout(false);
+            toolStrip2.PerformLayout();
+            labelPanel3.ResumeLayout(false);
+            labelPanel3.PerformLayout();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            labelPanel1.ResumeLayout(false);
+            tabPage4.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

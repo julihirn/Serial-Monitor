@@ -24,7 +24,7 @@ namespace Serial_Monitor.Classes {
         public delegate void ProgramArrayChangedHandler(int Index, bool ItemRemoved);
 
         public static event ProgramEditorChangedHandler? ProgramEditorChanged;
-        public delegate void ProgramEditorChangedHandler(ProgramObject ProgramObj);
+        public delegate void ProgramEditorChangedHandler(ProgramObject ?ProgramObj);
 
         public static event ProgramRemovedHandler? ProgramRemoved;
         public delegate void ProgramRemovedHandler(string ID);

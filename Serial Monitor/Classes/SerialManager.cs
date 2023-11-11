@@ -844,12 +844,14 @@ namespace Serial_Monitor.Classes {
         }
         private List<byte[]> ModbusTransmitBuffer = new List<byte[]>();
         private void ModbusFramer() {
-            if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
-                lastTransmittedTime = DateTime.UtcNow;
-                if (ModbusTransmitBuffer.Count > 0) {
-                    byte[] Data = ModbusTransmitBuffer[0];
-                    TransmitRTUFrame(Data);
-                    ModbusTransmitBuffer.RemoveAt(0);
+            while (ModbusTransmitBuffer.Count > 0) {
+                if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
+                    lastTransmittedTime = DateTime.UtcNow;
+                    if (ModbusTransmitBuffer.Count > 0) {
+                        byte[] Data = ModbusTransmitBuffer[0];
+                        TransmitRTUFrame(Data);
+                        ModbusTransmitBuffer.RemoveAt(0);
+                    }
                 }
             }
         }

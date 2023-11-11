@@ -645,7 +645,7 @@
             btnClearTerminal.ImageScaling = ToolStripItemImageScaling.None;
             btnClearTerminal.ImageTransparentColor = Color.Magenta;
             btnClearTerminal.Name = "btnClearTerminal";
-            btnClearTerminal.Size = new Size(23, 39);
+            btnClearTerminal.Size = new Size(23, 20);
             btnClearTerminal.Text = "Clear Terminal";
             btnClearTerminal.Click += toolStripButton1_Click;
             // 
@@ -656,7 +656,7 @@
             btnTopMost.ImageScaling = ToolStripItemImageScaling.None;
             btnTopMost.ImageTransparentColor = Color.Magenta;
             btnTopMost.Name = "btnTopMost";
-            btnTopMost.Size = new Size(23, 39);
+            btnTopMost.Size = new Size(23, 20);
             btnTopMost.Text = "Window Top Most";
             btnTopMost.Click += toolStripButton1_Click_1;
             // 
@@ -669,7 +669,7 @@
             pnlRenamePanel.Location = new Point(0, 0);
             pnlRenamePanel.Margin = new Padding(2, 1, 2, 1);
             pnlRenamePanel.Name = "pnlRenamePanel";
-            pnlRenamePanel.Padding = new Padding(1, 1, 1, 1);
+            pnlRenamePanel.Padding = new Padding(1);
             pnlRenamePanel.Size = new Size(607, 20);
             pnlRenamePanel.TabIndex = 3;
             pnlRenamePanel.Visible = false;
@@ -2245,7 +2245,7 @@
             keyPadToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             keyPadToolStripMenuItem.Name = "keyPadToolStripMenuItem";
             keyPadToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.K;
-            keyPadToolStripMenuItem.Size = new Size(168, 22);
+            keyPadToolStripMenuItem.Size = new Size(245, 22);
             keyPadToolStripMenuItem.Text = "&Keypad";
             keyPadToolStripMenuItem.Click += keyPadToolStripMenuItem_Click;
             // 
@@ -2255,7 +2255,7 @@
             btnMonitor.ImageScaling = ToolStripItemImageScaling.None;
             btnMonitor.Name = "btnMonitor";
             btnMonitor.ShortcutKeys = Keys.Control | Keys.M;
-            btnMonitor.Size = new Size(168, 22);
+            btnMonitor.Size = new Size(245, 22);
             btnMonitor.Text = "&Monitor";
             btnMonitor.Click += btnMonitor_Click;
             // 
@@ -2264,7 +2264,8 @@
             modbusRegistersToolStripMenuItem.ForeColor = Color.White;
             modbusRegistersToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             modbusRegistersToolStripMenuItem.Name = "modbusRegistersToolStripMenuItem";
-            modbusRegistersToolStripMenuItem.Size = new Size(168, 22);
+            modbusRegistersToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.M;
+            modbusRegistersToolStripMenuItem.Size = new Size(245, 22);
             modbusRegistersToolStripMenuItem.Text = "Modbus &Registers";
             modbusRegistersToolStripMenuItem.Click += modbusRegistersToolStripMenuItem_Click;
             // 
@@ -2272,7 +2273,7 @@
             // 
             oscilloscopeToolStripMenuItem.ForeColor = Color.White;
             oscilloscopeToolStripMenuItem.Name = "oscilloscopeToolStripMenuItem";
-            oscilloscopeToolStripMenuItem.Size = new Size(168, 22);
+            oscilloscopeToolStripMenuItem.Size = new Size(245, 22);
             oscilloscopeToolStripMenuItem.Text = "O&scilloscope";
             oscilloscopeToolStripMenuItem.Visible = false;
             oscilloscopeToolStripMenuItem.Click += oscilloscopeToolStripMenuItem_Click;
@@ -2280,42 +2281,42 @@
             // toolStripSeparator14
             // 
             toolStripSeparator14.Name = "toolStripSeparator14";
-            toolStripSeparator14.Size = new Size(165, 6);
+            toolStripSeparator14.Size = new Size(242, 6);
             // 
             // textComparatorToolStripMenuItem
             // 
             textComparatorToolStripMenuItem.ForeColor = Color.White;
             textComparatorToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             textComparatorToolStripMenuItem.Name = "textComparatorToolStripMenuItem";
-            textComparatorToolStripMenuItem.Size = new Size(168, 22);
+            textComparatorToolStripMenuItem.Size = new Size(245, 22);
             textComparatorToolStripMenuItem.Text = "&Text Comparator";
             textComparatorToolStripMenuItem.Click += textComparatorToolStripMenuItem_Click;
             // 
             // toolStripSeparator31
             // 
             toolStripSeparator31.Name = "toolStripSeparator31";
-            toolStripSeparator31.Size = new Size(165, 6);
+            toolStripSeparator31.Size = new Size(242, 6);
             // 
             // deviceManagerToolStripMenuItem
             // 
             deviceManagerToolStripMenuItem.ForeColor = Color.White;
             deviceManagerToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             deviceManagerToolStripMenuItem.Name = "deviceManagerToolStripMenuItem";
-            deviceManagerToolStripMenuItem.Size = new Size(168, 22);
+            deviceManagerToolStripMenuItem.Size = new Size(245, 22);
             deviceManagerToolStripMenuItem.Text = "Device Manager";
             deviceManagerToolStripMenuItem.Click += deviceManagerToolStripMenuItem_Click;
             // 
             // toolStripSeparator40
             // 
             toolStripSeparator40.Name = "toolStripSeparator40";
-            toolStripSeparator40.Size = new Size(165, 6);
+            toolStripSeparator40.Size = new Size(242, 6);
             // 
             // customizeToolStripMenuItem
             // 
             customizeToolStripMenuItem.ForeColor = Color.White;
             customizeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            customizeToolStripMenuItem.Size = new Size(168, 22);
+            customizeToolStripMenuItem.Size = new Size(245, 22);
             customizeToolStripMenuItem.Text = "&Customize";
             customizeToolStripMenuItem.Visible = false;
             // 
@@ -2325,7 +2326,7 @@
             optionsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             optionsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.I;
-            optionsToolStripMenuItem.Size = new Size(168, 22);
+            optionsToolStripMenuItem.Size = new Size(245, 22);
             optionsToolStripMenuItem.Text = "&Options";
             optionsToolStripMenuItem.Click += optionsToolStripMenuItem_Click;
             // 
@@ -2342,7 +2343,7 @@
             btnWinWindowManager.ForeColor = Color.White;
             btnWinWindowManager.ImageScaling = ToolStripItemImageScaling.None;
             btnWinWindowManager.Name = "btnWinWindowManager";
-            btnWinWindowManager.Size = new Size(168, 22);
+            btnWinWindowManager.Size = new Size(180, 22);
             btnWinWindowManager.Text = "&Window Manager";
             btnWinWindowManager.Click += btnWinWindowManager_Click;
             // 
@@ -2351,14 +2352,14 @@
             btnWinCloseAll.ForeColor = Color.White;
             btnWinCloseAll.ImageScaling = ToolStripItemImageScaling.None;
             btnWinCloseAll.Name = "btnWinCloseAll";
-            btnWinCloseAll.Size = new Size(168, 22);
+            btnWinCloseAll.Size = new Size(180, 22);
             btnWinCloseAll.Text = "&Close All";
             btnWinCloseAll.Click += btnWinCloseAll_Click;
             // 
             // toolStripSeparator42
             // 
             toolStripSeparator42.Name = "toolStripSeparator42";
-            toolStripSeparator42.Size = new Size(165, 6);
+            toolStripSeparator42.Size = new Size(177, 6);
             toolStripSeparator42.Visible = false;
             // 
             // helpToolStripMenuItem

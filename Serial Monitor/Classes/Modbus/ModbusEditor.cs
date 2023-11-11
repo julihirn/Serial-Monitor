@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 using ListControl = ODModules.ListControl;
 
@@ -274,6 +275,44 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
+        public static void ChangeSignedList(ListControl lstMonitor, SignedState State) {
+            int SelectedCount = lstMonitor.SelectionCount;
+            if (SelectedCount <= 0) { return; }
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count >= ModbusEditor.Indx_Value) {
+                    if (Li.Selected == true) {
+                        if (Li.Tag == null) { continue; }
+                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                            if (Reg.Format == DataFormat.Float) {
+                                Reg.Signed = false;
+                            }
+                            else if (Reg.Format == DataFormat.Double) {
+                                Reg.Signed = false;
+                            }
+                            else {
+                                switch (State) {
+                                    case SignedState.Unsigned:
+                                        Reg.Signed = false; break;
+                                    case SignedState.Signed:
+                                        Reg.Signed = true; break;
+                                    case SignedState.Toogle:
+                                        Reg.Signed = !Reg.Signed; break;
+                                }
+                            }
+                            Li[Indx_Signed].Checked = Reg.Signed;
+                            Li[Indx_Value].Text = Reg.FormattedValue;
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                        }
+                        SelectedCount--;
+                    }
+                    if (SelectedCount <= 0) {
+                        break;
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+        }
         #endregion
         #region Format Editing Support
         public static void CheckItem(object DropDownList, DataFormat CheckOn) {
@@ -431,7 +470,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void CopyRegisters(ListControl ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
             if (ListEditor.CurrentItems == null) { return; }
             List<ModbusDataObject> list = new List<ModbusDataObject>();
-            for (int i = 0; i < ListEditor.CurrentItems.Count;  i++) {
+            for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
                 if (ListEditor.CurrentItems[i].Selected == true) {
                     if (ListEditor.CurrentItems[i].SubItems.Count == 5) {
                         object? objCmd = ListEditor.CurrentItems[i].Tag;
@@ -536,7 +575,7 @@ namespace Serial_Monitor.Classes.Modbus {
                                 if (objCmd == null) { continue; }
                                 if (objCmd.GetType() == typeof(ModbusRegister)) {
                                     ModbusRegister Reg = (ModbusRegister)objCmd;
-                                    Reg.Name = CopiedItems[j].Replace("\r","");
+                                    Reg.Name = CopiedItems[j].Replace("\r", "");
                                     ListEditor.CurrentItems[k][1].Text = Reg.Name;
                                     SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
                                 }
@@ -571,5 +610,33 @@ namespace Serial_Monitor.Classes.Modbus {
                 return false;
             }
         }
+
+
+        public static void ChangeAppearance(object? sender, ListControl lstMonitor) {
+            int SelectedCount = lstMonitor.SelectionCount;
+            if (SelectedCount <= 0) { return; }
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count >= Indx_Value) {
+                    if (Li.Selected == true) {
+                        if (Li.Tag == null) { continue; }
+                        if (Li.Tag.GetType() == typeof(ModbusObject)) {
+                            ModbusObject Reg = (ModbusObject)Li.Tag;
+                            if (Reg.UseBackColor == true) {
+                                Li[Indx_Display].BackColor = Reg.BackColor;
+                            }
+                            if (Reg.UseForeColor == true) {
+                                Li[Indx_Display].ForeColor = Reg.ForeColor;
+                            }
+                        }
+                        SelectedCount--;
+                    }
+                    if (SelectedCount <= 0) {
+                        break;
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+        }
     }
+
 }

@@ -21,7 +21,7 @@ namespace Serial_Monitor {
         }
         bool PreventWriting = true;
         private void Settings_Load(object sender, EventArgs e) {
-          
+
             AdjustUserInterface();
             hiddenTabControl1.DefaultColor1 = BackColor;
             ApplyTheme();
@@ -288,6 +288,10 @@ namespace Serial_Monitor {
             if (Button.Tag.GetType() != typeof(Theme)) { return; }
             Theme Thm = (Theme)Button.Tag;
             Thm.Apply();
+        }
+
+        private void btngrThemes_Load(object sender, EventArgs e) {
+
         }
     }
 }

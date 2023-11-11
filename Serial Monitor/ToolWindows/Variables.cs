@@ -70,7 +70,7 @@ namespace Serial_Monitor.ToolWindows {
             ProgramManager.ProgramEditorChanged += ProgramManager_ProgramEditorChanged;
         }
 
-        private void ProgramManager_ProgramEditorChanged(ProgramObject ProgramObj) {
+        private void ProgramManager_ProgramEditorChanged(ProgramObject ?ProgramObj) {
             SelectedProgram = ProgramObj;
         }
 

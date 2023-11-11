@@ -106,7 +106,7 @@ namespace Serial_Monitor.Components {
             MyMdiContainer.ChildActivated(this);
         }
 
-        private void MdiClientForm_Load(object sender, EventArgs e) {
+        private void MdiClientForm_Load(object ?sender, EventArgs e) {
 
         }
 
@@ -125,7 +125,7 @@ namespace Serial_Monitor.Components {
         }
 
 
-        private void MdiClientForm_Load_1(object sender, EventArgs e) {
+        private void MdiClientForm_Load_1(object ?sender, EventArgs e) {
             InitializeComponent();
         }
 
@@ -286,10 +286,10 @@ namespace Serial_Monitor.Components {
         }
         protected override void OnMouseMove(MouseEventArgs e) {
 
-            bool HitButton = false;
+            //bool HitButton = false;
             if (CloseMarker.Contains(e.Location)) {
                 CloseMarker_MouseInRegion = true;
-                HitButton = true;
+               // HitButton = true;
             }
             else {
                 CloseMarker_MouseInRegion = false;

@@ -24,49 +24,49 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChannelProperties));
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.SuspendLayout();
+            propertyGrid1 = new PropertyGrid();
+            SuspendLayout();
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.CanShowVisualStyleGlyphs = false;
-            this.propertyGrid1.CategoryForeColor = System.Drawing.Color.White;
-            this.propertyGrid1.CategorySplitterColor = System.Drawing.Color.Silver;
-            this.propertyGrid1.CommandsForeColor = System.Drawing.Color.White;
-            this.propertyGrid1.CommandsVisibleIfAvailable = false;
-            this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpBackColor = System.Drawing.Color.Gray;
-            this.propertyGrid1.HelpBorderColor = System.Drawing.Color.Gray;
-            this.propertyGrid1.HelpForeColor = System.Drawing.SystemColors.Window;
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(304, 363);
-            this.propertyGrid1.TabIndex = 6;
-            this.propertyGrid1.ToolbarVisible = false;
-            this.propertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.propertyGrid1.ViewBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.propertyGrid1.ViewForeColor = System.Drawing.Color.White;
+            propertyGrid1.CanShowVisualStyleGlyphs = false;
+            propertyGrid1.CategoryForeColor = Color.White;
+            propertyGrid1.CategorySplitterColor = Color.Silver;
+            propertyGrid1.CommandsForeColor = Color.White;
+            propertyGrid1.CommandsVisibleIfAvailable = false;
+            propertyGrid1.DisabledItemForeColor = Color.FromArgb(127, 255, 255, 255);
+            propertyGrid1.Dock = DockStyle.Fill;
+            propertyGrid1.HelpBackColor = Color.Gray;
+            propertyGrid1.HelpBorderColor = Color.Gray;
+            propertyGrid1.HelpForeColor = SystemColors.Window;
+            propertyGrid1.HelpVisible = false;
+            propertyGrid1.LineColor = Color.FromArgb(40, 40, 40);
+            propertyGrid1.Location = new Point(0, 0);
+            propertyGrid1.Name = "propertyGrid1";
+            propertyGrid1.Size = new Size(304, 363);
+            propertyGrid1.TabIndex = 6;
+            propertyGrid1.ToolbarVisible = false;
+            propertyGrid1.ViewBackColor = Color.FromArgb(20, 20, 20);
+            propertyGrid1.ViewBorderColor = Color.FromArgb(20, 20, 20);
+            propertyGrid1.ViewForeColor = Color.White;
             // 
             // ChannelProperties
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 363);
-            this.Controls.Add(this.propertyGrid1);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ChannelProperties";
-            this.Text = "Channel Properties";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChannelProperties_FormClosed);
-            this.Load += new System.EventHandler(this.ChannelProperties_Load);
-            this.SizeChanged += new System.EventHandler(this.ChannelProperties_SizeChanged);
-            this.VisibleChanged += new System.EventHandler(this.ChannelProperties_VisibleChanged);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(304, 363);
+            Controls.Add(propertyGrid1);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "ChannelProperties";
+            Text = "Channel Properties";
+            FormClosing += ChannelProperties_FormClosing;
+            FormClosed += ChannelProperties_FormClosed;
+            Load += ChannelProperties_Load;
+            SizeChanged += ChannelProperties_SizeChanged;
+            VisibleChanged += ChannelProperties_VisibleChanged;
+            ResumeLayout(false);
         }
 
         #endregion
