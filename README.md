@@ -1,7 +1,8 @@
 # Serial Monitor
 Serial Monitor is a versatile tool designed for multi-channel/multi-serial device control and communication. Whether you're working with binary data, plain text, C commands, or Modbus RTU, this Serial Monitor empowers you to send, receive, and visualize data seamlessly. Additionally, it offers step commands for precise control and the ability to save configurations and step programs to files.
 
-![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/435e0f4c-d2d7-4b91-bc3d-8d0ea681dead)
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/1f5f4483-f814-403a-85c7-ae812095cdc6)
+
 ## Features
 
 - **Multi-Channel/Multi-Serial Device Control**: Effortlessly manage multiple serial devices or channels from a single interface, streamlining your communication tasks.
@@ -30,10 +31,9 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/2f19bfc0-ef50-4224-a30e-0e60956f641c)
 
-- **Modbus Coil and Register Editor/Monitor (Coming Soon)**: Edit, view and monitor your Modbus devices with the Modbus Registers editor.
+- **Modbus Coil and Register Editor/Monitor**: Edit, view and monitor your Modbus devices with the Modbus Registers editor.
   
-![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/5bfc7342-ad28-4795-b471-10fa3645b162)
-
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/4d51eadb-61ad-497e-8401-d16f86dea8a2)
 
 ## System Requirements
 * Windows 7 or higher.
