@@ -251,6 +251,7 @@ namespace Serial_Monitor {
             SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
             ModbusSupport.SnapshotClosed += ModbusSupport_SnapshotClosed;
+            SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
 
             navigator1.LinkedList = SystemManager.SerialManagers;
             navigator1.SelectedItem = 0;
@@ -271,11 +272,13 @@ namespace Serial_Monitor {
             EnableDisableDialogEditors();
         }
 
+        private void SystemManager_PortStatusChanged(SerialManager sender) {
+           
+        }
         private void SystemManager_ChannelPropertyChanged(SerialManager sender) {
             CurrentEditorView = currentEditorView;
             EnableDisableDialogEditors();
         }
-
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
@@ -462,6 +465,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
             Classes.Theming.ThemeManager.ThemeControl(cmMonitor);
+            Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             mdiClient.BackColor = Properties.Settings.Default.THM_COL_Editor;
             this.ResumeLayout();
         }
@@ -487,6 +491,9 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, openToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ApplyCodeChanges, btnApplyOnClick, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, connectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, disconnectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             ChangeLockedIcon(LockedEditor);
         }
         private void SystemManager_ChannelAdded(int RemovedIndex) {
@@ -543,6 +550,7 @@ namespace Serial_Monitor {
                     CurrentManager = SystemManager.SerialManagers[SelectedIndex];
                     LoadRegisters();
                     EnableDisableDialogEditors();
+                    ModbusEditor.ClearControls(lstMonitor);
                 }
             }
         }
@@ -677,6 +685,8 @@ namespace Serial_Monitor {
             SystemManager.ChannelPropertyChanged -= SystemManager_ChannelPropertyChanged;
 
             ModbusSupport.SnapshotClosed -= ModbusSupport_SnapshotClosed;
+
+            SystemManager.PortStatusChanged -= SystemManager_PortStatusChanged;
 
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
@@ -1263,6 +1273,179 @@ namespace Serial_Monitor {
 
         private void ddpDataSize_Click(object sender, EventArgs e) {
 
+        }
+
+        private void navigator1_TabRightClicked(object sender, TabClickedEventArgs Tab) {
+            if (sender == null) { return; }
+            cmChannels.Tag = Tab;
+            if (Tab.SelectedTab.GetType() == typeof(SerialManager)) {
+                SerialManager SerMan = (SerialManager)Tab.SelectedTab;
+                btnModbusMaster.Checked = SerMan.IsMaster;
+                //outputInTerminalToolStripMenuItem.Checked = SerMan.OutputToMasterTerminal;
+                if (SerMan.Connected == true) {
+                    connectToolStripMenuItem.Enabled = false;
+                    disconnectToolStripMenuItem.Enabled = true;
+                }
+                else {
+                    connectToolStripMenuItem.Enabled = true;
+                    disconnectToolStripMenuItem.Enabled = false;
+                }
+            }
+            cmChannels.Show(Tab.ScreenLocation);
+        }
+        bool InRenameMode = false;
+        private void btnRenameChannel_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData == null) { return; }
+            if (TagData.SelectedTab.GetType() != typeof(SerialManager)) { return; }
+            ShowChannelRenameBox(TagData);
+        }
+        private TabClickedEventArgs? GetClickedArgs(object? TagData) {
+            if (TagData != null) {
+                if (TagData.GetType() == typeof(TabClickedEventArgs)) {
+                    TabClickedEventArgs Tb = (TabClickedEventArgs)TagData;
+                    return Tb;
+                }
+            }
+            return null;
+        }
+        private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
+            Rectangle TabRectangle = EventData.TextArea;
+            SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
+            string CurrentText = SerMan.Name;
+            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
+            RenameBox.Text = CurrentText;
+            RenameBox.Font = navigator1.Font;
+            // RenameBox.BorderStyle = BorderStyle.None;
+            RenameBox.Multiline = false;
+            int CentreHeight = 0;
+            RenameBox.Show();
+            if (TabRectangle.Height > RenameBox.ClientSize.Height) {
+                CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
+            }
+            else {
+                CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
+            }
+            RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
+            RenameBox.Size = TabRectangle.Size;
+            RenameBox.BringToFront();
+            RenameBox.Tag = EventData;
+            InRenameMode = true;
+            navigator1.Controls.Add(RenameBox);
+            RenameBox.Focus();
+            RenameBox.Leave += RenameBox_Leave;
+            RenameBox.LostFocus += RenameBox_LostFocus;
+            RenameBox.KeyDown += RenameBox_KeyDown; ; ;
+            RenameBox.TextChanged += RenameBox_TextChanged;
+        }
+        private void RenameBox_Leave(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            //if (sender.GetType() == typeof(TextBox)) {
+            //    DeregisterTextbox((TextBox)sender);
+            //    thPrograms.Controls.Remove((TextBox)sender);
+            //}
+            RemoveFromControl(sender);
+        }
+        private void RenameBox_KeyDown(object? sender, KeyEventArgs e) {
+
+            if (e.KeyCode == Keys.Enter) {
+                if (sender == null) { return; }
+                //if (sender.GetType() == typeof(TextBox)) {
+                //    DeregisterTextbox((TextBox)sender);
+                //    thPrograms.Controls.Remove((TextBox)sender);
+                //}
+                RemoveFromControl(sender);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+            }
+        }
+        private void RemoveFromControl(object Ctrl) {
+            if (Ctrl.GetType() == typeof(System.Windows.Forms.TextBox)) {
+                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)Ctrl;
+                if (TxBx.Tag == null) { return; }
+                if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
+                    TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
+                    if (TCEA.SelectedTab == null) { return; }
+                    if (TCEA.SelectedTab.GetType() == typeof(SerialManager)) {
+                        navigator1.Controls.Remove(TxBx);
+                    }
+                }
+                DeregisterTextbox((System.Windows.Forms.TextBox)Ctrl);
+            }
+        }
+        private void RenameBox_TextChanged(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(System.Windows.Forms.TextBox)) {
+                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)sender;
+                if (TxBx.Tag == null) {
+                    //DeregisterTextbox(TxBx);
+                    //thPrograms.Controls.Remove(TxBx);
+                    RemoveFromControl(sender);
+                }
+                else {
+                    if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
+                        TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
+                        object? Data = TCEA.SelectedTab;
+                        if (Data == null) { return; }
+                        if (Data.GetType() == typeof(Tab)) {
+                            Tab TabData = (Tab)Data;
+                            if (TabData.Tag != null) {
+                                if (TabData.Tag.GetType() == typeof(ProgramObject)) {
+                                    TabData.Text = TxBx.Text;
+                                    ((ProgramObject)TabData.Tag).Name = TxBx.Text;
+                                }
+                            }
+                        }
+                        else if (Data.GetType() == typeof(SerialManager)) {
+                            SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text;
+                            navigator1.Invalidate();
+                        }
+                    }
+                }
+            }
+        }
+        private void RenameBox_LostFocus(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            //if (sender.GetType() == typeof(TextBox)) {
+            //    DeregisterTextbox((TextBox)sender);
+            //    thPrograms.Controls.Remove((TextBox)sender);
+            //}
+            RemoveFromControl(sender);
+        }
+        private void DeregisterTextbox(System.Windows.Forms.TextBox Tb) {
+            Tb.Tag = null;
+            Tb.Leave -= RenameBox_Leave;
+            Tb.LostFocus -= RenameBox_LostFocus;
+            Tb.TextChanged -= RenameBox_TextChanged;
+            Tb.KeyDown -= RenameBox_KeyDown;
+            InRenameMode = false;
+        }
+
+        private void btnModbusMaster_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    ((SerialManager)TagData.SelectedTab).IsMaster = !((SerialManager)TagData.SelectedTab).IsMaster;
+                }
+            }
+        }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    ((SerialManager)TagData.SelectedTab).Connect();
+                }
+            }
+        }
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
+            if (TagData != null) {
+                if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
+                    ((SerialManager)TagData.SelectedTab).Disconnect();
+                }
+            }
         }
     }
 }

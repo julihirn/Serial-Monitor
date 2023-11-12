@@ -1,6 +1,7 @@
 ﻿using Handlers;
 using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,10 +9,12 @@ using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static System.Windows.Forms.LinkLabel;
 
 namespace Serial_Monitor.WindowForms {
@@ -22,17 +25,80 @@ namespace Serial_Monitor.WindowForms {
         }
         public Terminal(SerialManager Manager) {
             this.manager = Manager;
+            InitializeComponent();
+
             Manager.CommandProcessed += Manager_CommandProcessed;
             Manager.DataReceived += Manager_DataReceived;
             Manager.NameChanged += Manager_NameChanged;
-            InitializeComponent();
+            SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
+            SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
+
             ChangeFormName(manager.StateName, "");
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
             AddIcons();
+            foreach (int i in SystemManager.DefaultBauds) {
+                LoadBAUDRate(i);
+            }
+            RefreshPorts();
+            EnumManager.LoadInputFormats(btnChannelInputFormat, InputFormat_Click, false);
+            EnumManager.LoadOutputFormats(btnChannelOutputFormat, OutputFormat_Click, false);
+            CheckBaudRate(Properties.Settings.Default.DEF_INT_BaudRate);
+            SetProperties();
+            ConnectionStatus();
         }
 
+        private void SystemManager_PortStatusChanged(SerialManager sender) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                if (manager == null) { return; }
+                if (sender.ID != manager.ID) { return; }
+                ConnectionStatus();
+            }));
+        }
+        private void SystemManager_ChannelPropertyChanged(SerialManager sender) {
+            if (manager == null) { return; }
+            if (sender.ID != manager.ID) { return; }
+            SetProperties();
+        }
+        private void SetProperties() {
+            if (manager == null) { return; }
+            CheckLineFormat();
+            modbusMasterToolStripMenuItem.Checked = manager.IsMaster;
+            CheckBits(manager.DataBits.ToString());
+            CheckParity(EnumManager.ParityToString(manager.Parity));
+            CheckStopBits(EnumManager.StopBitsToString(manager.StopBits));
+            CheckBaudRate(manager.BaudRate);
+            CheckControlFlow(EnumManager.HandshakeToString(manager.Handshake));
+            CheckInputFormat(EnumManager.InputFormatToString(manager.InputFormat).B);
+            CheckOutputFormat(EnumManager.OutputFormatToString(manager.OutputFormat).B);
+            outputInMasterTerminalToolStripMenuItem.Checked = manager.OutputToMasterTerminal;
+        }
+        private void ConnectionStatus() {
+            if (manager == null) { return; }
+            if (manager.Connected == true) {
+                connectToolStripMenuItem.Enabled = false;
+                disconnectToolStripMenuItem.Enabled = true;
+
+                btnChannelPort.Enabled = false;
+                btnChannelBaudVals.Enabled = false;
+                btnChannelDataBits.Enabled = false;
+                btnChannelParity.Enabled = false;
+                btnChannelStopBits.Enabled = false;
+                btnChannelFlowCtrl.Enabled = false;
+            }
+            else {
+                connectToolStripMenuItem.Enabled = true;
+                disconnectToolStripMenuItem.Enabled = false;
+
+                btnChannelPort.Enabled = true;
+                btnChannelBaudVals.Enabled = true;
+                btnChannelDataBits.Enabled = true;
+                btnChannelParity.Enabled = true;
+                btnChannelStopBits.Enabled = true;
+                btnChannelFlowCtrl.Enabled = true;
+            }
+        }
         private void Manager_NameChanged(object sender, string Data) {
             if (manager == null) { return; }
             ChangeFormName(manager.StateName, LogFile);
@@ -59,7 +125,7 @@ namespace Serial_Monitor.WindowForms {
             string SourceName = "";
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
-                SourceName = SM.Port.PortName;
+                SourceName = SM.PortName;
             }
 
             if (PrintLine == true) {
@@ -94,7 +160,7 @@ namespace Serial_Monitor.WindowForms {
             string SourceName = "";
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
-                SourceName = SM.Port.PortName;
+                SourceName = SM.PortName;
             }
             PushToBuffer(Data);
             Output.Print(SourceName, Data);
@@ -164,6 +230,15 @@ namespace Serial_Monitor.WindowForms {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, btnSaveLog, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, btnOpenLog, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, connectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, disconnectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Property, propertiesToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, btnChannelInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, btnChannelOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
         }
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
@@ -180,6 +255,8 @@ namespace Serial_Monitor.WindowForms {
             Manager.CommandProcessed -= Manager_CommandProcessed;
             Manager.DataReceived -= Manager_DataReceived;
             Manager.NameChanged -= Manager_NameChanged;
+            SystemManager.PortStatusChanged -= SystemManager_PortStatusChanged;
+            SystemManager.ChannelPropertyChanged -= SystemManager_ChannelPropertyChanged;
         }
         private void Output_CommandEntered(object sender, CommandEnteredEventArgs e) {
             try {
@@ -514,6 +591,331 @@ namespace Serial_Monitor.WindowForms {
         private void windowManagerToolStripMenuItem_Click(object sender, EventArgs e) {
             WindowForms.WindowManager WindowMan = new WindowForms.WindowManager();
             Classes.ApplicationManager.OpenInternalApplicationOnce(WindowMan, true);
+        }
+
+        private void btnOptFrmLineNone_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.None);
+        }
+        private void btnOptFrmLineLF_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.LF);
+        }
+        private void btnOptFrmLineCRLF_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.CRLF);
+        }
+        private void btnOptFrmLineCR_Click(object sender, EventArgs e) {
+            SetLineFormat(LineFormatting.CR);
+        }
+        private void SetLineFormat(LineFormatting Format) {
+            if (manager != null) {
+                manager.LineFormat = Format;
+                CheckLineFormat(EnumManager.LineFormattingToString(manager.LineFormat));
+            }
+        }
+        private void CheckLineFormat() {
+            if (manager != null) {
+                CheckLineFormat(EnumManager.LineFormattingToString(manager.LineFormat));
+            }
+        }
+        private void CheckLineFormat(string FormatString) {
+            foreach (ToolStripMenuItem Tmi in btnMenuTextFormat.DropDownItems) {
+                if (Tmi.Tag != null) {
+                    if (Tmi.Tag.ToString() == FormatString) {
+                        Tmi.Checked = true;
+                    }
+                    else { Tmi.Checked = false; }
+                }
+                else { Tmi.Checked = false; }
+            }
+        }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (manager != null) {
+                manager.Connect();
+            }
+        }
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (manager != null) {
+                manager.Disconnect();
+            }
+        }
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e) {
+            ApplicationManager.OpenSerialProperties(manager, false, true);
+        }
+        private void modbusMasterToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (manager != null) {
+                manager.IsMaster = !manager.IsMaster;
+            }
+        }
+        #region Bit Settings
+        private void SetPortBits(int Bits) {
+            if (manager != null) {
+                manager.DataBits = Bits;
+            }
+            CheckBits(Bits.ToString());
+        }
+        private void CheckBits(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelDataBits.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        private void btnChanDB5_Click(object sender, EventArgs e) {
+            SetPortBits(5);
+        }
+        private void btnChanDB6_Click(object sender, EventArgs e) {
+            SetPortBits(6);
+        }
+        private void btnChanDB7_Click(object sender, EventArgs e) {
+            SetPortBits(7);
+        }
+        private void btnChanDB8_Click(object sender, EventArgs e) {
+            SetPortBits(8);
+        }
+        #endregion
+        #region Parity Settings
+        private void SetPortParityBits(Parity PBits) {
+            if (manager != null) {
+                manager.Parity = PBits;
+                CheckParity(EnumManager.ParityToString(manager.Parity));
+            }
+        }
+        private void CheckParity(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelParity.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        private void btnChannelNoParity_Click(object sender, EventArgs e) {
+            SetPortParityBits(Parity.None);
+        }
+        private void btnChannelEvenParity_Click(object sender, EventArgs e) {
+            SetPortParityBits(Parity.Even);
+        }
+        private void btnChannelOddParity_Click(object sender, EventArgs e) {
+            SetPortParityBits(Parity.Odd);
+        }
+        private void btnChannelSpaceParity_Click(object sender, EventArgs e) {
+            SetPortParityBits(Parity.Space);
+        }
+        private void btnChannelMarkParity_Click(object sender, EventArgs e) {
+            SetPortParityBits(Parity.Mark);
+        }
+        #endregion
+        #region Stop Bit Settings
+        private void SetPortStopBits(StopBits StopBts) {
+            if (manager != null) {
+                manager.StopBits = StopBts;
+                CheckStopBits(EnumManager.StopBitsToString(manager.StopBits));
+            }
+        }
+        private void CheckStopBits(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelStopBits.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+
+        private void btnChannelStopBits1_Click(object sender, EventArgs e) {
+            SetPortStopBits(StopBits.One);
+        }
+        private void btnChannelStopBits15_Click(object sender, EventArgs e) {
+            SetPortStopBits(StopBits.OnePointFive);
+        }
+        private void btnChannelStopBits2_Click(object sender, EventArgs e) {
+            SetPortStopBits(StopBits.Two);
+        }
+        #endregion
+        #region Baud Rates
+        private void LoadBAUDRate(int Rate) {
+            ToolStripMenuItem BaudRateBtn2 = new ToolStripMenuItem();
+            BaudRateBtn2.Text = Rate.ToString();
+            BaudRateBtn2.Tag = Rate;
+            BaudRateBtn2.ImageScaling = ToolStripItemImageScaling.None;
+            BaudRateBtn2.Click += BaudRateBtn_Click;
+            btnChannelBaudVals.DropDownItems.Add(BaudRateBtn2);
+        }
+        private void BaudRateBtn_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                if (manager != null) {
+                    manager.BaudRate = int.Parse(((ToolStripMenuItem)sender).Tag.ToString() ?? "9600");
+                    CheckBaudRate(manager.BaudRate);
+                }
+            }
+        }
+        private void CheckBaudRate(int Rate) {
+            foreach (ToolStripMenuItem Item in btnChannelBaudVals.DropDownItems) {
+                if (Item.Text == Rate.ToString()) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        #endregion
+        #region Ports
+        private void CleanHandlers() {
+            for (int i = btnChannelPort.DropDownItems.Count - 1; i >= 0; i--) {
+                object Itms = btnChannelPort.DropDownItems[i];
+                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
+                    if (((ToolStripMenuItem)Itms).Tag != null) {
+                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
+                        btnChannelPort.DropDownItems.RemoveAt(i);
+                    }
+                }
+            }
+        }
+        private void RefreshPorts() {
+            CleanHandlers();
+            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
+            foreach (StringPair port in Ports) {
+                if (ItemExists(port.A) == false) {
+                    ToolStripMenuItem Itm2 = new ToolStripMenuItem();
+                    Itm2.Text = port.A;
+                    Itm2.Tag = port.A;
+                    Itm2.ImageScaling = ToolStripItemImageScaling.None;
+                    Itm2.CheckOnClick = true;
+                    Itm2.Click += Itm_Click;
+                    btnChannelPort.DropDownItems.Add(Itm2);
+                }
+            }
+            if (manager != null) {
+                CheckPort(manager.PortName);
+            }
+        }
+        private bool ItemExists(string Name) {
+            foreach (object Item in btnChannelPort.DropDownItems) {
+                if (Item.GetType() == typeof(ToolStripMenuItem)) {
+                    if (((ToolStripMenuItem)Item).Tag != null) {
+                        if (((ToolStripMenuItem)Item).Tag.ToString() == Name) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        private void Itm_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                string SelectedPort = "COM1";
+                if (manager != null) {
+                    SelectedPort = ((ToolStripMenuItem)sender).Tag.ToString() ?? "COM1";
+                    manager.PortName = SelectedPort;
+                }
+                CheckPort(SelectedPort);
+            }
+        }
+        private void CheckPort(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+
+        private void btnChannelPort_DropDownOpening(object sender, EventArgs e) {
+            RefreshPorts();
+        }
+        #endregion
+        #region Control Flow Settings
+        private void SetControlFlow(Handshake HandShake) {
+            if (manager != null) {
+                manager.Handshake = HandShake;
+                CheckControlFlow(EnumManager.HandshakeToString(manager.Handshake));
+            }
+        }
+        private void CheckControlFlow(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelFlowCtrl.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        private void btnChannelFlowNone_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.None);
+        }
+        private void btnChannelFlowXONXOFF_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.XOnXOff);
+        }
+        private void btnChannelFlowRTSCTS_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.RequestToSend);
+        }
+        private void btnChannelFlowDSRDTR_Click(object sender, EventArgs e) {
+            SetControlFlow(Handshake.RequestToSendXOnXOff);
+        }
+        #endregion
+        #region IO Formats
+        private void InputFormat_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+        }
+        private void OutputFormat_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+        }
+        private void InputFormatChange(string ControlText) {
+            StreamInputFormat FormatPair = EnumManager.StringToInputFormat(ControlText);
+            StringPair TextualPair = EnumManager.InputFormatToString(FormatPair, false);
+            if (manager != null) {
+                manager.InputFormat = FormatPair;
+                CheckInputFormat(ControlText);
+            }
+
+        }
+        private void OutputFormatChange(string ControlText) {
+            StreamOutputFormat FormatPair = EnumManager.StringToOutputFormat(ControlText);
+            StringPair TextualPair = EnumManager.OutputFormatToString(FormatPair, false);
+            if (manager != null) {
+                manager.OutputFormat = FormatPair;
+                CheckOutputFormat(ControlText);
+            }
+        }
+        private void CheckInputFormat(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelInputFormat.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        private void CheckOutputFormat(string Type) {
+            foreach (ToolStripMenuItem Item in btnChannelOutputFormat.DropDownItems) {
+                if (Item.Tag.ToString() == Type) {
+                    Item.Checked = true;
+                }
+                else {
+                    Item.Checked = false;
+                }
+            }
+        }
+        #endregion
+
+        private void outputInMasterTerminalToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (manager != null) {
+                manager.OutputToMasterTerminal = !manager.OutputToMasterTerminal;
+            }
         }
     }
 }

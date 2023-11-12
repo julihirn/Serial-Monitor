@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 
 namespace Serial_Monitor.Classes {
@@ -79,6 +80,24 @@ namespace Serial_Monitor.Classes {
                 Thread.Sleep(1000);
             }
         }
+        public void Connect() {
+            try {
+                this.Port.Open();
+            }
+            catch {
+                SystemManager.InvokeErrorMessage(ErrorType.M_Error, "COM_PSTART", "Could not open the port");
+            }
+            SystemManager.InvokePortStatusChanged(this);
+        }
+        public void Disconnect() {
+            try {
+                Port.Close();
+            }
+            catch {
+                SystemManager.InvokeErrorMessage(ErrorType.M_Error, "COM_PEND", "Could not close the port");
+            }
+            SystemManager.InvokePortStatusChanged(this);
+        }
         public event NameChangedHandler? NameChanged;
         public delegate void NameChangedHandler(object sender, string Data);
 
@@ -86,7 +105,7 @@ namespace Serial_Monitor.Classes {
         public delegate void CommandProcessedHandler(object sender, string Data);
         public delegate void DataProcessedHandler(object sender, bool PrintLine, string Data);
         public event DataProcessedHandler? DataReceived;
-        public SerialPort Port = new SerialPort();
+        private SerialPort Port = new SerialPort();
         [Browsable(false)]
         public string StateName {
             get {
@@ -145,6 +164,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         bool autoReconnect = false;
+        [Category("Connection")]
         [DisplayName("Auto Reconnect")]
         public bool AutoReconnect {
             get { return autoReconnect; }
@@ -207,6 +227,74 @@ namespace Serial_Monitor.Classes {
                         Port.PortName = value;
                         NameChanged?.Invoke(this, name);
                         SystemManager.InvokeChannelRename(this);
+                    }
+                    catch { }
+                }
+            }
+        }
+        [Category("Port")]
+        [DisplayName("Data Bits")]
+        public int DataBits {
+            get {
+                if (Port != null) { return Port.DataBits; }
+                return 8;
+            }
+            set {
+                if (Port != null) {
+                    try {
+                        Port.DataBits = value;
+                        SystemManager.InvokeChannelPropertiesChanged(this);
+                    }
+                    catch { }
+                }
+            }
+        }
+        [Category("Port")]
+        [DisplayName("Data Bits")]
+        public StopBits StopBits {
+            get {
+                if (Port != null) { return Port.StopBits; }
+                return System.IO.Ports.StopBits.One;
+            }
+            set {
+                if (Port != null) {
+                    try {
+                        Port.StopBits = value;
+                        SystemManager.InvokeChannelPropertiesChanged(this);
+                    }
+                    catch { }
+                }
+            }
+        }
+        [Category("Port")]
+        [DisplayName("Parity")]
+        public Parity Parity {
+            get {
+                if (Port != null) { return Port.Parity; }
+                return System.IO.Ports.Parity.None;
+            }
+            set {
+                if (Port != null) {
+                    try {
+                        Port.Parity = value;
+                        SystemManager.InvokeChannelPropertiesChanged(this);
+                    }
+                    catch { }
+                }
+            }
+        }
+        [Category("Port")]
+        [DisplayName("Handshake")]
+        public Handshake Handshake {
+            get {
+                if (Port != null) { return Port.Handshake; }
+                return System.IO.Ports.Handshake.None;
+            }
+            set {
+                if (Port != null) {
+                    try {
+                        Port.Handshake = value;
+                        SystemManager.InvokeChannelPropertiesChanged(this);
                     }
                     catch { }
                 }
@@ -281,6 +369,12 @@ namespace Serial_Monitor.Classes {
             commandsReceived = 0;
             bytesReceived = 0;
             bytesSent = 0;
+        }
+        [Browsable(false)]
+        public bool Connected {
+            get {
+                return Port.IsOpen;
+            }
         }
         ulong commandsSent = 0;
         [Browsable(false)]

@@ -33,6 +33,9 @@ namespace Serial_Monitor.Classes
         public static event PortStatusChangedHandler? PortStatusChanged;
         public delegate void PortStatusChangedHandler(SerialManager sender);
 
+        public static event ErrorMessageHandler? ErrorInvoked;
+        public delegate void ErrorMessageHandler(ErrorType Type, string Sender, string Message);
+
         public static event ModbusPropertyChangedHandler? ModbusPropertyChanged;
         public delegate void ModbusPropertyChangedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
         public static event ModbusRegisterRenamedHandler? ModbusRegisterRenamed;
@@ -40,6 +43,9 @@ namespace Serial_Monitor.Classes
         public static event ModbusReceivedHandler? ModbusReceived;
         public delegate void ModbusReceivedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
 
+        public static void InvokeErrorMessage(ErrorType Type, string Sender, string Message) {
+            ErrorInvoked?.Invoke(Type, Sender, Message);
+        }
         public static void InvokePortStatusChanged(SerialManager sender) {
             PortStatusChanged?.Invoke(sender);
         }
@@ -147,13 +153,13 @@ namespace Serial_Monitor.Classes
             SystemManager.SerialManagers.Add(SerMan);
             SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
             try {
-                SerMan.Port.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
+                SerMan.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
             }
             catch {
-                SerMan.Port.DataBits = 8;
+                SerMan.DataBits = 8;
             }
-            SerMan.Port.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
-            SerMan.Port.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
+            SerMan.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
+            SerMan.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
             SerMan.InputFormat = EnumManager.StringToInputFormat(Properties.Settings.Default.DEF_STR_InputFormat);
             SerMan.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
             SerMan.Name = ManagerName;

@@ -78,6 +78,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 EdVal.Show();
             }
         }
+       public static void ClearControls(ListControl LstCtrl) {
+            LstCtrl.Controls.Clear();
+            GC.Collect();
+        }
         #endregion
         #region Appearance/View
         public static void ShowHideColumns(bool showFormats, DataSelection DataSet, ListControl lstMonitor) {

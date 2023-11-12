@@ -412,7 +412,7 @@
             btnParityNone.ForeColor = Color.WhiteSmoke;
             btnParityNone.ImageScaling = ToolStripItemImageScaling.None;
             btnParityNone.Name = "btnParityNone";
-            btnParityNone.Size = new Size(138, 22);
+            btnParityNone.Size = new Size(180, 22);
             btnParityNone.Tag = "N";
             btnParityNone.Text = "No Parity";
             btnParityNone.Click += btnParityNone_Click;
@@ -422,7 +422,7 @@
             btnParityEven.ForeColor = Color.WhiteSmoke;
             btnParityEven.ImageScaling = ToolStripItemImageScaling.None;
             btnParityEven.Name = "btnParityEven";
-            btnParityEven.Size = new Size(138, 22);
+            btnParityEven.Size = new Size(180, 22);
             btnParityEven.Tag = "E";
             btnParityEven.Text = "Even Parity";
             btnParityEven.Click += btnParityEven_Click;
@@ -432,7 +432,7 @@
             btnParityOdd.ForeColor = Color.WhiteSmoke;
             btnParityOdd.ImageScaling = ToolStripItemImageScaling.None;
             btnParityOdd.Name = "btnParityOdd";
-            btnParityOdd.Size = new Size(138, 22);
+            btnParityOdd.Size = new Size(180, 22);
             btnParityOdd.Tag = "O";
             btnParityOdd.Text = "Odd Parity";
             btnParityOdd.Click += btnParityOdd_Click;
@@ -442,7 +442,7 @@
             btnParitySpace.ForeColor = Color.WhiteSmoke;
             btnParitySpace.ImageScaling = ToolStripItemImageScaling.None;
             btnParitySpace.Name = "btnParitySpace";
-            btnParitySpace.Size = new Size(138, 22);
+            btnParitySpace.Size = new Size(180, 22);
             btnParitySpace.Tag = "S";
             btnParitySpace.Text = "Space Parity";
             btnParitySpace.Click += btnParitySpace_Click;
@@ -452,7 +452,7 @@
             btnParityMark.ForeColor = Color.WhiteSmoke;
             btnParityMark.ImageScaling = ToolStripItemImageScaling.None;
             btnParityMark.Name = "btnParityMark";
-            btnParityMark.Size = new Size(138, 22);
+            btnParityMark.Size = new Size(180, 22);
             btnParityMark.Tag = "M";
             btnParityMark.Text = "Mark Parity";
             btnParityMark.Click += btnParityMark_Click;
@@ -475,7 +475,7 @@
             btnStopBitsNone.ForeColor = Color.WhiteSmoke;
             btnStopBitsNone.ImageScaling = ToolStripItemImageScaling.None;
             btnStopBitsNone.Name = "btnStopBitsNone";
-            btnStopBitsNone.Size = new Size(138, 22);
+            btnStopBitsNone.Size = new Size(180, 22);
             btnStopBitsNone.Tag = "0";
             btnStopBitsNone.Text = "0 Stop Bits";
             btnStopBitsNone.Visible = false;
@@ -486,7 +486,7 @@
             btnStopBits1.ForeColor = Color.WhiteSmoke;
             btnStopBits1.ImageScaling = ToolStripItemImageScaling.None;
             btnStopBits1.Name = "btnStopBits1";
-            btnStopBits1.Size = new Size(138, 22);
+            btnStopBits1.Size = new Size(180, 22);
             btnStopBits1.Tag = "1";
             btnStopBits1.Text = "1 Stop Bit";
             btnStopBits1.Click += btnStopBits1_Click;
@@ -496,7 +496,7 @@
             btnStopBits15.ForeColor = Color.WhiteSmoke;
             btnStopBits15.ImageScaling = ToolStripItemImageScaling.None;
             btnStopBits15.Name = "btnStopBits15";
-            btnStopBits15.Size = new Size(138, 22);
+            btnStopBits15.Size = new Size(180, 22);
             btnStopBits15.Tag = "1.5";
             btnStopBits15.Text = "1.5 Stop Bits";
             btnStopBits15.Click += btnStopBits15_Click;
@@ -506,7 +506,7 @@
             btnStopBits2.ForeColor = Color.WhiteSmoke;
             btnStopBits2.ImageScaling = ToolStripItemImageScaling.None;
             btnStopBits2.Name = "btnStopBits2";
-            btnStopBits2.Size = new Size(138, 22);
+            btnStopBits2.Size = new Size(180, 22);
             btnStopBits2.Tag = "2";
             btnStopBits2.Text = "2 Stop Bits";
             btnStopBits2.Click += btnStopBits2_Click;
@@ -1666,7 +1666,7 @@
             btnOptFrmLineNone.Name = "btnOptFrmLineNone";
             btnOptFrmLineNone.Size = new Size(104, 22);
             btnOptFrmLineNone.Tag = "frmLineNone";
-            btnOptFrmLineNone.Text = "None";
+            btnOptFrmLineNone.Text = "&None";
             btnOptFrmLineNone.Click += btnOptFrmLineNone_Click;
             // 
             // btnOptFrmLineLF
@@ -1676,7 +1676,7 @@
             btnOptFrmLineLF.Name = "btnOptFrmLineLF";
             btnOptFrmLineLF.Size = new Size(104, 22);
             btnOptFrmLineLF.Tag = "frmLineLF";
-            btnOptFrmLineLF.Text = "LF";
+            btnOptFrmLineLF.Text = "&LF";
             btnOptFrmLineLF.Click += btnOptFrmLineLF_Click;
             // 
             // btnOptFrmLineCRLF
@@ -1686,7 +1686,7 @@
             btnOptFrmLineCRLF.Name = "btnOptFrmLineCRLF";
             btnOptFrmLineCRLF.Size = new Size(104, 22);
             btnOptFrmLineCRLF.Tag = "frmLineCRLF";
-            btnOptFrmLineCRLF.Text = "CR LF";
+            btnOptFrmLineCRLF.Text = "C&R LF";
             btnOptFrmLineCRLF.Click += btnOptFrmLineCRLF_Click;
             // 
             // btnOptFrmLineCR
@@ -1696,7 +1696,7 @@
             btnOptFrmLineCR.Name = "btnOptFrmLineCR";
             btnOptFrmLineCR.Size = new Size(104, 22);
             btnOptFrmLineCR.Tag = "frmLineCR";
-            btnOptFrmLineCR.Text = "CR";
+            btnOptFrmLineCR.Text = "&CR";
             btnOptFrmLineCR.Click += btnOptFrmLineCR_Click;
             // 
             // toolStripSeparator38
@@ -1837,7 +1837,7 @@
             btnChannelNoParity.ForeColor = Color.White;
             btnChannelNoParity.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelNoParity.Name = "btnChannelNoParity";
-            btnChannelNoParity.Size = new Size(138, 22);
+            btnChannelNoParity.Size = new Size(180, 22);
             btnChannelNoParity.Tag = "N";
             btnChannelNoParity.Text = "&No Parity";
             btnChannelNoParity.Click += btnChannelNoParity_Click;
@@ -1847,7 +1847,7 @@
             btnChannelEvenParity.ForeColor = Color.White;
             btnChannelEvenParity.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelEvenParity.Name = "btnChannelEvenParity";
-            btnChannelEvenParity.Size = new Size(138, 22);
+            btnChannelEvenParity.Size = new Size(180, 22);
             btnChannelEvenParity.Tag = "E";
             btnChannelEvenParity.Text = "&Even Parity";
             btnChannelEvenParity.Click += btnChannelEvenParity_Click;
@@ -1857,7 +1857,7 @@
             btnChannelOddParity.ForeColor = Color.White;
             btnChannelOddParity.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelOddParity.Name = "btnChannelOddParity";
-            btnChannelOddParity.Size = new Size(138, 22);
+            btnChannelOddParity.Size = new Size(180, 22);
             btnChannelOddParity.Tag = "O";
             btnChannelOddParity.Text = "&Odd Parity";
             btnChannelOddParity.Click += btnChannelOddParity_Click;
@@ -1867,7 +1867,7 @@
             btnChannelSpaceParity.ForeColor = Color.White;
             btnChannelSpaceParity.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelSpaceParity.Name = "btnChannelSpaceParity";
-            btnChannelSpaceParity.Size = new Size(138, 22);
+            btnChannelSpaceParity.Size = new Size(180, 22);
             btnChannelSpaceParity.Tag = "S";
             btnChannelSpaceParity.Text = "&Space Parity";
             btnChannelSpaceParity.Click += btnChannelSpaceParity_Click;
@@ -1877,7 +1877,7 @@
             btnChannelMarkParity.ForeColor = Color.White;
             btnChannelMarkParity.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelMarkParity.Name = "btnChannelMarkParity";
-            btnChannelMarkParity.Size = new Size(138, 22);
+            btnChannelMarkParity.Size = new Size(180, 22);
             btnChannelMarkParity.Tag = "M";
             btnChannelMarkParity.Text = "&Mark Parity";
             btnChannelMarkParity.Click += btnChannelMarkParity_Click;
@@ -1896,7 +1896,7 @@
             btnChannelStopBits0.ForeColor = Color.White;
             btnChannelStopBits0.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelStopBits0.Name = "btnChannelStopBits0";
-            btnChannelStopBits0.Size = new Size(138, 22);
+            btnChannelStopBits0.Size = new Size(180, 22);
             btnChannelStopBits0.Tag = "0";
             btnChannelStopBits0.Text = "&0 Stop Bits";
             btnChannelStopBits0.Visible = false;
@@ -1907,7 +1907,7 @@
             btnChannelStopBits1.ForeColor = Color.White;
             btnChannelStopBits1.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelStopBits1.Name = "btnChannelStopBits1";
-            btnChannelStopBits1.Size = new Size(138, 22);
+            btnChannelStopBits1.Size = new Size(180, 22);
             btnChannelStopBits1.Tag = "1";
             btnChannelStopBits1.Text = "&1 Stop Bits";
             btnChannelStopBits1.Click += btnChannelStopBits1_Click;
@@ -1917,7 +1917,7 @@
             btnChannelStopBits15.ForeColor = Color.White;
             btnChannelStopBits15.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelStopBits15.Name = "btnChannelStopBits15";
-            btnChannelStopBits15.Size = new Size(138, 22);
+            btnChannelStopBits15.Size = new Size(180, 22);
             btnChannelStopBits15.Tag = "1.5";
             btnChannelStopBits15.Text = "1.&5 Stop Bits";
             btnChannelStopBits15.Click += btnChannelStopBits15_Click;
@@ -1927,7 +1927,7 @@
             btnChannelStopBits2.ForeColor = Color.White;
             btnChannelStopBits2.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelStopBits2.Name = "btnChannelStopBits2";
-            btnChannelStopBits2.Size = new Size(138, 22);
+            btnChannelStopBits2.Size = new Size(180, 22);
             btnChannelStopBits2.Tag = "2";
             btnChannelStopBits2.Text = "&2 Stop Bits ";
             btnChannelStopBits2.Click += btnChannelStopBits2_Click;
@@ -2343,7 +2343,7 @@
             btnWinWindowManager.ForeColor = Color.White;
             btnWinWindowManager.ImageScaling = ToolStripItemImageScaling.None;
             btnWinWindowManager.Name = "btnWinWindowManager";
-            btnWinWindowManager.Size = new Size(180, 22);
+            btnWinWindowManager.Size = new Size(168, 22);
             btnWinWindowManager.Text = "&Window Manager";
             btnWinWindowManager.Click += btnWinWindowManager_Click;
             // 
@@ -2352,14 +2352,14 @@
             btnWinCloseAll.ForeColor = Color.White;
             btnWinCloseAll.ImageScaling = ToolStripItemImageScaling.None;
             btnWinCloseAll.Name = "btnWinCloseAll";
-            btnWinCloseAll.Size = new Size(180, 22);
+            btnWinCloseAll.Size = new Size(168, 22);
             btnWinCloseAll.Text = "&Close All";
             btnWinCloseAll.Click += btnWinCloseAll_Click;
             // 
             // toolStripSeparator42
             // 
             toolStripSeparator42.Name = "toolStripSeparator42";
-            toolStripSeparator42.Size = new Size(177, 6);
+            toolStripSeparator42.Size = new Size(165, 6);
             toolStripSeparator42.Visible = false;
             // 
             // helpToolStripMenuItem

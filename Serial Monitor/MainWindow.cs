@@ -39,16 +39,17 @@ namespace Serial_Monitor {
         }
         private void InvokePropertyChange() {
             if (currentManager != null) {
-                ddbBAUDRate.Text = currentManager.Port.BaudRate.ToString();
-                ddbBAUDRate.Tag = currentManager.Port.BaudRate;
-                CheckBaudRate(currentManager.Port.BaudRate);
-                ddbBits.Text = currentManager.Port.DataBits.ToString();
-                ddbBits.Tag = currentManager.Port.DataBits.ToString();
-                string StopBits = EnumManager.StopBitsToString(currentManager.Port.StopBits);
+                ddbBAUDRate.Text = currentManager.BaudRate.ToString();
+                ddbBAUDRate.Tag = currentManager.BaudRate;
+                CheckBaudRate(currentManager.BaudRate);
+                ddbBits.Text = currentManager.DataBits.ToString();
+                ddbBits.Tag = currentManager.DataBits.ToString();
+                CheckBits(ddbBits.Text);
+                string StopBits = EnumManager.StopBitsToString(currentManager.StopBits);
                 ddbStopBits.Text = StopBits;
                 ddbStopBits.Tag = StopBits;
                 CheckStopBits(ddbStopBits.Text);
-                string Parity = EnumManager.ParityToString(currentManager.Port.Parity);
+                string Parity = EnumManager.ParityToString(currentManager.Parity);
                 ddbParity.Text = Parity;
                 ddbParity.Tag = Parity;
                 CheckParity(ddbParity.Text);
@@ -60,10 +61,10 @@ namespace Serial_Monitor {
                 ddbOutputFormat.Text = SelectOut.A;
                 ddbOutputFormat.Tag = SelectOut.B;
                 CheckOutputFormat(SelectOut.B);
-                ddbPorts.Text = currentManager.Port.PortName;
-                SystemRunning(currentManager.Port.IsOpen);
+                ddbPorts.Text = currentManager.PortName;
+                SystemRunning(currentManager.Connected);
                 btnMenuModbusMaster.Checked = currentManager.IsMaster;
-                CheckControlFlow(EnumManager.HandshakeToString(currentManager.Port.Handshake));
+                CheckControlFlow(EnumManager.HandshakeToString(currentManager.Handshake));
                 CheckLineFormat();
             }
         }
@@ -100,7 +101,7 @@ namespace Serial_Monitor {
         }
         private void toolStripMenuItem3_Click(object sender, EventArgs e) {
             if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = 2;
+                CurrentManager.DataBits = 2;
             }
         }
 
@@ -123,24 +124,31 @@ namespace Serial_Monitor {
             ProgramManager.ProgramListingChanged += ProgramManager_ProgramListingChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
+            SystemManager.ErrorInvoked += SystemManager_ErrorInvoked;
             SetTitle("Untitled");
             //DetermineTabs();
             DocumentEdited = false;
         }
 
+        private void SystemManager_ErrorInvoked(ErrorType Type, string Sender, string Message) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.Print(ErrorType.M_Error, "COM_PSTART", "Could not open the port");
+            }));
+        }
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             if (currentManager == null) { return; }
             if (sender.ID == currentManager.ID) {
                 InvokePropertyChange();
-                navigator1.Invalidate();
-            }
 
+            }
+            navigator1.Invalidate();
         }
         private void SystemManager_ChannelPropertyChanged(SerialManager sender) {
             if (currentManager == null) { return; }
             if (sender.ID == currentManager.ID) {
                 InvokePropertyChange();
             }
+            DocumentEdited = true;
         }
 
         private void LoadDefaults() {
@@ -150,17 +158,17 @@ namespace Serial_Monitor {
             EnumManager.LoadOutputFormats(btnChannelOutputFormat, OutputFormat_Click, false);
             if (currentManager != null) {
                 try {
-                    currentManager.Port.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
+                    currentManager.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
                     ddbBits.Text = Properties.Settings.Default.DEF_INT_DataBits.ToString();
                 }
                 catch {
-                    currentManager.Port.DataBits = 8;
+                    currentManager.DataBits = 8;
                     ddbBits.Text = "8";
                 }
-                currentManager.Port.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
-                ddbParity.Text = EnumManager.ParityToString(currentManager.Port.Parity);
-                currentManager.Port.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
-                ddbStopBits.Text = EnumManager.StopBitsToString(currentManager.Port.StopBits);
+                currentManager.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
+                ddbParity.Text = EnumManager.ParityToString(currentManager.Parity);
+                currentManager.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
+                ddbStopBits.Text = EnumManager.StopBitsToString(currentManager.StopBits);
                 currentManager.InputFormat = EnumManager.StringToInputFormat(Properties.Settings.Default.DEF_STR_InputFormat);
                 ddbInputFormat.Text = EnumManager.InputFormatToString(currentManager.InputFormat, false).A;
                 currentManager.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
@@ -330,7 +338,7 @@ namespace Serial_Monitor {
             bool PostOutput = true;
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
-                SourceName = SM.Port.PortName;
+                SourceName = SM.PortName;
                 PostOutput = SM.OutputToMasterTerminal;
             }
             if (PostOutput == true) {
@@ -347,7 +355,7 @@ namespace Serial_Monitor {
             bool PostOutput = true;
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
-                SourceName = SM.Port.PortName;
+                SourceName = SM.PortName;
                 PostOutput = SM.OutputToMasterTerminal;
             }
             CommandProcessed?.Invoke(sender, Data);
@@ -414,14 +422,9 @@ namespace Serial_Monitor {
         }
         private void Connect(SerialManager? SerMan) {
             if (SerMan != null) {
-                try {
-                    SerMan.Port.Open();
-                }
-                catch {
-                    Print(ErrorType.M_Error, "COM_PSTART", "Could not open the port");
-                }
+                SerMan.Connect();
                 if (CurrentManager != null) {
-                    SystemRunning(CurrentManager.Port.IsOpen);
+                    SystemRunning(CurrentManager.Connected);
                 }
             }
             else {
@@ -433,14 +436,9 @@ namespace Serial_Monitor {
         }
         private void Disconnect(SerialManager? SerMan) {
             if (SerMan != null) {
-                try {
-                    SerMan.Port.Close();
-                }
-                catch {
-                    Print(ErrorType.M_Error, "COM_PEND", "Could not close the port");
-                }
+                SerMan.Disconnect();
                 if (CurrentManager != null) {
-                    SystemRunning(CurrentManager.Port.IsOpen);
+                    SystemRunning(CurrentManager.Connected);
                 }
             }
             else {
@@ -450,7 +448,7 @@ namespace Serial_Monitor {
         private void SystemManager_PortStatusChanged(SerialManager sender) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 if (CurrentManager != null) {
-                    SystemRunning(CurrentManager.Port.IsOpen);
+                    SystemRunning(CurrentManager.Connected);
                 }
             }));
         }
@@ -701,7 +699,7 @@ namespace Serial_Monitor {
         #region Parity Settings
         private void SetPortParityBits(Parity PBits) {
             if (CurrentManager != null) {
-                CurrentManager.Port.Parity = PBits;
+                CurrentManager.Parity = PBits;
                 ddbParity.Text = EnumManager.ParityToString(PBits);
             }
             CheckParity(ddbParity.Text);
@@ -760,7 +758,7 @@ namespace Serial_Monitor {
         #region Bit Settings
         private void SetPortBits(int Bits) {
             if (CurrentManager != null) {
-                CurrentManager.Port.DataBits = Bits;
+                CurrentManager.DataBits = Bits;
                 ddbBits.Text = Bits.ToString();
             }
             CheckBits(Bits.ToString());
@@ -813,7 +811,7 @@ namespace Serial_Monitor {
         #region Stop Bit Settings
         private void SetPortStopBits(StopBits StopBts) {
             if (CurrentManager != null) {
-                CurrentManager.Port.StopBits = StopBts;
+                CurrentManager.StopBits = StopBts;
                 ddbStopBits.Text = EnumManager.StopBitsToString(StopBts);
             }
             CheckStopBits(ddbStopBits.Text);
@@ -867,7 +865,7 @@ namespace Serial_Monitor {
         #region Control Flow Settings
         private void SetControlFlow(Handshake HandShake) {
             if (CurrentManager != null) {
-                CurrentManager.Port.Handshake = HandShake;
+                CurrentManager.Handshake = HandShake;
             }
             CheckControlFlow(EnumManager.HandshakeToString(HandShake));
             DocumentEdited = true;
@@ -1219,7 +1217,7 @@ namespace Serial_Monitor {
             TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
             if (TagData != null) {
                 if (TagData.SelectedTab.GetType() == typeof(SerialManager)) {
-                    ((SerialManager)TagData.SelectedTab).IsMaster = modbusMasterToolStripMenuItem.Checked;
+                    ((SerialManager)TagData.SelectedTab).IsMaster = !((SerialManager)TagData.SelectedTab).IsMaster;
                 }
             }
         }
@@ -1230,7 +1228,7 @@ namespace Serial_Monitor {
                 SerialManager SerMan = (SerialManager)Tab.SelectedTab;
                 modbusMasterToolStripMenuItem.Checked = SerMan.IsMaster;
                 outputInTerminalToolStripMenuItem.Checked = SerMan.OutputToMasterTerminal;
-                if (SerMan.Port.IsOpen == true) {
+                if (SerMan.Connected == true) {
                     connectToolStripMenuItem.Enabled = false;
                     disconnectToolStripMenuItem.Enabled = true;
                 }
@@ -2468,8 +2466,8 @@ namespace Serial_Monitor {
         }
         private void CloseAll() {
             foreach (SerialManager SerMan in SystemManager.SerialManagers) {
-                if (SerMan.Port.IsOpen == true) {
-                    SerMan.Port.Close();
+                if (SerMan.Connected == true) {
+                    SerMan.Disconnect();
                 }
             }
         }
@@ -2607,6 +2605,7 @@ namespace Serial_Monitor {
             thPrograms.SelectedIndex = 0;
             thPrograms.Invalidate();
             SetTitle(Path.GetFileNameWithoutExtension(CurrentDocument));
+            DocumentEdited = false;
         }
         private void NewProgram(string Name = "") {
             ProgramObject PrgObj = new ProgramObject(Name);

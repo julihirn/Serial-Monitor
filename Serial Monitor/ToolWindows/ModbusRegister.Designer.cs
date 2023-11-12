@@ -29,18 +29,18 @@
             ODModules.Column column4 = new ODModules.Column();
             ODModules.Column column5 = new ODModules.Column();
             ODModules.Column column6 = new ODModules.Column();
-            this.lstRegisters = new ODModules.ListControl();
-            this.cmDisplayFormats = new ODModules.ContextMenu();
-            this.cmDataSize = new ODModules.ContextMenu();
-            this.SuspendLayout();
+            lstRegisters = new ODModules.ListControl();
+            cmDisplayFormats = new ODModules.ContextMenu();
+            cmDataSize = new ODModules.ContextMenu();
+            SuspendLayout();
             // 
             // lstRegisters
             // 
-            this.lstRegisters.AllowColumnSpanning = false;
-            this.lstRegisters.AllowMouseWheel = true;
-            this.lstRegisters.ColumnColor = System.Drawing.Color.LightGray;
-            this.lstRegisters.ColumnForeColor = System.Drawing.Color.Black;
-            this.lstRegisters.ColumnLineColor = System.Drawing.Color.DimGray;
+            lstRegisters.AllowColumnSpanning = false;
+            lstRegisters.AllowMouseWheel = true;
+            lstRegisters.ColumnColor = Color.LightGray;
+            lstRegisters.ColumnForeColor = Color.Black;
+            lstRegisters.ColumnLineColor = Color.DimGray;
             column1.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column1.CountOffset = 0;
             column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
@@ -113,108 +113,101 @@
             column6.UseItemForeColor = false;
             column6.Visible = true;
             column6.Width = 120;
-            this.lstRegisters.Columns.Add(column1);
-            this.lstRegisters.Columns.Add(column2);
-            this.lstRegisters.Columns.Add(column3);
-            this.lstRegisters.Columns.Add(column4);
-            this.lstRegisters.Columns.Add(column5);
-            this.lstRegisters.Columns.Add(column6);
-            this.lstRegisters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstRegisters.DropDownMouseDown = System.Drawing.Color.DimGray;
-            this.lstRegisters.DropDownMouseOver = System.Drawing.Color.LightGray;
-            this.lstRegisters.ExternalItems = null;
-            this.lstRegisters.Filter = null;
-            this.lstRegisters.FilterColumn = 0;
-            this.lstRegisters.GridlineColor = System.Drawing.Color.LightGray;
-            this.lstRegisters.HighlightStrength = 128;
-            this.lstRegisters.HorScroll = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.lstRegisters.LineMarkerIndex = 0;
-            this.lstRegisters.Location = new System.Drawing.Point(9, 37);
-            this.lstRegisters.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.lstRegisters.MarkerBorderColor = System.Drawing.Color.LimeGreen;
-            this.lstRegisters.MarkerFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(50)))), ((int)(((byte)(205)))), ((int)(((byte)(50)))));
-            this.lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
-            this.lstRegisters.Name = "lstRegisters";
-            this.lstRegisters.RowColor = System.Drawing.Color.LightGray;
-            this.lstRegisters.ScrollBarMouseDown = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lstRegisters.ScrollBarNorth = System.Drawing.Color.DarkTurquoise;
-            this.lstRegisters.ScrollBarSouth = System.Drawing.Color.DeepSkyBlue;
-            this.lstRegisters.ScrollItems = 3;
-            this.lstRegisters.SelectedColor = System.Drawing.Color.SkyBlue;
-            this.lstRegisters.SelectionColor = System.Drawing.Color.Gray;
-            this.lstRegisters.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lstRegisters.ShowGrid = true;
-            this.lstRegisters.ShowMarker = false;
-            this.lstRegisters.ShowRowColors = true;
-            this.lstRegisters.Size = new System.Drawing.Size(576, 485);
-            this.lstRegisters.SpanColumn = 0;
-            this.lstRegisters.TabIndex = 0;
-            this.lstRegisters.UseLocalList = false;
-            this.lstRegisters.VerScroll = 0;
-            this.lstRegisters.DropDownClicked += new ODModules.ListControl.DropDownClickedHandler(this.lstRegisters_DropDownClicked);
-            this.lstRegisters.ItemCheckedChanged += new ODModules.ListControl.ItemCheckedChangedHandler(this.lstRegisters_ItemCheckedChanged);
-            this.lstRegisters.ItemClicked += new ODModules.ListControl.ItemClickedHandler(this.lstRegisters_ItemClicked);
+            lstRegisters.Columns.Add(column1);
+            lstRegisters.Columns.Add(column2);
+            lstRegisters.Columns.Add(column3);
+            lstRegisters.Columns.Add(column4);
+            lstRegisters.Columns.Add(column5);
+            lstRegisters.Columns.Add(column6);
+            lstRegisters.Dock = DockStyle.Fill;
+            lstRegisters.DropDownMouseDown = Color.DimGray;
+            lstRegisters.DropDownMouseOver = Color.LightGray;
+            lstRegisters.ExternalItems = null;
+            lstRegisters.Filter = null;
+            lstRegisters.FilterColumn = 0;
+            lstRegisters.GridlineColor = Color.LightGray;
+            lstRegisters.HighlightStrength = 128;
+            lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
+            lstRegisters.LineMarkerIndex = 0;
+            lstRegisters.Location = new Point(5, 18);
+            lstRegisters.MarkerBorderColor = Color.LimeGreen;
+            lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
+            lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
+            lstRegisters.Name = "lstRegisters";
+            lstRegisters.RowColor = Color.LightGray;
+            lstRegisters.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
+            lstRegisters.ScrollBarNorth = Color.DarkTurquoise;
+            lstRegisters.ScrollBarSouth = Color.DeepSkyBlue;
+            lstRegisters.ScrollItems = 3;
+            lstRegisters.SelectedColor = Color.SkyBlue;
+            lstRegisters.SelectionColor = Color.Gray;
+            lstRegisters.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lstRegisters.ShowGrid = true;
+            lstRegisters.ShowMarker = false;
+            lstRegisters.ShowRowColors = true;
+            lstRegisters.Size = new Size(310, 227);
+            lstRegisters.SpanColumn = 0;
+            lstRegisters.TabIndex = 0;
+            lstRegisters.UseLocalList = false;
+            lstRegisters.VerScroll = 0;
+            lstRegisters.DropDownClicked += lstRegisters_DropDownClicked;
+            lstRegisters.ItemCheckedChanged += lstRegisters_ItemCheckedChanged;
+            lstRegisters.ItemClicked += lstRegisters_ItemClicked;
             // 
             // cmDisplayFormats
             // 
-            this.cmDisplayFormats.ActionSymbolForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.cmDisplayFormats.BorderColor = System.Drawing.Color.Black;
-            this.cmDisplayFormats.DropShadowEnabled = false;
-            this.cmDisplayFormats.ForeColor = System.Drawing.Color.White;
-            this.cmDisplayFormats.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.cmDisplayFormats.InsetShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmDisplayFormats.MenuBackColorNorth = System.Drawing.Color.DodgerBlue;
-            this.cmDisplayFormats.MenuBackColorSouth = System.Drawing.Color.DodgerBlue;
-            this.cmDisplayFormats.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmDisplayFormats.Name = "cmDisplayFormats";
-            this.cmDisplayFormats.SeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.cmDisplayFormats.ShowInsetShadow = false;
-            this.cmDisplayFormats.ShowItemInsetShadow = false;
-            this.cmDisplayFormats.Size = new System.Drawing.Size(61, 4);
+            cmDisplayFormats.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmDisplayFormats.BorderColor = Color.Black;
+            cmDisplayFormats.DropShadowEnabled = false;
+            cmDisplayFormats.ForeColor = Color.White;
+            cmDisplayFormats.ImageScalingSize = new Size(32, 32);
+            cmDisplayFormats.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmDisplayFormats.MenuBackColorNorth = Color.DodgerBlue;
+            cmDisplayFormats.MenuBackColorSouth = Color.DodgerBlue;
+            cmDisplayFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmDisplayFormats.Name = "cmDisplayFormats";
+            cmDisplayFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmDisplayFormats.ShowInsetShadow = false;
+            cmDisplayFormats.ShowItemInsetShadow = false;
+            cmDisplayFormats.Size = new Size(61, 4);
             // 
             // cmDataSize
             // 
-            this.cmDataSize.ActionSymbolForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.cmDataSize.BorderColor = System.Drawing.Color.Black;
-            this.cmDataSize.DropShadowEnabled = false;
-            this.cmDataSize.ForeColor = System.Drawing.Color.White;
-            this.cmDataSize.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.cmDataSize.InsetShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmDataSize.MenuBackColorNorth = System.Drawing.Color.DodgerBlue;
-            this.cmDataSize.MenuBackColorSouth = System.Drawing.Color.DodgerBlue;
-            this.cmDataSize.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmDataSize.Name = "cmDataSize";
-            this.cmDataSize.SeparatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.cmDataSize.ShowInsetShadow = false;
-            this.cmDataSize.ShowItemInsetShadow = false;
-            this.cmDataSize.Size = new System.Drawing.Size(61, 4);
+            cmDataSize.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmDataSize.BorderColor = Color.Black;
+            cmDataSize.DropShadowEnabled = false;
+            cmDataSize.ForeColor = Color.White;
+            cmDataSize.ImageScalingSize = new Size(32, 32);
+            cmDataSize.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmDataSize.MenuBackColorNorth = Color.DodgerBlue;
+            cmDataSize.MenuBackColorSouth = Color.DodgerBlue;
+            cmDataSize.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmDataSize.Name = "cmDataSize";
+            cmDataSize.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmDataSize.ShowInsetShadow = false;
+            cmDataSize.ShowItemInsetShadow = false;
+            cmDataSize.Size = new Size(61, 4);
             // 
             // ModbusRegister
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 533);
-            this.CloseButtonCloses = false;
-            this.Controls.Add(this.lstRegisters);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.MinimumSize = new System.Drawing.Size(464, 213);
-            this.Name = "ModbusRegister";
-            this.Padding = new System.Windows.Forms.Padding(9, 37, 9, 11);
-            this.Text = "Modbus Register";
-            this.CloseButtonClicked += new Serial_Monitor.Components.MdiClientForm.CloseButtonClickedHandler(this.ModbusRegister_CloseButtonClicked);
-            this.Activated += new System.EventHandler(this.ModbusRegister_Activated);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ModbusRegister_FormClosing);
-            this.Load += new System.EventHandler(this.ModbusRegister_Load);
-            this.SizeChanged += new System.EventHandler(this.ModbusRegister_SizeChanged);
-            this.Move += new System.EventHandler(this.ModbusRegister_Move);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(320, 250);
+            CloseButtonCloses = false;
+            Controls.Add(lstRegisters);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
+            MinimumSize = new Size(250, 100);
+            Name = "ModbusRegister";
+            Padding = new Padding(5, 18, 5, 5);
+            Text = "Modbus Register";
+            CloseButtonClicked += ModbusRegister_CloseButtonClicked;
+            Activated += ModbusRegister_Activated;
+            FormClosing += ModbusRegister_FormClosing;
+            Load += ModbusRegister_Load;
+            SizeChanged += ModbusRegister_SizeChanged;
+            Move += ModbusRegister_Move;
+            ResumeLayout(false);
         }
 
         #endregion

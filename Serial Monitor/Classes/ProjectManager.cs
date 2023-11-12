@@ -134,12 +134,12 @@ namespace Serial_Monitor.Classes {
                 foreach (SerialManager Sm in SystemManager.SerialManagers) {
                     DocumentHandler.Write(Sw, 1, "CHAN_" + i.ToString());
                     DocumentHandler.Write(Sw, 2, "Name", Sm.Name);
-                    DocumentHandler.Write(Sw, 2, "Port", Sm.Port.PortName);
-                    DocumentHandler.Write(Sw, 2, "Baud", Sm.Port.BaudRate);
-                    DocumentHandler.Write(Sw, 2, "DataSize", Sm.Port.DataBits);
-                    DocumentHandler.Write(Sw, 2, "StopBits", EnumManager.StopBitsToString(Sm.Port.StopBits));
-                    DocumentHandler.Write(Sw, 2, "Parity", EnumManager.ParityToString(Sm.Port.Parity));
-                    DocumentHandler.Write(Sw, 2, "ControlFlow", EnumManager.HandshakeToString(Sm.Port.Handshake));
+                    DocumentHandler.Write(Sw, 2, "Port", Sm.PortName);
+                    DocumentHandler.Write(Sw, 2, "Baud", Sm.BaudRate);
+                    DocumentHandler.Write(Sw, 2, "DataSize", Sm.DataBits);
+                    DocumentHandler.Write(Sw, 2, "StopBits", EnumManager.StopBitsToString(Sm.StopBits));
+                    DocumentHandler.Write(Sw, 2, "Parity", EnumManager.ParityToString(Sm.Parity));
+                    DocumentHandler.Write(Sw, 2, "ControlFlow", EnumManager.HandshakeToString(Sm.Handshake));
                     DocumentHandler.Write(Sw, 2, "InType", EnumManager.InputFormatToString(Sm.InputFormat).B);
                     DocumentHandler.Write(Sw, 2, "OutType", EnumManager.OutputFormatToString(Sm.OutputFormat).B);
                     DocumentHandler.Write(Sw, 2, "LineFormat", EnumManager.LineFormattingToString(Sm.LineFormat));
@@ -313,7 +313,7 @@ namespace Serial_Monitor.Classes {
             SerialManager Sm = new SerialManager();
             Sm.Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
             try {
-                Sm.Port.PortName = DocumentHandler.GetStringVariable(Pstrc, "Port", "");
+                Sm.PortName = DocumentHandler.GetStringVariable(Pstrc, "Port", "");
             }
             catch { }
             try {
@@ -321,19 +321,19 @@ namespace Serial_Monitor.Classes {
             }
             catch { }
             try {
-                Sm.Port.DataBits = DocumentHandler.GetIntegerVariable(Pstrc, "DataSize", 8);
+                Sm.DataBits = DocumentHandler.GetIntegerVariable(Pstrc, "DataSize", 8);
             }
             catch { }
             try {
-                Sm.Port.StopBits = EnumManager.StringToStopBits(DocumentHandler.GetStringVariable(Pstrc, "StopBits", "1"));
+                Sm.StopBits = EnumManager.StringToStopBits(DocumentHandler.GetStringVariable(Pstrc, "StopBits", "1"));
             }
             catch { }
             try {
-                Sm.Port.Parity = EnumManager.StringToParity(DocumentHandler.GetStringVariable(Pstrc, "Parity", "N"));
+                Sm.Parity = EnumManager.StringToParity(DocumentHandler.GetStringVariable(Pstrc, "Parity", "N"));
             }
             catch { }
             try {
-                Sm.Port.Handshake = EnumManager.StringToHandshake(DocumentHandler.GetStringVariable(Pstrc, "ControlFlow", ""));
+                Sm.Handshake = EnumManager.StringToHandshake(DocumentHandler.GetStringVariable(Pstrc, "ControlFlow", ""));
             }
             catch { }
             try {
