@@ -206,7 +206,7 @@ namespace Serial_Monitor.Components {
 
         private void Initalise(StepEnumerations.StepExecutable StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             Step = StepExe;
-            InitaliseWithType(Classes.ProgramManager.StepExeutableToDataType(StepExe), InputValue, ListCtrl, Item);
+            InitaliseWithType(Classes.ProgramManager.StepExecutableToDataType(StepExe), InputValue, ListCtrl, Item);
         }
         bool IsPositionOffset = false;
         StepEnumerations.StepExecutable Step = StepEnumerations.StepExecutable.NoOperation;

@@ -1,5 +1,6 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Structures;
 using Svg;
 using System;
@@ -14,8 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Serial_Monitor.Dialogs
-{
+namespace Serial_Monitor.Dialogs {
     public partial class InsertModbusSnapshot : Form, Interfaces.ITheme {
         protected override CreateParams CreateParams {
             get {
@@ -26,6 +26,7 @@ namespace Serial_Monitor.Dialogs
         }
         public InsertModbusSnapshot() {
             InitializeComponent();
+            numtxtAddress.Maximum = new Handlers.NumericalString(ModbusSupport.MaximumRegisters);
             numtxtAddress.Height = cmbxDataSet.Height;
             numtxtQuantity.Height = cmbxDataSet.Height;
         }
@@ -33,7 +34,7 @@ namespace Serial_Monitor.Dialogs
         private void InsertModbusSnapshot_Load(object sender, EventArgs e) {
             ApplyTheme();
             bool LockFirst = true;
-            foreach(SerialManager Chan in SystemManager.SerialManagers) {
+            foreach (SerialManager Chan in SystemManager.SerialManagers) {
                 GridButton Btn = new GridButton();
                 Btn.Text = Chan.StateName;
                 Btn.Tag = Chan;
@@ -90,7 +91,7 @@ namespace Serial_Monitor.Dialogs
             }
         }
         SerialManager? manager = null;
-        public SerialManager ?Manager {
+        public SerialManager? Manager {
             get {
                 return manager;
             }

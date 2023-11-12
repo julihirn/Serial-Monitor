@@ -1,4 +1,5 @@
 ﻿using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace Serial_Monitor.Dialogs {
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
+            numtxtAddress.Maximum = new Handlers.NumericalString(ModbusSupport.MaximumRegisters);
             numtxtAddress.Height = cmbxDataSet.Height;
             numtxtUnit.Height = cmbxDataSet.Height;
         }
@@ -88,7 +90,7 @@ namespace Serial_Monitor.Dialogs {
         private void WriteCoil_Load(object sender, EventArgs e) {
             RecolorAll();
         }
-       
+
 
         private void btnCancel_ButtonClicked(object sender) {
             Cancel();

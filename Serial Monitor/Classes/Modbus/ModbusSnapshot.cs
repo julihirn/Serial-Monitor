@@ -16,14 +16,12 @@ namespace Serial_Monitor.Classes.Modbus {
 
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
+        
+        #region Properties
         Classes.Enums.ModbusEnums.SnapshotSelectionType selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
-        
-     
-        
         public Classes.Enums.ModbusEnums.SnapshotSelectionType SelectionType {
             get { return selectType; }
         }
-   
         int startIndex = 0;
         public int StartIndex {
             get { return startIndex; }
@@ -104,6 +102,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public List<ListItem> Listings {
             get { return listings; }
         }
+        #endregion
         string iD = "";
         [Browsable(false)]
         public string ID {

@@ -1,4 +1,5 @@
 ﻿using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace Serial_Monitor.Dialogs {
             numtxtAddress.Height = cmbxDataSet.Height;
             numtxtUnit.Height = cmbxDataSet.Height;
             numtxtValue.Height = cmbxDataSet.Height;
+
+            numtxtAddress.Maximum = new Handlers.NumericalString(ModbusSupport.MaximumRegisters);
         }
         public void ApplyTheme() {
             RecolorAll();

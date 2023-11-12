@@ -1571,7 +1571,7 @@ namespace Serial_Monitor {
                     }
                 }
                 else {
-                    if (ProgramManager.StepExeutableToDataType(StepExe) != Classes.Step_Programs.DataType.Null) {
+                    if (ProgramManager.StepExecutableToDataType(StepExe) != Classes.Step_Programs.DataType.Null) {
                         Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
                         Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
                         Components.EditValue EdVal = new Components.EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem, 3, null, false, Rect, ParRect);

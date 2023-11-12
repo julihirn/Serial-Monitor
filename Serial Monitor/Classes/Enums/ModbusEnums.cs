@@ -19,11 +19,16 @@ namespace Serial_Monitor.Classes.Enums {
             Bits8 = 0x00,
             Bits16 = 0x01,
             Bits32 = 0x02,
-            Bits64 = 0x04,
+            Bits64 = 0x04
         }
         public enum SnapshotSelectionType {
             Concurrent = 0x00,
             Custom = 0x01
+        }
+        public enum ByteOrder {
+            LittleEndian = 0x01,
+            //LittleEndian16 = 0x02,
+            BigEndian = 0x03
         }
     }
 }

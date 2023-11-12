@@ -32,9 +32,9 @@ namespace Serial_Monitor.Classes {
         public delegate void ProgramListingChangedHandler();
         public static event ProgramNameChangedHandler? ProgramNameChanged;
         public delegate void ProgramNameChangedHandler(object sender);
-        public static List<ProgramObject> Programs = new List<ProgramObject>(1);
+        
 
-        public static ProgramObject? CurrentProgram = null;
+        #region Properties
         private static ProgramObject? currentEditingProgram = null;
         public static ProgramObject? CurrentEditingProgram {
             get { return currentEditingProgram; }
@@ -48,7 +48,15 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-
+        static bool enableOverexecuteCheck = false;
+        public static bool EnableOverexecuteCheck {
+            get { return enableOverexecuteCheck; }
+            set {
+                enableOverexecuteCheck = value;
+            }
+        }
+        #endregion
+        #region State and System Variables
         public static StepEnumerations.StepState ProgramState = StepEnumerations.StepState.Stopped;
         static bool executionThreadRunning = true;
         public static bool ExecutionThreadRunning {
@@ -63,14 +71,11 @@ namespace Serial_Monitor.Classes {
         public static bool NoStepProgramIncrement = false;
 
         public static MainWindow? MainInstance = null;
-        static bool enableOverexecuteCheck = false;
-        public static bool EnableOverexecuteCheck {
-            get { return enableOverexecuteCheck; }
-            set {
-                enableOverexecuteCheck = value;
-            }
-        }
 
+        public static List<ProgramObject> Programs = new List<ProgramObject>(1);
+
+        public static ProgramObject? CurrentProgram = null;
+       
 
         public static StepEnumerations.StepExecutable LastFunction = StepEnumerations.StepExecutable.NoOperation;
         public static List<LabelLinkage> LabelPositions = new List<LabelLinkage>();
@@ -79,9 +84,11 @@ namespace Serial_Monitor.Classes {
         public static string StepExecutableToString(StepEnumerations.StepExecutable StepEx) {
             return StringHandler.MergeStrings(StringHandler.SpiltStringAtCapitals(StepEx.ToString()), ' ');
         }
+        #endregion
         public static void ProgramNameChange(object sender) {
             ProgramNameChanged?.Invoke(sender);
         }
+        #region Threading
         public static void LaunchThread() {
             executionThreadRunning = true;
             ThreadStepExecutable = new Thread(StepProgram);
@@ -100,6 +107,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        #endregion 
         #region Program Transport
         public static void RunFromStart() {
 
@@ -1037,7 +1045,7 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Program Editing
-        public static DataType StepExeutableToDataType(StepEnumerations.StepExecutable StepExe) {
+        public static DataType StepExecutableToDataType(StepEnumerations.StepExecutable StepExe) {
             switch (StepExe) {
                 case StepEnumerations.StepExecutable.Delay:
                     return DataType.Number;
@@ -1101,7 +1109,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static bool AcceptsArguments(StepEnumerations.StepExecutable StepExe) {
-            DataType CmdType = StepExeutableToDataType(StepExe);
+            DataType CmdType = StepExecutableToDataType(StepExe);
             if (CmdType == DataType.Null) { return false; }
             return true;
             //if (StepExe == StepEnumerations.StepExecutable.NoOperation) { return false; }
@@ -1173,6 +1181,7 @@ namespace Serial_Monitor.Classes {
             RunFromStart(ProgramCommand, true);
         }
         #endregion
+        #region Program Removing
         public static void RemoveProgram(int Index) {
             ProgramRemoved?.Invoke(Programs[Index].ID);
             Programs[Index].Clear();
@@ -1183,5 +1192,6 @@ namespace Serial_Monitor.Classes {
             Objct.Clear();
             Programs.Remove(Objct);
         }
+        #endregion
     }
 }

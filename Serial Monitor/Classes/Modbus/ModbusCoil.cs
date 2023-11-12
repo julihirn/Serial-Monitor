@@ -5,26 +5,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serial_Monitor.Classes.Modbus
-{
-    public class ModbusCoil: ModbusObject {
-        SerialManager? parentManager = null;
-        public SerialManager? ParentManager {
-            get { return parentManager; }
-        }
-        int Index = 0;
-        DataSelection typeData = DataSelection.ModbusDataCoils;
-        public DataSelection ComponentType {
-            get { return typeData; }
-        }
-        public int Address {
-            get { return Index; }
-        }
+namespace Serial_Monitor.Classes.Modbus {
+    public class ModbusCoil : ModbusObject {
         public ModbusCoil(int index, DataSelection Type, SerialManager Manager) {
             Index = index;
             typeData = Type;
             parentManager = Manager;
         }
+        #region Fixed Properties
+        SerialManager? parentManager = null;
+        public SerialManager? ParentManager {
+            get { return parentManager; }
+        }
+        int Index = 0;
+        public int Address {
+            get { return Index; }
+        }
+        DataSelection typeData = DataSelection.ModbusDataCoils;
+        public DataSelection ComponentType {
+            get { return typeData; }
+        }
+        bool userChanged = false;
+        public bool UserChanged {
+            get { return userChanged; }
+        }
+        #endregion
+        #region Properties
         bool coilValue = false;
         public bool Value {
             get { return coilValue; }
@@ -33,10 +39,8 @@ namespace Serial_Monitor.Classes.Modbus
                 SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
             }
         }
-        bool userChanged = false;
-        public bool UserChanged {
-            get { return userChanged; }
-        }
+        #endregion 
+        #region File Support
         public void Set(StringPair Input) {
             if (Input.A.ToLower() == "name") {
                 Name = Input.B;
@@ -45,5 +49,6 @@ namespace Serial_Monitor.Classes.Modbus
                 Value = (Input.B == "1" ? true : false);
             }
         }
+        #endregion
     }
 }

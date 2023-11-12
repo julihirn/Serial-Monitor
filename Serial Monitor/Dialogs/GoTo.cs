@@ -1,4 +1,5 @@
 ﻿using ODModules;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Serial_Monitor.Dialogs {
         }
 
         private void GoTo_Load(object sender, EventArgs e) {
+            numtxtAddress.Maximum = new Handlers.NumericalString(ModbusSupport.MaximumRegisters);
             lblpnlAddress.InlineWidth = DesignerSetup.ScaleInteger(lblpnlAddress.InlineWidth);
             lblpnlName.InlineWidth = DesignerSetup.ScaleInteger(lblpnlName.InlineWidth);
             numtxtAddress.Height = textBox2.Height;
@@ -103,7 +105,7 @@ namespace Serial_Monitor.Dialogs {
         }
 
         private void GoTo_KeyPress(object sender, KeyPressEventArgs e) {
-           
+
         }
 
         private void GoTo_KeyDown(object sender, KeyEventArgs e) {
@@ -113,7 +115,7 @@ namespace Serial_Monitor.Dialogs {
             else if (e.KeyCode == Keys.Escape) {
                 Cancel(); e.Handled = e.SuppressKeyPress = true;
             }
-            
+
         }
 
         private void numtxtAddress_KeyDown(object sender, KeyEventArgs e) {
@@ -144,7 +146,7 @@ namespace Serial_Monitor.Dialogs {
         private void numtxtAddress_EscapePressed(NumericTextbox sender) {
             Cancel();
         }
-      
+
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e) {
 
         }

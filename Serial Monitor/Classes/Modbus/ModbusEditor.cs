@@ -21,7 +21,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public const int Indx_Value = 5;
 
         public static Size MinimumSize = new Size(464, 213);
-
+        #region Editors
         public static void AddRenameBox(DropDownClickedEventArgs e, ListControl LstCtrl, DataSelection DataSet, Components.EditValue.ArrowKeyPressedHandler arrowKeyPressed, bool UseItemIndex = false) {
             ListItem? LstItem = e.ParentItem;
             //LastPoint = new Point(e.Column, e.Item);
@@ -78,7 +78,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 EdVal.Show();
             }
         }
-
+        #endregion
+        #region Appearance/View
         public static void ShowHideColumns(bool showFormats, DataSelection DataSet, ListControl lstMonitor) {
             if (showFormats == false) {
                 lstMonitor.Columns[Indx_Size].Visible = false;
@@ -114,7 +115,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
-
+        #endregion
+        #region Context Menu Handling
         public static object? GetContextMenuData(object? sender) {
             if (sender == null) { return null; }
             if (sender.GetType() != typeof(ToolStripMenuItem)) { return null; }
@@ -130,8 +132,8 @@ namespace Serial_Monitor.Classes.Modbus {
             ToolStripMenuItem Mi = (ToolStripMenuItem)sender;
             return Mi.Tag;
         }
-
-
+        #endregion
+        #region Formatters
         public static void RetroactivelyApplyFormatChanges(int CentreIndex, ListControl lstMonitor) {
             for (int i = 1; i <= 3; i++) {
                 int BeforeIndex = CentreIndex - i;
@@ -164,11 +166,12 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return null;
         }
-
+        #endregion
+        #region Drawing Support
         public static Point AddPoint(DropDownClickedEventArgs e) {
             return new Point(e.ScreenLocation.X, e.ScreenLocation.Y + e.ItemSize.Height);
         }
-
+        #endregion
         #region Format Editing
         public static void ChangeDisplayFormatList(object? sender, ListControl lstMonitor) {
             object? ButtonData = GetContextMenuItemData(sender);
@@ -388,7 +391,7 @@ namespace Serial_Monitor.Classes.Modbus {
             return false;
         }
         #endregion
-
+        #region Format Additional Editing Options
         public static void Reset(ListControl ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
             if (ListEditor.CurrentItems == null) { return; }
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
@@ -433,6 +436,8 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             ListEditor.Invalidate();
         }
+        #endregion
+        #region Clipboard
         const string Clipboard_ModbusDataType = "SERMAN:MODBUS_REG";
         public static void CopyRegistersAsText(ListControl ListEditor, bool ClearSelection = true) {
             string Output = "";
@@ -594,6 +599,8 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             catch { }
         }
+        #endregion
+        #region Clipboard Support
         private static bool FlagSet(ModbusDataObject DataObj, ModbusClipboardFlags Flag) {
             if ((DataObj.IncludeFlags & Flag) == Flag) {
                 return true;
@@ -610,7 +617,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 return false;
             }
         }
-
+        #endregion
 
         public static void ChangeAppearance(object? sender, ListControl lstMonitor) {
             int SelectedCount = lstMonitor.SelectionCount;
