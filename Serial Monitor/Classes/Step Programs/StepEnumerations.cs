@@ -56,8 +56,9 @@ namespace Serial_Monitor.Classes.Step_Programs {
             MousePositionOffset =    0x090005,
             SendKeys =          0x090010,
             //WaitUntil         = 0x101E001,
-            WaitUntilReceived = 0x101E002
-                             //0x1005FC04,
+            WaitUntilReceived = 0x101E002,
+            RaiseEvent =       0x100F0001
+            //0x1005FC04,
             //ResetChannelCounter = 0x10050400
         }
     }

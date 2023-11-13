@@ -1,6 +1,7 @@
 ﻿using Handlers;
 using Handlers.ShadowX;
 using ODModules;
+using Serial_Monitor.Plugin;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
 using System;
@@ -32,8 +33,9 @@ namespace Serial_Monitor.Classes {
         public delegate void ProgramListingChangedHandler();
         public static event ProgramNameChangedHandler? ProgramNameChanged;
         public delegate void ProgramNameChangedHandler(object sender);
-        
 
+        public static event ProgramRaisedEventHandler? ProgramEventRaised;
+        public delegate void ProgramRaisedEventHandler(ProgramObject? ProgramObj, string Value);
         #region Properties
         private static ProgramObject? currentEditingProgram = null;
         public static ProgramObject? CurrentEditingProgram {
@@ -377,6 +379,8 @@ namespace Serial_Monitor.Classes {
                     break;
                 case StepEnumerations.StepExecutable.WaitUntilReceived:
                     EvaluateWaitUntilReceieved(Arguments); break;
+                case StepEnumerations.StepExecutable.RaiseEvent:
+                    ProgramRaiseEvent(Arguments); break;
                 case StepEnumerations.StepExecutable.MousePosition:
                     //invoke(new MethodInvoker(delegate {
                     SetMousePosition(Arguments);
@@ -399,6 +403,25 @@ namespace Serial_Monitor.Classes {
                 default:
                     break;
             }
+        }
+        #endregion
+        #region Event Raisers
+        private static void ProgramRaiseEvent(string Argument) {
+            string Output = "";
+            if (CurrentProgram == null) { return ; }
+            VariableResult VarResult = CurrentProgram.GetVariable(Argument);
+            if (VarResult.IsValid == true) {
+                Output =  VarResult.Value;
+            }
+            else {
+                if (Argument.ToLower() == "waituntil") {
+                    bool Temp = WaitUnit_ConditionMet;
+                    WaitUnit_ConditionMet = false;
+                    Output = Temp.ToString();
+                }
+                else { Output = Argument; }
+            }
+            ProgramEventRaised?.Invoke(CurrentProgram, Output);
         }
         #endregion
         #region UI Commands
@@ -1105,6 +1128,8 @@ namespace Serial_Monitor.Classes {
                     return DataType.CursorLocation;
                 case StepEnumerations.StepExecutable.WaitUntilReceived:
                     return DataType.WaitUntilRX;
+                case StepEnumerations.StepExecutable.RaiseEvent:
+                    return DataType.Text;
                 default: return DataType.Null;
             }
         }

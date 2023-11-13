@@ -1,3 +1,4 @@
+using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Theming;
 using System.Diagnostics;
 
@@ -11,6 +12,7 @@ namespace Serial_Monitor {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+           // SystemManager.Initialize();
             ThemeManager.LoadDefaultThemes();
             if (args.Length > 0){
                 Application.Run(new MainWindow(args[0]));

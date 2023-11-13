@@ -9,10 +9,10 @@ using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Serial_Monitor.Plugin;
 using static Serial_Monitor.Classes.SerialManager;
 
-namespace Serial_Monitor.Classes
-{
+namespace Serial_Monitor.Classes {
     public static class SystemManager {
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();
@@ -25,7 +25,7 @@ namespace Serial_Monitor.Classes
         public delegate void ChannelRenamedHandler(SerialManager sender);
 
         public static event ChannelSelectionChangedHandler? ChannelSelectedChanged;
-        public delegate void ChannelSelectionChangedHandler(SerialManager ?sender);
+        public delegate void ChannelSelectionChangedHandler(SerialManager? sender);
 
         public static event ChannelPropertyChangedHandler? ChannelPropertyChanged;
         public delegate void ChannelPropertyChangedHandler(SerialManager sender);
@@ -55,7 +55,7 @@ namespace Serial_Monitor.Classes
         public static void InvokeChannelPropertiesChanged(SerialManager sender) {
             ChannelPropertyChanged?.Invoke(sender);
         }
-        public static void InvokeChannelSelectedChanged(SerialManager ?sender) {
+        public static void InvokeChannelSelectedChanged(SerialManager? sender) {
             ChannelSelectedChanged?.Invoke(sender);
         }
         public static void ModbusRegisterPropertyChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
@@ -67,7 +67,7 @@ namespace Serial_Monitor.Classes
             ModbusRegisterRenamed?.Invoke(Sender, Data, Index, DataType);
         }
         public static void RegisterValueChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
-           if (Sender == null) { return; }
+            if (Sender == null) { return; }
             ModbusReceived?.Invoke(Sender, Data, Index, DataType);
         }
         public static void SendModbusCommand(SerialManager? CurrentManager, DataSelection DataSet, string Command) {
@@ -237,5 +237,11 @@ namespace Serial_Monitor.Classes
             return Results;
         }
         #endregion
+        public static void Initialize() {
+            SystemLinkage.ProgramRun += SystemLinkage_ProgramRun;
+        }
+        private static void SystemLinkage_ProgramRun(string Name) {
+            ProgramManager.ExecuteProgram(Name);
+        }
     }
 }

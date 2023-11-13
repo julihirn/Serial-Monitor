@@ -41,6 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Serial Monitor Plugin\Serial Monitor Plugin.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Fizzler">
       <HintPath>Libraries\Fizzler.dll</HintPath>
     </Reference>
