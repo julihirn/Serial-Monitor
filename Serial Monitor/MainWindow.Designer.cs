@@ -273,6 +273,7 @@
             this.toolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
             this.cmbtnNewProgram = new System.Windows.Forms.ToolStripMenuItem();
             this.cmCloseProgram = new System.Windows.Forms.ToolStripMenuItem();
+            this.extensionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain.SuspendLayout();
             this.pnlRenamePanel.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -1183,6 +1184,7 @@
             this.terminalToolStripMenuItem,
             this.mitChannel,
             this.btnPrgNewStepLine,
+            this.extensionsToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.windowToolStripMenuItem,
             this.helpToolStripMenuItem});
@@ -2967,6 +2969,14 @@
             this.cmCloseProgram.Text = "Close Program";
             this.cmCloseProgram.Click += new System.EventHandler(this.cmCloseProgram_Click);
             // 
+            // extensionsToolStripMenuItem
+            // 
+            this.extensionsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.extensionsToolStripMenuItem.Name = "extensionsToolStripMenuItem";
+            this.extensionsToolStripMenuItem.Size = new System.Drawing.Size(146, 38);
+            this.extensionsToolStripMenuItem.Text = "E&xtensions";
+            this.extensionsToolStripMenuItem.Visible = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
@@ -3252,5 +3262,6 @@
         private ToolStripMenuItem oscilloscopeToolStripMenuItem;
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem variablesToolStripMenuItem;
+        private ToolStripMenuItem extensionsToolStripMenuItem;
     }
 }

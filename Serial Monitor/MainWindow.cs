@@ -15,6 +15,7 @@ using System.ComponentModel;
 using Serial_Monitor.WindowForms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 using Serial_Monitor.Classes.Structures;
+using Serial_Monitor.Plugin;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -113,7 +114,7 @@ namespace Serial_Monitor {
             LoadProgramOperations();
             RefreshPorts();
             SelectFirstPort();
-
+            LoadPlugins();
             LoadDefaults();
             Output.FlashCursor = true;
             navigator1.LinkedList = SystemManager.SerialManagers;
@@ -128,6 +129,38 @@ namespace Serial_Monitor {
             SetTitle("Untitled");
             //DetermineTabs();
             DocumentEdited = false;
+        }
+        private void LoadPlugins() {
+            string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) ?? "";//GetExecutionFolder();
+            try {
+                var Plugins = SystemManager.LoadPlugins(path);
+
+                if (Plugins.Count == 0) {
+
+                }
+                else {
+                    extensionsToolStripMenuItem.Visible = true;
+                    foreach (IWindowPlugin Plugin in Plugins) {
+                        ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                        Tsi.Text = Plugin.ToString();
+                        Tsi.Click += ExtensionClicked;
+                        Tsi.Tag = Plugin;
+                        extensionsToolStripMenuItem.DropDownItems.Add(Tsi);
+
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void ExtensionClicked(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            ToolStripMenuItem Tsi = (ToolStripMenuItem)sender;
+            if (Tsi.Tag == null) { return; }
+            IWindowPlugin Temp = (IWindowPlugin)Tsi.Tag;
+            Form Frm = (Form)Temp;
+            Frm.Show();
         }
 
         private void SystemManager_ErrorInvoked(ErrorType Type, string Sender, string Message) {

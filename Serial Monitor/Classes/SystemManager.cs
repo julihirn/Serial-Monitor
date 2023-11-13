@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Serial_Monitor.Plugin;
 using static Serial_Monitor.Classes.SerialManager;
+using System.Reflection;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -242,6 +243,26 @@ namespace Serial_Monitor.Classes {
         }
         private static void SystemLinkage_ProgramRun(string Name) {
             ProgramManager.ExecuteProgram(Name);
+        }
+
+        public static IList<IWindowPlugin> LoadPlugins(string folder) {
+            IList<IWindowPlugin> plugins = new List<IWindowPlugin>();
+            // Get files in folder
+            string[] files = Directory.GetFiles(folder, "*.dll");
+            foreach (string file in files) {
+                Assembly assembly = Assembly.LoadFile(file);
+                var types = assembly.GetExportedTypes();
+
+                foreach (Type type in types)
+                    if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
+                        object ?instance = Activator.CreateInstance(type);
+                        if (instance != null) {
+                            plugins.Add((IWindowPlugin)instance);
+                        }
+                    }
+            }
+
+            return plugins;
         }
     }
 }
