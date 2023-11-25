@@ -130,6 +130,26 @@ namespace Serial_Monitor.Classes {
             return new StringPair("Integer", "mbDataFrmtDecimal");
         }
         #endregion
+        #region Modbus Word Order
+        public static ByteOrder StringToWordOrder(string Input) {
+            if (Input == "mbWordBigEnd") {
+                return ByteOrder.BigEndian;
+            }
+            else if (Input == "mbWordLittleEnd") {
+                return ByteOrder.LittleEndian;
+            }
+            return ByteOrder.LittleEndian;
+        }
+        public static StringPair WordOrderToString(ByteOrder Input) {
+            if (Input == ByteOrder.BigEndian) {
+                return new StringPair("Big Endian", "mbWordBigEnd");
+            }
+            else if (Input == ByteOrder.LittleEndian) {
+                return new StringPair("Little Endian", "mbWordLittleEnd");
+            }
+            return new StringPair("Little Endian", "mbWordLittleEnd");
+        }
+        #endregion
         #region Modbus Data Selection
         public static DataSelection ModbusStringToDataSelection(string Input) {
             if (Input == "mbTypeCoils") {
@@ -490,6 +510,31 @@ namespace Serial_Monitor.Classes {
             bool CheckFirst = true;
             foreach (ModbusEnums.DataSize Frmt in Formats) {
                 string Data = DataSizeToString(Frmt);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
+        public static void LoadWordOrders(object DropDownList, EventHandler FormatClick) {
+            Enums.ModbusEnums.ByteOrder[] Formats = (ByteOrder[])ByteOrder.GetValues(typeof(Enums.ModbusEnums.ByteOrder));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.ByteOrder Frmt in Formats) {
+                string Data = WordOrderToString(Frmt).A;
                 ToolStripMenuItem Tsi = new ToolStripMenuItem();
                 Tsi.Text = Data;
                 Tsi.ImageScaling = ToolStripItemImageScaling.None;

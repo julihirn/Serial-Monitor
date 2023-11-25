@@ -78,7 +78,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 EdVal.Show();
             }
         }
-       public static void ClearControls(ListControl LstCtrl) {
+        public static void ClearControls(ListControl LstCtrl) {
             LstCtrl.Controls.Clear();
             GC.Collect();
         }
@@ -177,7 +177,8 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Format Editing
-        public static void ChangeDisplayFormatList(object? sender, ListControl lstMonitor) {
+        public static void ChangeDisplayFormatList(object? sender, ListControl? lstMonitor) {
+            if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) { return; }
             if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
@@ -230,7 +231,8 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeSizeList(object? sender, ListControl lstMonitor) {
+        public static void ChangeSizeList(object? sender, ListControl? lstMonitor) {
+            if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) { return; }
             if (ButtonData.GetType()! != typeof(ModbusEnums.DataSize)) { return; }
@@ -282,7 +284,8 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeSignedList(ListControl lstMonitor, SignedState State) {
+        public static void ChangeSignedList(ListControl? lstMonitor, SignedState State) {
+            if (lstMonitor == null) { return; }
             int SelectedCount = lstMonitor.SelectionCount;
             if (SelectedCount <= 0) { return; }
             foreach (ListItem Li in lstMonitor.CurrentItems) {
@@ -306,6 +309,49 @@ namespace Serial_Monitor.Classes.Modbus {
                                     case SignedState.Toogle:
                                         Reg.Signed = !Reg.Signed; break;
                                 }
+                            }
+                            Li[Indx_Signed].Checked = Reg.Signed;
+                            Li[Indx_Value].Text = Reg.FormattedValue;
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                        }
+                        SelectedCount--;
+                    }
+                    if (SelectedCount <= 0) {
+                        break;
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+        }
+        public static void ChangeWordOrderList(object ? sender, ListControl? lstMonitor) {
+            object? ButtonData = GetContextMenuItemData(sender);
+            if (ButtonData == null) { return; }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
+            ByteOrder State = (ByteOrder)ButtonData;
+
+            if (lstMonitor == null) { return; }
+            int SelectedCount = lstMonitor.SelectionCount;
+            if (SelectedCount <= 0) { return; }
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count >= ModbusEditor.Indx_Value) {
+                    if (Li.Selected == true) {
+                        if (Li.Tag == null) { continue; }
+                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                            if (Reg.Format == DataFormat.Float) {
+                                Reg.WordOrder = State;
+                            }
+                            else if (Reg.Format == DataFormat.Double) {
+                                Reg.WordOrder = State;
+                            }
+                            else if (Reg.Size == DataSize.Bits32) {
+                                Reg.WordOrder = State;
+                            }
+                            else if (Reg.Size == DataSize.Bits64) {
+                                Reg.WordOrder = State;
+                            }
+                            else {
+                                Reg.WordOrder = ByteOrder.LittleEndian;
                             }
                             Li[Indx_Signed].Checked = Reg.Signed;
                             Li[Indx_Value].Text = Reg.FormattedValue;
@@ -443,7 +489,8 @@ namespace Serial_Monitor.Classes.Modbus {
         #endregion
         #region Clipboard
         const string Clipboard_ModbusDataType = "SERMAN:MODBUS_REG";
-        public static void CopyRegistersAsText(ListControl ListEditor, bool ClearSelection = true) {
+        public static void CopyRegistersAsText(ListControl? ListEditor, bool ClearSelection = true) {
+            if (ListEditor == null) { return; }
             string Output = "";
             if (ListEditor.CurrentItems == null) { return; }
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
@@ -476,7 +523,8 @@ namespace Serial_Monitor.Classes.Modbus {
             ListEditor.Invalidate();
             Clipboard.SetText(Output);
         }
-        public static void CopyRegisters(ListControl ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
+        public static void CopyRegisters(ListControl? ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
+            if (ListEditor == null) { return; }
             if (ListEditor.CurrentItems == null) { return; }
             List<ModbusDataObject> list = new List<ModbusDataObject>();
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
@@ -505,7 +553,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 Clipboard.SetData(Clipboard_ModbusDataType, list);
             }
         }
-        public static void PasteRegisters(ListControl ListEditor, bool ClearSelection = true) {
+        public static void PasteRegisters(ListControl? ListEditor, bool ClearSelection = true) {
+            if (ListEditor == null) { return; }
             object? Data = Clipboard.GetDataObject();
             if (Clipboard.ContainsData(Clipboard_ModbusDataType)) {
                 try {
@@ -602,6 +651,118 @@ namespace Serial_Monitor.Classes.Modbus {
                 ListEditor.Invalidate();
             }
             catch { }
+        }
+        #endregion
+        #region Selection Handling
+        public static void SelectAll(ListControl? ListEditor, bool Invert = false) {
+            if (ListEditor == null) { return; }
+            if (Invert == false) {
+                ListEditor.LineSelectAll();
+            }
+            else {
+                foreach (ListItem Li in ListEditor.CurrentItems) {
+                    Li.Selected = !Li.Selected;
+                }
+                ListEditor.Invalidate();
+            }
+        }
+        //ModbusClipboardFlags
+        public static void SelectMatching(ListControl? ListEditor, ModbusClipboardFlags SelectFlags) {
+            if (ListEditor == null) { return; }
+            if (ListEditor.SelectionCount == 0) { return; }
+            if (ListEditor.SelectionCount > 1) { return; }
+            try {
+                ModbusCoil? SelectedCoil = GetCoilFromTag(ListEditor.CurrentItems[ListEditor.SelectedIndex]);
+                if (SelectedCoil != null) {
+                    foreach (ListItem Li in ListEditor.CurrentItems) {
+                        ModbusCoil? Temp = GetCoilFromTag(Li);
+                        if (Temp == null) { continue; }
+                        bool Select = false;
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeName)) {
+                            if (SelectedCoil.Name.ToLower() == Temp.Name.ToLower()) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeValue)) {
+                            if (SelectedCoil.Value == Temp.Value) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        Li.Selected = Select;
+                    }
+                }
+                ModbusRegister? SelectedRegister = GetRegisterFromTag(ListEditor.CurrentItems[ListEditor.SelectedIndex]);
+                if (SelectedRegister != null) {
+                    foreach (ListItem Li in ListEditor.CurrentItems) {
+                        ModbusRegister? Temp = GetRegisterFromTag(Li);
+                        if (Temp == null) { continue; }
+                        bool Select = false;
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeName)) {
+                            if (SelectedRegister.Name.ToLower() == Temp.Name.ToLower()) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeValue)) {
+                            if (SelectedRegister.Value == Temp.Value) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeFormat)) {
+                            if (SelectedRegister.Format == Temp.Format) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeSize)) {
+                            if (SelectedRegister.Size == Temp.Size) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        Li.Selected = Select;
+                    }
+                }
+                ListEditor.Invalidate();
+            }
+            catch { }
+        }
+        private static bool IsCopyFlagSet(ModbusClipboardFlags Flags, ModbusClipboardFlags Mask) {
+            if (((int)Flags & (int)Mask) == (int)Mask) { return true; }
+            return false;
+        }
+        private static ModbusCoil? GetCoilFromTag(ListItem? Item) {
+            if (Item == null) { return null; }
+            object? DataTag = Item.Tag;
+            if (DataTag == null) { return null; }
+            if (DataTag.GetType() == typeof(ModbusCoil)) {
+                return (ModbusCoil)DataTag;
+            }
+            return null;
+        }
+        private static ModbusRegister? GetRegisterFromTag(ListItem? Item) {
+            if (Item == null) { return null; }
+            object? DataTag = Item.Tag;
+            if (DataTag == null) { return null; }
+            if (DataTag.GetType() == typeof(ModbusRegister)) {
+                return (ModbusRegister)DataTag;
+            }
+            return null;
         }
         #endregion
         #region Clipboard Support

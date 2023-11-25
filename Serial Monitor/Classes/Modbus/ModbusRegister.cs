@@ -80,7 +80,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     dataSize = ModbusEnums.DataSize.Bits16;
                 }
                 if (dataSize < ModbusEnums.DataSize.Bits32) {
-                    byteOrder = ModbusEnums.ByteOrder.LittleEndian;
+                    wordOrder = ModbusEnums.ByteOrder.LittleEndian;
                 }
                 ModifyValue();
                 SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
@@ -110,7 +110,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     dataSize = ModbusEnums.DataSize.Bits16;
                 }
                 if (dataSize < ModbusEnums.DataSize.Bits32) {
-                    byteOrder = ModbusEnums.ByteOrder.LittleEndian;
+                    wordOrder = ModbusEnums.ByteOrder.LittleEndian;
                 }
                 ModifyValue();
                 SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
@@ -136,15 +136,15 @@ namespace Serial_Monitor.Classes.Modbus {
                 SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
             }
         }
-        private ModbusEnums.ByteOrder byteOrder = ModbusEnums.ByteOrder.BigEndian;
-        public ModbusEnums.ByteOrder ByteOrder {
-            get { return byteOrder; }
+        private ModbusEnums.ByteOrder wordOrder = ModbusEnums.ByteOrder.BigEndian;
+        public ModbusEnums.ByteOrder WordOrder {
+            get { return wordOrder; }
             set {
                 if (dataSize >= ModbusEnums.DataSize.Bits32) {
-                    byteOrder = value;
+                    wordOrder = value;
                 }
                 else {
-                    byteOrder = ModbusEnums.ByteOrder.LittleEndian;
+                    wordOrder = ModbusEnums.ByteOrder.LittleEndian;
                 }
                 ModifyValue();
                 SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
@@ -170,13 +170,13 @@ namespace Serial_Monitor.Classes.Modbus {
 #endif
             }
             else if (dataSize == ModbusEnums.DataSize.Bits32) {
-                if (byteOrder == ModbusEnums.ByteOrder.BigEndian) {
+                if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                     regValue = (short)(0xFFFF & Input);
                     if (Index + 1 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
                     }
                 }
-                else if (byteOrder == ModbusEnums.ByteOrder.LittleEndian) {
+                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                     regValue = QuickShiftDataDown(Input, 1);
                     if (Index + 1 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 0, Input, typeData, parentManager, AllowTransmit);
@@ -189,7 +189,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             else if (dataSize == ModbusEnums.DataSize.Bits64) {
-                if (byteOrder == ModbusEnums.ByteOrder.BigEndian) {
+                if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                     regValue = (short)(0xFFFF & Input);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
@@ -197,7 +197,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         SetData(Index + 3, 3, Input, typeData, parentManager, AllowTransmit);
                     }
                 }
-                else if (byteOrder == ModbusEnums.ByteOrder.LittleEndian) {
+                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                     regValue = QuickShiftDataDown(Input, 3);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 2, Input, typeData, parentManager, AllowTransmit);
@@ -229,11 +229,11 @@ namespace Serial_Monitor.Classes.Modbus {
                             Debug.Print(" - " + ((ushort)regValue).ToString());
                             Debug.Print(" - " + AppendData(Index + 1, 1, typeData, parentManager).ToString());
 #endif                  
-                        if (byteOrder == ModbusEnums.ByteOrder.BigEndian) {
+                        if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                             Temp = (long)(ushort)regValue;
                             Temp |= AppendData(Index + 1, 1, typeData, parentManager);
                         }
-                        else if (byteOrder == ModbusEnums.ByteOrder.LittleEndian) {
+                        else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                             Temp = QuickShiftDataUp(regValue, 1);
                             Temp |= AppendData(Index + 1, 0, typeData, parentManager);
                         }
@@ -253,13 +253,13 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 else {
                     if (Index + 3 < ModbusSupport.MaximumRegisters - 3) {
-                        if (byteOrder == ModbusEnums.ByteOrder.BigEndian) {
+                        if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                             Temp = (long)(ushort)regValue;
                             Temp |= AppendData(Index + 1, 1, typeData, parentManager);
                             Temp |= AppendData(Index + 2, 2, typeData, parentManager);
                             Temp |= AppendData(Index + 3, 3, typeData, parentManager);
                         }
-                        else if (byteOrder == ModbusEnums.ByteOrder.LittleEndian) {
+                        else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                             Temp = QuickShiftDataUp(regValue, 3);
                             Temp |= AppendData(Index + 1, 2, typeData, parentManager);
                             Temp |= AppendData(Index + 2, 1, typeData, parentManager);
@@ -443,6 +443,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 short Temp = 0;
                 short.TryParse(Input.B, out Temp);
                 Value = Temp;
+            }
+            else if (Input.A.ToLower() == "wordorder") {
+                WordOrder = EnumManager.StringToWordOrder(Input.B);
             }
             else if (Input.A.ToLower() == "format") {
                 Format = EnumManager.StringToDataFormat(Input.B);

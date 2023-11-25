@@ -2716,7 +2716,7 @@ namespace Serial_Monitor {
         }
         public void OpenFileViaDialog() {
             OpenFileDialog OpenDia = new OpenFileDialog();
-            OpenDia.Filter = @"Serial Monitor Program (*.smp)|*.smp|Legacy Step File (*.cms)|*.cms";
+            OpenDia.Filter = @"Serial Monitor Project (*.smp)|*.smp|Legacy Step File (*.cms)|*.cms";
             if (OpenDia.ShowDialog() == DialogResult.OK) {
                 if (File.Exists(OpenDia.FileName)) {
                     Open(OpenDia.FileName);
@@ -2748,7 +2748,7 @@ namespace Serial_Monitor {
 
             if (IsExistingFile == false) {
                 SaveFileDialog Save = new SaveFileDialog();
-                Save.Filter = @"Serial Monitor Program (*.smp)|*.smp";
+                Save.Filter = @"Serial Monitor Project (*.smp)|*.smp";
                 Save.ShowDialog();
                 if (Save.FileName != "") {
                     SetTitle(Path.GetFileNameWithoutExtension(Save.FileName));

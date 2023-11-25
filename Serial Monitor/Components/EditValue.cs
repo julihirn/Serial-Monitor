@@ -331,6 +331,16 @@ namespace Serial_Monitor.Components {
                         numericTextbox1.Minimum = MathHandler.EvaluateExpression("-1.7976931348623157*(10^(308))", null);
                         numericTextbox1.Maximum = MathHandler.EvaluateExpression("1.7976931348623157*(10^(308))", null);
                         numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                       
+                        if(InputValue.ToLower() == "nan") {
+                            InputValue = "0";
+                        }
+                        else if (InputValue.ToLower() == "infinity") {
+                            InputValue = double.MaxValue.ToString();
+                        }
+                        else if (InputValue.ToLower() == "-infinity") {
+                            InputValue = double.MinValue.ToString();
+                        }
                         if (InputValue.Contains('E')) {
                             InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
                         }
@@ -341,6 +351,15 @@ namespace Serial_Monitor.Components {
                         numericTextbox1.Minimum = MathHandler.EvaluateExpression("-3.4028235*(10^(38))", null);
                         numericTextbox1.Maximum = MathHandler.EvaluateExpression("3.4028235*(10^(38))", null);
                         numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                        if (InputValue.ToLower() == "nan") {
+                            InputValue = "0";
+                        }
+                        else if (InputValue.ToLower() == "infinity") {
+                            InputValue = float.MaxValue.ToString();
+                        }
+                        else if (InputValue.ToLower() == "-infinity") {
+                            InputValue = float.MinValue.ToString();
+                        }
                         if (InputValue.Contains('E')) {
                             InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
                         }
