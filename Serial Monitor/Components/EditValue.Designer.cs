@@ -54,6 +54,20 @@
             this.lblTimeOut = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.lblWaitFor = new System.Windows.Forms.Label();
+            this.pnlReplaceText = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label2 = new System.Windows.Forms.Label();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label3 = new System.Windows.Forms.Label();
+            this.With = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pnlDualText)).BeginInit();
             this.pnlDualText.Panel1.SuspendLayout();
             this.pnlDualText.Panel2.SuspendLayout();
@@ -73,6 +87,25 @@
             this.pnlSubWaitUnitRX.Panel1.SuspendLayout();
             this.pnlSubWaitUnitRX.Panel2.SuspendLayout();
             this.pnlSubWaitUnitRX.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pnlReplaceText)).BeginInit();
+            this.pnlReplaceText.Panel1.SuspendLayout();
+            this.pnlReplaceText.Panel2.SuspendLayout();
+            this.pnlReplaceText.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // numericTextbox1
@@ -125,7 +158,7 @@
             this.numericTextbox1.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox1.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox1.ShowLabel = true;
-            this.numericTextbox1.Size = new System.Drawing.Size(849, 85);
+            this.numericTextbox1.Size = new System.Drawing.Size(795, 85);
             this.numericTextbox1.TabIndex = 2;
             this.numericTextbox1.Unit = "";
             this.numericTextbox1.UseFixedNumericPadding = false;
@@ -143,7 +176,7 @@
             this.flatComboBox1.Location = new System.Drawing.Point(7, 66);
             this.flatComboBox1.Margin = new System.Windows.Forms.Padding(6);
             this.flatComboBox1.Name = "flatComboBox1";
-            this.flatComboBox1.Size = new System.Drawing.Size(849, 39);
+            this.flatComboBox1.Size = new System.Drawing.Size(795, 39);
             this.flatComboBox1.TabIndex = 3;
             this.flatComboBox1.Visible = false;
             // 
@@ -157,7 +190,7 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Margin = new System.Windows.Forms.Padding(6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(849, 32);
+            this.textBox1.Size = new System.Drawing.Size(795, 32);
             this.textBox1.TabIndex = 4;
             // 
             // pnlDualText
@@ -175,8 +208,8 @@
             // 
             this.pnlDualText.Panel2.Controls.Add(this.textBox3);
             this.pnlDualText.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlDualText.Size = new System.Drawing.Size(849, 62);
-            this.pnlDualText.SplitterDistance = 268;
+            this.pnlDualText.Size = new System.Drawing.Size(795, 62);
+            this.pnlDualText.SplitterDistance = 248;
             this.pnlDualText.SplitterWidth = 7;
             this.pnlDualText.TabIndex = 6;
             this.pnlDualText.TabStop = false;
@@ -193,7 +226,7 @@
             this.textBox2.Margin = new System.Windows.Forms.Padding(6);
             this.textBox2.Name = "textBox2";
             this.textBox2.PlaceholderText = "Name";
-            this.textBox2.Size = new System.Drawing.Size(268, 32);
+            this.textBox2.Size = new System.Drawing.Size(248, 32);
             this.textBox2.TabIndex = 0;
             // 
             // textBox3
@@ -207,7 +240,7 @@
             this.textBox3.Margin = new System.Windows.Forms.Padding(6);
             this.textBox3.Name = "textBox3";
             this.textBox3.PlaceholderText = "Assignment/Expression";
-            this.textBox3.Size = new System.Drawing.Size(568, 32);
+            this.textBox3.Size = new System.Drawing.Size(534, 32);
             this.textBox3.TabIndex = 1;
             // 
             // pnlText
@@ -217,7 +250,7 @@
             this.pnlText.Location = new System.Drawing.Point(7, 2);
             this.pnlText.Margin = new System.Windows.Forms.Padding(6);
             this.pnlText.Name = "pnlText";
-            this.pnlText.Size = new System.Drawing.Size(849, 64);
+            this.pnlText.Size = new System.Drawing.Size(795, 64);
             this.pnlText.TabIndex = 7;
             this.pnlText.Visible = false;
             // 
@@ -228,7 +261,7 @@
             this.pnlNumber.Location = new System.Drawing.Point(7, 167);
             this.pnlNumber.Margin = new System.Windows.Forms.Padding(6);
             this.pnlNumber.Name = "pnlNumber";
-            this.pnlNumber.Size = new System.Drawing.Size(849, 85);
+            this.pnlNumber.Size = new System.Drawing.Size(795, 85);
             this.pnlNumber.TabIndex = 8;
             this.pnlNumber.Visible = false;
             // 
@@ -240,7 +273,7 @@
             this.pnlPoint.Location = new System.Drawing.Point(7, 252);
             this.pnlPoint.Margin = new System.Windows.Forms.Padding(6);
             this.pnlPoint.Name = "pnlPoint";
-            this.pnlPoint.Size = new System.Drawing.Size(849, 49);
+            this.pnlPoint.Size = new System.Drawing.Size(795, 49);
             this.pnlPoint.TabIndex = 9;
             this.pnlPoint.Visible = false;
             // 
@@ -268,7 +301,7 @@
             this.btnGrabPoint.Checked = false;
             this.btnGrabPoint.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnGrabPoint.GroupMaximumChecked = 2;
-            this.btnGrabPoint.Location = new System.Drawing.Point(712, 0);
+            this.btnGrabPoint.Location = new System.Drawing.Point(658, 0);
             this.btnGrabPoint.Margin = new System.Windows.Forms.Padding(6);
             this.btnGrabPoint.Name = "btnGrabPoint";
             this.btnGrabPoint.RadioButtonGroup = "";
@@ -301,7 +334,7 @@
             this.spPnlPoint.Panel2.Controls.Add(this.lblY);
             this.spPnlPoint.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this.spPnlPoint.Size = new System.Drawing.Size(245, 49);
-            this.spPnlPoint.SplitterDistance = 109;
+            this.spPnlPoint.SplitterDistance = 107;
             this.spPnlPoint.SplitterWidth = 7;
             this.spPnlPoint.TabIndex = 7;
             this.spPnlPoint.TabStop = false;
@@ -356,7 +389,7 @@
             this.numericTextbox2.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox2.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox2.ShowLabel = true;
-            this.numericTextbox2.Size = new System.Drawing.Size(81, 49);
+            this.numericTextbox2.Size = new System.Drawing.Size(79, 49);
             this.numericTextbox2.TabIndex = 3;
             this.numericTextbox2.Unit = "";
             this.numericTextbox2.UseFixedNumericPadding = false;
@@ -423,7 +456,7 @@
             this.numericTextbox3.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox3.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox3.ShowLabel = true;
-            this.numericTextbox3.Size = new System.Drawing.Size(96, 49);
+            this.numericTextbox3.Size = new System.Drawing.Size(98, 49);
             this.numericTextbox3.TabIndex = 3;
             this.numericTextbox3.Unit = "";
             this.numericTextbox3.UseFixedNumericPadding = false;
@@ -456,8 +489,8 @@
             this.pnlWaitUntilReceived.Panel2.Controls.Add(this.textBox5);
             this.pnlWaitUntilReceived.Panel2.Controls.Add(this.lblWaitFor);
             this.pnlWaitUntilReceived.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlWaitUntilReceived.Size = new System.Drawing.Size(849, 55);
-            this.pnlWaitUntilReceived.SplitterDistance = 509;
+            this.pnlWaitUntilReceived.Size = new System.Drawing.Size(795, 55);
+            this.pnlWaitUntilReceived.SplitterDistance = 473;
             this.pnlWaitUntilReceived.SplitterWidth = 7;
             this.pnlWaitUntilReceived.TabIndex = 10;
             this.pnlWaitUntilReceived.TabStop = false;
@@ -480,8 +513,8 @@
             this.pnlSubWaitUnitRX.Panel2.Controls.Add(this.numericTextbox4);
             this.pnlSubWaitUnitRX.Panel2.Controls.Add(this.lblTimeOut);
             this.pnlSubWaitUnitRX.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlSubWaitUnitRX.Size = new System.Drawing.Size(509, 55);
-            this.pnlSubWaitUnitRX.SplitterDistance = 244;
+            this.pnlSubWaitUnitRX.Size = new System.Drawing.Size(473, 55);
+            this.pnlSubWaitUnitRX.SplitterDistance = 224;
             this.pnlSubWaitUnitRX.SplitterWidth = 7;
             this.pnlSubWaitUnitRX.TabIndex = 11;
             this.pnlSubWaitUnitRX.TabStop = false;
@@ -497,7 +530,7 @@
             this.textBox4.Margin = new System.Windows.Forms.Padding(6);
             this.textBox4.Name = "textBox4";
             this.textBox4.PlaceholderText = "Name";
-            this.textBox4.Size = new System.Drawing.Size(142, 32);
+            this.textBox4.Size = new System.Drawing.Size(122, 32);
             this.textBox4.TabIndex = 0;
             // 
             // lblChannel
@@ -561,11 +594,11 @@
             this.numericTextbox4.SelectedBackColor = System.Drawing.Color.Empty;
             this.numericTextbox4.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.numericTextbox4.ShowLabel = true;
-            this.numericTextbox4.Size = new System.Drawing.Size(138, 55);
+            this.numericTextbox4.Size = new System.Drawing.Size(122, 55);
             this.numericTextbox4.TabIndex = 3;
             this.numericTextbox4.Unit = "";
             this.numericTextbox4.UseFixedNumericPadding = false;
-            this.numericTextbox4.Value = "0";
+            this.numericTextbox4.Value = "1";
             // 
             // lblTimeOut
             // 
@@ -589,7 +622,7 @@
             this.textBox5.Margin = new System.Windows.Forms.Padding(6);
             this.textBox5.Name = "textBox5";
             this.textBox5.PlaceholderText = "Assignment/Expression";
-            this.textBox5.Size = new System.Drawing.Size(225, 32);
+            this.textBox5.Size = new System.Drawing.Size(207, 32);
             this.textBox5.TabIndex = 1;
             // 
             // lblWaitFor
@@ -603,10 +636,226 @@
             this.lblWaitFor.TabIndex = 7;
             this.lblWaitFor.Text = "Wait For";
             // 
+            // pnlReplaceText
+            // 
+            this.pnlReplaceText.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlReplaceText.Location = new System.Drawing.Point(7, 356);
+            this.pnlReplaceText.Margin = new System.Windows.Forms.Padding(6);
+            this.pnlReplaceText.Name = "pnlReplaceText";
+            // 
+            // pnlReplaceText.Panel1
+            // 
+            this.pnlReplaceText.Panel1.Controls.Add(this.splitContainer3);
+            // 
+            // pnlReplaceText.Panel2
+            // 
+            this.pnlReplaceText.Panel2.Controls.Add(this.splitContainer4);
+            this.pnlReplaceText.Size = new System.Drawing.Size(795, 66);
+            this.pnlReplaceText.SplitterDistance = 354;
+            this.pnlReplaceText.SplitterWidth = 7;
+            this.pnlReplaceText.TabIndex = 11;
+            this.pnlReplaceText.TabStop = false;
+            this.pnlReplaceText.Visible = false;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(6);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.textBox10);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.textBox11);
+            this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.splitContainer3.Size = new System.Drawing.Size(354, 66);
+            this.splitContainer3.SplitterDistance = 163;
+            this.splitContainer3.SplitterWidth = 7;
+            this.splitContainer3.TabIndex = 7;
+            this.splitContainer3.TabStop = false;
+            // 
+            // textBox10
+            // 
+            this.textBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox10.ForeColor = System.Drawing.Color.White;
+            this.textBox10.Location = new System.Drawing.Point(0, 0);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(6);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.PlaceholderText = "Variable Name";
+            this.textBox10.Size = new System.Drawing.Size(163, 32);
+            this.textBox10.TabIndex = 0;
+            // 
+            // textBox11
+            // 
+            this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox11.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox11.ForeColor = System.Drawing.Color.White;
+            this.textBox11.Location = new System.Drawing.Point(6, 0);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(6);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.PlaceholderText = "Text/Variable";
+            this.textBox11.Size = new System.Drawing.Size(178, 32);
+            this.textBox11.TabIndex = 1;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Margin = new System.Windows.Forms.Padding(6);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.textBox12);
+            this.splitContainer4.Panel1.Controls.Add(this.label1);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.textBox13);
+            this.splitContainer4.Panel2.Controls.Add(this.label4);
+            this.splitContainer4.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.splitContainer4.Size = new System.Drawing.Size(434, 66);
+            this.splitContainer4.SplitterDistance = 199;
+            this.splitContainer4.SplitterWidth = 7;
+            this.splitContainer4.TabIndex = 8;
+            this.splitContainer4.TabStop = false;
+            // 
+            // textBox12
+            // 
+            this.textBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox12.ForeColor = System.Drawing.Color.White;
+            this.textBox12.Location = new System.Drawing.Point(96, 0);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(6);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.PlaceholderText = "Name";
+            this.textBox12.Size = new System.Drawing.Size(103, 32);
+            this.textBox12.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(96, 32);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Replace";
+            // 
+            // textBox13
+            // 
+            this.textBox13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.textBox13.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox13.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox13.ForeColor = System.Drawing.Color.White;
+            this.textBox13.Location = new System.Drawing.Point(70, 0);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(6);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.PlaceholderText = "Assignment/Expression";
+            this.textBox13.Size = new System.Drawing.Size(158, 32);
+            this.textBox13.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label4.Location = new System.Drawing.Point(6, 0);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 32);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "With";
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(101, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(6);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.label2);
+            this.splitContainer2.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.splitContainer2.Size = new System.Drawing.Size(95, 55);
+            this.splitContainer2.SplitterDistance = 45;
+            this.splitContainer2.SplitterWidth = 7;
+            this.splitContainer2.TabIndex = 11;
+            this.splitContainer2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label2.Location = new System.Drawing.Point(6, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 32);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "=";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(6, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(6);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.With);
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.splitContainer1.Size = new System.Drawing.Size(409, 55);
+            this.splitContainer1.SplitterDistance = 196;
+            this.splitContainer1.SplitterWidth = 7;
+            this.splitContainer1.TabIndex = 12;
+            this.splitContainer1.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 32);
+            this.label3.TabIndex = 7;
+            this.label3.Text = ".Replace";
+            // 
+            // With
+            // 
+            this.With.AutoSize = true;
+            this.With.Dock = System.Windows.Forms.DockStyle.Left;
+            this.With.Location = new System.Drawing.Point(6, 0);
+            this.With.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.With.Name = "With";
+            this.With.Size = new System.Drawing.Size(64, 32);
+            this.With.TabIndex = 6;
+            this.With.Text = "With";
+            // 
             // EditValue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pnlReplaceText);
             this.Controls.Add(this.pnlWaitUntilReceived);
             this.Controls.Add(this.pnlPoint);
             this.Controls.Add(this.pnlNumber);
@@ -617,7 +866,7 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "EditValue";
             this.Padding = new System.Windows.Forms.Padding(7, 2, 2, 2);
-            this.Size = new System.Drawing.Size(858, 498);
+            this.Size = new System.Drawing.Size(804, 437);
             this.pnlDualText.Panel1.ResumeLayout(false);
             this.pnlDualText.Panel1.PerformLayout();
             this.pnlDualText.Panel2.ResumeLayout(false);
@@ -645,6 +894,32 @@
             this.pnlSubWaitUnitRX.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlSubWaitUnitRX)).EndInit();
             this.pnlSubWaitUnitRX.ResumeLayout(false);
+            this.pnlReplaceText.Panel1.ResumeLayout(false);
+            this.pnlReplaceText.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pnlReplaceText)).EndInit();
+            this.pnlReplaceText.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            this.splitContainer3.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel1.PerformLayout();
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            this.splitContainer4.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -674,5 +949,19 @@
         private Label lblTimeOut;
         private TextBox textBox5;
         private Label lblWaitFor;
+        private SplitContainer pnlReplaceText;
+        private SplitContainer splitContainer2;
+        private Label label2;
+        private SplitContainer splitContainer1;
+        private Label label3;
+        private Label With;
+        private SplitContainer splitContainer3;
+        private TextBox textBox10;
+        private TextBox textBox11;
+        private SplitContainer splitContainer4;
+        private TextBox textBox12;
+        private Label label1;
+        private TextBox textBox13;
+        private Label label4;
     }
 }

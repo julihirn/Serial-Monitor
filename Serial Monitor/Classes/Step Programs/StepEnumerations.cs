@@ -44,7 +44,8 @@ namespace Serial_Monitor.Classes.Step_Programs {
             PushArrayValue = 0x1005F001,
             RemoveFirstArrayItem = 0x1005FC04,
             CopyText = 0x1005FE01,
-            CopyVariable = 0x1005FF01,
+            CopyVariable     = 0x1005FF01,
+            ReplaceInVariable= 0x1005FF10,
             ///SelectChannel = 0x050400,
             //NewChannel = 0x050800,
             //DeleteChannel = 0x051000,
@@ -57,7 +58,8 @@ namespace Serial_Monitor.Classes.Step_Programs {
             SendKeys =          0x090010,
             //WaitUntil         = 0x101E001,
             WaitUntilReceived = 0x101E002,
-            RaiseEvent =       0x100F0001
+            RaiseEvent =       0x100F0001,
+            WaitUntilRaiseEvent = 0x100F0010
             //0x1005FC04,
             //ResetChannelCounter = 0x10050400
         }

@@ -14,6 +14,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
         DualString = 0x08,
         CursorLocation = 0x30,
         WaitUntilRX = 0x6600,
+        ReplaceText = 0x7000,
         Null = 0xFFFFFF
     }
     public class VariableLinkage {

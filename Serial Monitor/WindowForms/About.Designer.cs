@@ -24,174 +24,165 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
-            this.aboutBanner1 = new ODModules.AboutBanner();
-            this.lblProductName = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lblLoadedAssemblies = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblCopyright = new System.Windows.Forms.Label();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.lblBlank1 = new System.Windows.Forms.Label();
-            this.lblCompany = new System.Windows.Forms.Label();
-            this.pnlLoadedAssemblies = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.SuspendLayout();
+            aboutBanner1 = new ODModules.AboutBanner();
+            lblProductName = new Label();
+            panel1 = new Panel();
+            lblLoadedAssemblies = new Label();
+            label1 = new Label();
+            lblCopyright = new Label();
+            lblVersion = new Label();
+            lblBlank1 = new Label();
+            lblCompany = new Label();
+            pnlLoadedAssemblies = new Panel();
+            panel2 = new Panel();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            SuspendLayout();
             // 
             // aboutBanner1
             // 
-            this.aboutBanner1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.aboutBanner1.BrandFont = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.aboutBanner1.BrandSecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.aboutBanner1.BrandSecondaryText = "";
-            this.aboutBanner1.BrandText = "Serial Monitor";
-            this.aboutBanner1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.aboutBanner1.ForeColor = System.Drawing.Color.White;
-            this.aboutBanner1.Location = new System.Drawing.Point(0, 0);
-            this.aboutBanner1.Logo = global::Serial_Monitor.Properties.Resources.SerialMonitor;
-            this.aboutBanner1.Margin = new System.Windows.Forms.Padding(6);
-            this.aboutBanner1.Name = "aboutBanner1";
-            this.aboutBanner1.RuleColorCenter = System.Drawing.Color.SeaGreen;
-            this.aboutBanner1.RuleColorEdge = System.Drawing.Color.DarkSlateGray;
-            this.aboutBanner1.Size = new System.Drawing.Size(676, 177);
-            this.aboutBanner1.TabIndex = 0;
+            aboutBanner1.BackColor = Color.FromArgb(16, 16, 16);
+            aboutBanner1.BrandFont = new Font("Segoe UI Semilight", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            aboutBanner1.BrandSecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            aboutBanner1.BrandSecondaryText = "";
+            aboutBanner1.BrandText = "Serial Monitor";
+            aboutBanner1.Dock = DockStyle.Top;
+            aboutBanner1.ForeColor = Color.White;
+            aboutBanner1.Location = new Point(0, 0);
+            aboutBanner1.Logo = Properties.Resources.SerialMonitor;
+            aboutBanner1.Name = "aboutBanner1";
+            aboutBanner1.RuleColorCenter = Color.SeaGreen;
+            aboutBanner1.RuleColorEdge = Color.DarkSlateGray;
+            aboutBanner1.Size = new Size(364, 83);
+            aboutBanner1.TabIndex = 0;
             // 
             // lblProductName
             // 
-            this.lblProductName.AutoSize = true;
-            this.lblProductName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblProductName.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblProductName.Location = new System.Drawing.Point(9, 11);
-            this.lblProductName.Margin = new System.Windows.Forms.Padding(0);
-            this.lblProductName.Name = "lblProductName";
-            this.lblProductName.Size = new System.Drawing.Size(263, 51);
-            this.lblProductName.TabIndex = 1;
-            this.lblProductName.Text = "Product Name";
+            lblProductName.AutoSize = true;
+            lblProductName.Dock = DockStyle.Top;
+            lblProductName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblProductName.Location = new Point(5, 5);
+            lblProductName.Margin = new Padding(0);
+            lblProductName.Name = "lblProductName";
+            lblProductName.Size = new Size(133, 25);
+            lblProductName.TabIndex = 1;
+            lblProductName.Text = "Product Name";
             // 
             // panel1
             // 
-            this.panel1.AutoSize = true;
-            this.panel1.Controls.Add(this.lblLoadedAssemblies);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.lblCopyright);
-            this.panel1.Controls.Add(this.lblVersion);
-            this.panel1.Controls.Add(this.lblBlank1);
-            this.panel1.Controls.Add(this.lblCompany);
-            this.panel1.Controls.Add(this.lblProductName);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 177);
-            this.panel1.Margin = new System.Windows.Forms.Padding(6);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(9, 11, 9, 11);
-            this.panel1.Size = new System.Drawing.Size(676, 284);
-            this.panel1.TabIndex = 2;
+            panel1.AutoSize = true;
+            panel1.Controls.Add(lblLoadedAssemblies);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(lblCopyright);
+            panel1.Controls.Add(lblVersion);
+            panel1.Controls.Add(lblBlank1);
+            panel1.Controls.Add(lblCompany);
+            panel1.Controls.Add(lblProductName);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 83);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(5, 5, 5, 5);
+            panel1.Size = new Size(364, 135);
+            panel1.TabIndex = 2;
             // 
             // lblLoadedAssemblies
             // 
-            this.lblLoadedAssemblies.AutoSize = true;
-            this.lblLoadedAssemblies.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblLoadedAssemblies.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblLoadedAssemblies.Location = new System.Drawing.Point(9, 222);
-            this.lblLoadedAssemblies.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblLoadedAssemblies.Name = "lblLoadedAssemblies";
-            this.lblLoadedAssemblies.Size = new System.Drawing.Size(341, 51);
-            this.lblLoadedAssemblies.TabIndex = 7;
-            this.lblLoadedAssemblies.Text = "Loaded Assemblies";
+            lblLoadedAssemblies.AutoSize = true;
+            lblLoadedAssemblies.Dock = DockStyle.Top;
+            lblLoadedAssemblies.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblLoadedAssemblies.Location = new Point(5, 105);
+            lblLoadedAssemblies.Name = "lblLoadedAssemblies";
+            lblLoadedAssemblies.Size = new Size(172, 25);
+            lblLoadedAssemblies.TabIndex = 7;
+            lblLoadedAssemblies.Text = "Loaded Assemblies";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(9, 190);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 32);
-            this.label1.TabIndex = 6;
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Top;
+            label1.Location = new Point(5, 90);
+            label1.Name = "label1";
+            label1.Size = new Size(0, 15);
+            label1.TabIndex = 6;
             // 
             // lblCopyright
             // 
-            this.lblCopyright.AutoSize = true;
-            this.lblCopyright.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCopyright.Location = new System.Drawing.Point(9, 158);
-            this.lblCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(119, 32);
-            this.lblCopyright.TabIndex = 5;
-            this.lblCopyright.Text = "Copyright";
+            lblCopyright.AutoSize = true;
+            lblCopyright.Dock = DockStyle.Top;
+            lblCopyright.Location = new Point(5, 75);
+            lblCopyright.Name = "lblCopyright";
+            lblCopyright.Size = new Size(60, 15);
+            lblCopyright.TabIndex = 5;
+            lblCopyright.Text = "Copyright";
             // 
             // lblVersion
             // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblVersion.Location = new System.Drawing.Point(9, 126);
-            this.lblVersion.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(92, 32);
-            this.lblVersion.TabIndex = 4;
-            this.lblVersion.Text = "Version";
+            lblVersion.AutoSize = true;
+            lblVersion.Dock = DockStyle.Top;
+            lblVersion.Location = new Point(5, 60);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(45, 15);
+            lblVersion.TabIndex = 4;
+            lblVersion.Text = "Version";
             // 
             // lblBlank1
             // 
-            this.lblBlank1.AutoSize = true;
-            this.lblBlank1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblBlank1.Location = new System.Drawing.Point(9, 94);
-            this.lblBlank1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblBlank1.Name = "lblBlank1";
-            this.lblBlank1.Size = new System.Drawing.Size(0, 32);
-            this.lblBlank1.TabIndex = 3;
+            lblBlank1.AutoSize = true;
+            lblBlank1.Dock = DockStyle.Top;
+            lblBlank1.Location = new Point(5, 45);
+            lblBlank1.Name = "lblBlank1";
+            lblBlank1.Size = new Size(0, 15);
+            lblBlank1.TabIndex = 3;
             // 
             // lblCompany
             // 
-            this.lblCompany.AutoSize = true;
-            this.lblCompany.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCompany.Location = new System.Drawing.Point(9, 62);
-            this.lblCompany.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblCompany.Name = "lblCompany";
-            this.lblCompany.Size = new System.Drawing.Size(116, 32);
-            this.lblCompany.TabIndex = 2;
-            this.lblCompany.Text = "Company";
+            lblCompany.AutoSize = true;
+            lblCompany.Dock = DockStyle.Top;
+            lblCompany.Location = new Point(5, 30);
+            lblCompany.Name = "lblCompany";
+            lblCompany.Size = new Size(59, 15);
+            lblCompany.TabIndex = 2;
+            lblCompany.Text = "Company";
             // 
             // pnlLoadedAssemblies
             // 
-            this.pnlLoadedAssemblies.AutoScroll = true;
-            this.pnlLoadedAssemblies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLoadedAssemblies.Location = new System.Drawing.Point(13, 0);
-            this.pnlLoadedAssemblies.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlLoadedAssemblies.Name = "pnlLoadedAssemblies";
-            this.pnlLoadedAssemblies.Size = new System.Drawing.Size(663, 266);
-            this.pnlLoadedAssemblies.TabIndex = 3;
+            pnlLoadedAssemblies.AutoScroll = true;
+            pnlLoadedAssemblies.Dock = DockStyle.Fill;
+            pnlLoadedAssemblies.Location = new Point(7, 0);
+            pnlLoadedAssemblies.Name = "pnlLoadedAssemblies";
+            pnlLoadedAssemblies.Size = new Size(357, 123);
+            pnlLoadedAssemblies.TabIndex = 3;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.pnlLoadedAssemblies);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 461);
-            this.panel2.Margin = new System.Windows.Forms.Padding(6);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
-            this.panel2.Size = new System.Drawing.Size(676, 266);
-            this.panel2.TabIndex = 4;
+            panel2.Controls.Add(pnlLoadedAssemblies);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 218);
+            panel2.Name = "panel2";
+            panel2.Padding = new Padding(7, 0, 0, 0);
+            panel2.Size = new Size(364, 123);
+            panel2.TabIndex = 4;
             // 
             // About
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientSize = new System.Drawing.Size(676, 727);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.aboutBanner1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6);
-            this.Name = "About";
-            this.Text = "About";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
+            ClientSize = new Size(364, 341);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
+            Controls.Add(aboutBanner1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "About";
+            Text = "About";
+            Load += About_Load;
+            SizeChanged += About_SizeChanged;
+            VisibleChanged += About_VisibleChanged;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

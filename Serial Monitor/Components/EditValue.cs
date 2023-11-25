@@ -3,6 +3,7 @@ using ODModules;
 using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.Classes.Structures;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -270,12 +271,18 @@ namespace Serial_Monitor.Components {
                 case DataType.ModbusCustom:
                     numericTextbox1.NumberTextAlign = NumericTextbox.TextAlign.Right;
                     SetupModbusRegisterLinkage(InputValue, ListCtrl, Item);
-                
+
                     break;
                 case DataType.WaitUntilRX:
                     AssignWaitUnitRX(InputValue);
                     pnlWaitUntilReceived.Dock = DockStyle.Fill;
                     pnlWaitUntilReceived.Show();
+                    AllowEditChanges = true;
+                    break;
+                case DataType.ReplaceText:
+                    AssignReplace(ProgramManager.ReplaceAndAssign(InputValue));
+                    pnlReplaceText.Dock = DockStyle.Fill;
+                    pnlReplaceText.Show();
                     AllowEditChanges = true;
                     break;
                 default:
@@ -392,6 +399,12 @@ namespace Serial_Monitor.Components {
             textBox5.Text = ValueExpress;
             numericTextbox4.Value = TimeOut;
         }
+        private void AssignReplace(ReplaceTextObject Value) {
+            textBox10.Text = Value.Output;
+            textBox11.Text = Value.Input;
+            textBox12.Text = Value.TextToReplace;
+            textBox13.Text = Value.ReplaceWith;
+        }
         private void EditValue_Load(object sender, EventArgs e) {
             ApplyTheme();
         }
@@ -403,6 +416,10 @@ namespace Serial_Monitor.Components {
             textBox3.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox4.BackColor = Properties.Settings.Default.THM_COL_Editor;
             textBox5.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox10.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox11.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox12.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            textBox13.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             lblX.BackColor = Properties.Settings.Default.THM_COL_Editor;
             lblX.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
@@ -444,6 +461,10 @@ namespace Serial_Monitor.Components {
             textBox3.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox4.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             textBox5.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            textBox10.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            textBox11.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            textBox12.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            textBox13.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
             flatComboBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             flatComboBox1.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -464,6 +485,18 @@ namespace Serial_Monitor.Components {
             pnlSubWaitUnitRX.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
             pnlSubWaitUnitRX.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             pnlSubWaitUnitRX.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            pnlReplaceText.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            pnlReplaceText.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            pnlReplaceText.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            splitContainer4.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            splitContainer4.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            splitContainer4.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            splitContainer3.BackColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            splitContainer3.Panel1.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            splitContainer3.Panel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
             btnGrabPoint.BackColorNorth = Properties.Settings.Default.THM_COL_SelectedColor;
             btnGrabPoint.BackColorSouth = Properties.Settings.Default.THM_COL_SelectedColor;
@@ -517,6 +550,9 @@ namespace Serial_Monitor.Components {
                     break;
                 case DataType.WaitUntilRX:
                     ListItem[Column].Text = "Channel = " + textBox4.Text + ",TimeOut = " + numericTextbox4.Value.ToString() + ",Contains,Value = " + textBox5.Text;
+                    break;
+                case DataType.ReplaceText:
+                    ListItem[Column].Text = ProgramManager.PackageReplace(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text);
                     break;
                 default:
                     break;
@@ -760,6 +796,10 @@ namespace Serial_Monitor.Components {
                 UseOffset = true;
                 e.Handled = true;
             }
+        }
+
+        private void EditValue_Load_1(object sender, EventArgs e) {
+
         }
     }
 }

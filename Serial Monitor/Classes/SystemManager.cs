@@ -250,16 +250,22 @@ namespace Serial_Monitor.Classes {
             // Get files in folder
             string[] files = Directory.GetFiles(folder, "*.dll");
             foreach (string file in files) {
-                Assembly assembly = Assembly.LoadFile(file);
-                var types = assembly.GetExportedTypes();
+                try {
+                    Assembly assembly = Assembly.LoadFile(file);
+                    var types = assembly.GetExportedTypes();
 
-                foreach (Type type in types)
-                    if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
-                        object ?instance = Activator.CreateInstance(type);
-                        if (instance != null) {
-                            plugins.Add((IWindowPlugin)instance);
+                    foreach (Type type in types)
+                        try {
+                            if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
+                                object? instance = Activator.CreateInstance(type);
+                                if (instance != null) {
+                                    plugins.Add((IWindowPlugin)instance);
+                                }
+                            }
                         }
-                    }
+                        catch { }
+                }
+                catch { }
             }
 
             return plugins;
