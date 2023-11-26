@@ -11,14 +11,18 @@ namespace Serial_Monitor.Classes.Enums {
             [Description("Command")]
             CCommand = 0x04,
             [Description("Modbus RTU")]
-            ModbusRTU = 0x05
+            ModbusRTU = 0x05,
+            [Description("Modbus ASCII")]
+            ModbusASCII = 0x06
         }
         public enum StreamOutputFormat {
             Text = 0x01,
             [Description("Command")]
             CCommand = 0x02,
             [Description("Modbus RTU")]
-            ModbusRTU = 0x05
+            ModbusRTU = 0x05,
+            [Description("Modbus ASCII")]
+            ModbusASCII = 0x06
         }
         public enum LineFormatting {
             None = 0x00,

@@ -2584,7 +2584,6 @@
             MainMenuStrip = msMain;
             Name = "MainWindow";
             Text = "Untitled - Serial Monitor";
-           
             tsMain.ResumeLayout(false);
             tsMain.PerformLayout();
             pnlRenamePanel.ResumeLayout(false);

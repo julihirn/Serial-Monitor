@@ -100,15 +100,20 @@ namespace Serial_Monitor.Classes {
             }
             return Result;
         }
-        public static string ByteToHex(byte Input) {
+        public static string ByteToHex(byte Input, bool AffixStart = true) {
             byte[] bytes = new byte[1];
             bytes[0] = Input;
             string str = BitConverter.ToString(bytes);
             if (str.Length == 1) {
-                str = "0x0" + str;
+                if (AffixStart == true) {
+                    str = "0x0" + str;
+                }
+                else { str = "0" + str; }
             }
-            else { str = "0x" + str; }
-            return str;
+            else {
+                if (AffixStart == true) { str = "0x" + str; }
+            }
+            return str.ToUpper();
         }
         #region Modbus Data Input Formatters
         public static string LongToString(long Input, DataFormat Format, DataSize Size, bool IsSigned) {

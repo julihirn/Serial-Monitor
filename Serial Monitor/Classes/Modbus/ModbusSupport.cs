@@ -5,9 +5,11 @@ using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.FormatEnums;
 
 namespace Serial_Monitor.Classes.Modbus {
     public static class ModbusSupport {
@@ -169,9 +171,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 try {
                     if (Temp.Contains("=")) {
                         string Name = Temp.Split('=')[0].Trim(' ');
-                        string Assignment = StringHandler.SpiltAndCombineAfter(Temp,'=',1).Value[1].TrimStart(' ').TrimEnd(' ');
-                        if (Assignment.StartsWith('\"')&& Assignment.EndsWith('\"')) {
-                            Assignment = Assignment.Remove(Assignment.Length-1, 1);
+                        string Assignment = StringHandler.SpiltAndCombineAfter(Temp, '=', 1).Value[1].TrimStart(' ').TrimEnd(' ');
+                        if (Assignment.StartsWith('\"') && Assignment.EndsWith('\"')) {
+                            Assignment = Assignment.Remove(Assignment.Length - 1, 1);
                             Assignment = Assignment.Remove(0, 1);
                         }
                         else if (Assignment.StartsWith('\'') && Assignment.EndsWith('\'')) {
@@ -329,6 +331,13 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Modbus CRC
+        public static byte CalculateLRC(byte[] Input, ushort BytesCount, int Start) {
+            byte Output = 0;
+            for (int i = Start; i < BytesCount; i++) {
+                Output += Input[i];
+            }
+            return (byte)(-Output);
+        }
         public static ushort CalculateCRC(byte[] Input, ushort BytesCount, int Start) {
             byte[] auchCRCHi = {
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
@@ -411,7 +420,286 @@ namespace Serial_Monitor.Classes.Modbus {
                     return "";
             }
         }
-        #endregion 
+        #endregion
+        #region Modbus RTU ASCII Functions
+        public static byte GetArrayValue(int Offset, ref byte[] Buffer) {
+            if (Offset <= Buffer.Length - 2) {
+                char Val1 = (char)Buffer[Offset];
+                char Val2 = (char)Buffer[Offset + 1];
+                string TempStr = Val1.ToString() + Val2.ToString();
+                return (byte)Convert.ToInt32(TempStr, 16);
+            }
+            return 0x00;
+        }
+        public static int GetArrayValueRead4(int Offset, ref byte[] Buffer) {
+            if (Offset <= Buffer.Length - 4) {
+                char Val1 = (char)Buffer[Offset];
+                char Val2 = (char)Buffer[Offset + 1];
+                char Val3 = (char)Buffer[Offset + 2];
+                char Val4 = (char)Buffer[Offset + 3];
+                string TempStr = Val1.ToString() + Val2.ToString() + Val3.ToString() + Val4.ToString();
+                return (int)Convert.ToInt32(TempStr, 16);
+            }
+            return 0x00;
+        }
+        public static int SetArrayValue(int Offset, byte Value, ref byte[] Buffer) {
+            string HexValue = Formatters.ByteToHex(Value, false);
+            if (Offset + 1 < Buffer.Length) {
+                Buffer[Offset] = (byte)HexValue[0];
+                Buffer[Offset + 1] = (byte)HexValue[1];
+                return Offset + 2;
+            }
+            return Offset;
+        }
+        public static void SetArrayValue(ref int Offset, byte Value, ref byte[] Buffer) {
+            string HexValue = Formatters.ByteToHex(Value, false);
+            if (Offset + 1< Buffer.Length ) {
+                Buffer[Offset] = (byte)HexValue[0];
+                Buffer[Offset + 1] = (byte)HexValue[1];
+                Offset = Offset + 2;
+            }
+        }
+        public static byte[] BulidReadPacket(StreamOutputFormat Format, FunctionCode Function, int Device, short Address, short Count) {
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[6];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)Function;//Fun
+                Temp[2] = (byte)(Address >> 8);//Str1
+                Temp[3] = (byte)(Address & 0xFF);//Str1
+                Temp[4] = (byte)(Count >> 8);//Cnt1
+                Temp[5] = (byte)(Count & 0xFF);//Cnt2
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[12];
+                int RunningAddress = 0;
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Function, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(Address >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(Address & 0xFF), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(Count >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(Count & 0xFF), ref Temp);
+                return Temp;
+            }
+        }
+        public static byte[] BulidWriteSinglePacket(StreamOutputFormat Format, FunctionCode Function, int Device, short Address, byte Value0, byte Value1) {
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[6];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)Function;//Fun
+                Temp[2] = (byte)(Address >> 8);//Str1
+                Temp[3] = (byte)(Address & 0xFF);//Str1
+                Temp[4] = Value0;
+                Temp[5] = Value1;
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[12];
+                int RunningAddress = 0;
+                SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)Function, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Address >> 8), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Address & 0xFF), ref Temp);
+                SetArrayValue(ref RunningAddress, Value0, ref Temp);
+                SetArrayValue(ref RunningAddress, Value1, ref Temp);
+                return Temp;
+            }
+        }
+        public static byte[] BulidWriteMultiplePacket(StreamOutputFormat Format, FunctionCode Function, int Device, short Address, List<short> Values) {
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[7 + (Values.Count * 2)];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)Function;//Fun
+                Temp[2] = (byte)(Address >> 8);//Str1
+                Temp[3] = (byte)(Address & 0xFF);//Str1
+                Temp[4] = (byte)(Values.Count >> 8);//Str1
+                Temp[5] = (byte)(Values.Count & 0xFF);//Str1
+                Temp[6] = (byte)(Values.Count * 2);//Str1
+                int j = 0;
+                for (int i =0; i < Values.Count; i++) {
+                    Temp[7 + j] = (byte)(Values[i] >> 8);
+                    Temp[8 + j] = (byte)(Values[i] & 0xFF);
+                    j += 2;
+                }
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[14 + (Values.Count * 4)];
+                int RunningAddress = 0;
+                SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)Function, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Address >> 8), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Address & 0xFF), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Values.Count >> 8), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Values.Count & 0xFF), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Values.Count * 2), ref Temp);
+                for (int i = 0; i < Values.Count; i++) {
+                    SetArrayValue(ref RunningAddress, (byte)(Values[i] >> 8), ref Temp);
+                    SetArrayValue(ref RunningAddress, (byte)(Values[i] & 0xFF), ref Temp);
+                }
+
+                return Temp;
+            }
+        }
+        public static byte[] BulidWriteMultiplePacket(StreamOutputFormat Format, FunctionCode Function, int Device, short Address, List<bool> Values) {
+            int ByteCount = (Values.Count + 7) / 8;
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[7 + ByteCount];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)Function;//Fun
+                Temp[2] = (byte)(Address >> 8);//Str1
+                Temp[3] = (byte)(Address & 0xFF);//Str1
+                Temp[4] = (byte)(Values.Count >> 8);//Str1
+                Temp[5] = (byte)(Values.Count & 0xFF);//Str1
+                Temp[6] = (byte)ByteCount;
+                int j = 0;
+                int k = 0;//Bytes - 1;
+                for (int i = 0; i < Values.Count; i++) {
+                    byte BinTemp = 0x00;
+                    BinTemp = (byte)(Values[i] == true ? 0x01 : 0x00);
+                    Temp[7 + k] |= (byte)(BinTemp << j);
+                    j++;
+                    if (j == 8) {
+                        k++; j = 0;
+                    }
+                }
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[14 + (ByteCount * 2)];
+                int RunningAddress = 0;
+                SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)Function, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Address >> 8), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Address & 0xFF), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Values.Count >> 8), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)(Values.Count & 0xFF), ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)ByteCount, ref Temp);
+                int j = 0;
+                int k = 0;//Bytes - 1;
+                byte[] Packets = new byte[ByteCount];
+                for (int i = 0; i < Values.Count; i++) {
+                    byte BinTemp = 0x00;
+                    BinTemp = (byte)(Values[i] == true ? 0x01 : 0x00);
+                    Packets[k] |= (byte)(BinTemp << j);
+                    j++;
+                    if (j == 8) {
+                        k++; j = 0;
+                    }
+                }
+                for (int i = 0; i < Packets.Length; i++) {
+                    SetArrayValue(ref RunningAddress, Packets[i], ref Temp);
+                }
+
+                return Temp;
+            }
+        }
+        public static byte[] BulidReadCoils(SerialManager Serman, bool IsDiscrete, FunctionCode Function, int Device, short Address, short CoilCount) {
+            if (Serman.OutputFormat == StreamOutputFormat.ModbusASCII) {
+                int Bytes = (CoilCount + 7) / 8;
+                int ArrayLength = 6 + (Bytes * 2);
+                byte[] Temp = new byte[ArrayLength];
+                int TOffset = 0;
+                SetArrayValue(ref TOffset, (byte)Device, ref Temp);
+                SetArrayValue(ref TOffset, (byte)Function, ref Temp);
+                SetArrayValue(ref TOffset, (byte)Bytes, ref Temp);
+                int j = 0;
+                int k = 0;//Bytes - 1;
+                byte[] Packets = new byte[Bytes];
+                for (int i = 0; i < CoilCount; i++) {
+                    byte BinTemp = 0x00;
+                    if (IsDiscrete == true) {
+                        BinTemp = (byte)(Serman.DiscreteInputs[Address + i].Value == true ? 0x01 : 0x00);
+                    }
+                    else {
+                        BinTemp = (byte)(Serman.Coils[Address + i].Value == true ? 0x01 : 0x00);
+                    }
+                    Packets[k] |= (byte)(BinTemp << j);
+                    j++;
+                    if (j == 8) {
+                        k++; j = 0;
+                    }
+                }
+                for(int i=0;i< Packets.Length; i++) {
+                    SetArrayValue(ref TOffset, Packets[i], ref Temp);
+                }
+                return Temp;
+            }
+            else if (Serman.OutputFormat == StreamOutputFormat.ModbusRTU) {
+                int Bytes = (CoilCount + 7) / 8;
+                int ArrayLength = 3 + Bytes;
+                byte[] Temp = new byte[ArrayLength];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)Function;//Fun
+                Temp[2] = (byte)Bytes;//Len
+                int j = 0;
+                int k = 0;//Bytes - 1;
+                for (int i = 0; i < CoilCount; i++) {
+                    byte BinTemp = 0x00;
+                    if (IsDiscrete == true) {
+                        BinTemp = (byte)(Serman.DiscreteInputs[Address + i].Value == true ? 0x01 : 0x00);
+                    }
+                    else {
+                        BinTemp = (byte)(Serman.Coils[Address + i].Value == true ? 0x01 : 0x00);
+                    }
+                    Temp[3 + k] |= (byte)(BinTemp << j);
+                    j++;
+                    if (j == 8) {
+                        k++; j = 0;
+                    }
+                }
+                return Temp;
+            }
+            return new byte[0];
+        }
+        public static byte[] BulidReadRegisters(SerialManager Serman, bool IsHolding, FunctionCode Function, int Device, short Address, short RegisterCount) {
+            if (Serman.OutputFormat == StreamOutputFormat.ModbusASCII) {
+                int ArrayLength = 6 + (RegisterCount * 4);
+                byte[] Temp = new byte[ArrayLength];
+                int TOffset = 0;
+                SetArrayValue(ref TOffset, (byte)Device, ref Temp);
+                SetArrayValue(ref TOffset, (byte)Function, ref Temp);
+                SetArrayValue(ref TOffset, (byte)(byte)(RegisterCount * 2), ref Temp);
+
+                int Offset = 6;
+                if (IsHolding == true) {
+                    for (int i = 0; i < RegisterCount; i++) {
+                        SetArrayValue(ref Offset, (byte)(Serman.HoldingRegisters[Address + i].Value >> 8), ref Temp);
+                        SetArrayValue(ref Offset, (byte)(Serman.HoldingRegisters[Address + i].Value & 0xFF), ref Temp);
+                    }
+                }
+                else {
+                    for (int i = 0; i < RegisterCount; i++) {
+                        SetArrayValue(ref Offset, (byte)(Serman.InputRegisters[Address + i].Value >> 8), ref Temp);
+                        SetArrayValue(ref Offset, (byte)(Serman.InputRegisters[Address + i].Value & 0xFF), ref Temp);
+                    }
+                }
+                return Temp;
+            }
+            else if (Serman.OutputFormat == StreamOutputFormat.ModbusRTU) {
+                int ArrayLength = 6 + (RegisterCount * 2);
+                byte[] Temp = new byte[ArrayLength];
+                Temp[0] = (byte)Device;
+                Temp[1] = (byte)Function;
+                Temp[2] = (byte)(RegisterCount * 2);
+                int Offset = 0;
+                if (IsHolding == true) {
+                    for (int i = 0; i < RegisterCount; i++) {
+                        Temp[3 + Offset] = (byte)(Serman.HoldingRegisters[Address + i].Value >> 8); Offset++;
+                        Temp[3 + Offset] = (byte)(Serman.HoldingRegisters[Address + i].Value & 0xFF); Offset++;
+                    }
+                }
+                else {
+                    for (int i = 0; i < RegisterCount; i++) {
+                        Temp[3 + Offset] = (byte)(Serman.InputRegisters[Address + i].Value >> 8); Offset++;
+                        Temp[3 + Offset] = (byte)(Serman.InputRegisters[Address + i].Value & 0xFF); Offset++;
+                    }
+                }
+                return Temp;
+            }
+            return new byte[0];
+        }
+        #endregion
         public enum FunctionCode {
             NoCommand = 0x00,
             ReadDiscreteInputs = 0x02,

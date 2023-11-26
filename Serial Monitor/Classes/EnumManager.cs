@@ -310,6 +310,9 @@ namespace Serial_Monitor.Classes {
             else if (Input == "frmModbusRTU") {
                 return Enums.FormatEnums.StreamInputFormat.ModbusRTU;
             }
+            else if (Input == "frmModbusASCII") {
+                return Enums.FormatEnums.StreamInputFormat.ModbusASCII;
+            }
             return Enums.FormatEnums.StreamInputFormat.Text;
         }
         public static StringPair InputFormatToString(Enums.FormatEnums.StreamInputFormat Input, bool UseLongName = true) {
@@ -335,6 +338,9 @@ namespace Serial_Monitor.Classes {
             else if (Input == Enums.FormatEnums.StreamInputFormat.ModbusRTU) {
                 return new StringPair("Modbus &RTU", "frmModbusRTU");
             }
+            else if (Input == Enums.FormatEnums.StreamInputFormat.ModbusASCII) {
+                return new StringPair("Modbus &ASCII", "frmModbusASCII");
+            }
             return new StringPair("Text", "frmTxt");
         }
         #endregion
@@ -348,6 +354,9 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == "frmModbusRTU") {
                 return Enums.FormatEnums.StreamOutputFormat.ModbusRTU;
+            }
+            else if (Input == "frmModbusASCII") {
+                return Enums.FormatEnums.StreamOutputFormat.ModbusASCII;
             }
             return Enums.FormatEnums.StreamOutputFormat.Text;
         }
@@ -365,6 +374,9 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == Enums.FormatEnums.StreamOutputFormat.ModbusRTU) {
                 return new StringPair("Modbus RTU", "frmModbusRTU");
+            }
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.ModbusASCII) {
+                return new StringPair("Modbus ASCII", "frmModbusASCII");
             }
             return new StringPair("Text", "frmTxt");
         }
