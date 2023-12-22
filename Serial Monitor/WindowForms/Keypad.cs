@@ -31,7 +31,7 @@ namespace Serial_Monitor {
             kpCommands.ExternalItems = Classes.ProjectManager.Buttons;
             RecolorAll();
             ProjectManager.ButtonPropertyChanged += ProjectManager_ButtonPropertyChanged;
-            SetTopMost(ProjectManager.KeypadTopMost);  
+            SetTopMost(ProjectManager.KeypadTopMost);
         }
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);

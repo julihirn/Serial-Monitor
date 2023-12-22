@@ -1,4 +1,5 @@
 ﻿using Handlers;
+using Microsoft.Win32;
 using ODModules;
 using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Modbus;
@@ -28,9 +29,9 @@ namespace Serial_Monitor.Classes {
         static bool keypadTopMost = false;
         public static bool KeypadTopMost {
             get { return keypadTopMost; }
-            set { 
+            set {
                 keypadTopMost = value;
-                Form ? Keyp = ApplicationManager.GetFormByName("Keypad");
+                Form? Keyp = ApplicationManager.GetFormByName("Keypad");
                 if (Keyp == null) { return; }
                 if (typeof(Interfaces.Application.IGenerics).IsAssignableFrom(Keyp.GetType())) {
                     ((Interfaces.Application.IGenerics)Keyp).SetTopMost(value);
@@ -146,18 +147,27 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "ModbusMstr", Sm.IsMaster);
                     DocumentHandler.Write(Sw, 2, "OutputToMstr", Sm.OutputToMasterTerminal);
                     DocumentHandler.Write(Sw, 2, "AutoConnect", Sm.AutoReconnect);
-                    WriteRegisters(Sw, Sm);
+                    WriteRegisters(Sw, Sm, -1, 0);
+                    for (int x = 0; x < Sm.Slave.Count; x++) {
+                        int SlaveIndex = ModbusSupport.UnitToIndex(Sm,Sm.Slave[x].Address);
+                        WriteRegisters(Sw, Sm, SlaveIndex, Sm.Slave[x].Address);
+                    }
                     Sw.WriteLine(StringHandler.AddTabs(1, "}"));
                     i++;
                 }
             }
         }
-        private static void WriteRegisters(StreamWriter Sw, SerialManager Sm) {
-            List<RegisterRequest> RegistersToWrite = Modbus.ModbusSupport.GetModifiedRegisters(Sm);
+        private static void WriteRegisters(StreamWriter Sw, SerialManager Sm, int Index, int Unit) {
+            List<RegisterRequest> RegistersToWrite = Modbus.ModbusSupport.GetModifiedRegisters(Sm, Index);
             if (RegistersToWrite.Count > 0) {
-                Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
+                if (Index < 0) {
+                    Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
+                }
+                else {
+                    Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers_" + Unit.ToString() + "={"));
+                }
                 foreach (RegisterRequest Rq in RegistersToWrite) {
-                    ValidString Result = Modbus.ModbusSupport.BulidRegisterSerialisedString(Sm, Rq.Index, Rq.Selection);
+                    ValidString Result = Modbus.ModbusSupport.BulidRegisterSerialisedString(Sm, Index, Rq.Index, Rq.Selection);
                     if (Result.IsValid == true) {
                         Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString(Result.Value)));
                     }
@@ -237,7 +247,9 @@ namespace Serial_Monitor.Classes {
                         DocumentHandler.Write(Sw, 2, "SnapshotType", EnumManager.ModbusSnapshotTypeToString(Mss.SelectionType).B);
                         DocumentHandler.Write(Sw, 2, "Name", Mss.BaseName);
                         DocumentHandler.Write(Sw, 2, "Channel", SystemManager.GetChannelIndex(Mss.Manager));
+                        DocumentHandler.Write(Sw, 2, "Unit", Mss.Manager.Address);
                         DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mss.Selection).B);
+
                         if (Mss.SelectionType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
                             DocumentHandler.Write(Sw, 2, "Address", Mss.StartIndex);
                             DocumentHandler.Write(Sw, 2, "Count", Mss.Count);
@@ -308,6 +320,12 @@ namespace Serial_Monitor.Classes {
                 //MSPSH
             }
             DocumentLoaded?.Invoke();
+            DocumentHandler.LINES.Clear();
+            DocumentHandler.PARM.Clear();
+            DocumentHandler.INST.Clear();
+            DocumentHandler.LINES.Clear();
+            DocumentHandler.ENUMERATION.Clear();
+            GC.Collect();
         }
         private static void LoadChannel(ParameterStructure Pstrc, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
             SerialManager Sm = new SerialManager();
@@ -363,12 +381,37 @@ namespace Serial_Monitor.Classes {
             if (DocumentHandler.IsDefinedInParameter("Registers", Pstrc)) {
                 List<string> Data = GetList(Pstrc.GetVariable("Registers", false, DataType.STR));
                 for (int j = 0; j < Data.Count; j++) {
-                    ModbusSupport.DecodeFileRegsisterCommand(Data[j], Sm);
+                    ModbusSupport.DecodeFileRegsisterCommand(Data[j], -1, Sm);
+                }
+            }
+            List<string> RegisterSets = GetListOfVarName("Registers_", Pstrc);
+            if (RegisterSets.Count > 0) {
+                foreach (string RegList in RegisterSets) {
+                    string TempUnit = RegList.Replace("Registers_", "");
+                    int Unit = -1; int.TryParse(TempUnit, out Unit);
+                    if (Unit < 0) { continue; }
+                    Sm.NewSlave(Unit);
+                    List<string> Data = GetList(Pstrc.GetVariable(RegList, false, DataType.STR));
+                    for (int j = 0; j < Data.Count; j++) {
+                        ModbusSupport.DecodeFileRegsisterCommand(Data[j], Unit, Sm);
+                    }
                 }
             }
             Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
             Sm.DataReceived += DataProc;// SerMan_DataReceived;
+            if (Sm.Slave.Count  == 0) {
+                Sm.Slave.Add(new ModbusSlave(Sm, 1));
+            }
             SystemManager.SerialManagers.Add(Sm);
+        }
+        private static List<string> GetListOfVarName(string Input, ParameterStructure Pstrc) {
+            List<string> VarNames = new List<string>();
+            foreach (Variable Var in Pstrc.VALUES) {
+                if (Var.Name.StartsWith(Input)) {
+                    VarNames.Add(Var.Name);
+                }
+            }
+            return VarNames;
         }
         private static void LoadKeypadButton(ParameterStructure Pstrc) {
             if (Pstrc.Name.Split('_').Length == 2) {
@@ -409,19 +452,40 @@ namespace Serial_Monitor.Classes {
             string Snapshot_Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
             DataSelection Snapshot_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(Pstrc, "Type", ""));
             SerialManager? Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(Pstrc, "Channel", -1));
+            int Unit = DocumentHandler.GetIntegerVariable(Pstrc, "Unit", -1);
             if (Snapshot_Channel != null) {
                 Enums.ModbusEnums.SnapshotSelectionType Snapshot_Selection = EnumManager.ModbusStringToSnapshotType(DocumentHandler.GetStringVariable(Pstrc, "SnapshotType", ""));
                 if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
                     int Address = DocumentHandler.GetIntegerVariable(Pstrc, "Address", 0);
                     int Count = DocumentHandler.GetIntegerVariable(Pstrc, "Count", 10);
                     Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(Pstrc, "Bounds", ""));
-                    ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Address, Count, Bounds);
+                    if (Unit <= 0) {
+                        if (Snapshot_Channel.Registers != null) {
+                            ModbusSupport.NewSnapshot(Snapshot_Channel.Registers, Snapshot_Type, Address, Count, Bounds);
+                        }
+                    }
+                    else {
+                        int SlaveIndex = ModbusSupport.UnitToIndex(Snapshot_Channel, Unit);
+                        if (SlaveIndex < 0) { return; }
+                        ModbusSupport.NewSnapshot(Snapshot_Channel.Slave[SlaveIndex], Snapshot_Type, Address, Count, Bounds);
+                    }
+
                 }
                 else if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
                     List<int> Data = GetIntegerList(Pstrc.GetVariable("Indices", false, DataType.INT));
                     Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(Pstrc, "Bounds", ""));
                     if (Data.Count > 0) {
-                        ModbusSupport.NewSnapshot(Snapshot_Channel, Snapshot_Type, Data, Bounds);
+                        if (Unit < 0) {
+                            if (Snapshot_Channel.Registers != null) {
+                                ModbusSupport.NewSnapshot(Snapshot_Channel.Registers, Snapshot_Type, Data, Bounds);
+                            }
+                        }
+                        else {
+                            int Index = ModbusSupport.UnitToIndex(Snapshot_Channel, Unit);
+                            if (Index > -1) {
+                                ModbusSupport.NewSnapshot(Snapshot_Channel.Slave[Index], Snapshot_Type, Data, Bounds);
+                            }
+                        }
                     }
                 }
             }

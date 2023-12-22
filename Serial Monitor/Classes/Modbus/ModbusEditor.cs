@@ -454,7 +454,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeName)) {
                                 Reg.Name = "";
                                 ListEditor.CurrentItems[i][1].Text = Reg.Name;
-                                SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
+                                SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
                                 Reg.Value = 0;
@@ -472,7 +472,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeName)) {
                                 Reg.Name = "";
                                 ListEditor.CurrentItems[i][1].Text = Reg.Name;
-                                SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
+                                SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
                                 Reg.Value = false;
@@ -576,7 +576,7 @@ namespace Serial_Monitor.Classes.Modbus {
                                         if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeName)) {
                                             Reg.Name = CopiedItems[j].Name;
                                             ListEditor.CurrentItems[k][1].Text = Reg.Name;
-                                            SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
+                                            SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                                         }
                                         if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeValue)) {
                                             if (CopiedItems[j].IsRegister == true) {
@@ -596,7 +596,7 @@ namespace Serial_Monitor.Classes.Modbus {
                                         if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeName)) {
                                             Reg.Name = CopiedItems[j].Name;
                                             ListEditor.CurrentItems[k][1].Text = Reg.Name;
-                                            SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
+                                            SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                                         }
                                         if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeValue)) {
                                             if (CopiedItems[j].IsRegister == false) {
@@ -635,13 +635,13 @@ namespace Serial_Monitor.Classes.Modbus {
                                     ModbusRegister Reg = (ModbusRegister)objCmd;
                                     Reg.Name = CopiedItems[j].Replace("\r", "");
                                     ListEditor.CurrentItems[k][1].Text = Reg.Name;
-                                    SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
+                                    SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                                 }
                                 else if (objCmd.GetType() == typeof(ModbusCoil)) {
                                     ModbusCoil Reg = (ModbusCoil)objCmd;
                                     Reg.Name = CopiedItems[j].Replace("\r", ""); ;
                                     ListEditor.CurrentItems[k][1].Text = Reg.Name;
-                                    SystemManager.RegisterNameChanged(Reg.ParentManager, Reg, Reg.Address, Reg.ComponentType);
+                                    SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                                 }
                             }
                         }

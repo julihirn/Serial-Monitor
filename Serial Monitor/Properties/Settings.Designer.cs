@@ -12,7 +12,7 @@ namespace Serial_Monitor.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -463,6 +463,90 @@ namespace Serial_Monitor.Properties {
             }
             set {
                 this["THM_COL_MouseDownForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_SyntaxHighlighting {
+            get {
+                return ((bool)(this["PRG_BOL_SyntaxHighlighting"]));
+            }
+            set {
+                this["PRG_BOL_SyntaxHighlighting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("78, 162, 68")]
+        public global::System.Drawing.Color THM_COL_CommentColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_CommentColor"]));
+            }
+            set {
+                this["THM_COL_CommentColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("78, 156, 206")]
+        public global::System.Drawing.Color THM_COL_KeyWordColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_KeyWordColor"]));
+            }
+            set {
+                this["THM_COL_KeyWordColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("187, 155, 211")]
+        public global::System.Drawing.Color THM_COL_ReturnsAndCalls {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_ReturnsAndCalls"]));
+            }
+            set {
+                this["THM_COL_ReturnsAndCalls"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("156, 220, 254")]
+        public global::System.Drawing.Color THM_COL_VariablesColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_VariablesColor"]));
+            }
+            set {
+                this["THM_COL_VariablesColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_CommandIndentation {
+            get {
+                return ((bool)(this["PRG_BOL_CommandIndentation"]));
+            }
+            set {
+                this["PRG_BOL_CommandIndentation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_InsertBefore {
+            get {
+                return ((bool)(this["PRG_BOL_InsertBefore"]));
+            }
+            set {
+                this["PRG_BOL_InsertBefore"] = value;
             }
         }
     }

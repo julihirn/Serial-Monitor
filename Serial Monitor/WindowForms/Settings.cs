@@ -102,6 +102,9 @@ namespace Serial_Monitor {
                 chbxAnimateCurStep.Checked = Properties.Settings.Default.PRG_BOL_AnimateCursor;
                 chbxUseLegacyListing.Checked = Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing;
                 chbxLimitExecutionBy1ms.Checked = Properties.Settings.Default.PRG_BOL_LimitExecution1ms;
+                chbxProgSyntaxHighlighting.Checked = Properties.Settings.Default.PRG_BOL_SyntaxHighlighting;
+                chbxProgCommandIndentation.Checked = Properties.Settings.Default.PRG_BOL_CommandIndentation;
+                chbxProgCommandInsertBefore.Checked = Properties.Settings.Default.PRG_BOL_InsertBefore;
             }
             catch { }
             PreventWriting = false;
@@ -292,6 +295,24 @@ namespace Serial_Monitor {
 
         private void btngrThemes_Load(object sender, EventArgs e) {
 
+        }
+
+        private void chbxSyntaxHighlighting_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_SyntaxHighlighting = chbxProgSyntaxHighlighting.Checked;
+            Properties.Settings.Default.Save();
+            ProgramManager.ProgramSettingChange();
+        }
+        private void chbxProgCommandIndentation_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_CommandIndentation = chbxProgCommandIndentation.Checked;
+            Properties.Settings.Default.Save();
+            ProgramManager.ProgramSettingChange();
+        }
+        private void chbxProgCommandInsertBefore_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_InsertBefore = chbxProgCommandInsertBefore.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

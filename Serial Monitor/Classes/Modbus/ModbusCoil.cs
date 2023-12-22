@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusCoil : ModbusObject {
-        public ModbusCoil(int index, DataSelection Type, SerialManager Manager) {
+        public ModbusCoil(int index, DataSelection Type, ModbusSlave Manager) {
             Index = index;
             typeData = Type;
-            parentManager = Manager;
+            parent = Manager;
         }
         #region Fixed Properties
-        SerialManager? parentManager = null;
-        public SerialManager? ParentManager {
-            get { return parentManager; }
+        ModbusSlave? parent = null;
+        public ModbusSlave? Parent {
+            get { return parent; }
         }
         int Index = 0;
         public int Address {
@@ -36,7 +36,7 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return coilValue; }
             set {
                 coilValue = value;
-                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
+                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
             }
         }
         #endregion 
@@ -50,5 +50,10 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         #endregion
+        public void Reset() {
+            Name = "";
+            coilValue = false;
+            userChanged = false;
+        }
     }
 }

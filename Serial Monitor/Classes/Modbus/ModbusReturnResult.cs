@@ -18,6 +18,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public int Address {
             get { return address; }
         }
+        //
         bool IsInteger = false;
         public object Values {
             get {

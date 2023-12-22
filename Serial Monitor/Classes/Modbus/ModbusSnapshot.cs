@@ -12,11 +12,11 @@ namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSnapshot {
         //public event SnapshotAppearanceChangedHandler? AppearanceChanged;
         //public delegate void SnapshotAppearanceChangedHandler(object sender);
-    
+
 
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
-        
+
         #region Properties
         Classes.Enums.ModbusEnums.SnapshotSelectionType selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
         public Classes.Enums.ModbusEnums.SnapshotSelectionType SelectionType {
@@ -52,13 +52,23 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 else {
                     if (manager != null) {
-                        if (selectType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
-                            string Range = "(" + StartIndex.ToString() + ", " + EndIndex.ToString() + ")";
-                            return manager.StateName + " - " + EnumManager.ModbusDataSelectionToString(Selection).A + Range;
+                        if (manager.Manager != null) {
+                            string DeviceName = manager.Manager.StateName;
+                            if (manager.Manager.IsMaster) {
+                                DeviceName += " (Master: Unit " + manager.Address.ToString() + ")";
+                            }
+                            else {
+                                DeviceName += " (Slave: Unit " + manager.Manager.UnitAddress.ToString() + ")";
+                            }
+                            if (selectType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
+                                string Range = "(" + StartIndex.ToString() + ", " + EndIndex.ToString() + ")";
+                                return DeviceName + " - " + EnumManager.ModbusDataSelectionToString(Selection).A + Range;
+                            }
+                            else {
+                                return DeviceName + " - " + EnumManager.ModbusDataSelectionToString(Selection).A;
+                            }
                         }
-                        else {
-                            return manager.StateName + " - " + EnumManager.ModbusDataSelectionToString(Selection).A;
-                        }
+                        return name;
                     }
                     else {
                         return name;
@@ -91,8 +101,8 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return selection; }
             set { selection = value; }
         }
-        SerialManager? manager = null;
-        public SerialManager? Manager {
+        ModbusSlave? manager = null;
+        public ModbusSlave? Manager {
             get { return manager; }
             set {
                 manager = value;
@@ -204,24 +214,24 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
 
-        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, List<int> Indices) {
-            InitaliseCustom(serialManager,selection, Indices);
+        public ModbusSnapshot(ModbusSlave serialManager, DataSelection selection, List<int> Indices) {
+            InitaliseCustom(serialManager, selection, Indices);
         }
-        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, List<int> Indices, Rectangle Bounds) {
+        public ModbusSnapshot(ModbusSlave serialManager, DataSelection selection, List<int> Indices, Rectangle Bounds) {
             InitaliseCustom(serialManager, selection, Indices);
             this.Bounds = Bounds;
         }
-        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count) {
+        public ModbusSnapshot(ModbusSlave serialManager, DataSelection selection, int StartIndex, int Count) {
             InitaliseConcurrent(serialManager, selection, StartIndex, Count);
         }
-        public ModbusSnapshot(SerialManager serialManager, DataSelection selection, int StartIndex, int Count, Rectangle Bounds) {
+        public ModbusSnapshot(ModbusSlave serialManager, DataSelection selection, int StartIndex, int Count, Rectangle Bounds) {
             InitaliseConcurrent(serialManager, selection, StartIndex, Count);
             this.Bounds = Bounds;
         }
-        private void InitaliseConcurrent(SerialManager serialManager, DataSelection selection, int StartIndex, int Count) {
+        private void InitaliseConcurrent(ModbusSlave slave, DataSelection selection, int StartIndex, int Count) {
             iD = Guid.NewGuid().ToString();
             selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
-            manager = serialManager;
+            manager = slave;
             this.selection = selection;
             this.startIndex = StartIndex;
             this.count = Count;
@@ -231,10 +241,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 Offset++;
             }
         }
-        private void InitaliseCustom(SerialManager serialManager, DataSelection selection, List<int> Indices) {
+        private void InitaliseCustom(ModbusSlave slave, DataSelection selection, List<int> Indices) {
             iD = Guid.NewGuid().ToString();
             selectType = Enums.ModbusEnums.SnapshotSelectionType.Custom;
-            manager = serialManager;
+            manager = slave;
             this.selection = selection;
             if (Indices.Count > 0) {
                 this.startIndex = Indices[0];
@@ -245,7 +255,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         private void AddLine(int Index) {
-            if (Index > short.MaxValue) { return; }
+            if (Index > ModbusSupport.MaximumRegisters) { return; }
             if (manager == null) { return; }
             ListItem PLi = new ListItem();
             PLi.Value = Index;

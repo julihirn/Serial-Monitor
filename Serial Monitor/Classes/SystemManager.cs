@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Serial_Monitor.Plugin;
 using static Serial_Monitor.Classes.SerialManager;
 using System.Reflection;
+using Serial_Monitor.Classes.Modbus;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -24,6 +25,12 @@ namespace Serial_Monitor.Classes {
         public delegate void ChannelRemovedHandler(int RemovedIndex);
         public static event ChannelRenamedHandler? ChannelRenamed;
         public delegate void ChannelRenamedHandler(SerialManager sender);
+
+        public static event ChannelSlaveAddedHandler? SlaveAdded;
+        public delegate void ChannelSlaveAddedHandler(SerialManager sender);
+
+        public static event ChannelSlaveChangedHandler? SlaveChanged;
+        public delegate void ChannelSlaveChangedHandler(SerialManager sender);
 
         public static event ChannelSelectionChangedHandler? ChannelSelectedChanged;
         public delegate void ChannelSelectionChangedHandler(SerialManager? sender);
@@ -38,12 +45,21 @@ namespace Serial_Monitor.Classes {
         public delegate void ErrorMessageHandler(ErrorType Type, string Sender, string Message);
 
         public static event ModbusPropertyChangedHandler? ModbusPropertyChanged;
-        public delegate void ModbusPropertyChangedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
+        public delegate void ModbusPropertyChangedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
         public static event ModbusRegisterRenamedHandler? ModbusRegisterRenamed;
-        public delegate void ModbusRegisterRenamedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
+        public delegate void ModbusRegisterRenamedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
         public static event ModbusReceivedHandler? ModbusReceived;
-        public delegate void ModbusReceivedHandler(SerialManager sender, object Data, int Index, DataSelection DataType);
+        public delegate void ModbusReceivedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
 
+        public static event PluginsLoadedHandler? PluginsLoaded;
+        public delegate void PluginsLoadedHandler();
+
+        public static void InvokeSlaveAdded(SerialManager sender) {
+            SlaveAdded?.Invoke(sender);
+        }
+        public static void InvokeSlaveChanged(SerialManager sender) {
+            SlaveChanged?.Invoke(sender);
+        }
         public static void InvokeErrorMessage(ErrorType Type, string Sender, string Message) {
             ErrorInvoked?.Invoke(Type, Sender, Message);
         }
@@ -59,16 +75,19 @@ namespace Serial_Monitor.Classes {
         public static void InvokeChannelSelectedChanged(SerialManager? sender) {
             ChannelSelectedChanged?.Invoke(sender);
         }
-        public static void ModbusRegisterPropertyChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
+        public static void ModbusRegisterPropertyChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
+            if (Sender.Manager == null) { return; }
             ModbusPropertyChanged?.Invoke(Sender, Data, Index, DataType);
         }
-        public static void RegisterNameChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
+        public static void RegisterNameChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
+            if (Sender.Manager == null) { return; }
             ModbusRegisterRenamed?.Invoke(Sender, Data, Index, DataType);
         }
-        public static void RegisterValueChanged(SerialManager? Sender, object Data, int Index, DataSelection DataType) {
+        public static void RegisterValueChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
+            if (Sender.Manager == null) { return; }
             ModbusReceived?.Invoke(Sender, Data, Index, DataType);
         }
         public static void SendModbusCommand(SerialManager? CurrentManager, DataSelection DataSet, string Command) {
@@ -76,6 +95,15 @@ namespace Serial_Monitor.Classes {
             if (CurrentManager.IsMaster == false) { return; }
             if ((DataSet == DataSelection.ModbusDataCoils) || (DataSet == DataSelection.ModbusDataHoldingRegisters)) {
                 CurrentManager.ModbusCommand(Command);
+            }
+        }
+        public static void SendModbusCommand(ModbusSlave? CurrentManager, DataSelection DataSet, string Command) {
+            if (CurrentManager == null) { return; }
+            if (CurrentManager.Manager == null) { return; }
+            if (CurrentManager.Address < 0) { return; }
+            if (CurrentManager.Manager.IsMaster == false) { return; }
+            if ((DataSet == DataSelection.ModbusDataCoils) || (DataSet == DataSelection.ModbusDataHoldingRegisters)) {
+                CurrentManager.Manager.ModbusCommand("Unit " + CurrentManager.Address + " " + Command);
             }
         }
         public static void LoadDefaultBauds() {
@@ -166,6 +194,7 @@ namespace Serial_Monitor.Classes {
             SerMan.Name = ManagerName;
             SerMan.CommandProcessed += SerManager_CommandProcessed;
             SerMan.DataReceived += SerMan_DataReceived;
+            SerMan.Slave.Add(new ModbusSlave(SerMan, 1));
             ChannelAdded?.Invoke(SerialManagers.Count - 1);
         }
         public static void RemoveChannel(int ChannelIndex, CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
@@ -208,6 +237,15 @@ namespace Serial_Monitor.Classes {
             }
             return -1;
         }
+        public static int GetChannelIndex(ModbusSlave? Slave) {
+            if (Slave == null) { return -1; }
+            if (Slave.Manager == null) { return -1; }
+            if (SerialManagers.Count > 0) {
+                int Output = SerialManagers.IndexOf(Slave.Manager);
+                return Output;
+            }
+            return -1;
+        }
         #endregion
         #region Ports and Listing
         public static List<StringPair> GetSerialPortSettingBased() {
@@ -244,9 +282,20 @@ namespace Serial_Monitor.Classes {
         private static void SystemLinkage_ProgramRun(string Name) {
             ProgramManager.ExecuteProgram(Name);
         }
-
-        public static IList<IWindowPlugin> LoadPlugins(string folder) {
-            IList<IWindowPlugin> plugins = new List<IWindowPlugin>();
+        #region Plugins
+        static IList<IWindowPlugin> plugins = new List<IWindowPlugin>();
+        public static IList<IWindowPlugin> Plugins {
+            get { return plugins; }
+        }
+        public static void LoadPlugins() {
+            string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) ?? "";//GetExecutionFolder();
+            try {
+                LoadPlugins(path);
+            }
+            catch { }
+        }
+        public static void LoadPlugins(string folder) {
+            plugins.Clear();
             // Get files in folder
             string[] files = Directory.GetFiles(folder, "*.dll");
             foreach (string file in files) {
@@ -254,7 +303,7 @@ namespace Serial_Monitor.Classes {
                     Assembly assembly = Assembly.LoadFile(file);
                     var types = assembly.GetExportedTypes();
 
-                    foreach (Type type in types)
+                    foreach (Type type in types) {
                         try {
                             if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
                                 object? instance = Activator.CreateInstance(type);
@@ -264,11 +313,39 @@ namespace Serial_Monitor.Classes {
                             }
                         }
                         catch { }
+                    }
+
                 }
                 catch { }
             }
-
-            return plugins;
+            PluginsLoaded?.Invoke();
         }
+        public static void ApplyPlugins(object ExtensionList, EventHandler ExtensionClicked) {
+            string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) ?? "";//GetExecutionFolder();
+            try {
+                if (Plugins.Count > 0) {
+                    if (ExtensionList.GetType() == typeof(ToolStripMenuItem)) {
+                        ((ToolStripMenuItem)ExtensionList).Visible = true;
+                        foreach (IWindowPlugin Plugin in Plugins) {
+                            ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                            try {
+                                if (Plugin != null) {
+                                    Form Frm = (Form)Plugin;
+                                    Tsi.Text = Frm.Text;
+                                }
+                            }
+                            catch { Tsi.Text = Plugin.ToString(); }
+
+                            Tsi.Click += ExtensionClicked;
+                            Tsi.Tag = Plugin;
+                            ((ToolStripMenuItem)ExtensionList).DropDownItems.Add(Tsi);
+                        }
+                    }
+
+                }
+            }
+            catch { }
+        }
+        #endregion
     }
 }

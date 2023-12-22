@@ -133,6 +133,28 @@ namespace Serial_Monitor.Classes.Theming {
             get { return mismatchedColor; }
             set { mismatchedColor = value; }
         }
+        private Color syntaxHighlightComments = Color.FromArgb(78, 162, 68);
+        public Color SyntaxHighlightComments {
+            get { return syntaxHighlightComments; }
+            set { syntaxHighlightComments = value; }
+        }
+        private Color syntaxHighlightControlFlow = Color.FromArgb(78, 156, 206);
+        public Color SyntaxHighlightControlFlow {
+            get { return syntaxHighlightControlFlow; }
+            set { syntaxHighlightControlFlow = value; }
+        }
+        private Color syntaxHighlightCalls = Color.FromArgb(187, 155, 211);
+        public Color SyntaxHighlightCalls {
+            get { return syntaxHighlightCalls; }
+            set { syntaxHighlightCalls = value; }
+        }
+        private Color syntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
+        public Color SyntaxHighlightDeclarations {
+            get { return syntaxHighlightDeclarations; }
+            set { syntaxHighlightDeclarations = value; }
+        }
+
+
         private bool isDarkTheme = true;
         public bool IsDarkTheme {
             get { return isDarkTheme; }
@@ -175,6 +197,12 @@ namespace Serial_Monitor.Classes.Theming {
 
             Properties.Settings.Default.THM_COL_MouseDownForeColor = mouseDownForeColor;
             Properties.Settings.Default.THM_COL_MouseOverForeColor = mouseOverForeColor;
+
+            Properties.Settings.Default.THM_COL_CommentColor = syntaxHighlightComments;
+            Properties.Settings.Default.THM_COL_ReturnsAndCalls = syntaxHighlightCalls;
+            Properties.Settings.Default.THM_COL_VariablesColor = syntaxHighlightDeclarations;
+            Properties.Settings.Default.THM_COL_KeyWordColor= syntaxHighlightControlFlow;
+
 
             Properties.Settings.Default.THM_SET_IsDark = isDarkTheme;
             Classes.ApplicationManager.ReapplyThemeToAll();

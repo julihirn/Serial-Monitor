@@ -14,19 +14,19 @@ namespace Serial_Monitor.Classes.Modbus {
 
     public class ModbusRegister : ModbusObject {
         const bool TEST = false;
-        public ModbusRegister(int index, DataSelection Type, SerialManager Manager) {
+        public ModbusRegister(int index, DataSelection Type, ModbusSlave Manager) {
             Index = index;
             typeData = Type;
-            parentManager = Manager;
+            parent = Manager;
         }
         #region Fixed Properties
         int Index = 0;
         public int Address {
             get { return Index; }
         }
-        SerialManager? parentManager = null;
-        public SerialManager? ParentManager {
-            get { return parentManager; }
+        ModbusSlave? parent = null;
+        public ModbusSlave? Parent {
+            get { return parent; }
         }
         DataSelection typeData = DataSelection.ModbusDataCoils;
         public DataSelection ComponentType {
@@ -44,10 +44,12 @@ namespace Serial_Monitor.Classes.Modbus {
             set {
                 regValue = value;
                 ModifyValue();
-                if (ParentManager != null) {
-                    CheckPreviousRegisters(Index, typeData, ParentManager);
+                if (Parent != null) {
+                    if (Parent.Manager != null) {
+                        CheckPreviousRegisters(Index, typeData, Parent);
+                    }
                 }
-                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
+                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
             }
         }
         string formattedValue = "0";
@@ -55,7 +57,7 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return formattedValue; }
             set {
                 formattedValue = value;
-                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
+                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
             }
         }
         ModbusEnums.DataFormat format = ModbusEnums.DataFormat.Decimal;
@@ -75,7 +77,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     signed = false;
                 }
                 format = value;
-                bool ResetTo16 = CheckAndChangeNeighbouringFormats(Index, parentManager, dataSize, typeData);
+                bool ResetTo16 = CheckAndChangeNeighbouringFormats(Index, parent, dataSize, typeData);
                 if (ResetTo16) {
                     dataSize = ModbusEnums.DataSize.Bits16;
                 }
@@ -83,7 +85,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     wordOrder = ModbusEnums.ByteOrder.LittleEndian;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
         ModbusEnums.DataSize dataSize = ModbusEnums.DataSize.Bits16;
@@ -105,7 +107,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 else {
                     dataSize = value;
                 }
-                bool ResetTo16 = CheckAndChangeNeighbouringFormats(Index, parentManager, value, typeData);
+                bool ResetTo16 = CheckAndChangeNeighbouringFormats(Index, parent, value, typeData);
                 if (ResetTo16) {
                     dataSize = ModbusEnums.DataSize.Bits16;
                 }
@@ -113,7 +115,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     wordOrder = ModbusEnums.ByteOrder.LittleEndian;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
         bool signed = false;
@@ -133,7 +135,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     signed = value;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
         private ModbusEnums.ByteOrder wordOrder = ModbusEnums.ByteOrder.BigEndian;
@@ -147,23 +149,24 @@ namespace Serial_Monitor.Classes.Modbus {
                     wordOrder = ModbusEnums.ByteOrder.LittleEndian;
                 }
                 ModifyValue();
-                SystemManager.ModbusRegisterPropertyChanged(parentManager, this, Index, typeData);
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
         #endregion
         #region Value Modification
         public void PushValue(long Input, bool AllowTransmit) {
-            if (parentManager == null) { return; }
+            if (parent == null) { return; }
+            if (parent.Manager == null) { return; }
             if (dataSize <= ModbusEnums.DataSize.Bits16) {
                 short Temp = (short)(0xFFFF & Input);
                 regValue = Temp;
                 ModifyValue();
-                if (ParentManager != null) {
-                    CheckPreviousRegisters(Index, typeData, ParentManager);
+                if (parent != null) {
+                    CheckPreviousRegisters(Index, typeData, parent);
                 }
-                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
-                if ((AllowTransmit) && (parentManager.IsMaster)) {
-                    SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
+                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
+                if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                    SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
 #if TEST
                     Debug.Print("Size: 16, Input: " + Input.ToString() + ", Set: " + regValue.ToString());
@@ -173,42 +176,42 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                     regValue = (short)(0xFFFF & Input);
                     if (Index + 1 < ModbusSupport.MaximumRegisters) {
-                        SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
+                        SetData(Index + 1, 1, Input, typeData, parent, AllowTransmit);
                     }
                 }
                 else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                     regValue = QuickShiftDataDown(Input, 1);
                     if (Index + 1 < ModbusSupport.MaximumRegisters) {
-                        SetData(Index + 1, 0, Input, typeData, parentManager, AllowTransmit);
+                        SetData(Index + 1, 0, Input, typeData, parent, AllowTransmit);
                     }
                 }
                 ModifyValue();
-                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
-                if ((AllowTransmit) && (parentManager.IsMaster)) {
-                    SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
+                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
+                if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                    SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
             }
             else if (dataSize == ModbusEnums.DataSize.Bits64) {
                 if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                     regValue = (short)(0xFFFF & Input);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
-                        SetData(Index + 1, 1, Input, typeData, parentManager, AllowTransmit);
-                        SetData(Index + 2, 2, Input, typeData, parentManager, AllowTransmit);
-                        SetData(Index + 3, 3, Input, typeData, parentManager, AllowTransmit);
+                        SetData(Index + 1, 1, Input, typeData, parent, AllowTransmit);
+                        SetData(Index + 2, 2, Input, typeData, parent, AllowTransmit);
+                        SetData(Index + 3, 3, Input, typeData, parent, AllowTransmit);
                     }
                 }
                 else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                     regValue = QuickShiftDataDown(Input, 3);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
-                        SetData(Index + 1, 2, Input, typeData, parentManager, AllowTransmit);
-                        SetData(Index + 2, 1, Input, typeData, parentManager, AllowTransmit);
-                        SetData(Index + 3, 0, Input, typeData, parentManager, AllowTransmit);
+                        SetData(Index + 1, 2, Input, typeData, parent, AllowTransmit);
+                        SetData(Index + 2, 1, Input, typeData, parent, AllowTransmit);
+                        SetData(Index + 3, 0, Input, typeData, parent, AllowTransmit);
                     }
                 }
-                SystemManager.RegisterValueChanged(parentManager, this, Index, typeData);
+                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
                 ModifyValue();
-                if ((AllowTransmit) && (parentManager.IsMaster)) {
-                    SystemManager.SendModbusCommand(parentManager, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
+                if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                    SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
             }
         }
@@ -218,7 +221,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             else if (dataSize == ModbusEnums.DataSize.Bits32) {
                 long Temp = 0;
-                if (parentManager == null) {
+                if (parent == null) {
                     regValue = 0;
                     Temp = (long)(ushort)regValue;
                 }
@@ -231,11 +234,11 @@ namespace Serial_Monitor.Classes.Modbus {
 #endif                  
                         if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                             Temp = (long)(ushort)regValue;
-                            Temp |= AppendData(Index + 1, 1, typeData, parentManager);
+                            Temp |= AppendData(Index + 1, 1, typeData, parent);
                         }
                         else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                             Temp = QuickShiftDataUp(regValue, 1);
-                            Temp |= AppendData(Index + 1, 0, typeData, parentManager);
+                            Temp |= AppendData(Index + 1, 0, typeData, parent);
                         }
 
 #if TEST
@@ -247,7 +250,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             else if (dataSize == ModbusEnums.DataSize.Bits64) {
                 long Temp = 0;
-                if (parentManager == null) {
+                if (parent == null) {
                     regValue = 0;
                     Temp = (long)(ushort)regValue;
                 }
@@ -255,15 +258,15 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (Index + 3 < ModbusSupport.MaximumRegisters - 3) {
                         if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                             Temp = (long)(ushort)regValue;
-                            Temp |= AppendData(Index + 1, 1, typeData, parentManager);
-                            Temp |= AppendData(Index + 2, 2, typeData, parentManager);
-                            Temp |= AppendData(Index + 3, 3, typeData, parentManager);
+                            Temp |= AppendData(Index + 1, 1, typeData, parent);
+                            Temp |= AppendData(Index + 2, 2, typeData, parent);
+                            Temp |= AppendData(Index + 3, 3, typeData, parent);
                         }
                         else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                             Temp = QuickShiftDataUp(regValue, 3);
-                            Temp |= AppendData(Index + 1, 2, typeData, parentManager);
-                            Temp |= AppendData(Index + 2, 1, typeData, parentManager);
-                            Temp |= AppendData(Index + 3, 0, typeData, parentManager);
+                            Temp |= AppendData(Index + 1, 2, typeData, parent);
+                            Temp |= AppendData(Index + 2, 1, typeData, parent);
+                            Temp |= AppendData(Index + 3, 0, typeData, parent);
                         }
                     }
                 }
@@ -272,8 +275,9 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Format/Size Support Functions
-        private static bool CheckAndChangeNeighbouringFormats(int Index, SerialManager? parentManager, ModbusEnums.DataSize Size, DataSelection Selection) {
+        private static bool CheckAndChangeNeighbouringFormats(int Index, ModbusSlave? parentManager, ModbusEnums.DataSize Size, DataSelection Selection) {
             if (parentManager == null) { return false; }
+            if (parentManager.Manager == null) { return false; }
             int ItemsToCheck = 0;
             if (Size == ModbusEnums.DataSize.Bits32) { ItemsToCheck = 3; }
             else if (Size == ModbusEnums.DataSize.Bits64) { ItemsToCheck = 3; }
@@ -298,7 +302,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return false;
         }
-        private static void ResetFormats(int Index, SerialManager parentManager, DataSelection Selection) {
+        private static void ResetFormats(int Index, ModbusSlave parentManager, DataSelection Selection) {
             ModbusEnums.DataSize CurrentSize = GetDataSize(Index, parentManager, Selection);
             ModbusEnums.DataFormat CurrentFormat = GetDataFormat(Index, parentManager, Selection);
             if (CurrentSize < ModbusEnums.DataSize.Bits32) { return; }
@@ -315,7 +319,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 parentManager.HoldingRegisters[Index].Size = ModbusEnums.DataSize.Bits16;
             }
         }
-        private static ModbusEnums.DataFormat GetDataFormat(int Index, SerialManager parentManager, DataSelection Selection) {
+        private static ModbusEnums.DataFormat GetDataFormat(int Index, ModbusSlave parentManager, DataSelection Selection) {
             if (Selection == DataSelection.ModbusDataInputRegisters) {
                 return parentManager.InputRegisters[Index].Format;
             }
@@ -324,7 +328,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return ModbusEnums.DataFormat.Decimal;
         }
-        private static ModbusEnums.DataSize GetDataSize(int Index, SerialManager parentManager, DataSelection Selection) {
+        private static ModbusEnums.DataSize GetDataSize(int Index, ModbusSlave parentManager, DataSelection Selection) {
             if (Selection == DataSelection.ModbusDataInputRegisters) {
                 return parentManager.InputRegisters[Index].Size;
             }
@@ -350,7 +354,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return false;
         }
-        private static void CheckPreviousRegisters(int Index, DataSelection typeData, SerialManager parentManager) {
+        private static void CheckPreviousRegisters(int Index, DataSelection typeData, ModbusSlave parentManager) {
             if (parentManager == null) { return; }
             int CurrentIndex = Index;
             int MarkedIndex = -1;
@@ -400,8 +404,9 @@ namespace Serial_Monitor.Classes.Modbus {
             Output = (short)((Input >> (Shift * 16)) & 0xFFFF);
             return Output;
         }
-        private static long AppendData(int NextIndex, int Shift, DataSelection typeData, SerialManager parentManager) {
+        private static long AppendData(int NextIndex, int Shift, DataSelection typeData, ModbusSlave parentManager) {
             if (parentManager == null) { return 0; }
+            if (parentManager.Manager == null) { return 0; }
             if (typeData == DataSelection.ModbusDataInputRegisters) {
                 if (parentManager.InputRegisters.Length <= NextIndex) { return 0; }
                 ushort Data = (ushort)parentManager.InputRegisters[NextIndex].Value;
@@ -418,8 +423,9 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return 0;
         }
-        private static void SetData(int NextIndex, int Shift, long Value, DataSelection typeData, SerialManager? parentManager, bool AllowTransmit) {
+        private static void SetData(int NextIndex, int Shift, long Value, DataSelection typeData, ModbusSlave? parentManager, bool AllowTransmit) {
             if (parentManager == null) { return; }
+            if (parentManager.Manager == null) { return; }
             if (typeData == DataSelection.ModbusDataInputRegisters) {
                 if (parentManager.InputRegisters.Length <= NextIndex) { return; }
                 long Temp = Value >> (Shift * 16);
@@ -460,5 +466,14 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         #endregion
+        public void Reset() {
+            Name = "";
+            wordOrder = ModbusEnums.ByteOrder.BigEndian;
+            format = ModbusEnums.DataFormat.Decimal;
+            dataSize = ModbusEnums.DataSize.Bits8;
+            formattedValue = "0";
+            regValue = 0;
+            userChanged = false;
+        }
     }
 }

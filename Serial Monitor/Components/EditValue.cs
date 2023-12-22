@@ -197,8 +197,6 @@ namespace Serial_Monitor.Components {
                 PushValue();
             }
         }
-
-
         private void Ctrl_MouseClick(object? sender, MouseEventArgs e) {
             PushValue();
         }
@@ -331,8 +329,8 @@ namespace Serial_Monitor.Components {
                         numericTextbox1.Minimum = MathHandler.EvaluateExpression("-1.7976931348623157*(10^(308))", null);
                         numericTextbox1.Maximum = MathHandler.EvaluateExpression("1.7976931348623157*(10^(308))", null);
                         numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
-                       
-                        if(InputValue.ToLower() == "nan") {
+
+                        if (InputValue.ToLower() == "nan") {
                             InputValue = "0";
                         }
                         else if (InputValue.ToLower() == "infinity") {
@@ -594,12 +592,12 @@ namespace Serial_Monitor.Components {
             if (LinkedControl.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil coil = (ModbusCoil)LinkedControl;
                 coil.Name = Data.ToString() ?? "";
-                SystemManager.RegisterNameChanged(coil.ParentManager, coil, Index, Selection);
+                SystemManager.RegisterNameChanged(coil.Parent, coil, Index, Selection);
             }
             else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
                 ModbusRegister coil = (ModbusRegister)LinkedControl;
                 coil.Name = Data.ToString() ?? "";
-                SystemManager.RegisterNameChanged(coil.ParentManager, coil, Index, Selection);
+                SystemManager.RegisterNameChanged(coil.Parent, coil, Index, Selection);
             }
         }
         bool HasSent = false;
@@ -613,7 +611,7 @@ namespace Serial_Monitor.Components {
                 //SystemManager.SendModbusCommand(coil.ParentManager, coil.ComponentType, "Write Register " + coil.Address + " = " + coil.Value.ToString());
                 //coil.Value = Data.ToString() ?? "";
                 //Needs attention!
-                SystemManager.RegisterValueChanged(coil.ParentManager, coil.FormattedValue, coil.Address, Selection);
+                SystemManager.RegisterValueChanged(coil.Parent, coil.FormattedValue, coil.Address, Selection);
             }
             HasSent = true;
         }
@@ -818,6 +816,14 @@ namespace Serial_Monitor.Components {
         }
 
         private void EditValue_Load_1(object sender, EventArgs e) {
+
+        }
+
+        private void splitContainer3_Panel2_Paint(object sender, PaintEventArgs e) {
+
+        }
+
+        private void splitContainer4_Panel1_Paint(object sender, PaintEventArgs e) {
 
         }
     }

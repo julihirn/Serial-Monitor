@@ -29,6 +29,8 @@ namespace Serial_Monitor.Classes {
             ModbusRTUFramerThread.IsBackground = true;
 
             registers = new ModbusSlave(this, -1);
+            slave.Add(new ModbusSlave(this, 0));
+            slave.Add(new ModbusSlave(this, 1));
             //TrFramer = new Thread(Framer);
             //TrFramer.IsBackground = true;
             //TrFramer.Start();
@@ -587,7 +589,7 @@ namespace Serial_Monitor.Classes {
         private int RXCurrentByte = 0;
         private void ModbusRTUProcessor(object sender) {
             try {
-                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength) {
+                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) > SilenceLength) {
                     RXCurrentByte = 0;
                 }
                 int i = 0;
@@ -1486,32 +1488,6 @@ namespace Serial_Monitor.Classes {
             bytesSent += (ulong)Output.Length;
         }
         #endregion
-        #region Modbus Slaves
-        public void NewSlave(int Address, string Name) {
-            int Index = ModbusSupport.UnitToIndex(this, Address);
-            if (Index >= 0) { return; }
-            slave.Add(new ModbusSlave(this, Address, Name));
-            SystemManager.InvokeSlaveAdded(this);
-        }
-        public void RemoveSlave(int Address, bool UseIndex = false) {
-            int Index = UseIndex == false ? ModbusSupport.UnitToIndex(this, Address): Address;
-            if (Index < 0) { return; }
-            if (Index >= Slave.Count) { return; }
-            Slave[Index].CleanUp();
-            Slave.RemoveAt(Index);
-            GC.Collect();
-            if (Slave.Count <= 0) {
-                NewSlave(1);
-            }
-            SystemManager.InvokeSlaveChanged(this);
-        }
-        public void RenameSlave(int Address, string Name) {
-            int Index = ModbusSupport.UnitToIndex(this, Address);
-            if (Index < 0) { return; }
-            Slave[Index].Name = Name;
-            SystemManager.InvokeSlaveChanged(this);
-        }
-        #endregion 
         #region Data Formatting
         public bool Transmit(string Input, bool OverrideChecksum = false) {
             string BuildString = "C:" + Input + ";";

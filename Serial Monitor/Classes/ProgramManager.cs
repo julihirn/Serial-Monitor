@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Step_Programs.StepEnumerations;
 using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 using System.Text.RegularExpressions;
+using System.ComponentModel.Design;
 
 namespace Serial_Monitor.Classes {
     public static class ProgramManager {
@@ -29,7 +30,10 @@ namespace Serial_Monitor.Classes {
         public delegate void ProgramEditorChangedHandler(ProgramObject? ProgramObj);
 
         public static event ProgramVariableChangedHandler? ProgramVariableChanged;
-        public delegate void ProgramVariableChangedHandler(int Index);
+        public delegate void ProgramVariableChangedHandler(ProgramObject? ProgramObj, bool IsGlobal, int Index);
+
+        public static event ProgramSettingChnagedHandler? ProgramSettingChanged;
+        public delegate void ProgramSettingChnagedHandler();
 
         public static event ProgramRemovedHandler? ProgramRemoved;
         public delegate void ProgramRemovedHandler(string ID);
@@ -93,6 +97,9 @@ namespace Serial_Monitor.Classes {
         #endregion
         public static void ProgramNameChange(object sender) {
             ProgramNameChanged?.Invoke(sender);
+        }
+        public static void ProgramSettingChange() {
+            ProgramSettingChanged?.Invoke();
         }
         #region Threading
         public static void LaunchThread() {
@@ -616,19 +623,23 @@ namespace Serial_Monitor.Classes {
             if (Scope == VariableScope.None) { return; }
             VariableResult VarResult = Program.GetVariable(Name);
             if (VarResult.IsValid == true) {
-                if ((VarResult.Scope == VariableScope.Global) && (Scope == VariableScope.Global)){
+                if ((VarResult.Scope == VariableScope.Global) && (Scope == VariableScope.Global)) {
                     Program.GlobalVariables[VarResult.Index].Value = Assignment;
+                    ProgramVariableChanged?.Invoke(CurrentProgram, true, VarResult.Index);
                 }
                 else if ((VarResult.Scope == VariableScope.Local) && (Scope == VariableScope.Local)) {
                     Program.Variables[VarResult.Index].Value = Assignment;
+                    ProgramVariableChanged?.Invoke(CurrentProgram, false, VarResult.Index);
                 }
             }
             else {
                 if (Scope == VariableScope.Global) {
                     Program.GlobalVariables.Add(new VariableLinkage(Name, Assignment));
+                    ProgramVariableChanged?.Invoke(CurrentProgram, true, Program.GlobalVariables.Count - 1);
                 }
                 else if (Scope == VariableScope.Local) {
                     Program.Variables.Add(new VariableLinkage(Name, Assignment));
+                    ProgramVariableChanged?.Invoke(CurrentProgram, false, Program.Variables.Count - 1);
                 }
             }
         }
@@ -640,13 +651,16 @@ namespace Serial_Monitor.Classes {
             if (VarResult.IsValid == true) {
                 if ((VarResult.Scope == VariableScope.Global)) {
                     Program.GlobalVariables[VarResult.Index].Value = Assignment;
+                    ProgramVariableChanged?.Invoke(CurrentProgram, true, VarResult.Index);
                 }
                 else if ((VarResult.Scope == VariableScope.Local)) {
                     Program.Variables[VarResult.Index].Value = Assignment;
+                    ProgramVariableChanged?.Invoke(CurrentProgram, false, VarResult.Index);
                 }
             }
             else {
                 Program.Variables.Add(new VariableLinkage(Name, Assignment));
+                ProgramVariableChanged?.Invoke(CurrentProgram, false, Program.Variables.Count - 1);
             }
         }
         public static void SetVariable(string ProgramName, string Name, string Assignment) {
@@ -694,9 +708,9 @@ namespace Serial_Monitor.Classes {
                 Output.Input = Values[0];
                 string[] Args = Values[1].Split(new string[] { "\",\"" }, StringSplitOptions.None);
                 if (Args.Length < 2) { return Output; }
-                if ((Args[0].StartsWith("\"")) && (Args[1].EndsWith("\")"))){
+                if ((Args[0].StartsWith("\"")) && (Args[1].EndsWith("\")"))) {
                     Output.TextToReplace = Args[0].Remove(0, 1);
-                    Output.ReplaceWith = Args[1].Remove(Args[1].Length-2, 2);
+                    Output.ReplaceWith = Args[1].Remove(Args[1].Length - 2, 2);
                     Output.IsValid = true;
                 }
             }
@@ -708,7 +722,7 @@ namespace Serial_Monitor.Classes {
             Arguments.Input = GetVariable(Arguments.Input, true);
             Arguments.TextToReplace = GetVariable(Arguments.TextToReplace, true);
             Arguments.ReplaceWith = GetVariable(Arguments.ReplaceWith, true);
-            if ((Arguments.TextToReplace.Length <= 0)|| (Arguments.ReplaceWith.Length <= 0)) {
+            if ((Arguments.TextToReplace.Length <= 0) || (Arguments.ReplaceWith.Length <= 0)) {
                 SetVariable(Arguments.Output, Arguments.Input);
             }
             else {
@@ -717,7 +731,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static string PackageReplace(string Assignment, string Input, string ReplaceCue, string ReplaceWith) {
-            return Assignment + "=" + Input + ".Replace(" + StringHandler.EncapsulateString(ReplaceCue) +"," + StringHandler.EncapsulateString(ReplaceWith) + ")";
+            return Assignment + "=" + Input + ".Replace(" + StringHandler.EncapsulateString(ReplaceCue) + "," + StringHandler.EncapsulateString(ReplaceWith) + ")";
         }
         public static void CopyVariableValue(string Argument) {
             if (MainInstance != null) {
@@ -738,6 +752,7 @@ namespace Serial_Monitor.Classes {
             if (ExistsInVariables == false) {
                 VariableLinkage LblLink = new VariableLinkage(VarName, VarValue);
                 CurrentProgram.Variables.Add(LblLink);
+                ProgramVariableChanged?.Invoke(CurrentProgram, false, CurrentProgram.Variables.Count - 1);
             }
         }
         private static bool SetVariableInScope(string Name, string Value) {
@@ -747,6 +762,7 @@ namespace Serial_Monitor.Classes {
                 for (int i = 0; i < CurrentProgram.GlobalVariables.Count; i++) {
                     if (CurrentProgram.GlobalVariables[i].Name == Name) {
                         CurrentProgram.GlobalVariables[i].Value = Value;
+                        ProgramVariableChanged?.Invoke(CurrentProgram, true, i);
                         return true;
                     }
                 }
@@ -755,6 +771,7 @@ namespace Serial_Monitor.Classes {
                 for (int i = 0; i < CurrentProgram.Variables.Count; i++) {
                     if (CurrentProgram.Variables[i].Name == Name) {
                         CurrentProgram.Variables[i].Value = Value;
+                        ProgramVariableChanged?.Invoke(CurrentProgram, false, i);
                         return true;
                     }
                 }
@@ -898,7 +915,7 @@ namespace Serial_Monitor.Classes {
             Waiting = 0x01,
             Finished = 0x02
         }
-        public static void ProgramDataRecieved(string ChannelID, string Value) {
+        public static void ProgramDataReceived(string ChannelID, string Value) {
             if (WaitUntil_State != WaitUntilState.Waiting) { return; }
             AttendToLastLine(ChannelID, Value);
             if (Lines.Count == 0) { return; }
@@ -1073,6 +1090,7 @@ namespace Serial_Monitor.Classes {
                             Decimal.TryParse(CurrentProgram.GlobalVariables[i].Value, out Value);
                             Value += Decrement == true ? -1.0m : 1.0m;
                             CurrentProgram.GlobalVariables[i].Value = Value.ToString();
+                            ProgramVariableChanged?.Invoke(CurrentProgram, true, i);
                             break;
                         }
                     }
@@ -1086,6 +1104,7 @@ namespace Serial_Monitor.Classes {
                             Decimal.TryParse(CurrentProgram.Variables[i].Value, out Value);
                             Value += Decrement == true ? -1.0m : 1.0m;
                             CurrentProgram.Variables[i].Value = Value.ToString();
+                            ProgramVariableChanged?.Invoke(CurrentProgram, false, i);
                             return;
                         }
                     }
@@ -1308,6 +1327,30 @@ namespace Serial_Monitor.Classes {
                 default: return DataType.Null;
             }
         }
+        public static StepKeyWordType StepExecutableToKeyWordType(StepExecutable StepExe) {
+            switch(StepExe) {
+                case StepEnumerations.StepExecutable.If:
+                    return StepKeyWordType.ControlFlow;
+                case StepEnumerations.StepExecutable.Else:
+                    return StepKeyWordType.ControlFlow;
+                case StepEnumerations.StepExecutable.EndIf:
+                    return StepKeyWordType.ControlFlow;
+                case StepEnumerations.StepExecutable.End:
+                    return StepKeyWordType.ReturnsAndCalls;
+                case StepEnumerations.StepExecutable.Call:
+                    return StepKeyWordType.ReturnsAndCalls;
+                case StepEnumerations.StepExecutable.GoTo:
+                    return StepKeyWordType.ReturnsAndCalls;
+                case StepEnumerations.StepExecutable.GoToLine:
+                    return StepKeyWordType.ReturnsAndCalls;
+                case StepEnumerations.StepExecutable.Label:
+                    return StepKeyWordType.ReturnsAndCalls;
+                case StepExecutable.DeclareVariable:
+                    return StepKeyWordType.VariableDeclaration;
+                default:
+                    return StepKeyWordType.Normal;
+            }
+        }
         public static bool AcceptsArguments(StepEnumerations.StepExecutable StepExe) {
             DataType CmdType = StepExecutableToDataType(StepExe);
             if (CmdType == DataType.Null) { return false; }
@@ -1355,6 +1398,7 @@ namespace Serial_Monitor.Classes {
             Lip.SubItems.Add(LiA);
             CurrentEditingProgram.Program.Add(Lip);
             ProgramListingChanged?.Invoke();
+
         }
         public static void CommandLine(StepEnumerations.StepExecutable StepChange) {
             if (CurrentEditingProgram == null) { return; }
@@ -1369,6 +1413,11 @@ namespace Serial_Monitor.Classes {
             else {
                 AddCommandLine(StepChange);
             }
+            if (MainInstance != null) {
+                ApplySyntaxColouring(MainInstance.lstStepProgram, -1, true);
+                ApplyIndentation(MainInstance.lstStepProgram);
+            }
+           
         }
         #endregion
         #region Program Command Connectivity
@@ -1391,6 +1440,116 @@ namespace Serial_Monitor.Classes {
             ProgramRemoved?.Invoke(Objct.ID);
             Objct.Clear();
             Programs.Remove(Objct);
+        }
+        #endregion
+        #region Formatters
+        private static void ApplyColorColumnProperty(ODModules.ListControl lstStepProgram, bool Enabled) {
+            foreach (Column Col in lstStepProgram.Columns) {
+                Col.UseItemForeColor = Enabled;
+            }
+        }
+        static bool IsSyntaxColoured = false;
+        public static void ApplySyntaxColouring(ODModules.ListControl lstStepProgram, int Index = -1, bool ForceApply = false) {
+            if (Properties.Settings.Default.PRG_BOL_SyntaxHighlighting == false) {
+                if (IsSyntaxColoured == true) {
+                    ApplyColorColumnProperty(lstStepProgram, false);
+                    lstStepProgram.Invalidate();
+                }
+                IsSyntaxColoured = false;
+                return;
+            }
+            if ((IsSyntaxColoured != Properties.Settings.Default.PRG_BOL_SyntaxHighlighting) || (ForceApply == true)) {
+                ApplyColorColumnProperty(lstStepProgram, true);
+                IsSyntaxColoured = true;
+                for (int i = 0; i < lstStepProgram.CurrentItems.Count; i++) {
+                    ApplySyntaxColor(lstStepProgram, i);
+                }
+                lstStepProgram.Invalidate();
+                return;
+            }
+            IsSyntaxColoured = true;
+            ApplySyntaxColor(lstStepProgram, Index);
+            lstStepProgram.Invalidate();
+        }
+        private static void ApplySyntaxColor(ODModules.ListControl lstStepProgram, int Index) {
+            if (Index < 0) { return; }
+            if (lstStepProgram.CurrentItems.Count == 0) { return; }
+            if (Index >= lstStepProgram.CurrentItems.Count) { return; }
+            bool IsNotCommented = lstStepProgram.CurrentItems[Index][1].Checked;
+            object? objTag = lstStepProgram.CurrentItems[Index][2].Tag;
+            StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
+            if (objTag != null) {
+                if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                    StepExe = (StepEnumerations.StepExecutable)objTag;
+                }
+            }
+            for (int i = 0; i < lstStepProgram.Columns.Count; i++) {
+                if (IsNotCommented == false) {
+                    lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_CommentColor;
+                }
+                else {
+                    if (i < lstStepProgram.Columns.Count - 1) {
+                        StepEnumerations.StepKeyWordType KeywordType = ProgramManager.StepExecutableToKeyWordType(StepExe);
+
+                        if (KeywordType == StepEnumerations.StepKeyWordType.ControlFlow) {
+                            lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_KeyWordColor;
+                        }
+                        else if (KeywordType == StepEnumerations.StepKeyWordType.ReturnsAndCalls) {
+                            lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_ReturnsAndCalls;
+                        }
+                        else if (KeywordType == StepEnumerations.StepKeyWordType.VariableDeclaration) {
+                            lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_VariablesColor;
+                        }
+                        else {
+                            lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                        }
+                    }
+                    else {
+                        lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                    }
+                    //sdfsdfsdf
+                }
+
+            }
+        }
+        public static void ApplyIndentation(ODModules.ListControl lstStepProgram, bool Redraw = true) {
+            if (Properties.Settings.Default.PRG_BOL_CommandIndentation == false) {
+                lstStepProgram.ShowItemIndentation = false;
+                if (Redraw) {
+                    lstStepProgram.Invalidate();
+                }
+                return;
+            }
+            uint Indent = 0;
+            for (int i = 0; i < lstStepProgram.CurrentItems.Count; i++) {
+                if (lstStepProgram.CurrentItems[i].SubItems.Count != 3) { continue; }
+                object? objTag = lstStepProgram.CurrentItems[i][2].Tag;
+                StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
+                if (objTag != null) {
+                    if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                        StepExe = (StepEnumerations.StepExecutable)objTag;
+                    }
+                }
+                StepEnumerations.StepKeyWordType KeywordType = ProgramManager.StepExecutableToKeyWordType(StepExe);
+                if (KeywordType == StepEnumerations.StepKeyWordType.ControlFlow) {
+                    if (Indent > 0) {
+                        if ((StepExe == StepEnumerations.StepExecutable.EndIf) || (StepExe == StepEnumerations.StepExecutable.Else)) {
+                            Indent--;
+                        }
+                    }
+                    lstStepProgram.CurrentItems[i][2].Indentation = Indent;
+                    if ((StepExe == StepEnumerations.StepExecutable.If) || (StepExe == StepEnumerations.StepExecutable.Else)) {
+                        Indent++;
+                    }
+                }
+                else {
+                    lstStepProgram.CurrentItems[i][2].Indentation = Indent;
+                }
+            }
+            lstStepProgram.ShowItemIndentation = true;
+            if (Redraw) {
+                lstStepProgram.Invalidate();
+            }
         }
         #endregion
     }

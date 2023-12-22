@@ -81,25 +81,27 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
                 }
                 else {
-                    if (Unit < 0) { new ValidString(); }
+
+                    int Index = UnitToIndex(Manager, Unit);
+                    if (Index < 0) { new ValidString(); }
                     if (Select == DataSelection.ModbusDataCoils) {
-                        if (Address < Manager.Slave[Unit].Coils.Count()) {
-                            return BulidRegisterSerialisedString(Manager.Slave[Unit].Coils[Address], IncludeValue);
+                        if (Address < Manager.Slave[Index].Coils.Count()) {
+                            return BulidRegisterSerialisedString(Manager.Slave[Index].Coils[Address], IncludeValue);
                         }
                     }
                     else if (Select == DataSelection.ModbusDataDiscreteInputs) {
-                        if (Address < Manager.Slave[Unit].DiscreteInputs.Count()) {
-                            return BulidRegisterSerialisedString(Manager.Slave[Unit].DiscreteInputs[Address], IncludeValue);
+                        if (Address < Manager.Slave[Index].DiscreteInputs.Count()) {
+                            return BulidRegisterSerialisedString(Manager.Slave[Index].DiscreteInputs[Address], IncludeValue);
                         }
                     }
                     else if (Select == DataSelection.ModbusDataInputRegisters) {
-                        if (Address < Manager.Slave[Unit].InputRegisters.Count()) {
-                            return BulidRegisterSerialisedString(Manager.Slave[Unit].InputRegisters[Address], IncludeValue);
+                        if (Address < Manager.Slave[Index].InputRegisters.Count()) {
+                            return BulidRegisterSerialisedString(Manager.Slave[Index].InputRegisters[Address], IncludeValue);
                         }
                     }
                     else if (Select == DataSelection.ModbusDataHoldingRegisters) {
-                        if (Address < Manager.Slave[Unit].HoldingRegisters.Count()) {
-                            return BulidRegisterSerialisedString(Manager.Slave[Unit].HoldingRegisters[Address], IncludeValue);
+                        if (Address < Manager.Slave[Index].HoldingRegisters.Count()) {
+                            return BulidRegisterSerialisedString(Manager.Slave[Index].HoldingRegisters[Address], IncludeValue);
                         }
                     }
                 }
@@ -181,14 +183,14 @@ namespace Serial_Monitor.Classes.Modbus {
                     Values.Add(Spilts.Value[i]);
                 }
                 else {
-                    if (Regex.IsMatch(Spilts.Value[i], "\\s*[A-Za-z]+\\s*=\\s*(?:(\\d+.\\d*)|\\d+)\\s*")) {
-                        Values.Add(Spilts.Value[i]);
+                    if ((Spilts.Value[i - 1].Contains("\"")) && (Spilts.Value[i].Contains("\""))) {
+                        Values[Values.Count - 1] += "," + Spilts.Value[i];
                     }
-                    else if (Regex.IsMatch(Spilts.Value[i], "\\s*[A-Za-z]+\\s*=\\s*(?:\\\"[\\w\\s\\D]+\\\")\\s*")) {
-                        Values.Add(Spilts.Value[i]);
+                    else if ((Spilts.Value[i - 1].Contains("\'")) && (Spilts.Value[i].Contains("\'"))) {
+                        Values[Values.Count - 1] += "," + Spilts.Value[i];
                     }
                     else {
-                        Values[Values.Count - 1] += "," + Spilts.Value[i];
+                        Values.Add(Spilts.Value[i]);
                     }
                 }
             }
@@ -249,22 +251,20 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             else {
-                int SlaveIndex = ModbusSupport.UnitToIndex(CurrentManager, Unit);
-                if (SlaveIndex < 0) { return; }
                 foreach (StringPair DataPair in Data) {
                     try {
                         switch (Selection) {
                             case DataSelection.ModbusDataCoils:
-                                CurrentManager.Slave[SlaveIndex].Coils[Index].Set(DataPair);
+                                CurrentManager.Slave[Unit].Coils[Index].Set(DataPair);
                                 break;
                             case DataSelection.ModbusDataDiscreteInputs:
-                                CurrentManager.Slave[SlaveIndex].DiscreteInputs[Index].Set(DataPair);
+                                CurrentManager.Slave[Unit].DiscreteInputs[Index].Set(DataPair);
                                 break;
                             case DataSelection.ModbusDataInputRegisters:
-                                CurrentManager.Slave[SlaveIndex].InputRegisters[Index].Set(DataPair);
+                                CurrentManager.Slave[Unit].InputRegisters[Index].Set(DataPair);
                                 break;
                             case DataSelection.ModbusDataHoldingRegisters:
-                                CurrentManager.Slave[SlaveIndex].HoldingRegisters[Index].Set(DataPair);
+                                CurrentManager.Slave[Unit].HoldingRegisters[Index].Set(DataPair);
                                 break;
 
                             default:
@@ -414,7 +414,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length) {
             if (Length < 6) { return false; }
-            if ((InputBuffer[0] < 1) || (InputBuffer[0] > 247)) { return false; }
+            if (InputBuffer[0] > 247) { return false; }
             byte[] CRC = new byte[2];
             CRC = BitConverter.GetBytes(CalculateCRC(InputBuffer, (ushort)(Length - 2), 0));
             if (CRC[0] != InputBuffer[Length - 2] | CRC[1] != InputBuffer[Length - 1]) {

@@ -31,897 +31,858 @@
             Handlers.NumericalString numericalString6 = new Handlers.NumericalString();
             Handlers.NumericalString numericalString7 = new Handlers.NumericalString();
             Handlers.NumericalString numericalString8 = new Handlers.NumericalString();
-            this.numericTextbox1 = new ODModules.NumericTextbox();
-            this.flatComboBox1 = new ODModules.FlatComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.pnlDualText = new System.Windows.Forms.SplitContainer();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.pnlText = new System.Windows.Forms.Panel();
-            this.pnlNumber = new System.Windows.Forms.Panel();
-            this.pnlPoint = new System.Windows.Forms.Panel();
-            this.btnGrabPoint = new ODModules.Button();
-            this.spPnlPoint = new System.Windows.Forms.SplitContainer();
-            this.numericTextbox2 = new ODModules.NumericTextbox();
-            this.lblX = new System.Windows.Forms.Label();
-            this.numericTextbox3 = new ODModules.NumericTextbox();
-            this.lblY = new System.Windows.Forms.Label();
-            this.pnlWaitUntilReceived = new System.Windows.Forms.SplitContainer();
-            this.pnlSubWaitUnitRX = new System.Windows.Forms.SplitContainer();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.lblChannel = new System.Windows.Forms.Label();
-            this.numericTextbox4 = new ODModules.NumericTextbox();
-            this.lblTimeOut = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.lblWaitFor = new System.Windows.Forms.Label();
-            this.pnlReplaceText = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.label2 = new System.Windows.Forms.Label();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.label3 = new System.Windows.Forms.Label();
-            this.With = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlDualText)).BeginInit();
-            this.pnlDualText.Panel1.SuspendLayout();
-            this.pnlDualText.Panel2.SuspendLayout();
-            this.pnlDualText.SuspendLayout();
-            this.pnlText.SuspendLayout();
-            this.pnlNumber.SuspendLayout();
-            this.pnlPoint.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spPnlPoint)).BeginInit();
-            this.spPnlPoint.Panel1.SuspendLayout();
-            this.spPnlPoint.Panel2.SuspendLayout();
-            this.spPnlPoint.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlWaitUntilReceived)).BeginInit();
-            this.pnlWaitUntilReceived.Panel1.SuspendLayout();
-            this.pnlWaitUntilReceived.Panel2.SuspendLayout();
-            this.pnlWaitUntilReceived.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlSubWaitUnitRX)).BeginInit();
-            this.pnlSubWaitUnitRX.Panel1.SuspendLayout();
-            this.pnlSubWaitUnitRX.Panel2.SuspendLayout();
-            this.pnlSubWaitUnitRX.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlReplaceText)).BeginInit();
-            this.pnlReplaceText.Panel1.SuspendLayout();
-            this.pnlReplaceText.Panel2.SuspendLayout();
-            this.pnlReplaceText.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.SuspendLayout();
+            numericTextbox1 = new ODModules.NumericTextbox();
+            flatComboBox1 = new ODModules.FlatComboBox();
+            textBox1 = new TextBox();
+            pnlDualText = new SplitContainer();
+            textBox2 = new TextBox();
+            textBox3 = new TextBox();
+            pnlText = new Panel();
+            pnlNumber = new Panel();
+            pnlPoint = new Panel();
+            btnGrabPoint = new ODModules.Button();
+            spPnlPoint = new SplitContainer();
+            numericTextbox2 = new ODModules.NumericTextbox();
+            lblX = new Label();
+            numericTextbox3 = new ODModules.NumericTextbox();
+            lblY = new Label();
+            pnlWaitUntilReceived = new SplitContainer();
+            pnlSubWaitUnitRX = new SplitContainer();
+            textBox4 = new TextBox();
+            lblChannel = new Label();
+            numericTextbox4 = new ODModules.NumericTextbox();
+            lblTimeOut = new Label();
+            textBox5 = new TextBox();
+            lblWaitFor = new Label();
+            pnlReplaceText = new SplitContainer();
+            splitContainer3 = new SplitContainer();
+            textBox10 = new TextBox();
+            textBox11 = new TextBox();
+            splitContainer4 = new SplitContainer();
+            textBox12 = new TextBox();
+            label1 = new Label();
+            textBox13 = new TextBox();
+            label4 = new Label();
+            splitContainer2 = new SplitContainer();
+            label2 = new Label();
+            splitContainer1 = new SplitContainer();
+            label3 = new Label();
+            With = new Label();
+            ((System.ComponentModel.ISupportInitialize)pnlDualText).BeginInit();
+            pnlDualText.Panel1.SuspendLayout();
+            pnlDualText.Panel2.SuspendLayout();
+            pnlDualText.SuspendLayout();
+            pnlText.SuspendLayout();
+            pnlNumber.SuspendLayout();
+            pnlPoint.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)spPnlPoint).BeginInit();
+            spPnlPoint.Panel1.SuspendLayout();
+            spPnlPoint.Panel2.SuspendLayout();
+            spPnlPoint.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pnlWaitUntilReceived).BeginInit();
+            pnlWaitUntilReceived.Panel1.SuspendLayout();
+            pnlWaitUntilReceived.Panel2.SuspendLayout();
+            pnlWaitUntilReceived.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pnlSubWaitUnitRX).BeginInit();
+            pnlSubWaitUnitRX.Panel1.SuspendLayout();
+            pnlSubWaitUnitRX.Panel2.SuspendLayout();
+            pnlSubWaitUnitRX.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pnlReplaceText).BeginInit();
+            pnlReplaceText.Panel1.SuspendLayout();
+            pnlReplaceText.Panel2.SuspendLayout();
+            pnlReplaceText.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
+            splitContainer3.Panel1.SuspendLayout();
+            splitContainer3.Panel2.SuspendLayout();
+            splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer4).BeginInit();
+            splitContainer4.Panel1.SuspendLayout();
+            splitContainer4.Panel2.SuspendLayout();
+            splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            SuspendLayout();
             // 
             // numericTextbox1
             // 
-            this.numericTextbox1.AllowClipboard = true;
-            this.numericTextbox1.AllowDragValueChange = true;
-            this.numericTextbox1.AllowFractionals = false;
-            this.numericTextbox1.AllowMouseWheel = true;
-            this.numericTextbox1.AllowNegatives = false;
-            this.numericTextbox1.AllowNumberEntry = true;
-            this.numericTextbox1.AllowTyping = true;
-            this.numericTextbox1.AutoSizeToText = false;
-            this.numericTextbox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.numericTextbox1.Base = ODModules.NumericTextbox.NumberBase.Base10;
-            this.numericTextbox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox1.ButtonDownColor = System.Drawing.Color.Gray;
-            this.numericTextbox1.ButtonHoverColor = System.Drawing.Color.LightGray;
-            this.numericTextbox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericTextbox1.FixedNumericPadding = 0;
-            this.numericTextbox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox1.ForeColor = System.Drawing.Color.White;
-            this.numericTextbox1.FormatOutput = true;
-            this.numericTextbox1.HasUnit = true;
-            this.numericTextbox1.IsMetric = true;
-            this.numericTextbox1.IsSecondaryMetric = false;
-            this.numericTextbox1.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox1.LabelForeColor = System.Drawing.Color.Gray;
-            this.numericTextbox1.LabelText = "";
-            this.numericTextbox1.Location = new System.Drawing.Point(0, 0);
-            this.numericTextbox1.Margin = new System.Windows.Forms.Padding(6);
-            this.numericTextbox1.Marked = false;
-            this.numericTextbox1.MarkedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox1.MarkedBorderColor = System.Drawing.Color.Beige;
+            numericTextbox1.AllowClipboard = true;
+            numericTextbox1.AllowDragValueChange = true;
+            numericTextbox1.AllowFractionals = false;
+            numericTextbox1.AllowMouseWheel = true;
+            numericTextbox1.AllowNegatives = false;
+            numericTextbox1.AllowNumberEntry = true;
+            numericTextbox1.AllowTyping = true;
+            numericTextbox1.AutoSizeToText = false;
+            numericTextbox1.BackColor = Color.FromArgb(16, 16, 16);
+            numericTextbox1.Base = ODModules.NumericTextbox.NumberBase.Base10;
+            numericTextbox1.BorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox1.ButtonDownColor = Color.Gray;
+            numericTextbox1.ButtonHoverColor = Color.LightGray;
+            numericTextbox1.Dock = DockStyle.Fill;
+            numericTextbox1.FixedNumericPadding = 0;
+            numericTextbox1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox1.ForeColor = Color.White;
+            numericTextbox1.FormatOutput = true;
+            numericTextbox1.HasUnit = true;
+            numericTextbox1.IsMetric = true;
+            numericTextbox1.IsSecondaryMetric = false;
+            numericTextbox1.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox1.LabelForeColor = Color.Gray;
+            numericTextbox1.LabelText = "";
+            numericTextbox1.Location = new Point(0, 0);
+            numericTextbox1.Marked = false;
+            numericTextbox1.MarkedBackColor = Color.Empty;
+            numericTextbox1.MarkedBorderColor = Color.Beige;
             numericalString1.DisplayValue = "100";
             numericalString1.Value = "100";
-            this.numericTextbox1.Maximum = numericalString1;
+            numericTextbox1.Maximum = numericalString1;
             numericalString2.DisplayValue = "0";
             numericalString2.Value = "0";
-            this.numericTextbox1.Minimum = numericalString2;
-            this.numericTextbox1.Name = "numericTextbox1";
-            this.numericTextbox1.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
-            this.numericTextbox1.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
-            this.numericTextbox1.NumericalLeftRadixDigitsMaximum = 7;
-            this.numericTextbox1.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox1.RangeLimited = false;
-            this.numericTextbox1.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox1.SecondaryTag = null;
-            this.numericTextbox1.SecondaryUnit = "";
-            this.numericTextbox1.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
-            this.numericTextbox1.SelectedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox1.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox1.ShowLabel = true;
-            this.numericTextbox1.Size = new System.Drawing.Size(795, 85);
-            this.numericTextbox1.TabIndex = 2;
-            this.numericTextbox1.Unit = "";
-            this.numericTextbox1.UseFixedNumericPadding = false;
-            this.numericTextbox1.Value = "0";
+            numericTextbox1.Minimum = numericalString2;
+            numericTextbox1.Name = "numericTextbox1";
+            numericTextbox1.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
+            numericTextbox1.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
+            numericTextbox1.NumericalLeftRadixDigitsMaximum = 7;
+            numericTextbox1.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox1.RangeLimited = false;
+            numericTextbox1.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox1.SecondaryTag = null;
+            numericTextbox1.SecondaryUnit = "";
+            numericTextbox1.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
+            numericTextbox1.SelectedBackColor = Color.Empty;
+            numericTextbox1.SelectedBorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox1.ShowLabel = true;
+            numericTextbox1.Size = new Size(428, 40);
+            numericTextbox1.TabIndex = 2;
+            numericTextbox1.Unit = "";
+            numericTextbox1.UseFixedNumericPadding = false;
+            numericTextbox1.Value = "0";
             // 
             // flatComboBox1
             // 
-            this.flatComboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.flatComboBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.flatComboBox1.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.flatComboBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flatComboBox1.Font = new System.Drawing.Font("Segoe UI", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.flatComboBox1.ForeColor = System.Drawing.Color.White;
-            this.flatComboBox1.FormattingEnabled = true;
-            this.flatComboBox1.Location = new System.Drawing.Point(7, 66);
-            this.flatComboBox1.Margin = new System.Windows.Forms.Padding(6);
-            this.flatComboBox1.Name = "flatComboBox1";
-            this.flatComboBox1.Size = new System.Drawing.Size(795, 39);
-            this.flatComboBox1.TabIndex = 3;
-            this.flatComboBox1.Visible = false;
+            flatComboBox1.BackColor = Color.FromArgb(16, 16, 16);
+            flatComboBox1.BorderColor = Color.FromArgb(40, 40, 40);
+            flatComboBox1.ButtonColor = Color.FromArgb(64, 64, 64);
+            flatComboBox1.Dock = DockStyle.Top;
+            flatComboBox1.Font = new Font("Segoe UI", 8.75F, FontStyle.Regular, GraphicsUnit.Point);
+            flatComboBox1.ForeColor = Color.White;
+            flatComboBox1.FormattingEnabled = true;
+            flatComboBox1.Location = new Point(4, 31);
+            flatComboBox1.Name = "flatComboBox1";
+            flatComboBox1.Size = new Size(428, 23);
+            flatComboBox1.TabIndex = 3;
+            flatComboBox1.Visible = false;
             // 
             // textBox1
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(795, 32);
-            this.textBox1.TabIndex = 4;
+            textBox1.BackColor = Color.FromArgb(16, 16, 16);
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Dock = DockStyle.Fill;
+            textBox1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox1.ForeColor = Color.White;
+            textBox1.Location = new Point(0, 0);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(428, 16);
+            textBox1.TabIndex = 4;
             // 
             // pnlDualText
             // 
-            this.pnlDualText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDualText.Location = new System.Drawing.Point(7, 105);
-            this.pnlDualText.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlDualText.Name = "pnlDualText";
+            pnlDualText.Dock = DockStyle.Top;
+            pnlDualText.Location = new Point(4, 54);
+            pnlDualText.Name = "pnlDualText";
             // 
             // pnlDualText.Panel1
             // 
-            this.pnlDualText.Panel1.Controls.Add(this.textBox2);
+            pnlDualText.Panel1.Controls.Add(textBox2);
             // 
             // pnlDualText.Panel2
             // 
-            this.pnlDualText.Panel2.Controls.Add(this.textBox3);
-            this.pnlDualText.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlDualText.Size = new System.Drawing.Size(795, 62);
-            this.pnlDualText.SplitterDistance = 248;
-            this.pnlDualText.SplitterWidth = 7;
-            this.pnlDualText.TabIndex = 6;
-            this.pnlDualText.TabStop = false;
-            this.pnlDualText.Visible = false;
+            pnlDualText.Panel2.Controls.Add(textBox3);
+            pnlDualText.Panel2.Padding = new Padding(3, 0, 0, 0);
+            pnlDualText.Size = new Size(428, 29);
+            pnlDualText.SplitterDistance = 133;
+            pnlDualText.TabIndex = 6;
+            pnlDualText.TabStop = false;
+            pnlDualText.Visible = false;
             // 
             // textBox2
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(0, 0);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PlaceholderText = "Name";
-            this.textBox2.Size = new System.Drawing.Size(248, 32);
-            this.textBox2.TabIndex = 0;
+            textBox2.BackColor = Color.FromArgb(16, 16, 16);
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Dock = DockStyle.Fill;
+            textBox2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox2.ForeColor = Color.White;
+            textBox2.Location = new Point(0, 0);
+            textBox2.Name = "textBox2";
+            textBox2.PlaceholderText = "Name";
+            textBox2.Size = new Size(133, 16);
+            textBox2.TabIndex = 0;
             // 
             // textBox3
             // 
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(6, 0);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.PlaceholderText = "Assignment/Expression";
-            this.textBox3.Size = new System.Drawing.Size(534, 32);
-            this.textBox3.TabIndex = 1;
+            textBox3.BackColor = Color.FromArgb(16, 16, 16);
+            textBox3.BorderStyle = BorderStyle.None;
+            textBox3.Dock = DockStyle.Fill;
+            textBox3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox3.ForeColor = Color.White;
+            textBox3.Location = new Point(3, 0);
+            textBox3.Name = "textBox3";
+            textBox3.PlaceholderText = "Assignment/Expression";
+            textBox3.Size = new Size(288, 16);
+            textBox3.TabIndex = 1;
             // 
             // pnlText
             // 
-            this.pnlText.Controls.Add(this.textBox1);
-            this.pnlText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlText.Location = new System.Drawing.Point(7, 2);
-            this.pnlText.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlText.Name = "pnlText";
-            this.pnlText.Size = new System.Drawing.Size(795, 64);
-            this.pnlText.TabIndex = 7;
-            this.pnlText.Visible = false;
+            pnlText.Controls.Add(textBox1);
+            pnlText.Dock = DockStyle.Top;
+            pnlText.Location = new Point(4, 1);
+            pnlText.Name = "pnlText";
+            pnlText.Size = new Size(428, 30);
+            pnlText.TabIndex = 7;
+            pnlText.Visible = false;
             // 
             // pnlNumber
             // 
-            this.pnlNumber.Controls.Add(this.numericTextbox1);
-            this.pnlNumber.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlNumber.Location = new System.Drawing.Point(7, 167);
-            this.pnlNumber.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlNumber.Name = "pnlNumber";
-            this.pnlNumber.Size = new System.Drawing.Size(795, 85);
-            this.pnlNumber.TabIndex = 8;
-            this.pnlNumber.Visible = false;
+            pnlNumber.Controls.Add(numericTextbox1);
+            pnlNumber.Dock = DockStyle.Top;
+            pnlNumber.Location = new Point(4, 83);
+            pnlNumber.Name = "pnlNumber";
+            pnlNumber.Size = new Size(428, 40);
+            pnlNumber.TabIndex = 8;
+            pnlNumber.Visible = false;
             // 
             // pnlPoint
             // 
-            this.pnlPoint.Controls.Add(this.btnGrabPoint);
-            this.pnlPoint.Controls.Add(this.spPnlPoint);
-            this.pnlPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlPoint.Location = new System.Drawing.Point(7, 252);
-            this.pnlPoint.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlPoint.Name = "pnlPoint";
-            this.pnlPoint.Size = new System.Drawing.Size(795, 49);
-            this.pnlPoint.TabIndex = 9;
-            this.pnlPoint.Visible = false;
+            pnlPoint.Controls.Add(btnGrabPoint);
+            pnlPoint.Controls.Add(spPnlPoint);
+            pnlPoint.Dock = DockStyle.Top;
+            pnlPoint.Location = new Point(4, 123);
+            pnlPoint.Name = "pnlPoint";
+            pnlPoint.Size = new Size(428, 23);
+            pnlPoint.TabIndex = 9;
+            pnlPoint.Visible = false;
             // 
             // btnGrabPoint
             // 
-            this.btnGrabPoint.AllowGroupUnchecking = false;
-            this.btnGrabPoint.BackColorCheckedNorth = System.Drawing.Color.Orange;
-            this.btnGrabPoint.BackColorCheckedSouth = System.Drawing.Color.Orange;
-            this.btnGrabPoint.BackColorDownNorth = System.Drawing.Color.DimGray;
-            this.btnGrabPoint.BackColorDownSouth = System.Drawing.Color.DimGray;
-            this.btnGrabPoint.BackColorHoverNorth = System.Drawing.Color.SkyBlue;
-            this.btnGrabPoint.BackColorHoverSouth = System.Drawing.Color.SkyBlue;
-            this.btnGrabPoint.BackColorNorth = System.Drawing.Color.White;
-            this.btnGrabPoint.BackColorSouth = System.Drawing.Color.White;
-            this.btnGrabPoint.BorderColorCheckedNorth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorCheckedSouth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorDownNorth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorDownSouth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorHoverNorth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorHoverSouth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorNorth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderColorShadow = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnGrabPoint.BorderColorSouth = System.Drawing.Color.Black;
-            this.btnGrabPoint.BorderRadius = 5;
-            this.btnGrabPoint.Checked = false;
-            this.btnGrabPoint.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGrabPoint.GroupMaximumChecked = 2;
-            this.btnGrabPoint.Location = new System.Drawing.Point(658, 0);
-            this.btnGrabPoint.Margin = new System.Windows.Forms.Padding(6);
-            this.btnGrabPoint.Name = "btnGrabPoint";
-            this.btnGrabPoint.RadioButtonGroup = "";
-            this.btnGrabPoint.SecondaryFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnGrabPoint.SecondaryText = "";
-            this.btnGrabPoint.Size = new System.Drawing.Size(137, 49);
-            this.btnGrabPoint.Style = ODModules.ButtonStyle.Square;
-            this.btnGrabPoint.TabIndex = 8;
-            this.btnGrabPoint.Text = "Get Point";
-            this.btnGrabPoint.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            this.btnGrabPoint.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            this.btnGrabPoint.Type = ODModules.ButtonType.Button;
+            btnGrabPoint.AllowGroupUnchecking = false;
+            btnGrabPoint.BackColorCheckedNorth = Color.Orange;
+            btnGrabPoint.BackColorCheckedSouth = Color.Orange;
+            btnGrabPoint.BackColorDownNorth = Color.DimGray;
+            btnGrabPoint.BackColorDownSouth = Color.DimGray;
+            btnGrabPoint.BackColorHoverNorth = Color.SkyBlue;
+            btnGrabPoint.BackColorHoverSouth = Color.SkyBlue;
+            btnGrabPoint.BackColorNorth = Color.White;
+            btnGrabPoint.BackColorSouth = Color.White;
+            btnGrabPoint.BorderColorCheckedNorth = Color.Black;
+            btnGrabPoint.BorderColorCheckedSouth = Color.Black;
+            btnGrabPoint.BorderColorDownNorth = Color.Black;
+            btnGrabPoint.BorderColorDownSouth = Color.Black;
+            btnGrabPoint.BorderColorHoverNorth = Color.Black;
+            btnGrabPoint.BorderColorHoverSouth = Color.Black;
+            btnGrabPoint.BorderColorNorth = Color.Black;
+            btnGrabPoint.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            btnGrabPoint.BorderColorSouth = Color.Black;
+            btnGrabPoint.BorderRadius = 5;
+            btnGrabPoint.Checked = false;
+            btnGrabPoint.Dock = DockStyle.Right;
+            btnGrabPoint.GroupMaximumChecked = 2;
+            btnGrabPoint.Location = new Point(354, 0);
+            btnGrabPoint.Name = "btnGrabPoint";
+            btnGrabPoint.RadioButtonGroup = "";
+            btnGrabPoint.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnGrabPoint.SecondaryText = "";
+            btnGrabPoint.Size = new Size(74, 23);
+            btnGrabPoint.Style = ODModules.ButtonStyle.Square;
+            btnGrabPoint.TabIndex = 8;
+            btnGrabPoint.Text = "Get Point";
+            btnGrabPoint.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btnGrabPoint.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            btnGrabPoint.Type = ODModules.ButtonType.Button;
             // 
             // spPnlPoint
             // 
-            this.spPnlPoint.Dock = System.Windows.Forms.DockStyle.Left;
-            this.spPnlPoint.IsSplitterFixed = true;
-            this.spPnlPoint.Location = new System.Drawing.Point(0, 0);
-            this.spPnlPoint.Margin = new System.Windows.Forms.Padding(6);
-            this.spPnlPoint.Name = "spPnlPoint";
+            spPnlPoint.Dock = DockStyle.Left;
+            spPnlPoint.IsSplitterFixed = true;
+            spPnlPoint.Location = new Point(0, 0);
+            spPnlPoint.Name = "spPnlPoint";
             // 
             // spPnlPoint.Panel1
             // 
-            this.spPnlPoint.Panel1.Controls.Add(this.numericTextbox2);
-            this.spPnlPoint.Panel1.Controls.Add(this.lblX);
+            spPnlPoint.Panel1.Controls.Add(numericTextbox2);
+            spPnlPoint.Panel1.Controls.Add(lblX);
             // 
             // spPnlPoint.Panel2
             // 
-            this.spPnlPoint.Panel2.Controls.Add(this.numericTextbox3);
-            this.spPnlPoint.Panel2.Controls.Add(this.lblY);
-            this.spPnlPoint.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.spPnlPoint.Size = new System.Drawing.Size(245, 49);
-            this.spPnlPoint.SplitterDistance = 107;
-            this.spPnlPoint.SplitterWidth = 7;
-            this.spPnlPoint.TabIndex = 7;
-            this.spPnlPoint.TabStop = false;
+            spPnlPoint.Panel2.Controls.Add(numericTextbox3);
+            spPnlPoint.Panel2.Controls.Add(lblY);
+            spPnlPoint.Panel2.Padding = new Padding(3, 0, 0, 0);
+            spPnlPoint.Size = new Size(132, 23);
+            spPnlPoint.SplitterDistance = 57;
+            spPnlPoint.TabIndex = 7;
+            spPnlPoint.TabStop = false;
             // 
             // numericTextbox2
             // 
-            this.numericTextbox2.AllowClipboard = true;
-            this.numericTextbox2.AllowDragValueChange = true;
-            this.numericTextbox2.AllowFractionals = false;
-            this.numericTextbox2.AllowMouseWheel = true;
-            this.numericTextbox2.AllowNegatives = true;
-            this.numericTextbox2.AllowNumberEntry = true;
-            this.numericTextbox2.AllowTyping = true;
-            this.numericTextbox2.AutoSizeToText = false;
-            this.numericTextbox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.numericTextbox2.Base = ODModules.NumericTextbox.NumberBase.Base10;
-            this.numericTextbox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox2.ButtonDownColor = System.Drawing.Color.Gray;
-            this.numericTextbox2.ButtonHoverColor = System.Drawing.Color.LightGray;
-            this.numericTextbox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericTextbox2.FixedNumericPadding = 0;
-            this.numericTextbox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox2.ForeColor = System.Drawing.Color.White;
-            this.numericTextbox2.FormatOutput = true;
-            this.numericTextbox2.HasUnit = true;
-            this.numericTextbox2.IsMetric = true;
-            this.numericTextbox2.IsSecondaryMetric = false;
-            this.numericTextbox2.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox2.LabelForeColor = System.Drawing.Color.Gray;
-            this.numericTextbox2.LabelText = "";
-            this.numericTextbox2.Location = new System.Drawing.Point(28, 0);
-            this.numericTextbox2.Margin = new System.Windows.Forms.Padding(6);
-            this.numericTextbox2.Marked = false;
-            this.numericTextbox2.MarkedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox2.MarkedBorderColor = System.Drawing.Color.Beige;
+            numericTextbox2.AllowClipboard = true;
+            numericTextbox2.AllowDragValueChange = true;
+            numericTextbox2.AllowFractionals = false;
+            numericTextbox2.AllowMouseWheel = true;
+            numericTextbox2.AllowNegatives = true;
+            numericTextbox2.AllowNumberEntry = true;
+            numericTextbox2.AllowTyping = true;
+            numericTextbox2.AutoSizeToText = false;
+            numericTextbox2.BackColor = Color.FromArgb(16, 16, 16);
+            numericTextbox2.Base = ODModules.NumericTextbox.NumberBase.Base10;
+            numericTextbox2.BorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox2.ButtonDownColor = Color.Gray;
+            numericTextbox2.ButtonHoverColor = Color.LightGray;
+            numericTextbox2.Dock = DockStyle.Fill;
+            numericTextbox2.FixedNumericPadding = 0;
+            numericTextbox2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox2.ForeColor = Color.White;
+            numericTextbox2.FormatOutput = true;
+            numericTextbox2.HasUnit = true;
+            numericTextbox2.IsMetric = true;
+            numericTextbox2.IsSecondaryMetric = false;
+            numericTextbox2.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox2.LabelForeColor = Color.Gray;
+            numericTextbox2.LabelText = "";
+            numericTextbox2.Location = new Point(14, 0);
+            numericTextbox2.Marked = false;
+            numericTextbox2.MarkedBackColor = Color.Empty;
+            numericTextbox2.MarkedBorderColor = Color.Beige;
             numericalString3.DisplayValue = "100";
             numericalString3.Value = "100";
-            this.numericTextbox2.Maximum = numericalString3;
+            numericTextbox2.Maximum = numericalString3;
             numericalString4.DisplayValue = "0";
             numericalString4.Value = "0";
-            this.numericTextbox2.Minimum = numericalString4;
-            this.numericTextbox2.Name = "numericTextbox2";
-            this.numericTextbox2.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
-            this.numericTextbox2.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
-            this.numericTextbox2.NumericalLeftRadixDigitsMaximum = 7;
-            this.numericTextbox2.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox2.RangeLimited = false;
-            this.numericTextbox2.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox2.SecondaryTag = null;
-            this.numericTextbox2.SecondaryUnit = "";
-            this.numericTextbox2.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
-            this.numericTextbox2.SelectedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox2.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox2.ShowLabel = true;
-            this.numericTextbox2.Size = new System.Drawing.Size(79, 49);
-            this.numericTextbox2.TabIndex = 3;
-            this.numericTextbox2.Unit = "";
-            this.numericTextbox2.UseFixedNumericPadding = false;
-            this.numericTextbox2.Value = "0";
+            numericTextbox2.Minimum = numericalString4;
+            numericTextbox2.Name = "numericTextbox2";
+            numericTextbox2.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
+            numericTextbox2.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
+            numericTextbox2.NumericalLeftRadixDigitsMaximum = 7;
+            numericTextbox2.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox2.RangeLimited = false;
+            numericTextbox2.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox2.SecondaryTag = null;
+            numericTextbox2.SecondaryUnit = "";
+            numericTextbox2.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
+            numericTextbox2.SelectedBackColor = Color.Empty;
+            numericTextbox2.SelectedBorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox2.ShowLabel = true;
+            numericTextbox2.Size = new Size(43, 23);
+            numericTextbox2.TabIndex = 3;
+            numericTextbox2.Unit = "";
+            numericTextbox2.UseFixedNumericPadding = false;
+            numericTextbox2.Value = "0";
             // 
             // lblX
             // 
-            this.lblX.AutoSize = true;
-            this.lblX.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblX.Location = new System.Drawing.Point(0, 0);
-            this.lblX.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblX.Name = "lblX";
-            this.lblX.Size = new System.Drawing.Size(28, 32);
-            this.lblX.TabIndex = 4;
-            this.lblX.Text = "X";
+            lblX.AutoSize = true;
+            lblX.Dock = DockStyle.Left;
+            lblX.Location = new Point(0, 0);
+            lblX.Name = "lblX";
+            lblX.Size = new Size(14, 15);
+            lblX.TabIndex = 4;
+            lblX.Text = "X";
             // 
             // numericTextbox3
             // 
-            this.numericTextbox3.AllowClipboard = true;
-            this.numericTextbox3.AllowDragValueChange = true;
-            this.numericTextbox3.AllowFractionals = false;
-            this.numericTextbox3.AllowMouseWheel = true;
-            this.numericTextbox3.AllowNegatives = true;
-            this.numericTextbox3.AllowNumberEntry = true;
-            this.numericTextbox3.AllowTyping = true;
-            this.numericTextbox3.AutoSizeToText = false;
-            this.numericTextbox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.numericTextbox3.Base = ODModules.NumericTextbox.NumberBase.Base10;
-            this.numericTextbox3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox3.ButtonDownColor = System.Drawing.Color.Gray;
-            this.numericTextbox3.ButtonHoverColor = System.Drawing.Color.LightGray;
-            this.numericTextbox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericTextbox3.FixedNumericPadding = 0;
-            this.numericTextbox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox3.ForeColor = System.Drawing.Color.White;
-            this.numericTextbox3.FormatOutput = true;
-            this.numericTextbox3.HasUnit = true;
-            this.numericTextbox3.IsMetric = true;
-            this.numericTextbox3.IsSecondaryMetric = false;
-            this.numericTextbox3.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox3.LabelForeColor = System.Drawing.Color.Gray;
-            this.numericTextbox3.LabelText = "";
-            this.numericTextbox3.Location = new System.Drawing.Point(33, 0);
-            this.numericTextbox3.Margin = new System.Windows.Forms.Padding(6);
-            this.numericTextbox3.Marked = false;
-            this.numericTextbox3.MarkedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox3.MarkedBorderColor = System.Drawing.Color.Beige;
+            numericTextbox3.AllowClipboard = true;
+            numericTextbox3.AllowDragValueChange = true;
+            numericTextbox3.AllowFractionals = false;
+            numericTextbox3.AllowMouseWheel = true;
+            numericTextbox3.AllowNegatives = true;
+            numericTextbox3.AllowNumberEntry = true;
+            numericTextbox3.AllowTyping = true;
+            numericTextbox3.AutoSizeToText = false;
+            numericTextbox3.BackColor = Color.FromArgb(16, 16, 16);
+            numericTextbox3.Base = ODModules.NumericTextbox.NumberBase.Base10;
+            numericTextbox3.BorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox3.ButtonDownColor = Color.Gray;
+            numericTextbox3.ButtonHoverColor = Color.LightGray;
+            numericTextbox3.Dock = DockStyle.Fill;
+            numericTextbox3.FixedNumericPadding = 0;
+            numericTextbox3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox3.ForeColor = Color.White;
+            numericTextbox3.FormatOutput = true;
+            numericTextbox3.HasUnit = true;
+            numericTextbox3.IsMetric = true;
+            numericTextbox3.IsSecondaryMetric = false;
+            numericTextbox3.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox3.LabelForeColor = Color.Gray;
+            numericTextbox3.LabelText = "";
+            numericTextbox3.Location = new Point(17, 0);
+            numericTextbox3.Marked = false;
+            numericTextbox3.MarkedBackColor = Color.Empty;
+            numericTextbox3.MarkedBorderColor = Color.Beige;
             numericalString5.DisplayValue = "100";
             numericalString5.Value = "100";
-            this.numericTextbox3.Maximum = numericalString5;
+            numericTextbox3.Maximum = numericalString5;
             numericalString6.DisplayValue = "0";
             numericalString6.Value = "0";
-            this.numericTextbox3.Minimum = numericalString6;
-            this.numericTextbox3.Name = "numericTextbox3";
-            this.numericTextbox3.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
-            this.numericTextbox3.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
-            this.numericTextbox3.NumericalLeftRadixDigitsMaximum = 7;
-            this.numericTextbox3.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox3.RangeLimited = false;
-            this.numericTextbox3.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox3.SecondaryTag = null;
-            this.numericTextbox3.SecondaryUnit = "";
-            this.numericTextbox3.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
-            this.numericTextbox3.SelectedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox3.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox3.ShowLabel = true;
-            this.numericTextbox3.Size = new System.Drawing.Size(98, 49);
-            this.numericTextbox3.TabIndex = 3;
-            this.numericTextbox3.Unit = "";
-            this.numericTextbox3.UseFixedNumericPadding = false;
-            this.numericTextbox3.Value = "0";
+            numericTextbox3.Minimum = numericalString6;
+            numericTextbox3.Name = "numericTextbox3";
+            numericTextbox3.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
+            numericTextbox3.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
+            numericTextbox3.NumericalLeftRadixDigitsMaximum = 7;
+            numericTextbox3.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox3.RangeLimited = false;
+            numericTextbox3.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox3.SecondaryTag = null;
+            numericTextbox3.SecondaryUnit = "";
+            numericTextbox3.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
+            numericTextbox3.SelectedBackColor = Color.Empty;
+            numericTextbox3.SelectedBorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox3.ShowLabel = true;
+            numericTextbox3.Size = new Size(54, 23);
+            numericTextbox3.TabIndex = 3;
+            numericTextbox3.Unit = "";
+            numericTextbox3.UseFixedNumericPadding = false;
+            numericTextbox3.Value = "0";
             // 
             // lblY
             // 
-            this.lblY.AutoSize = true;
-            this.lblY.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblY.Location = new System.Drawing.Point(6, 0);
-            this.lblY.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblY.Name = "lblY";
-            this.lblY.Size = new System.Drawing.Size(27, 32);
-            this.lblY.TabIndex = 5;
-            this.lblY.Text = "Y";
+            lblY.AutoSize = true;
+            lblY.Dock = DockStyle.Left;
+            lblY.Location = new Point(3, 0);
+            lblY.Name = "lblY";
+            lblY.Size = new Size(14, 15);
+            lblY.TabIndex = 5;
+            lblY.Text = "Y";
             // 
             // pnlWaitUntilReceived
             // 
-            this.pnlWaitUntilReceived.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlWaitUntilReceived.Location = new System.Drawing.Point(7, 301);
-            this.pnlWaitUntilReceived.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlWaitUntilReceived.Name = "pnlWaitUntilReceived";
+            pnlWaitUntilReceived.Dock = DockStyle.Top;
+            pnlWaitUntilReceived.Location = new Point(4, 146);
+            pnlWaitUntilReceived.Name = "pnlWaitUntilReceived";
             // 
             // pnlWaitUntilReceived.Panel1
             // 
-            this.pnlWaitUntilReceived.Panel1.Controls.Add(this.pnlSubWaitUnitRX);
+            pnlWaitUntilReceived.Panel1.Controls.Add(pnlSubWaitUnitRX);
             // 
             // pnlWaitUntilReceived.Panel2
             // 
-            this.pnlWaitUntilReceived.Panel2.Controls.Add(this.textBox5);
-            this.pnlWaitUntilReceived.Panel2.Controls.Add(this.lblWaitFor);
-            this.pnlWaitUntilReceived.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlWaitUntilReceived.Size = new System.Drawing.Size(795, 55);
-            this.pnlWaitUntilReceived.SplitterDistance = 473;
-            this.pnlWaitUntilReceived.SplitterWidth = 7;
-            this.pnlWaitUntilReceived.TabIndex = 10;
-            this.pnlWaitUntilReceived.TabStop = false;
-            this.pnlWaitUntilReceived.Visible = false;
+            pnlWaitUntilReceived.Panel2.Controls.Add(textBox5);
+            pnlWaitUntilReceived.Panel2.Controls.Add(lblWaitFor);
+            pnlWaitUntilReceived.Panel2.Padding = new Padding(3, 0, 0, 0);
+            pnlWaitUntilReceived.Size = new Size(428, 26);
+            pnlWaitUntilReceived.SplitterDistance = 254;
+            pnlWaitUntilReceived.TabIndex = 10;
+            pnlWaitUntilReceived.TabStop = false;
+            pnlWaitUntilReceived.Visible = false;
             // 
             // pnlSubWaitUnitRX
             // 
-            this.pnlSubWaitUnitRX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlSubWaitUnitRX.Location = new System.Drawing.Point(0, 0);
-            this.pnlSubWaitUnitRX.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlSubWaitUnitRX.Name = "pnlSubWaitUnitRX";
+            pnlSubWaitUnitRX.Dock = DockStyle.Fill;
+            pnlSubWaitUnitRX.Location = new Point(0, 0);
+            pnlSubWaitUnitRX.Name = "pnlSubWaitUnitRX";
             // 
             // pnlSubWaitUnitRX.Panel1
             // 
-            this.pnlSubWaitUnitRX.Panel1.Controls.Add(this.textBox4);
-            this.pnlSubWaitUnitRX.Panel1.Controls.Add(this.lblChannel);
+            pnlSubWaitUnitRX.Panel1.Controls.Add(textBox4);
+            pnlSubWaitUnitRX.Panel1.Controls.Add(lblChannel);
             // 
             // pnlSubWaitUnitRX.Panel2
             // 
-            this.pnlSubWaitUnitRX.Panel2.Controls.Add(this.numericTextbox4);
-            this.pnlSubWaitUnitRX.Panel2.Controls.Add(this.lblTimeOut);
-            this.pnlSubWaitUnitRX.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.pnlSubWaitUnitRX.Size = new System.Drawing.Size(473, 55);
-            this.pnlSubWaitUnitRX.SplitterDistance = 224;
-            this.pnlSubWaitUnitRX.SplitterWidth = 7;
-            this.pnlSubWaitUnitRX.TabIndex = 11;
-            this.pnlSubWaitUnitRX.TabStop = false;
+            pnlSubWaitUnitRX.Panel2.Controls.Add(numericTextbox4);
+            pnlSubWaitUnitRX.Panel2.Controls.Add(lblTimeOut);
+            pnlSubWaitUnitRX.Panel2.Padding = new Padding(3, 0, 0, 0);
+            pnlSubWaitUnitRX.Size = new Size(254, 26);
+            pnlSubWaitUnitRX.SplitterDistance = 120;
+            pnlSubWaitUnitRX.TabIndex = 11;
+            pnlSubWaitUnitRX.TabStop = false;
             // 
             // textBox4
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox4.ForeColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(102, 0);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.PlaceholderText = "Name";
-            this.textBox4.Size = new System.Drawing.Size(122, 32);
-            this.textBox4.TabIndex = 0;
+            textBox4.BackColor = Color.FromArgb(16, 16, 16);
+            textBox4.BorderStyle = BorderStyle.None;
+            textBox4.Dock = DockStyle.Fill;
+            textBox4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox4.ForeColor = Color.White;
+            textBox4.Location = new Point(51, 0);
+            textBox4.Name = "textBox4";
+            textBox4.PlaceholderText = "Name";
+            textBox4.Size = new Size(69, 16);
+            textBox4.TabIndex = 0;
             // 
             // lblChannel
             // 
-            this.lblChannel.AutoSize = true;
-            this.lblChannel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblChannel.Location = new System.Drawing.Point(0, 0);
-            this.lblChannel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblChannel.Name = "lblChannel";
-            this.lblChannel.Size = new System.Drawing.Size(102, 32);
-            this.lblChannel.TabIndex = 5;
-            this.lblChannel.Text = "Channel";
+            lblChannel.AutoSize = true;
+            lblChannel.Dock = DockStyle.Left;
+            lblChannel.Location = new Point(0, 0);
+            lblChannel.Name = "lblChannel";
+            lblChannel.Size = new Size(51, 15);
+            lblChannel.TabIndex = 5;
+            lblChannel.Text = "Channel";
             // 
             // numericTextbox4
             // 
-            this.numericTextbox4.AllowClipboard = true;
-            this.numericTextbox4.AllowDragValueChange = true;
-            this.numericTextbox4.AllowFractionals = false;
-            this.numericTextbox4.AllowMouseWheel = true;
-            this.numericTextbox4.AllowNegatives = false;
-            this.numericTextbox4.AllowNumberEntry = true;
-            this.numericTextbox4.AllowTyping = true;
-            this.numericTextbox4.AutoSizeToText = false;
-            this.numericTextbox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.numericTextbox4.Base = ODModules.NumericTextbox.NumberBase.Base10;
-            this.numericTextbox4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox4.ButtonDownColor = System.Drawing.Color.Gray;
-            this.numericTextbox4.ButtonHoverColor = System.Drawing.Color.LightGray;
-            this.numericTextbox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericTextbox4.FixedNumericPadding = 0;
-            this.numericTextbox4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox4.ForeColor = System.Drawing.Color.White;
-            this.numericTextbox4.FormatOutput = true;
-            this.numericTextbox4.HasUnit = true;
-            this.numericTextbox4.IsMetric = true;
-            this.numericTextbox4.IsSecondaryMetric = false;
-            this.numericTextbox4.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericTextbox4.LabelForeColor = System.Drawing.Color.Gray;
-            this.numericTextbox4.LabelText = "";
-            this.numericTextbox4.Location = new System.Drawing.Point(120, 0);
-            this.numericTextbox4.Margin = new System.Windows.Forms.Padding(6);
-            this.numericTextbox4.Marked = false;
-            this.numericTextbox4.MarkedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox4.MarkedBorderColor = System.Drawing.Color.Beige;
+            numericTextbox4.AllowClipboard = true;
+            numericTextbox4.AllowDragValueChange = true;
+            numericTextbox4.AllowFractionals = false;
+            numericTextbox4.AllowMouseWheel = true;
+            numericTextbox4.AllowNegatives = false;
+            numericTextbox4.AllowNumberEntry = true;
+            numericTextbox4.AllowTyping = true;
+            numericTextbox4.AutoSizeToText = false;
+            numericTextbox4.BackColor = Color.FromArgb(16, 16, 16);
+            numericTextbox4.Base = ODModules.NumericTextbox.NumberBase.Base10;
+            numericTextbox4.BorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox4.ButtonDownColor = Color.Gray;
+            numericTextbox4.ButtonHoverColor = Color.LightGray;
+            numericTextbox4.Dock = DockStyle.Fill;
+            numericTextbox4.FixedNumericPadding = 0;
+            numericTextbox4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox4.ForeColor = Color.White;
+            numericTextbox4.FormatOutput = true;
+            numericTextbox4.HasUnit = true;
+            numericTextbox4.IsMetric = true;
+            numericTextbox4.IsSecondaryMetric = false;
+            numericTextbox4.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            numericTextbox4.LabelForeColor = Color.Gray;
+            numericTextbox4.LabelText = "";
+            numericTextbox4.Location = new Point(59, 0);
+            numericTextbox4.Marked = false;
+            numericTextbox4.MarkedBackColor = Color.Empty;
+            numericTextbox4.MarkedBorderColor = Color.Beige;
             numericalString7.DisplayValue = "100000";
             numericalString7.Value = "100000";
-            this.numericTextbox4.Maximum = numericalString7;
+            numericTextbox4.Maximum = numericalString7;
             numericalString8.DisplayValue = "1";
             numericalString8.Value = "1";
-            this.numericTextbox4.Minimum = numericalString8;
-            this.numericTextbox4.Name = "numericTextbox4";
-            this.numericTextbox4.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
-            this.numericTextbox4.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
-            this.numericTextbox4.NumericalLeftRadixDigitsMaximum = 7;
-            this.numericTextbox4.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox4.RangeLimited = true;
-            this.numericTextbox4.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
-            this.numericTextbox4.SecondaryTag = null;
-            this.numericTextbox4.SecondaryUnit = "";
-            this.numericTextbox4.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
-            this.numericTextbox4.SelectedBackColor = System.Drawing.Color.Empty;
-            this.numericTextbox4.SelectedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.numericTextbox4.ShowLabel = true;
-            this.numericTextbox4.Size = new System.Drawing.Size(122, 55);
-            this.numericTextbox4.TabIndex = 3;
-            this.numericTextbox4.Unit = "";
-            this.numericTextbox4.UseFixedNumericPadding = false;
-            this.numericTextbox4.Value = "1";
+            numericTextbox4.Minimum = numericalString8;
+            numericTextbox4.Name = "numericTextbox4";
+            numericTextbox4.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Left;
+            numericTextbox4.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
+            numericTextbox4.NumericalLeftRadixDigitsMaximum = 7;
+            numericTextbox4.Prefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox4.RangeLimited = true;
+            numericTextbox4.SecondaryPrefix = ODModules.NumericTextbox.MetricPrefix.None;
+            numericTextbox4.SecondaryTag = null;
+            numericTextbox4.SecondaryUnit = "";
+            numericTextbox4.SecondaryUnitDisplay = ODModules.NumericTextbox.SecondaryUnitDisplayType.NoSecondaryUnit;
+            numericTextbox4.SelectedBackColor = Color.Empty;
+            numericTextbox4.SelectedBorderColor = Color.FromArgb(40, 40, 40);
+            numericTextbox4.ShowLabel = true;
+            numericTextbox4.Size = new Size(71, 26);
+            numericTextbox4.TabIndex = 3;
+            numericTextbox4.Unit = "";
+            numericTextbox4.UseFixedNumericPadding = false;
+            numericTextbox4.Value = "1";
             // 
             // lblTimeOut
             // 
-            this.lblTimeOut.AutoSize = true;
-            this.lblTimeOut.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblTimeOut.Location = new System.Drawing.Point(6, 0);
-            this.lblTimeOut.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblTimeOut.Name = "lblTimeOut";
-            this.lblTimeOut.Size = new System.Drawing.Size(114, 32);
-            this.lblTimeOut.TabIndex = 6;
-            this.lblTimeOut.Text = "Time Out";
+            lblTimeOut.AutoSize = true;
+            lblTimeOut.Dock = DockStyle.Left;
+            lblTimeOut.Location = new Point(3, 0);
+            lblTimeOut.Name = "lblTimeOut";
+            lblTimeOut.Size = new Size(56, 15);
+            lblTimeOut.TabIndex = 6;
+            lblTimeOut.Text = "Time Out";
             // 
             // textBox5
             // 
-            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox5.ForeColor = System.Drawing.Color.White;
-            this.textBox5.Location = new System.Drawing.Point(108, 0);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.PlaceholderText = "Assignment/Expression";
-            this.textBox5.Size = new System.Drawing.Size(207, 32);
-            this.textBox5.TabIndex = 1;
+            textBox5.BackColor = Color.FromArgb(16, 16, 16);
+            textBox5.BorderStyle = BorderStyle.None;
+            textBox5.Dock = DockStyle.Fill;
+            textBox5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox5.ForeColor = Color.White;
+            textBox5.Location = new Point(54, 0);
+            textBox5.Name = "textBox5";
+            textBox5.PlaceholderText = "Assignment/Expression";
+            textBox5.Size = new Size(116, 16);
+            textBox5.TabIndex = 1;
             // 
             // lblWaitFor
             // 
-            this.lblWaitFor.AutoSize = true;
-            this.lblWaitFor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblWaitFor.Location = new System.Drawing.Point(6, 0);
-            this.lblWaitFor.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblWaitFor.Name = "lblWaitFor";
-            this.lblWaitFor.Size = new System.Drawing.Size(102, 32);
-            this.lblWaitFor.TabIndex = 7;
-            this.lblWaitFor.Text = "Wait For";
+            lblWaitFor.AutoSize = true;
+            lblWaitFor.Dock = DockStyle.Left;
+            lblWaitFor.Location = new Point(3, 0);
+            lblWaitFor.Name = "lblWaitFor";
+            lblWaitFor.Size = new Size(51, 15);
+            lblWaitFor.TabIndex = 7;
+            lblWaitFor.Text = "Wait For";
             // 
             // pnlReplaceText
             // 
-            this.pnlReplaceText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlReplaceText.Location = new System.Drawing.Point(7, 356);
-            this.pnlReplaceText.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlReplaceText.Name = "pnlReplaceText";
+            pnlReplaceText.Dock = DockStyle.Top;
+            pnlReplaceText.Location = new Point(4, 172);
+            pnlReplaceText.Name = "pnlReplaceText";
             // 
             // pnlReplaceText.Panel1
             // 
-            this.pnlReplaceText.Panel1.Controls.Add(this.splitContainer3);
+            pnlReplaceText.Panel1.Controls.Add(splitContainer3);
             // 
             // pnlReplaceText.Panel2
             // 
-            this.pnlReplaceText.Panel2.Controls.Add(this.splitContainer4);
-            this.pnlReplaceText.Size = new System.Drawing.Size(795, 66);
-            this.pnlReplaceText.SplitterDistance = 354;
-            this.pnlReplaceText.SplitterWidth = 7;
-            this.pnlReplaceText.TabIndex = 11;
-            this.pnlReplaceText.TabStop = false;
-            this.pnlReplaceText.Visible = false;
+            pnlReplaceText.Panel2.Controls.Add(splitContainer4);
+            pnlReplaceText.Size = new Size(428, 31);
+            pnlReplaceText.SplitterDistance = 190;
+            pnlReplaceText.TabIndex = 11;
+            pnlReplaceText.TabStop = false;
+            pnlReplaceText.Visible = false;
             // 
             // splitContainer3
             // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Margin = new System.Windows.Forms.Padding(6);
-            this.splitContainer3.Name = "splitContainer3";
+            splitContainer3.Dock = DockStyle.Fill;
+            splitContainer3.Location = new Point(0, 0);
+            splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.textBox10);
+            splitContainer3.Panel1.Controls.Add(textBox10);
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.textBox11);
-            this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.splitContainer3.Size = new System.Drawing.Size(354, 66);
-            this.splitContainer3.SplitterDistance = 163;
-            this.splitContainer3.SplitterWidth = 7;
-            this.splitContainer3.TabIndex = 7;
-            this.splitContainer3.TabStop = false;
+            splitContainer3.Panel2.Controls.Add(textBox11);
+            splitContainer3.Panel2.Padding = new Padding(3, 0, 0, 0);
+            splitContainer3.Panel2.Paint += splitContainer3_Panel2_Paint;
+            splitContainer3.Size = new Size(190, 31);
+            splitContainer3.SplitterDistance = 86;
+            splitContainer3.TabIndex = 7;
+            splitContainer3.TabStop = false;
             // 
             // textBox10
             // 
-            this.textBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox10.ForeColor = System.Drawing.Color.White;
-            this.textBox10.Location = new System.Drawing.Point(0, 0);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.PlaceholderText = "Variable Name";
-            this.textBox10.Size = new System.Drawing.Size(163, 32);
-            this.textBox10.TabIndex = 0;
+            textBox10.BackColor = Color.FromArgb(16, 16, 16);
+            textBox10.BorderStyle = BorderStyle.None;
+            textBox10.Dock = DockStyle.Fill;
+            textBox10.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox10.ForeColor = Color.White;
+            textBox10.Location = new Point(0, 0);
+            textBox10.Name = "textBox10";
+            textBox10.PlaceholderText = "Variable Name";
+            textBox10.Size = new Size(86, 16);
+            textBox10.TabIndex = 0;
             // 
             // textBox11
             // 
-            this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox11.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox11.ForeColor = System.Drawing.Color.White;
-            this.textBox11.Location = new System.Drawing.Point(6, 0);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.PlaceholderText = "Text/Variable";
-            this.textBox11.Size = new System.Drawing.Size(178, 32);
-            this.textBox11.TabIndex = 1;
+            textBox11.BackColor = Color.FromArgb(16, 16, 16);
+            textBox11.BorderStyle = BorderStyle.None;
+            textBox11.Dock = DockStyle.Fill;
+            textBox11.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox11.ForeColor = Color.White;
+            textBox11.Location = new Point(3, 0);
+            textBox11.Name = "textBox11";
+            textBox11.PlaceholderText = "Text/Variable";
+            textBox11.Size = new Size(97, 16);
+            textBox11.TabIndex = 1;
             // 
             // splitContainer4
             // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Margin = new System.Windows.Forms.Padding(6);
-            this.splitContainer4.Name = "splitContainer4";
+            splitContainer4.Dock = DockStyle.Fill;
+            splitContainer4.Location = new Point(0, 0);
+            splitContainer4.Name = "splitContainer4";
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.textBox12);
-            this.splitContainer4.Panel1.Controls.Add(this.label1);
+            splitContainer4.Panel1.Controls.Add(textBox12);
+            splitContainer4.Panel1.Controls.Add(label1);
+            splitContainer4.Panel1.Paint += splitContainer4_Panel1_Paint;
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.textBox13);
-            this.splitContainer4.Panel2.Controls.Add(this.label4);
-            this.splitContainer4.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.splitContainer4.Size = new System.Drawing.Size(434, 66);
-            this.splitContainer4.SplitterDistance = 199;
-            this.splitContainer4.SplitterWidth = 7;
-            this.splitContainer4.TabIndex = 8;
-            this.splitContainer4.TabStop = false;
+            splitContainer4.Panel2.Controls.Add(textBox13);
+            splitContainer4.Panel2.Controls.Add(label4);
+            splitContainer4.Panel2.Padding = new Padding(3, 0, 0, 0);
+            splitContainer4.Size = new Size(234, 31);
+            splitContainer4.SplitterDistance = 107;
+            splitContainer4.TabIndex = 8;
+            splitContainer4.TabStop = false;
             // 
             // textBox12
             // 
-            this.textBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox12.ForeColor = System.Drawing.Color.White;
-            this.textBox12.Location = new System.Drawing.Point(96, 0);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.PlaceholderText = "Name";
-            this.textBox12.Size = new System.Drawing.Size(103, 32);
-            this.textBox12.TabIndex = 0;
+            textBox12.BackColor = Color.FromArgb(16, 16, 16);
+            textBox12.BorderStyle = BorderStyle.None;
+            textBox12.Dock = DockStyle.Fill;
+            textBox12.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox12.ForeColor = Color.White;
+            textBox12.Location = new Point(48, 0);
+            textBox12.Name = "textBox12";
+            textBox12.PlaceholderText = "Name";
+            textBox12.Size = new Size(59, 16);
+            textBox12.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 32);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Replace";
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Left;
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(48, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Replace";
             // 
             // textBox13
             // 
-            this.textBox13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.textBox13.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox13.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox13.ForeColor = System.Drawing.Color.White;
-            this.textBox13.Location = new System.Drawing.Point(70, 0);
-            this.textBox13.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.PlaceholderText = "Assignment/Expression";
-            this.textBox13.Size = new System.Drawing.Size(158, 32);
-            this.textBox13.TabIndex = 1;
+            textBox13.BackColor = Color.FromArgb(16, 16, 16);
+            textBox13.BorderStyle = BorderStyle.None;
+            textBox13.Dock = DockStyle.Fill;
+            textBox13.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox13.ForeColor = Color.White;
+            textBox13.Location = new Point(35, 0);
+            textBox13.Name = "textBox13";
+            textBox13.PlaceholderText = "Assignment/Expression";
+            textBox13.Size = new Size(88, 16);
+            textBox13.TabIndex = 1;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label4.Location = new System.Drawing.Point(6, 0);
-            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 32);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "With";
+            label4.AutoSize = true;
+            label4.Dock = DockStyle.Left;
+            label4.Location = new Point(3, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(32, 15);
+            label4.TabIndex = 8;
+            label4.Text = "With";
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(101, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(6);
-            this.splitContainer2.Name = "splitContainer2";
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.Location = new Point(51, 0);
+            splitContainer2.Margin = new Padding(6);
+            splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.label2);
-            this.splitContainer2.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.splitContainer2.Size = new System.Drawing.Size(95, 55);
-            this.splitContainer2.SplitterDistance = 45;
-            this.splitContainer2.SplitterWidth = 7;
-            this.splitContainer2.TabIndex = 11;
-            this.splitContainer2.TabStop = false;
+            splitContainer2.Panel2.Controls.Add(label2);
+            splitContainer2.Panel2.Padding = new Padding(6, 0, 0, 0);
+            splitContainer2.Size = new Size(145, 55);
+            splitContainer2.SplitterDistance = 68;
+            splitContainer2.SplitterWidth = 7;
+            splitContainer2.TabIndex = 11;
+            splitContainer2.TabStop = false;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label2.Location = new System.Drawing.Point(6, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 32);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "=";
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Left;
+            label2.Location = new Point(6, 0);
+            label2.Margin = new Padding(6, 0, 6, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(15, 15);
+            label2.TabIndex = 6;
+            label2.Text = "=";
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(6, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(6);
-            this.splitContainer1.Name = "splitContainer1";
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(6, 0);
+            splitContainer1.Margin = new Padding(6);
+            splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            splitContainer1.Panel1.Controls.Add(splitContainer2);
+            splitContainer1.Panel1.Controls.Add(label3);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.With);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.splitContainer1.Size = new System.Drawing.Size(409, 55);
-            this.splitContainer1.SplitterDistance = 196;
-            this.splitContainer1.SplitterWidth = 7;
-            this.splitContainer1.TabIndex = 12;
-            this.splitContainer1.TabStop = false;
+            splitContainer1.Panel2.Controls.Add(With);
+            splitContainer1.Panel2.Padding = new Padding(6, 0, 0, 0);
+            splitContainer1.Size = new Size(409, 55);
+            splitContainer1.SplitterDistance = 196;
+            splitContainer1.SplitterWidth = 7;
+            splitContainer1.TabIndex = 12;
+            splitContainer1.TabStop = false;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 32);
-            this.label3.TabIndex = 7;
-            this.label3.Text = ".Replace";
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Left;
+            label3.Location = new Point(0, 0);
+            label3.Margin = new Padding(6, 0, 6, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(51, 15);
+            label3.TabIndex = 7;
+            label3.Text = ".Replace";
             // 
             // With
             // 
-            this.With.AutoSize = true;
-            this.With.Dock = System.Windows.Forms.DockStyle.Left;
-            this.With.Location = new System.Drawing.Point(6, 0);
-            this.With.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.With.Name = "With";
-            this.With.Size = new System.Drawing.Size(64, 32);
-            this.With.TabIndex = 6;
-            this.With.Text = "With";
+            With.AutoSize = true;
+            With.Dock = DockStyle.Left;
+            With.Location = new Point(6, 0);
+            With.Margin = new Padding(6, 0, 6, 0);
+            With.Name = "With";
+            With.Size = new Size(32, 15);
+            With.TabIndex = 6;
+            With.Text = "With";
             // 
             // EditValue
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pnlReplaceText);
-            this.Controls.Add(this.pnlWaitUntilReceived);
-            this.Controls.Add(this.pnlPoint);
-            this.Controls.Add(this.pnlNumber);
-            this.Controls.Add(this.pnlDualText);
-            this.Controls.Add(this.flatComboBox1);
-            this.Controls.Add(this.pnlText);
-            this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(6);
-            this.Name = "EditValue";
-            this.Padding = new System.Windows.Forms.Padding(7, 2, 2, 2);
-            this.Size = new System.Drawing.Size(804, 437);
-            this.pnlDualText.Panel1.ResumeLayout(false);
-            this.pnlDualText.Panel1.PerformLayout();
-            this.pnlDualText.Panel2.ResumeLayout(false);
-            this.pnlDualText.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlDualText)).EndInit();
-            this.pnlDualText.ResumeLayout(false);
-            this.pnlText.ResumeLayout(false);
-            this.pnlText.PerformLayout();
-            this.pnlNumber.ResumeLayout(false);
-            this.pnlPoint.ResumeLayout(false);
-            this.spPnlPoint.Panel1.ResumeLayout(false);
-            this.spPnlPoint.Panel1.PerformLayout();
-            this.spPnlPoint.Panel2.ResumeLayout(false);
-            this.spPnlPoint.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spPnlPoint)).EndInit();
-            this.spPnlPoint.ResumeLayout(false);
-            this.pnlWaitUntilReceived.Panel1.ResumeLayout(false);
-            this.pnlWaitUntilReceived.Panel2.ResumeLayout(false);
-            this.pnlWaitUntilReceived.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlWaitUntilReceived)).EndInit();
-            this.pnlWaitUntilReceived.ResumeLayout(false);
-            this.pnlSubWaitUnitRX.Panel1.ResumeLayout(false);
-            this.pnlSubWaitUnitRX.Panel1.PerformLayout();
-            this.pnlSubWaitUnitRX.Panel2.ResumeLayout(false);
-            this.pnlSubWaitUnitRX.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlSubWaitUnitRX)).EndInit();
-            this.pnlSubWaitUnitRX.ResumeLayout(false);
-            this.pnlReplaceText.Panel1.ResumeLayout(false);
-            this.pnlReplaceText.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pnlReplaceText)).EndInit();
-            this.pnlReplaceText.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            this.splitContainer3.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel1.PerformLayout();
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            this.splitContainer4.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(pnlReplaceText);
+            Controls.Add(pnlWaitUntilReceived);
+            Controls.Add(pnlPoint);
+            Controls.Add(pnlNumber);
+            Controls.Add(pnlDualText);
+            Controls.Add(flatComboBox1);
+            Controls.Add(pnlText);
+            DoubleBuffered = true;
+            Name = "EditValue";
+            Padding = new Padding(4, 1, 1, 1);
+            Size = new Size(433, 205);
+            pnlDualText.Panel1.ResumeLayout(false);
+            pnlDualText.Panel1.PerformLayout();
+            pnlDualText.Panel2.ResumeLayout(false);
+            pnlDualText.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pnlDualText).EndInit();
+            pnlDualText.ResumeLayout(false);
+            pnlText.ResumeLayout(false);
+            pnlText.PerformLayout();
+            pnlNumber.ResumeLayout(false);
+            pnlPoint.ResumeLayout(false);
+            spPnlPoint.Panel1.ResumeLayout(false);
+            spPnlPoint.Panel1.PerformLayout();
+            spPnlPoint.Panel2.ResumeLayout(false);
+            spPnlPoint.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)spPnlPoint).EndInit();
+            spPnlPoint.ResumeLayout(false);
+            pnlWaitUntilReceived.Panel1.ResumeLayout(false);
+            pnlWaitUntilReceived.Panel2.ResumeLayout(false);
+            pnlWaitUntilReceived.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pnlWaitUntilReceived).EndInit();
+            pnlWaitUntilReceived.ResumeLayout(false);
+            pnlSubWaitUnitRX.Panel1.ResumeLayout(false);
+            pnlSubWaitUnitRX.Panel1.PerformLayout();
+            pnlSubWaitUnitRX.Panel2.ResumeLayout(false);
+            pnlSubWaitUnitRX.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pnlSubWaitUnitRX).EndInit();
+            pnlSubWaitUnitRX.ResumeLayout(false);
+            pnlReplaceText.Panel1.ResumeLayout(false);
+            pnlReplaceText.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pnlReplaceText).EndInit();
+            pnlReplaceText.ResumeLayout(false);
+            splitContainer3.Panel1.ResumeLayout(false);
+            splitContainer3.Panel1.PerformLayout();
+            splitContainer3.Panel2.ResumeLayout(false);
+            splitContainer3.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
+            splitContainer3.ResumeLayout(false);
+            splitContainer4.Panel1.ResumeLayout(false);
+            splitContainer4.Panel1.PerformLayout();
+            splitContainer4.Panel2.ResumeLayout(false);
+            splitContainer4.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
+            splitContainer4.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel1.PerformLayout();
+            splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
