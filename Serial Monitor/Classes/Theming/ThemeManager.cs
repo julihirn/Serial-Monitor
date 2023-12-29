@@ -130,25 +130,41 @@ namespace Serial_Monitor.Classes.Theming {
                 }
                 Nav.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
             }
+            else if (ControlObject.GetType() == typeof(ODModules.BitToggle)) {
+                ODModules.BitToggle Bt = (ODModules.BitToggle)ControlObject;
+                Bt.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                Bt.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
+                Bt.ActiveToggleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                Bt.InactiveToggleForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                Bt.MouseDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                Bt.MouseOverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
+            }
             else if (ControlObject.GetType() == typeof(ODModules.TabHeader)) {
                 ODModules.TabHeader TbHdr = (ODModules.TabHeader)ControlObject;
-                TbHdr.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
-                TbHdr.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-                TbHdr.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
-                TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                TbHdr.TabSelectedForeColor = Properties.Settings.Default.THM_COL_TabSelectedForeColor;
-                TbHdr.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-                TbHdr.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
-                TbHdr.TabSelectedBackColor = Properties.Settings.Default.THM_COL_TabSelectedColor;
-                if (ApplicationManager.IsDark == true) {
-                    TbHdr.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
+                if (TbHdr.TabStyle == TabHeader.TabStyles.Normal) {
+                    TbHdr.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
+                    TbHdr.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+                    TbHdr.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
+                    TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                    TbHdr.TabSelectedForeColor = Properties.Settings.Default.THM_COL_TabSelectedForeColor;
+                    TbHdr.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                    TbHdr.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
+                    TbHdr.TabSelectedBackColor = Properties.Settings.Default.THM_COL_TabSelectedColor;
+                    if (ApplicationManager.IsDark == true) {
+                        TbHdr.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
+                    }
+                    else {
+                        TbHdr.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
+                    }
+
+                    TbHdr.HeaderDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                    TbHdr.HeaderHoverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
                 }
                 else {
-                    TbHdr.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
+                    TbHdr.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                    TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                    TbHdr.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 }
-
-                TbHdr.HeaderDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
-                TbHdr.HeaderHoverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.ConsoleInterface)) {
                 ODModules.ConsoleInterface Cons = (ODModules.ConsoleInterface)ControlObject;
@@ -164,6 +180,12 @@ namespace Serial_Monitor.Classes.Theming {
                     tab.BackColor = Properties.Settings.Default.THM_COL_Editor;
                     tab.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 }
+            }
+            else if (ControlObject.GetType() == typeof(ODModules.LabelPanel)) {
+                ODModules.LabelPanel lblPnl = (ODModules.LabelPanel)ControlObject;
+                lblPnl.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                lblPnl.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
+                lblPnl.BackColor = Properties.Settings.Default.THM_COL_Editor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.LabelPanel)) {
                 ODModules.LabelPanel lblPnl = (ODModules.LabelPanel)ControlObject;
@@ -194,6 +216,14 @@ namespace Serial_Monitor.Classes.Theming {
                 numTxt.SelectedBackColor = Properties.Settings.Default.THM_COL_Editor;
                 numTxt.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             }
+            else if (ControlObject.GetType() == typeof(ODModules.TextBox)) {
+                ODModules.TextBox numTxt = (ODModules.TextBox)ControlObject;
+                numTxt.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                numTxt.SelectedBackColor = Properties.Settings.Default.THM_COL_Editor;
+                numTxt.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                numTxt.SelectedBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                numTxt.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            }
             else if (ControlObject.GetType() == typeof(ODModules.Button)) {
                 ODModules.Button btn = (ODModules.Button)ControlObject;
                 btn.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -205,6 +235,15 @@ namespace Serial_Monitor.Classes.Theming {
                 btn.BorderColorSouth = Properties.Settings.Default.THM_COL_BorderColor;
                 btn.BorderColorDownNorth = Properties.Settings.Default.THM_COL_BorderColor;
                 btn.BorderColorDownSouth = Properties.Settings.Default.THM_COL_BorderColor;
+            }
+            else if (ControlObject.GetType() == typeof(ODModules.PrefixScale)) {
+                ODModules.PrefixScale PrefixSc = (ODModules.PrefixScale)ControlObject;
+                PrefixSc.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                PrefixSc.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                PrefixSc.InactiveForecolor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                PrefixSc.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                PrefixSc.DownColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                PrefixSc.HoverColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
         }
         #endregion
@@ -271,6 +310,8 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark1.TabSelectedColor = Color.FromArgb(100, 128, 128, 128);
             Thm_Dark1.TabSelectedForeColor = Color.White;
 
+            Thm_Dark1.ItemInactiveColor = Color.Gray;
+
             Thm_Dark1.MatchColor = Color.FromArgb(0, 64, 0);
             Thm_Dark1.MismatchedColor = Color.FromArgb(64, 0, 0);
 
@@ -303,6 +344,8 @@ namespace Serial_Monitor.Classes.Theming {
 
             Thm_Light1.MouseOverForeColor = Color.DimGray;
             Thm_Light1.MouseDownForeColor = Color.LightGray;
+
+            Thm_Light1.ItemInactiveColor = Color.Gray;
 
             Thm_Light1.ColumnSeperatorColor = Color.FromArgb(180, 180, 180);
 
@@ -342,6 +385,8 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.StopColor = Color.Brown;
             Thm_Light2.SeconaryBackColor = Color.FromArgb(207, 214, 229);
             Thm_Light2.TerminalForeColor = Color.FromArgb(0, 0, 63);
+
+            Thm_Light2.ItemInactiveColor = Color.Gray;
 
             Thm_Light2.MouseDownForeColor = Color.FromArgb(88, 107, 138);
             Thm_Light2.MouseOverForeColor = Color.FromArgb(48, 67, 98);
@@ -388,6 +433,8 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.MouseDownForeColor = Color.DimGray;
             Thm_Dark2.MouseOverForeColor = Color.LightGray;
 
+            Thm_Dark2.ItemInactiveColor = Color.DimGray;
+
             Thm_Dark2.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
 
             Thm_Dark2.RowColor = Color.FromArgb(23, 23, 23);
@@ -426,6 +473,8 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.StopColor = Color.Red;
             Thm_Dark2.SeconaryBackColor = Color.FromArgb(82, 82, 82);
             Thm_Dark2.TerminalForeColor = Color.White;
+
+            Thm_Dark2.ItemInactiveColor = Color.DimGray;
 
             Thm_Dark2.MouseDownForeColor = Color.DimGray;
             Thm_Dark2.MouseOverForeColor = Color.LightGray;

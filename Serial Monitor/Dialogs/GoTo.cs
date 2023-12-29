@@ -23,7 +23,7 @@ namespace Serial_Monitor.Dialogs {
             numtxtAddress.Maximum = new Handlers.NumericalString(ModbusSupport.MaximumRegisters);
             lblpnlAddress.InlineWidth = DesignerSetup.ScaleInteger(lblpnlAddress.InlineWidth);
             lblpnlName.InlineWidth = DesignerSetup.ScaleInteger(lblpnlName.InlineWidth);
-            numtxtAddress.Height = textBox2.Height;
+            numtxtAddress.Height = textBox1.Height;
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
@@ -41,7 +41,7 @@ namespace Serial_Monitor.Dialogs {
         }
         public string GoToText {
             get {
-                return textBox2.Text;
+                return textBox1.Text;
             }
         }
         bool isNumeric = true;
@@ -78,9 +78,8 @@ namespace Serial_Monitor.Dialogs {
             lblpnlName.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblpnlName.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
             lblpnlName.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            Classes.Theming.ThemeManager.ThemeControl(textBox1);
 
-            textBox2.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            textBox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
             Classes.Theming.ThemeManager.ThemeControl(numtxtAddress);
 

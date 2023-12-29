@@ -48,6 +48,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (Current.Size != Enums.ModbusEnums.DataSize.Bits16) { return true; }
                 if (Current.Format != Enums.ModbusEnums.DataFormat.Decimal) { return true; }
                 if (Current.WordOrder != Enums.ModbusEnums.ByteOrder.BigEndian) { return true; }
+                if (Current.Unit != "") { return true; }
+                if (Current.Prefix != ConversionHandler.Prefix.None) { return true; }
                 if (CheckValues == true) {
                     if (Current.Value != 0) { return true; }
                 }
@@ -139,6 +141,12 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 if (Current.WordOrder != Enums.ModbusEnums.ByteOrder.BigEndian) {
                     Values.Add(TagData("WordOrder", EnumManager.WordOrderToString(Current.WordOrder).B));
+                }
+                if (Current.Unit != "") {
+                    Values.Add(TagData("Unit", Current.Unit));
+                }
+                if (Current.Prefix != ConversionHandler.Prefix.None) {
+                    Values.Add(TagData("Prefix", ConversionHandler.PrefixToSymbol(Current.Prefix)));
                 }
                 Values.Add(TagData("Signed", Current.Signed));
                 Values.Add(TagData("Value", Current.Value));

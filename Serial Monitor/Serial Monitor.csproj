@@ -37,8 +37,8 @@
 
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40" />
-    <PackageReference Include="ODModules" Version="2.0.15.4" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
+    <PackageReference Include="ODModules" Version="2.0.16" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.1" />

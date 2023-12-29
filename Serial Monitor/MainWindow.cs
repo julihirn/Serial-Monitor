@@ -331,8 +331,9 @@ namespace Serial_Monitor {
                 if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
                 ToolStripMenuItem Tsi = (ToolStripMenuItem)sender;
                 if (Tsi.Tag == null) { return; }
-                IWindowPlugin Temp = (IWindowPlugin)Tsi.Tag;
-                Form Frm = (Form)Temp;
+                PlugIn Temp = (PlugIn)Tsi.Tag;
+                Form ?Frm = Temp.LoadWindow();
+                if (Frm == null) { return; }
                 Frm.Show();
             }
             catch { }
@@ -1682,7 +1683,7 @@ namespace Serial_Monitor {
             ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
             ProgramManager.ApplyIndentation(lstStepProgram);
         }
-        
+
         private void variablesToolStripMenuItem_Click(object? sender, EventArgs e) {
             if (lstStepProgram.Tag == null) { return; }
             if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
@@ -1837,14 +1838,14 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Program Editing
-       
+
         private void LstStepProgram_ItemCheckedChanged(object sender, ItemCheckedChangeEventArgs e) {
             LastEntered = lstStepProgram;
             ProgramManager.ApplySyntaxColouring(lstStepProgram, e.Item);
         }
-    
-       
-    
+
+
+
         private void addCommandToolStripMenuItem_Click(object? sender, EventArgs e) {
             Program_NewLine();
         }
@@ -1866,7 +1867,7 @@ namespace Serial_Monitor {
                 InsertState = !InsertState;
             }
             lstStepProgram.LineInsertAtSelected(LiPar, InsertState, true);
-            ProgramManager.ApplySyntaxColouring(lstStepProgram, - 1, true);
+            ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
             ProgramManager.ApplyIndentation(lstStepProgram);
             lstStepProgram.Invalidate();
             DocumentEdited = true;
@@ -2017,7 +2018,7 @@ namespace Serial_Monitor {
                     }
                     DocumentEdited = true;
                 }
-                ProgramManager.ApplySyntaxColouring(lstStepProgram, - 1, true);
+                ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
                 ProgramManager.ApplyIndentation(lstStepProgram, false);
                 lstStepProgram.Invalidate();
             }
@@ -2427,7 +2428,7 @@ namespace Serial_Monitor {
                             lstStepProgram.ExternalItems = ((ProgramObject)TagData).Program;
                             lstStepProgram.LineMarkerIndex = ((ProgramObject)TagData).ProgramMarker;
                             ProgramManager.ApplyIndentation(lstStepProgram, false);
-                            ProgramManager.ApplySyntaxColouring(lstStepProgram, - 1, true);
+                            ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
                         }
                     }
                 }
@@ -2831,7 +2832,7 @@ namespace Serial_Monitor {
             lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
             lstStepProgram.Tag = ProgramManager.Programs[0];
             ProgramManager.CurrentProgram = ProgramManager.Programs[0];
-         
+
             lstStepProgram.Invalidate();
             CurrentDocument = FileAddress;
             if (CurrentDocument.Trim(' ') == "") {
@@ -2847,7 +2848,7 @@ namespace Serial_Monitor {
             thPrograms.Invalidate();
             SetTitle(Path.GetFileNameWithoutExtension(CurrentDocument));
             ProgramManager.ApplyIndentation(lstStepProgram, false);
-            ProgramManager.ApplySyntaxColouring(lstStepProgram, - 1, true);
+            ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
             DocumentEdited = false;
         }
         private void NewProgram(string Name = "") {

@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            ODModules.GridButton gridButton2 = new ODModules.GridButton();
+            ODModules.GridButton gridButton1 = new ODModules.GridButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             lblPnlTheme = new ODModules.LabelPanel();
             btngrThemes = new ODModules.ButtonGrid();
@@ -106,7 +106,7 @@
             lblPnlTheme.Margin = new Padding(6);
             lblPnlTheme.Name = "lblPnlTheme";
             lblPnlTheme.OverrideCollapseControl = false;
-            lblPnlTheme.Padding = new Padding(0, 38, 0, 0);
+            lblPnlTheme.Padding = new Padding(0, 37, 0, 0);
             lblPnlTheme.PanelCollapsible = true;
             lblPnlTheme.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblPnlTheme.ShowCloseButton = false;
@@ -136,30 +136,30 @@
             btngrThemes.BorderColorSouth = Color.LightGray;
             btngrThemes.BorderRadius = 5;
             btngrThemes.ButtonPadding = new Padding(0, 0, 5, 5);
-            gridButton2.BackColorNorth = Color.Gray;
-            gridButton2.BackColorSouth = Color.Gray;
-            gridButton2.BorderColorNorth = Color.Black;
-            gridButton2.BorderColorSouth = Color.Black;
-            gridButton2.Checked = false;
-            gridButton2.Command = "";
-            gridButton2.Enabled = true;
-            gridButton2.Icon = null;
-            gridButton2.IconInline = false;
-            gridButton2.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            gridButton2.Position = new Point(0, 0);
-            gridButton2.RadioButtonGroup = "";
-            gridButton2.SecondaryShortCutKeys = Keys.None;
-            gridButton2.SecondaryText = "";
-            gridButton2.ShortCutKeys = Keys.None;
-            gridButton2.Tag = null;
-            gridButton2.Text = "";
-            gridButton2.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            gridButton2.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            gridButton2.Type = ODModules.ButtonType.Button;
-            gridButton2.UseButtonFormatting = false;
-            gridButton2.UseCustomColors = false;
-            gridButton2.UseKeyCode = false;
-            btngrThemes.Buttons.Add(gridButton2);
+            gridButton1.BackColorNorth = Color.Gray;
+            gridButton1.BackColorSouth = Color.Gray;
+            gridButton1.BorderColorNorth = Color.Black;
+            gridButton1.BorderColorSouth = Color.Black;
+            gridButton1.Checked = false;
+            gridButton1.Command = "";
+            gridButton1.Enabled = true;
+            gridButton1.Icon = null;
+            gridButton1.IconInline = false;
+            gridButton1.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            gridButton1.Position = new Point(0, 0);
+            gridButton1.RadioButtonGroup = "";
+            gridButton1.SecondaryShortCutKeys = Keys.None;
+            gridButton1.SecondaryText = "";
+            gridButton1.ShortCutKeys = Keys.None;
+            gridButton1.Tag = null;
+            gridButton1.Text = "";
+            gridButton1.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            gridButton1.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            gridButton1.Type = ODModules.ButtonType.Button;
+            gridButton1.UseButtonFormatting = false;
+            gridButton1.UseCustomColors = false;
+            gridButton1.UseKeyCode = false;
+            btngrThemes.Buttons.Add(gridButton1);
             btngrThemes.ButtonSize = new Size(40, 40);
             btngrThemes.CenterButtons = false;
             btngrThemes.Dock = DockStyle.Fill;
@@ -167,7 +167,7 @@
             btngrThemes.IconInline = false;
             btngrThemes.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             btngrThemes.ImageSize = new Size(32, 32);
-            btngrThemes.Location = new Point(0, 38);
+            btngrThemes.Location = new Point(0, 37);
             btngrThemes.Margin = new Padding(6);
             btngrThemes.Name = "btngrThemes";
             btngrThemes.Padding = new Padding(9, 11, 9, 11);
@@ -175,7 +175,7 @@
             btngrThemes.ScrollBarNorth = Color.Silver;
             btngrThemes.ScrollBarSouth = Color.Silver;
             btngrThemes.SecondaryFont = null;
-            btngrThemes.Size = new Size(630, 425);
+            btngrThemes.Size = new Size(630, 426);
             btngrThemes.Style = ODModules.ButtonStyle.Square;
             btngrThemes.TabIndex = 0;
             btngrThemes.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -202,7 +202,7 @@
             thSettings.Margin = new Padding(6);
             thSettings.Name = "thSettings";
             thSettings.Padding = new Padding(9, 0, 0, 0);
-            thSettings.SelectedIndex = 1;
+            thSettings.SelectedIndex = 0;
             thSettings.ShowAddButton = false;
             thSettings.ShowHeader = false;
             thSettings.ShowTabDividers = true;
@@ -280,7 +280,7 @@
             labelPanel5.Margin = new Padding(6);
             labelPanel5.Name = "labelPanel5";
             labelPanel5.OverrideCollapseControl = true;
-            labelPanel5.Padding = new Padding(0, 38, 0, 0);
+            labelPanel5.Padding = new Padding(0, 37, 0, 0);
             labelPanel5.PanelCollapsible = true;
             labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel5.ShowCloseButton = false;
@@ -304,7 +304,7 @@
             chbxUseLegacyListing.Checked = true;
             chbxUseLegacyListing.CheckState = CheckState.Checked;
             chbxUseLegacyListing.ForeColor = Color.Black;
-            chbxUseLegacyListing.Location = new Point(9, 47);
+            chbxUseLegacyListing.Location = new Point(9, 46);
             chbxUseLegacyListing.Margin = new Padding(6);
             chbxUseLegacyListing.Name = "chbxUseLegacyListing";
             chbxUseLegacyListing.Size = new Size(290, 36);
@@ -337,7 +337,7 @@
             lblPnlDefaults.Margin = new Padding(6);
             lblPnlDefaults.Name = "lblPnlDefaults";
             lblPnlDefaults.OverrideCollapseControl = true;
-            lblPnlDefaults.Padding = new Padding(0, 38, 0, 0);
+            lblPnlDefaults.Padding = new Padding(0, 37, 0, 0);
             lblPnlDefaults.PanelCollapsible = true;
             lblPnlDefaults.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblPnlDefaults.ShowCloseButton = false;
@@ -364,11 +364,11 @@
             labelPanel2.LabelBackColor = Color.White;
             labelPanel2.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             labelPanel2.LabelForeColor = Color.Black;
-            labelPanel2.Location = new Point(0, 144);
+            labelPanel2.Location = new Point(0, 143);
             labelPanel2.Margin = new Padding(6);
             labelPanel2.Name = "labelPanel2";
             labelPanel2.OverrideCollapseControl = true;
-            labelPanel2.Padding = new Padding(210, 0, 6, 6);
+            labelPanel2.Padding = new Padding(127, 0, 6, 6);
             labelPanel2.PanelCollapsible = true;
             labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel2.ShowCloseButton = false;
@@ -390,7 +390,7 @@
             toolStrip2.ItemSelectedBackColorNorth = Color.White;
             toolStrip2.ItemSelectedBackColorSouth = Color.White;
             toolStrip2.ItemSelectedForeColor = Color.Black;
-            toolStrip2.Location = new Point(210, 0);
+            toolStrip2.Location = new Point(127, 0);
             toolStrip2.MenuBackColorNorth = Color.FromArgb(224, 224, 224);
             toolStrip2.MenuBackColorSouth = Color.FromArgb(224, 224, 224);
             toolStrip2.MenuBorderColor = Color.Gray;
@@ -398,7 +398,7 @@
             toolStrip2.MenuSymbolColor = Color.DimGray;
             toolStrip2.Name = "toolStrip2";
             toolStrip2.Padding = new Padding(0, 0, 4, 0);
-            toolStrip2.Size = new Size(414, 42);
+            toolStrip2.Size = new Size(497, 42);
             toolStrip2.StripItemSelectedBackColorNorth = Color.White;
             toolStrip2.StripItemSelectedBackColorSouth = Color.White;
             toolStrip2.TabIndex = 3;
@@ -460,11 +460,11 @@
             labelPanel3.LabelBackColor = Color.White;
             labelPanel3.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             labelPanel3.LabelForeColor = Color.Black;
-            labelPanel3.Location = new Point(0, 90);
+            labelPanel3.Location = new Point(0, 89);
             labelPanel3.Margin = new Padding(6);
             labelPanel3.Name = "labelPanel3";
             labelPanel3.OverrideCollapseControl = true;
-            labelPanel3.Padding = new Padding(210, 6, 6, 6);
+            labelPanel3.Padding = new Padding(127, 6, 6, 6);
             labelPanel3.PanelCollapsible = true;
             labelPanel3.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel3.ShowCloseButton = false;
@@ -486,7 +486,7 @@
             toolStrip1.ItemSelectedBackColorNorth = Color.White;
             toolStrip1.ItemSelectedBackColorSouth = Color.White;
             toolStrip1.ItemSelectedForeColor = Color.Black;
-            toolStrip1.Location = new Point(210, 6);
+            toolStrip1.Location = new Point(127, 6);
             toolStrip1.MenuBackColorNorth = Color.FromArgb(224, 224, 224);
             toolStrip1.MenuBackColorSouth = Color.FromArgb(224, 224, 224);
             toolStrip1.MenuBorderColor = Color.Gray;
@@ -494,7 +494,7 @@
             toolStrip1.MenuSymbolColor = Color.DimGray;
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new Padding(0, 0, 4, 0);
-            toolStrip1.Size = new Size(414, 42);
+            toolStrip1.Size = new Size(497, 42);
             toolStrip1.StripItemSelectedBackColorNorth = Color.White;
             toolStrip1.StripItemSelectedBackColorSouth = Color.White;
             toolStrip1.TabIndex = 2;
@@ -683,11 +683,11 @@
             labelPanel1.LabelBackColor = Color.White;
             labelPanel1.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(0, 38);
+            labelPanel1.Location = new Point(0, 37);
             labelPanel1.Margin = new Padding(6);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = true;
-            labelPanel1.Padding = new Padding(210, 6, 6, 6);
+            labelPanel1.Padding = new Padding(127, 6, 6, 6);
             labelPanel1.PanelCollapsible = true;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel1.ShowCloseButton = false;
@@ -700,10 +700,10 @@
             comboBox1.Dock = DockStyle.Top;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(210, 6);
+            comboBox1.Location = new Point(127, 6);
             comboBox1.Margin = new Padding(6);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(414, 40);
+            comboBox1.Size = new Size(497, 40);
             comboBox1.TabIndex = 0;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
@@ -715,6 +715,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Margin = new Padding(6);
             tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(6);
             tabPage1.Size = new Size(642, 695);
             tabPage1.TabIndex = 2;
             tabPage1.Text = "Programs";
@@ -740,7 +741,7 @@
             labelPanel6.LabelBackColor = Color.White;
             labelPanel6.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             labelPanel6.LabelForeColor = Color.Black;
-            labelPanel6.Location = new Point(0, 156);
+            labelPanel6.Location = new Point(6, 162);
             labelPanel6.Margin = new Padding(6);
             labelPanel6.Name = "labelPanel6";
             labelPanel6.OverrideCollapseControl = true;
@@ -748,7 +749,7 @@
             labelPanel6.PanelCollapsible = true;
             labelPanel6.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel6.ShowCloseButton = false;
-            labelPanel6.Size = new Size(642, 190);
+            labelPanel6.Size = new Size(630, 190);
             labelPanel6.TabIndex = 3;
             labelPanel6.Text = "Editor";
             // 
@@ -816,7 +817,7 @@
             labelPanel4.LabelBackColor = Color.White;
             labelPanel4.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             labelPanel4.LabelForeColor = Color.Black;
-            labelPanel4.Location = new Point(0, 0);
+            labelPanel4.Location = new Point(6, 6);
             labelPanel4.Margin = new Padding(6);
             labelPanel4.Name = "labelPanel4";
             labelPanel4.OverrideCollapseControl = true;
@@ -824,7 +825,7 @@
             labelPanel4.PanelCollapsible = true;
             labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel4.ShowCloseButton = false;
-            labelPanel4.Size = new Size(642, 156);
+            labelPanel4.Size = new Size(630, 156);
             labelPanel4.TabIndex = 2;
             labelPanel4.Text = "Program Execution";
             // 

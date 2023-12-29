@@ -23,6 +23,11 @@ using ListControl = ODModules.ListControl;
 namespace Serial_Monitor {
     public partial class ModbusRegisters : Form, Interfaces.ITheme {
         public Form? Attached = null;
+        TemplateContextMenuHost AppearancePopupHost;
+        AppearancePopup popAppearance = new AppearancePopup();
+        BitTogglerPopup popToggler = new BitTogglerPopup();
+        TemplateContextMenuHost BitTogglerPopupHost;
+
         protected override CreateParams CreateParams {
             get {
                 CreateParams handleParam = base.CreateParams;
@@ -32,6 +37,9 @@ namespace Serial_Monitor {
         }
         public ModbusRegisters() {
             InitializeComponent();
+            lstMonitor.ExternalItems = ModbusEditor.MasterRegisterEditor;
+            AppearancePopupHost = new TemplateContextMenuHost(popAppearance, this);
+            BitTogglerPopupHost = new TemplateContextMenuHost(popToggler, this);
             tbDataPages.DebugMode = false;
             mdiClient.TileWindows = true;
             if (DesignerSetup.IsWindows10OrGreater() == true) {
@@ -44,6 +52,7 @@ namespace Serial_Monitor {
             //        ((Form1)Attached).
             //    }
             //}
+
             btnApplyOnClick.Checked = ModbusSupport.SendOnChange;
             btnModbusApplyonClick.Checked = ModbusSupport.SendOnChange;
             AdjustUserInterface();
@@ -69,7 +78,15 @@ namespace Serial_Monitor {
             LoadForms();
             EnableDisableDialogEditors();
         }
-        bool IsFirstLoad = true;
+
+        private void AppearancePopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            Debug.Print("C");
+        }
+
+        private void AppearancePopupHost_Opening(object? sender, CancelEventArgs e) {
+            Debug.Print("O");
+        }
+        #region Startup
         private void LoadChannels() {
             try {
                 CurrentManager = SystemManager.SerialManagers[0];
@@ -82,7 +99,7 @@ namespace Serial_Monitor {
                         }
                     }
                     else {
-                        LoadRegisters();
+                        ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
                     }
 
                 }
@@ -103,23 +120,17 @@ namespace Serial_Monitor {
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.SlaveAdded += SystemManager_SlaveAdded;
             SystemManager.SlaveChanged += SystemManager_SlaveChanged;
-        }
 
-        private void SystemManager_SlaveChanged(SerialManager sender) {
-            LoadSlaves();
+            AppearancePopupHost.Opening += AppearancePopupHost_Opening;
+            AppearancePopupHost.Closing += AppearancePopupHost_Closing;
+            BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
         }
-
-        private void SystemManager_SlaveAdded(SerialManager sender) {
-            LoadSlaves();
-        }
-
         private void LoadForms() {
             foreach (ModbusSnapshot Snap in ModbusSupport.Snapshots) {
                 ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap, true);
                 mdiClient.AddChild(frm);
             }
         }
-        #region Startup
         private void LoadSlaves() {
             thSlaves.ClearTabs();
             if (CurrentManager == null) { thSlaves.Invalidate(); return; }
@@ -133,6 +144,15 @@ namespace Serial_Monitor {
             }
             thSlaves.Invalidate();
         }
+        private void SystemManager_SlaveChanged(SerialManager sender) {
+            LoadSlaves();
+        }
+
+        private void SystemManager_SlaveAdded(SerialManager sender) {
+            LoadSlaves();
+        }
+
+
         private Tab? GenerateTab(ModbusSlave Slve) {
             if (CurrentManager == null) { return null; }
             Tab tbMain = new Tab();
@@ -140,119 +160,6 @@ namespace Serial_Monitor {
             tbMain.Tag = Slve;
 
             return tbMain;
-        }
-        private void LoadRegisters() {
-            if (IsFirstLoad == true) {
-                lstMonitor.LineRemoveAll();
-            }
-            // //
-            // GC.Collect();
-            if (CurrentManager == null) { return; }
-            if (CurrentManager.Registers == null) { return; }
-            if (slaveindex < 0) {
-                int i = 0;
-                if (DataSet == DataSelection.ModbusDataCoils) {
-                    foreach (ModbusCoil Coil in CurrentManager.Registers.Coils) {
-                        AddMonitorItem(Coil, i); i++;
-                    }
-                }
-                else if (DataSet == DataSelection.ModbusDataDiscreteInputs) {
-                    foreach (ModbusCoil Coil in CurrentManager.Registers.DiscreteInputs) {
-                        AddMonitorItem(Coil, i); i++;
-                    }
-                }
-                else if (DataSet == DataSelection.ModbusDataInputRegisters) {
-                    foreach (ModbusRegister Coil in CurrentManager.Registers.InputRegisters) {
-                        AddMonitorItem(Coil, i); i++;
-                    }
-                }
-                else if (DataSet == DataSelection.ModbusDataHoldingRegisters) {
-                    foreach (ModbusRegister Coil in CurrentManager.Registers.HoldingRegisters) {
-                        AddMonitorItem(Coil, i); i++;
-                    }
-                }
-            }
-            else {
-                int i = 0;
-                if (DataSet == DataSelection.ModbusDataCoils) {
-                    foreach (ModbusCoil Coil in CurrentManager.Slave[slaveindex].Coils) {
-                        AddMonitorItem(Coil, i);
-                        i++;
-                    }
-                }
-                else if (DataSet == DataSelection.ModbusDataDiscreteInputs) {
-                    foreach (ModbusCoil Coil in CurrentManager.Slave[slaveindex].DiscreteInputs) {
-                        AddMonitorItem(Coil, i);
-                        i++;
-                    }
-                }
-                else if (DataSet == DataSelection.ModbusDataInputRegisters) {
-                    foreach (ModbusRegister Coil in CurrentManager.Slave[slaveindex].InputRegisters) {
-                        AddMonitorItem(Coil, i);
-                        i++;
-                    }
-                }
-                else if (DataSet == DataSelection.ModbusDataHoldingRegisters) {
-                    foreach (ModbusRegister Coil in CurrentManager.Slave[slaveindex].HoldingRegisters) {
-                        AddMonitorItem(Coil, i);
-                        i++;
-                    }
-                }
-            }
-            IsFirstLoad = false;
-            lstMonitor.Invalidate();
-        }
-        private void AddMonitorItem(ModbusCoil Coil, int Index) {
-            if (IsFirstLoad) {
-                ListItem PLi = new ListItem();
-                PLi.Tag = Coil;
-                ListSubItem CLi1 = new ListSubItem(Coil.Name);
-                ListSubItem CLi2 = new ListSubItem("Boolean");
-                ListSubItem CLi3 = new ListSubItem();
-                ListSubItem CLi4 = new ListSubItem();
-                ListSubItem CLi5 = new ListSubItem(Coil.Value.ToString());
-                PLi.SubItems.Add(CLi1);
-                PLi.SubItems.Add(CLi2);
-                PLi.SubItems.Add(CLi3);
-                PLi.SubItems.Add(CLi4);
-                PLi.SubItems.Add(CLi5);
-                lstMonitor.Items.Add(PLi);
-            }
-            else {
-                lstMonitor.CurrentItems[Index].Tag = null;
-                lstMonitor.CurrentItems[Index].Tag = Coil;
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Name].Text = Coil.Name;
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = "Boolean";
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Size].Text = "";
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Signed].Text = "";
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = Coil.Value.ToString();
-            }
-        }
-        private void AddMonitorItem(ModbusRegister Register, int Index) {
-            if (IsFirstLoad) {
-                ListItem PLi = new ListItem();
-                PLi.Tag = Register;
-                ListSubItem CLi1 = new ListSubItem(Register.Name);
-                ListSubItem CLi2 = new ListSubItem(EnumManager.DataFormatToString(Register.Format).A);
-                ListSubItem CLi3 = new ListSubItem(EnumManager.DataSizeToString(Register.Size));
-                ListSubItem CLi4 = new ListSubItem(Register.Signed);
-                ListSubItem CLi5 = new ListSubItem(Register.FormattedValue);
-                PLi.SubItems.Add(CLi1);
-                PLi.SubItems.Add(CLi2);
-                PLi.SubItems.Add(CLi3);
-                PLi.SubItems.Add(CLi4);
-                PLi.SubItems.Add(CLi5);
-                lstMonitor.Items.Add(PLi);
-            }
-            else {
-                lstMonitor.CurrentItems[Index].Tag = null;
-                lstMonitor.CurrentItems[Index].Tag = Register;
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Name].Text = Register.Name;
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(Register.Format).A;
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(Register.Size);
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Signed].Checked = Register.Signed;
-                lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = Register.FormattedValue;
-            }
         }
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
@@ -311,7 +218,7 @@ namespace Serial_Monitor {
                 SetEditors();
                 ClearEditors();
                 ShowHideColumns();
-                LoadRegisters();
+                ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
                 CheckModbusDataSelection();
             }
         }
@@ -345,6 +252,7 @@ namespace Serial_Monitor {
                         renameUnitToolStripMenuItem.Enabled = false;
                     }
                     setIOFormatsToModbusRTUToolStripMenuItem.Enabled = true;
+                    setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = true;
                     writeCoilToolStripMenuItem.Enabled = true;
                     writeRegisterToolStripMenuItem.Enabled = true;
                     ChangeClipboardActions(true);
@@ -367,12 +275,14 @@ namespace Serial_Monitor {
                         modbusMasterToolStripMenuItem.Checked = false;
                         modbusMasterToolStripMenuItem.Enabled = false;
                         setIOFormatsToModbusRTUToolStripMenuItem.Enabled = false;
+                        setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = false;
                         writeCoilToolStripMenuItem.Enabled = false;
                         writeRegisterToolStripMenuItem.Enabled = false;
                         ChangeClipboardActions(false);
                     }
                     else {
                         setIOFormatsToModbusRTUToolStripMenuItem.Enabled = true;
+                        setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = true;
                         showFormatsToolStripMenuItem.Enabled = true;
                         try {
                             if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
@@ -427,7 +337,7 @@ namespace Serial_Monitor {
                 else {
                     slaveindex = -1;
                 }
-                LoadRegisters();
+                ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
                 ModbusEditor.ClearControls(lstMonitor);
             }
         }
@@ -571,7 +481,7 @@ namespace Serial_Monitor {
                     Reg.Format = Frmt;
                     Args.ParentItem[Args.Column].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
-                    Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
                     ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstMonitor);
                     lstMonitor.Invalidate();
                 }
@@ -593,7 +503,7 @@ namespace Serial_Monitor {
                     Reg.Size = Frmt;
                     Args.ParentItem[Args.Column].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
-                    Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
                     ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstMonitor);
                     lstMonitor.Invalidate();
                 }
@@ -608,25 +518,25 @@ namespace Serial_Monitor {
             if (CurrentManager.ID != parentManager.Manager.ID) { return; }
             if (Slave != parentManager.Address) { return; };
             try {
-                if (lstMonitor.Items[Index].SubItems.Count <= ModbusEditor.Indx_Value) {
+                if (lstMonitor.CurrentItems[Index].SubItems.Count <= ModbusEditor.Indx_Value) {
                     switch (dataSet) {
                         case DataSelection.ModbusDataCoils:
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Value].Text = parentManager.Coils[Index].Value.ToString();
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.Coils[Index].Value.ToString();
                             break;
                         case DataSelection.ModbusDataDiscreteInputs:
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Value].Text = parentManager.DiscreteInputs[Index].Value.ToString();
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.DiscreteInputs[Index].Value.ToString();
                             break;
                         case DataSelection.ModbusDataInputRegisters:
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.InputRegisters[Index].Format).A;
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(parentManager.InputRegisters[Index].Size);
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Signed].Checked = parentManager.InputRegisters[Index].Signed;
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Value].Text = parentManager.InputRegisters[Index].FormattedValue;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.InputRegisters[Index].Format).A;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(parentManager.InputRegisters[Index].Size);
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Signed].Checked = parentManager.InputRegisters[Index].Signed;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.InputRegisters[Index].ValueWithUnit;
                             break;
                         case DataSelection.ModbusDataHoldingRegisters:
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.HoldingRegisters[Index].Format).A;
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(parentManager.HoldingRegisters[Index].Size);
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Signed].Checked = parentManager.HoldingRegisters[Index].Signed;
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Value].Text = parentManager.HoldingRegisters[Index].FormattedValue;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.HoldingRegisters[Index].Format).A;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(parentManager.HoldingRegisters[Index].Size);
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Signed].Checked = parentManager.HoldingRegisters[Index].Signed;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.HoldingRegisters[Index].ValueWithUnit;
                             break;
                     }
                 }
@@ -638,25 +548,25 @@ namespace Serial_Monitor {
             if (Data == null) { return; }
             if (CurrentManager == null) { return; }
             if (parentManager.Manager == null) { return; }
-            if (CurrentManager.ID == parentManager.Manager.ID) {
-                if (Data.GetType() == typeof(ModbusCoil)) {
-                    if (DataSet == DataType) {
-                        ModbusCoil DigitalData = (ModbusCoil)Data;
-                        if (ItemInBounds(Index, 1)) {
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Name].Text = DigitalData.Name.ToString();
-                        }
+            if (CurrentManager.ID != parentManager.Manager.ID) { return; }
+            if (Data.GetType() == typeof(ModbusCoil)) {
+                if (DataSet == DataType) {
+                    ModbusCoil DigitalData = (ModbusCoil)Data;
+                    if (ItemInBounds(Index, 1)) {
+                        lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Name].Text = DigitalData.Name.ToString();
                     }
                 }
-                else if (Data.GetType() == typeof(ModbusRegister)) {
-                    if (DataSet == DataType) {
-                        ModbusRegister DigitalData = (ModbusRegister)Data;
-                        if (ItemInBounds(Index, 1)) {
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Name].Text = DigitalData.Name.ToString();
-                        }
-                    }
-                }
-                navigator1.Invalidate();
             }
+            else if (Data.GetType() == typeof(ModbusRegister)) {
+                if (DataSet == DataType) {
+                    ModbusRegister DigitalData = (ModbusRegister)Data;
+                    if (ItemInBounds(Index, 1)) {
+                        lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Name].Text = DigitalData.Name.ToString();
+                    }
+                }
+            }
+            navigator1.Invalidate();
+
         }
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             navigator1.Invalidate();
@@ -679,7 +589,7 @@ namespace Serial_Monitor {
                     if (DataSet == DataType) {
                         ModbusCoil DigitalData = (ModbusCoil)Data;
                         if (ItemInBounds(Index, ModbusEditor.Indx_Value)) {
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Value].Text = DigitalData.Value.ToString();
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = DigitalData.Value.ToString();
                         }
                     }
                 }
@@ -687,7 +597,7 @@ namespace Serial_Monitor {
                     if (DataSet == DataType) {
                         ModbusRegister DigitalData = (ModbusRegister)Data;
                         if (ItemInBounds(Index, ModbusEditor.Indx_Value)) {
-                            lstMonitor.Items[Index][ModbusEditor.Indx_Value].Text = DigitalData.FormattedValue;
+                            lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = DigitalData.ValueWithUnit;
                         }
                     }
                 }
@@ -706,6 +616,7 @@ namespace Serial_Monitor {
         private void SystemManager_ChannelRemoved(int RemovedIndex) {
             if (navigator1.SelectedItem >= navigator1.ItemCount) {
                 navigator1.SelectedItem -= 1;
+
             }
             else {
                 navigator1.Invalidate();
@@ -812,8 +723,11 @@ namespace Serial_Monitor {
         private void navigator1_SelectedIndexChanged(object sender, int SelectedIndex) {
             if (SystemManager.SerialManagers.Count > 0) {
                 if ((SelectedIndex >= 0) && (SelectedIndex < SystemManager.SerialManagers.Count)) {
+                    CurrentManager = null;
                     CurrentManager = SystemManager.SerialManagers[SelectedIndex];
                     if (CurrentManager != null) {
+                        CurrentEditorView = CurrentEditorView;
+                        LoadSlaves();
                         if (CurrentManager.IsMaster == true) {
                             thSlaves.ShowTabs = true;
                             GetSelectedTabSlave(thSlaves.SelectedIndex);
@@ -825,7 +739,7 @@ namespace Serial_Monitor {
                         thSlaves.Text = CurrentManager.IsMaster == true ? "Master" : "Unit " + CurrentManager.UnitAddress.ToString();
                     }
                     else {
-                        LoadRegisters();
+                        ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
                     }
                     EnableDisableDialogEditors();
                     ModbusEditor.ClearControls(lstMonitor);
@@ -850,14 +764,14 @@ namespace Serial_Monitor {
         #region Editing and List Support
         private bool ItemInBounds(int Index, uint Column) {
             if (Index < 0) { return false; }
-            if (lstMonitor.Items.Count > 0) {
-                if (Index < lstMonitor.Items.Count) {
+            if (lstMonitor.CurrentItems.Count > 0) {
+                if (Index < lstMonitor.CurrentItems.Count) {
                     if (Column == 0) {
                         return true;
                     }
                     else {
-                        if (lstMonitor.Items[Index].SubItems.Count > 0) {
-                            if (lstMonitor.Items[Index].SubItems.Count > Column - 1) {
+                        if (lstMonitor.CurrentItems[Index].SubItems.Count > 0) {
+                            if (lstMonitor.CurrentItems[Index].SubItems.Count > Column - 1) {
                                 return true;
                             }
                         }
@@ -897,7 +811,7 @@ namespace Serial_Monitor {
                 if (DataTag.GetType() == typeof(ModbusRegister)) {
                     ModbusRegister Reg = (ModbusRegister)DataTag;
                     Reg.Signed = e.Checked;
-                    LstItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    LstItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
                     lstMonitor.Invalidate();
                 }
             }
@@ -1017,6 +931,7 @@ namespace Serial_Monitor {
             Classes.ApplicationManager.InvokeApplicationEvent();
         }
         private void ModbusRegisters_FormClosing(object sender, FormClosingEventArgs e) {
+            CurrentManager = null;
             SystemManager.ChannelAdded -= SystemManager_ChannelAdded;
             SystemManager.ChannelRemoved -= SystemManager_ChannelRemoved;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
@@ -1037,10 +952,12 @@ namespace Serial_Monitor {
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
             EnumManager.ClearClickHandles(ddbDisplayFormat, CmDisplayFormatList_Click);
             EnumManager.ClearClickHandles(ddpDataSize, CmDisplaySizeList_Click);
-            foreach (ListItem Li in lstMonitor.CurrentItems) {
-                Li.Tag = null;
-            }
-            lstMonitor.LineRemoveAll();
+            BitTogglerPopupHost.Closing -= BitTogglerPopupHost_Closing;
+            //foreach (ListItem Li in lstMonitor.CurrentItems) {
+            //    Li.Tag = null;
+            //}
+            ModbusEditor.RemoveReferences();
+            //lstMonitor.LineRemoveAll();
             GC.Collect();
         }
         #endregion 
@@ -1064,8 +981,8 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationAsDialog(InsSnap, this);
             if (InsSnap.DialogResult == DialogResult.OK) {
                 if (InsSnap.Manager != null) {
-                    //ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm(InsSnap.DisplayName, InsSnap.Manager, InsSnap.DataSet, InsSnap.Address, InsSnap.Quantity);
-                    // mdiClient.AddChild(frm);
+                    ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm(InsSnap.DisplayName, InsSnap.Manager, InsSnap.DataSet, InsSnap.Address, InsSnap.Quantity);
+                    mdiClient.AddChild(frm);
                 }
             }
         }
@@ -1084,11 +1001,11 @@ namespace Serial_Monitor {
                 int ItemCount = 0;
                 bool LastSelectionStatus = true;
                 List<int> Values = new List<int>();
-                for (int i = Address; i < lstMonitor.Items.Count; i++) {
-                    if (LastSelectionStatus != lstMonitor.Items[i].Selected) {
+                for (int i = Address; i < lstMonitor.CurrentItems.Count; i++) {
+                    if (LastSelectionStatus != lstMonitor.CurrentItems[i].Selected) {
                         IsConcurrent = false;
                     }
-                    if (lstMonitor.Items[i].Selected == true) {
+                    if (lstMonitor.CurrentItems[i].Selected == true) {
                         ItemCount++;
                         LastSelectionStatus = true;
                         Values.Add(i);
@@ -1490,11 +1407,17 @@ namespace Serial_Monitor {
             SetModbusMaster();
         }
         private void setIOFormatsToModbusRTUToolStripMenuItem_Click(object sender, EventArgs e) {
+            SetFormat(true);
+        }
+        private void setIOFormatsToModbusASCIIToolStripMenuItem_Click(object sender, EventArgs e) {
+            SetFormat(false);
+        }
+        private void SetFormat(bool ModbusRTU) {
             try {
                 if (currentEditorView == DataEditor.MasterView) {
                     if (CurrentManager == null) { return; }
-                    CurrentManager.InputFormat = FormatEnums.StreamInputFormat.ModbusRTU;
-                    CurrentManager.OutputFormat = FormatEnums.StreamOutputFormat.ModbusRTU;
+                    CurrentManager.InputFormat = ModbusRTU == true ? FormatEnums.StreamInputFormat.ModbusRTU : FormatEnums.StreamInputFormat.ModbusASCII;
+                    CurrentManager.OutputFormat = ModbusRTU == true ? FormatEnums.StreamOutputFormat.ModbusRTU : FormatEnums.StreamOutputFormat.ModbusASCII;
 
                 }
                 else {
@@ -1504,8 +1427,8 @@ namespace Serial_Monitor {
                             if (Snap.Manager != null) {
                                 SerialManager? SerMan = Snap.Manager.Manager;
                                 if (SerMan == null) { return; }
-                                SerMan.InputFormat = FormatEnums.StreamInputFormat.ModbusRTU;
-                                SerMan.OutputFormat = FormatEnums.StreamOutputFormat.ModbusRTU;
+                                SerMan.InputFormat = ModbusRTU == true ? FormatEnums.StreamInputFormat.ModbusRTU : FormatEnums.StreamInputFormat.ModbusASCII;
+                                SerMan.OutputFormat = ModbusRTU == true ? FormatEnums.StreamOutputFormat.ModbusRTU : FormatEnums.StreamOutputFormat.ModbusASCII;
                             }
                         }
                     }
@@ -1802,7 +1725,7 @@ namespace Serial_Monitor {
         }
         private void RemoveSelectedSlave() {
             if (CurrentManager == null) { return; }
-            if ((slaveindex < thSlaves.Tabs.Count) && (slaveindex >=0)) {
+            if ((slaveindex < thSlaves.Tabs.Count) && (slaveindex >= 0)) {
                 thSlaves.Tabs[slaveindex].Tag = null;
             }
             CurrentManager.RemoveSlave(Slave);
@@ -1815,10 +1738,53 @@ namespace Serial_Monitor {
             if (Data.GetType() == typeof(ModbusSlave)) {
                 SlaveTemp = ((ModbusSlave)Data).Address;
             }
-            if ((slaveindex < thSlaves.Tabs.Count) && (Index >= 0)){
+            if ((slaveindex < thSlaves.Tabs.Count) && (Index >= 0)) {
                 thSlaves.Tabs[Index].Tag = null;
             }
             CurrentManager.RemoveSlave(SlaveTemp);
+        }
+
+        private void showUnitsToolStripMenuItem_Click(object sender, EventArgs e) {
+            ProjectManager.ShowUnits = !ProjectManager.ShowUnits;
+            showUnitsToolStripMenuItem.Checked = ProjectManager.ShowUnits;
+            ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
+        }
+
+        private void changeAppearanceToolStripMenuItem_Click(object sender, EventArgs e) {
+            AppearancePopupHost.ShowAndCentre(this);
+        }
+        private bool BitToggleEnabled() {
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (CurrentEditor == null) { return false; }
+            if (CurrentEditor.SelectionCount != 1) { return false; }
+            int Index = CurrentEditor.SelectedIndex;
+            object? TagData = CurrentEditor.CurrentItems[Index].Tag;
+            if (TagData == null) { return false; }
+            if (TagData.GetType() != typeof(ModbusRegister)) { return false; }
+            ModbusRegister Register = (ModbusRegister)TagData;
+            if (Register.Format != DataFormat.Binary) { return false; }
+            return true;
+        }
+        private void bitTogglerToolStripMenuItem_Click(object sender, EventArgs e) {
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (CurrentEditor == null) { return; }
+            if (CurrentEditor.SelectionCount != 1) { return; }
+            int Index = CurrentEditor.SelectedIndex;
+            object? TagData = CurrentEditor.CurrentItems[Index].Tag;
+            if (TagData == null) { return; }
+            if (TagData.GetType() != typeof(ModbusRegister)) { return; }
+            ModbusRegister Register = (ModbusRegister)TagData;
+            if (Register.Format != DataFormat.Binary) { return; }
+            popToggler.Register = (ModbusRegister)TagData;
+            BitTogglerPopupHost.ShowAndCentre(this);
+            //ModbusEditor.CopyRegistersAsText(CurrentEditor);
+        }
+        private void BitTogglerPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            popToggler.Register = null;
+        }
+
+        private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e) {
+            bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
 
         private enum DataEditor {

@@ -51,6 +51,9 @@ namespace Serial_Monitor.Classes {
         public static event ModbusReceivedHandler? ModbusReceived;
         public delegate void ModbusReceivedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
 
+        public static event ModbusAppearanceChangedHandler? ModbusAppearanceChanged;
+        public delegate void ModbusAppearanceChangedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
+
         public static event PluginsLoadedHandler? PluginsLoaded;
         public delegate void PluginsLoadedHandler();
 
@@ -74,6 +77,11 @@ namespace Serial_Monitor.Classes {
         }
         public static void InvokeChannelSelectedChanged(SerialManager? sender) {
             ChannelSelectedChanged?.Invoke(sender);
+        }
+        public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
+            if (Sender == null) { return; }
+            if (Sender.Manager == null) { return; }
+            ModbusAppearanceChanged?.Invoke(Sender, Data, Index, DataType);
         }
         public static void ModbusRegisterPropertyChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
@@ -205,7 +213,7 @@ namespace Serial_Monitor.Classes {
                     ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
                     ApplicationManager.CloseInternalApplication("PROP_" + SerialManagers[ChannelIndex].ID);
                     Modbus.ModbusSupport.CloseSnapshot(SerialManagers[ChannelIndex]);
-
+                    SerialManagers[ChannelIndex].CleanUp();
                     SerialManagers.RemoveAt(ChannelIndex);
                     ChannelRemoved?.Invoke(ChannelIndex);
                 }
@@ -283,8 +291,8 @@ namespace Serial_Monitor.Classes {
             ProgramManager.ExecuteProgram(Name);
         }
         #region Plugins
-        static IList<IWindowPlugin> plugins = new List<IWindowPlugin>();
-        public static IList<IWindowPlugin> Plugins {
+        static List<Structures.PlugIn> plugins = new List<Structures.PlugIn>();
+        public static List<Structures.PlugIn> Plugins {
             get { return plugins; }
         }
         public static void LoadPlugins() {
@@ -308,7 +316,8 @@ namespace Serial_Monitor.Classes {
                             if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
                                 object? instance = Activator.CreateInstance(type);
                                 if (instance != null) {
-                                    plugins.Add((IWindowPlugin)instance);
+                                    //plugins.Add((IWindowPlugin)instance);
+                                    plugins.Add(new PlugIn(file));
                                 }
                             }
                         }
@@ -326,15 +335,9 @@ namespace Serial_Monitor.Classes {
                 if (Plugins.Count > 0) {
                     if (ExtensionList.GetType() == typeof(ToolStripMenuItem)) {
                         ((ToolStripMenuItem)ExtensionList).Visible = true;
-                        foreach (IWindowPlugin Plugin in Plugins) {
+                        foreach (PlugIn Plugin in Plugins) {
                             ToolStripMenuItem Tsi = new ToolStripMenuItem();
-                            try {
-                                if (Plugin != null) {
-                                    Form Frm = (Form)Plugin;
-                                    Tsi.Text = Frm.Text;
-                                }
-                            }
-                            catch { Tsi.Text = Plugin.ToString(); }
+                            Tsi.Text = Plugin.Name;
 
                             Tsi.Click += ExtensionClicked;
                             Tsi.Tag = Plugin;

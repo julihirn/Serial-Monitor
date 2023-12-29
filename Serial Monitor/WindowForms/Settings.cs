@@ -39,9 +39,23 @@ namespace Serial_Monitor {
         private void ScaleLabelPanels(object Ctrl) {
             if (Ctrl.GetType() == typeof(TabPage)) {
                 TabPage TbPg = (TabPage)Ctrl;
-                foreach (LabelPanel LblPnl in TbPg.Controls) {
-                    if (LblPnl.Inlinelabel == true) {
-                        LblPnl.InlineWidth = DesignerSetup.ScaleInteger(LblPnl.InlineWidth);
+                foreach (Control LblPnl in TbPg.Controls) {
+                    if (LblPnl.GetType() == typeof(LabelPanel)) {
+                        LabelPanel Temp = (LabelPanel)LblPnl;
+                        if (Temp.Inlinelabel == true) {
+                            Temp.InlineWidth = DesignerSetup.ScaleInteger(Temp.InlineWidth);
+                        }
+                        ScaleInnerLabelPanel(Temp);
+                    }
+                }
+            }
+        }
+        private void ScaleInnerLabelPanel(LabelPanel Input) {
+            foreach (Control LblPnl in Input.Controls) {
+                if (LblPnl.GetType() == typeof(LabelPanel)) {
+                    LabelPanel Temp = (LabelPanel)LblPnl;
+                    if (Temp.Inlinelabel == true) {
+                        Temp.InlineWidth = DesignerSetup.ScaleInteger(Temp.InlineWidth);
                     }
                 }
             }

@@ -315,6 +315,8 @@ namespace Serial_Monitor.Components {
                         DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
                         numericTextbox1.Minimum = DualNum.A;
                         numericTextbox1.Maximum = DualNum.B;
+                        numericTextbox1.Unit = Reg.Unit;
+                        numericTextbox1.Prefix = EnumManager.GetPrefix(Reg);
                     }
                     else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Hexadecimal) {
                         numericTextbox1.Base = NumericTextbox.NumberBase.Base16;
@@ -329,6 +331,8 @@ namespace Serial_Monitor.Components {
                         numericTextbox1.Minimum = MathHandler.EvaluateExpression("-1.7976931348623157*(10^(308))", null);
                         numericTextbox1.Maximum = MathHandler.EvaluateExpression("1.7976931348623157*(10^(308))", null);
                         numericTextbox1.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                        numericTextbox1.Unit = Reg.Unit;
+                        numericTextbox1.Prefix = EnumManager.GetPrefix(Reg);
 
                         if (InputValue.ToLower() == "nan") {
                             InputValue = "0";
@@ -361,6 +365,8 @@ namespace Serial_Monitor.Components {
                         if (InputValue.Contains('E')) {
                             InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
                         }
+                        numericTextbox1.Unit = Reg.Unit;
+                        numericTextbox1.Prefix = EnumManager.GetPrefix(Reg);
 
                     }
                     else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Char) {
@@ -607,6 +613,7 @@ namespace Serial_Monitor.Components {
             if (LinkedControl == null) { return; }
             else if (LinkedControl.GetType() == typeof(ModbusRegister)) {
                 ModbusRegister coil = (ModbusRegister)LinkedControl;
+                EnumManager.PushPrefix(coil, numericTextbox1.Prefix);
                 coil.PushValue(Formatters.StringToLong(Data.ToString() ?? "0", coil.Format, coil.Size, coil.Signed), true);
                 //SystemManager.SendModbusCommand(coil.ParentManager, coil.ComponentType, "Write Register " + coil.Address + " = " + coil.Value.ToString());
                 //coil.Value = Data.ToString() ?? "";

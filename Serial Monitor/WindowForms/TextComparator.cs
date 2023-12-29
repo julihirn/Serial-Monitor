@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serial_Monitor.Classes.Theming;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -49,11 +50,8 @@ namespace Serial_Monitor.WindowForms {
             labelPanel2.LabelBackColor = Properties.Settings.Default.THM_COL_MenuBack;
             labelPanel2.BackColor = Properties.Settings.Default.THM_COL_Editor;
 
-            textBox1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
-            textBox2.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            textBox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            ThemeManager.ThemeControl(textBox1);
+            ThemeManager.ThemeControl(textBox2);
             BackColor = Properties.Settings.Default.THM_COL_Editor;
             txtComparer.BackColor = Properties.Settings.Default.THM_COL_Editor;
             txtComparer.EmptyTextColor = Properties.Settings.Default.THM_COL_Editor;

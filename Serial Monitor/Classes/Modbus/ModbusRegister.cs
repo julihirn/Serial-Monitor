@@ -10,6 +10,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Handlers;
+using ODModules;
+using static System.Windows.Forms.DataFormats;
 namespace Serial_Monitor.Classes.Modbus {
 
     public class ModbusRegister : ModbusObject {
@@ -59,6 +62,29 @@ namespace Serial_Monitor.Classes.Modbus {
                 formattedValue = value;
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
             }
+        }
+        public string ValueWithUnit {
+            get {
+                if (ProjectManager.ShowUnits == false) {
+                    return formattedValue;
+                }
+                switch (format) {
+                    case ModbusEnums.DataFormat.Decimal:
+                        return formattedValue + GetUnitString();
+                    case ModbusEnums.DataFormat.Float:
+                       return formattedValue + GetUnitString();
+                    case ModbusEnums.DataFormat.Double:
+                        return formattedValue + GetUnitString();
+                }
+                return formattedValue;
+            }
+        }
+        private string GetUnitString() {
+            string UnitBuild = ConversionHandler.PrefixToSymbol(prefix) + unit;
+            if (UnitBuild.Trim(' ').Length > 0) {
+                return " " + UnitBuild;
+            }
+            return "";
         }
         ModbusEnums.DataFormat format = ModbusEnums.DataFormat.Decimal;
         public ModbusEnums.DataFormat Format {
@@ -152,6 +178,25 @@ namespace Serial_Monitor.Classes.Modbus {
                 SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
+        string unit = "";
+        public string Unit {
+            get {
+                return unit;
+            }
+            set {
+                unit = value;
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
+            }
+        }
+        ConversionHandler.Prefix prefix = ConversionHandler.Prefix.None;
+        public ConversionHandler.Prefix Prefix { 
+            get { return prefix; }
+            set {
+                prefix = value;
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
+            }
+        }
+        
         #endregion
         #region Value Modification
         public void PushValue(long Input, bool AllowTransmit) {
@@ -445,6 +490,12 @@ namespace Serial_Monitor.Classes.Modbus {
             if (Input.A.ToLower() == "name") {
                 Name = Input.B;
             }
+            else if (Input.A.ToLower() == "unit") {
+                Unit = Input.B;
+            }
+            else if (Input.A.ToLower() == "prefix") {
+                Prefix = ConversionHandler.StringToPrefix(Input.B);
+            }
             else if (Input.A.ToLower() == "value") {
                 short Temp = 0;
                 short.TryParse(Input.B, out Temp);
@@ -474,6 +525,8 @@ namespace Serial_Monitor.Classes.Modbus {
             formattedValue = "0";
             regValue = 0;
             userChanged = false;
+            unit = "";
+            prefix = ConversionHandler.Prefix.None;
         }
     }
 }

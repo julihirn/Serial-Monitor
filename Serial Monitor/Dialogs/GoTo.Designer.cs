@@ -27,13 +27,13 @@
             Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GoTo));
             lblpnlName = new ODModules.LabelPanel();
-            textBox2 = new TextBox();
             lblpnlAddress = new ODModules.LabelPanel();
             numtxtAddress = new ODModules.NumericTextbox();
             btnAccept = new ODModules.Button();
             btnCancel = new ODModules.Button();
             btnHiddenCancel = new Button();
             btnHiddenAccept = new Button();
+            textBox1 = new ODModules.TextBox();
             lblpnlName.SuspendLayout();
             lblpnlAddress.SuspendLayout();
             SuspendLayout();
@@ -46,7 +46,7 @@
             lblpnlName.CloseColor = Color.Black;
             lblpnlName.CloseMouseOverColor = Color.Red;
             lblpnlName.Collapsed = false;
-            lblpnlName.Controls.Add(textBox2);
+            lblpnlName.Controls.Add(textBox1);
             lblpnlName.Dock = DockStyle.Top;
             lblpnlName.DropShadow = false;
             lblpnlName.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
@@ -57,30 +57,17 @@
             lblpnlName.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlName.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlName.LabelForeColor = Color.Black;
-            lblpnlName.Location = new Point(5, 38);
+            lblpnlName.Location = new Point(9, 56);
+            lblpnlName.Margin = new Padding(6, 6, 6, 6);
             lblpnlName.Name = "lblpnlName";
             lblpnlName.OverrideCollapseControl = false;
-            lblpnlName.Padding = new Padding(113, 5, 5, 5);
+            lblpnlName.Padding = new Padding(127, 11, 9, 11);
             lblpnlName.PanelCollapsible = false;
             lblpnlName.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlName.ShowCloseButton = false;
-            lblpnlName.Size = new Size(292, 26);
+            lblpnlName.Size = new Size(543, 67);
             lblpnlName.TabIndex = 7;
             lblpnlName.Text = "Go To Name";
-            // 
-            // textBox2
-            // 
-            textBox2.BackColor = Color.FromArgb(50, 50, 50);
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Dock = DockStyle.Top;
-            textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(113, 5);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(174, 16);
-            textBox2.TabIndex = 2;
-            textBox2.TextChanged += textBox2_TextChanged;
-            textBox2.KeyDown += textBox2_KeyDown;
-            textBox2.KeyPress += textBox2_KeyPress;
             // 
             // lblpnlAddress
             // 
@@ -101,14 +88,15 @@
             lblpnlAddress.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlAddress.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlAddress.LabelForeColor = Color.Black;
-            lblpnlAddress.Location = new Point(5, 5);
+            lblpnlAddress.Location = new Point(9, 11);
+            lblpnlAddress.Margin = new Padding(6, 6, 6, 6);
             lblpnlAddress.Name = "lblpnlAddress";
             lblpnlAddress.OverrideCollapseControl = false;
-            lblpnlAddress.Padding = new Padding(113, 5, 5, 5);
+            lblpnlAddress.Padding = new Padding(127, 11, 9, 11);
             lblpnlAddress.PanelCollapsible = false;
             lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAddress.ShowCloseButton = false;
-            lblpnlAddress.Size = new Size(292, 33);
+            lblpnlAddress.Size = new Size(543, 45);
             lblpnlAddress.TabIndex = 6;
             lblpnlAddress.Text = "Go To Address";
             // 
@@ -135,7 +123,8 @@
             numtxtAddress.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             numtxtAddress.LabelForeColor = Color.Gray;
             numtxtAddress.LabelText = "";
-            numtxtAddress.Location = new Point(113, 5);
+            numtxtAddress.Location = new Point(127, 11);
+            numtxtAddress.Margin = new Padding(6, 6, 6, 6);
             numtxtAddress.Marked = false;
             numtxtAddress.MarkedBackColor = Color.Empty;
             numtxtAddress.MarkedBorderColor = Color.Beige;
@@ -158,7 +147,7 @@
             numtxtAddress.SelectedBackColor = Color.Empty;
             numtxtAddress.SelectedBorderColor = Color.Beige;
             numtxtAddress.ShowLabel = true;
-            numtxtAddress.Size = new Size(174, 23);
+            numtxtAddress.Size = new Size(407, 23);
             numtxtAddress.TabIndex = 0;
             numtxtAddress.Unit = "";
             numtxtAddress.UseFixedNumericPadding = true;
@@ -191,12 +180,13 @@
             btnAccept.BorderRadius = 5;
             btnAccept.Checked = false;
             btnAccept.GroupMaximumChecked = 2;
-            btnAccept.Location = new Point(105, 77);
+            btnAccept.Location = new Point(195, 164);
+            btnAccept.Margin = new Padding(6, 6, 6, 6);
             btnAccept.Name = "btnAccept";
             btnAccept.RadioButtonGroup = "";
             btnAccept.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnAccept.SecondaryText = "";
-            btnAccept.Size = new Size(93, 28);
+            btnAccept.Size = new Size(173, 60);
             btnAccept.Style = ODModules.ButtonStyle.Square;
             btnAccept.TabIndex = 8;
             btnAccept.Text = "Ok";
@@ -229,12 +219,13 @@
             btnCancel.BorderRadius = 5;
             btnCancel.Checked = false;
             btnCancel.GroupMaximumChecked = 2;
-            btnCancel.Location = new Point(204, 77);
+            btnCancel.Location = new Point(379, 164);
+            btnCancel.Margin = new Padding(6, 6, 6, 6);
             btnCancel.Name = "btnCancel";
             btnCancel.RadioButtonGroup = "";
             btnCancel.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnCancel.SecondaryText = "";
-            btnCancel.Size = new Size(93, 28);
+            btnCancel.Size = new Size(173, 60);
             btnCancel.Style = ODModules.ButtonStyle.Square;
             btnCancel.TabIndex = 9;
             btnCancel.Text = "Cancel";
@@ -245,9 +236,10 @@
             // 
             // btnHiddenCancel
             // 
-            btnHiddenCancel.Location = new Point(8, 77);
+            btnHiddenCancel.Location = new Point(15, 164);
+            btnHiddenCancel.Margin = new Padding(6, 6, 6, 6);
             btnHiddenCancel.Name = "btnHiddenCancel";
-            btnHiddenCancel.Size = new Size(11, 10);
+            btnHiddenCancel.Size = new Size(20, 21);
             btnHiddenCancel.TabIndex = 11;
             btnHiddenCancel.Text = "Can";
             btnHiddenCancel.UseVisualStyleBackColor = true;
@@ -256,22 +248,53 @@
             // 
             // btnHiddenAccept
             // 
-            btnHiddenAccept.Location = new Point(20, 77);
+            btnHiddenAccept.Location = new Point(37, 164);
+            btnHiddenAccept.Margin = new Padding(6, 6, 6, 6);
             btnHiddenAccept.Name = "btnHiddenAccept";
-            btnHiddenAccept.Size = new Size(10, 10);
+            btnHiddenAccept.Size = new Size(19, 21);
             btnHiddenAccept.TabIndex = 10;
             btnHiddenAccept.Text = "Acc";
             btnHiddenAccept.UseVisualStyleBackColor = true;
             btnHiddenAccept.Visible = false;
             btnHiddenAccept.Click += btnHiddenAccept_Click;
             // 
+            // textBox1
+            // 
+            textBox1.AutoCompleteMode = AutoCompleteMode.None;
+            textBox1.AutoCompleteSource = AutoCompleteSource.None;
+            textBox1.BackColor = SystemColors.Window;
+            textBox1.BorderColor = Color.MediumSlateBlue;
+            textBox1.BorderSize = 2;
+            textBox1.Dock = DockStyle.Top;
+            textBox1.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox1.ForeColor = Color.DimGray;
+            textBox1.Location = new Point(127, 11);
+            textBox1.Margin = new Padding(4);
+            textBox1.MaxLength = 32767;
+            textBox1.Multiline = false;
+            textBox1.Name = "textBox1";
+            textBox1.Padding = new Padding(7);
+            textBox1.PasswordChar = '\0';
+            textBox1.PlaceholderText = "";
+            textBox1.ReadOnly = false;
+            textBox1.SelectedBackColor = Color.LightGray;
+            textBox1.SelectedBorderColor = Color.HotPink;
+            textBox1.ShortcutsEnabled = true;
+            textBox1.Size = new Size(407, 45);
+            textBox1.TabIndex = 2;
+            textBox1.TextAlign = HorizontalAlignment.Left;
+            textBox1.UnderlinedStyle = false;
+            textBox1.UseSystemPasswordChar = false;
+            textBox1.WordWrap = true;
+            textBox1._TextChanged += textBox2_TextChanged;
+            // 
             // GoTo
             // 
             AcceptButton = btnHiddenAccept;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnHiddenCancel;
-            ClientSize = new Size(302, 113);
+            ClientSize = new Size(561, 241);
             Controls.Add(btnHiddenCancel);
             Controls.Add(btnHiddenAccept);
             Controls.Add(lblpnlName);
@@ -281,8 +304,9 @@
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(6, 6, 6, 6);
             Name = "GoTo";
-            Padding = new Padding(5, 5, 5, 5);
+            Padding = new Padding(9, 11, 9, 11);
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Go To";
@@ -291,7 +315,6 @@
             KeyDown += GoTo_KeyDown;
             KeyPress += GoTo_KeyPress;
             lblpnlName.ResumeLayout(false);
-            lblpnlName.PerformLayout();
             lblpnlAddress.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -304,8 +327,8 @@
         private ODModules.NumericTextbox numtxtAddress;
         private ODModules.Button btnAccept;
         private ODModules.Button btnCancel;
-        private TextBox textBox2;
         private Button btnHiddenCancel;
         private Button btnHiddenAccept;
+        private ODModules.TextBox textBox1;
     }
 }

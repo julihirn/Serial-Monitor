@@ -8,6 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
+using Handlers;
+using static Handlers.ConversionHandler;
+using Serial_Monitor.Classes.Modbus;
+using static ODModules.NumericTextbox;
 
 namespace Serial_Monitor.Classes {
     public static class EnumManager {
@@ -567,6 +571,15 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        public static NumericTextbox.MetricPrefix GetPrefix(ModbusRegister ?Register) {
+            if (Register == null) { return MetricPrefix.None; }
+            int Index = (int)Register.Prefix;
+            return (MetricPrefix)Index;
+        }
+        public static void PushPrefix(ModbusRegister? Register, NumericTextbox.MetricPrefix PrefixToPush) {
+            if (Register == null) { return; }
+            int Index = (int)PrefixToPush;
+            Register.Prefix = (Prefix)Index;
+        }
     }
-
 }

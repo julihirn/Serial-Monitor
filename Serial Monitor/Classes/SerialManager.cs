@@ -1489,7 +1489,7 @@ namespace Serial_Monitor.Classes {
         #region Modbus Slaves
         public void NewSlave(int Address, string Name) {
             int Index = ModbusSupport.UnitToIndex(this, Address);
-            if (Index >= 0) { return; }
+            if (Index > 0) { return; }
             slave.Add(new ModbusSlave(this, Address, Name));
             SystemManager.InvokeSlaveAdded(this);
         }

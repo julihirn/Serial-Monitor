@@ -549,5 +549,17 @@ namespace Serial_Monitor.Properties {
                 this["PRG_BOL_InsertBefore"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Gray")]
+        public global::System.Drawing.Color THM_COL_ItemInactiveForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_ItemInactiveForeColor"]));
+            }
+            set {
+                this["THM_COL_ItemInactiveForeColor"] = value;
+            }
+        }
     }
 }

@@ -85,13 +85,14 @@ namespace Serial_Monitor.ToolWindows {
                 SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
                 SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
                 SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
-
+                SystemManager.ModbusAppearanceChanged += SystemManager_ModbusAppearanceChanged;
                 this.GotFocus += ModbusRegister_GotFocus;
                 this.LostFocus += ModbusRegister_LostFocus;
                 IgnoreBoundsChange = false;
             }
         }
 
+    
         private void ModbusRegister_LostFocus(object? sender, EventArgs e) {
 
         }
@@ -121,7 +122,6 @@ namespace Serial_Monitor.ToolWindows {
                 lstRegisters.Invalidate();
             }
         }
-
         private void SystemManager_ModbusRegisterRenamed(ModbusSlave parentManager, object Data, int Index, DataSelection DataType) {
             if (snapshot == null) { return; }
             if (snapshot.Selection != DataType) { return; }
@@ -132,6 +132,15 @@ namespace Serial_Monitor.ToolWindows {
                 snapshot.RenameFromRegister(Index);
                 lstRegisters.Invalidate();
             }
+        }
+        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, object Data, int Index, DataSelection DataType) {
+            if (snapshot == null) { return; }
+            if (snapshot.Manager == null) { return; }
+            if (snapshot.Manager.Manager == null) { return; }
+            if (sender.Manager == null) { return; }
+            if (snapshot.Manager.Manager.ID != sender.Manager.ID) { return; }
+            snapshot.UpdateRowAppearance(Index);
+            lstRegisters.Invalidate();
         }
 
         private void SystemManager_ChannelRenamed(SerialManager sender) {
@@ -186,6 +195,8 @@ namespace Serial_Monitor.ToolWindows {
             if (snapshot != null) {
                 snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
             }
+            SystemManager.ModbusRegisterRenamed -= SystemManager_ModbusRegisterRenamed;
+            SystemManager.ModbusAppearanceChanged -= SystemManager_ModbusAppearanceChanged;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusPropertyChanged -= SystemManager_ModbusPropertyChanged;

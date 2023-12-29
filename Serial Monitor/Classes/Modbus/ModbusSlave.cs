@@ -77,6 +77,7 @@ namespace Serial_Monitor.Classes.Modbus {
             discreteInputs = new ModbusCoil[0];
             inputRegisters = new ModbusRegister[0];
             holdingRegisters = new ModbusRegister[0];
+            manager = null;
             GC.Collect();
         }
         public void Reset() {

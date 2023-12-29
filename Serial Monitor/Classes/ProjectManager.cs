@@ -39,6 +39,11 @@ namespace Serial_Monitor.Classes {
 
             }
         }
+        static bool showUnits = true;
+        public static bool ShowUnits {
+            get { return showUnits; } set {  showUnits = value; }
+
+        }
         public static decimal ProgramVersion {
             get {
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -127,6 +132,7 @@ namespace Serial_Monitor.Classes {
             DocumentHandler.Write(Sw, 1, "Version", ProgramVersion);
             Sw.WriteLine("");
             DocumentHandler.Write(Sw, 1, "KeypadTopMost", keypadTopMost);
+            DocumentHandler.Write(Sw, 1, "ShowUnits", showUnits);
         }
         private static void WriteChannels(StreamWriter Sw) {
             if (SystemManager.SerialManagers.Count > 0) {
@@ -300,6 +306,7 @@ namespace Serial_Monitor.Classes {
             return new List<int>();
         }
         public static void ReadSMPFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+            showUnits = DocumentHandler.GetBooleanVariable("ShowUnits");
             ProgramManager.Programs.Add(new ProgramObject());
             int CurrentProgramIndex = 0;
             for (int i = 0; i < DocumentHandler.PARM.Count; i++) {

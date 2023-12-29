@@ -33,20 +33,40 @@ namespace Serial_Monitor.Dialogs {
 
         private void InsertModbusSnapshot_Load(object sender, EventArgs e) {
             ApplyTheme();
+            btngridChannels.ButtonSize = DesignerSetup.ScaleSize(btngridChannels.ButtonSize);
             bool LockFirst = true;
             foreach (SerialManager Chan in SystemManager.SerialManagers) {
-                GridButton Btn = new GridButton();
-                Btn.Text = Chan.StateName;
-                Btn.Tag = Chan;
-                Btn.RadioButtonGroup = "main";
-                Btn.Type = ButtonType.RadioButton;
-                Btn.Enabled = true;
-                if (LockFirst) {
-                    Btn.Checked = true;
-                    manager = Chan;
-                    LockFirst = false;
+                if (Chan.IsMaster == false) {
+                    GridButton Btn = new GridButton();
+                    Btn.Text = Chan.StateName;
+                    Btn.Tag = Chan;
+                    Btn.RadioButtonGroup = "main";
+                    Btn.Type = ButtonType.RadioButton;
+                    Btn.Enabled = true;
+                    if (LockFirst) {
+                        Btn.Checked = true;
+                        manager = Chan.Registers;
+                        LockFirst = false;
+                    }
+                    btngridChannels.Buttons.Add(Btn);
                 }
-                btngridChannels.Buttons.Add(Btn);
+                else {
+                    foreach(ModbusSlave Slve in Chan.Slave) {
+                        GridButton Btn = new GridButton();
+                        Btn.Text = Chan.StateName + ": " + Slve.DisplayName;
+                        Btn.Tag = Chan;
+                        Btn.RadioButtonGroup = "main";
+                        Btn.Type = ButtonType.RadioButton;
+                        Btn.Enabled = true;
+                        if (LockFirst) {
+                            Btn.Checked = true;
+                            manager = Slve;
+                            LockFirst = false;
+                        }
+                        btngridChannels.Buttons.Add(Btn);
+                    }
+                }
+                
             }
             DataSelection[] Formats = (DataSelection[])DataSelection.GetValues(typeof(DataSelection));
             foreach (DataSelection Frmt in Formats) {
@@ -71,8 +91,8 @@ namespace Serial_Monitor.Dialogs {
             Classes.Theming.ThemeManager.ThemeControl(btngridChannels);
             Classes.Theming.ThemeManager.ThemeControl(numtxtAddress);
             Classes.Theming.ThemeManager.ThemeControl(numtxtQuantity);
-            textBox1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            Classes.Theming.ThemeManager.ThemeControl(textBox1);
+           
 
             cmbxDataSet.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             cmbxDataSet.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -90,8 +110,8 @@ namespace Serial_Monitor.Dialogs {
                 return textBox1.Text;
             }
         }
-        SerialManager? manager = null;
-        public SerialManager? Manager {
+        ModbusSlave? manager = null;
+        public ModbusSlave? Manager {
             get {
                 return manager;
             }
@@ -141,8 +161,8 @@ namespace Serial_Monitor.Dialogs {
         }
         private void btngridChannels_ButtonClicked(object Sender, GridButton Button, Point GridLocation) {
             if (Button.Tag == null) { return; }
-            if (Button.Tag.GetType() == typeof(SerialManager)) {
-                manager = (SerialManager)Button.Tag;
+            if (Button.Tag.GetType() == typeof(ModbusSlave)) {
+                manager = (ModbusSlave)Button.Tag;
             }
         }
     }

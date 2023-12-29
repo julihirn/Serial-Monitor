@@ -113,6 +113,11 @@ namespace Serial_Monitor.Classes.Theming {
             get { return tabSelectedBorderColor; }
             set { tabSelectedBorderColor = value; }
         }
+        private Color itemInactiveColor = Color.FromArgb(100, 128, 128, 128);
+        public Color ItemInactiveColor {
+            get { return itemInactiveColor; }
+            set { itemInactiveColor = value; }
+        }
         private Color tabSelectedColor = Color.FromArgb(100, 128, 128, 128);
         public Color TabSelectedColor{
             get { return tabSelectedColor; }
@@ -203,8 +208,9 @@ namespace Serial_Monitor.Classes.Theming {
             Properties.Settings.Default.THM_COL_VariablesColor = syntaxHighlightDeclarations;
             Properties.Settings.Default.THM_COL_KeyWordColor= syntaxHighlightControlFlow;
 
+            Properties.Settings.Default.THM_COL_ItemInactiveForeColor = itemInactiveColor;
 
-            Properties.Settings.Default.THM_SET_IsDark = isDarkTheme;
+          Properties.Settings.Default.THM_SET_IsDark = isDarkTheme;
             Classes.ApplicationManager.ReapplyThemeToAll();
             Properties.Settings.Default.Save();
         }
