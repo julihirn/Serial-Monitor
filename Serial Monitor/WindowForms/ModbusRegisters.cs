@@ -240,6 +240,10 @@ namespace Serial_Monitor {
                         newUnitToolStripMenuItem.Enabled = CurrentManager.IsMaster;
                         removeUnitToolStripMenuItem.Enabled = CurrentManager.IsMaster;
                         renameUnitToolStripMenuItem.Enabled = CurrentManager.IsMaster;
+
+                        newUnitToolStripMenuItem1.Enabled = CurrentManager.IsMaster;
+                        removeUnitToolStripMenuItem1.Enabled = CurrentManager.IsMaster;
+                        renameUnitToolStripMenuItem1.Enabled = CurrentManager.IsMaster;
                         btnMenuModbusMaster.Enabled = true;
                         thSlaves.ShowTabs = CurrentManager.IsMaster;
                         thSlaves.Text = CurrentManager.IsMaster == true ? "Master" : "Unit " + CurrentManager.UnitAddress.ToString();
@@ -250,6 +254,9 @@ namespace Serial_Monitor {
                         newUnitToolStripMenuItem.Enabled = false;
                         removeUnitToolStripMenuItem.Enabled = false;
                         renameUnitToolStripMenuItem.Enabled = false;
+                        newUnitToolStripMenuItem1.Enabled = false;
+                        removeUnitToolStripMenuItem1.Enabled = false;
+                        renameUnitToolStripMenuItem1.Enabled = false;
                     }
                     setIOFormatsToModbusRTUToolStripMenuItem.Enabled = true;
                     setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = true;
@@ -264,6 +271,9 @@ namespace Serial_Monitor {
                     newUnitToolStripMenuItem.Enabled = false;
                     removeUnitToolStripMenuItem.Enabled = false;
                     renameUnitToolStripMenuItem.Enabled = false;
+                    newUnitToolStripMenuItem1.Enabled = false;
+                    removeUnitToolStripMenuItem1.Enabled = false;
+                    renameUnitToolStripMenuItem1.Enabled = false;
                     if (SnapshotCurrentIndex < 0) {
                         showFormatsToolStripMenuItem.Checked = false;
                         showFormatsToolStripMenuItem.Enabled = false;
@@ -668,10 +678,25 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewItem, newToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.QueryView, querySenderToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewPartition, newUnitToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewPartition, newUnitToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Rename, renameUnitToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Rename, renameUnitToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeUnitToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeUnitToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.ColorPalette, changeAppearanceToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectRows, btnSelectionToSnapshot, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             //DesignerSetup.LinkSVGtoControl(Properties.Resources.SaveAs_16x, saveAsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, saveToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -1655,7 +1680,18 @@ namespace Serial_Monitor {
             RelativePoint = new Point(e.Location.X + ThSlavesScreenLocation.X, e.Location.Y + ThSlavesScreenLocation.Y + thSlaves.Height);
             cmMBChannel.Show(RelativePoint);
         }
-
+        private void newUnitToolStripMenuItem1_Click(object sender, EventArgs e) {
+            NewSlave();
+        }
+        private void renameUnitToolStripMenuItem1_Click(object sender, EventArgs e) {
+            TabClickedEventArgs? TagData = thSlaves.GetCurrentTabEventArgs();//GetClickedArgs(cmMBChannel.Tag);
+            if (TagData == null) { return; }
+            // if (TagData.SelectedTab.GetType() != typeof(SerialManager)) { return; }
+            ShowSlaveRenameBox(TagData, true);
+        }
+        private void removeUnitToolStripMenuItem1_Click(object sender, EventArgs e) {
+            RemoveSelectedSlave();
+        }
         private void newUnitToolStripMenuItem_Click(object sender, EventArgs e) {
             NewSlave();
         }
@@ -1721,7 +1757,15 @@ namespace Serial_Monitor {
         }
         private void NewSlave() {
             if (CurrentManager == null) { return; }
-            CurrentManager.NewSlave(2, "");
+            Dialogs.NewUnit InsSnap = new Dialogs.NewUnit(CurrentManager);
+            // PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
+            ApplicationManager.OpenInternalApplicationAsDialog(InsSnap, this);
+            if (InsSnap.DialogResult == DialogResult.OK) {
+                if (InsSnap.Manager != null) {
+                    CurrentManager.NewSlave(InsSnap.Unit, InsSnap.DisplayName);
+                }
+            }
+            InsSnap.CleanUp();
         }
         private void RemoveSelectedSlave() {
             if (CurrentManager == null) { return; }
@@ -1786,6 +1830,12 @@ namespace Serial_Monitor {
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e) {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
+
+        private void lstMonitor_ItemClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
+            bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
+        }
+
+      
 
         private enum DataEditor {
             MasterView = 0x00,

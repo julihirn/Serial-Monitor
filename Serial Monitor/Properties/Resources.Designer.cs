@@ -163,6 +163,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] ColorPalette {
+            get {
+                object obj = ResourceManager.GetObject("ColorPalette", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] COM {
             get {
                 object obj = ResourceManager.GetObject("COM", resourceCulture);
@@ -523,6 +533,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] NewPartition {
+            get {
+                object obj = ResourceManager.GetObject("NewPartition", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] NewRow {
             get {
                 object obj = ResourceManager.GetObject("NewRow", resourceCulture);
@@ -613,6 +633,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] QueryView {
+            get {
+                object obj = ResourceManager.GetObject("QueryView", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Refresh {
             get {
                 object obj = ResourceManager.GetObject("Refresh", resourceCulture);
@@ -696,6 +726,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] SaveAs_16x {
             get {
                 object obj = ResourceManager.GetObject("SaveAs_16x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SelectRows {
+            get {
+                object obj = ResourceManager.GetObject("SelectRows", resourceCulture);
                 return ((byte[])(obj));
             }
         }

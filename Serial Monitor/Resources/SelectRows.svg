@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-blue-10{fill: #005dba; opacity: 0.1;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}</style>
+  </defs>
+  <title>SelectRows</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-blue-10" d="M14.5,6.5v4H2.5v-4Z" />
+    <path class="light-defaultgrey-10" d="M14.5,12v2.5H2.5V12h12ZM2.5,5h12V2.5H2.5Z" />
+    <path class="light-defaultgrey" d="M15,11.914V14.5l-.5.5H2.5L2,14.5V11.914L2.086,12H3v2H6V12H7v2h3V12h1v2h3V12h.914ZM2,2.5V5.086L2.086,5H3V3H6V5H7V3h3V5h1V3h3V5h.914L15,5.086V2.5L14.5,2H2.5Z" />
+    <path class="light-blue" d="M2.5,11h12l.5-.5v-4L14.5,6H2.5L2,6.5v4ZM11,10V7h3v3ZM7,10V7h3v3ZM3,10V7H6v3Z" />
+  </g>
+</svg>

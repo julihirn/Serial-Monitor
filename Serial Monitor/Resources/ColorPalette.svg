@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-yellow{fill: #996f00; opacity: 1;}.light-red{fill: #c50b17; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}.light-green{fill: #1f801f; opacity: 1;}</style>
+  </defs>
+  <title>IconLightColorPalette</title>
+  <g id="Canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M4.5,9a1.5,1.5,0,0,1-3,0V8A6.5,6.5,0,1,1,8,14.5H7.5V9a1.5,1.5,0,0,0-3,0" />
+    <path class="light-defaultgrey" d="M8,1A7,7,0,0,1,8,15H7.5L7,14.5V9A1,1,0,0,0,5,9,2,2,0,0,1,1,9V8A7.008,7.008,0,0,1,8,1ZM8,14A6,6,0,1,0,2,8V9A1,1,0,0,0,4,9,2,2,0,0,1,8,9Z" />
+    <path class="light-yellow" d="M8.983,3.814a1,1,0,1,1-1.169-.8A1,1,0,0,1,8.983,3.814Z" />
+    <path class="light-red" d="M5.563,4.674a1,1,0,1,1-1.389.263A1,1,0,0,1,5.563,4.674Z" />
+    <path class="light-defaultgrey" d="M9.437,11.826a1,1,0,1,1,1.389-.263A1,1,0,0,1,9.437,11.826Z" />
+    <path class="light-blue" d="M12.186,9.483a1,1,0,1,1,.8-1.169A1,1,0,0,1,12.186,9.483Z" />
+    <path class="light-green" d="M11.826,6.063a1,1,0,1,1-.263-1.389A1,1,0,0,1,11.826,6.063Z" />
+  </g>
+</svg>
