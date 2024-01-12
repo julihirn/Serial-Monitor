@@ -105,7 +105,7 @@ namespace Serial_Monitor.Dialogs {
             manager = null;
         }
         private void NewUnit_FormClosed(object sender, FormClosedEventArgs e) {
-          
+
         }
     }
     public struct UnitPreview {

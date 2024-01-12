@@ -92,7 +92,7 @@ namespace Serial_Monitor.ToolWindows {
             }
         }
 
-    
+
         private void ModbusRegister_LostFocus(object? sender, EventArgs e) {
 
         }

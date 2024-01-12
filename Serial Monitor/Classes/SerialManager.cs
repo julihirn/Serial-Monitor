@@ -682,12 +682,16 @@ namespace Serial_Monitor.Classes {
                         ModbusMasterWriteCoilReturn(Buffer, RXCurrentByte); break;
                     case ModbusSupport.FunctionCode.WriteSingleHoldingRegister:
                         ModbusMasterWriteRegisterReturn(Buffer, RXCurrentByte); break;
+                    case ModbusSupport.FunctionCode.WriteMultipleHoldingRegisters:
+                        ModbusMasterWriteMultipleRegisterReturn(Buffer, RXCurrentByte); break;
                     case ModbusSupport.FunctionCode.ReadDiscreteInputs:
                         ModbusMasterReadCoils(Buffer, RXCurrentByte); break;
                     case ModbusSupport.FunctionCode.ReadHoldingRegisters:
                         ModbusMasterReadRegisters(Buffer, RXCurrentByte); break;
                     case ModbusSupport.FunctionCode.ReadInputRegisters:
                         ModbusMasterReadRegisters(Buffer, RXCurrentByte, false); break;
+                    case ModbusSupport.FunctionCode.Diagnostics:
+                        ModbusMasterDiagnosticsReturn(Buffer, RXCurrentByte); break;
                     default:
                         //ModbusPostException(Buffer[0], (Modbus.FunctionCode)Buffer[1], ModbusException.IllegalFunction);
                         break;
@@ -769,6 +773,31 @@ namespace Serial_Monitor.Classes {
                 }
                 byte[] Temp = ModbusSupport.BulidReadCoils(this, true, IsDiscrete, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, CoilCount);
                 TransmitFrame(Temp);
+            }
+        }
+        private void ModbusMasterDiagnosticsReturn(byte[] Input, int Length) {
+            //ADR FUN ST1 STR2 LN1 LN2
+            if (Port == null) { return; }
+            if (!Port.IsOpen) { return; }
+            if (inputFormat == StreamInputFormat.ModbusRTU) {
+                int Device = Input[0];
+                int TempFunction = (int)((Input[2] << 8) | Input[3]);
+                int Val = (int)((Input[4] << 8) | Input[5]);
+                try {
+                    ModbusSupport.DiagnosticSubFunction SubFunction = (ModbusSupport.DiagnosticSubFunction)TempFunction;
+                    SystemManager.ModbusDiagnosticsReturn(this, Device, SubFunction, Val);
+                }
+                catch { }
+            }
+            else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                int Device = ModbusSupport.GetArrayValue(0, ref Input);
+                int TempFunction = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                int Val = ModbusSupport.GetArrayValueRead4(8, ref Input);
+                try {
+                    ModbusSupport.DiagnosticSubFunction SubFunction = (ModbusSupport.DiagnosticSubFunction)TempFunction;
+                    SystemManager.ModbusDiagnosticsReturn(this, Device, SubFunction, Val);
+                }
+                catch { }
             }
         }
         private void ModbusMasterWriteCoilReturn(byte[] Input, int Length) {
@@ -1118,6 +1147,22 @@ namespace Serial_Monitor.Classes {
         #endregion
         #region Modbus Functions
         List<ModbusReturnResult> AwaitingResults = new List<ModbusReturnResult>();
+        public void ModbusDiagnostics(int Device, ModbusSupport.DiagnosticSubFunction SubFunction, short Request) {
+            if ((Device < 0) || (Device > 255)) {
+                return;
+            }
+            byte[] Temp = ModbusSupport.BulidDiagnosticsPacket(outputFormat, Device, SubFunction, Request);
+            //LastRequestedAddress = (ushort)Address;
+            TransmitFrame(Temp);
+        }
+        public void ModbusWriteMaskRegister(int Device, short Address, short AndMask, short OrMask) {
+            if ((Device < 0) || (Device > 255)) {
+                return;
+            }
+            byte[] Temp = ModbusSupport.BulidMaskWritePacket(outputFormat, Device, Address, AndMask, OrMask);
+            //LastRequestedAddress = (ushort)Address;
+            TransmitFrame(Temp);
+        }
         public void ModbusReadCoils(int Device, short Address, short Count) {
             if ((Device < 0) || (Device > 255)) {
                 return;
@@ -1293,6 +1338,71 @@ namespace Serial_Monitor.Classes {
                             ModbusWriteRegister(Unit, (short)Start, (short)Value);
                         }
                         else { ModbusWriteRegister(Unit, (short)Start, (short)0); }
+                    }
+                }
+                else if (TestKeyword(ref Temp, "DIAGNOSTICS")) {
+                    if (TestKeyword(ref Temp, "RETURN")) {
+                        if (TestKeyword(ref Temp, "QUERY")) {
+                            if (GetValue(ref Temp, "WITH", out Start, false)) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnQueryData, (short)Start);
+                            }
+                        }
+                        else if (TestKeyword(ref Temp, "REGISTER")) {
+                            ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnDiagnosticRegister, 0);
+                        }
+                        else if (TestKeyword(ref Temp, "BUS")) {
+                            if (TestKeyword(ref Temp, "MESSAGES")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusMessageCount, 0);
+                            }
+                            else if (TestKeyword(ref Temp, "ERRORS")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCommunicationErrorCount, 0);
+                            }
+                            else if (TestKeyword(ref Temp, "EXCEPTIONS")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusExceptionErrorCount, 0);
+                            }
+                            else if (TestKeyword(ref Temp, "OVERRUNS")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCharacterOverrunCount, 0);
+                            }
+                        }
+                        else if (TestKeyword(ref Temp, "SLAVE")) {
+                            if (TestKeyword(ref Temp, "MESSAGES")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveMessageCount, 0);
+                            }
+                            else if (TestKeyword(ref Temp, "BUSY")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveBusyCount, 0);
+                            }
+                            else if (TestKeyword(ref Temp, "NORES")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNoResponseCount, 0);
+                            }
+                            else if (TestKeyword(ref Temp, "NONAK")) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNAKCount, 0);
+                            }
+                        }
+                    }
+                    else if (TestKeyword(ref Temp, "CLEAR")) {
+                        if (TestKeyword(ref Temp, "COUNTERS")) {
+                            ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearCountersAndDiagnosticRegister, 0);
+                        }
+                        else if (TestKeyword(ref Temp, "OVERRUN")) {
+                            ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearOverrunCounterAndFlag, 0);
+                        }
+                    }
+                    else if (TestKeyword(ref Temp, "RESTART")) {
+                        if (GetValue(ref Temp, "WITH", out Start, false)) {
+                            ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.RestartCommunicationsOption, (short)Start);
+                        }
+                    }
+                    else if (TestKeyword(ref Temp, "FORCE")) {
+                        if (TestKeyword(ref Temp, "LISTEN")) {
+                            ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ForceListenOnlyMode, 0);
+                        }
+                    }
+                    else if (TestKeyword(ref Temp, "SET")) {
+                        if (TestKeyword(ref Temp, "DELIMITER")) {
+                            if (GetValue(ref Temp, "WITH", out Start, false)) {
+                                ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ChangeASCIIInputDelimiter, (short)Start);
+                            }
+                        }
                     }
                 }
             }
@@ -1494,7 +1604,7 @@ namespace Serial_Monitor.Classes {
             SystemManager.InvokeSlaveAdded(this);
         }
         public void RemoveSlave(int Address, bool UseIndex = false) {
-            int Index = UseIndex == false ? ModbusSupport.UnitToIndex(this, Address): Address;
+            int Index = UseIndex == false ? ModbusSupport.UnitToIndex(this, Address) : Address;
             if (Index < 0) { return; }
             if (Index >= Slave.Count) { return; }
             Slave[Index].CleanUp();

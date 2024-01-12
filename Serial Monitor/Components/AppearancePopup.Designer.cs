@@ -54,13 +54,14 @@
             thSettings.HeaderForeColor = Color.Black;
             thSettings.HeaderHoverForeColor = Color.Blue;
             thSettings.Location = new Point(0, 0);
+            thSettings.Margin = new Padding(2, 1, 2, 1);
             thSettings.Name = "thSettings";
             thSettings.SelectedIndex = 0;
             thSettings.ShowAddButton = false;
             thSettings.ShowHeader = false;
             thSettings.ShowTabDividers = true;
             thSettings.ShowTabs = true;
-            thSettings.Size = new Size(536, 49);
+            thSettings.Size = new Size(289, 23);
             thSettings.TabBackColor = Color.Gray;
             thSettings.TabBorderColor = Color.DimGray;
             thSettings.TabClickedBackColor = Color.DarkGray;
@@ -85,21 +86,22 @@
             tcPages.DrawMode = TabDrawMode.OwnerDrawFixed;
             tcPages.ForeColor = Color.White;
             tcPages.ItemSize = new Size(20, 20);
-            tcPages.Location = new Point(0, 49);
+            tcPages.Location = new Point(0, 23);
             tcPages.Margin = new Padding(0);
             tcPages.Multiline = true;
             tcPages.Name = "tcPages";
             tcPages.SelectedIndex = 0;
-            tcPages.Size = new Size(536, 245);
+            tcPages.Size = new Size(289, 173);
             tcPages.TabIndex = 1;
             // 
             // tabPage1
             // 
             tabPage1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(2, 1, 2, 1);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(528, 217);
+            tabPage1.Padding = new Padding(2, 1, 2, 1);
+            tabPage1.Size = new Size(281, 145);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Appearance";
             tabPage1.UseVisualStyleBackColor = true;
@@ -111,9 +113,10 @@
             tabPage2.Controls.Add(lblpnlUnit);
             tabPage2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(5);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(5);
-            tabPage2.Size = new Size(528, 217);
+            tabPage2.Size = new Size(281, 145);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Units";
             tabPage2.UseVisualStyleBackColor = true;
@@ -125,9 +128,10 @@
             psMainScaler.HoverColor = Color.FromArgb(255, 255, 192);
             psMainScaler.InactiveForecolor = Color.Gray;
             psMainScaler.LinkedNumericControl = ntbTemplate;
-            psMainScaler.Location = new Point(5, 50);
+            psMainScaler.Location = new Point(5, 28);
+            psMainScaler.Margin = new Padding(2, 1, 2, 1);
             psMainScaler.Name = "psMainScaler";
-            psMainScaler.Size = new Size(518, 162);
+            psMainScaler.Size = new Size(271, 112);
             psMainScaler.TabIndex = 0;
             // 
             // ntbTemplate
@@ -152,7 +156,8 @@
             ntbTemplate.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             ntbTemplate.LabelForeColor = Color.Gray;
             ntbTemplate.LabelText = "";
-            ntbTemplate.Location = new Point(360, 31);
+            ntbTemplate.Location = new Point(194, 15);
+            ntbTemplate.Margin = new Padding(2, 1, 2, 1);
             ntbTemplate.Marked = false;
             ntbTemplate.MarkedBackColor = Color.Empty;
             ntbTemplate.MarkedBorderColor = Color.Beige;
@@ -175,7 +180,7 @@
             ntbTemplate.SelectedBackColor = Color.Empty;
             ntbTemplate.SelectedBorderColor = Color.Beige;
             ntbTemplate.ShowLabel = false;
-            ntbTemplate.Size = new Size(187, 45);
+            ntbTemplate.Size = new Size(101, 45);
             ntbTemplate.TabIndex = 1;
             ntbTemplate.Unit = "";
             ntbTemplate.UseFixedNumericPadding = true;
@@ -201,13 +206,14 @@
             lblpnlUnit.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlUnit.LabelForeColor = Color.Black;
             lblpnlUnit.Location = new Point(5, 5);
+            lblpnlUnit.Margin = new Padding(2, 1, 2, 1);
             lblpnlUnit.Name = "lblpnlUnit";
             lblpnlUnit.OverrideCollapseControl = false;
-            lblpnlUnit.Padding = new Padding(127, 0, 0, 0);
+            lblpnlUnit.Padding = new Padding(113, 0, 0, 0);
             lblpnlUnit.PanelCollapsible = false;
             lblpnlUnit.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlUnit.ShowCloseButton = false;
-            lblpnlUnit.Size = new Size(518, 45);
+            lblpnlUnit.Size = new Size(271, 23);
             lblpnlUnit.TabIndex = 3;
             lblpnlUnit.Text = "Unit";
             // 
@@ -221,19 +227,19 @@
             tbUnit.Dock = DockStyle.Top;
             tbUnit.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point);
             tbUnit.ForeColor = Color.DimGray;
-            tbUnit.Location = new Point(127, 0);
-            tbUnit.Margin = new Padding(4);
+            tbUnit.Location = new Point(113, 0);
+            tbUnit.Margin = new Padding(2, 2, 2, 2);
             tbUnit.MaxLength = 32767;
             tbUnit.Multiline = false;
             tbUnit.Name = "tbUnit";
-            tbUnit.Padding = new Padding(7);
+            tbUnit.Padding = new Padding(4, 3, 4, 3);
             tbUnit.PasswordChar = '\0';
             tbUnit.PlaceholderText = "";
             tbUnit.ReadOnly = false;
             tbUnit.SelectedBackColor = Color.LightGray;
             tbUnit.SelectedBorderColor = Color.HotPink;
             tbUnit.ShortcutsEnabled = true;
-            tbUnit.Size = new Size(391, 45);
+            tbUnit.Size = new Size(158, 23);
             tbUnit.TabIndex = 2;
             tbUnit.TextAlign = HorizontalAlignment.Left;
             tbUnit.UnderlinedStyle = false;
@@ -243,12 +249,13 @@
             // 
             // AppearancePopup
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tcPages);
             Controls.Add(thSettings);
+            Margin = new Padding(2, 1, 2, 1);
             Name = "AppearancePopup";
-            Size = new Size(536, 294);
+            Size = new Size(289, 196);
             tcPages.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();

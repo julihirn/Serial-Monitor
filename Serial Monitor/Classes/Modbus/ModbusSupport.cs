@@ -623,6 +623,61 @@ namespace Serial_Monitor.Classes.Modbus {
                 Offset = Offset + 2;
             }
         }
+        public static byte[] BulidMaskWritePacket(StreamOutputFormat Format, int Device, int Address, int AndMask, int OrMask) {
+          if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[8];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)FunctionCode.WriteMaskRegister;//Fun
+                Temp[2] = (byte)((int)Address >> 8);//Str1
+                Temp[3] = (byte)((int)Address & 0xFF);//Str1
+                Temp[4] = (byte)(AndMask >> 8);//Cnt1
+                Temp[5] = (byte)(AndMask & 0xFF);//Cnt2
+                Temp[6] = (byte)(OrMask >> 8);//Cnt1
+                Temp[7] = (byte)(OrMask & 0xFF);//Cnt2
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[14];
+                int RunningAddress = 0;
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)FunctionCode.WriteMaskRegister, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)((int)Address >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)((int)Address & 0xFF), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(AndMask >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(AndMask & 0xFF), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(OrMask >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(OrMask & 0xFF), ref Temp);
+                return Temp;
+            }
+        }
+        public static byte[] BulidDiagnosticsPacket(StreamOutputFormat Format, int Device, DiagnosticSubFunction SubFunction, short Request) {
+            int TempData = Request;
+            if (SubFunction == DiagnosticSubFunction.ReturnDiagnosticRegister) { TempData = 0x00; }
+            else if (SubFunction == DiagnosticSubFunction.ForceListenOnlyMode) { TempData = 0x00; }
+            else if (SubFunction >= DiagnosticSubFunction.ClearCountersAndDiagnosticRegister) { TempData = 0x00; }
+
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[6];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)FunctionCode.Diagnostics;//Fun
+                Temp[2] = (byte)((int)SubFunction >> 8);//Str1
+                Temp[3] = (byte)((int)SubFunction & 0xFF);//Str1
+                Temp[4] = (byte)(TempData >> 8);//Cnt1
+                Temp[5] = (byte)(TempData & 0xFF);//Cnt2
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[12];
+                int RunningAddress = 0;
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)FunctionCode.Diagnostics, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)((int)SubFunction >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)((int)SubFunction & 0xFF), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(TempData >> 8), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(TempData & 0xFF), ref Temp);
+                return Temp;
+            }
+        }
         public static byte[] BulidReadPacket(StreamOutputFormat Format, FunctionCode Function, int Device, short Address, short Count) {
             if (Format == StreamOutputFormat.ModbusRTU) {
                 byte[] Temp = new byte[6];
@@ -953,7 +1008,26 @@ namespace Serial_Monitor.Classes.Modbus {
             ReadInputRegisters = 0x04,
             ReadHoldingRegisters = 0x03,
             WriteSingleHoldingRegister = 0x06,
-            WriteMultipleHoldingRegisters = 0x10
+            WriteMultipleHoldingRegisters = 0x10,
+            Diagnostics = 0x08,
+            WriteMaskRegister = 0x16
+        }
+        public enum DiagnosticSubFunction {
+            ReturnQueryData = 0x00,
+            RestartCommunicationsOption = 0x01,
+            ReturnDiagnosticRegister = 0x02,
+            ChangeASCIIInputDelimiter = 0x03,
+            ForceListenOnlyMode = 0x04,
+            ClearCountersAndDiagnosticRegister = 0x0A,
+            ReturnBusMessageCount = 0x0B,
+            ReturnBusCommunicationErrorCount = 0x0C,
+            ReturnBusExceptionErrorCount = 0x0D,
+            ReturnSlaveMessageCount = 0x0E,
+            ReturnSlaveNoResponseCount = 0x0F,
+            ReturnSlaveNAKCount = 0x10,
+            ReturnSlaveBusyCount = 0x11,
+            ReturnBusCharacterOverrunCount = 0x12,
+            ClearOverrunCounterAndFlag = 0x14
         }
     }
 }

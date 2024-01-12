@@ -237,13 +237,8 @@ namespace Serial_Monitor {
                         btnMenuModbusMaster.Checked = CurrentManager.IsMaster;
                         modbusMasterToolStripMenuItem.Checked = CurrentManager.IsMaster;
                         modbusMasterToolStripMenuItem.Enabled = true;
-                        newUnitToolStripMenuItem.Enabled = CurrentManager.IsMaster;
-                        removeUnitToolStripMenuItem.Enabled = CurrentManager.IsMaster;
-                        renameUnitToolStripMenuItem.Enabled = CurrentManager.IsMaster;
 
-                        newUnitToolStripMenuItem1.Enabled = CurrentManager.IsMaster;
-                        removeUnitToolStripMenuItem1.Enabled = CurrentManager.IsMaster;
-                        renameUnitToolStripMenuItem1.Enabled = CurrentManager.IsMaster;
+                        ChangeModbusActions(CurrentManager.IsMaster);
                         btnMenuModbusMaster.Enabled = true;
                         thSlaves.ShowTabs = CurrentManager.IsMaster;
                         thSlaves.Text = CurrentManager.IsMaster == true ? "Master" : "Unit " + CurrentManager.UnitAddress.ToString();
@@ -251,43 +246,30 @@ namespace Serial_Monitor {
                     else {
                         btnMenuModbusMaster.Enabled = false;
                         modbusMasterToolStripMenuItem.Enabled = false;
-                        newUnitToolStripMenuItem.Enabled = false;
-                        removeUnitToolStripMenuItem.Enabled = false;
-                        renameUnitToolStripMenuItem.Enabled = false;
-                        newUnitToolStripMenuItem1.Enabled = false;
-                        removeUnitToolStripMenuItem1.Enabled = false;
-                        renameUnitToolStripMenuItem1.Enabled = false;
+                        ChangeModbusActions(false);
                     }
                     setIOFormatsToModbusRTUToolStripMenuItem.Enabled = true;
                     setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = true;
-                    writeCoilToolStripMenuItem.Enabled = true;
-                    writeRegisterToolStripMenuItem.Enabled = true;
+
                     ChangeClipboardActions(true);
+                    EnableDisableDialogEditors();
                 }
                 else {
                     goToToolStripMenuItem.Enabled = false;
                     btnViewMaster.Checked = false;
                     btnViewSnapshot.Checked = true;
-                    newUnitToolStripMenuItem.Enabled = false;
-                    removeUnitToolStripMenuItem.Enabled = false;
-                    renameUnitToolStripMenuItem.Enabled = false;
-                    newUnitToolStripMenuItem1.Enabled = false;
-                    removeUnitToolStripMenuItem1.Enabled = false;
-                    renameUnitToolStripMenuItem1.Enabled = false;
+                    ChangeModbusActions(false);
                     if (SnapshotCurrentIndex < 0) {
                         showFormatsToolStripMenuItem.Checked = false;
                         showFormatsToolStripMenuItem.Enabled = false;
                         btnMenuModbusMaster.Enabled = false;
                         btnMenuModbusMaster.Checked = false;
-                        newUnitToolStripMenuItem.Enabled = false;
-                        removeUnitToolStripMenuItem.Enabled = false;
-                        renameUnitToolStripMenuItem.Enabled = false;
                         modbusMasterToolStripMenuItem.Checked = false;
                         modbusMasterToolStripMenuItem.Enabled = false;
                         setIOFormatsToModbusRTUToolStripMenuItem.Enabled = false;
                         setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = false;
-                        writeCoilToolStripMenuItem.Enabled = false;
-                        writeRegisterToolStripMenuItem.Enabled = false;
+
+                        ChangeModbusDialogs(false);
                         ChangeClipboardActions(false);
                     }
                     else {
@@ -320,8 +302,7 @@ namespace Serial_Monitor {
                                         }
                                     }
                                 }
-                                writeCoilToolStripMenuItem.Enabled = true;
-                                writeRegisterToolStripMenuItem.Enabled = true;
+                                ChangeModbusDialogs(true);
                                 ChangeClipboardActions(true);
                             }
                         }
@@ -351,16 +332,7 @@ namespace Serial_Monitor {
                 ModbusEditor.ClearControls(lstMonitor);
             }
         }
-        private void ChangeClipboardActions(bool Enable) {
-            copyAsTextToolStripMenuItem.Enabled = Enable;
-            pasteToolStripMenuItem.Enabled = Enable;
-            copySpecialToolStripMenuItem.Enabled = Enable;
-            copyToolStripMenuItem.Enabled = Enable;
-            resetToolStripMenuItem.Enabled = Enable;
-            selectAllToolStripMenuItem.Enabled = Enable;
-            selectInvertToolStripMenuItem.Enabled = Enable;
-            selectSpecialToolStripMenuItem.Enabled = Enable;
-        }
+
         int snapShotCurrentIndex = -1;
         public int SnapshotCurrentIndex {
             get { return snapShotCurrentIndex; }
@@ -371,19 +343,14 @@ namespace Serial_Monitor {
             }
         }
         #endregion
+        #region Enable/Disable Buttons and Actions
         private void SetEditors() {
             if (currentEditorView == DataEditor.MasterView) {
                 if (dataSet > DataSelection.ModbusDataDiscreteInputs) {
-                    ddbDisplayFormat.Enabled = true;
-                    ddpDataSize.Enabled = true;
-                    btnSigned.Enabled = true;
-                    ddbWordOrder.Enabled = true;
+                    SetFormatters(true);
                 }
                 else {
-                    ddbDisplayFormat.Enabled = false;
-                    ddpDataSize.Enabled = false;
-                    btnSigned.Enabled = false;
-                    ddbWordOrder.Enabled = false;
+                    SetFormatters(false);
                 }
             }
             else {
@@ -393,43 +360,64 @@ namespace Serial_Monitor {
                             ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                             if (Snap != null) {
                                 if (Snap.Selection > DataSelection.ModbusDataDiscreteInputs) {
-                                    ddbDisplayFormat.Enabled = true;
-                                    ddpDataSize.Enabled = true;
-                                    btnSigned.Enabled = true;
-                                    ddbWordOrder.Enabled = true;
+                                    SetFormatters(true);
                                 }
                                 else {
-                                    ddbDisplayFormat.Enabled = false;
-                                    ddpDataSize.Enabled = false;
-                                    btnSigned.Enabled = false;
-                                    ddbWordOrder.Enabled = false;
+                                    SetFormatters(false);
                                 }
                             }
                         }
                         else {
-                            ddbDisplayFormat.Enabled = false;
-                            ddpDataSize.Enabled = false;
-                            btnSigned.Enabled = false;
-                            ddbWordOrder.Enabled = false;
+                            SetFormatters(false);
                         }
                     }
                     else {
-                        ddbDisplayFormat.Enabled = false;
-                        ddpDataSize.Enabled = false;
-                        btnSigned.Enabled = false;
-                        ddbWordOrder.Enabled = false;
+                        SetFormatters(false);
                     }
 
                 }
                 catch {
-                    ddbDisplayFormat.Enabled = false;
-                    ddpDataSize.Enabled = false;
-                    btnSigned.Enabled = false;
-                    ddbWordOrder.Enabled = false;
+                    SetFormatters(false);
                 }
             }
         }
-
+        private void SetFormatters(bool State) {
+            ddbDisplayFormat.Enabled = State;
+            ddpDataSize.Enabled = State;
+            btnSigned.Enabled = State;
+            ddbWordOrder.Enabled = State;
+        }
+        private void ChangeClipboardActions(bool Enable) {
+            copyAsTextToolStripMenuItem.Enabled = Enable;
+            pasteToolStripMenuItem.Enabled = Enable;
+            copySpecialToolStripMenuItem.Enabled = Enable;
+            copyToolStripMenuItem.Enabled = Enable;
+            resetToolStripMenuItem.Enabled = Enable;
+            selectAllToolStripMenuItem.Enabled = Enable;
+            selectInvertToolStripMenuItem.Enabled = Enable;
+            selectSpecialToolStripMenuItem.Enabled = Enable;
+        }
+        private void ChangeModbusActions(bool Enable) {
+            newUnitToolStripMenuItem.Enabled = Enable;
+            removeUnitToolStripMenuItem.Enabled = Enable;
+            renameUnitToolStripMenuItem.Enabled = Enable;
+            newUnitToolStripMenuItem1.Enabled = Enable;
+            removeUnitToolStripMenuItem1.Enabled = Enable;
+            renameUnitToolStripMenuItem1.Enabled = Enable;
+        }
+        private void EnableDisableDialogEditors() {
+            if (CurrentManager == null) {
+                ChangeModbusDialogs(false);
+                return;
+            }
+            ChangeModbusDialogs(CurrentManager.IsMaster);
+        }
+        private void ChangeModbusDialogs(bool Enable) {
+            writeCoilToolStripMenuItem.Enabled = Enable;
+            writeMultipleCoilsToolStripMenuItem.Enabled = Enable;
+            writeRegisterToolStripMenuItem.Enabled = Enable;
+        }
+        #endregion
         #region Snapshot Support
         public void GetIndexFromForm(ToolWindows.ModbusRegister? RegisterEditor) {
             if (RegisterEditor == null) { SnapshotCurrentIndex = -1; return; }
@@ -769,21 +757,6 @@ namespace Serial_Monitor {
                     EnableDisableDialogEditors();
                     ModbusEditor.ClearControls(lstMonitor);
                 }
-            }
-        }
-        private void EnableDisableDialogEditors() {
-            if (CurrentManager == null) {
-                writeCoilToolStripMenuItem.Enabled = false;
-                writeRegisterToolStripMenuItem.Enabled = false;
-                return;
-            }
-            if (CurrentManager.IsMaster == true) {
-                writeCoilToolStripMenuItem.Enabled = true;
-                writeRegisterToolStripMenuItem.Enabled = true;
-            }
-            else {
-                writeCoilToolStripMenuItem.Enabled = false;
-                writeRegisterToolStripMenuItem.Enabled = false;
             }
         }
         #region Editing and List Support
@@ -1373,6 +1346,32 @@ namespace Serial_Monitor {
             }
             catch { }
         }
+        private void writeMultipleCoilsToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if (currentEditorView == DataEditor.MasterView) {
+                    if (CurrentManager == null) { return; }
+                    if (CurrentManager.IsMaster == false) { return; }
+                    Dialogs.WriteCoils CmdWrite = new Dialogs.WriteCoils(CurrentManager);
+                    ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
+
+                }
+                else {
+                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                        if (Snap != null) {
+                            if (Snap.Manager != null) {
+                                SerialManager? SerMan = Snap.Manager.Manager;
+                                if (SerMan == null) { return; }
+                                if (SerMan.IsMaster == false) { return; }
+                                Dialogs.WriteCoils CmdWrite = new Dialogs.WriteCoils(SerMan);
+                                ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
         private void writeRegisterToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 if (currentEditorView == DataEditor.MasterView) {
@@ -1834,8 +1833,11 @@ namespace Serial_Monitor {
         private void lstMonitor_ItemClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
+        private void lstMonitor_ValueChanged() {
+            bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
+        }
 
-      
+
 
         private enum DataEditor {
             MasterView = 0x00,

@@ -130,8 +130,7 @@
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
-            lstRegisters.Location = new Point(9, 37);
-            lstRegisters.Margin = new Padding(6, 6, 6, 6);
+            lstRegisters.Location = new Point(5, 18);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -148,7 +147,7 @@
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = true;
-            lstRegisters.Size = new Size(576, 485);
+            lstRegisters.Size = new Size(310, 227);
             lstRegisters.SpanColumn = 0;
             lstRegisters.TabIndex = 0;
             lstRegisters.UseLocalList = false;
@@ -193,17 +192,16 @@
             // 
             // ModbusRegister
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(594, 533);
+            ClientSize = new Size(320, 250);
             CloseButtonCloses = false;
             Controls.Add(lstRegisters);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(6, 6, 6, 6);
-            MinimumSize = new Size(464, 213);
+            MinimumSize = new Size(250, 100);
             Name = "ModbusRegister";
-            Padding = new Padding(9, 37, 9, 11);
+            Padding = new Padding(5, 18, 5, 5);
             Text = "Modbus Register";
             CloseButtonClicked += ModbusRegister_CloseButtonClicked;
             Activated += ModbusRegister_Activated;

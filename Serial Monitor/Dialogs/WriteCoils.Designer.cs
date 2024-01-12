@@ -1,5 +1,5 @@
 ﻿namespace Serial_Monitor.Dialogs {
-    partial class WriteCoil {
+    partial class WriteCoils {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -23,11 +23,13 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            Handlers.NumericalString numericalString1 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString3 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString4 = new Handlers.NumericalString();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WriteCoil));
+            Handlers.NumericalString numericalString5 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString6 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString7 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString8 = new Handlers.NumericalString();
+            ODModules.Column column3 = new ODModules.Column();
+            ODModules.Column column4 = new ODModules.Column();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WriteCoils));
             lblpnlRegisters = new ODModules.LabelPanel();
             lblpnlQuantity = new ODModules.LabelPanel();
             numtxtAddress = new ODModules.NumericTextbox();
@@ -35,20 +37,36 @@
             numtxtUnit = new ODModules.NumericTextbox();
             labelPanel1 = new ODModules.LabelPanel();
             cmbxDataSet = new ODModules.FlatComboBox();
+            lblpnlValue = new ODModules.LabelPanel();
+            lstCoils = new ODModules.ListControl();
+            tsMain = new ODModules.ToolStrip();
+            btnAdd = new ToolStripButton();
+            btnRemove = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            btnMoveUp = new ToolStripButton();
+            btnMoveDown = new ToolStripButton();
             btnAccept = new ODModules.Button();
             btnCancel = new ODModules.Button();
-            lblpnlValue = new ODModules.LabelPanel();
-            panel1 = new Panel();
-            btnOptOn = new ODModules.Button();
-            btnOptOff = new ODModules.Button();
             panel2 = new Panel();
+            cmMain = new ODModules.ContextMenu();
+            sendToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
+            addToolStripMenuItem = new ToolStripMenuItem();
+            removeToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
+            moveUpToolStripMenuItem = new ToolStripMenuItem();
+            moveDownToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator4 = new ToolStripSeparator();
+            copyToolStripMenuItem = new ToolStripMenuItem();
+            pasteToolStripMenuItem = new ToolStripMenuItem();
             lblpnlRegisters.SuspendLayout();
             lblpnlQuantity.SuspendLayout();
             lblpnlAddress.SuspendLayout();
             labelPanel1.SuspendLayout();
             lblpnlValue.SuspendLayout();
-            panel1.SuspendLayout();
+            tsMain.SuspendLayout();
             panel2.SuspendLayout();
+            cmMain.SuspendLayout();
             SuspendLayout();
             // 
             // lblpnlRegisters
@@ -79,8 +97,8 @@
             lblpnlRegisters.PanelCollapsible = false;
             lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlRegisters.ShowCloseButton = false;
-            lblpnlRegisters.Size = new Size(264, 122);
-            lblpnlRegisters.TabIndex = 6;
+            lblpnlRegisters.Size = new Size(262, 122);
+            lblpnlRegisters.TabIndex = 7;
             lblpnlRegisters.Text = "Register Selection";
             // 
             // lblpnlQuantity
@@ -109,7 +127,7 @@
             lblpnlQuantity.PanelCollapsible = false;
             lblpnlQuantity.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlQuantity.ShowCloseButton = false;
-            lblpnlQuantity.Size = new Size(254, 33);
+            lblpnlQuantity.Size = new Size(252, 33);
             lblpnlQuantity.TabIndex = 2;
             lblpnlQuantity.Text = "Address";
             // 
@@ -140,12 +158,12 @@
             numtxtAddress.Marked = false;
             numtxtAddress.MarkedBackColor = Color.Empty;
             numtxtAddress.MarkedBorderColor = Color.Beige;
-            numericalString1.DisplayValue = "32767";
-            numericalString1.Value = "32767";
-            numtxtAddress.Maximum = numericalString1;
-            numericalString2.DisplayValue = "0";
-            numericalString2.Value = "0";
-            numtxtAddress.Minimum = numericalString2;
+            numericalString5.DisplayValue = "32767";
+            numericalString5.Value = "32767";
+            numtxtAddress.Maximum = numericalString5;
+            numericalString6.DisplayValue = "0";
+            numericalString6.Value = "0";
+            numtxtAddress.Minimum = numericalString6;
             numtxtAddress.Name = "numtxtAddress";
             numtxtAddress.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             numtxtAddress.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -159,11 +177,12 @@
             numtxtAddress.SelectedBackColor = Color.Empty;
             numtxtAddress.SelectedBorderColor = Color.Beige;
             numtxtAddress.ShowLabel = true;
-            numtxtAddress.Size = new Size(136, 23);
+            numtxtAddress.Size = new Size(134, 23);
             numtxtAddress.TabIndex = 0;
             numtxtAddress.Unit = "";
             numtxtAddress.UseFixedNumericPadding = true;
             numtxtAddress.Value = "1";
+            numtxtAddress.ValueChanged += numtxtAddress_ValueChanged;
             // 
             // lblpnlAddress
             // 
@@ -191,7 +210,7 @@
             lblpnlAddress.PanelCollapsible = false;
             lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAddress.ShowCloseButton = false;
-            lblpnlAddress.Size = new Size(254, 33);
+            lblpnlAddress.Size = new Size(252, 33);
             lblpnlAddress.TabIndex = 1;
             lblpnlAddress.Text = "Slave";
             // 
@@ -222,12 +241,12 @@
             numtxtUnit.Marked = false;
             numtxtUnit.MarkedBackColor = Color.Empty;
             numtxtUnit.MarkedBorderColor = Color.Beige;
-            numericalString3.DisplayValue = "32767";
-            numericalString3.Value = "32767";
-            numtxtUnit.Maximum = numericalString3;
-            numericalString4.DisplayValue = "0";
-            numericalString4.Value = "0";
-            numtxtUnit.Minimum = numericalString4;
+            numericalString7.DisplayValue = "32767";
+            numericalString7.Value = "32767";
+            numtxtUnit.Maximum = numericalString7;
+            numericalString8.DisplayValue = "0";
+            numericalString8.Value = "0";
+            numtxtUnit.Minimum = numericalString8;
             numtxtUnit.Name = "numtxtUnit";
             numtxtUnit.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             numtxtUnit.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -241,7 +260,7 @@
             numtxtUnit.SelectedBackColor = Color.Empty;
             numtxtUnit.SelectedBorderColor = Color.Beige;
             numtxtUnit.ShowLabel = true;
-            numtxtUnit.Size = new Size(136, 23);
+            numtxtUnit.Size = new Size(134, 23);
             numtxtUnit.TabIndex = 0;
             numtxtUnit.Unit = "";
             numtxtUnit.UseFixedNumericPadding = true;
@@ -273,7 +292,7 @@
             labelPanel1.PanelCollapsible = false;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel1.ShowCloseButton = false;
-            labelPanel1.Size = new Size(254, 33);
+            labelPanel1.Size = new Size(252, 33);
             labelPanel1.TabIndex = 0;
             labelPanel1.Text = "Data Set";
             labelPanel1.Visible = false;
@@ -284,8 +303,177 @@
             cmbxDataSet.FormattingEnabled = true;
             cmbxDataSet.Location = new Point(113, 5);
             cmbxDataSet.Name = "cmbxDataSet";
-            cmbxDataSet.Size = new Size(136, 23);
+            cmbxDataSet.Size = new Size(134, 23);
             cmbxDataSet.TabIndex = 0;
+            // 
+            // lblpnlValue
+            // 
+            lblpnlValue.ArrowColor = Color.LightGray;
+            lblpnlValue.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlValue.CloseColor = Color.Black;
+            lblpnlValue.CloseMouseOverColor = Color.Red;
+            lblpnlValue.Collapsed = false;
+            lblpnlValue.Controls.Add(lstCoils);
+            lblpnlValue.Controls.Add(tsMain);
+            lblpnlValue.Dock = DockStyle.Fill;
+            lblpnlValue.DropShadow = false;
+            lblpnlValue.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblpnlValue.FixedInlineWidth = false;
+            lblpnlValue.ForeColor = Color.White;
+            lblpnlValue.Inlinelabel = false;
+            lblpnlValue.InlineWidth = 100;
+            lblpnlValue.LabelBackColor = Color.FromArgb(16, 16, 16);
+            lblpnlValue.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            lblpnlValue.LabelForeColor = Color.WhiteSmoke;
+            lblpnlValue.Location = new Point(10, 132);
+            lblpnlValue.Name = "lblpnlValue";
+            lblpnlValue.OverrideCollapseControl = false;
+            lblpnlValue.Padding = new Padding(0, 18, 0, 0);
+            lblpnlValue.PanelCollapsible = false;
+            lblpnlValue.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlValue.ShowCloseButton = false;
+            lblpnlValue.Size = new Size(262, 200);
+            lblpnlValue.TabIndex = 10;
+            lblpnlValue.Text = "Value";
+            // 
+            // lstCoils
+            // 
+            lstCoils.AllowColumnSpanning = true;
+            lstCoils.AllowMouseWheel = true;
+            lstCoils.ColumnColor = Color.LightGray;
+            lstCoils.ColumnForeColor = Color.Black;
+            lstCoils.ColumnLineColor = Color.DimGray;
+            column3.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column3.CountOffset = 0;
+            column3.DisplayType = ODModules.ColumnDisplayType.LineCount;
+            column3.DropDownRight = false;
+            column3.DropDownVisible = true;
+            column3.FixedWidth = false;
+            column3.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column3.Text = "Coil";
+            column3.UseItemBackColor = false;
+            column3.UseItemForeColor = false;
+            column3.Visible = true;
+            column3.Width = 80;
+            column4.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column4.CountOffset = 0;
+            column4.DisplayType = ODModules.ColumnDisplayType.Checkbox;
+            column4.DropDownRight = false;
+            column4.DropDownVisible = true;
+            column4.FixedWidth = true;
+            column4.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column4.Text = "Value";
+            column4.UseItemBackColor = false;
+            column4.UseItemForeColor = false;
+            column4.Visible = true;
+            column4.Width = 182;
+            lstCoils.Columns.Add(column3);
+            lstCoils.Columns.Add(column4);
+            lstCoils.Dock = DockStyle.Fill;
+            lstCoils.DropDownMouseDown = Color.DimGray;
+            lstCoils.DropDownMouseOver = Color.LightGray;
+            lstCoils.ExternalItems = null;
+            lstCoils.Filter = null;
+            lstCoils.FilterColumn = 0;
+            lstCoils.GridlineColor = Color.LightGray;
+            lstCoils.HighlightStrength = 128;
+            lstCoils.HorizontalScrollStep = 3;
+            lstCoils.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
+            lstCoils.LineMarkerIndex = 0;
+            lstCoils.Location = new Point(0, 43);
+            lstCoils.MarkerBorderColor = Color.LimeGreen;
+            lstCoils.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
+            lstCoils.MarkerStyle = ODModules.MarkerStyleType.Highlight;
+            lstCoils.Name = "lstCoils";
+            lstCoils.RowColor = Color.LightGray;
+            lstCoils.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
+            lstCoils.ScrollBarNorth = Color.DarkTurquoise;
+            lstCoils.ScrollBarSouth = Color.DeepSkyBlue;
+            lstCoils.ScrollItems = 3;
+            lstCoils.SelectedColor = Color.SkyBlue;
+            lstCoils.SelectionColor = Color.Gray;
+            lstCoils.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lstCoils.ShowGrid = false;
+            lstCoils.ShowItemIndentation = false;
+            lstCoils.ShowMarker = false;
+            lstCoils.ShowRowColors = false;
+            lstCoils.Size = new Size(262, 157);
+            lstCoils.SpanColumn = 1;
+            lstCoils.TabIndex = 1;
+            lstCoils.UseLocalList = true;
+            lstCoils.VerScroll = 0;
+            lstCoils.KeyDown += lstCoils_KeyDown;
+            // 
+            // tsMain
+            // 
+            tsMain.BackColorNorth = Color.DodgerBlue;
+            tsMain.BackColorSouth = Color.DodgerBlue;
+            tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsMain.ItemForeColor = Color.Black;
+            tsMain.Items.AddRange(new ToolStripItem[] { btnAdd, btnRemove, toolStripSeparator1, btnMoveUp, btnMoveDown });
+            tsMain.ItemSelectedBackColorNorth = Color.White;
+            tsMain.ItemSelectedBackColorSouth = Color.White;
+            tsMain.ItemSelectedForeColor = Color.Black;
+            tsMain.Location = new Point(0, 18);
+            tsMain.MenuBackColorNorth = Color.DodgerBlue;
+            tsMain.MenuBackColorSouth = Color.DodgerBlue;
+            tsMain.MenuBorderColor = Color.WhiteSmoke;
+            tsMain.MenuSeparatorColor = Color.WhiteSmoke;
+            tsMain.MenuSymbolColor = Color.WhiteSmoke;
+            tsMain.Name = "tsMain";
+            tsMain.Size = new Size(262, 25);
+            tsMain.StripItemSelectedBackColorNorth = Color.White;
+            tsMain.StripItemSelectedBackColorSouth = Color.White;
+            tsMain.TabIndex = 0;
+            tsMain.Text = "toolStrip1";
+            // 
+            // btnAdd
+            // 
+            btnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnAdd.Image = (Image)resources.GetObject("btnAdd.Image");
+            btnAdd.ImageScaling = ToolStripItemImageScaling.None;
+            btnAdd.ImageTransparentColor = Color.Magenta;
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(23, 22);
+            btnAdd.Text = "Add";
+            btnAdd.Click += toolStripButton1_Click;
+            // 
+            // btnRemove
+            // 
+            btnRemove.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnRemove.Image = (Image)resources.GetObject("btnRemove.Image");
+            btnRemove.ImageScaling = ToolStripItemImageScaling.None;
+            btnRemove.ImageTransparentColor = Color.Magenta;
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new Size(23, 22);
+            btnRemove.Text = "Remove";
+            btnRemove.Click += btnRemove_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 25);
+            // 
+            // btnMoveUp
+            // 
+            btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnMoveUp.Image = (Image)resources.GetObject("btnMoveUp.Image");
+            btnMoveUp.ImageTransparentColor = Color.Magenta;
+            btnMoveUp.Name = "btnMoveUp";
+            btnMoveUp.Size = new Size(23, 22);
+            btnMoveUp.Text = "Move Up";
+            btnMoveUp.Click += btnMoveUp_Click;
+            // 
+            // btnMoveDown
+            // 
+            btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnMoveDown.Image = (Image)resources.GetObject("btnMoveDown.Image");
+            btnMoveDown.ImageTransparentColor = Color.Magenta;
+            btnMoveDown.Name = "btnMoveDown";
+            btnMoveDown.Size = new Size(23, 22);
+            btnMoveDown.Text = "Move Down";
+            btnMoveDown.Click += btnMoveDown_Click;
             // 
             // btnAccept
             // 
@@ -311,20 +499,19 @@
             btnAccept.BorderRadius = 5;
             btnAccept.Checked = false;
             btnAccept.GroupMaximumChecked = 2;
-            btnAccept.Location = new Point(67, 16);
+            btnAccept.Location = new Point(65, 31);
             btnAccept.Name = "btnAccept";
             btnAccept.RadioButtonGroup = "";
             btnAccept.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnAccept.SecondaryText = "";
             btnAccept.Size = new Size(93, 28);
             btnAccept.Style = ODModules.ButtonStyle.Square;
-            btnAccept.TabIndex = 7;
+            btnAccept.TabIndex = 11;
             btnAccept.Text = "Send";
             btnAccept.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             btnAccept.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
             btnAccept.Type = ODModules.ButtonType.Button;
             btnAccept.ButtonClicked += btnAccept_ButtonClicked;
-            btnAccept.Load += btnAccept_Load;
             // 
             // btnCancel
             // 
@@ -350,168 +537,152 @@
             btnCancel.BorderRadius = 5;
             btnCancel.Checked = false;
             btnCancel.GroupMaximumChecked = 2;
-            btnCancel.Location = new Point(166, 16);
+            btnCancel.Location = new Point(164, 31);
             btnCancel.Name = "btnCancel";
             btnCancel.RadioButtonGroup = "";
             btnCancel.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnCancel.SecondaryText = "";
             btnCancel.Size = new Size(93, 28);
             btnCancel.Style = ODModules.ButtonStyle.Square;
-            btnCancel.TabIndex = 8;
+            btnCancel.TabIndex = 12;
             btnCancel.Text = "Cancel";
             btnCancel.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             btnCancel.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
             btnCancel.Type = ODModules.ButtonType.Button;
             btnCancel.ButtonClicked += btnCancel_ButtonClicked;
-            btnCancel.Load += btnCancel_Load;
-            // 
-            // lblpnlValue
-            // 
-            lblpnlValue.ArrowColor = Color.LightGray;
-            lblpnlValue.ArrowMouseOverColor = Color.DodgerBlue;
-            lblpnlValue.CloseColor = Color.Black;
-            lblpnlValue.CloseMouseOverColor = Color.Red;
-            lblpnlValue.Collapsed = false;
-            lblpnlValue.Controls.Add(panel1);
-            lblpnlValue.Dock = DockStyle.Top;
-            lblpnlValue.DropShadow = false;
-            lblpnlValue.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
-            lblpnlValue.FixedInlineWidth = false;
-            lblpnlValue.ForeColor = Color.White;
-            lblpnlValue.Inlinelabel = false;
-            lblpnlValue.InlineWidth = 100;
-            lblpnlValue.LabelBackColor = Color.FromArgb(16, 16, 16);
-            lblpnlValue.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            lblpnlValue.LabelForeColor = Color.WhiteSmoke;
-            lblpnlValue.Location = new Point(10, 132);
-            lblpnlValue.Name = "lblpnlValue";
-            lblpnlValue.OverrideCollapseControl = false;
-            lblpnlValue.Padding = new Padding(5, 18, 5, 5);
-            lblpnlValue.PanelCollapsible = false;
-            lblpnlValue.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            lblpnlValue.ShowCloseButton = false;
-            lblpnlValue.Size = new Size(264, 54);
-            lblpnlValue.TabIndex = 9;
-            lblpnlValue.Text = "Value";
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(btnOptOn);
-            panel1.Controls.Add(btnOptOff);
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(5, 18);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(254, 31);
-            panel1.TabIndex = 0;
-            // 
-            // btnOptOn
-            // 
-            btnOptOn.AllowGroupUnchecking = false;
-            btnOptOn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnOptOn.BackColorCheckedNorth = Color.Orange;
-            btnOptOn.BackColorCheckedSouth = Color.Orange;
-            btnOptOn.BackColorDownNorth = Color.DimGray;
-            btnOptOn.BackColorDownSouth = Color.DimGray;
-            btnOptOn.BackColorHoverNorth = Color.SkyBlue;
-            btnOptOn.BackColorHoverSouth = Color.SkyBlue;
-            btnOptOn.BackColorNorth = Color.White;
-            btnOptOn.BackColorSouth = Color.White;
-            btnOptOn.BorderColorCheckedNorth = Color.Black;
-            btnOptOn.BorderColorCheckedSouth = Color.Black;
-            btnOptOn.BorderColorDownNorth = Color.Black;
-            btnOptOn.BorderColorDownSouth = Color.Black;
-            btnOptOn.BorderColorHoverNorth = Color.Black;
-            btnOptOn.BorderColorHoverSouth = Color.Black;
-            btnOptOn.BorderColorNorth = Color.Black;
-            btnOptOn.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
-            btnOptOn.BorderColorSouth = Color.Black;
-            btnOptOn.BorderRadius = 5;
-            btnOptOn.Checked = true;
-            btnOptOn.GroupMaximumChecked = 2;
-            btnOptOn.Location = new Point(89, 3);
-            btnOptOn.Name = "btnOptOn";
-            btnOptOn.RadioButtonGroup = "boolValue";
-            btnOptOn.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnOptOn.SecondaryText = "";
-            btnOptOn.Size = new Size(77, 25);
-            btnOptOn.Style = ODModules.ButtonStyle.Square;
-            btnOptOn.TabIndex = 11;
-            btnOptOn.Text = "On";
-            btnOptOn.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            btnOptOn.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            btnOptOn.Type = ODModules.ButtonType.RadioButton;
-            // 
-            // btnOptOff
-            // 
-            btnOptOff.AllowGroupUnchecking = false;
-            btnOptOff.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnOptOff.BackColorCheckedNorth = Color.Orange;
-            btnOptOff.BackColorCheckedSouth = Color.Orange;
-            btnOptOff.BackColorDownNorth = Color.DimGray;
-            btnOptOff.BackColorDownSouth = Color.DimGray;
-            btnOptOff.BackColorHoverNorth = Color.SkyBlue;
-            btnOptOff.BackColorHoverSouth = Color.SkyBlue;
-            btnOptOff.BackColorNorth = Color.White;
-            btnOptOff.BackColorSouth = Color.White;
-            btnOptOff.BorderColorCheckedNorth = Color.Black;
-            btnOptOff.BorderColorCheckedSouth = Color.Black;
-            btnOptOff.BorderColorDownNorth = Color.Black;
-            btnOptOff.BorderColorDownSouth = Color.Black;
-            btnOptOff.BorderColorHoverNorth = Color.Black;
-            btnOptOff.BorderColorHoverSouth = Color.Black;
-            btnOptOff.BorderColorNorth = Color.Black;
-            btnOptOff.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
-            btnOptOff.BorderColorSouth = Color.Black;
-            btnOptOff.BorderRadius = 5;
-            btnOptOff.Checked = false;
-            btnOptOff.GroupMaximumChecked = 2;
-            btnOptOff.Location = new Point(171, 3);
-            btnOptOff.Name = "btnOptOff";
-            btnOptOff.RadioButtonGroup = "boolValue";
-            btnOptOff.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnOptOff.SecondaryText = "";
-            btnOptOff.Size = new Size(77, 25);
-            btnOptOff.Style = ODModules.ButtonStyle.Square;
-            btnOptOff.TabIndex = 10;
-            btnOptOff.Text = "Off";
-            btnOptOff.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
-            btnOptOff.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
-            btnOptOff.Type = ODModules.ButtonType.RadioButton;
             // 
             // panel2
             // 
-            panel2.Controls.Add(btnAccept);
             panel2.Controls.Add(btnCancel);
+            panel2.Controls.Add(btnAccept);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(10, 204);
+            panel2.Location = new Point(10, 332);
             panel2.Name = "panel2";
-            panel2.Size = new Size(264, 47);
-            panel2.TabIndex = 14;
+            panel2.Size = new Size(262, 59);
+            panel2.TabIndex = 13;
             // 
-            // WriteCoil
+            // cmMain
+            // 
+            cmMain.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmMain.BorderColor = Color.Black;
+            cmMain.DropShadowEnabled = false;
+            cmMain.ForeColor = Color.White;
+            cmMain.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmMain.Items.AddRange(new ToolStripItem[] { sendToolStripMenuItem, toolStripSeparator2, addToolStripMenuItem, removeToolStripMenuItem, toolStripSeparator3, moveUpToolStripMenuItem, moveDownToolStripMenuItem, toolStripSeparator4, copyToolStripMenuItem, pasteToolStripMenuItem });
+            cmMain.MenuBackColorNorth = Color.DodgerBlue;
+            cmMain.MenuBackColorSouth = Color.DodgerBlue;
+            cmMain.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmMain.Name = "cmMain";
+            cmMain.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmMain.ShowInsetShadow = false;
+            cmMain.ShowItemInsetShadow = false;
+            cmMain.Size = new Size(204, 198);
+            // 
+            // sendToolStripMenuItem
+            // 
+            sendToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            sendToolStripMenuItem.Name = "sendToolStripMenuItem";
+            sendToolStripMenuItem.Size = new Size(203, 22);
+            sendToolStripMenuItem.Text = "Send";
+            sendToolStripMenuItem.Click += sendToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(200, 6);
+            // 
+            // addToolStripMenuItem
+            // 
+            addToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            addToolStripMenuItem.Name = "addToolStripMenuItem";
+            addToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Q;
+            addToolStripMenuItem.Size = new Size(203, 22);
+            addToolStripMenuItem.Text = "Add";
+            addToolStripMenuItem.Click += addToolStripMenuItem_Click;
+            // 
+            // removeToolStripMenuItem
+            // 
+            removeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            removeToolStripMenuItem.ShortcutKeys = Keys.Delete;
+            removeToolStripMenuItem.Size = new Size(203, 22);
+            removeToolStripMenuItem.Text = "Remove";
+            removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(200, 6);
+            // 
+            // moveUpToolStripMenuItem
+            // 
+            moveUpToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
+            moveUpToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Up;
+            moveUpToolStripMenuItem.Size = new Size(203, 22);
+            moveUpToolStripMenuItem.Text = "Move Up";
+            moveUpToolStripMenuItem.Click += moveUpToolStripMenuItem_Click;
+            // 
+            // moveDownToolStripMenuItem
+            // 
+            moveDownToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
+            moveDownToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Down;
+            moveDownToolStripMenuItem.Size = new Size(203, 22);
+            moveDownToolStripMenuItem.Text = "Move Down";
+            moveDownToolStripMenuItem.Click += moveDownToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator4
+            // 
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new Size(200, 6);
+            // 
+            // copyToolStripMenuItem
+            // 
+            copyToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
+            copyToolStripMenuItem.Size = new Size(203, 22);
+            copyToolStripMenuItem.Text = "Copy";
+            copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
+            // 
+            // pasteToolStripMenuItem
+            // 
+            pasteToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
+            pasteToolStripMenuItem.Size = new Size(203, 22);
+            pasteToolStripMenuItem.Text = "Paste";
+            pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
+            // 
+            // WriteCoils
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(284, 261);
-            Controls.Add(panel2);
+            ClientSize = new Size(282, 401);
+            ContextMenuStrip = cmMain;
             Controls.Add(lblpnlValue);
+            Controls.Add(panel2);
             Controls.Add(lblpnlRegisters);
             DoubleBuffered = true;
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "WriteCoil";
-            Padding = new Padding(10, 10, 10, 10);
+            Name = "WriteCoils";
+            Padding = new Padding(10);
             ShowInTaskbar = false;
-            Text = "Write Coil";
-            Load += WriteCoil_Load;
+            Text = "Write Coils";
+            FormClosing += WriteCoils_FormClosing;
+            Load += WriteCoils_Load;
             lblpnlRegisters.ResumeLayout(false);
             lblpnlRegisters.PerformLayout();
             lblpnlQuantity.ResumeLayout(false);
             lblpnlAddress.ResumeLayout(false);
             labelPanel1.ResumeLayout(false);
             lblpnlValue.ResumeLayout(false);
-            panel1.ResumeLayout(false);
+            lblpnlValue.PerformLayout();
+            tsMain.ResumeLayout(false);
+            tsMain.PerformLayout();
             panel2.ResumeLayout(false);
+            cmMain.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -525,12 +696,27 @@
         private ODModules.NumericTextbox numtxtUnit;
         private ODModules.LabelPanel labelPanel1;
         private ODModules.FlatComboBox cmbxDataSet;
+        private ODModules.LabelPanel lblpnlValue;
         private ODModules.Button btnAccept;
         private ODModules.Button btnCancel;
-        private ODModules.LabelPanel lblpnlValue;
-        private Panel panel1;
-        private ODModules.Button btnOptOn;
-        private ODModules.Button btnOptOff;
         private Panel panel2;
+        private ODModules.ListControl lstCoils;
+        private ODModules.ToolStrip tsMain;
+        private ToolStripButton btnAdd;
+        private ToolStripButton btnRemove;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton btnMoveUp;
+        private ToolStripButton btnMoveDown;
+        private ODModules.ContextMenu cmMain;
+        private ToolStripMenuItem sendToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem addToolStripMenuItem;
+        private ToolStripMenuItem removeToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem moveUpToolStripMenuItem;
+        private ToolStripMenuItem moveDownToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripMenuItem copyToolStripMenuItem;
+        private ToolStripMenuItem pasteToolStripMenuItem;
     }
 }
