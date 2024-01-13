@@ -1339,6 +1339,20 @@ namespace Serial_Monitor.Classes {
                         }
                         else { ModbusWriteRegister(Unit, (short)Start, (short)0); }
                     }
+                    else if (TestKeyword(ref Temp, "MASK")) {
+                        if (GetValue(ref Temp, "REGISTER", out Start, ' ')) {
+                            int Value = 0;
+                            if (GetValue(ref Temp, "WITH", out Value, ',')) {
+                                int Value2 = 0;
+                                if (GetValue(ref Temp, ",", out Value2)) {
+                                    ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, (short)Value2);
+                                }
+                                else {
+                                    ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, 0);
+                                }
+                            }
+                        }
+                    }
                 }
                 else if (TestKeyword(ref Temp, "DIAGNOSTICS")) {
                     if (TestKeyword(ref Temp, "RETURN")) {
@@ -1511,6 +1525,16 @@ namespace Serial_Monitor.Classes {
                     bool Success = int.TryParse(StrAddress, out Value);
                     if (Success == false) { return false; }
                 }
+                return true;
+            }
+            Value = 0;
+            return false;
+        }
+        private static bool GetValue(ref string Input, string Compare, out int Value, char Delimiter) {
+            if (TestKeyword(ref Input, Compare)) {
+                string StrAddress = ReadAndRemove(ref Input, Delimiter).TrimStart(' ');
+                bool Success = int.TryParse(StrAddress, out Value);
+                if (Success == false) { return false; }
                 return true;
             }
             Value = 0;

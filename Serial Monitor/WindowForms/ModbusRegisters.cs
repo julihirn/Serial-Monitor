@@ -416,6 +416,7 @@ namespace Serial_Monitor {
             writeCoilToolStripMenuItem.Enabled = Enable;
             writeMultipleCoilsToolStripMenuItem.Enabled = Enable;
             writeRegisterToolStripMenuItem.Enabled = Enable;
+            writeRegisterMaskToolStripMenuItem.Enabled = Enable;
         }
         #endregion
         #region Snapshot Support
@@ -1321,64 +1322,29 @@ namespace Serial_Monitor {
         #endregion
         #region Modbus Functions
         private void writeCoilToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if (currentEditorView == DataEditor.MasterView) {
-                    if (CurrentManager == null) { return; }
-                    if (CurrentManager.IsMaster == false) { return; }
-                    Dialogs.WriteCoil CmdWrite = new Dialogs.WriteCoil(CurrentManager);
-                    ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
-
-                }
-                else {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
-                        if (Snap != null) {
-                            if (Snap.Manager != null) {
-                                SerialManager? SerMan = Snap.Manager.Manager;
-                                if (SerMan == null) { return; }
-                                if (SerMan.IsMaster == false) { return; }
-                                Dialogs.WriteCoil CmdWrite = new Dialogs.WriteCoil(SerMan);
-                                ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
-                            }
-                        }
-                    }
-                }
-            }
-            catch { }
+            SerialManager? Manager = GetViewManager();
+            if (Manager == null) { return; }
+            Dialogs.WriteCoil CmdWrite = new Dialogs.WriteCoil(Manager);
+            ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
         }
         private void writeMultipleCoilsToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if (currentEditorView == DataEditor.MasterView) {
-                    if (CurrentManager == null) { return; }
-                    if (CurrentManager.IsMaster == false) { return; }
-                    Dialogs.WriteCoils CmdWrite = new Dialogs.WriteCoils(CurrentManager);
-                    ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
-
-                }
-                else {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
-                        if (Snap != null) {
-                            if (Snap.Manager != null) {
-                                SerialManager? SerMan = Snap.Manager.Manager;
-                                if (SerMan == null) { return; }
-                                if (SerMan.IsMaster == false) { return; }
-                                Dialogs.WriteCoils CmdWrite = new Dialogs.WriteCoils(SerMan);
-                                ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
-                            }
-                        }
-                    }
-                }
-            }
-            catch { }
+            SerialManager? Manager = GetViewManager();
+            if (Manager == null) { return; }
+            Dialogs.WriteCoils CmdWrite = new Dialogs.WriteCoils(Manager);
+            ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
         }
         private void writeRegisterToolStripMenuItem_Click(object sender, EventArgs e) {
+            SerialManager? Manager = GetViewManager();
+            if (Manager == null) { return; }
+            Dialogs.WriteRegister CmdWrite = new Dialogs.WriteRegister(Manager);
+            ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
+        }
+        private SerialManager ? GetViewManager() {
             try {
                 if (currentEditorView == DataEditor.MasterView) {
-                    if (CurrentManager == null) { return; }
-                    if (CurrentManager.IsMaster == false) { return; }
-                    Dialogs.WriteRegister CmdWrite = new Dialogs.WriteRegister(CurrentManager);
-                    ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
+                    if (CurrentManager == null) { return null; }
+                    if (CurrentManager.IsMaster == false) { return null; }
+                    return CurrentManager;
 
                 }
                 else {
@@ -1387,16 +1353,22 @@ namespace Serial_Monitor {
                         if (Snap != null) {
                             if (Snap.Manager != null) {
                                 SerialManager? SerMan = Snap.Manager.Manager;
-                                if (SerMan == null) { return; }
-                                if (SerMan.IsMaster == false) { return; }
-                                Dialogs.WriteRegister CmdWrite = new Dialogs.WriteRegister(SerMan);
-                                ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
+                                if (SerMan == null) { return null; }
+                                if (SerMan.IsMaster == false) { return null; }
+                                return SerMan;
                             }
                         }
                     }
                 }
             }
             catch { }
+            return null;
+        }
+        private void writeRegisterMaskToolStripMenuItem_Click(object sender, EventArgs e) {
+            SerialManager? Manager = GetViewManager();
+            if (Manager == null) { return; } 
+            Dialogs.WriteMask CmdWrite = new Dialogs.WriteMask(Manager);
+            ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
         }
         #endregion
         #region Channel Foormat Settings
@@ -1837,7 +1809,7 @@ namespace Serial_Monitor {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
 
-
+       
 
         private enum DataEditor {
             MasterView = 0x00,
