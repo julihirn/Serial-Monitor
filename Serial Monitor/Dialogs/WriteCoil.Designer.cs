@@ -497,10 +497,10 @@
             Controls.Add(lblpnlValue);
             Controls.Add(lblpnlRegisters);
             DoubleBuffered = true;
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WriteCoil";
-            Padding = new Padding(10, 10, 10, 10);
+            Padding = new Padding(10);
             ShowInTaskbar = false;
             Text = "Write Coil";
             Load += WriteCoil_Load;

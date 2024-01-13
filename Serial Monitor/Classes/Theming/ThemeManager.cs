@@ -11,12 +11,19 @@ namespace Serial_Monitor.Classes.Theming {
     public static class ThemeManager {
         public static List<Theme> Themes = new List<Theme>();
         #region Control Theming
-        public static void ThemeControl(object ControlObject) {
+        public static void ThemeControl(object ControlObject, bool UseAlternative = false) {
             if (ControlObject.GetType() == typeof(ODModules.ToolStrip)) {
                 ODModules.ToolStrip Ts = (ODModules.ToolStrip)ControlObject;
-                Ts.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-                Ts.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-                Ts.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+                if (UseAlternative) {
+                    Ts.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                    Ts.BackColorNorth = Properties.Settings.Default.THM_COL_Editor;
+                    Ts.BackColorSouth = Properties.Settings.Default.THM_COL_Editor;
+                }
+                else {
+                    Ts.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                    Ts.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+                    Ts.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+                }
                 Ts.MenuBackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
                 Ts.MenuBackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
                 Ts.ItemSelectedBackColorNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
@@ -132,7 +139,12 @@ namespace Serial_Monitor.Classes.Theming {
             }
             else if (ControlObject.GetType() == typeof(ODModules.BitToggle)) {
                 ODModules.BitToggle Bt = (ODModules.BitToggle)ControlObject;
-                Bt.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                if (UseAlternative) {
+                    Bt.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                }
+                else {
+                    Bt.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                }
                 Bt.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
                 Bt.ActiveToggleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 Bt.InactiveToggleForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;

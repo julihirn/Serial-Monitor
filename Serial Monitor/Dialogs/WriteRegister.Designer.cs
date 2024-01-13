@@ -67,15 +67,14 @@
             lblpnlValue.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlValue.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlValue.LabelForeColor = Color.WhiteSmoke;
-            lblpnlValue.Location = new Point(19, 222);
-            lblpnlValue.Margin = new Padding(6, 6, 6, 6);
+            lblpnlValue.Location = new Point(10, 132);
             lblpnlValue.Name = "lblpnlValue";
             lblpnlValue.OverrideCollapseControl = false;
-            lblpnlValue.Padding = new Padding(9, 37, 9, 11);
+            lblpnlValue.Padding = new Padding(5, 18, 5, 5);
             lblpnlValue.PanelCollapsible = false;
             lblpnlValue.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlValue.ShowCloseButton = false;
-            lblpnlValue.Size = new Size(489, 71);
+            lblpnlValue.Size = new Size(264, 46);
             lblpnlValue.TabIndex = 13;
             lblpnlValue.Text = "Value";
             // 
@@ -102,8 +101,7 @@
             numtxtValue.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             numtxtValue.LabelForeColor = Color.Gray;
             numtxtValue.LabelText = "";
-            numtxtValue.Location = new Point(9, 37);
-            numtxtValue.Margin = new Padding(6, 6, 6, 6);
+            numtxtValue.Location = new Point(5, 18);
             numtxtValue.Marked = false;
             numtxtValue.MarkedBackColor = Color.Empty;
             numtxtValue.MarkedBorderColor = Color.Beige;
@@ -126,7 +124,7 @@
             numtxtValue.SelectedBackColor = Color.Empty;
             numtxtValue.SelectedBorderColor = Color.Beige;
             numtxtValue.ShowLabel = true;
-            numtxtValue.Size = new Size(471, 23);
+            numtxtValue.Size = new Size(254, 23);
             numtxtValue.TabIndex = 1;
             numtxtValue.Unit = "";
             numtxtValue.UseFixedNumericPadding = true;
@@ -153,15 +151,14 @@
             lblpnlRegisters.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlRegisters.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlRegisters.LabelForeColor = Color.WhiteSmoke;
-            lblpnlRegisters.Location = new Point(19, 21);
-            lblpnlRegisters.Margin = new Padding(6, 6, 6, 6);
+            lblpnlRegisters.Location = new Point(10, 10);
             lblpnlRegisters.Name = "lblpnlRegisters";
             lblpnlRegisters.OverrideCollapseControl = false;
-            lblpnlRegisters.Padding = new Padding(9, 37, 9, 11);
+            lblpnlRegisters.Padding = new Padding(5, 18, 5, 5);
             lblpnlRegisters.PanelCollapsible = false;
             lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlRegisters.ShowCloseButton = false;
-            lblpnlRegisters.Size = new Size(489, 201);
+            lblpnlRegisters.Size = new Size(264, 122);
             lblpnlRegisters.TabIndex = 10;
             lblpnlRegisters.Text = "Register Selection";
             // 
@@ -184,15 +181,14 @@
             lblpnlQuantity.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlQuantity.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlQuantity.LabelForeColor = Color.Black;
-            lblpnlQuantity.Location = new Point(9, 144);
-            lblpnlQuantity.Margin = new Padding(6, 6, 6, 6);
+            lblpnlQuantity.Location = new Point(5, 84);
             lblpnlQuantity.Name = "lblpnlQuantity";
             lblpnlQuantity.OverrideCollapseControl = false;
-            lblpnlQuantity.Padding = new Padding(127, 11, 9, 11);
+            lblpnlQuantity.Padding = new Padding(113, 5, 5, 5);
             lblpnlQuantity.PanelCollapsible = false;
             lblpnlQuantity.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlQuantity.ShowCloseButton = false;
-            lblpnlQuantity.Size = new Size(471, 45);
+            lblpnlQuantity.Size = new Size(254, 33);
             lblpnlQuantity.TabIndex = 2;
             lblpnlQuantity.Text = "Address";
             // 
@@ -219,8 +215,7 @@
             numtxtAddress.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             numtxtAddress.LabelForeColor = Color.Gray;
             numtxtAddress.LabelText = "";
-            numtxtAddress.Location = new Point(127, 11);
-            numtxtAddress.Margin = new Padding(6, 6, 6, 6);
+            numtxtAddress.Location = new Point(113, 5);
             numtxtAddress.Marked = false;
             numtxtAddress.MarkedBackColor = Color.Empty;
             numtxtAddress.MarkedBorderColor = Color.Beige;
@@ -243,7 +238,7 @@
             numtxtAddress.SelectedBackColor = Color.Empty;
             numtxtAddress.SelectedBorderColor = Color.Beige;
             numtxtAddress.ShowLabel = true;
-            numtxtAddress.Size = new Size(335, 23);
+            numtxtAddress.Size = new Size(136, 23);
             numtxtAddress.TabIndex = 0;
             numtxtAddress.Unit = "";
             numtxtAddress.UseFixedNumericPadding = true;
@@ -268,15 +263,14 @@
             lblpnlAddress.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlAddress.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblpnlAddress.LabelForeColor = Color.Black;
-            lblpnlAddress.Location = new Point(9, 99);
-            lblpnlAddress.Margin = new Padding(6, 6, 6, 6);
+            lblpnlAddress.Location = new Point(5, 51);
             lblpnlAddress.Name = "lblpnlAddress";
             lblpnlAddress.OverrideCollapseControl = false;
-            lblpnlAddress.Padding = new Padding(127, 11, 9, 11);
+            lblpnlAddress.Padding = new Padding(113, 5, 5, 5);
             lblpnlAddress.PanelCollapsible = false;
             lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAddress.ShowCloseButton = false;
-            lblpnlAddress.Size = new Size(471, 45);
+            lblpnlAddress.Size = new Size(254, 33);
             lblpnlAddress.TabIndex = 1;
             lblpnlAddress.Text = "Slave";
             // 
@@ -303,8 +297,7 @@
             numtxtUnit.LabelFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             numtxtUnit.LabelForeColor = Color.Gray;
             numtxtUnit.LabelText = "";
-            numtxtUnit.Location = new Point(127, 11);
-            numtxtUnit.Margin = new Padding(6, 6, 6, 6);
+            numtxtUnit.Location = new Point(113, 5);
             numtxtUnit.Marked = false;
             numtxtUnit.MarkedBackColor = Color.Empty;
             numtxtUnit.MarkedBorderColor = Color.Beige;
@@ -327,7 +320,7 @@
             numtxtUnit.SelectedBackColor = Color.Empty;
             numtxtUnit.SelectedBorderColor = Color.Beige;
             numtxtUnit.ShowLabel = true;
-            numtxtUnit.Size = new Size(335, 23);
+            numtxtUnit.Size = new Size(136, 23);
             numtxtUnit.TabIndex = 0;
             numtxtUnit.Unit = "";
             numtxtUnit.UseFixedNumericPadding = true;
@@ -352,15 +345,14 @@
             labelPanel1.LabelBackColor = Color.FromArgb(16, 16, 16);
             labelPanel1.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(9, 37);
-            labelPanel1.Margin = new Padding(6, 6, 6, 6);
+            labelPanel1.Location = new Point(5, 18);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = false;
-            labelPanel1.Padding = new Padding(127, 11, 9, 11);
+            labelPanel1.Padding = new Padding(113, 5, 5, 5);
             labelPanel1.PanelCollapsible = false;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel1.ShowCloseButton = false;
-            labelPanel1.Size = new Size(471, 62);
+            labelPanel1.Size = new Size(254, 33);
             labelPanel1.TabIndex = 0;
             labelPanel1.Text = "Data Set";
             labelPanel1.Visible = false;
@@ -369,10 +361,9 @@
             // 
             cmbxDataSet.Dock = DockStyle.Top;
             cmbxDataSet.FormattingEnabled = true;
-            cmbxDataSet.Location = new Point(127, 11);
-            cmbxDataSet.Margin = new Padding(6, 6, 6, 6);
+            cmbxDataSet.Location = new Point(113, 5);
             cmbxDataSet.Name = "cmbxDataSet";
-            cmbxDataSet.Size = new Size(335, 40);
+            cmbxDataSet.Size = new Size(136, 23);
             cmbxDataSet.TabIndex = 0;
             // 
             // btnAccept
@@ -399,13 +390,12 @@
             btnAccept.BorderRadius = 5;
             btnAccept.Checked = false;
             btnAccept.GroupMaximumChecked = 2;
-            btnAccept.Location = new Point(152, 469);
-            btnAccept.Margin = new Padding(6, 6, 6, 6);
+            btnAccept.Location = new Point(82, 220);
             btnAccept.Name = "btnAccept";
             btnAccept.RadioButtonGroup = "";
             btnAccept.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnAccept.SecondaryText = "";
-            btnAccept.Size = new Size(173, 60);
+            btnAccept.Size = new Size(93, 28);
             btnAccept.Style = ODModules.ButtonStyle.Square;
             btnAccept.TabIndex = 11;
             btnAccept.Text = "Send";
@@ -438,13 +428,12 @@
             btnCancel.BorderRadius = 5;
             btnCancel.Checked = false;
             btnCancel.GroupMaximumChecked = 2;
-            btnCancel.Location = new Point(336, 469);
-            btnCancel.Margin = new Padding(6, 6, 6, 6);
+            btnCancel.Location = new Point(181, 220);
             btnCancel.Name = "btnCancel";
             btnCancel.RadioButtonGroup = "";
             btnCancel.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnCancel.SecondaryText = "";
-            btnCancel.Size = new Size(173, 60);
+            btnCancel.Size = new Size(93, 28);
             btnCancel.Style = ODModules.ButtonStyle.Square;
             btnCancel.TabIndex = 12;
             btnCancel.Text = "Cancel";
@@ -455,19 +444,18 @@
             // 
             // WriteRegister
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(527, 557);
+            ClientSize = new Size(284, 261);
             Controls.Add(lblpnlValue);
             Controls.Add(lblpnlRegisters);
             Controls.Add(btnAccept);
             Controls.Add(btnCancel);
             DoubleBuffered = true;
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(6, 6, 6, 6);
             Name = "WriteRegister";
-            Padding = new Padding(19, 21, 19, 21);
+            Padding = new Padding(10, 10, 10, 10);
             ShowInTaskbar = false;
             Text = "Write Register";
             Load += WriteRegister_Load;

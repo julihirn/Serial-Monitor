@@ -84,7 +84,7 @@
             lblpnlRegisters.PanelCollapsible = false;
             lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlRegisters.ShowCloseButton = false;
-            lblpnlRegisters.Size = new Size(256, 122);
+            lblpnlRegisters.Size = new Size(264, 122);
             lblpnlRegisters.TabIndex = 8;
             lblpnlRegisters.Text = "Register Selection";
             // 
@@ -114,7 +114,7 @@
             lblpnlQuantity.PanelCollapsible = false;
             lblpnlQuantity.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlQuantity.ShowCloseButton = false;
-            lblpnlQuantity.Size = new Size(246, 33);
+            lblpnlQuantity.Size = new Size(254, 33);
             lblpnlQuantity.TabIndex = 2;
             lblpnlQuantity.Text = "Address";
             // 
@@ -164,7 +164,7 @@
             numtxtAddress.SelectedBackColor = Color.Empty;
             numtxtAddress.SelectedBorderColor = Color.Beige;
             numtxtAddress.ShowLabel = true;
-            numtxtAddress.Size = new Size(128, 23);
+            numtxtAddress.Size = new Size(136, 23);
             numtxtAddress.TabIndex = 0;
             numtxtAddress.Unit = "";
             numtxtAddress.UseFixedNumericPadding = true;
@@ -196,7 +196,7 @@
             lblpnlAddress.PanelCollapsible = false;
             lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAddress.ShowCloseButton = false;
-            lblpnlAddress.Size = new Size(246, 33);
+            lblpnlAddress.Size = new Size(254, 33);
             lblpnlAddress.TabIndex = 1;
             lblpnlAddress.Text = "Slave";
             // 
@@ -246,7 +246,7 @@
             numtxtUnit.SelectedBackColor = Color.Empty;
             numtxtUnit.SelectedBorderColor = Color.Beige;
             numtxtUnit.ShowLabel = true;
-            numtxtUnit.Size = new Size(128, 23);
+            numtxtUnit.Size = new Size(136, 23);
             numtxtUnit.TabIndex = 0;
             numtxtUnit.Unit = "";
             numtxtUnit.UseFixedNumericPadding = true;
@@ -278,7 +278,7 @@
             labelPanel1.PanelCollapsible = false;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel1.ShowCloseButton = false;
-            labelPanel1.Size = new Size(246, 33);
+            labelPanel1.Size = new Size(254, 33);
             labelPanel1.TabIndex = 0;
             labelPanel1.Text = "Data Set";
             labelPanel1.Visible = false;
@@ -289,7 +289,7 @@
             cmbxDataSet.FormattingEnabled = true;
             cmbxDataSet.Location = new Point(113, 5);
             cmbxDataSet.Name = "cmbxDataSet";
-            cmbxDataSet.Size = new Size(128, 23);
+            cmbxDataSet.Size = new Size(136, 23);
             cmbxDataSet.TabIndex = 0;
             // 
             // panel2
@@ -297,9 +297,9 @@
             panel2.Controls.Add(btnCancel);
             panel2.Controls.Add(btnAccept);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(10, 331);
+            panel2.Location = new Point(10, 351);
             panel2.Name = "panel2";
-            panel2.Size = new Size(256, 59);
+            panel2.Size = new Size(264, 40);
             panel2.TabIndex = 14;
             // 
             // btnCancel
@@ -326,7 +326,7 @@
             btnCancel.BorderRadius = 5;
             btnCancel.Checked = false;
             btnCancel.GroupMaximumChecked = 2;
-            btnCancel.Location = new Point(158, 28);
+            btnCancel.Location = new Point(154, 12);
             btnCancel.Name = "btnCancel";
             btnCancel.RadioButtonGroup = "";
             btnCancel.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
@@ -365,7 +365,7 @@
             btnAccept.BorderRadius = 5;
             btnAccept.Checked = false;
             btnAccept.GroupMaximumChecked = 2;
-            btnAccept.Location = new Point(59, 28);
+            btnAccept.Location = new Point(55, 12);
             btnAccept.Name = "btnAccept";
             btnAccept.RadioButtonGroup = "";
             btnAccept.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
@@ -405,7 +405,7 @@
             lblpnlAndMask.PanelCollapsible = false;
             lblpnlAndMask.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAndMask.ShowCloseButton = false;
-            lblpnlAndMask.Size = new Size(256, 99);
+            lblpnlAndMask.Size = new Size(264, 108);
             lblpnlAndMask.TabIndex = 15;
             lblpnlAndMask.Text = "AND Mask";
             // 
@@ -419,7 +419,7 @@
             btAnd.MouseDownForeColor = Color.WhiteSmoke;
             btAnd.MouseOverForeColor = Color.Blue;
             btAnd.Name = "btAnd";
-            btAnd.Size = new Size(246, 76);
+            btAnd.Size = new Size(254, 85);
             btAnd.TabIndex = 1;
             btAnd.TogglerSize = ODModules.BitToggle.WordSize.Word;
             btAnd.Value = "0";
@@ -449,7 +449,7 @@
             lblpnlOrMask.PanelCollapsible = false;
             lblpnlOrMask.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlOrMask.ShowCloseButton = false;
-            lblpnlOrMask.Size = new Size(256, 96);
+            lblpnlOrMask.Size = new Size(264, 107);
             lblpnlOrMask.TabIndex = 16;
             lblpnlOrMask.Text = "OR Mask";
             // 
@@ -463,7 +463,7 @@
             btOr.MouseDownForeColor = Color.WhiteSmoke;
             btOr.MouseOverForeColor = Color.Blue;
             btOr.Name = "btOr";
-            btOr.Size = new Size(246, 73);
+            btOr.Size = new Size(254, 84);
             btOr.TabIndex = 2;
             btOr.TogglerSize = ODModules.BitToggle.WordSize.Word;
             btOr.Value = "0";
@@ -483,18 +483,20 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(lblpnlOrMask);
-            splitContainer1.Size = new Size(256, 199);
-            splitContainer1.SplitterDistance = 99;
+            splitContainer1.Size = new Size(264, 219);
+            splitContainer1.SplitterDistance = 108;
             splitContainer1.TabIndex = 17;
             // 
             // WriteMask
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(276, 400);
+            ClientSize = new Size(284, 401);
             Controls.Add(splitContainer1);
             Controls.Add(panel2);
             Controls.Add(lblpnlRegisters);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WriteMask";
             Padding = new Padding(10);

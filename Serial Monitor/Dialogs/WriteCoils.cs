@@ -119,6 +119,7 @@ namespace Serial_Monitor.Dialogs {
 
         private void WriteCoils_FormClosing(object sender, FormClosingEventArgs e) {
             lstCoils.LineRemoveAll();
+            manager = null;
         }
         private void btnRemove_Click(object sender, EventArgs e) {
             lstCoils.LineRemoveSelected();
@@ -154,7 +155,6 @@ namespace Serial_Monitor.Dialogs {
         private void btnMoveDown_Click(object sender, EventArgs e) {
             lstCoils.LineMove(true);
         }
-
         private void sendToolStripMenuItem_Click(object sender, EventArgs e) {
             Send();
         }
@@ -164,18 +164,15 @@ namespace Serial_Monitor.Dialogs {
         private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
             lstCoils.LineRemoveSelected();
         }
-
         private void moveUpToolStripMenuItem_Click(object sender, EventArgs e) {
             lstCoils.LineMove(false);
         }
         private void moveDownToolStripMenuItem_Click(object sender, EventArgs e) {
             lstCoils.LineMove(true);
         }
-
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             Copy();
         }
-
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e) {
             Paste();
         }
@@ -197,11 +194,11 @@ namespace Serial_Monitor.Dialogs {
             Clipboard.SetText(Values);
         }
         private void Paste() {
-            STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(Clipboard.GetText().Replace("\r",""), '\n');
+            STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(Clipboard.GetText().Replace("\r", ""), '\n');
             int SelectedCount = lstCoils.SelectionCount;
             if (SelectedCount == 0) {
                 for (int i = 0; i < Spilts.Count; i++) {
-                    if (lstCoils.Items.Count >= MaxCoils) { lstCoils.Invalidate();  return; }
+                    if (lstCoils.Items.Count >= MaxCoils) { lstCoils.Invalidate(); return; }
                     if (Spilts.Value[i].Trim() != "") {
                         ListItem itemBasis = new ListItem();
                         ListSubItem CheckBoxItem = new ListSubItem(GetCheckedState(Spilts.Value[i]));
@@ -214,7 +211,7 @@ namespace Serial_Monitor.Dialogs {
             }
             for (int j = lstCoils.Items.Count - 1; j >= 0; j--) {
                 if (lstCoils.Items[j].Selected == false) { continue; }
-                for (int i = Spilts.Count - 1; i >= 0 ; i--) {
+                for (int i = Spilts.Count - 1; i >= 0; i--) {
                     if (lstCoils.Items.Count >= MaxCoils) { lstCoils.Invalidate(); return; }
                     if (Spilts.Value[i].Trim() != "") {
                         ListItem itemBasis = new ListItem();

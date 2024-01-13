@@ -417,6 +417,7 @@ namespace Serial_Monitor {
             writeMultipleCoilsToolStripMenuItem.Enabled = Enable;
             writeRegisterToolStripMenuItem.Enabled = Enable;
             writeRegisterMaskToolStripMenuItem.Enabled = Enable;
+            writeMultipleRegistersToolStripMenuItem.Enabled = Enable;
         }
         #endregion
         #region Snapshot Support
@@ -1339,7 +1340,13 @@ namespace Serial_Monitor {
             Dialogs.WriteRegister CmdWrite = new Dialogs.WriteRegister(Manager);
             ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
         }
-        private SerialManager ? GetViewManager() {
+        private void writeMultipleRegistersToolStripMenuItem_Click(object sender, EventArgs e) {
+            SerialManager? Manager = GetViewManager();
+            if (Manager == null) { return; }
+            Dialogs.WriteRegisters CmdWrite = new Dialogs.WriteRegisters(Manager);
+            ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
+        }
+        private SerialManager? GetViewManager() {
             try {
                 if (currentEditorView == DataEditor.MasterView) {
                     if (CurrentManager == null) { return null; }
@@ -1366,12 +1373,12 @@ namespace Serial_Monitor {
         }
         private void writeRegisterMaskToolStripMenuItem_Click(object sender, EventArgs e) {
             SerialManager? Manager = GetViewManager();
-            if (Manager == null) { return; } 
+            if (Manager == null) { return; }
             Dialogs.WriteMask CmdWrite = new Dialogs.WriteMask(Manager);
             ApplicationManager.OpenInternalApplicationAsDialog(CmdWrite, this);
         }
         #endregion
-        #region Channel Foormat Settings
+        #region Channel Format Settings
         private void SetModbusMaster() {
             try {
                 if (currentEditorView == DataEditor.MasterView) {

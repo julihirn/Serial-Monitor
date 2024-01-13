@@ -21,7 +21,7 @@ namespace Serial_Monitor.Components {
             InitializeComponent();
         }
         public void ApplyTheme() {
-            ThemeManager.ThemeControl(btToggler);
+            ThemeManager.ThemeControl(btToggler, true);
 
         }
 

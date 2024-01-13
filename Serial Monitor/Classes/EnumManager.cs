@@ -519,6 +519,11 @@ namespace Serial_Monitor.Classes {
                     ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
                 }
+                else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    Tsi.Checked = false;
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
             }
         }
         public static void LoadDataSizes(object DropDownList, EventHandler FormatClick) {
@@ -544,6 +549,11 @@ namespace Serial_Monitor.Classes {
                     ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
                 }
+                else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    Tsi.Checked = false;
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
             }
         }
         public static void LoadWordOrders(object DropDownList, EventHandler FormatClick) {
@@ -567,6 +577,11 @@ namespace Serial_Monitor.Classes {
                 else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
                     Tsi.Checked = false;
                     ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    Tsi.Checked = false;
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
                 }
             }
