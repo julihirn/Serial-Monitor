@@ -103,6 +103,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Binary {
+            get {
+                object obj = ResourceManager.GetObject("Binary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] BooleanData {
             get {
                 object obj = ResourceManager.GetObject("BooleanData", resourceCulture);
@@ -726,6 +736,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] SaveAs_16x {
             get {
                 object obj = ResourceManager.GetObject("SaveAs_16x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SelectAll {
+            get {
+                object obj = ResourceManager.GetObject("SelectAll", resourceCulture);
                 return ((byte[])(obj));
             }
         }

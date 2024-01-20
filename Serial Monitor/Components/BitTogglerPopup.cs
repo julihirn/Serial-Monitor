@@ -20,6 +20,21 @@ namespace Serial_Monitor.Components {
         public BitTogglerPopup() {
             InitializeComponent();
         }
+        //TemplateContextMenuHost? host = null;
+        //public TemplateContextMenuHost Host {
+        //    get { return host; }
+        //    set {
+        //        host = null;
+        //        host = value;
+        //        host.Closing += Host_Closing;
+        //    }
+        //}
+
+        //private void Host_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+        //    Debug.Print("aaaa");
+        //    //   ModbusEditor.ChangeSignedList(CurrentEditor, State);
+        //}
+
         public void ApplyTheme() {
             ThemeManager.ThemeControl(btToggler, true);
 

@@ -85,12 +85,17 @@
             thDataPagesHeader.CloseHoverColor = Color.Brown;
             thDataPagesHeader.Dock = DockStyle.Top;
             thDataPagesHeader.ForeColor = Color.White;
+            thDataPagesHeader.HeaderDownForeColor = Color.Gray;
+            thDataPagesHeader.HeaderForeColor = Color.Black;
+            thDataPagesHeader.HeaderHoverForeColor = Color.Blue;
             thDataPagesHeader.Location = new Point(0, 24);
             thDataPagesHeader.Name = "thDataPagesHeader";
             thDataPagesHeader.Padding = new Padding(5, 0, 0, 0);
             thDataPagesHeader.SelectedIndex = 0;
             thDataPagesHeader.ShowAddButton = false;
+            thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
+            thDataPagesHeader.ShowTabs = true;
             thDataPagesHeader.Size = new Size(276, 27);
             thDataPagesHeader.TabBackColor = Color.Transparent;
             thDataPagesHeader.TabBorderColor = Color.Transparent;
@@ -196,6 +201,7 @@
             lstGlobals.FilterColumn = 0;
             lstGlobals.GridlineColor = Color.LightGray;
             lstGlobals.HighlightStrength = 128;
+            lstGlobals.HorizontalScrollStep = 3;
             lstGlobals.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstGlobals.LineMarkerIndex = 0;
             lstGlobals.Location = new Point(0, 0);
@@ -212,6 +218,7 @@
             lstGlobals.SelectionColor = Color.Gray;
             lstGlobals.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstGlobals.ShowGrid = true;
+            lstGlobals.ShowItemIndentation = false;
             lstGlobals.ShowMarker = false;
             lstGlobals.ShowRowColors = false;
             lstGlobals.Size = new Size(268, 235);
@@ -337,6 +344,7 @@
             lstVars.FilterColumn = 0;
             lstVars.GridlineColor = Color.LightGray;
             lstVars.HighlightStrength = 128;
+            lstVars.HorizontalScrollStep = 3;
             lstVars.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstVars.LineMarkerIndex = 0;
             lstVars.Location = new Point(0, 0);
@@ -353,6 +361,7 @@
             lstVars.SelectionColor = Color.Gray;
             lstVars.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstVars.ShowGrid = true;
+            lstVars.ShowItemIndentation = false;
             lstVars.ShowMarker = false;
             lstVars.ShowRowColors = false;
             lstVars.Size = new Size(268, 235);
@@ -415,6 +424,7 @@
             lstArray.FilterColumn = 0;
             lstArray.GridlineColor = Color.LightGray;
             lstArray.HighlightStrength = 128;
+            lstArray.HorizontalScrollStep = 3;
             lstArray.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstArray.LineMarkerIndex = 0;
             lstArray.Location = new Point(0, 0);
@@ -431,6 +441,7 @@
             lstArray.SelectionColor = Color.Gray;
             lstArray.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstArray.ShowGrid = true;
+            lstArray.ShowItemIndentation = false;
             lstArray.ShowMarker = false;
             lstArray.ShowRowColors = false;
             lstArray.Size = new Size(268, 235);
@@ -632,6 +643,7 @@
             MainMenuStrip = msMain;
             Name = "Variables";
             Text = "Variables";
+            HelpButtonClicked += Variables_HelpButtonClicked;
             FormClosing += Variables_FormClosing;
             Load += Variables_Load;
             tbVars.ResumeLayout(false);

@@ -41,6 +41,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (CheckValues == true) {
                     if (Current.Value != false) { return true; }
                 }
+                if (Current.UseForeColor == true) { return true; }
+                if (Current.UseBackColor == true) { return true; }
             }
             else if (Input.GetType() == typeof(Modbus.ModbusRegister)) {
                 Modbus.ModbusRegister Current = (Modbus.ModbusRegister)Input;
@@ -53,6 +55,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (CheckValues == true) {
                     if (Current.Value != 0) { return true; }
                 }
+                if (Current.UseForeColor == true) { return true; }
+                if (Current.UseBackColor == true) { return true; }
             }
             return false;
         }
@@ -120,6 +124,12 @@ namespace Serial_Monitor.Classes.Modbus {
                 Values.Add(Address);
                 if (Current.Name.Length > 0) {
                     Values.Add(TagData("Name", Current.Name));
+                }
+                if (Current.UseBackColor) {
+                    Values.Add(TagData("BackColor", Current.BackColor.ToArgb()));
+                }
+                if (Current.UseForeColor) {
+                    Values.Add(TagData("ForeColor", Current.ForeColor.ToArgb()));
                 }
                 Values.Add(TagData("Value", Current.Value));
 
@@ -189,7 +199,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Values.Add(Spilts.Value[i]);
                 }
                 else {
-                    if (Regex.IsMatch(Spilts.Value[i], "\\s*[A-Za-z]+\\s*=\\s*(?:(\\d+.\\d*)|\\d+)\\s*")) {
+                    if (Regex.IsMatch(Spilts.Value[i], "\\s*[A-Za-z]+\\s*=\\s*(?:(\\-{0,1}\\d+.\\d*)|\\-{0,1}\\d+)\\s*")) {
                         Values.Add(Spilts.Value[i]);
                     }
                     else if (Regex.IsMatch(Spilts.Value[i], "\\s*[A-Za-z]+\\s*=\\s*(?:\\\"[\\w\\s\\D]+\\\")\\s*")) {

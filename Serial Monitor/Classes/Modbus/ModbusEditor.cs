@@ -1,4 +1,5 @@
 ﻿using Handlers;
+using Microsoft.Win32;
 using ODModules;
 using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Step_Programs;
@@ -25,7 +26,7 @@ namespace Serial_Monitor.Classes.Modbus {
         #region Loaders
         static bool IsFirstLoad = true;
         public static List<ListItem> MasterRegisterEditor = new List<ListItem>();
-        public static void LoadRegisters(ListControl LstControl, SerialManager ? CurrentManager, DataSelection DataSet, int SlaveIndex) {
+        public static void LoadRegisters(ListControl LstControl, SerialManager? CurrentManager, DataSelection DataSet, int SlaveIndex) {
             //if (IsFirstLoad == true) {
             //    lstMonitor.LineRemoveAll();
             //}
@@ -90,6 +91,11 @@ namespace Serial_Monitor.Classes.Modbus {
             if (IsFirstLoad) {
                 ListItem PLi = new ListItem();
                 PLi.Tag = Coil;
+                PLi.Value = Index;
+                PLi.UseLineBackColor = Coil.UseBackColor;
+                PLi.UseLineForeColor = Coil.UseForeColor;
+                PLi.LineBackColor= Coil.BackColor;
+                PLi.LineForeColor = Coil.ForeColor;
                 ListSubItem CLi1 = new ListSubItem(Coil.Name);
                 ListSubItem CLi2 = new ListSubItem("Boolean");
                 ListSubItem CLi3 = new ListSubItem();
@@ -105,6 +111,10 @@ namespace Serial_Monitor.Classes.Modbus {
             else {
                 MasterRegisterEditor[Index].Tag = null;
                 MasterRegisterEditor[Index].Tag = Coil;
+                MasterRegisterEditor[Index].UseLineBackColor = Coil.UseBackColor;
+                MasterRegisterEditor[Index].UseLineForeColor = Coil.UseForeColor;
+                MasterRegisterEditor[Index].LineBackColor= Coil.BackColor;
+                MasterRegisterEditor[Index].LineForeColor = Coil.ForeColor;
                 MasterRegisterEditor[Index][Indx_Name].Text = Coil.Name;
                 MasterRegisterEditor[Index][Indx_Display].Text = "Boolean";
                 MasterRegisterEditor[Index][Indx_Size].Text = "";
@@ -116,6 +126,11 @@ namespace Serial_Monitor.Classes.Modbus {
             if (IsFirstLoad) {
                 ListItem PLi = new ListItem();
                 PLi.Tag = Register;
+                PLi.Value = Index;
+                PLi.UseLineBackColor = Register.UseBackColor;
+                PLi.UseLineForeColor = Register.UseForeColor;
+                PLi.LineBackColor = Register.BackColor;
+                PLi.LineForeColor = Register.ForeColor;
                 ListSubItem CLi1 = new ListSubItem(Register.Name);
                 ListSubItem CLi2 = new ListSubItem(EnumManager.DataFormatToString(Register.Format).A);
                 ListSubItem CLi3 = new ListSubItem(EnumManager.DataSizeToString(Register.Size));
@@ -131,6 +146,10 @@ namespace Serial_Monitor.Classes.Modbus {
             else {
                 MasterRegisterEditor[Index].Tag = null;
                 MasterRegisterEditor[Index].Tag = Register;
+                MasterRegisterEditor[Index].UseLineBackColor = Register.UseBackColor;
+                MasterRegisterEditor[Index].UseLineForeColor = Register.UseForeColor;
+                MasterRegisterEditor[Index].LineBackColor = Register.BackColor;
+                MasterRegisterEditor[Index].LineForeColor = Register.ForeColor;
                 MasterRegisterEditor[Index][Indx_Name].Text = Register.Name;
                 MasterRegisterEditor[Index][Indx_Display].Text = EnumManager.DataFormatToString(Register.Format).A;
                 MasterRegisterEditor[Index][Indx_Size].Text = EnumManager.DataSizeToString(Register.Size);
@@ -196,6 +215,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
                 Components.EditValue EdVal = new Components.EditValue(reg.FormattedValue, LstCtrl, e.ParentItem, Indx_Value, ItemIndex, reg, Rect, ParRect, DataSet);
                 LstCtrl.Controls.Add(EdVal);
+
                 EdVal.ArrowKeyPress += arrowKeyPressed;
                 EdVal.Focus();
                 EdVal.Show();
@@ -446,7 +466,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeWordOrderList(object ? sender, ListControl? lstMonitor) {
+        public static void ChangeWordOrderList(object? sender, ListControl? lstMonitor) {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) { return; }
             if (ButtonData.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
@@ -906,24 +926,81 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         #endregion
-        public static void ChangeEntireAppearance(object? sender, ListControl lstMonitor) {
+        public static List<int> ResetAppearance(object? sender, ListControl? lstMonitor) {
+            if (lstMonitor == null) { return new List<int>(); }
+            List<int> Indices = new List<int>();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
                 if (Li.SubItems.Count >= Indx_Value) {
                     if (Li.Selected == true) {
                         if (Li.Tag == null) { continue; }
-                        if (Li.Tag.GetType() == typeof(ModbusObject)) {
-                            ModbusObject Reg = (ModbusObject)Li.Tag;
-                            if (Reg.UseBackColor == true) {
-                                Li[Indx_Display].BackColor = Reg.BackColor;
-                            }
-                            if (Reg.UseForeColor == true) {
-                                Li[Indx_Display].ForeColor = Reg.ForeColor;
-                            }
+                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                            Reg.UseBackColor = false;
+                            Reg.UseForeColor = false;
+
+                            Li.UseLineForeColor = false;
+                            Li.UseLineBackColor = false;
+
+                            Indices.Add(Li.Value);
+                        }
+                        else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                            ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                            Reg.UseBackColor = false;
+                            Reg.UseForeColor = false;
+
+                            Li.UseLineForeColor = false;
+                            Li.UseLineBackColor = false;
+
+                            Indices.Add(Li.Value);
                         }
                     }
                 }
             }
             lstMonitor.Invalidate();
+            return Indices;
+        }
+        public static List<int> ChangeEntireAppearance(object? sender, ListControl? lstMonitor, ModbusAppearance Settings) {
+            if (lstMonitor == null) { return new List<int>(); }
+            List<int> Indices = new List<int>();
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count >= Indx_Value) {
+                    if (Li.Selected == true) {
+                        if (Li.Tag == null) { continue; }
+                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                            Reg.UseBackColor = Settings.UseBackColor;
+                            Reg.UseForeColor = Settings.UseForeColor;
+                            Reg.BackColor = Settings.BackColor;
+                            Reg.ForeColor = Settings.ForeColor;
+
+                            Li.LineBackColor = Settings.BackColor;
+                            Li.LineForeColor = Settings.ForeColor;
+
+                            Li.UseLineForeColor = Settings.UseForeColor;
+                            Li.UseLineBackColor = Settings.UseBackColor;
+
+                            Indices.Add(Li.Value);
+                        }
+                        else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                            ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                            Reg.UseBackColor = Settings.UseBackColor;
+                            Reg.UseForeColor = Settings.UseForeColor;
+                            Reg.BackColor = Settings.BackColor;
+                            Reg.ForeColor = Settings.ForeColor;
+
+                            Li.LineBackColor = Settings.BackColor;
+                            Li.LineForeColor = Settings.ForeColor;
+
+                            Li.UseLineForeColor = Settings.UseForeColor;
+                            Li.UseLineBackColor = Settings.UseBackColor;
+
+                            Indices.Add(Li.Value);
+                        }
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+            return Indices;
         }
         public static void ChangeAppearance(object? sender, ListControl lstMonitor) {
             int SelectedCount = lstMonitor.SelectionCount;
@@ -951,5 +1028,16 @@ namespace Serial_Monitor.Classes.Modbus {
             lstMonitor.Invalidate();
         }
     }
-
+    public struct ModbusAppearance {
+        public Color ForeColor;
+        public Color BackColor;
+        public bool UseForeColor;
+        public bool UseBackColor;
+        public ModbusAppearance(bool UseForeColor, Color ForeColor, bool UseBackColor, Color BackColor) {
+            this.UseForeColor = UseForeColor;
+            this.ForeColor = ForeColor;
+            this.UseBackColor = UseBackColor;
+            this.BackColor = BackColor;
+        }
+    }
 }

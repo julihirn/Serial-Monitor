@@ -1279,11 +1279,21 @@ namespace Serial_Monitor.Classes {
                         if (GetValue(ref Temp, "QTY", out Count)) {
                             ModbusReadCoils(Unit, (short)Start, (short)Count);
                         }
+                        else if (GetValue(ref Temp, "TO", out Count)) {
+                            Point StartAndDiff = GetStartAndDifference(Start, Count);
+                            if (StartAndDiff.Y <= 0) { return; }
+                            ModbusReadCoils(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
+                        }
                         else { ModbusReadCoils(Unit, (short)Start, (short)1); }
                     }
                     else if (GetValue(ref Temp, "DISCRETE", out Start)) {
                         if (GetValue(ref Temp, "QTY", out Count)) {
                             ModbusReadDiscreteInputs(Unit, (short)Start, (short)Count);
+                        }
+                        else if (GetValue(ref Temp, "TO", out Count)) {
+                            Point StartAndDiff = GetStartAndDifference(Start, Count);
+                            if (StartAndDiff.Y <= 0) { return; }
+                            ModbusReadDiscreteInputs(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
                         }
                         else { ModbusReadDiscreteInputs(Unit, (short)Start, (short)1); }
                     }
@@ -1291,11 +1301,21 @@ namespace Serial_Monitor.Classes {
                         if (GetValue(ref Temp, "QTY", out Count)) {
                             ModbusReadHoldingRegisters(Unit, (short)Start, (short)Count);
                         }
+                        else if (GetValue(ref Temp, "TO", out Count)) {
+                            Point StartAndDiff = GetStartAndDifference(Start, Count);
+                            if (StartAndDiff.Y <= 0) { return; }
+                            ModbusReadHoldingRegisters(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
+                        }
                         else { ModbusReadHoldingRegisters(Unit, (short)Start, (short)1); }
                     }
                     else if (GetValue(ref Temp, "INREGISTERS", out Start)) {
                         if (GetValue(ref Temp, "QTY", out Count)) {
                             ModbusReadInputRegisters(Unit, (short)Start, (short)Count);
+                        }
+                        else if (GetValue(ref Temp, "TO", out Count)) {
+                            Point StartAndDiff = GetStartAndDifference(Start, Count);
+                            if (StartAndDiff.Y <= 0) { return; }
+                            ModbusReadInputRegisters(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
                         }
                         else { ModbusReadInputRegisters(Unit, (short)Start, (short)1); }
                     }
@@ -1421,6 +1441,12 @@ namespace Serial_Monitor.Classes {
                 }
             }
             catch { }
+        }
+        private static Point GetStartAndDifference(int Start, int End) {
+            if (Start < End) {
+                return new Point(Start, (End - Start) + 1);
+            }
+            return new Point(End, (Start - End) + 1);
         }
         private static bool GetIntegerValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
             if (TestKeyword(ref Input, Compare)) {

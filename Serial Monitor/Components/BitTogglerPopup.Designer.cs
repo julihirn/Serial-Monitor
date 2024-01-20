@@ -33,22 +33,23 @@
             btToggler.Dock = DockStyle.Fill;
             btToggler.InactiveToggleForeColor = Color.Gray;
             btToggler.Location = new Point(0, 0);
-            btToggler.Margin = new Padding(6, 6, 6, 6);
             btToggler.MouseDownForeColor = Color.WhiteSmoke;
             btToggler.MouseOverForeColor = Color.Blue;
             btToggler.Name = "btToggler";
-            btToggler.Size = new Size(569, 591);
+            btToggler.Size = new Size(300, 300);
             btToggler.TabIndex = 0;
+            btToggler.TogglerSize = ODModules.BitToggle.WordSize.QWord;
             btToggler.Value = "0";
             btToggler.BitToggled += btToggler_BitToggled;
             // 
             // BitTogglerPopup
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(btToggler);
+            Margin = new Padding(2, 1, 2, 1);
             Name = "BitTogglerPopup";
-            Size = new Size(569, 591);
+            Size = new Size(300, 300);
             ResumeLayout(false);
         }
 

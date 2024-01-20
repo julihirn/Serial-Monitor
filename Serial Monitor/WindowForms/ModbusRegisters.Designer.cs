@@ -117,6 +117,7 @@
             writeCoilToolStripMenuItem = new ToolStripMenuItem();
             writeMultipleCoilsToolStripMenuItem = new ToolStripMenuItem();
             writeRegisterToolStripMenuItem = new ToolStripMenuItem();
+            writeMultipleRegistersToolStripMenuItem = new ToolStripMenuItem();
             writeRegisterMaskToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator23 = new ToolStripSeparator();
             querySenderToolStripMenuItem = new ToolStripMenuItem();
@@ -172,7 +173,6 @@
             newUnitToolStripMenuItem = new ToolStripMenuItem();
             removeUnitToolStripMenuItem = new ToolStripMenuItem();
             renameUnitToolStripMenuItem = new ToolStripMenuItem();
-            writeMultipleRegistersToolStripMenuItem = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             tbDataPages.SuspendLayout();
@@ -1229,6 +1229,16 @@
             writeRegisterToolStripMenuItem.Text = "Write &Register";
             writeRegisterToolStripMenuItem.Click += writeRegisterToolStripMenuItem_Click;
             // 
+            // writeMultipleRegistersToolStripMenuItem
+            // 
+            writeMultipleRegistersToolStripMenuItem.Enabled = false;
+            writeMultipleRegistersToolStripMenuItem.ForeColor = Color.White;
+            writeMultipleRegistersToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            writeMultipleRegistersToolStripMenuItem.Name = "writeMultipleRegistersToolStripMenuItem";
+            writeMultipleRegistersToolStripMenuItem.Size = new Size(281, 22);
+            writeMultipleRegistersToolStripMenuItem.Text = "Write Multiple Registers";
+            writeMultipleRegistersToolStripMenuItem.Click += writeMultipleRegistersToolStripMenuItem_Click;
+            // 
             // writeRegisterMaskToolStripMenuItem
             // 
             writeRegisterMaskToolStripMenuItem.Enabled = false;
@@ -1246,12 +1256,12 @@
             // 
             // querySenderToolStripMenuItem
             // 
-            querySenderToolStripMenuItem.Enabled = false;
             querySenderToolStripMenuItem.ForeColor = Color.White;
             querySenderToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             querySenderToolStripMenuItem.Name = "querySenderToolStripMenuItem";
             querySenderToolStripMenuItem.Size = new Size(281, 22);
             querySenderToolStripMenuItem.Text = "&Query Sender";
+            querySenderToolStripMenuItem.Click += querySenderToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
@@ -1462,6 +1472,7 @@
             // 
             // changeAppearanceToolStripMenuItem
             // 
+            changeAppearanceToolStripMenuItem.Enabled = false;
             changeAppearanceToolStripMenuItem.ForeColor = Color.White;
             changeAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             changeAppearanceToolStripMenuItem.Name = "changeAppearanceToolStripMenuItem";
@@ -1708,16 +1719,6 @@
             renameUnitToolStripMenuItem.Size = new Size(160, 22);
             renameUnitToolStripMenuItem.Text = "&Rename Unit";
             renameUnitToolStripMenuItem.Click += renameUnitToolStripMenuItem_Click;
-            // 
-            // writeMultipleRegistersToolStripMenuItem
-            // 
-            writeMultipleRegistersToolStripMenuItem.Enabled = false;
-            writeMultipleRegistersToolStripMenuItem.ForeColor = Color.White;
-            writeMultipleRegistersToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            writeMultipleRegistersToolStripMenuItem.Name = "writeMultipleRegistersToolStripMenuItem";
-            writeMultipleRegistersToolStripMenuItem.Size = new Size(281, 22);
-            writeMultipleRegistersToolStripMenuItem.Text = "Write Multiple Registers";
-            writeMultipleRegistersToolStripMenuItem.Click += writeMultipleRegistersToolStripMenuItem_Click;
             // 
             // ModbusRegisters
             // 

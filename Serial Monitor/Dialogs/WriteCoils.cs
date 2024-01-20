@@ -8,11 +8,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
 
 namespace Serial_Monitor.Dialogs {
     public partial class WriteCoils : Form, ITheme {
@@ -42,16 +44,28 @@ namespace Serial_Monitor.Dialogs {
         }
         private void WriteCoils_Load(object sender, EventArgs e) {
             ApplyTheme();
+            AdjustUserInterface();
+        }
+        private void AdjustUserInterface() {
+            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            lstCoils.ScaleColumnWidths();
         }
         public void ApplyTheme() {
             RecolorAll();
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveUp, moveUpToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveDown, moveDownToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, btnAdd, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, btnRemove, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveUp, btnMoveUp, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveDown, btnMoveDown, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
-
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         private void RecolorAll() {
             this.SuspendLayout();

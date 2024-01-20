@@ -133,13 +133,15 @@ namespace Serial_Monitor.ToolWindows {
                 lstRegisters.Invalidate();
             }
         }
-        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, object Data, int Index, DataSelection DataType) {
+        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
             if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
             if (snapshot.Manager.Manager == null) { return; }
             if (sender.Manager == null) { return; }
             if (snapshot.Manager.Manager.ID != sender.Manager.ID) { return; }
-            snapshot.UpdateRowAppearance(Index);
+            foreach (int i in Indices) {
+                snapshot.UpdateRowAppearance(i);
+            }
             lstRegisters.Invalidate();
         }
 

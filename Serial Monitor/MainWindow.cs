@@ -332,7 +332,7 @@ namespace Serial_Monitor {
                 ToolStripMenuItem Tsi = (ToolStripMenuItem)sender;
                 if (Tsi.Tag == null) { return; }
                 PlugIn Temp = (PlugIn)Tsi.Tag;
-                Form ?Frm = Temp.LoadWindow();
+                Form? Frm = Temp.LoadWindow();
                 if (Frm == null) { return; }
                 Frm.Show();
             }

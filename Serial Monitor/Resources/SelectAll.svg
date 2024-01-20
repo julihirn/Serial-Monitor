@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightSelectAll</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,0V16H0V0Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M14,1.49V11.5l-.5.5H12.47L9.13,8,7.47,6,6.63,5,6,4.24V12H1.5L1,11.5V1.49L1.49,1H13.51Z" />
+      <path class="light-defaultgrey" d="M1,11H2.01v1H1.5L1,11.5ZM2,3H1V4H2ZM3,2H4V1H3ZM3,12H4V11H3Zm2,0H6V11H5ZM2,1H1.49l-.5.5V2H2ZM2,5H1V6H2ZM2,7H1V8H2ZM1,10H2V9H1Zm12,0h1V9H13Zm0-6h1V3H13Zm0,2h1V5H13ZM13.5.99H13V2h1V1.49ZM13,8h1V7H13ZM7,2H8V1H7ZM5,2H6V1H5Zm8,10h.5l.5-.5v-.51H13ZM9,2h1V1H9Zm2,0h1V1H11Z" />
+    </g>
+    <path class="light-defaultgrey" d="M8.3,7H11V8H9.13ZM3,6H6V5H3Zm7-1H6.63l.84,1H10ZM3,8H6V7H3ZM3,3V4h9V3Z" />
+    <path class="light-blue" d="M9.575,12.861l1.032,2.84-.783.285-1.055-2.9L7,14.5V7l5,6Z" />
+  </g>
+</svg>

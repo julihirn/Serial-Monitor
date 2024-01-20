@@ -45,7 +45,6 @@ namespace Serial_Monitor.Components {
 
             InitializeComponent();
 
-
             SetStyle(ControlStyles.ContainerControl, true);
             this.LostFocus += EditValue_LostFocus;
         }
@@ -140,6 +139,7 @@ namespace Serial_Monitor.Components {
             Selection = Dsel;
             this.lstControl = ListCtrl;
             //this.Parameter = Parameter;
+            this.numericTextbox1.ArrowKeysControlNumber = false;
             this.ParentBounds = ParentBounds;
             this.LinkedControl = LinkedObject;
             this.Column = Column;
@@ -832,6 +832,30 @@ namespace Serial_Monitor.Components {
 
         private void splitContainer4_Panel1_Paint(object sender, PaintEventArgs e) {
 
+        }
+
+        private void EditValue_KeyPress(object sender, KeyPressEventArgs e) {
+
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if (keyData == Keys.Down) {
+                PushValue();
+                ArrowKeyPress?.Invoke(false);
+                return true;
+            }
+            else if (keyData == Keys.Up) {
+                PushValue();
+                ArrowKeyPress?.Invoke(true);
+                return true;
+            }
+            else {
+                return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+        private void EditValue_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) {
+            if (e.KeyCode == Keys.Down) {
+                ArrowKeyPress?.Invoke(false);
+            }
         }
     }
 }

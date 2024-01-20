@@ -130,6 +130,9 @@
   <data name="AudioMute" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AudioMute.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Binary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Binary.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="BooleanData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BooleanData.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -318,6 +321,9 @@
   </data>
   <data name="Save_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Save_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SelectAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SelectAll.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SelectRows" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectRows.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

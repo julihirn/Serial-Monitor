@@ -1,4 +1,5 @@
-﻿using ODModules;
+﻿using FastColoredTextBoxNS;
+using ODModules;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
@@ -257,6 +258,41 @@ namespace Serial_Monitor.Classes.Theming {
                 PrefixSc.DownColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
                 PrefixSc.HoverColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
+            else if (ControlObject.GetType() == typeof(DocumentMap)) {
+                DocumentMap DocMap = (DocumentMap)ControlObject;
+                DocMap.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                DocMap.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            }
+            else if (ControlObject.GetType() == typeof(FastColoredTextBox)) {
+                FastColoredTextBox FCTB = (FastColoredTextBox)ControlObject;
+                //FCTB.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                FCTB.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                Color SelectColor = Properties.Settings.Default.THM_COL_SelectedColor;
+                FCTB.SelectionColor = Color.FromArgb(127, SelectColor);
+                FCTB.IndentBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                FCTB.ServiceLinesColor = Properties.Settings.Default.THM_COL_BorderColor;
+                FCTB.LineNumberColor = Properties.Settings.Default.THM_COL_ForeColor;
+                FCTB.CaretColor = Properties.Settings.Default.THM_COL_ForeColor;
+                //FCTB.GridlineColor = Properties.Settings.Default.THM_COL_GridLineColor;
+                //FCTB.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
+                //FCTB.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
+                //FCTB.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
+                //FCTB.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
+                FCTB.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+                //FCTB.DropDownMouseDown = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                //FCTB.DropDownMouseOver = Properties.Settings.Default.THM_COL_MouseOverForeColor;
+            }
+            else if (ControlObject.GetType() == typeof(CheckBox)) {
+                CheckBox CxBx = (CheckBox)ControlObject;
+                CxBx.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            }
+            else if (ControlObject.GetType() == typeof(Label)) {
+                Label CxBx = (Label)ControlObject;
+                CxBx.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            }
         }
         #endregion
         public static Image DrawIcon(Theme Thm, Font ParentFont) {
@@ -479,7 +515,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.SecondaryForeColor = Color.Silver;
             Thm_Dark2.BorderColor = Color.Yellow;
             Thm_Dark2.SeperatorColor = Color.Yellow;
-            Thm_Dark2.SelectedColor = Color.FromArgb(1,0,164);
+            Thm_Dark2.SelectedColor = Color.FromArgb(1, 0, 164);
             Thm_Dark2.ScrollColor = Color.FromArgb(64, 64, 64);
             Thm_Dark2.SymbolColor = Color.FromArgb(137, 251, 252);
             Thm_Dark2.StopColor = Color.Red;

@@ -23,17 +23,28 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            Handlers.NumericalString numericalString1 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString3 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString4 = new Handlers.NumericalString();
             thSettings = new ODModules.TabHeader();
             tcPages = new ODModules.HiddenTabControl();
             tabPage1 = new TabPage();
+            cwMain = new ODModules.ColorWheel();
+            panel1 = new Panel();
+            cbxBack = new CheckBox();
+            cbxFore = new CheckBox();
+            label2 = new Label();
+            btnBack = new ODModules.Button();
+            label1 = new Label();
+            btnFore = new ODModules.Button();
+            lcsBrightness = new ODModules.LightnessColorSlider();
             tabPage2 = new TabPage();
             psMainScaler = new ODModules.PrefixScale();
             ntbTemplate = new ODModules.NumericTextbox();
             lblpnlUnit = new ODModules.LabelPanel();
             tbUnit = new ODModules.TextBox();
             tcPages.SuspendLayout();
+            tabPage1.SuspendLayout();
+            panel1.SuspendLayout();
             tabPage2.SuspendLayout();
             lblpnlUnit.SuspendLayout();
             SuspendLayout();
@@ -75,6 +86,7 @@
             thSettings.TabSelectedShadowColor = Color.Black;
             thSettings.TabStyle = ODModules.TabHeader.TabStyles.Underlined;
             thSettings.UseBindingTabControl = true;
+            thSettings.Load += thSettings_Load;
             // 
             // tcPages
             // 
@@ -96,6 +108,9 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(cwMain);
+            tabPage1.Controls.Add(panel1);
+            tabPage1.Controls.Add(lcsBrightness);
             tabPage1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Margin = new Padding(2, 1, 2, 1);
@@ -105,6 +120,159 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Appearance";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cwMain
+            // 
+            cwMain.Alpha = 1D;
+            cwMain.Dock = DockStyle.Fill;
+            cwMain.Location = new Point(128, 1);
+            cwMain.Name = "cwMain";
+            cwMain.ShowSaturationRing = true;
+            cwMain.Size = new Size(126, 143);
+            cwMain.TabIndex = 0;
+            cwMain.ColorChanged += cwMain_ColorChanged;
+            cwMain.LightnessChanged += cwMain_LightnessChanged;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(cbxBack);
+            panel1.Controls.Add(cbxFore);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(btnBack);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(btnFore);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(2, 1);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(10);
+            panel1.Size = new Size(126, 143);
+            panel1.TabIndex = 1;
+            // 
+            // cbxBack
+            // 
+            cbxBack.AutoSize = true;
+            cbxBack.ForeColor = Color.Black;
+            cbxBack.Location = new Point(13, 75);
+            cbxBack.Name = "cbxBack";
+            cbxBack.Size = new Size(105, 19);
+            cbxBack.TabIndex = 5;
+            cbxBack.Text = "Use Back Color";
+            cbxBack.UseVisualStyleBackColor = true;
+            // 
+            // cbxFore
+            // 
+            cbxFore.AutoSize = true;
+            cbxFore.ForeColor = Color.Black;
+            cbxFore.Location = new Point(13, 26);
+            cbxFore.Name = "cbxFore";
+            cbxFore.Size = new Size(101, 19);
+            cbxFore.TabIndex = 4;
+            cbxFore.Text = "Use Text Color";
+            cbxFore.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(43, 100);
+            label2.Name = "label2";
+            label2.Size = new Size(64, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Back Color";
+            // 
+            // btnBack
+            // 
+            btnBack.AllowGroupUnchecking = false;
+            btnBack.BackColorCheckedNorth = Color.Orange;
+            btnBack.BackColorCheckedSouth = Color.Orange;
+            btnBack.BackColorDownNorth = Color.DimGray;
+            btnBack.BackColorDownSouth = Color.DimGray;
+            btnBack.BackColorHoverNorth = Color.SkyBlue;
+            btnBack.BackColorHoverSouth = Color.SkyBlue;
+            btnBack.BackColorNorth = Color.White;
+            btnBack.BackColorSouth = Color.White;
+            btnBack.BorderColorCheckedNorth = Color.Black;
+            btnBack.BorderColorCheckedSouth = Color.Black;
+            btnBack.BorderColorDownNorth = Color.Black;
+            btnBack.BorderColorDownSouth = Color.Black;
+            btnBack.BorderColorHoverNorth = Color.Black;
+            btnBack.BorderColorHoverSouth = Color.Black;
+            btnBack.BorderColorNorth = Color.Black;
+            btnBack.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            btnBack.BorderColorSouth = Color.Black;
+            btnBack.BorderRadius = 5;
+            btnBack.Checked = false;
+            btnBack.GroupMaximumChecked = 2;
+            btnBack.Location = new Point(13, 100);
+            btnBack.Name = "btnBack";
+            btnBack.RadioButtonGroup = "";
+            btnBack.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnBack.SecondaryText = "";
+            btnBack.Size = new Size(24, 15);
+            btnBack.Style = ODModules.ButtonStyle.Square;
+            btnBack.TabIndex = 2;
+            btnBack.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btnBack.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            btnBack.Type = ODModules.ButtonType.Button;
+            btnBack.ButtonClicked += btnBack_ButtonClicked;
+            btnBack.Load += btnBack_Load;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(43, 48);
+            label1.Name = "label1";
+            label1.Size = new Size(60, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Text Color";
+            // 
+            // btnFore
+            // 
+            btnFore.AllowGroupUnchecking = false;
+            btnFore.BackColorCheckedNorth = Color.Orange;
+            btnFore.BackColorCheckedSouth = Color.Orange;
+            btnFore.BackColorDownNorth = Color.DimGray;
+            btnFore.BackColorDownSouth = Color.DimGray;
+            btnFore.BackColorHoverNorth = Color.SkyBlue;
+            btnFore.BackColorHoverSouth = Color.SkyBlue;
+            btnFore.BackColorNorth = Color.Black;
+            btnFore.BackColorSouth = Color.Black;
+            btnFore.BorderColorCheckedNorth = Color.Black;
+            btnFore.BorderColorCheckedSouth = Color.Black;
+            btnFore.BorderColorDownNorth = Color.Black;
+            btnFore.BorderColorDownSouth = Color.Black;
+            btnFore.BorderColorHoverNorth = Color.Black;
+            btnFore.BorderColorHoverSouth = Color.Black;
+            btnFore.BorderColorNorth = Color.Black;
+            btnFore.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            btnFore.BorderColorSouth = Color.Black;
+            btnFore.BorderRadius = 5;
+            btnFore.Checked = false;
+            btnFore.GroupMaximumChecked = 2;
+            btnFore.Location = new Point(13, 48);
+            btnFore.Name = "btnFore";
+            btnFore.RadioButtonGroup = "";
+            btnFore.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnFore.SecondaryText = "";
+            btnFore.Size = new Size(24, 15);
+            btnFore.Style = ODModules.ButtonStyle.Square;
+            btnFore.TabIndex = 0;
+            btnFore.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btnFore.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            btnFore.Type = ODModules.ButtonType.Button;
+            btnFore.ButtonClicked += btnFore_ButtonClicked;
+            btnFore.Load += btnFore_Load;
+            // 
+            // lcsBrightness
+            // 
+            lcsBrightness.Dock = DockStyle.Right;
+            lcsBrightness.Location = new Point(254, 1);
+            lcsBrightness.Name = "lcsBrightness";
+            lcsBrightness.Orientation = Orientation.Vertical;
+            lcsBrightness.Size = new Size(25, 143);
+            lcsBrightness.TabIndex = 6;
+            lcsBrightness.ValueChanged += lcsBrightness_ValueChanged;
             // 
             // tabPage2
             // 
@@ -143,6 +311,7 @@
             ntbTemplate.AllowNegatives = true;
             ntbTemplate.AllowNumberEntry = true;
             ntbTemplate.AllowTyping = true;
+            ntbTemplate.ArrowKeysControlNumber = true;
             ntbTemplate.AutoSizeToText = false;
             ntbTemplate.Base = ODModules.NumericTextbox.NumberBase.Base10;
             ntbTemplate.BorderColor = Color.DimGray;
@@ -161,12 +330,12 @@
             ntbTemplate.Marked = false;
             ntbTemplate.MarkedBackColor = Color.Empty;
             ntbTemplate.MarkedBorderColor = Color.Beige;
-            numericalString1.DisplayValue = "100";
-            numericalString1.Value = "100";
-            ntbTemplate.Maximum = numericalString1;
-            numericalString2.DisplayValue = "0";
-            numericalString2.Value = "0";
-            ntbTemplate.Minimum = numericalString2;
+            numericalString3.DisplayValue = "100";
+            numericalString3.Value = "100";
+            ntbTemplate.Maximum = numericalString3;
+            numericalString4.DisplayValue = "0";
+            numericalString4.Value = "0";
+            ntbTemplate.Minimum = numericalString4;
             ntbTemplate.Name = "ntbTemplate";
             ntbTemplate.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             ntbTemplate.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -223,13 +392,13 @@
             tbUnit.AutoCompleteSource = AutoCompleteSource.None;
             tbUnit.BackColor = SystemColors.Window;
             tbUnit.BorderColor = Color.MediumSlateBlue;
-            tbUnit.BorderSize = 2;
+            tbUnit.BorderSize = 1;
             tbUnit.Dock = DockStyle.Top;
             tbUnit.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point);
             tbUnit.ForeColor = Color.DimGray;
             tbUnit.Location = new Point(113, 0);
-            tbUnit.Margin = new Padding(2, 2, 2, 2);
-            tbUnit.MaxLength = 32767;
+            tbUnit.Margin = new Padding(2);
+            tbUnit.MaxLength = 15;
             tbUnit.Multiline = false;
             tbUnit.Name = "tbUnit";
             tbUnit.Padding = new Padding(4, 3, 4, 3);
@@ -257,6 +426,9 @@
             Name = "AppearancePopup";
             Size = new Size(289, 196);
             tcPages.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             lblpnlUnit.ResumeLayout(false);
@@ -273,5 +445,14 @@
         private ODModules.NumericTextbox ntbTemplate;
         private ODModules.TextBox tbUnit;
         private ODModules.LabelPanel lblpnlUnit;
+        private ODModules.ColorWheel cwMain;
+        private Panel panel1;
+        private CheckBox cbxBack;
+        private CheckBox cbxFore;
+        private Label label2;
+        private ODModules.Button btnBack;
+        private Label label1;
+        private ODModules.Button btnFore;
+        private ODModules.LightnessColorSlider lcsBrightness;
     }
 }

@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -48,6 +49,12 @@ namespace Serial_Monitor.Dialogs {
             EnumManager.LoadDataFormats(ddbFormat, CmDisplayFormat_Click);
             EnumManager.LoadDataSizes(ddbSize, CmDisplaySize_Click);
             ApplyTheme();
+            AdjustUserInterface();
+        }
+        private void AdjustUserInterface() {
+            tsFormat.Padding = DesignerSetup.ScalePadding(tsFormat.Padding);
+            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            lstRegisters.ScaleColumnWidths();
         }
         public void ApplyTheme() {
             RecolorAll();
@@ -98,21 +105,27 @@ namespace Serial_Monitor.Dialogs {
         }
         private void btnMoveUp_Click(object sender, EventArgs e) {
             lstRegisters.LineMove(false);
+            UpdateRegisterCounters(true);
         }
         private void btnMoveDown_Click(object sender, EventArgs e) {
             lstRegisters.LineMove(true);
+            UpdateRegisterCounters(true);
         }
         private void moveUpToolStripMenuItem_Click(object sender, EventArgs e) {
             lstRegisters.LineMove(false);
+            UpdateRegisterCounters(true);
         }
         private void moveDownToolStripMenuItem_Click(object sender, EventArgs e) {
             lstRegisters.LineMove(true);
+            UpdateRegisterCounters(true);
         }
         private void btnRemove_Click(object sender, EventArgs e) {
             lstRegisters.LineRemoveSelected();
+            UpdateRegisterCounters(true);
         }
         private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
             lstRegisters.LineRemoveSelected();
+            UpdateRegisterCounters(true);
         }
         private void WriteRegisters_FormClosing(object sender, FormClosingEventArgs e) {
             lstRegisters.LineRemoveAll();
@@ -129,6 +142,7 @@ namespace Serial_Monitor.Dialogs {
             set {
                 dataSize = value;
                 Words = EnumManager.DataSizeToInteger(dataSize) / 16;
+                if (Words == 0) { Words = 1; }
                 SetFlags();
                 ClearControls(lstRegisters);
             }
@@ -211,6 +225,7 @@ namespace Serial_Monitor.Dialogs {
             ValueItem.Tag = 0;
             itemBasis.SubItems.Add(ValueItem);
             lstRegisters.Items.Add(itemBasis);
+            UpdateRegisterCounters(false);
             lstRegisters.Invalidate();
         }
         private void Send() {
@@ -329,6 +344,17 @@ namespace Serial_Monitor.Dialogs {
         public void ClearControls(ODModules.ListControl LstCtrl) {
             LstCtrl.Controls.Clear();
         }
-
+        private void UpdateRegisterCounters(bool Redraw = true) {
+            int Count = 0; int.TryParse(numtxtAddress.Value.ToString(), out Count);
+            foreach (ListItem Li in lstRegisters.Items) {
+                Li.Text = Count.ToString();
+                Count += Words;
+            }
+            if (Redraw == false) { return; }
+            lstRegisters.Invalidate();
+        }
+        private void numtxtAddress_ValueChanged(object sender, ValueChangedEventArgs e) {
+            UpdateRegisterCounters(true);
+        }
     }
 }

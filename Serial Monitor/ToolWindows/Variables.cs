@@ -201,6 +201,7 @@ namespace Serial_Monitor.ToolWindows {
             ProgramManager.ProgramRemoved -= ProgramManager_ProgramRemoved;
             ProgramManager.ArrayChanged -= ProgramManager_ArrayChanged;
             ProgramManager.ProgramEditorChanged -= ProgramManager_ProgramEditorChanged;
+            ProgramManager.ProgramVariableChanged -= ProgramManager_ProgramVariableChanged;
         }
         private void ProgramManager_ProgramRemoved(string ID) {
             if (selectedProgram == null) { return; }
@@ -585,6 +586,10 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void arrayToolStripMenuItem_Click(object sender, EventArgs e) {
             thDataPagesHeader.SelectedIndex = 2;
+        }
+
+        private void Variables_HelpButtonClicked(object sender, CancelEventArgs e) {
+
         }
     }
 }

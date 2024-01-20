@@ -14,7 +14,7 @@
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.9.560.0</Version>
+    <Version>1.10.630.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -38,7 +38,7 @@
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
-    <PackageReference Include="ODModules" Version="2.0.17" />
+    <PackageReference Include="ODModules" Version="2.0.17.4" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.1" />

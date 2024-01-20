@@ -507,6 +507,18 @@ namespace Serial_Monitor.Classes.Modbus {
             else if (Input.A.ToLower() == "format") {
                 Format = EnumManager.StringToDataFormat(Input.B);
             }
+            else if (Input.A.ToLower() == "forecolor") {
+                int Temp = 0;
+                int.TryParse(Input.B, out Temp);
+                ForeColor = Color.FromArgb(Temp);
+                UseForeColor = true;
+            }
+            else if (Input.A.ToLower() == "backcolor") {
+                int Temp = 0;
+                int.TryParse(Input.B, out Temp);
+                BackColor = Color.FromArgb(Temp);
+                UseBackColor = true;
+            }
             else if (Input.A.ToLower() == "size") {
                 int Temp = 0;
                 int.TryParse(Input.B, out Temp);

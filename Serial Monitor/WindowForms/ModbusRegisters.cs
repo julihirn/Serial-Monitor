@@ -4,6 +4,7 @@ using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Components;
+using Serial_Monitor.WindowForms;
 using Svg;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
+using static System.Windows.Forms.AxHost;
 using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor {
@@ -78,13 +80,7 @@ namespace Serial_Monitor {
             LoadForms();
             EnableDisableDialogEditors();
         }
-
-        private void AppearancePopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
-            Debug.Print("C");
-        }
-
         private void AppearancePopupHost_Opening(object? sender, CancelEventArgs e) {
-            Debug.Print("O");
         }
         #region Startup
         private void LoadChannels() {
@@ -121,10 +117,15 @@ namespace Serial_Monitor {
             SystemManager.SlaveAdded += SystemManager_SlaveAdded;
             SystemManager.SlaveChanged += SystemManager_SlaveChanged;
 
+            SystemManager.ModbusAppearanceChanged += SystemManager_ModbusAppearanceChanged;
+
             AppearancePopupHost.Opening += AppearancePopupHost_Opening;
             AppearancePopupHost.Closing += AppearancePopupHost_Closing;
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
         }
+
+
+
         private void LoadForms() {
             foreach (ModbusSnapshot Snap in ModbusSupport.Snapshots) {
                 ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap, true);
@@ -352,6 +353,8 @@ namespace Serial_Monitor {
                 else {
                     SetFormatters(false);
                 }
+                resetAppearanceToolStripMenuItem.Enabled = true;
+                changeAppearanceToolStripMenuItem.Enabled = true;
             }
             else {
                 try {
@@ -359,6 +362,8 @@ namespace Serial_Monitor {
                         if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
                             ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                             if (Snap != null) {
+                                resetAppearanceToolStripMenuItem.Enabled = true;
+                                changeAddressToolStripMenuItem.Enabled = true;
                                 if (Snap.Selection > DataSelection.ModbusDataDiscreteInputs) {
                                     SetFormatters(true);
                                 }
@@ -368,15 +373,21 @@ namespace Serial_Monitor {
                             }
                         }
                         else {
+                            resetAppearanceToolStripMenuItem.Enabled = false;
+                            changeAppearanceToolStripMenuItem.Enabled = false;
                             SetFormatters(false);
                         }
                     }
                     else {
+                        resetAppearanceToolStripMenuItem.Enabled = false;
+                        changeAppearanceToolStripMenuItem.Enabled = false;
                         SetFormatters(false);
                     }
 
                 }
                 catch {
+                    resetAppearanceToolStripMenuItem.Enabled = false;
+                    changeAppearanceToolStripMenuItem.Enabled = false;
                     SetFormatters(false);
                 }
             }
@@ -684,7 +695,11 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Binary, bitTogglerToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, selectAllToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectRows, btnSelectionToSnapshot, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -795,10 +810,47 @@ namespace Serial_Monitor {
             }
             return null;
         }
-
+        private ModbusSlave? GetCurrentSlave() {
+            if (currentEditorView == DataEditor.MasterView) {
+                if (CurrentManager == null) { return null; }
+                if (CurrentManager.IsMaster) {
+                    return CurrentManager.Slave[slaveindex];
+                }
+                else {
+                    return CurrentManager.Registers;
+                }
+            }
+            else {
+                try {
+                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                        if (Snap == null) { return null; }
+                        return Snap.Manager;
+                    }
+                }
+                catch { }
+            }
+            return null;
+        }
+        private DataSelection? GetDataSelection() {
+            if (currentEditorView == DataEditor.MasterView) {
+                return DataSet;
+            }
+            else {
+                try {
+                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                        if (Snap == null) { return null; }
+                        return Snap.Selection;
+                    }
+                }
+                catch { }
+            }
+            return null;
+        }
         private void EdVal_ArrowKeyPress(bool IsUp) {
             if (IsUp == false) {
-
+                lstMonitor.SelectNextDropDown();
             }
         }
         bool ApplyOnClick = false;
@@ -947,6 +999,8 @@ namespace Serial_Monitor {
             ModbusSupport.SnapshotClosed -= ModbusSupport_SnapshotClosed;
 
             SystemManager.PortStatusChanged -= SystemManager_PortStatusChanged;
+
+            SystemManager.ModbusAppearanceChanged -= SystemManager_ModbusAppearanceChanged;
 
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
@@ -1440,12 +1494,45 @@ namespace Serial_Monitor {
             catch { }
         }
         private void resetAppearanceToolStripMenuItem_Click(object sender, EventArgs e) {
+            ListControl? Lst = GetCurrentListView();
+            if (Lst == null) { return; }
+            List<int> Indices = ModbusEditor.ResetAppearance(sender, Lst);
+            DataSelection? Select = GetDataSelection();
 
+            SystemManager.ModbusRegisterAppearanceChanged(GetCurrentSlave(), Indices, Select);
+        }
+        private void AppearancePopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            ModbusAppearance MbAppear = new ModbusAppearance(popAppearance.UseItemForeColor, popAppearance.ItemForeColor, popAppearance.UseItemBackColor, popAppearance.ItemBackColor);
+            List<int> Indices = ModbusEditor.ChangeEntireAppearance(sender, popAppearance.LinkedList, MbAppear);
+            popAppearance.LinkedList = null;
+            DataSelection? Select = GetDataSelection();
+
+            SystemManager.ModbusRegisterAppearanceChanged(GetCurrentSlave(), Indices, Select);
         }
         private void ddpDataSize_Click(object sender, EventArgs e) {
 
         }
-        #endregion 
+
+        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+            if (CurrentManager == null) { return; }
+            if (sender.Manager == null) { return; }
+            if (CurrentManager.ID != sender.Manager.ID) { return; }
+            if (lstMonitor.CurrentItems.Count == 0) { return; }
+            foreach (int i in Indices) {
+                if (i < lstMonitor.CurrentItems.Count) {
+                    object? Data = lstMonitor.CurrentItems[i].Tag;
+                    if (Data == null) { continue; }
+                    //if (Data.GetType() != typeof(ModbusObject)) { continue; }
+                    ModbusObject MBObject = (ModbusObject)Data;
+                    lstMonitor.CurrentItems[i].UseLineBackColor = MBObject.UseBackColor;
+                    lstMonitor.CurrentItems[i].LineBackColor = MBObject.BackColor;
+                    lstMonitor.CurrentItems[i].UseLineForeColor = MBObject.UseForeColor;
+                    lstMonitor.CurrentItems[i].LineForeColor = MBObject.ForeColor;
+                }
+            }
+            lstMonitor.Invalidate();
+        }
+        #endregion
         #region Renaming
         bool InRenameMode = false;
         private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
@@ -1773,6 +1860,9 @@ namespace Serial_Monitor {
         }
 
         private void changeAppearanceToolStripMenuItem_Click(object sender, EventArgs e) {
+            ListControl? CurrentEditor = GetCurrentListView();
+            popAppearance.LinkedList = CurrentEditor;
+
             AppearancePopupHost.ShowAndCentre(this);
         }
         private bool BitToggleEnabled() {
@@ -1815,8 +1905,10 @@ namespace Serial_Monitor {
         private void lstMonitor_ValueChanged() {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
-
-       
+        private void querySenderToolStripMenuItem_Click(object sender, EventArgs e) {
+            QueryEditor QueryApp = new QueryEditor();
+            ApplicationManager.OpenInternalApplicationOnce(QueryApp, true);
+        }
 
         private enum DataEditor {
             MasterView = 0x00,

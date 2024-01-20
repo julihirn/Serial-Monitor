@@ -48,6 +48,18 @@ namespace Serial_Monitor.Classes.Modbus {
             else if (Input.A.ToLower() == "value") {
                 Value = (Input.B == "1" ? true : false);
             }
+            else if (Input.A.ToLower() == "forecolor") {
+                int Temp = 0;
+                int.TryParse(Input.B, out Temp);
+                ForeColor = Color.FromArgb(Temp);
+                UseForeColor = true;
+            }
+            else if (Input.A.ToLower() == "backcolor") {
+                int Temp = 0;
+                int.TryParse(Input.B, out Temp);
+                BackColor = Color.FromArgb(Temp);
+                UseBackColor = true;
+            }
         }
         #endregion
         public void Reset() {
