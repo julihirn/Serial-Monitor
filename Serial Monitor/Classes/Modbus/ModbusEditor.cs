@@ -94,7 +94,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 PLi.Value = Index;
                 PLi.UseLineBackColor = Coil.UseBackColor;
                 PLi.UseLineForeColor = Coil.UseForeColor;
-                PLi.LineBackColor= Coil.BackColor;
+                PLi.LineBackColor = Coil.BackColor;
                 PLi.LineForeColor = Coil.ForeColor;
                 ListSubItem CLi1 = new ListSubItem(Coil.Name);
                 ListSubItem CLi2 = new ListSubItem("Boolean");
@@ -113,7 +113,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index].Tag = Coil;
                 MasterRegisterEditor[Index].UseLineBackColor = Coil.UseBackColor;
                 MasterRegisterEditor[Index].UseLineForeColor = Coil.UseForeColor;
-                MasterRegisterEditor[Index].LineBackColor= Coil.BackColor;
+                MasterRegisterEditor[Index].LineBackColor = Coil.BackColor;
                 MasterRegisterEditor[Index].LineForeColor = Coil.ForeColor;
                 MasterRegisterEditor[Index][Indx_Name].Text = Coil.Name;
                 MasterRegisterEditor[Index][Indx_Display].Text = "Boolean";
@@ -224,6 +224,26 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ClearControls(ListControl LstCtrl) {
             LstCtrl.Controls.Clear();
             GC.Collect();
+        }
+        #endregion
+        #region Editing Support
+        public static bool ItemInBounds(ListControl DataList, int Index, uint Column) {
+            if (Index < 0) { return false; }
+            if (DataList.CurrentItems.Count > 0) {
+                if (Index < DataList.CurrentItems.Count) {
+                    if (Column == 0) {
+                        return true;
+                    }
+                    else {
+                        if (DataList.CurrentItems[Index].SubItems.Count > 0) {
+                            if (DataList.CurrentItems[Index].SubItems.Count > Column - 1) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         }
         #endregion
         #region Appearance/View
@@ -609,6 +629,10 @@ namespace Serial_Monitor.Classes.Modbus {
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeSize)) {
                                 Reg.Size = DataSize.Bits16;
                             }
+                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
+                                Reg.UseBackColor = false;
+                                Reg.UseForeColor = false;
+                            }
                         }
                         else if (objCmd.GetType() == typeof(ModbusCoil)) {
                             ModbusCoil Reg = (ModbusCoil)objCmd;
@@ -619,6 +643,10 @@ namespace Serial_Monitor.Classes.Modbus {
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
                                 Reg.Value = false;
+                            }
+                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
+                                Reg.UseBackColor = false;
+                                Reg.UseForeColor = false;
                             }
                         }
                         if (ClearSelection == true) {
@@ -664,6 +692,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             ListEditor.Invalidate();
+            if (Output.Trim().Length <= 0) { return; }
             Clipboard.SetText(Output);
         }
         public static void CopyRegisters(ListControl? ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
@@ -677,12 +706,12 @@ namespace Serial_Monitor.Classes.Modbus {
                         if (objCmd == null) { continue; }
                         if (objCmd.GetType() == typeof(ModbusRegister)) {
                             ModbusRegister Reg = (ModbusRegister)objCmd;
-                            ModbusDataObject DataItem = new ModbusDataObject(Reg.Name, Reg.Value, Reg.Signed, Reg.Format, Reg.Size, Flags);
+                            ModbusDataObject DataItem = new ModbusDataObject(Reg.Name, Reg.Value, Reg.Signed, Reg.Format, Reg.Size, Reg.UseForeColor, Reg.ForeColor, Reg.UseBackColor, Reg.BackColor, Flags);
                             list.Add(DataItem);
                         }
                         else if (objCmd.GetType() == typeof(ModbusCoil)) {
                             ModbusCoil Reg = (ModbusCoil)objCmd;
-                            ModbusDataObject DataItem = new ModbusDataObject(Reg.Name, Reg.Value, Flags);
+                            ModbusDataObject DataItem = new ModbusDataObject(Reg.Name, Reg.Value, Reg.UseForeColor, Reg.ForeColor, Reg.UseBackColor, Reg.BackColor, Flags);
                             list.Add(DataItem);
                         }
                         if (ClearSelection == true) {
@@ -700,9 +729,15 @@ namespace Serial_Monitor.Classes.Modbus {
             if (ListEditor == null) { return; }
             object? Data = Clipboard.GetDataObject();
             if (Clipboard.ContainsData(Clipboard_ModbusDataType)) {
+                List<int> Indices = new List<int>();
+                bool LatchedSlave = false;
+                ModbusSlave? Slave = null;
+                DataSelection Selection = DataSelection.ModbusDataCoils;
                 try {
                     if (ListEditor.CurrentItems == null) { return; }
-                    List<ModbusDataObject>? CopiedItems = (List<ModbusDataObject>)Clipboard.GetData(Clipboard_ModbusDataType);
+                    object? PackagedData = Clipboard.GetData(Clipboard_ModbusDataType);
+                    if (PackagedData == null) { return; }
+                    List<ModbusDataObject>? CopiedItems = (List<ModbusDataObject>)PackagedData;
                     if (CopiedItems == null) { return; }
                     if (CopiedItems.Count <= 0) { return; }
                     if (ListEditor.SelectionCount <= 0) { return; }
@@ -733,6 +768,18 @@ namespace Serial_Monitor.Classes.Modbus {
                                         if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeSize)) {
                                             Reg.Size = CopiedItems[j].Size;
                                         }
+                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeAppearance)) {
+                                            Reg.BackColor = CopiedItems[j].BackColor;
+                                            Reg.ForeColor = CopiedItems[j].ForeColor;
+                                            Reg.UseBackColor = CopiedItems[j].UseBackColor;
+                                            Reg.UseForeColor = CopiedItems[j].UseForeColor;
+                                            Indices.Add(k);
+                                            if (LatchedSlave == false) {
+                                                Slave = Reg.Parent;
+                                                Selection = Reg.ComponentType;
+                                                LatchedSlave = true;
+                                            }
+                                        }
                                     }
                                     else if (objCmd.GetType() == typeof(ModbusCoil)) {
                                         ModbusCoil Reg = (ModbusCoil)objCmd;
@@ -746,6 +793,18 @@ namespace Serial_Monitor.Classes.Modbus {
                                                 Reg.Value = (bool)CopiedItems[j].Value;
                                             }
                                         }
+                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeAppearance)) {
+                                            Reg.BackColor = CopiedItems[j].BackColor;
+                                            Reg.ForeColor = CopiedItems[j].ForeColor;
+                                            Reg.UseBackColor = CopiedItems[j].UseBackColor;
+                                            Reg.UseForeColor = CopiedItems[j].UseForeColor;
+                                            Indices.Add(k);
+                                            if (LatchedSlave == false) {
+                                                Slave = Reg.Parent;
+                                                Selection = Reg.ComponentType;
+                                                LatchedSlave = true;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -755,6 +814,9 @@ namespace Serial_Monitor.Classes.Modbus {
                     ListEditor.Invalidate();
                 }
                 catch { }
+                if (Indices.Count > 0) {
+                    SystemManager.ModbusRegisterAppearanceChanged(Slave, Indices, Selection);
+                }
             }
             else {
                 PasteRegisterNames(ListEditor);
@@ -973,11 +1035,17 @@ namespace Serial_Monitor.Classes.Modbus {
                             Reg.BackColor = Settings.BackColor;
                             Reg.ForeColor = Settings.ForeColor;
 
+                            Reg.Unit = Settings.Unit;
+                            Reg.Prefix = Settings.Prefix;
+
                             Li.LineBackColor = Settings.BackColor;
                             Li.LineForeColor = Settings.ForeColor;
 
                             Li.UseLineForeColor = Settings.UseForeColor;
                             Li.UseLineBackColor = Settings.UseBackColor;
+
+
+                            Li.Text = Reg.ValueWithUnit;
 
                             Indices.Add(Li.Value);
                         }
@@ -1033,11 +1101,24 @@ namespace Serial_Monitor.Classes.Modbus {
         public Color BackColor;
         public bool UseForeColor;
         public bool UseBackColor;
+        public string Unit;
+        public ConversionHandler.Prefix Prefix;
         public ModbusAppearance(bool UseForeColor, Color ForeColor, bool UseBackColor, Color BackColor) {
             this.UseForeColor = UseForeColor;
             this.ForeColor = ForeColor;
             this.UseBackColor = UseBackColor;
             this.BackColor = BackColor;
+            this.Unit = "";
+            this.Prefix = ConversionHandler.Prefix.None;
+
+        }
+        public ModbusAppearance(bool UseForeColor, Color ForeColor, bool UseBackColor, Color BackColor, string Unit, ConversionHandler.Prefix Prefix) {
+            this.UseForeColor = UseForeColor;
+            this.ForeColor = ForeColor;
+            this.UseBackColor = UseBackColor;
+            this.BackColor = BackColor;
+            this.Unit = Unit;
+            this.Prefix = Prefix;
         }
     }
 }

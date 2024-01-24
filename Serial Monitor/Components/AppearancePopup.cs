@@ -70,6 +70,12 @@ namespace Serial_Monitor.Components {
             get { return cbxBack.Checked; }
             set { cbxBack.Checked = value; }
         }
+        public string Unit {
+            get { return ntbTemplate.Unit; }
+        }
+        public ConversionHandler.Prefix Prefix {
+            get { return (ConversionHandler.Prefix)ntbTemplate.Prefix; }
+        }
         protected override void OnValidated(EventArgs e) {
             base.OnValidated(e);
         }

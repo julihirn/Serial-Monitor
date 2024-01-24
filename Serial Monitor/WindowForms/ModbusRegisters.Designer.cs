@@ -35,8 +35,8 @@
             ODModules.ListSubItem listSubItem2 = new ODModules.ListSubItem();
             ODModules.ListSubItem listSubItem3 = new ODModules.ListSubItem();
             ODModules.ListSubItem listSubItem4 = new ODModules.ListSubItem();
-            ODModules.Tab tab1 = new ODModules.Tab();
             ODModules.Tab tab2 = new ODModules.Tab();
+            ODModules.Tab tab3 = new ODModules.Tab();
             navigator1 = new ODModules.Navigator();
             lstMonitor = new ODModules.ListControl();
             cmMonitor = new ODModules.ContextMenu();
@@ -88,6 +88,7 @@
             copyNamesToolStripMenuItem = new ToolStripMenuItem();
             copyFormatsToolStripMenuItem = new ToolStripMenuItem();
             copyValuesToolStripMenuItem = new ToolStripMenuItem();
+            copyAppearanceToolStripMenuItem = new ToolStripMenuItem();
             copyAsTextToolStripMenuItem = new ToolStripMenuItem();
             pasteToolStripMenuItem = new ToolStripMenuItem();
             resetToolStripMenuItem = new ToolStripMenuItem();
@@ -622,10 +623,10 @@
             thSlaves.TabHoverBackColor = Color.LightGray;
             thSlaves.TabIndex = 7;
             thSlaves.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab1.Selected = true;
-            tab1.Tag = null;
-            tab1.Text = "Main";
-            thSlaves.Tabs.Add(tab1);
+            tab2.Selected = true;
+            tab2.Tag = null;
+            tab2.Text = "Main";
+            thSlaves.Tabs.Add(tab2);
             thSlaves.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedForeColor = Color.WhiteSmoke;
@@ -634,6 +635,7 @@
             thSlaves.UseBindingTabControl = false;
             thSlaves.HeaderClicked += thSlaves_HeaderClicked;
             thSlaves.CloseButtonClicked += thSlaves_CloseButtonClicked;
+            thSlaves.TabDoubleClicked += thSlaves_TabDoubleClicked;
             thSlaves.SelectedIndexChanged += thSlaves_SelectedIndexChanged;
             // 
             // tpRegisterFiltering
@@ -692,10 +694,10 @@
             thDataPagesHeader.TabHoverBackColor = Color.LightGray;
             thDataPagesHeader.TabIndex = 6;
             thDataPagesHeader.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab2.Selected = true;
-            tab2.Tag = null;
-            tab2.Text = "";
-            thDataPagesHeader.Tabs.Add(tab2);
+            tab3.Selected = true;
+            tab3.Tag = null;
+            tab3.Text = "";
+            thDataPagesHeader.Tabs.Add(tab3);
             thDataPagesHeader.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedForeColor = Color.WhiteSmoke;
@@ -928,7 +930,7 @@
             // 
             // copySpecialToolStripMenuItem
             // 
-            copySpecialToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { copyNamesToolStripMenuItem, copyFormatsToolStripMenuItem, copyValuesToolStripMenuItem });
+            copySpecialToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { copyNamesToolStripMenuItem, copyFormatsToolStripMenuItem, copyValuesToolStripMenuItem, copyAppearanceToolStripMenuItem });
             copySpecialToolStripMenuItem.ForeColor = Color.White;
             copySpecialToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             copySpecialToolStripMenuItem.Name = "copySpecialToolStripMenuItem";
@@ -940,7 +942,7 @@
             copyNamesToolStripMenuItem.ForeColor = Color.White;
             copyNamesToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             copyNamesToolStripMenuItem.Name = "copyNamesToolStripMenuItem";
-            copyNamesToolStripMenuItem.Size = new Size(148, 22);
+            copyNamesToolStripMenuItem.Size = new Size(168, 22);
             copyNamesToolStripMenuItem.Text = "Copy &Names";
             copyNamesToolStripMenuItem.Click += copyNamesToolStripMenuItem_Click;
             // 
@@ -949,7 +951,7 @@
             copyFormatsToolStripMenuItem.ForeColor = Color.White;
             copyFormatsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             copyFormatsToolStripMenuItem.Name = "copyFormatsToolStripMenuItem";
-            copyFormatsToolStripMenuItem.Size = new Size(148, 22);
+            copyFormatsToolStripMenuItem.Size = new Size(168, 22);
             copyFormatsToolStripMenuItem.Text = "Copy &Formats";
             copyFormatsToolStripMenuItem.Click += copyFormatsToolStripMenuItem_Click;
             // 
@@ -958,9 +960,18 @@
             copyValuesToolStripMenuItem.ForeColor = Color.White;
             copyValuesToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             copyValuesToolStripMenuItem.Name = "copyValuesToolStripMenuItem";
-            copyValuesToolStripMenuItem.Size = new Size(148, 22);
+            copyValuesToolStripMenuItem.Size = new Size(168, 22);
             copyValuesToolStripMenuItem.Text = "Copy &Values";
             copyValuesToolStripMenuItem.Click += copyValuesToolStripMenuItem_Click;
+            // 
+            // copyAppearanceToolStripMenuItem
+            // 
+            copyAppearanceToolStripMenuItem.ForeColor = Color.White;
+            copyAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            copyAppearanceToolStripMenuItem.Name = "copyAppearanceToolStripMenuItem";
+            copyAppearanceToolStripMenuItem.Size = new Size(168, 22);
+            copyAppearanceToolStripMenuItem.Text = "Copy &Appearance";
+            copyAppearanceToolStripMenuItem.Click += copyAppearanceToolStripMenuItem_Click;
             // 
             // copyAsTextToolStripMenuItem
             // 
@@ -1346,7 +1357,7 @@
             newUnitToolStripMenuItem1.ForeColor = Color.White;
             newUnitToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             newUnitToolStripMenuItem1.Name = "newUnitToolStripMenuItem1";
-            newUnitToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.I;
+            newUnitToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.E;
             newUnitToolStripMenuItem1.Size = new Size(281, 22);
             newUnitToolStripMenuItem1.Text = "&New Unit";
             newUnitToolStripMenuItem1.Click += newUnitToolStripMenuItem1_Click;
@@ -1402,7 +1413,7 @@
             ddbDisplayFormat.ForeColor = Color.White;
             ddbDisplayFormat.ImageScaling = ToolStripItemImageScaling.None;
             ddbDisplayFormat.Name = "ddbDisplayFormat";
-            ddbDisplayFormat.Size = new Size(181, 22);
+            ddbDisplayFormat.Size = new Size(223, 22);
             ddbDisplayFormat.Text = "&Display";
             // 
             // ddpDataSize
@@ -1411,7 +1422,7 @@
             ddpDataSize.ForeColor = Color.White;
             ddpDataSize.ImageScaling = ToolStripItemImageScaling.None;
             ddpDataSize.Name = "ddpDataSize";
-            ddpDataSize.Size = new Size(181, 22);
+            ddpDataSize.Size = new Size(223, 22);
             ddpDataSize.Text = "Data &Size";
             ddpDataSize.Click += ddpDataSize_Click;
             // 
@@ -1422,7 +1433,7 @@
             btnSigned.ForeColor = Color.White;
             btnSigned.ImageScaling = ToolStripItemImageScaling.None;
             btnSigned.Name = "btnSigned";
-            btnSigned.Size = new Size(181, 22);
+            btnSigned.Size = new Size(223, 22);
             btnSigned.Text = "Si&gned";
             // 
             // ddbSigned
@@ -1455,20 +1466,20 @@
             // toolStripSeparator20
             // 
             toolStripSeparator20.Name = "toolStripSeparator20";
-            toolStripSeparator20.Size = new Size(178, 6);
+            toolStripSeparator20.Size = new Size(220, 6);
             // 
             // ddbWordOrder
             // 
             ddbWordOrder.Enabled = false;
             ddbWordOrder.ForeColor = Color.White;
             ddbWordOrder.Name = "ddbWordOrder";
-            ddbWordOrder.Size = new Size(181, 22);
+            ddbWordOrder.Size = new Size(223, 22);
             ddbWordOrder.Text = "&Word Order";
             // 
             // toolStripSeparator17
             // 
             toolStripSeparator17.Name = "toolStripSeparator17";
-            toolStripSeparator17.Size = new Size(178, 6);
+            toolStripSeparator17.Size = new Size(220, 6);
             // 
             // changeAppearanceToolStripMenuItem
             // 
@@ -1476,7 +1487,8 @@
             changeAppearanceToolStripMenuItem.ForeColor = Color.White;
             changeAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             changeAppearanceToolStripMenuItem.Name = "changeAppearanceToolStripMenuItem";
-            changeAppearanceToolStripMenuItem.Size = new Size(181, 22);
+            changeAppearanceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.U;
+            changeAppearanceToolStripMenuItem.Size = new Size(223, 22);
             changeAppearanceToolStripMenuItem.Text = "Change &Appearance";
             changeAppearanceToolStripMenuItem.Click += changeAppearanceToolStripMenuItem_Click;
             // 
@@ -1486,7 +1498,7 @@
             resetAppearanceToolStripMenuItem.ForeColor = Color.White;
             resetAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             resetAppearanceToolStripMenuItem.Name = "resetAppearanceToolStripMenuItem";
-            resetAppearanceToolStripMenuItem.Size = new Size(181, 22);
+            resetAppearanceToolStripMenuItem.Size = new Size(223, 22);
             resetAppearanceToolStripMenuItem.Text = "&Reset Appearance";
             resetAppearanceToolStripMenuItem.Click += resetAppearanceToolStripMenuItem_Click;
             // 
@@ -1523,6 +1535,7 @@
             // 
             optionsToolStripMenuItem.ForeColor = Color.White;
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            optionsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.I;
             optionsToolStripMenuItem.Size = new Size(187, 22);
             optionsToolStripMenuItem.Text = "&Options";
             optionsToolStripMenuItem.Click += optionsToolStripMenuItem_Click;
@@ -1893,5 +1906,6 @@
         private ToolStripMenuItem writeMultipleCoilsToolStripMenuItem;
         private ToolStripMenuItem writeRegisterMaskToolStripMenuItem;
         private ToolStripMenuItem writeMultipleRegistersToolStripMenuItem;
+        private ToolStripMenuItem copyAppearanceToolStripMenuItem;
     }
 }

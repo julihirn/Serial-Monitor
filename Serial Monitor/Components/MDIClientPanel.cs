@@ -117,6 +117,7 @@ namespace Serial_Monitor.Components {
             get {
                 if (_mdiForm == null) {
                     _mdiForm = new Form();
+                    //_mdiForm.IsMdiContainer = true; 
                     // Set the hidden _ctlClient field which is used to determine if the form is an MDI form
                     System.Reflection.FieldInfo? field = typeof(Form).GetField("ctlClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
                     if (field != null) {

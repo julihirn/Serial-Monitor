@@ -82,10 +82,10 @@ namespace Serial_Monitor.Classes {
             ChannelSelectedChanged?.Invoke(sender);
         }
 
-        public static void ModbusDiagnosticsReturn(SerialManager ? SerMan, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data) {
+        public static void ModbusDiagnosticsReturn(SerialManager? SerMan, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data) {
             ModbusDiagnosticsReceived?.Invoke(SerMan, Slave, SubFunction, Data);
         }
-        public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, List<int> Indices, DataSelection ?DataType) {
+        public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, List<int> Indices, DataSelection? DataType) {
             if (Sender == null) { return; }
             if (Sender.Manager == null) { return; }
             if (DataType == null) { return; }
@@ -120,6 +120,55 @@ namespace Serial_Monitor.Classes {
             if (CurrentManager.Manager.IsMaster == false) { return; }
             if ((DataSet == DataSelection.ModbusDataCoils) || (DataSet == DataSelection.ModbusDataHoldingRegisters)) {
                 CurrentManager.Manager.ModbusCommand("Unit " + CurrentManager.Address + " " + Command);
+            }
+        }
+        public static void SendModbusCommand(SerialManager? CurrentManager, string Command) {
+            if (CurrentManager == null) { return; }
+            if (CurrentManager.IsMaster == false) { return; }
+            CurrentManager.ModbusCommand(Command);
+        }
+        public static void ExecuteModbusQuery(string Query) {
+            string NextQuery = Query;
+            while (NextQuery.Length > 1) {
+                string CurrentQuery = Classes.CommandManager.GetQuery(NextQuery, ref NextQuery);
+                List<StringPair> Vars = GetModbusQueryVariables(ref CurrentQuery);
+                ApplyModbusQueryVariables(ref CurrentQuery, Vars);
+                string ChannelName = "";
+                bool State = Classes.CommandManager.GetValue(ref CurrentQuery, "USING", out ChannelName, false);
+                if (State == false) { break; }
+                SerialManager? Current = SystemManager.GetChannel(ChannelName);
+                if (Current == null) { break; }
+                bool WasMaster = Current.IsMaster;
+                bool ResetMaster = false;
+                CurrentQuery = CurrentQuery.ToUpper();
+                if (Classes.CommandManager.TestKeyword(ref CurrentQuery, "AS")) {
+                    if (Classes.CommandManager.TestKeyword(ref CurrentQuery, "MASTER")) {
+                        Current.IsMaster = true;
+                        ResetMaster = true;
+                    }
+                }
+                SystemManager.SendModbusCommand(Current, CurrentQuery);
+                if (ResetMaster == true) { Current.IsMaster = WasMaster; }
+            }
+        }
+        private static List<StringPair> GetModbusQueryVariables(ref string CurrentQuery) {
+            List <StringPair>  Output = new List<StringPair>();
+            while (CurrentQuery.ToUpper().Contains("DECLARE")) {
+                string TempName = "";
+                string TempValue = "";
+                if (Classes.CommandManager.GetValue(ref CurrentQuery, "DECLARE", out TempName, false, true)) {
+                    if (Classes.CommandManager.IsModbusKeyword(TempName) == false) {
+                        if (Classes.CommandManager.GetValue(ref CurrentQuery, "=", out TempValue, false)) {
+                            Output.Add(new StringPair(TempName, TempValue));
+                        }
+                    }
+                }
+            }
+            return Output;
+        }
+        private static void ApplyModbusQueryVariables(ref string CurrentQuery, List<StringPair> Vars) {
+            foreach(StringPair Sp in Vars) {
+                CurrentQuery = CurrentQuery.Replace(Sp.A, Sp.B);
             }
         }
         public static void LoadDefaultBauds() {
@@ -235,6 +284,13 @@ namespace Serial_Monitor.Classes {
                 SerialManagers[i].DataReceived -= SerMan_DataReceived;
                 SerialManagers.RemoveAt(i);
             }
+        }
+        public static SerialManager? GetChannel(string ChannelName) {
+            if (ChannelName.Trim() == "") { return null; }
+            foreach (SerialManager SerMan in SerialManagers) {
+                if (SerMan.StateName.ToLower() == ChannelName.ToLower()) { return SerMan; }
+            }
+            return null;
         }
         public static SerialManager? GetChannel(int ChannelIndex) {
             if (ChannelIndex < 0) { return null; }

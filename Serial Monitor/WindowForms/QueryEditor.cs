@@ -1,6 +1,8 @@
 ﻿using FastColoredTextBoxNS;
+using Handlers;
 using Microsoft.VisualBasic.Devices;
 using ODModules;
+using Serial_Monitor.Classes;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,15 +34,19 @@ namespace Serial_Monitor.WindowForms {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
             AdjustUserInterface();
+            ApplyIcons();
         }
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
-        
+
         }
         public void ApplyTheme() {
             RecolorAll();
-            //DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, btnAdd, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            ApplyIcons();
+        }
+        private void ApplyIcons() {
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, btnExecute, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         private void RecolorAll() {
             this.SuspendLayout();
@@ -52,6 +58,7 @@ namespace Serial_Monitor.WindowForms {
             SetBrush(Comment, Properties.Settings.Default.THM_COL_CommentColor);
             SetBrush(KeyWord, Properties.Settings.Default.THM_COL_KeyWordColor);
             SetBrush(Numeric, Properties.Settings.Default.THM_COL_VariablesColor);
+            SetBrush(Headers, Properties.Settings.Default.THM_COL_ReturnsAndCalls);
 
             this.ResumeLayout();
         }
@@ -68,7 +75,7 @@ namespace Serial_Monitor.WindowForms {
         TextStyle String = new TextStyle(Brushes.Tomato, null, FontStyle.Regular);
         TextStyle Numeric = new TextStyle(Brushes.Moccasin, null, FontStyle.Regular);
         //TextStyle Special = new TextStyle(Brushes.Teal, null, FontStyle.Regular);
-        // TextStyle Headers = new TextStyle(Brushes.Plum, null, FontStyle.Regular);
+        TextStyle Headers = new TextStyle(Brushes.Plum, null, FontStyle.Regular);
         private void fctEditor_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e) {
             e.ChangedRange.ClearStyle(Comment);
             e.ChangedRange.ClearStyle(KeyWord);
@@ -77,14 +84,20 @@ namespace Serial_Monitor.WindowForms {
             //e.ChangedRange.ClearStyle(Special);
             //e.ChangedRange.ClearStyle(Headers);
             //highlight tags
-
-            e.ChangedRange.SetStyle(KeyWord, @"(?<!--.*)(?:\b((?i:unit)|(?i:write)|(?i:read)|(?i:register)|(?i:coil)|(?i:registers)|(?i:coils)|(?i:from)|(?i:with)|(?i:qty)|(?i:diagnostics)|(?i:query)|(?i:bus)|(?i:slave)|(?i:clear)|(?i:counters)|(?i:overrun)|(?i:restart)|(?i:force)|(?i:set)|(?i:delimiter)|(?i:discrete)|(?i:inregisters)|(?i:true)|(?i:false)|(?i:to))\b)");
+            e.ChangedRange.SetStyle(Headers, @"(?<!--.*)(?:\b((?i:begin)|(?i:end))\b)");
+            e.ChangedRange.SetStyle(KeyWord, @"(?<!--.*)(?:\b((?i:using)|(?i:declare)|(?i:as)|(?i:master)|(?i:unit)|(?i:write)|(?i:read)|(?i:register)|(?i:coil)|(?i:registers)|(?i:coils)|(?i:from)|(?i:with)|(?i:qty)|(?i:diagnostics)|(?i:query)|(?i:bus)|(?i:slave)|(?i:clear)|(?i:counters)|(?i:overrun)|(?i:restart)|(?i:force)|(?i:set)|(?i:delimiter)|(?i:discrete)|(?i:inregisters)|(?i:inregister)|(?i:holding)|(?i:holdings)|(?i:input)|(?i:inputs)|(?i:true)|(?i:false)|(?i:to))\b)");
             //e.ChangedRange.SetStyle(Headers, @"(?<!--.*)(?:\b((?i:begin)|(?i:create lines)))");
             e.ChangedRange.SetStyle(String, "(?<!--.*)(?:(\").+(\"))");
             //e.ChangedRange.SetStyle(Special, @"(?<!--.*)(?:\bE\(\w+\)\B)|(?:\be\(\w+\)\B)|(?:\bA\(\w+\)\B)|(?:\ba\(\w+\)\B)");
             e.ChangedRange.SetStyle(Comment, "(--).+");//" <[^>]+>");
             e.ChangedRange.ClearFoldingMarkers();
-            e.ChangedRange.SetFoldingMarkers("(?<!--.*)(?:{|(?i:create lines))", "(?<!--.*)(?:})");
+            e.ChangedRange.SetFoldingMarkers("(?<!--.*)(?:{|(?i:begin))", "(?<!--.*)(?:})");
         }
+
+        private void btnExecute_Click(object sender, EventArgs e) {
+            SystemManager.ExecuteModbusQuery(fctEditor.Text);
+        }
+       
+
     }
 }

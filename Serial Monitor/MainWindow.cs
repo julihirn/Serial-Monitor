@@ -257,6 +257,7 @@ namespace Serial_Monitor {
             pnlStepProgram.CloseButtonClicked += pnlStepProgram_CloseButtonClicked;
             thPrograms.AddButtonClicked += tabHeader1_AddButtonClicked;
             thPrograms.CloseButtonClicked += tabHeader1_CloseButtonClicked;
+            thPrograms.TabDoubleClicked += ThPrograms_TabDoubleClicked;
             thPrograms.TabRightClicked += thPrograms_TabRightClicked;
             thPrograms.SelectedIndexChanged += tabHeader1_SelectedIndexChanged;
             thPrograms.Load += tabHeader1_Load;
@@ -276,9 +277,6 @@ namespace Serial_Monitor {
             Load += Form1_Load;
             KeyPress += Form1_KeyPress;
         }
-
-
-
         public MainWindow() {
             Setup();
         }
@@ -2445,10 +2443,10 @@ namespace Serial_Monitor {
             cmPrograms.Show(Tab.ScreenLocation);
         }
         private void cmRunProgram_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = GetProgramObjectFromTab();
+            ProgramObject? PrgObj = GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
-            btnRun.Text = GetTextFromTab();
+            btnRun.Text = GetTextFromTab((TabClickedEventArgs)cmPrograms.Tag);
             RunFromStart();
         }
         private void cmCloseProgram_Click(object? sender, EventArgs e) {
@@ -2458,13 +2456,13 @@ namespace Serial_Monitor {
             }
         }
         private void cmbtnSetAsActive_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = GetProgramObjectFromTab();
+            ProgramObject? PrgObj = GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
-            btnRun.Text = GetTextFromTab();
+            btnRun.Text = GetTextFromTab((TabClickedEventArgs)cmPrograms.Tag);
         }
         private void cmbtnProperties_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = GetProgramObjectFromTab();
+            ProgramObject? PrgObj = GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramProperties PrgProp = new ProgramProperties();
             PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
@@ -2485,37 +2483,39 @@ namespace Serial_Monitor {
         private void cmbtnNewProgram_Click(object? sender, EventArgs e) {
             NewProgram();
         }
-        private ProgramObject? GetProgramObjectFromTab() {
-            if (cmPrograms.Tag == null) { return null; }
-            if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
-                TabClickedEventArgs Args = (TabClickedEventArgs)cmPrograms.Tag;
-                if (Args.SelectedTab.GetType() == typeof(Tab)) {
-                    Tab TabData = (Tab)Args.SelectedTab;
-                    if (TabData.Tag == null) { return null; }
-                    if (TabData.Tag.GetType() == typeof(ProgramObject)) {
-                        return (ProgramObject)TabData.Tag;
-                    }
+        private ProgramObject? GetProgramObjectFromTab(TabClickedEventArgs Args) {
+            if (Args.SelectedTab.GetType() == typeof(Tab)) {
+                Tab TabData = (Tab)Args.SelectedTab;
+                if (TabData.Tag == null) { return null; }
+                if (TabData.Tag.GetType() == typeof(ProgramObject)) {
+                    return (ProgramObject)TabData.Tag;
                 }
             }
             return null;
         }
-        private string GetTextFromTab() {
-            if (cmPrograms.Tag == null) { return ""; }
-            if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
-                TabClickedEventArgs Args = (TabClickedEventArgs)cmPrograms.Tag;
-                if (Args.SelectedTab.GetType() == typeof(Tab)) {
-                    Tab TabData = (Tab)Args.SelectedTab;
-                    return TabData.Text;
-                }
+        private string GetTextFromTab(TabClickedEventArgs Args) {
+            //if (cmPrograms.Tag == null) { return ""; }
+            // if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
+            // TabClickedEventArgs Args = (TabClickedEventArgs)cmPrograms.Tag;
+            if (Args.SelectedTab.GetType() == typeof(Tab)) {
+                Tab TabData = (Tab)Args.SelectedTab;
+                return TabData.Text;
             }
+            //}
             return "";
         }
         bool InRenameMode = false;
+        private void ThPrograms_TabDoubleClicked(object sender, TabClickedEventArgs Tab) {
+            ShowProgramRenameBox(Tab);
+        }
         private void renameToolStripMenuItem_Click(object? sender, EventArgs e) {
-            Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab((TabClickedEventArgs)cmPrograms.Tag, true);
-            ProgramObject? PrgObj = GetProgramObjectFromTab();
+            ShowProgramRenameBox((TabClickedEventArgs)cmPrograms.Tag);
+        }
+        private void ShowProgramRenameBox(TabClickedEventArgs EventData, bool PushEventData = false) {
+            Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(EventData, true);
+            ProgramObject? PrgObj = GetProgramObjectFromTab(EventData);
             if (PrgObj == null) { return; }
-            string CurrentText = GetTextFromTab();
+            string CurrentText = GetTextFromTab(EventData);
             System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
@@ -2532,7 +2532,7 @@ namespace Serial_Monitor {
             RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
             RenameBox.Size = TabRectangle.Size;
             RenameBox.BringToFront();
-            RenameBox.Tag = cmPrograms.Tag;
+            RenameBox.Tag = EventData;
             InRenameMode = true;
             thPrograms.Controls.Add(RenameBox);
             RenameBox.Focus();
@@ -2541,7 +2541,6 @@ namespace Serial_Monitor {
             RenameBox.KeyDown += RenameBox_KeyDown; ; ;
             RenameBox.TextChanged += RenameBox_TextChanged;
         }
-
         private void RenameBox_Leave(object? sender, EventArgs e) {
             if (sender == null) { return; }
             //if (sender.GetType() == typeof(TextBox)) {
@@ -3081,10 +3080,6 @@ namespace Serial_Monitor {
 
         private void lstStepProgram_MouseClick(object? sender, EventArgs e) {
             LastEntered = sender;
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e) {
-
         }
     }
 

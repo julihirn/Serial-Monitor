@@ -50,9 +50,11 @@
             customizeToolStripMenuItem = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             tsMain = new ODModules.ToolStrip();
+            btnExecute = new ToolStripButton();
             fctEditor = new FastColoredTextBoxNS.FastColoredTextBox();
             dmpScroll = new FastColoredTextBoxNS.DocumentMap();
             msMain.SuspendLayout();
+            tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fctEditor).BeginInit();
             SuspendLayout();
             // 
@@ -264,6 +266,7 @@
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemForeColor = Color.Black;
+            tsMain.Items.AddRange(new ToolStripItem[] { btnExecute });
             tsMain.ItemSelectedBackColorNorth = Color.White;
             tsMain.ItemSelectedBackColorSouth = Color.White;
             tsMain.ItemSelectedForeColor = Color.Black;
@@ -280,18 +283,27 @@
             tsMain.TabIndex = 1;
             tsMain.Text = "toolStrip1";
             // 
+            // btnExecute
+            // 
+            btnExecute.Image = (Image)resources.GetObject("btnExecute.Image");
+            btnExecute.ImageScaling = ToolStripItemImageScaling.None;
+            btnExecute.ImageTransparentColor = Color.Magenta;
+            btnExecute.Name = "btnExecute";
+            btnExecute.Size = new Size(68, 22);
+            btnExecute.Text = "Execute";
+            btnExecute.Click += btnExecute_Click;
+            // 
             // fctEditor
             // 
             fctEditor.AutoCompleteBracketsList = new char[] { '(', ')', '{', '}', '[', ']', '"', '"', '\'', '\'' };
             fctEditor.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\r\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
-            fctEditor.AutoScrollMinSize = new Size(27, 14);
+            fctEditor.AutoScrollMinSize = new Size(179, 98);
             fctEditor.BackBrush = null;
             fctEditor.BackColor = SystemColors.Window;
             fctEditor.CharHeight = 14;
             fctEditor.CharWidth = 8;
             fctEditor.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             fctEditor.Dock = DockStyle.Fill;
-            fctEditor.Font = new Font("Courier New", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             fctEditor.IndentBackColor = Color.LightGray;
             fctEditor.IsReplaceMode = false;
             fctEditor.LineNumberColor = Color.FromArgb(64, 64, 64);
@@ -304,6 +316,7 @@
             fctEditor.ShowScrollBars = false;
             fctEditor.Size = new Size(420, 297);
             fctEditor.TabIndex = 2;
+            fctEditor.Text = "BEGIN\r\n    USING COM1\r\n    UNIT 1\r\n    WRITE REGISTERS\r\n    FROM 1\r\n    WITH 1, 2, 3\r\nEND";
             fctEditor.Zoom = 100;
             fctEditor.TextChanged += fctEditor_TextChanged;
             fctEditor.Load += fctEditor_Load;
@@ -337,6 +350,8 @@
             Load += QueryEditor_Load;
             msMain.ResumeLayout(false);
             msMain.PerformLayout();
+            tsMain.ResumeLayout(false);
+            tsMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)fctEditor).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -371,5 +386,6 @@
         private ODModules.ToolStrip tsMain;
         private FastColoredTextBoxNS.FastColoredTextBox fctEditor;
         private FastColoredTextBoxNS.DocumentMap dmpScroll;
+        private ToolStripButton btnExecute;
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -262,7 +263,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         [Category("Port")]
-        [DisplayName("Data Bits")]
+        [DisplayName("Stop Bits")]
         public StopBits StopBits {
             get {
                 if (Port != null) { return Port.StopBits; }
@@ -1264,8 +1265,8 @@ namespace Serial_Monitor.Classes {
                 int Unit = 1;
                 int Start = 0;
                 int Count = 1;
-                if (TestKeyword(ref Temp, "UNIT")) {
-                    string StrAddress = ReadAndRemove(ref Temp);
+                if (CommandManager.TestKeyword(ref Temp, "UNIT")) {
+                    string StrAddress = CommandManager.ReadAndRemove(ref Temp);
 
                     bool Success = int.TryParse(StrAddress, out Unit);
                     if (Success == false) { return; }
@@ -1274,71 +1275,86 @@ namespace Serial_Monitor.Classes {
                         NewSlave(Unit);
                     }
                 }
-                if (TestKeyword(ref Temp, "READ")) {
-                    if (GetValue(ref Temp, "COILS", out Start)) {
-                        if (GetValue(ref Temp, "QTY", out Count)) {
-                            ModbusReadCoils(Unit, (short)Start, (short)Count);
-                        }
-                        else if (GetValue(ref Temp, "TO", out Count)) {
-                            Point StartAndDiff = GetStartAndDifference(Start, Count);
-                            if (StartAndDiff.Y <= 0) { return; }
-                            ModbusReadCoils(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
-                        }
-                        else { ModbusReadCoils(Unit, (short)Start, (short)1); }
+                if (CommandManager.TestKeyword(ref Temp, "READ")) {
+                    if (CommandManager.GetValue(ref Temp, "COILS", out Start)) {
+                        InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
                     }
-                    else if (GetValue(ref Temp, "DISCRETE", out Start)) {
-                        if (GetValue(ref Temp, "QTY", out Count)) {
-                            ModbusReadDiscreteInputs(Unit, (short)Start, (short)Count);
-                        }
-                        else if (GetValue(ref Temp, "TO", out Count)) {
-                            Point StartAndDiff = GetStartAndDifference(Start, Count);
-                            if (StartAndDiff.Y <= 0) { return; }
-                            ModbusReadDiscreteInputs(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
-                        }
-                        else { ModbusReadDiscreteInputs(Unit, (short)Start, (short)1); }
+                    else if (CommandManager.GetValue(ref Temp, "DISCRETE", out Start)) {
+                        InitialTestReadQuery(Unit, Start,ref Temp, DataSelection.ModbusDataDiscreteInputs);
                     }
-                    else if (GetValue(ref Temp, "REGISTERS", out Start)) {
-                        if (GetValue(ref Temp, "QTY", out Count)) {
-                            ModbusReadHoldingRegisters(Unit, (short)Start, (short)Count);
-                        }
-                        else if (GetValue(ref Temp, "TO", out Count)) {
-                            Point StartAndDiff = GetStartAndDifference(Start, Count);
-                            if (StartAndDiff.Y <= 0) { return; }
-                            ModbusReadHoldingRegisters(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
-                        }
-                        else { ModbusReadHoldingRegisters(Unit, (short)Start, (short)1); }
+                    else if (CommandManager.GetValue(ref Temp, "REGISTERS", out Start)) {
+                        InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
                     }
-                    else if (GetValue(ref Temp, "INREGISTERS", out Start)) {
-                        if (GetValue(ref Temp, "QTY", out Count)) {
-                            ModbusReadInputRegisters(Unit, (short)Start, (short)Count);
-                        }
-                        else if (GetValue(ref Temp, "TO", out Count)) {
-                            Point StartAndDiff = GetStartAndDifference(Start, Count);
-                            if (StartAndDiff.Y <= 0) { return; }
-                            ModbusReadInputRegisters(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y);
-                        }
-                        else { ModbusReadInputRegisters(Unit, (short)Start, (short)1); }
+                    else if (CommandManager.GetValue(ref Temp, "HOLDINGS", out Start)) {
+                        InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "INREGISTERS", out Start)) {
+                        InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "INPUTS", out Start)) {
+                        InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
+                        SecondTestReadQuery(Unit, ref Temp, DataSelection.ModbusDataCoils);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "DISCRETE")) {
+                        SecondTestReadQuery(Unit, ref Temp, DataSelection.ModbusDataDiscreteInputs);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
+                        SecondTestReadQuery(Unit, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
+                        SecondTestReadQuery(Unit, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "INREGISTERS")) {
+                        SecondTestReadQuery(Unit, ref Temp, DataSelection.ModbusDataInputRegisters);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "INPUTS")) {
+                        SecondTestReadQuery(Unit, ref Temp, DataSelection.ModbusDataInputRegisters);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "COIL", out Start)) {
+                        SingleTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start)) {
+                        SingleTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "HOLDING", out Start)) {
+                        SingleTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "INREGISTER", out Start)) {
+                        SingleTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+                    }
+                    else if (CommandManager.GetValue(ref Temp, "INPUT", out Start)) {
+                        SingleTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
                     }
                 }
-                else if (TestKeyword(ref Temp, "WRITE")) {
-                    if (TestKeyword(ref Temp, "REGISTERS")) {
-                        if (GetValue(ref Temp, "FROM", out Start, false)) {
+                else if (CommandManager.TestKeyword(ref Temp, "WRITE")) {
+                    if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
+                        if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                             List<short> Values = new List<short>();
-                            if (GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                            if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
                                 ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                             }
                         }
                     }
-                    else if (TestKeyword(ref Temp, "COILS")) {
-                        if (GetValue(ref Temp, "FROM", out Start, false)) {
+                    else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
+                        if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
+                            List<short> Values = new List<short>();
+                            if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                                ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
+                            }
+                        }
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
+                        if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                             List<bool> Values = new List<bool>();
-                            if (GetBooleanValues(ref Temp, "WITH", ref Values)) {
+                            if (CommandManager.GetBooleanValues(ref Temp, "WITH", ref Values)) {
                                 ModbusWriteMultipleCoils(Unit, (short)Start, Values);
                             }
                         }
                     }
-                    else if (GetValue(ref Temp, "COIL", out Start, true)) {
-                        if (TestKeyword(ref Temp, "=")) {
+                    else if (CommandManager.GetValue(ref Temp, "COIL", out Start, true)) {
+                        if (CommandManager.TestKeyword(ref Temp, "=")) {
                             bool Tbool = false;
                             if (Temp.Trim(' ') == "TRUE") {
                                 Tbool = true;
@@ -1352,19 +1368,26 @@ namespace Serial_Monitor.Classes {
                             ModbusWriteCoil(Unit, (short)Start, Tbool);
                         }
                     }
-                    else if (GetValue(ref Temp, "REGISTER", out Start, true)) {
+                    else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start, true)) {
                         int Value = 0;
-                        if (GetValue(ref Temp, "=", out Value)) {
+                        if (CommandManager.GetValue(ref Temp, "=", out Value)) {
                             ModbusWriteRegister(Unit, (short)Start, (short)Value);
                         }
                         else { ModbusWriteRegister(Unit, (short)Start, (short)0); }
                     }
-                    else if (TestKeyword(ref Temp, "MASK")) {
-                        if (GetValue(ref Temp, "REGISTER", out Start, ' ')) {
+                    else if (CommandManager.GetValue(ref Temp, "HOLDING", out Start, true)) {
+                        int Value = 0;
+                        if (CommandManager.GetValue(ref Temp, "=", out Value)) {
+                            ModbusWriteRegister(Unit, (short)Start, (short)Value);
+                        }
+                        else { ModbusWriteRegister(Unit, (short)Start, (short)0); }
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "MASK")) {
+                        if (CommandManager.GetValue(ref Temp, "REGISTER", out Start, ' ')) {
                             int Value = 0;
-                            if (GetValue(ref Temp, "WITH", out Value, ',')) {
+                            if (CommandManager.GetValue(ref Temp, "WITH", out Value, ',')) {
                                 int Value2 = 0;
-                                if (GetValue(ref Temp, ",", out Value2)) {
+                                if (CommandManager.GetValue(ref Temp, ",", out Value2)) {
                                     ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, (short)Value2);
                                 }
                                 else {
@@ -1374,66 +1397,66 @@ namespace Serial_Monitor.Classes {
                         }
                     }
                 }
-                else if (TestKeyword(ref Temp, "DIAGNOSTICS")) {
-                    if (TestKeyword(ref Temp, "RETURN")) {
-                        if (TestKeyword(ref Temp, "QUERY")) {
-                            if (GetValue(ref Temp, "WITH", out Start, false)) {
+                else if (CommandManager.TestKeyword(ref Temp, "DIAGNOSTICS")) {
+                    if (CommandManager.TestKeyword(ref Temp, "RETURN")) {
+                        if (CommandManager.TestKeyword(ref Temp, "QUERY")) {
+                            if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnQueryData, (short)Start);
                             }
                         }
-                        else if (TestKeyword(ref Temp, "REGISTER")) {
+                        else if (CommandManager.TestKeyword(ref Temp, "REGISTER")) {
                             ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnDiagnosticRegister, 0);
                         }
-                        else if (TestKeyword(ref Temp, "BUS")) {
-                            if (TestKeyword(ref Temp, "MESSAGES")) {
+                        else if (CommandManager.TestKeyword(ref Temp, "BUS")) {
+                            if (CommandManager.TestKeyword(ref Temp, "MESSAGES")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusMessageCount, 0);
                             }
-                            else if (TestKeyword(ref Temp, "ERRORS")) {
+                            else if (CommandManager.TestKeyword(ref Temp, "ERRORS")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCommunicationErrorCount, 0);
                             }
-                            else if (TestKeyword(ref Temp, "EXCEPTIONS")) {
+                            else if (CommandManager.TestKeyword(ref Temp, "EXCEPTIONS")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusExceptionErrorCount, 0);
                             }
-                            else if (TestKeyword(ref Temp, "OVERRUNS")) {
+                            else if (CommandManager.TestKeyword(ref Temp, "OVERRUNS")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCharacterOverrunCount, 0);
                             }
                         }
-                        else if (TestKeyword(ref Temp, "SLAVE")) {
-                            if (TestKeyword(ref Temp, "MESSAGES")) {
+                        else if (CommandManager.TestKeyword(ref Temp, "SLAVE")) {
+                            if (CommandManager.TestKeyword(ref Temp, "MESSAGES")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveMessageCount, 0);
                             }
-                            else if (TestKeyword(ref Temp, "BUSY")) {
+                            else if (CommandManager.TestKeyword(ref Temp, "BUSY")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveBusyCount, 0);
                             }
-                            else if (TestKeyword(ref Temp, "NORES")) {
+                            else if (CommandManager.TestKeyword(ref Temp, "NORES")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNoResponseCount, 0);
                             }
-                            else if (TestKeyword(ref Temp, "NONAK")) {
+                            else if (CommandManager.TestKeyword(ref Temp, "NONAK")) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNAKCount, 0);
                             }
                         }
                     }
-                    else if (TestKeyword(ref Temp, "CLEAR")) {
-                        if (TestKeyword(ref Temp, "COUNTERS")) {
+                    else if (CommandManager.TestKeyword(ref Temp, "CLEAR")) {
+                        if (CommandManager.TestKeyword(ref Temp, "COUNTERS")) {
                             ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearCountersAndDiagnosticRegister, 0);
                         }
-                        else if (TestKeyword(ref Temp, "OVERRUN")) {
+                        else if (CommandManager.TestKeyword(ref Temp, "OVERRUN")) {
                             ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearOverrunCounterAndFlag, 0);
                         }
                     }
-                    else if (TestKeyword(ref Temp, "RESTART")) {
-                        if (GetValue(ref Temp, "WITH", out Start, false)) {
+                    else if (CommandManager.TestKeyword(ref Temp, "RESTART")) {
+                        if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
                             ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.RestartCommunicationsOption, (short)Start);
                         }
                     }
-                    else if (TestKeyword(ref Temp, "FORCE")) {
-                        if (TestKeyword(ref Temp, "LISTEN")) {
+                    else if (CommandManager.TestKeyword(ref Temp, "FORCE")) {
+                        if (CommandManager.TestKeyword(ref Temp, "LISTEN")) {
                             ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ForceListenOnlyMode, 0);
                         }
                     }
-                    else if (TestKeyword(ref Temp, "SET")) {
-                        if (TestKeyword(ref Temp, "DELIMITER")) {
-                            if (GetValue(ref Temp, "WITH", out Start, false)) {
+                    else if (CommandManager.TestKeyword(ref Temp, "SET")) {
+                        if (CommandManager.TestKeyword(ref Temp, "DELIMITER")) {
+                            if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
                                 ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ChangeASCIIInputDelimiter, (short)Start);
                             }
                         }
@@ -1442,145 +1465,57 @@ namespace Serial_Monitor.Classes {
             }
             catch { }
         }
-        private static Point GetStartAndDifference(int Start, int End) {
-            if (Start < End) {
-                return new Point(Start, (End - Start) + 1);
+        private void InitialTestReadQuery(int Unit, int Start, ref string Temp, DataSelection DataSet) {
+            int Count = 0;
+            if (CommandManager.GetValue(ref Temp, "QTY", out Count)) {
+                SelectRead(Unit, (short)Start, (short)Count, DataSet);
             }
-            return new Point(End, (Start - End) + 1);
+            else if (CommandManager.GetValue(ref Temp, "TO", out Count)) {
+                Point StartAndDiff = CommandManager.GetStartAndDifference(Start, Count);
+                if (StartAndDiff.Y <= 0) { return; }
+                SelectRead(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y, DataSet);
+            }
+            else { SelectRead(Unit, (short)Start, (short)1, DataSet); }
         }
-        private static bool GetIntegerValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
-            if (TestKeyword(ref Input, Compare)) {
+        private void SingleTestReadQuery(int Unit, int Start, ref string Temp, DataSelection DataSet) {
+            SelectRead(Unit, (short)Start, (short)1, DataSet);
+        }
+        private void SelectRead(int Unit, short Start, short Count, DataSelection DataSet) {
+            switch (DataSet) {
+                case DataSelection.ModbusDataCoils:
+                    ModbusReadCoils(Unit, Start, Count); break;
+                case DataSelection.ModbusDataDiscreteInputs:
+                    ModbusReadDiscreteInputs(Unit, Start, Count); break;
+                case DataSelection.ModbusDataInputRegisters:
+                    ModbusReadInputRegisters(Unit, Start, Count); break;
+                case DataSelection.ModbusDataHoldingRegisters:
+                    ModbusReadHoldingRegisters(Unit, Start, Count); break;
+                default: return;
+            }
+        }
+        private void SecondTestReadQuery(int Unit, ref string Temp, DataSelection DataSet) {
+            int Start = 0;
+            int Count = 0;
+            if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
+                if (CommandManager.GetValue(ref Temp, "TO", out Count)) {
+                    Point StartAndDiff = CommandManager.GetStartAndDifference(Start, Count);
+                    if (StartAndDiff.Y <= 0) { return; }
+                    switch (DataSet) {
+                        case DataSelection.ModbusDataCoils:
+                            ModbusReadCoils(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y); break;
+                        case DataSelection.ModbusDataDiscreteInputs:
+                            ModbusReadDiscreteInputs(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y); break;
+                        case DataSelection.ModbusDataInputRegisters:
+                            ModbusReadInputRegisters(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y); break;
+                        case DataSelection.ModbusDataHoldingRegisters:
+                            ModbusReadHoldingRegisters(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y); break;
+                        default: return;
+                    }
 
-                if (DelimitOnEquals) {
-                    string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
-                    for (int i = 0; i < TempValues.Count; i++) {
-                        short Temp = 0;
-                        bool Success = short.TryParse(TempValues.Value[i], out Temp);
-                        if (Success == false) { return false; }
-                        Values.Add(Temp);
-                    }
                 }
-                else {
-                    string StrAddress = Input.TrimStart(' ');
-                    STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
-                    for (int i = 0; i < TempValues.Count; i++) {
-                        short Temp = 0;
-                        bool Success = short.TryParse(TempValues.Value[i], out Temp);
-                        if (Success == false) { return false; }
-                        Values.Add(Temp);
-                    }
-                }
-                return true;
             }
-            return false;
         }
-        private static bool GetBooleanValues(ref string Input, string Compare, ref List<bool> Values, bool DelimitOnEquals = false) {
-            if (TestKeyword(ref Input, Compare)) {
-
-                if (DelimitOnEquals) {
-                    string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
-                    for (int i = 0; i < TempValues.Count; i++) {
-                        string Temp = TempValues.Value[i].ToLower();
-                        if (Temp == "1") {
-                            Values.Add(true);
-                        }
-                        else if (Temp == "0") {
-                            Values.Add(false);
-                        }
-                        else if (Temp == "f") {
-                            Values.Add(false);
-                        }
-                        else if (Temp == "t") {
-                            Values.Add(true);
-                        }
-                        else if (Temp == "false") {
-                            Values.Add(false);
-                        }
-                        else if (Temp == "true") {
-                            Values.Add(true);
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                }
-                else {
-                    string StrAddress = Input.TrimStart(' ');
-                    STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
-                    for (int i = 0; i < TempValues.Count; i++) {
-                        string Temp = TempValues.Value[i].ToLower().Trim(' ');
-                        if (Temp == "1") {
-                            Values.Add(true);
-                        }
-                        else if (Temp == "0") {
-                            Values.Add(false);
-                        }
-                        else if (Temp == "f") {
-                            Values.Add(false);
-                        }
-                        else if (Temp == "t") {
-                            Values.Add(true);
-                        }
-                        else if (Temp == "false") {
-                            Values.Add(false);
-                        }
-                        else if (Temp == "true") {
-                            Values.Add(true);
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-        private static bool GetValue(ref string Input, string Compare, out int Value, bool DelimitOnEquals = false) {
-            if (TestKeyword(ref Input, Compare)) {
-
-                if (DelimitOnEquals) {
-                    string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    bool Success = int.TryParse(StrAddress, out Value);
-                    if (Success == false) { return false; }
-                }
-                else {
-                    string StrAddress = ReadAndRemove(ref Input).TrimStart(' ');
-                    bool Success = int.TryParse(StrAddress, out Value);
-                    if (Success == false) { return false; }
-                }
-                return true;
-            }
-            Value = 0;
-            return false;
-        }
-        private static bool GetValue(ref string Input, string Compare, out int Value, char Delimiter) {
-            if (TestKeyword(ref Input, Compare)) {
-                string StrAddress = ReadAndRemove(ref Input, Delimiter).TrimStart(' ');
-                bool Success = int.TryParse(StrAddress, out Value);
-                if (Success == false) { return false; }
-                return true;
-            }
-            Value = 0;
-            return false;
-        }
-        private static bool TestKeyword(ref string Input, string Compare) {
-            if (Input.StartsWith(Compare)) {
-                Input = Input.Remove(0, Compare.Length);
-                Input = Input.TrimStart(' ');
-                return true;
-            }
-            return false;
-        }
-        private static string ReadAndRemove(ref string Input, char RemoveChar = ' ') {
-            string Temp = Input.Split(RemoveChar)[0];
-            Input = Input.Remove(0, Temp.Length);
-            Input = Input.TrimStart(' ');
-            return Temp;
-        }
-        #endregion 
+        #endregion
         #region Modbus Transmission
         private List<byte[]> ModbusTransmitBuffer = new List<byte[]>();
         private void ModbusFramer() {
