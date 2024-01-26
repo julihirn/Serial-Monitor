@@ -76,28 +76,30 @@ namespace Serial_Monitor {
             if (sender == null) { return; }
             if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
             string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
-            foreach (ToolStripMenuItem Tsi in ddbInputFormat.DropDownItems) {
-                if (Tsi.Tag.ToString() == Cmd) {
-                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-                    Tsi.Checked = true;
-                    Properties.Settings.Default.DEF_STR_InputFormat = Tsi.Tag.ToString();
+            foreach (object Tsi in ddbInputFormat.DropDownItems) {
+                if (Tsi.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Tsi).Tag.ToString() == Cmd) {
+                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(((ToolStripMenuItem)Tsi).Tag.ToString() ?? ""), false).A;
+                    ((ToolStripMenuItem)Tsi).Checked = true;
+                    Properties.Settings.Default.DEF_STR_InputFormat = ((ToolStripMenuItem)Tsi).Tag.ToString();
                     Properties.Settings.Default.Save();
                 }
-                else { Tsi.Checked = false; }
+                else { ((ToolStripMenuItem)Tsi).Checked = false; }
             }
         }
         private void OutputFormatClicked(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
             string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
-            foreach (ToolStripMenuItem Tsi in ddbOutputFormat.DropDownItems) {
-                if (Tsi.Tag.ToString() == Cmd) {
-                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-                    Tsi.Checked = true;
-                    Properties.Settings.Default.DEF_STR_OutputFormat = Tsi.Tag.ToString();
+            foreach (object Tsi in ddbOutputFormat.DropDownItems) {
+                if (Tsi.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Tsi).Tag.ToString() == Cmd) {
+                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(((ToolStripMenuItem)Tsi).Tag.ToString() ?? ""), false).A;
+                    ((ToolStripMenuItem)Tsi).Checked = true;
+                    Properties.Settings.Default.DEF_STR_OutputFormat = ((ToolStripMenuItem)Tsi).Tag.ToString();
                     Properties.Settings.Default.Save();
                 }
-                else { Tsi.Checked = false; }
+                else { ((ToolStripMenuItem)Tsi).Checked = false; }
             }
         }
         private void LoadConfigurations() {
