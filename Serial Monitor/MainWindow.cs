@@ -74,7 +74,7 @@ namespace Serial_Monitor {
         private void Setup() {
             InitializeComponent();
             LoadEventHandlers();
-            ProgramManager.MainInstance = this;
+            SystemManager.MainInstance = this;
             thPrograms.Tabs.Clear();
             NewProgram("Main");
             lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
@@ -1116,38 +1116,42 @@ namespace Serial_Monitor {
         }
         #region Format Settings
         private void CheckInputFormat(string Type) {
-            foreach (ToolStripMenuItem Item in ddbInputFormat.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
+            foreach (object Item in ddbInputFormat.DropDownItems) {
+                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                    ((ToolStripMenuItem)Item).Checked = true;
                 }
                 else {
-                    Item.Checked = false;
+                    ((ToolStripMenuItem)Item).Checked = false;
                 }
             }
-            foreach (ToolStripMenuItem Item in btnChannelInputFormat.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
+            foreach (object Item in btnChannelInputFormat.DropDownItems) {
+                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                    ((ToolStripMenuItem)Item).Checked = true;
                 }
                 else {
-                    Item.Checked = false;
+                    ((ToolStripMenuItem)Item).Checked = false;
                 }
             }
         }
         private void CheckOutputFormat(string Type) {
-            foreach (ToolStripMenuItem Item in ddbOutputFormat.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
+            foreach (object Item in ddbOutputFormat.DropDownItems) {
+                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                    ((ToolStripMenuItem)Item).Checked = true;
                 }
                 else {
-                    Item.Checked = false;
+                    ((ToolStripMenuItem)Item).Checked = false;
                 }
             }
-            foreach (ToolStripMenuItem Item in btnChannelOutputFormat.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
+            foreach (object Item in btnChannelOutputFormat.DropDownItems) {
+                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                    ((ToolStripMenuItem)Item).Checked = true;
                 }
                 else {
-                    Item.Checked = false;
+                    ((ToolStripMenuItem)Item).Checked = false;
                 }
             }
         }

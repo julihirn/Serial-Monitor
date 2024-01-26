@@ -16,6 +16,7 @@ using Serial_Monitor.Classes.Modbus;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
+        public static MainWindow? MainInstance = null;
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();
 
@@ -412,6 +413,23 @@ namespace Serial_Monitor.Classes {
                 }
             }
             catch { }
+        }
+        #endregion
+        #region Debugging
+        public static void Print(ErrorType Severity, string ErrorCode, string Msg) {
+            if (MainInstance == null) { return; }
+            if (Severity == ErrorType.M_Error) {
+                MainInstance.MethodPrinting("ERROR: " + ErrorCode + " " + Msg, 1);
+            }
+            else if (Severity == ErrorType.M_CriticalError) {
+                MainInstance.MethodPrinting("STOP: " + ErrorCode + " " + Msg, 1);
+            }
+            else if (Severity == ErrorType.M_Warning) {
+                MainInstance.MethodPrinting("WARNING: " + ErrorCode + " " + Msg, 0);
+            }
+            else if (Severity == ErrorType.M_Notification) {
+                MainInstance.MethodPrinting(Msg);
+            }
         }
         #endregion
     }

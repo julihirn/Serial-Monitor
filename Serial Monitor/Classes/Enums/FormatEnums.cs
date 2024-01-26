@@ -5,24 +5,40 @@ using System.ComponentModel;
 namespace Serial_Monitor.Classes.Enums {
     public static class FormatEnums {
         public enum StreamInputFormat {
-            Text = 0x01,
+            Text = 0x0001,
             [Description("Binary Stream")]
-            BinaryStream = 0x02,
+            BinaryStream = 0x0002,
             [Description("Command")]
-            CCommand = 0x04,
+            CCommand = 0x0004,
             [Description("Modbus RTU")]
-            ModbusRTU = 0x05,
+            ModbusRTU = 0x0201,
             [Description("Modbus ASCII")]
-            ModbusASCII = 0x06
+            ModbusASCII = 0x0202,
+            [Description("Binary")]
+            StreamBinary = 0x0401,
+            [Description("Octal")]
+            StreamOctal = 0x0402,
+            [Description("Decimal")]
+            StreamDecimal = 0x0403,
+            [Description("Hexadecimal")]
+            StreamHexadecimal = 0x0404
         }
         public enum StreamOutputFormat {
-            Text = 0x01,
+            Text = 0x0001,
             [Description("Command")]
-            CCommand = 0x02,
+            CCommand = 0x0002,
             [Description("Modbus RTU")]
-            ModbusRTU = 0x05,
+            ModbusRTU = 0x0201,
             [Description("Modbus ASCII")]
-            ModbusASCII = 0x06
+            ModbusASCII = 0x0202,
+            [Description("Binary")]
+            StreamBinary = 0x0401,
+            [Description("Octal")]
+            StreamOctal = 0x0402,
+            [Description("Decimal")]
+            StreamDecimal = 0x0403,
+            [Description("Hexadecimal")]
+            StreamHexadecimal = 0x0404
         }
         public enum LineFormatting {
             None = 0x00,

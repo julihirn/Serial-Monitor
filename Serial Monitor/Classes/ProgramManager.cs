@@ -80,8 +80,6 @@ namespace Serial_Monitor.Classes {
         public static int Program_CurrentManager = 0;
         public static bool NoStepProgramIncrement = false;
 
-        public static MainWindow? MainInstance = null;
-
         public static List<ProgramObject> Programs = new List<ProgramObject>(1);
 
         public static ProgramObject? CurrentProgram = null;
@@ -110,12 +108,12 @@ namespace Serial_Monitor.Classes {
         }
         public static void TestThread() {
             if (executionThreadRunning == false) {
-                Print(ErrorType.M_Notification, "PROG_THREAD_EXE", "Restarting execution thread...");
+                SystemManager.Print(ErrorType.M_Notification, "PROG_THREAD_EXE", "Restarting execution thread...");
                 try {
                     LaunchThread();
                 }
                 catch {
-                    Print(ErrorType.M_Notification, "PROG_THREAD_FAIL", "Program thread could not be launched!");
+                    SystemManager.Print(ErrorType.M_Notification, "PROG_THREAD_FAIL", "Program thread could not be launched!");
                     executionThreadRunning = false;
                 }
             }
@@ -139,7 +137,7 @@ namespace Serial_Monitor.Classes {
                             CurrentProgram = PrgObj;
                             ProgramFound = true;
                             ProName = PrgObj.Name;
-                            if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
+                            if (SystemManager.MainInstance != null) { SystemManager.MainInstance.MethodSetRunText(PrgObj.Name); }
                             break;
                         }
                     }
@@ -148,21 +146,21 @@ namespace Serial_Monitor.Classes {
                             CurrentProgram = PrgObj;
                             ProgramFound = true;
                             ProName = PrgObj.Name;
-                            if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
+                            if (SystemManager.MainInstance != null) { SystemManager.MainInstance.MethodSetRunText(PrgObj.Name); }
                             break;
                         }
                     }
                 }
                 if (Resulted == true) {
-                    if (MainInstance != null) {
-                        MainInstance.MethodSetRunText(ProName);
+                    if (SystemManager.MainInstance != null) {
+                        SystemManager.MainInstance.MethodSetRunText(ProName);
                     }
                 }
             }
             if (ProgramFound == false) {
                 ProgramState = StepEnumerations.StepState.Stopped;
                 ProgramStep = 0;
-                Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
+                SystemManager.Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
             }
             else {
                 SetupProgram();
@@ -281,8 +279,8 @@ namespace Serial_Monitor.Classes {
             }
             catch (Exception e) {
                 ProgramState = StepEnumerations.StepState.Stopped;
-                Print(ErrorType.M_Error, "PROG_THREAD_DEAD", "The program execution thread has exited due to a caught exception...");
-                Print(ErrorType.M_Error, "", e.Message);
+                SystemManager.Print(ErrorType.M_Error, "PROG_THREAD_DEAD", "The program execution thread has exited due to a caught exception...");
+                SystemManager.Print(ErrorType.M_Error, "", e.Message);
             }
             executionThreadRunning = false;
         }
@@ -328,7 +326,7 @@ namespace Serial_Monitor.Classes {
                                 if (Sr != null) {
                                     while (Sr.Peek() > -1) {
                                         string item = Sr.ReadLine() ?? "";
-                                        Print(ErrorType.M_Notification, "", item);
+                                        SystemManager.Print(ErrorType.M_Notification, "", item);
                                     }
                                 }
                             }
@@ -512,33 +510,33 @@ namespace Serial_Monitor.Classes {
         }
         private static void ProgramSerialManagement(StepEnumerations.StepExecutable Function, string Arguments) {
             if (IsExecutionAllowed()) {
-                if (MainInstance != null) {
+                if (SystemManager.MainInstance != null) {
                     LastUICommand = DateTime.UtcNow;
-                    MainInstance.ProgramSerialManagement(Function, Arguments);
+                    SystemManager.MainInstance.ProgramSerialManagement(Function, Arguments);
                 }
             }
         }
         private static void SendKeys(string Arguments) {
             if (IsExecutionAllowed()) {
-                if (MainInstance != null) {
+                if (SystemManager.MainInstance != null) {
                     LastUICommand = DateTime.UtcNow;
-                    MainInstance.MethodSendKeys(Arguments);
+                    SystemManager.MainInstance.MethodSendKeys(Arguments);
                 }
             }
         }
         private static void Print(string Arguments) {
             if (IsExecutionAllowed()) {
-                if (MainInstance != null) {
+                if (SystemManager.MainInstance != null) {
                     LastUICommand = DateTime.UtcNow;
-                    MainInstance.MethodPrinting(Arguments);
+                    SystemManager.MainInstance.MethodPrinting(Arguments);
                 }
             }
         }
         private static void ClearTerminal() {
             if (IsExecutionAllowed()) {
-                if (MainInstance != null) {
+                if (SystemManager.MainInstance != null) {
                     LastUICommand = DateTime.UtcNow;
-                    MainInstance.MethodClearing();
+                    SystemManager.MainInstance.MethodClearing();
 
                 }
             }
@@ -734,13 +732,13 @@ namespace Serial_Monitor.Classes {
             return Assignment + "=" + Input + ".Replace(" + StringHandler.EncapsulateString(ReplaceCue) + "," + StringHandler.EncapsulateString(ReplaceWith) + ")";
         }
         public static void CopyVariableValue(string Argument) {
-            if (MainInstance != null) {
-                MainInstance.MethodCopying(GetVariable(Argument, false));
+            if (SystemManager.MainInstance != null) {
+                SystemManager.MainInstance.MethodCopying(GetVariable(Argument, false));
             }
         }
         public static void CopyText(string Argument) {
-            if (MainInstance != null) {
-                MainInstance.MethodCopying(Argument);
+            if (SystemManager.MainInstance != null) {
+                SystemManager.MainInstance.MethodCopying(Argument);
             }
         }
         public static void SetVariable(string Arguments) {
@@ -880,23 +878,7 @@ namespace Serial_Monitor.Classes {
             return IsStringExp;
         }
         #endregion
-        #region Debugging
-        public static void Print(ErrorType Severity, string ErrorCode, string Msg) {
-            if (MainInstance == null) { return; }
-            if (Severity == ErrorType.M_Error) {
-                MainInstance.MethodPrinting("ERROR: " + ErrorCode + " " + Msg, 1);
-            }
-            else if (Severity == ErrorType.M_CriticalError) {
-                MainInstance.MethodPrinting("STOP: " + ErrorCode + " " + Msg, 1);
-            }
-            else if (Severity == ErrorType.M_Warning) {
-                MainInstance.MethodPrinting("WARNING: " + ErrorCode + " " + Msg, 0);
-            }
-            else if (Severity == ErrorType.M_Notification) {
-                MainInstance.MethodPrinting(Msg);
-            }
-        }
-        #endregion
+       
         #region Control Flow
         //private delegate void delAddText(string text);
         //private static delAddText safeAddText = new delAddText(AddText);
@@ -1055,7 +1037,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
             if (LabelExists == false) {
-                Print(ErrorType.M_Warning, "NO_JMP_LBL", "'" + Arguments + "' could not be found");
+                SystemManager.Print(ErrorType.M_Warning, "NO_JMP_LBL", "'" + Arguments + "' could not be found");
             }
         }
         public static void GotoLine(string Arguments) {
@@ -1209,7 +1191,7 @@ namespace Serial_Monitor.Classes {
                     if (PrgObj.Name == ProgramName) {
                         CurrentProgram = PrgObj;
                         ProgramFound = true;
-                        if (MainInstance != null) { MainInstance.MethodSetRunText(PrgObj.Name); }
+                        if (SystemManager.MainInstance != null) { SystemManager.MainInstance.MethodSetRunText(PrgObj.Name); }
                         break;
                     }
                 }
@@ -1217,7 +1199,7 @@ namespace Serial_Monitor.Classes {
             if (ProgramFound == false) {
                 ProgramState = StepEnumerations.StepState.Stopped;
                 ProgramStep = 0;
-                Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
+                SystemManager.Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
             }
             else {
                 if (TempState == StepEnumerations.StepState.Running) {
@@ -1413,9 +1395,9 @@ namespace Serial_Monitor.Classes {
             else {
                 AddCommandLine(StepChange);
             }
-            if (MainInstance != null) {
-                ApplySyntaxColouring(MainInstance.lstStepProgram, -1, true);
-                ApplyIndentation(MainInstance.lstStepProgram);
+            if (SystemManager.MainInstance != null) {
+                ApplySyntaxColouring(SystemManager.MainInstance.lstStepProgram, -1, true);
+                ApplyIndentation(SystemManager.MainInstance.lstStepProgram);
             }
            
         }

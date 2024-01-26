@@ -1165,21 +1165,21 @@ namespace Serial_Monitor {
         #endregion 
         #region Main Instance Project Handling
         private void openToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (ProgramManager.MainInstance == null) { return; }
-            ProgramManager.MainInstance.OpenFileViaDialog();
+            if (SystemManager.MainInstance == null) { return; }
+            SystemManager.MainInstance.OpenFileViaDialog();
         }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (ProgramManager.MainInstance == null) { return; }
-            ProgramManager.MainInstance.Save();
+            if (SystemManager.MainInstance == null) { return; }
+            SystemManager.MainInstance.Save();
         }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (ProgramManager.MainInstance == null) { return; }
-            ProgramManager.MainInstance.Save(true);
+            if (SystemManager.MainInstance == null) { return; }
+            SystemManager.MainInstance.Save(true);
         }
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e) {
-            if (ProgramManager.MainInstance == null) { return; }
-            ProgramManager.MainInstance.New();
+            if (SystemManager.MainInstance == null) { return; }
+            SystemManager.MainInstance.New();
         }
         #endregion 
         #region Clipboard

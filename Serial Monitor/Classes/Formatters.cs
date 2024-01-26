@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
 namespace Serial_Monitor.Classes {
     public static class Formatters {
+        #region Low Level Converters
         public static unsafe int SingleToInt32Bits(float value) {
             return *(int*)(&value);
         }
@@ -20,6 +22,8 @@ namespace Serial_Monitor.Classes {
         public static unsafe double Int64BitsToDouble(long value) {
             return *(double*)(&value);
         }
+        #endregion
+        #region Human Readable Formatters
         public static string ByteToChar(byte Input) {
             char Val = (char)Input;
             switch (Val) {
@@ -115,6 +119,7 @@ namespace Serial_Monitor.Classes {
             }
             return str.ToUpper();
         }
+        #endregion
         #region Modbus Data Input Formatters
         public static string LongToString(long Input, DataFormat Format, DataSize Size, bool IsSigned) {
             string Output = "0";
@@ -343,7 +348,115 @@ namespace Serial_Monitor.Classes {
             BinaryFormatFlags Flags = GetFlags(Size, IsSigned);
             return MathHandler.GetBinaryFormatRange(Flags);
         }
+        #endregion
+        #region Stream Formatters
+        public static bool StringToByteStream(string Data, DataFormat Format, out byte[] Output) {
+            STR_MVSSF Values = StringHandler.SpiltStringMutipleValues(Data, ' ');
+            Output = new byte[Values.Count];
+            switch (Format) {
+                case DataFormat.Binary:
+                    return BinaryToByteStream(ref Values, ref Output);
+                case DataFormat.Octal:
+                    return OctalToByteStream(ref Values, ref Output);
+                case DataFormat.Decimal:
+                    return DecimalToByteStream(ref Values, ref Output);
+                case DataFormat.Hexadecimal:
+                    return HexadecimalToByteStream(ref Values, ref Output);
+                default:
+                    return false;
+            }
+        }
+        private static bool BinaryToByteStream(ref STR_MVSSF Values, ref byte[] Output) {
+            int i = 0;
+            foreach (string Temp in Values.Value) {
+                string TempStr = Temp.Trim().ToLower();
+                if (TempStr.StartsWith("0b")) { TempStr = TempStr.Replace("0b", ""); }
+                if (Regex.IsMatch(TempStr, @"^[0-1]+$")) {
+                    if ((TempStr.Length >= 1) && (TempStr.Length <= 8)) {
+                        byte Out = (byte)Convert.ToInt32(TempStr, 2);
+                        Output[i] = Out;
+                    }
+                    else {
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        return false;
+                    }
+                }
+                else {
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not a binary number.");
+                    return false;
+                }
+                i++;
+            }
+            return true;
+        }
+        private static bool OctalToByteStream(ref STR_MVSSF Values, ref byte[] Output) {
+            int i = 0;
+            foreach (string Temp in Values.Value) {
+                string TempStr = Temp.Trim().ToLower();
+                if (Regex.IsMatch(TempStr, @"^[0-7]+$")) {
+                    if ((TempStr.Length >= 1) && (TempStr.Length <= 3)) {
+                        byte Out = (byte)Convert.ToInt32(TempStr, 8);
+                        Output[i] = Out;
+                    }
+                    else {
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        return false;
+                    }
+                }
+                else {
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not an octal number.");
+                    return false;
+                }
+                i++;
+            }
+            return true;
+        }
+        private static bool DecimalToByteStream(ref STR_MVSSF Values, ref byte[] Output) {
+            int i = 0;
+            foreach (string Temp in Values.Value) {
+                string TempStr = Temp.Trim().ToLower();
+                if (Regex.IsMatch(TempStr, @"^[0-9]+$")) {
+                    if ((TempStr.Length >= 1) && (TempStr.Length <= 3)) {
+                        byte Out = (byte)Convert.ToInt32(TempStr);
+                        Output[i] = Out;
+                    }
+                    else {
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        return false;
+                    }
+                }
+                else {
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not an integer.");
+                    return false;
+                }
+                i++;
+            }
+            return true;
+        }
+        private static bool HexadecimalToByteStream(ref STR_MVSSF Values, ref byte[] Output) {
+            int i = 0;
+            foreach (string Temp in Values.Value) {
+                string TempStr = Temp.Trim().ToLower();
+                if (TempStr.StartsWith("0x")) { TempStr = TempStr.Replace("0x", ""); }
+                if (Regex.IsMatch(TempStr, @"^[A-Fa-f0-9]+$")) {
+                    if ((TempStr.Length >= 1) && (TempStr.Length <= 2)) {
+                        byte Out = (byte)Convert.ToInt32(TempStr, 16);
+                        Output[i] = Out;
+                    }
+                    else {
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        return false;
+                    }
+                }
+                else {
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not a hexadecimal number.");
+                    return false;
+                }
+                i++;
+            }
+            return true;
+        }
         #endregion 
     }
-  
+
 }

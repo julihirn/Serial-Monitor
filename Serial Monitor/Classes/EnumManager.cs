@@ -317,6 +317,18 @@ namespace Serial_Monitor.Classes {
             else if (Input == "frmModbusASCII") {
                 return Enums.FormatEnums.StreamInputFormat.ModbusASCII;
             }
+            else if (Input == "frmStreamBin") {
+                return Enums.FormatEnums.StreamInputFormat.StreamBinary;
+            }
+            else if (Input == "frmStreamOct") {
+                return Enums.FormatEnums.StreamInputFormat.StreamOctal;
+            }
+            else if (Input == "frmStreamDec") {
+                return Enums.FormatEnums.StreamInputFormat.StreamDecimal;
+            }
+            else if (Input == "frmStreamHex") {
+                return Enums.FormatEnums.StreamInputFormat.StreamHexadecimal;
+            }
             return Enums.FormatEnums.StreamInputFormat.Text;
         }
         public static StringPair InputFormatToString(Enums.FormatEnums.StreamInputFormat Input, bool UseLongName = true) {
@@ -325,7 +337,7 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == Enums.FormatEnums.StreamInputFormat.BinaryStream) {
                 if (UseLongName == true) {
-                    return new StringPair("&Binary Stream", "frmStream");
+                    return new StringPair("Binary &Stream", "frmStream");
                 }
                 else {
                     return new StringPair("Stream", "frmStream");
@@ -345,6 +357,18 @@ namespace Serial_Monitor.Classes {
             else if (Input == Enums.FormatEnums.StreamInputFormat.ModbusASCII) {
                 return new StringPair("Modbus &ASCII", "frmModbusASCII");
             }
+            else if (Input == Enums.FormatEnums.StreamInputFormat.StreamBinary) {
+                return new StringPair("&Binary", "frmStreamBin");
+            }
+            else if (Input == Enums.FormatEnums.StreamInputFormat.StreamOctal) {
+                return new StringPair("&Octal", "frmStreamOct");
+            }
+            else if (Input == Enums.FormatEnums.StreamInputFormat.StreamDecimal) {
+                return new StringPair("&Decimal", "frmStreamDec");
+            }
+            else if (Input == Enums.FormatEnums.StreamInputFormat.StreamHexadecimal) {
+                return new StringPair("&Hexadecimal", "frmStreamHex");
+            }
             return new StringPair("Text", "frmTxt");
         }
         #endregion
@@ -361,6 +385,18 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == "frmModbusASCII") {
                 return Enums.FormatEnums.StreamOutputFormat.ModbusASCII;
+            }
+            else if (Input == "frmStreamBin") {
+                return Enums.FormatEnums.StreamOutputFormat.StreamBinary;
+            }
+            else if (Input == "frmStreamOct") {
+                return Enums.FormatEnums.StreamOutputFormat.StreamOctal;
+            }
+            else if (Input == "frmStreamDec") {
+                return Enums.FormatEnums.StreamOutputFormat.StreamDecimal;
+            }
+            else if (Input == "frmStreamHex") {
+                return Enums.FormatEnums.StreamOutputFormat.StreamHexadecimal;
             }
             return Enums.FormatEnums.StreamOutputFormat.Text;
         }
@@ -381,6 +417,18 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == Enums.FormatEnums.StreamOutputFormat.ModbusASCII) {
                 return new StringPair("Modbus ASCII", "frmModbusASCII");
+            }
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.StreamBinary) {
+                return new StringPair("Binary", "frmStreamBin");
+            }
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.StreamOctal) {
+                return new StringPair("Octal", "frmStreamOct");
+            }
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.StreamDecimal) {
+                return new StringPair("Decimal", "frmStreamDec");
+            }
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.StreamHexadecimal) {
+                return new StringPair("Hexadecimal", "frmStreamHex");
             }
             return new StringPair("Text", "frmTxt");
         }
@@ -418,8 +466,21 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
 
+        private static bool FormatLookAhead(int CurrentIndex, ref Enums.FormatEnums.StreamInputFormat[] Formats) {
+            if (CurrentIndex + 1 >= Formats.Length) { return false; }
+            int CurrentValue = 0xFF00 & (int)Formats[CurrentIndex];
+            int NextValue = 0xFF00 & (int)Formats[CurrentIndex + 1];
+            return !(CurrentValue == NextValue);
+        }
+        private static bool FormatLookAhead(int CurrentIndex, ref Enums.FormatEnums.StreamOutputFormat[] Formats) {
+            if (CurrentIndex + 1 >= Formats.Length) { return false; }
+            int CurrentValue = 0xFF00 & (int)Formats[CurrentIndex];
+            int NextValue = 0xFF00 & (int)Formats[CurrentIndex + 1];
+            return !(CurrentValue == NextValue);
+        }
         public static void LoadInputFormats(object DropDownList, EventHandler FormatClick, bool ApplyText = false) {
             Enums.FormatEnums.StreamInputFormat[] Formats = (Enums.FormatEnums.StreamInputFormat[])Enums.FormatEnums.StreamInputFormat.GetValues(typeof(Enums.FormatEnums.StreamInputFormat));
+            int i = 0;
             foreach (Enums.FormatEnums.StreamInputFormat Frmt in Formats) {
                 StringPair Data = EnumManager.InputFormatToString(Frmt, true);
                 ToolStripMenuItem Tsi = new ToolStripMenuItem();
@@ -443,14 +504,24 @@ namespace Serial_Monitor.Classes {
                 if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
                     ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
+                    if (FormatLookAhead(i, ref Formats)) {
+                        ToolStripSeparator Sep = new ToolStripSeparator();
+                        Btn.DropDownItems.Add(Sep);
+                    }
                 }
                 else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
                     ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
+                    if (FormatLookAhead(i, ref Formats)) {
+                        ToolStripSeparator Sep = new ToolStripSeparator();
+                        Btn.DropDownItems.Add(Sep);
+                    }
                 }
+                i++;
             }
         }
         public static void LoadOutputFormats(object DropDownList, EventHandler FormatClick, bool ApplyText = false) {
+            int i = 0;
             Enums.FormatEnums.StreamOutputFormat[] Formats = (Enums.FormatEnums.StreamOutputFormat[])Enums.FormatEnums.StreamOutputFormat.GetValues(typeof(Enums.FormatEnums.StreamOutputFormat));
             foreach (Enums.FormatEnums.StreamOutputFormat Frmt in Formats) {
                 StringPair Data = EnumManager.OutputFormatToString(Frmt, true);
@@ -475,11 +546,20 @@ namespace Serial_Monitor.Classes {
                 if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
                     ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
+                    if (FormatLookAhead(i, ref Formats)) {
+                        ToolStripSeparator Sep = new ToolStripSeparator();
+                        Btn.DropDownItems.Add(Sep);
+                    }
                 }
                 else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
                     ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
+                    if (FormatLookAhead(i, ref Formats)) {
+                        ToolStripSeparator Sep = new ToolStripSeparator();
+                        Btn.DropDownItems.Add(Sep);
+                    }
                 }
+                i++;
             }
         }
         public static void ClearClickHandles(object DropDownList, EventHandler FormatClick) {
@@ -586,7 +666,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        public static NumericTextbox.MetricPrefix GetPrefix(ModbusRegister ?Register) {
+        public static NumericTextbox.MetricPrefix GetPrefix(ModbusRegister? Register) {
             if (Register == null) { return MetricPrefix.None; }
             int Index = (int)Register.Prefix;
             return (MetricPrefix)Index;

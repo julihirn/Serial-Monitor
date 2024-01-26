@@ -304,6 +304,10 @@
             btnGrabPoint.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             btnGrabPoint.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
             btnGrabPoint.Type = ODModules.ButtonType.Button;
+            btnGrabPoint.KeyPress += btnGrabPoint_KeyPress;
+            btnGrabPoint.MouseDown += btnGrabPoint_MouseDown;
+            btnGrabPoint.MouseMove += btnGrabPoint_MouseMove;
+            btnGrabPoint.MouseUp += btnGrabPoint_MouseUp;
             // 
             // spPnlPoint
             // 

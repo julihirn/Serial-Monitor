@@ -891,22 +891,24 @@ namespace Serial_Monitor.WindowForms {
             }
         }
         private void CheckInputFormat(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelInputFormat.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
+            foreach (object Item in btnChannelInputFormat.DropDownItems) {
+                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                    ((ToolStripMenuItem)Item).Checked = true;
                 }
                 else {
-                    Item.Checked = false;
+                    ((ToolStripMenuItem)Item).Checked = false;
                 }
             }
         }
         private void CheckOutputFormat(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelOutputFormat.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
+            foreach (object Item in btnChannelOutputFormat.DropDownItems) {
+                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                    ((ToolStripMenuItem)Item).Checked = true;
                 }
                 else {
-                    Item.Checked = false;
+                    ((ToolStripMenuItem)Item).Checked = false;
                 }
             }
         }

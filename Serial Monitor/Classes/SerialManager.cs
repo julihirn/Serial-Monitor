@@ -487,6 +487,18 @@ namespace Serial_Monitor.Classes {
                     case StreamOutputFormat.ModbusASCII:
                         ModbusCommand(Data);
                         break;
+                    case StreamOutputFormat.StreamBinary:
+                        StreamTransmit(Data, Enums.ModbusEnums.DataFormat.Binary);
+                        break;
+                    case StreamOutputFormat.StreamOctal:
+                        StreamTransmit(Data, Enums.ModbusEnums.DataFormat.Octal);
+                        break;
+                    case StreamOutputFormat.StreamDecimal:
+                        StreamTransmit(Data, Enums.ModbusEnums.DataFormat.Decimal);
+                        break;
+                    case StreamOutputFormat.StreamHexadecimal:
+                        StreamTransmit(Data, Enums.ModbusEnums.DataFormat.Hexadecimal);
+                        break;
                 }
                 return true;
             }
@@ -526,6 +538,18 @@ namespace Serial_Monitor.Classes {
                     break;
                 case StreamInputFormat.ModbusASCII:
                     ModbusASCIIProcessor(sender);
+                    break;
+                case StreamInputFormat.StreamBinary:
+                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Binary);
+                    break;
+                case StreamInputFormat.StreamOctal:
+                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Octal);
+                    break;
+                case StreamInputFormat.StreamDecimal:
+                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Decimal);
+                    break;
+                case StreamInputFormat.StreamHexadecimal:
+                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Hexadecimal);
                     break;
                 default:
                     break;
@@ -580,6 +604,33 @@ namespace Serial_Monitor.Classes {
                     DataReceived?.Invoke(this, true, Result);
                     ProgramManager.ProgramDataReceived(this.ID, Result);
                 }
+            }
+            catch { }
+        }
+        private void StreamProcessor(object sender, Enums.ModbusEnums.DataFormat Format) {
+            try {
+                byte[] Buffer = new byte[1000];
+                int i = 0;
+                int BytesToRead = ((SerialPort)sender).BytesToRead;
+                bytesReceived += (ulong)BytesToRead;
+                i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
+                string Result = "";
+                for (int j = 0; j < BytesToRead; j++) {
+                    switch (Format) {
+                        case Enums.ModbusEnums.DataFormat.Binary:
+                            Result += Classes.Formatters.ByteToBinary(Buffer[j]); break;
+                        case Enums.ModbusEnums.DataFormat.Octal:
+                            Result += Convert.ToString(Buffer[j], 8); break;
+                        case Enums.ModbusEnums.DataFormat.Decimal:
+                            Result += Buffer[j].ToString(); break;
+                        case Enums.ModbusEnums.DataFormat.Hexadecimal:
+                            Result += Classes.Formatters.ByteToHex(Buffer[j]); break;
+                        default: break;
+                    }
+                    Result += " ";
+                }
+                DataReceived?.Invoke(this, true, Result);
+                ProgramManager.ProgramDataReceived(this.ID, Result);
             }
             catch { }
         }
@@ -1721,7 +1772,23 @@ namespace Serial_Monitor.Classes {
             }
         }
         #endregion
-
+        #region Stream Transmission
+        private bool StreamTransmit(string Data, Enums.ModbusEnums.DataFormat Format) {
+            byte[] Output;
+            if (Formatters.StringToByteStream(Data, Format, out Output)) {
+                try {
+                    if (Port.IsOpen) {
+                        Port.Write(Output, 0, Output.Length);
+                    }
+                    return true;
+                }
+                catch {
+                    return false;
+                }
+            }
+            return false;
+        }
+        #endregion
         private enum MessageState {
             Ready = 0x00,
             Armed = 0x01,
