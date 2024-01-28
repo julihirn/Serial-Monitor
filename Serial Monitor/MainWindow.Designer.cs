@@ -307,7 +307,7 @@
             tsMain.MenuSymbolColor = Color.LightGray;
             tsMain.Name = "tsMain";
             tsMain.Padding = new Padding(0, 0, 2, 0);
-            tsMain.Size = new Size(607, 25);
+            tsMain.Size = new Size(634, 25);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 0;
@@ -623,7 +623,7 @@
             btnClearTerminal.ImageScaling = ToolStripItemImageScaling.None;
             btnClearTerminal.ImageTransparentColor = Color.Magenta;
             btnClearTerminal.Name = "btnClearTerminal";
-            btnClearTerminal.Size = new Size(23, 20);
+            btnClearTerminal.Size = new Size(23, 22);
             btnClearTerminal.Text = "Clear Terminal";
             // 
             // btnTopMost
@@ -633,7 +633,7 @@
             btnTopMost.ImageScaling = ToolStripItemImageScaling.None;
             btnTopMost.ImageTransparentColor = Color.Magenta;
             btnTopMost.Name = "btnTopMost";
-            btnTopMost.Size = new Size(23, 20);
+            btnTopMost.Size = new Size(23, 22);
             btnTopMost.Text = "Window Top Most";
             // 
             // pnlRenamePanel
@@ -646,7 +646,7 @@
             pnlRenamePanel.Margin = new Padding(2, 1, 2, 1);
             pnlRenamePanel.Name = "pnlRenamePanel";
             pnlRenamePanel.Padding = new Padding(1);
-            pnlRenamePanel.Size = new Size(607, 20);
+            pnlRenamePanel.Size = new Size(634, 20);
             pnlRenamePanel.TabIndex = 3;
             pnlRenamePanel.Visible = false;
             // 
@@ -662,14 +662,14 @@
             textBox1.MaxLength = 20;
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Rename Channel";
-            textBox1.Size = new Size(510, 18);
+            textBox1.Size = new Size(537, 18);
             textBox1.TabIndex = 2;
             // 
             // panel2
             // 
             panel2.Controls.Add(button1);
             panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(511, 1);
+            panel2.Location = new Point(538, 1);
             panel2.Name = "panel2";
             panel2.Size = new Size(95, 18);
             panel2.TabIndex = 1;
@@ -734,7 +734,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(81, 134);
+            navigator1.Size = new Size(81, 162);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -883,7 +883,7 @@
             column4.UseItemBackColor = false;
             column4.UseItemForeColor = false;
             column4.Visible = true;
-            column4.Width = 417;
+            column4.Width = 444;
             lstStepProgram.Columns.Add(column1);
             lstStepProgram.Columns.Add(column2);
             lstStepProgram.Columns.Add(column3);
@@ -959,7 +959,7 @@
             lstStepProgram.ShowItemIndentation = true;
             lstStepProgram.ShowMarker = true;
             lstStepProgram.ShowRowColors = true;
-            lstStepProgram.Size = new Size(607, 113);
+            lstStepProgram.Size = new Size(634, 113);
             lstStepProgram.SpanColumn = 3;
             lstStepProgram.TabIndex = 0;
             lstStepProgram.UseLocalList = false;
@@ -1090,7 +1090,7 @@
             msMain.MenuSymbolColor = Color.White;
             msMain.Name = "msMain";
             msMain.Padding = new Padding(3, 1, 0, 1);
-            msMain.Size = new Size(607, 24);
+            msMain.Size = new Size(634, 24);
             msMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             msMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             msMain.TabIndex = 2;
@@ -2338,14 +2338,14 @@
             pnlStepProgram.LabelBackColor = Color.FromArgb(31, 31, 31);
             pnlStepProgram.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             pnlStepProgram.LabelForeColor = Color.WhiteSmoke;
-            pnlStepProgram.Location = new Point(0, 203);
+            pnlStepProgram.Location = new Point(0, 231);
             pnlStepProgram.Name = "pnlStepProgram";
             pnlStepProgram.OverrideCollapseControl = true;
             pnlStepProgram.Padding = new Padding(0, 18, 0, 0);
             pnlStepProgram.PanelCollapsible = true;
             pnlStepProgram.ResizeControl = ODModules.LabelPanel.ResizeDirection.Top;
             pnlStepProgram.ShowCloseButton = true;
-            pnlStepProgram.Size = new Size(607, 158);
+            pnlStepProgram.Size = new Size(634, 158);
             pnlStepProgram.TabIndex = 3;
             pnlStepProgram.Text = "Step Program";
             // 
@@ -2373,7 +2373,7 @@
             thPrograms.ShowHeader = false;
             thPrograms.ShowTabDividers = true;
             thPrograms.ShowTabs = true;
-            thPrograms.Size = new Size(607, 27);
+            thPrograms.Size = new Size(634, 27);
             thPrograms.TabBackColor = Color.Transparent;
             thPrograms.TabBorderColor = Color.Transparent;
             thPrograms.TabClickedBackColor = Color.DarkGray;
@@ -2400,7 +2400,7 @@
             pnlMainConsole.Dock = DockStyle.Fill;
             pnlMainConsole.Location = new Point(0, 49);
             pnlMainConsole.Name = "pnlMainConsole";
-            pnlMainConsole.Size = new Size(607, 154);
+            pnlMainConsole.Size = new Size(634, 182);
             pnlMainConsole.TabIndex = 3;
             // 
             // Output
@@ -2429,7 +2429,7 @@
             Output.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Output.SelectionColor = Color.FromArgb(47, 47, 74);
             Output.ShowOrigin = true;
-            Output.Size = new Size(526, 134);
+            Output.Size = new Size(553, 162);
             Output.TabIndex = 0;
             Output.TimeStampForeColor = Color.Gray;
             Output.TimeStamps = ODModules.ConsoleInterface.TimeStampFormat.NoTimeStamps;
@@ -2448,14 +2448,14 @@
             smMain.ItemSelectedBackColorSouth = Color.White;
             smMain.ItemSelectedForeColor = Color.Black;
             smMain.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            smMain.Location = new Point(0, 361);
+            smMain.Location = new Point(0, 389);
             smMain.MenuBackColorNorth = Color.Gray;
             smMain.MenuBackColorSouth = Color.Silver;
             smMain.MenuBorderColor = Color.WhiteSmoke;
             smMain.MenuSeparatorColor = Color.WhiteSmoke;
             smMain.MenuSymbolColor = Color.WhiteSmoke;
             smMain.Name = "smMain";
-            smMain.Size = new Size(607, 22);
+            smMain.Size = new Size(634, 22);
             smMain.SizingGrip = false;
             smMain.StripItemSelectedBackColorNorth = Color.White;
             smMain.StripItemSelectedBackColorSouth = Color.White;
@@ -2608,7 +2608,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
-            ClientSize = new Size(607, 383);
+            ClientSize = new Size(634, 411);
             Controls.Add(pnlMainConsole);
             Controls.Add(pnlStepProgram);
             Controls.Add(tsMain);

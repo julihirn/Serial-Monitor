@@ -35,8 +35,8 @@
             ODModules.ListSubItem listSubItem2 = new ODModules.ListSubItem();
             ODModules.ListSubItem listSubItem3 = new ODModules.ListSubItem();
             ODModules.ListSubItem listSubItem4 = new ODModules.ListSubItem();
+            ODModules.Tab tab1 = new ODModules.Tab();
             ODModules.Tab tab2 = new ODModules.Tab();
-            ODModules.Tab tab3 = new ODModules.Tab();
             navigator1 = new ODModules.Navigator();
             lstMonitor = new ODModules.ListControl();
             cmMonitor = new ODModules.ContextMenu();
@@ -205,7 +205,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(81, 257);
+            navigator1.Size = new Size(81, 307);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -380,7 +380,7 @@
             lstMonitor.ShowItemIndentation = false;
             lstMonitor.ShowMarker = false;
             lstMonitor.ShowRowColors = true;
-            lstMonitor.Size = new Size(495, 230);
+            lstMonitor.Size = new Size(545, 280);
             lstMonitor.SpanColumn = -1;
             lstMonitor.TabIndex = 3;
             lstMonitor.UseLocalList = false;
@@ -456,7 +456,7 @@
             tsMain.MenuSymbolColor = Color.FromArgb(64, 64, 64);
             tsMain.Name = "tsMain";
             tsMain.Padding = new Padding(0, 0, 2, 0);
-            tsMain.Size = new Size(584, 25);
+            tsMain.Size = new Size(634, 25);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 4;
@@ -575,7 +575,7 @@
             tbDataPages.Multiline = true;
             tbDataPages.Name = "tbDataPages";
             tbDataPages.SelectedIndex = 0;
-            tbDataPages.Size = new Size(584, 285);
+            tbDataPages.Size = new Size(634, 335);
             tbDataPages.TabIndex = 5;
             // 
             // tpRegisters
@@ -586,7 +586,7 @@
             tpRegisters.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tpRegisters.Location = new Point(4, 24);
             tpRegisters.Name = "tpRegisters";
-            tpRegisters.Size = new Size(576, 257);
+            tpRegisters.Size = new Size(626, 307);
             tpRegisters.TabIndex = 0;
             tpRegisters.Text = "Master View";
             tpRegisters.UseVisualStyleBackColor = true;
@@ -615,7 +615,7 @@
             thSlaves.ShowHeader = true;
             thSlaves.ShowTabDividers = true;
             thSlaves.ShowTabs = true;
-            thSlaves.Size = new Size(495, 27);
+            thSlaves.Size = new Size(545, 27);
             thSlaves.TabBackColor = Color.Transparent;
             thSlaves.TabBorderColor = Color.Transparent;
             thSlaves.TabClickedBackColor = Color.DarkGray;
@@ -623,10 +623,10 @@
             thSlaves.TabHoverBackColor = Color.LightGray;
             thSlaves.TabIndex = 7;
             thSlaves.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab2.Selected = true;
-            tab2.Tag = null;
-            tab2.Text = "Main";
-            thSlaves.Tabs.Add(tab2);
+            tab1.Selected = true;
+            tab1.Tag = null;
+            tab1.Text = "Main";
+            thSlaves.Tabs.Add(tab1);
             thSlaves.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedForeColor = Color.WhiteSmoke;
@@ -686,7 +686,7 @@
             thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
             thDataPagesHeader.ShowTabs = true;
-            thDataPagesHeader.Size = new Size(584, 27);
+            thDataPagesHeader.Size = new Size(634, 27);
             thDataPagesHeader.TabBackColor = Color.Transparent;
             thDataPagesHeader.TabBorderColor = Color.Transparent;
             thDataPagesHeader.TabClickedBackColor = Color.DarkGray;
@@ -694,10 +694,10 @@
             thDataPagesHeader.TabHoverBackColor = Color.LightGray;
             thDataPagesHeader.TabIndex = 6;
             thDataPagesHeader.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab3.Selected = true;
-            tab3.Tag = null;
-            tab3.Text = "";
-            thDataPagesHeader.Tabs.Add(tab3);
+            tab2.Selected = true;
+            tab2.Tag = null;
+            tab2.Text = "";
+            thDataPagesHeader.Tabs.Add(tab2);
             thDataPagesHeader.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedForeColor = Color.WhiteSmoke;
@@ -724,7 +724,7 @@
             msMain.MenuSeparatorColor = Color.WhiteSmoke;
             msMain.MenuSymbolColor = Color.WhiteSmoke;
             msMain.Name = "msMain";
-            msMain.Size = new Size(584, 24);
+            msMain.Size = new Size(634, 24);
             msMain.StripItemSelectedBackColorNorth = Color.White;
             msMain.StripItemSelectedBackColorSouth = Color.White;
             msMain.TabIndex = 7;
@@ -1526,6 +1526,7 @@
             // customizeToolStripMenuItem
             // 
             customizeToolStripMenuItem.ForeColor = Color.White;
+            customizeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
             customizeToolStripMenuItem.Size = new Size(187, 22);
             customizeToolStripMenuItem.Text = "&Customize";
@@ -1534,6 +1535,7 @@
             // optionsToolStripMenuItem
             // 
             optionsToolStripMenuItem.ForeColor = Color.White;
+            optionsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             optionsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.I;
             optionsToolStripMenuItem.Size = new Size(187, 22);
@@ -1738,7 +1740,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
-            ClientSize = new Size(584, 361);
+            ClientSize = new Size(634, 411);
             Controls.Add(tbDataPages);
             Controls.Add(thDataPagesHeader);
             Controls.Add(tsMain);

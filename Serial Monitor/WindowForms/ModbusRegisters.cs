@@ -679,6 +679,8 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewItem, newToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Settings_16x, optionsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.QueryView, querySenderToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewPartition, newUnitToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));

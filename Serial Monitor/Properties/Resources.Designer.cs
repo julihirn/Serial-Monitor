@@ -563,6 +563,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] NewTreeQuery {
+            get {
+                object obj = ResourceManager.GetObject("NewTreeQuery", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] OpenFile_16x {
             get {
                 object obj = ResourceManager.GetObject("OpenFile_16x", resourceCulture);
@@ -646,6 +656,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] QueryView {
             get {
                 object obj = ResourceManager.GetObject("QueryView", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Redo {
+            get {
+                object obj = ResourceManager.GetObject("Redo", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1006,6 +1026,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] Time {
             get {
                 object obj = ResourceManager.GetObject("Time", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] UndoNoColor {
+            get {
+                object obj = ResourceManager.GetObject("UndoNoColor", resourceCulture);
                 return ((byte[])(obj));
             }
         }
