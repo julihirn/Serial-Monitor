@@ -18,6 +18,7 @@ using static Serial_Monitor.Classes.Step_Programs.StepEnumerations;
 using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 using System.Text.RegularExpressions;
 using System.ComponentModel.Design;
+using System.Xml.Linq;
 
 namespace Serial_Monitor.Classes {
     public static class ProgramManager {
@@ -878,7 +879,7 @@ namespace Serial_Monitor.Classes {
             return IsStringExp;
         }
         #endregion
-       
+
         #region Control Flow
         //private delegate void delAddText(string text);
         //private static delAddText safeAddText = new delAddText(AddText);
@@ -1310,7 +1311,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static StepKeyWordType StepExecutableToKeyWordType(StepExecutable StepExe) {
-            switch(StepExe) {
+            switch (StepExe) {
                 case StepEnumerations.StepExecutable.If:
                     return StepKeyWordType.ControlFlow;
                 case StepEnumerations.StepExecutable.Else:
@@ -1399,7 +1400,50 @@ namespace Serial_Monitor.Classes {
                 ApplySyntaxColouring(SystemManager.MainInstance.lstStepProgram, -1, true);
                 ApplyIndentation(SystemManager.MainInstance.lstStepProgram);
             }
-           
+
+        }
+        internal static void ArrangeProgramOrderings(TabHeader thPrograms) {
+            int Index = 0;
+            foreach (Tab TabPrg in thPrograms.Tabs) {
+                if (TabPrg.Tag != null) {
+                    if (TabPrg.Tag.GetType() == typeof(ProgramObject)) {
+                        ((ProgramObject)TabPrg.Tag).DisplayIndex = Index;
+                        Index++;
+                    }
+                }
+            }
+            Programs = Programs.OrderBy(x => x.DisplayIndex).ToList();
+        }
+        internal static void UpdateProgramNames(TabHeader thPrograms) {
+            int j = 0;
+            foreach (ProgramObject Prg in ProgramManager.Programs) {
+                if (Prg.Name.Trim().Length == 0) {
+                    Prg.UntitledProgramNmber = j;
+                    j++;
+                }
+                else {
+                    Prg.UntitledProgramNmber = -1;
+                }
+            }
+            string LocalisatedText = LocalisationManager.GetLocalisedText("untitledProgram", "Untitled Program");
+            if (thPrograms.Tabs.Count > 0) {
+                foreach (Tab Tb in thPrograms.Tabs) {
+                    if (Tb.Tag != null) {
+                        if (Tb.Tag.GetType() == typeof(ProgramObject)) {
+                            ProgramObject PrObj = (ProgramObject)Tb.Tag;
+                            if (PrObj.UntitledProgramNmber >= 1) {
+                                Tb.Text = LocalisatedText + " "  + PrObj.UntitledProgramNmber.ToString();
+                            }
+                            else if (PrObj.UntitledProgramNmber == 0) {
+                                Tb.Text = LocalisatedText;
+                            }
+                            else {
+                                Tb.Text = PrObj.Name;
+                            }
+                        }
+                    }
+                }
+            }
         }
         #endregion
         #region Program Command Connectivity
@@ -1534,5 +1578,64 @@ namespace Serial_Monitor.Classes {
             }
         }
         #endregion
+        #region Program Editor Pages
+        internal static void DetermineTabs(TabHeader thPrograms) {
+            int j = 0;
+            string Name = "";
+            foreach (ProgramObject Prg in ProgramManager.Programs) {
+                if (Prg.Name.Trim().Length == 0) {
+                    Name = GetUntitledText(ref j);
+                }
+                else {
+                    Name = Prg.Name;
+                }
+                Tab Tb = new Tab();
+                Tb.Text = Name;
+                Tb.Tag = Prg;
+                thPrograms.Tabs.Add(Tb);
+            }
+            thPrograms.Invalidate();
+        }
+        internal static void DetermineName(TabHeader thPrograms, object btnRun) {
+            int j = 0;
+            string Name = "";
+            string StoredName = "";
+            bool Resulted = false;
+            foreach (Tab PrgTab in thPrograms.Tabs) {
+                if (PrgTab.Tag == null) { continue; }
+                if (PrgTab.Tag.GetType() != typeof(ProgramObject)) { continue; }
+                ProgramObject Prg = (ProgramObject)PrgTab.Tag;
+                if (Prg.Name.Trim().Length == 0) {
+                    Name = GetUntitledText(ref j);
+                }
+                else {
+                    Name = Prg.Name;
+                }
+                PrgTab.Text = Name;
+                if (Prg == ProgramManager.CurrentProgram) {
+                    StoredName = Name;
+                    Resulted = true;
+                }
+            }
+            if (Resulted == true) {
+                if (btnRun.GetType() == typeof(ToolStripSplitButton)) {
+                    ((ToolStripSplitButton)btnRun).Text = StoredName;
+                }
+            }
+            thPrograms.Invalidate();
+        }
+        private static string GetUntitledText(ref int Index) {
+            string TempName = "";
+            string LocalisatedText = LocalisationManager.GetLocalisedText("untitledProgram", "Untitled Program");
+            if (Index > 0) {
+                TempName = LocalisatedText + " " + Index.ToString();
+            }
+            else {
+                TempName = LocalisatedText;
+            }
+            Index++;
+            return TempName;
+        }
+        #endregion 
     }
 }

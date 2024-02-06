@@ -24,19 +24,19 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModbusRegisters));
-            ODModules.Column column1 = new ODModules.Column();
-            ODModules.Column column2 = new ODModules.Column();
-            ODModules.Column column3 = new ODModules.Column();
-            ODModules.Column column4 = new ODModules.Column();
-            ODModules.Column column5 = new ODModules.Column();
-            ODModules.Column column6 = new ODModules.Column();
-            ODModules.ListItem listItem1 = new ODModules.ListItem();
-            ODModules.ListSubItem listSubItem1 = new ODModules.ListSubItem();
-            ODModules.ListSubItem listSubItem2 = new ODModules.ListSubItem();
-            ODModules.ListSubItem listSubItem3 = new ODModules.ListSubItem();
-            ODModules.ListSubItem listSubItem4 = new ODModules.ListSubItem();
+            ODModules.Column column7 = new ODModules.Column();
+            ODModules.Column column8 = new ODModules.Column();
+            ODModules.Column column9 = new ODModules.Column();
+            ODModules.Column column10 = new ODModules.Column();
+            ODModules.Column column11 = new ODModules.Column();
+            ODModules.Column column12 = new ODModules.Column();
+            ODModules.ListItem listItem2 = new ODModules.ListItem();
+            ODModules.ListSubItem listSubItem5 = new ODModules.ListSubItem();
+            ODModules.ListSubItem listSubItem6 = new ODModules.ListSubItem();
+            ODModules.ListSubItem listSubItem7 = new ODModules.ListSubItem();
+            ODModules.ListSubItem listSubItem8 = new ODModules.ListSubItem();
+            ODModules.Tab tab3 = new ODModules.Tab();
             ODModules.Tab tab1 = new ODModules.Tab();
-            ODModules.Tab tab2 = new ODModules.Tab();
             navigator1 = new ODModules.Navigator();
             lstMonitor = new ODModules.ListControl();
             cmMonitor = new ODModules.ContextMenu();
@@ -192,10 +192,9 @@
             navigator1.BorderColor = Color.FromArgb(0, 0, 0);
             navigator1.DisplayStyle = ODModules.Navigator.Style.Right;
             navigator1.DisplayText = "StateName";
-            navigator1.Dock = DockStyle.Left;
+            resources.ApplyResources(navigator1, "navigator1");
             navigator1.ForeColor = Color.White;
             navigator1.LinkedList = null;
-            navigator1.Location = new Point(0, 0);
             navigator1.MidColor = Color.FromArgb(20, 20, 20);
             navigator1.Name = "navigator1";
             navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
@@ -205,12 +204,10 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(81, 307);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
             navigator1.StatusData = "Status";
-            navigator1.TabIndex = 2;
             navigator1.SelectedIndexChanged += navigator1_SelectedIndexChanged;
             navigator1.TabRightClicked += navigator1_TabRightClicked;
             // 
@@ -222,86 +219,86 @@
             lstMonitor.ColumnColor = Color.FromArgb(30, 30, 30);
             lstMonitor.ColumnForeColor = Color.WhiteSmoke;
             lstMonitor.ColumnLineColor = Color.FromArgb(64, 64, 64);
-            column1.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column1.CountOffset = 0;
-            column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
-            column1.DropDownRight = false;
-            column1.DropDownVisible = false;
-            column1.FixedWidth = false;
-            column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
-            column1.Text = "";
-            column1.UseItemBackColor = false;
-            column1.UseItemForeColor = false;
-            column1.Visible = true;
-            column1.Width = 50;
-            column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column2.CountOffset = 0;
-            column2.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column2.DropDownRight = false;
-            column2.DropDownVisible = false;
-            column2.FixedWidth = false;
-            column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column2.Text = "Name";
-            column2.UseItemBackColor = true;
-            column2.UseItemForeColor = false;
-            column2.Visible = true;
-            column2.Width = 100;
-            column3.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
-            column3.CountOffset = 0;
-            column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column3.DropDownRight = false;
-            column3.DropDownVisible = true;
-            column3.FixedWidth = false;
-            column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column3.Text = "Display";
-            column3.UseItemBackColor = false;
-            column3.UseItemForeColor = false;
-            column3.Visible = true;
-            column3.Width = 80;
-            column4.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
-            column4.CountOffset = 0;
-            column4.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column4.DropDownRight = false;
-            column4.DropDownVisible = true;
-            column4.FixedWidth = true;
-            column4.ItemAlignment = ODModules.ItemTextAlignment.Right;
-            column4.Text = "Size";
-            column4.UseItemBackColor = false;
-            column4.UseItemForeColor = false;
-            column4.Visible = true;
-            column4.Width = 75;
-            column5.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
-            column5.CountOffset = 0;
-            column5.DisplayType = ODModules.ColumnDisplayType.Checkbox;
-            column5.DropDownRight = false;
-            column5.DropDownVisible = true;
-            column5.FixedWidth = true;
-            column5.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column5.Text = "Signed";
-            column5.UseItemBackColor = false;
-            column5.UseItemForeColor = false;
-            column5.Visible = true;
-            column5.Width = 50;
-            column6.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
-            column6.CountOffset = 0;
-            column6.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column6.DropDownRight = false;
-            column6.DropDownVisible = false;
-            column6.FixedWidth = false;
-            column6.ItemAlignment = ODModules.ItemTextAlignment.Right;
-            column6.Text = "Value";
-            column6.UseItemBackColor = false;
-            column6.UseItemForeColor = false;
-            column6.Visible = true;
-            column6.Width = 120;
-            lstMonitor.Columns.Add(column1);
-            lstMonitor.Columns.Add(column2);
-            lstMonitor.Columns.Add(column3);
-            lstMonitor.Columns.Add(column4);
-            lstMonitor.Columns.Add(column5);
-            lstMonitor.Columns.Add(column6);
+            column7.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column7.CountOffset = 0;
+            column7.DisplayType = ODModules.ColumnDisplayType.LineCount;
+            column7.DropDownRight = false;
+            column7.DropDownVisible = false;
+            column7.FixedWidth = false;
+            column7.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column7.Text = "";
+            column7.UseItemBackColor = false;
+            column7.UseItemForeColor = false;
+            column7.Visible = true;
+            column7.Width = 50;
+            column8.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column8.CountOffset = 0;
+            column8.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column8.DropDownRight = false;
+            column8.DropDownVisible = false;
+            column8.FixedWidth = false;
+            column8.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column8.Text = "Name";
+            column8.UseItemBackColor = true;
+            column8.UseItemForeColor = false;
+            column8.Visible = true;
+            column8.Width = 100;
+            column9.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column9.CountOffset = 0;
+            column9.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column9.DropDownRight = false;
+            column9.DropDownVisible = true;
+            column9.FixedWidth = false;
+            column9.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column9.Text = "Display";
+            column9.UseItemBackColor = false;
+            column9.UseItemForeColor = false;
+            column9.Visible = true;
+            column9.Width = 80;
+            column10.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column10.CountOffset = 0;
+            column10.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column10.DropDownRight = false;
+            column10.DropDownVisible = true;
+            column10.FixedWidth = true;
+            column10.ItemAlignment = ODModules.ItemTextAlignment.Right;
+            column10.Text = "Size";
+            column10.UseItemBackColor = false;
+            column10.UseItemForeColor = false;
+            column10.Visible = true;
+            column10.Width = 75;
+            column11.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column11.CountOffset = 0;
+            column11.DisplayType = ODModules.ColumnDisplayType.Checkbox;
+            column11.DropDownRight = false;
+            column11.DropDownVisible = true;
+            column11.FixedWidth = true;
+            column11.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column11.Text = "Signed";
+            column11.UseItemBackColor = false;
+            column11.UseItemForeColor = false;
+            column11.Visible = true;
+            column11.Width = 50;
+            column12.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column12.CountOffset = 0;
+            column12.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column12.DropDownRight = false;
+            column12.DropDownVisible = false;
+            column12.FixedWidth = false;
+            column12.ItemAlignment = ODModules.ItemTextAlignment.Right;
+            column12.Text = "Value";
+            column12.UseItemBackColor = false;
+            column12.UseItemForeColor = false;
+            column12.Visible = true;
+            column12.Width = 120;
+            lstMonitor.Columns.Add(column7);
+            lstMonitor.Columns.Add(column8);
+            lstMonitor.Columns.Add(column9);
+            lstMonitor.Columns.Add(column10);
+            lstMonitor.Columns.Add(column11);
+            lstMonitor.Columns.Add(column12);
             lstMonitor.ContextMenuStrip = cmMonitor;
-            lstMonitor.Dock = DockStyle.Fill;
+            resources.ApplyResources(lstMonitor, "lstMonitor");
             lstMonitor.DropDownMouseDown = Color.DimGray;
             lstMonitor.DropDownMouseOver = Color.LightGray;
             lstMonitor.ExternalItems = null;
@@ -312,58 +309,57 @@
             lstMonitor.HighlightStrength = 128;
             lstMonitor.HorizontalScrollStep = 3;
             lstMonitor.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
-            listItem1.BackColor = Color.Transparent;
-            listItem1.Checked = false;
-            listItem1.ForeColor = Color.Black;
-            listItem1.Indentation = 0U;
-            listItem1.LineBackColor = Color.Transparent;
-            listItem1.LineForeColor = Color.Black;
-            listItem1.Name = "";
-            listItem1.Selected = false;
-            listSubItem1.BackColor = Color.Transparent;
-            listSubItem1.Checked = false;
-            listSubItem1.ForeColor = Color.Black;
-            listSubItem1.Indentation = 0U;
-            listSubItem1.Name = "";
-            listSubItem1.Tag = null;
-            listSubItem1.Text = "";
-            listSubItem1.Value = 0;
-            listSubItem2.BackColor = Color.Transparent;
-            listSubItem2.Checked = false;
-            listSubItem2.ForeColor = Color.Black;
-            listSubItem2.Indentation = 0U;
-            listSubItem2.Name = "";
-            listSubItem2.Tag = null;
-            listSubItem2.Text = "";
-            listSubItem2.Value = 0;
-            listSubItem3.BackColor = Color.Transparent;
-            listSubItem3.Checked = false;
-            listSubItem3.ForeColor = Color.Black;
-            listSubItem3.Indentation = 0U;
-            listSubItem3.Name = "";
-            listSubItem3.Tag = null;
-            listSubItem3.Text = "";
-            listSubItem3.Value = 0;
-            listSubItem4.BackColor = Color.Transparent;
-            listSubItem4.Checked = false;
-            listSubItem4.ForeColor = Color.Black;
-            listSubItem4.Indentation = 0U;
-            listSubItem4.Name = "";
-            listSubItem4.Tag = null;
-            listSubItem4.Text = "";
-            listSubItem4.Value = 0;
-            listItem1.SubItems.Add(listSubItem1);
-            listItem1.SubItems.Add(listSubItem2);
-            listItem1.SubItems.Add(listSubItem3);
-            listItem1.SubItems.Add(listSubItem4);
-            listItem1.Tag = null;
-            listItem1.Text = "";
-            listItem1.UseLineBackColor = false;
-            listItem1.UseLineForeColor = false;
-            listItem1.Value = 0;
-            lstMonitor.Items.Add(listItem1);
+            listItem2.BackColor = Color.Transparent;
+            listItem2.Checked = false;
+            listItem2.ForeColor = Color.Black;
+            listItem2.Indentation = 0U;
+            listItem2.LineBackColor = Color.Transparent;
+            listItem2.LineForeColor = Color.Black;
+            listItem2.Name = "";
+            listItem2.Selected = false;
+            listSubItem5.BackColor = Color.Transparent;
+            listSubItem5.Checked = false;
+            listSubItem5.ForeColor = Color.Black;
+            listSubItem5.Indentation = 0U;
+            listSubItem5.Name = "";
+            listSubItem5.Tag = null;
+            listSubItem5.Text = "";
+            listSubItem5.Value = 0;
+            listSubItem6.BackColor = Color.Transparent;
+            listSubItem6.Checked = false;
+            listSubItem6.ForeColor = Color.Black;
+            listSubItem6.Indentation = 0U;
+            listSubItem6.Name = "";
+            listSubItem6.Tag = null;
+            listSubItem6.Text = "";
+            listSubItem6.Value = 0;
+            listSubItem7.BackColor = Color.Transparent;
+            listSubItem7.Checked = false;
+            listSubItem7.ForeColor = Color.Black;
+            listSubItem7.Indentation = 0U;
+            listSubItem7.Name = "";
+            listSubItem7.Tag = null;
+            listSubItem7.Text = "";
+            listSubItem7.Value = 0;
+            listSubItem8.BackColor = Color.Transparent;
+            listSubItem8.Checked = false;
+            listSubItem8.ForeColor = Color.Black;
+            listSubItem8.Indentation = 0U;
+            listSubItem8.Name = "";
+            listSubItem8.Tag = null;
+            listSubItem8.Text = "";
+            listSubItem8.Value = 0;
+            listItem2.SubItems.Add(listSubItem5);
+            listItem2.SubItems.Add(listSubItem6);
+            listItem2.SubItems.Add(listSubItem7);
+            listItem2.SubItems.Add(listSubItem8);
+            listItem2.Tag = null;
+            listItem2.Text = "";
+            listItem2.UseLineBackColor = false;
+            listItem2.UseLineForeColor = false;
+            listItem2.Value = 0;
+            lstMonitor.Items.Add(listItem2);
             lstMonitor.LineMarkerIndex = 0;
-            lstMonitor.Location = new Point(81, 27);
             lstMonitor.MarkerBorderColor = Color.LimeGreen;
             lstMonitor.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstMonitor.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -380,9 +376,7 @@
             lstMonitor.ShowItemIndentation = false;
             lstMonitor.ShowMarker = false;
             lstMonitor.ShowRowColors = true;
-            lstMonitor.Size = new Size(545, 280);
             lstMonitor.SpanColumn = -1;
-            lstMonitor.TabIndex = 3;
             lstMonitor.UseLocalList = false;
             lstMonitor.VerScroll = 0;
             lstMonitor.DropDownClicked += lstMonitor_DropDownClicked;
@@ -406,34 +400,29 @@
             cmMonitor.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmMonitor.ShowInsetShadow = false;
             cmMonitor.ShowItemInsetShadow = false;
-            cmMonitor.Size = new Size(175, 76);
+            resources.ApplyResources(cmMonitor, "cmMonitor");
             // 
             // btnCmSelectionToSnapshot
             // 
             btnCmSelectionToSnapshot.Name = "btnCmSelectionToSnapshot";
-            btnCmSelectionToSnapshot.Size = new Size(174, 22);
-            btnCmSelectionToSnapshot.Text = "&Snapshot Selection";
+            resources.ApplyResources(btnCmSelectionToSnapshot, "btnCmSelectionToSnapshot");
             btnCmSelectionToSnapshot.Click += snapshotSelectionToolStripMenuItem_Click;
             // 
             // toolStripSeparator14
             // 
             toolStripSeparator14.Name = "toolStripSeparator14";
-            toolStripSeparator14.Size = new Size(171, 6);
+            resources.ApplyResources(toolStripSeparator14, "toolStripSeparator14");
             // 
             // copyToolStripMenuItem1
             // 
-            copyToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copyToolStripMenuItem1, "copyToolStripMenuItem1");
             copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
-            copyToolStripMenuItem1.Size = new Size(174, 22);
-            copyToolStripMenuItem1.Text = "&Copy";
             copyToolStripMenuItem1.Click += copyToolStripMenuItem1_Click;
             // 
             // pasteToolStripMenuItem1
             // 
-            pasteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(pasteToolStripMenuItem1, "pasteToolStripMenuItem1");
             pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
-            pasteToolStripMenuItem1.Size = new Size(174, 22);
-            pasteToolStripMenuItem1.Text = "&Paste";
             pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
             // 
             // tsMain
@@ -448,116 +437,83 @@
             tsMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedForeColor = Color.WhiteSmoke;
-            tsMain.Location = new Point(0, 24);
+            resources.ApplyResources(tsMain, "tsMain");
             tsMain.MenuBackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBorderColor = Color.DimGray;
             tsMain.MenuSeparatorColor = Color.FromArgb(55, 55, 55);
             tsMain.MenuSymbolColor = Color.FromArgb(64, 64, 64);
             tsMain.Name = "tsMain";
-            tsMain.Padding = new Padding(0, 0, 2, 0);
-            tsMain.Size = new Size(634, 25);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
-            tsMain.TabIndex = 4;
-            tsMain.Text = "toolStrip1";
             // 
             // btnCoils
             // 
             btnCoils.Checked = true;
             btnCoils.CheckState = CheckState.Checked;
             btnCoils.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnCoils.Image = (Image)resources.GetObject("btnCoils.Image");
-            btnCoils.ImageScaling = ToolStripItemImageScaling.None;
-            btnCoils.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnCoils, "btnCoils");
             btnCoils.Name = "btnCoils";
-            btnCoils.Size = new Size(23, 22);
-            btnCoils.Text = "Coils";
             btnCoils.Click += btnCoils_Click;
             // 
             // btnDiscrete
             // 
             btnDiscrete.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnDiscrete.Image = (Image)resources.GetObject("btnDiscrete.Image");
-            btnDiscrete.ImageScaling = ToolStripItemImageScaling.None;
-            btnDiscrete.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnDiscrete, "btnDiscrete");
             btnDiscrete.Name = "btnDiscrete";
-            btnDiscrete.Size = new Size(23, 22);
-            btnDiscrete.Text = "Discrete Inputs";
             btnDiscrete.Click += btnDiscrete_Click;
             // 
             // btnHolding
             // 
             btnHolding.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnHolding.Image = (Image)resources.GetObject("btnHolding.Image");
-            btnHolding.ImageScaling = ToolStripItemImageScaling.None;
-            btnHolding.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnHolding, "btnHolding");
             btnHolding.Name = "btnHolding";
-            btnHolding.Size = new Size(23, 22);
-            btnHolding.Text = "Holding Registers";
             btnHolding.Click += btnHolding_Click;
             // 
             // btnInputRegisters
             // 
             btnInputRegisters.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnInputRegisters.Image = (Image)resources.GetObject("btnInputRegisters.Image");
-            btnInputRegisters.ImageScaling = ToolStripItemImageScaling.None;
-            btnInputRegisters.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnInputRegisters, "btnInputRegisters");
             btnInputRegisters.Name = "btnInputRegisters";
-            btnInputRegisters.Size = new Size(23, 22);
-            btnInputRegisters.Text = "Input Registers";
             btnInputRegisters.Click += btnInputRegisters_Click;
             // 
             // lblTypeSelection
             // 
             lblTypeSelection.ForeColor = Color.White;
             lblTypeSelection.Name = "lblTypeSelection";
-            lblTypeSelection.Size = new Size(33, 22);
-            lblTypeSelection.Text = "Coils";
+            resources.ApplyResources(lblTypeSelection, "lblTypeSelection");
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 25);
+            resources.ApplyResources(toolStripSeparator1, "toolStripSeparator1");
             // 
             // btnApplyOnClick
             // 
             btnApplyOnClick.Checked = true;
             btnApplyOnClick.CheckState = CheckState.Checked;
             btnApplyOnClick.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnApplyOnClick.Image = (Image)resources.GetObject("btnApplyOnClick.Image");
-            btnApplyOnClick.ImageScaling = ToolStripItemImageScaling.None;
-            btnApplyOnClick.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnApplyOnClick, "btnApplyOnClick");
             btnApplyOnClick.Name = "btnApplyOnClick";
-            btnApplyOnClick.Size = new Size(23, 22);
-            btnApplyOnClick.Text = "Send On Change";
             btnApplyOnClick.Click += btnApplyOnClick_Click;
             // 
             // btnLockEditor
             // 
             btnLockEditor.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnLockEditor.Image = (Image)resources.GetObject("btnLockEditor.Image");
-            btnLockEditor.ImageScaling = ToolStripItemImageScaling.None;
-            btnLockEditor.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnLockEditor, "btnLockEditor");
             btnLockEditor.Name = "btnLockEditor";
-            btnLockEditor.Size = new Size(23, 22);
-            btnLockEditor.Text = "Lock Editor";
             btnLockEditor.Click += btnLockEditor_Click;
             // 
             // toolStripSeparator6
             // 
             toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(6, 25);
+            resources.ApplyResources(toolStripSeparator6, "toolStripSeparator6");
             // 
             // btnMenuTopMost
             // 
             btnMenuTopMost.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnMenuTopMost.Image = (Image)resources.GetObject("btnMenuTopMost.Image");
-            btnMenuTopMost.ImageScaling = ToolStripItemImageScaling.None;
-            btnMenuTopMost.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(btnMenuTopMost, "btnMenuTopMost");
             btnMenuTopMost.Name = "btnMenuTopMost";
-            btnMenuTopMost.Size = new Size(23, 22);
-            btnMenuTopMost.Text = "Top Most";
             btnMenuTopMost.Click += btnMenuTopMost_Click;
             // 
             // tbDataPages
@@ -566,29 +522,20 @@
             tbDataPages.Controls.Add(tpRegisterFiltering);
             tbDataPages.DebugMode = true;
             tbDataPages.DefaultColor1 = Color.FromArgb(12, 12, 12);
-            tbDataPages.Dock = DockStyle.Fill;
+            resources.ApplyResources(tbDataPages, "tbDataPages");
             tbDataPages.DrawMode = TabDrawMode.OwnerDrawFixed;
             tbDataPages.ForeColor = Color.White;
-            tbDataPages.ItemSize = new Size(20, 20);
-            tbDataPages.Location = new Point(0, 76);
-            tbDataPages.Margin = new Padding(0);
             tbDataPages.Multiline = true;
             tbDataPages.Name = "tbDataPages";
             tbDataPages.SelectedIndex = 0;
-            tbDataPages.Size = new Size(634, 335);
-            tbDataPages.TabIndex = 5;
             // 
             // tpRegisters
             // 
             tpRegisters.Controls.Add(lstMonitor);
             tpRegisters.Controls.Add(thSlaves);
             tpRegisters.Controls.Add(navigator1);
-            tpRegisters.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            tpRegisters.Location = new Point(4, 24);
+            resources.ApplyResources(tpRegisters, "tpRegisters");
             tpRegisters.Name = "tpRegisters";
-            tpRegisters.Size = new Size(626, 307);
-            tpRegisters.TabIndex = 0;
-            tpRegisters.Text = "Master View";
             tpRegisters.UseVisualStyleBackColor = true;
             // 
             // thSlaves
@@ -602,31 +549,27 @@
             thSlaves.BackColor = Color.FromArgb(31, 31, 31);
             thSlaves.BindedTabControl = null;
             thSlaves.CloseHoverColor = Color.Brown;
-            thSlaves.Dock = DockStyle.Top;
+            resources.ApplyResources(thSlaves, "thSlaves");
             thSlaves.ForeColor = Color.White;
             thSlaves.HeaderDownForeColor = Color.Gray;
             thSlaves.HeaderForeColor = Color.Black;
             thSlaves.HeaderHoverForeColor = Color.Blue;
-            thSlaves.Location = new Point(81, 0);
             thSlaves.Name = "thSlaves";
-            thSlaves.Padding = new Padding(5, 0, 0, 0);
             thSlaves.SelectedIndex = 0;
             thSlaves.ShowAddButton = false;
             thSlaves.ShowHeader = true;
             thSlaves.ShowTabDividers = true;
             thSlaves.ShowTabs = true;
-            thSlaves.Size = new Size(545, 27);
             thSlaves.TabBackColor = Color.Transparent;
             thSlaves.TabBorderColor = Color.Transparent;
             thSlaves.TabClickedBackColor = Color.DarkGray;
             thSlaves.TabDividerColor = Color.White;
             thSlaves.TabHoverBackColor = Color.LightGray;
-            thSlaves.TabIndex = 7;
             thSlaves.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab1.Selected = true;
-            tab1.Tag = null;
-            tab1.Text = "Main";
-            thSlaves.Tabs.Add(tab1);
+            tab3.Selected = true;
+            tab3.Tag = null;
+            tab3.Text = "Main";
+            thSlaves.Tabs.Add(tab3);
             thSlaves.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedForeColor = Color.WhiteSmoke;
@@ -641,24 +584,16 @@
             // tpRegisterFiltering
             // 
             tpRegisterFiltering.Controls.Add(mdiClient);
-            tpRegisterFiltering.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            tpRegisterFiltering.Location = new Point(4, 24);
+            resources.ApplyResources(tpRegisterFiltering, "tpRegisterFiltering");
             tpRegisterFiltering.Name = "tpRegisterFiltering";
-            tpRegisterFiltering.Padding = new Padding(3);
-            tpRegisterFiltering.Size = new Size(576, 257);
-            tpRegisterFiltering.TabIndex = 1;
-            tpRegisterFiltering.Text = "Snapshot View";
             tpRegisterFiltering.UseVisualStyleBackColor = true;
             // 
             // mdiClient
             // 
             mdiClient.ActiveMDIWnd = null;
             mdiClient.BackColor = Color.Black;
-            mdiClient.Dock = DockStyle.Fill;
-            mdiClient.Location = new Point(3, 3);
+            resources.ApplyResources(mdiClient, "mdiClient");
             mdiClient.Name = "mdiClient";
-            mdiClient.Size = new Size(570, 251);
-            mdiClient.TabIndex = 0;
             mdiClient.TileWindows = false;
             mdiClient.OnChildActivated += mdiClient_OnChildActivated;
             // 
@@ -673,31 +608,27 @@
             thDataPagesHeader.BackColor = Color.FromArgb(31, 31, 31);
             thDataPagesHeader.BindedTabControl = tbDataPages;
             thDataPagesHeader.CloseHoverColor = Color.Brown;
-            thDataPagesHeader.Dock = DockStyle.Top;
+            resources.ApplyResources(thDataPagesHeader, "thDataPagesHeader");
             thDataPagesHeader.ForeColor = Color.White;
             thDataPagesHeader.HeaderDownForeColor = Color.Gray;
             thDataPagesHeader.HeaderForeColor = Color.Black;
             thDataPagesHeader.HeaderHoverForeColor = Color.Blue;
-            thDataPagesHeader.Location = new Point(0, 49);
             thDataPagesHeader.Name = "thDataPagesHeader";
-            thDataPagesHeader.Padding = new Padding(5, 0, 0, 0);
             thDataPagesHeader.SelectedIndex = 0;
             thDataPagesHeader.ShowAddButton = false;
             thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
             thDataPagesHeader.ShowTabs = true;
-            thDataPagesHeader.Size = new Size(634, 27);
             thDataPagesHeader.TabBackColor = Color.Transparent;
             thDataPagesHeader.TabBorderColor = Color.Transparent;
             thDataPagesHeader.TabClickedBackColor = Color.DarkGray;
             thDataPagesHeader.TabDividerColor = Color.White;
             thDataPagesHeader.TabHoverBackColor = Color.LightGray;
-            thDataPagesHeader.TabIndex = 6;
             thDataPagesHeader.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab2.Selected = true;
-            tab2.Tag = null;
-            tab2.Text = "";
-            thDataPagesHeader.Tabs.Add(tab2);
+            tab1.Selected = true;
+            tab1.Tag = null;
+            tab1.Text = "";
+            thDataPagesHeader.Tabs.Add(tab1);
             thDataPagesHeader.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedForeColor = Color.WhiteSmoke;
@@ -717,18 +648,15 @@
             msMain.ItemSelectedBackColorNorth = Color.White;
             msMain.ItemSelectedBackColorSouth = Color.White;
             msMain.ItemSelectedForeColor = Color.Black;
-            msMain.Location = new Point(0, 0);
+            resources.ApplyResources(msMain, "msMain");
             msMain.MenuBackColorNorth = Color.FromArgb(16, 16, 16);
             msMain.MenuBackColorSouth = Color.FromArgb(16, 16, 16);
             msMain.MenuBorderColor = Color.WhiteSmoke;
             msMain.MenuSeparatorColor = Color.WhiteSmoke;
             msMain.MenuSymbolColor = Color.WhiteSmoke;
             msMain.Name = "msMain";
-            msMain.Size = new Size(634, 24);
             msMain.StripItemSelectedBackColorNorth = Color.White;
             msMain.StripItemSelectedBackColorSouth = Color.White;
-            msMain.TabIndex = 7;
-            msMain.Text = "menuStrip1";
             msMain.UseNorthFadeIn = false;
             // 
             // fileToolStripMenuItem
@@ -736,106 +664,75 @@
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, toolStripSeparator11, newToolStripMenuItem1, openToolStripMenuItem, toolStripSeparator12, saveToolStripMenuItem, saveAsToolStripMenuItem, printToolStripMenuItem, printPreviewToolStripMenuItem, toolStripSeparator7, exitToolStripMenuItem });
             fileToolStripMenuItem.ForeColor = Color.White;
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
-            fileToolStripMenuItem.Text = "&File";
+            resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.ForeColor = Color.White;
-            newToolStripMenuItem.Image = (Image)resources.GetObject("newToolStripMenuItem.Image");
-            newToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            newToolStripMenuItem.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(newToolStripMenuItem, "newToolStripMenuItem");
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
-            newToolStripMenuItem.Size = new Size(169, 22);
-            newToolStripMenuItem.Text = "New &View";
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // toolStripSeparator11
             // 
             toolStripSeparator11.Name = "toolStripSeparator11";
-            toolStripSeparator11.Size = new Size(166, 6);
+            resources.ApplyResources(toolStripSeparator11, "toolStripSeparator11");
             // 
             // newToolStripMenuItem1
             // 
             newToolStripMenuItem1.ForeColor = Color.White;
-            newToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(newToolStripMenuItem1, "newToolStripMenuItem1");
             newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            newToolStripMenuItem1.Size = new Size(169, 22);
-            newToolStripMenuItem1.Text = "&New";
             newToolStripMenuItem1.Click += newToolStripMenuItem1_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.ForeColor = Color.White;
-            openToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(openToolStripMenuItem, "openToolStripMenuItem");
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            openToolStripMenuItem.Size = new Size(169, 22);
-            openToolStripMenuItem.Text = "&Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // toolStripSeparator12
             // 
             toolStripSeparator12.Name = "toolStripSeparator12";
-            toolStripSeparator12.Size = new Size(166, 6);
+            resources.ApplyResources(toolStripSeparator12, "toolStripSeparator12");
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.ForeColor = Color.White;
-            saveToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(saveToolStripMenuItem, "saveToolStripMenuItem");
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(169, 22);
-            saveToolStripMenuItem.Text = "&Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.ForeColor = Color.White;
-            saveAsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(169, 22);
-            saveAsToolStripMenuItem.Text = "Save &As";
             saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // printToolStripMenuItem
             // 
-            printToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(printToolStripMenuItem, "printToolStripMenuItem");
             printToolStripMenuItem.ForeColor = Color.White;
-            printToolStripMenuItem.Image = (Image)resources.GetObject("printToolStripMenuItem.Image");
-            printToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
-            printToolStripMenuItem.Size = new Size(169, 22);
-            printToolStripMenuItem.Text = "&Print";
-            printToolStripMenuItem.Visible = false;
             // 
             // printPreviewToolStripMenuItem
             // 
-            printPreviewToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(printPreviewToolStripMenuItem, "printPreviewToolStripMenuItem");
             printPreviewToolStripMenuItem.ForeColor = Color.White;
-            printPreviewToolStripMenuItem.Image = (Image)resources.GetObject("printPreviewToolStripMenuItem.Image");
-            printPreviewToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            printPreviewToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            printPreviewToolStripMenuItem.Size = new Size(169, 22);
-            printPreviewToolStripMenuItem.Text = "Print Pre&view";
-            printPreviewToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator7
             // 
             toolStripSeparator7.Name = "toolStripSeparator7";
-            toolStripSeparator7.Size = new Size(166, 6);
+            resources.ApplyResources(toolStripSeparator7, "toolStripSeparator7");
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.ForeColor = Color.White;
-            exitToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(exitToolStripMenuItem, "exitToolStripMenuItem");
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
-            exitToolStripMenuItem.Size = new Size(169, 22);
-            exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
@@ -843,243 +740,178 @@
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem, toolStripSeparator4, goToToolStripMenuItem, toolStripSeparator15, cutToolStripMenuItem, copyToolStripMenuItem, copySpecialToolStripMenuItem, copyAsTextToolStripMenuItem, pasteToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator5, selectAllToolStripMenuItem, selectInvertToolStripMenuItem, selectSpecialToolStripMenuItem, toolStripSeparator22, bitTogglerToolStripMenuItem });
             editToolStripMenuItem.ForeColor = Color.White;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(39, 20);
-            editToolStripMenuItem.Text = "&Edit";
+            resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
             editToolStripMenuItem.DropDownOpening += editToolStripMenuItem_DropDownOpening;
             // 
             // undoToolStripMenuItem
             // 
-            undoToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(undoToolStripMenuItem, "undoToolStripMenuItem");
             undoToolStripMenuItem.ForeColor = Color.White;
-            undoToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            undoToolStripMenuItem.Size = new Size(216, 22);
-            undoToolStripMenuItem.Text = "&Undo";
-            undoToolStripMenuItem.Visible = false;
             // 
             // redoToolStripMenuItem
             // 
-            redoToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(redoToolStripMenuItem, "redoToolStripMenuItem");
             redoToolStripMenuItem.ForeColor = Color.White;
-            redoToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            redoToolStripMenuItem.Size = new Size(216, 22);
-            redoToolStripMenuItem.Text = "&Redo";
-            redoToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(213, 6);
-            toolStripSeparator4.Visible = false;
+            resources.ApplyResources(toolStripSeparator4, "toolStripSeparator4");
             // 
             // goToToolStripMenuItem
             // 
             goToToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { goToToolStripMenuItem1, goToRegisterToolStripMenuItem });
             goToToolStripMenuItem.ForeColor = Color.White;
             goToToolStripMenuItem.Name = "goToToolStripMenuItem";
-            goToToolStripMenuItem.Size = new Size(216, 22);
-            goToToolStripMenuItem.Text = "&Go To";
+            resources.ApplyResources(goToToolStripMenuItem, "goToToolStripMenuItem");
             // 
             // goToToolStripMenuItem1
             // 
             goToToolStripMenuItem1.ForeColor = Color.White;
             goToToolStripMenuItem1.Name = "goToToolStripMenuItem1";
-            goToToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.G;
-            goToToolStripMenuItem1.Size = new Size(191, 22);
-            goToToolStripMenuItem1.Text = "Go To &Address";
+            resources.ApplyResources(goToToolStripMenuItem1, "goToToolStripMenuItem1");
             goToToolStripMenuItem1.Click += goToToolStripMenuItem1_Click;
             // 
             // goToRegisterToolStripMenuItem
             // 
             goToRegisterToolStripMenuItem.ForeColor = Color.White;
-            goToRegisterToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(goToRegisterToolStripMenuItem, "goToRegisterToolStripMenuItem");
             goToRegisterToolStripMenuItem.Name = "goToRegisterToolStripMenuItem";
-            goToRegisterToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.T;
-            goToRegisterToolStripMenuItem.Size = new Size(191, 22);
-            goToRegisterToolStripMenuItem.Text = "Go To &Register";
             goToRegisterToolStripMenuItem.Click += goToRegisterToolStripMenuItem_Click;
             // 
             // toolStripSeparator15
             // 
             toolStripSeparator15.Name = "toolStripSeparator15";
-            toolStripSeparator15.Size = new Size(213, 6);
+            resources.ApplyResources(toolStripSeparator15, "toolStripSeparator15");
             // 
             // cutToolStripMenuItem
             // 
             cutToolStripMenuItem.ForeColor = Color.White;
-            cutToolStripMenuItem.Image = (Image)resources.GetObject("cutToolStripMenuItem.Image");
-            cutToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            cutToolStripMenuItem.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(cutToolStripMenuItem, "cutToolStripMenuItem");
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            cutToolStripMenuItem.Size = new Size(216, 22);
-            cutToolStripMenuItem.Text = "Cu&t";
-            cutToolStripMenuItem.Visible = false;
             // 
             // copyToolStripMenuItem
             // 
             copyToolStripMenuItem.ForeColor = Color.White;
-            copyToolStripMenuItem.Image = (Image)resources.GetObject("copyToolStripMenuItem.Image");
-            copyToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            copyToolStripMenuItem.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(copyToolStripMenuItem, "copyToolStripMenuItem");
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            copyToolStripMenuItem.Size = new Size(216, 22);
-            copyToolStripMenuItem.Text = "&Copy";
             copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             // 
             // copySpecialToolStripMenuItem
             // 
             copySpecialToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { copyNamesToolStripMenuItem, copyFormatsToolStripMenuItem, copyValuesToolStripMenuItem, copyAppearanceToolStripMenuItem });
             copySpecialToolStripMenuItem.ForeColor = Color.White;
-            copySpecialToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copySpecialToolStripMenuItem, "copySpecialToolStripMenuItem");
             copySpecialToolStripMenuItem.Name = "copySpecialToolStripMenuItem";
-            copySpecialToolStripMenuItem.Size = new Size(216, 22);
-            copySpecialToolStripMenuItem.Text = "Copy &Special";
             // 
             // copyNamesToolStripMenuItem
             // 
             copyNamesToolStripMenuItem.ForeColor = Color.White;
-            copyNamesToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copyNamesToolStripMenuItem, "copyNamesToolStripMenuItem");
             copyNamesToolStripMenuItem.Name = "copyNamesToolStripMenuItem";
-            copyNamesToolStripMenuItem.Size = new Size(168, 22);
-            copyNamesToolStripMenuItem.Text = "Copy &Names";
             copyNamesToolStripMenuItem.Click += copyNamesToolStripMenuItem_Click;
             // 
             // copyFormatsToolStripMenuItem
             // 
             copyFormatsToolStripMenuItem.ForeColor = Color.White;
-            copyFormatsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copyFormatsToolStripMenuItem, "copyFormatsToolStripMenuItem");
             copyFormatsToolStripMenuItem.Name = "copyFormatsToolStripMenuItem";
-            copyFormatsToolStripMenuItem.Size = new Size(168, 22);
-            copyFormatsToolStripMenuItem.Text = "Copy &Formats";
             copyFormatsToolStripMenuItem.Click += copyFormatsToolStripMenuItem_Click;
             // 
             // copyValuesToolStripMenuItem
             // 
             copyValuesToolStripMenuItem.ForeColor = Color.White;
-            copyValuesToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copyValuesToolStripMenuItem, "copyValuesToolStripMenuItem");
             copyValuesToolStripMenuItem.Name = "copyValuesToolStripMenuItem";
-            copyValuesToolStripMenuItem.Size = new Size(168, 22);
-            copyValuesToolStripMenuItem.Text = "Copy &Values";
             copyValuesToolStripMenuItem.Click += copyValuesToolStripMenuItem_Click;
             // 
             // copyAppearanceToolStripMenuItem
             // 
             copyAppearanceToolStripMenuItem.ForeColor = Color.White;
-            copyAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copyAppearanceToolStripMenuItem, "copyAppearanceToolStripMenuItem");
             copyAppearanceToolStripMenuItem.Name = "copyAppearanceToolStripMenuItem";
-            copyAppearanceToolStripMenuItem.Size = new Size(168, 22);
-            copyAppearanceToolStripMenuItem.Text = "Copy &Appearance";
             copyAppearanceToolStripMenuItem.Click += copyAppearanceToolStripMenuItem_Click;
             // 
             // copyAsTextToolStripMenuItem
             // 
             copyAsTextToolStripMenuItem.ForeColor = Color.White;
-            copyAsTextToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(copyAsTextToolStripMenuItem, "copyAsTextToolStripMenuItem");
             copyAsTextToolStripMenuItem.Name = "copyAsTextToolStripMenuItem";
-            copyAsTextToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
-            copyAsTextToolStripMenuItem.Size = new Size(216, 22);
-            copyAsTextToolStripMenuItem.Text = "Copy As &Text";
             copyAsTextToolStripMenuItem.Click += copyAsTextToolStripMenuItem_Click;
             // 
             // pasteToolStripMenuItem
             // 
             pasteToolStripMenuItem.ForeColor = Color.White;
-            pasteToolStripMenuItem.Image = (Image)resources.GetObject("pasteToolStripMenuItem.Image");
-            pasteToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            pasteToolStripMenuItem.ImageTransparentColor = Color.Magenta;
+            resources.ApplyResources(pasteToolStripMenuItem, "pasteToolStripMenuItem");
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
-            pasteToolStripMenuItem.Size = new Size(216, 22);
-            pasteToolStripMenuItem.Text = "&Paste";
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
             // 
             resetToolStripMenuItem.ForeColor = Color.White;
-            resetToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(resetToolStripMenuItem, "resetToolStripMenuItem");
             resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            resetToolStripMenuItem.ShortcutKeys = Keys.Delete;
-            resetToolStripMenuItem.Size = new Size(216, 22);
-            resetToolStripMenuItem.Text = "&Reset";
             resetToolStripMenuItem.Click += resetToolStripMenuItem_Click;
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(213, 6);
+            resources.ApplyResources(toolStripSeparator5, "toolStripSeparator5");
             // 
             // selectAllToolStripMenuItem
             // 
             selectAllToolStripMenuItem.ForeColor = Color.White;
-            selectAllToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(selectAllToolStripMenuItem, "selectAllToolStripMenuItem");
             selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            selectAllToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
-            selectAllToolStripMenuItem.Size = new Size(216, 22);
-            selectAllToolStripMenuItem.Text = "Select &All";
             selectAllToolStripMenuItem.Click += selectAllToolStripMenuItem_Click;
             // 
             // selectInvertToolStripMenuItem
             // 
             selectInvertToolStripMenuItem.ForeColor = Color.White;
-            selectInvertToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(selectInvertToolStripMenuItem, "selectInvertToolStripMenuItem");
             selectInvertToolStripMenuItem.Name = "selectInvertToolStripMenuItem";
-            selectInvertToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.A;
-            selectInvertToolStripMenuItem.Size = new Size(216, 22);
-            selectInvertToolStripMenuItem.Text = "Select &Invert";
             selectInvertToolStripMenuItem.Click += selectInvertToolStripMenuItem_Click;
             // 
             // selectSpecialToolStripMenuItem
             // 
             selectSpecialToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { selectMatchingNamesToolStripMenuItem, selectMatchingValuesToolStripMenuItem, selectMatchingFormatsToolStripMenuItem });
             selectSpecialToolStripMenuItem.ForeColor = Color.White;
-            selectSpecialToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(selectSpecialToolStripMenuItem, "selectSpecialToolStripMenuItem");
             selectSpecialToolStripMenuItem.Name = "selectSpecialToolStripMenuItem";
-            selectSpecialToolStripMenuItem.Size = new Size(216, 22);
-            selectSpecialToolStripMenuItem.Text = "Select Special ";
             // 
             // selectMatchingNamesToolStripMenuItem
             // 
             selectMatchingNamesToolStripMenuItem.ForeColor = Color.White;
-            selectMatchingNamesToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(selectMatchingNamesToolStripMenuItem, "selectMatchingNamesToolStripMenuItem");
             selectMatchingNamesToolStripMenuItem.Name = "selectMatchingNamesToolStripMenuItem";
-            selectMatchingNamesToolStripMenuItem.Size = new Size(205, 22);
-            selectMatchingNamesToolStripMenuItem.Text = "Select Matching &Names";
             selectMatchingNamesToolStripMenuItem.Click += selectMatchingNamesToolStripMenuItem_Click;
             // 
             // selectMatchingValuesToolStripMenuItem
             // 
             selectMatchingValuesToolStripMenuItem.ForeColor = Color.White;
-            selectMatchingValuesToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(selectMatchingValuesToolStripMenuItem, "selectMatchingValuesToolStripMenuItem");
             selectMatchingValuesToolStripMenuItem.Name = "selectMatchingValuesToolStripMenuItem";
-            selectMatchingValuesToolStripMenuItem.Size = new Size(205, 22);
-            selectMatchingValuesToolStripMenuItem.Text = "Select Matching &Values";
             selectMatchingValuesToolStripMenuItem.Click += selectMatchingValuesToolStripMenuItem_Click;
             // 
             // selectMatchingFormatsToolStripMenuItem
             // 
             selectMatchingFormatsToolStripMenuItem.ForeColor = Color.White;
-            selectMatchingFormatsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(selectMatchingFormatsToolStripMenuItem, "selectMatchingFormatsToolStripMenuItem");
             selectMatchingFormatsToolStripMenuItem.Name = "selectMatchingFormatsToolStripMenuItem";
-            selectMatchingFormatsToolStripMenuItem.Size = new Size(205, 22);
-            selectMatchingFormatsToolStripMenuItem.Text = "Select Matching &Formats";
             selectMatchingFormatsToolStripMenuItem.Click += selectMatchingFormatsToolStripMenuItem_Click;
             // 
             // toolStripSeparator22
             // 
             toolStripSeparator22.Name = "toolStripSeparator22";
-            toolStripSeparator22.Size = new Size(213, 6);
+            resources.ApplyResources(toolStripSeparator22, "toolStripSeparator22");
             // 
             // bitTogglerToolStripMenuItem
             // 
-            bitTogglerToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(bitTogglerToolStripMenuItem, "bitTogglerToolStripMenuItem");
             bitTogglerToolStripMenuItem.ForeColor = Color.White;
-            bitTogglerToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             bitTogglerToolStripMenuItem.Name = "bitTogglerToolStripMenuItem";
-            bitTogglerToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.B;
-            bitTogglerToolStripMenuItem.Size = new Size(216, 22);
-            bitTogglerToolStripMenuItem.Text = "&Bit Toggler";
             bitTogglerToolStripMenuItem.Click += bitTogglerToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
@@ -1087,69 +919,54 @@
             viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, btnTopMost });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(44, 20);
-            viewToolStripMenuItem.Text = "&View";
+            resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
             // 
             // viewCoilsToolStripMenuItem
             // 
             viewCoilsToolStripMenuItem.Checked = true;
             viewCoilsToolStripMenuItem.CheckState = CheckState.Checked;
             viewCoilsToolStripMenuItem.ForeColor = Color.White;
-            viewCoilsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(viewCoilsToolStripMenuItem, "viewCoilsToolStripMenuItem");
             viewCoilsToolStripMenuItem.Name = "viewCoilsToolStripMenuItem";
-            viewCoilsToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.D1;
-            viewCoilsToolStripMenuItem.Size = new Size(203, 22);
             viewCoilsToolStripMenuItem.Tag = "mbTypeCoils";
-            viewCoilsToolStripMenuItem.Text = "&Coils";
             viewCoilsToolStripMenuItem.Click += viewCoilsToolStripMenuItem_Click;
             // 
             // viewDiscreteInputsToolStripMenuItem
             // 
             viewDiscreteInputsToolStripMenuItem.ForeColor = Color.White;
-            viewDiscreteInputsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(viewDiscreteInputsToolStripMenuItem, "viewDiscreteInputsToolStripMenuItem");
             viewDiscreteInputsToolStripMenuItem.Name = "viewDiscreteInputsToolStripMenuItem";
-            viewDiscreteInputsToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.D2;
-            viewDiscreteInputsToolStripMenuItem.Size = new Size(203, 22);
             viewDiscreteInputsToolStripMenuItem.Tag = "mbTypeDiscrete";
-            viewDiscreteInputsToolStripMenuItem.Text = "&Discrete Inputs";
             viewDiscreteInputsToolStripMenuItem.Click += viewDiscreteInputsToolStripMenuItem_Click;
             // 
             // viewHoldingRegistersToolStripMenuItem
             // 
             viewHoldingRegistersToolStripMenuItem.ForeColor = Color.White;
-            viewHoldingRegistersToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(viewHoldingRegistersToolStripMenuItem, "viewHoldingRegistersToolStripMenuItem");
             viewHoldingRegistersToolStripMenuItem.Name = "viewHoldingRegistersToolStripMenuItem";
-            viewHoldingRegistersToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.D3;
-            viewHoldingRegistersToolStripMenuItem.Size = new Size(203, 22);
             viewHoldingRegistersToolStripMenuItem.Tag = "mbTypeRegHolding";
-            viewHoldingRegistersToolStripMenuItem.Text = "&Holding Registers";
             viewHoldingRegistersToolStripMenuItem.Click += viewHoldingRegistersToolStripMenuItem_Click;
             // 
             // viewInputRegistersToolStripMenuItem
             // 
             viewInputRegistersToolStripMenuItem.ForeColor = Color.White;
-            viewInputRegistersToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(viewInputRegistersToolStripMenuItem, "viewInputRegistersToolStripMenuItem");
             viewInputRegistersToolStripMenuItem.Name = "viewInputRegistersToolStripMenuItem";
-            viewInputRegistersToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.D4;
-            viewInputRegistersToolStripMenuItem.Size = new Size(203, 22);
             viewInputRegistersToolStripMenuItem.Tag = "mbTypeRegInput";
-            viewInputRegistersToolStripMenuItem.Text = "Input &Registers";
             viewInputRegistersToolStripMenuItem.Click += viewInputRegistersToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(200, 6);
+            resources.ApplyResources(toolStripSeparator3, "toolStripSeparator3");
             // 
             // showUnitsToolStripMenuItem
             // 
             showUnitsToolStripMenuItem.Checked = true;
             showUnitsToolStripMenuItem.CheckState = CheckState.Checked;
             showUnitsToolStripMenuItem.ForeColor = Color.White;
-            showUnitsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(showUnitsToolStripMenuItem, "showUnitsToolStripMenuItem");
             showUnitsToolStripMenuItem.Name = "showUnitsToolStripMenuItem";
-            showUnitsToolStripMenuItem.Size = new Size(203, 22);
-            showUnitsToolStripMenuItem.Text = "Show Units";
             showUnitsToolStripMenuItem.Click += showUnitsToolStripMenuItem_Click;
             // 
             // showFormatsToolStripMenuItem
@@ -1157,49 +974,41 @@
             showFormatsToolStripMenuItem.Checked = true;
             showFormatsToolStripMenuItem.CheckState = CheckState.Checked;
             showFormatsToolStripMenuItem.ForeColor = Color.White;
-            showFormatsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(showFormatsToolStripMenuItem, "showFormatsToolStripMenuItem");
             showFormatsToolStripMenuItem.Name = "showFormatsToolStripMenuItem";
-            showFormatsToolStripMenuItem.Size = new Size(203, 22);
-            showFormatsToolStripMenuItem.Text = "Show &Formats";
             showFormatsToolStripMenuItem.Click += showFormatsToolStripMenuItem_Click;
             // 
             // toolStripSeparator9
             // 
             toolStripSeparator9.Name = "toolStripSeparator9";
-            toolStripSeparator9.Size = new Size(200, 6);
+            resources.ApplyResources(toolStripSeparator9, "toolStripSeparator9");
             // 
             // btnViewMaster
             // 
             btnViewMaster.Checked = true;
             btnViewMaster.CheckState = CheckState.Checked;
             btnViewMaster.ForeColor = Color.White;
-            btnViewMaster.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnViewMaster, "btnViewMaster");
             btnViewMaster.Name = "btnViewMaster";
-            btnViewMaster.Size = new Size(203, 22);
-            btnViewMaster.Text = "Master View";
             btnViewMaster.Click += btnViewMaster_Click;
             // 
             // btnViewSnapshot
             // 
             btnViewSnapshot.ForeColor = Color.White;
-            btnViewSnapshot.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnViewSnapshot, "btnViewSnapshot");
             btnViewSnapshot.Name = "btnViewSnapshot";
-            btnViewSnapshot.Size = new Size(203, 22);
-            btnViewSnapshot.Text = "Snapshot View";
             btnViewSnapshot.Click += btnViewSnapshot_Click;
             // 
             // toolStripSeparator10
             // 
             toolStripSeparator10.Name = "toolStripSeparator10";
-            toolStripSeparator10.Size = new Size(200, 6);
+            resources.ApplyResources(toolStripSeparator10, "toolStripSeparator10");
             // 
             // btnTopMost
             // 
             btnTopMost.ForeColor = Color.White;
-            btnTopMost.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnTopMost, "btnTopMost");
             btnTopMost.Name = "btnTopMost";
-            btnTopMost.Size = new Size(203, 22);
-            btnTopMost.Text = "&Top Most";
             btnTopMost.Click += windowTopMostToolStripMenuItem_Click;
             // 
             // modbusToolStripMenuItem
@@ -1207,196 +1016,149 @@
             modbusToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { writeCoilToolStripMenuItem, writeMultipleCoilsToolStripMenuItem, writeRegisterToolStripMenuItem, writeMultipleRegistersToolStripMenuItem, writeRegisterMaskToolStripMenuItem, toolStripSeparator23, querySenderToolStripMenuItem, toolStripSeparator2, btnModbusApplyonClick, btnModbusLockEditors, toolStripSeparator16, setIOFormatsToModbusRTUToolStripMenuItem, setIOFormatsToModbusASCIIToolStripMenuItem, toolStripSeparator24, btnMenuModbusMaster, changeAddressToolStripMenuItem1, toolStripSeparator25, newUnitToolStripMenuItem1, renameUnitToolStripMenuItem1, removeUnitToolStripMenuItem1, toolStripSeparator8, btnSelectionToSnapshot });
             modbusToolStripMenuItem.ForeColor = Color.White;
             modbusToolStripMenuItem.Name = "modbusToolStripMenuItem";
-            modbusToolStripMenuItem.Size = new Size(63, 20);
-            modbusToolStripMenuItem.Text = "&Modbus";
+            resources.ApplyResources(modbusToolStripMenuItem, "modbusToolStripMenuItem");
             // 
             // writeCoilToolStripMenuItem
             // 
-            writeCoilToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(writeCoilToolStripMenuItem, "writeCoilToolStripMenuItem");
             writeCoilToolStripMenuItem.ForeColor = Color.White;
-            writeCoilToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             writeCoilToolStripMenuItem.Name = "writeCoilToolStripMenuItem";
-            writeCoilToolStripMenuItem.Size = new Size(281, 22);
-            writeCoilToolStripMenuItem.Text = "Write &Coil";
             writeCoilToolStripMenuItem.Click += writeCoilToolStripMenuItem_Click;
             // 
             // writeMultipleCoilsToolStripMenuItem
             // 
-            writeMultipleCoilsToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(writeMultipleCoilsToolStripMenuItem, "writeMultipleCoilsToolStripMenuItem");
             writeMultipleCoilsToolStripMenuItem.ForeColor = Color.White;
-            writeMultipleCoilsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             writeMultipleCoilsToolStripMenuItem.Name = "writeMultipleCoilsToolStripMenuItem";
-            writeMultipleCoilsToolStripMenuItem.Size = new Size(281, 22);
-            writeMultipleCoilsToolStripMenuItem.Text = "Write Multiple Coils";
             writeMultipleCoilsToolStripMenuItem.Click += writeMultipleCoilsToolStripMenuItem_Click;
             // 
             // writeRegisterToolStripMenuItem
             // 
-            writeRegisterToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(writeRegisterToolStripMenuItem, "writeRegisterToolStripMenuItem");
             writeRegisterToolStripMenuItem.ForeColor = Color.White;
-            writeRegisterToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             writeRegisterToolStripMenuItem.Name = "writeRegisterToolStripMenuItem";
-            writeRegisterToolStripMenuItem.Size = new Size(281, 22);
-            writeRegisterToolStripMenuItem.Text = "Write &Register";
             writeRegisterToolStripMenuItem.Click += writeRegisterToolStripMenuItem_Click;
             // 
             // writeMultipleRegistersToolStripMenuItem
             // 
-            writeMultipleRegistersToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(writeMultipleRegistersToolStripMenuItem, "writeMultipleRegistersToolStripMenuItem");
             writeMultipleRegistersToolStripMenuItem.ForeColor = Color.White;
-            writeMultipleRegistersToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             writeMultipleRegistersToolStripMenuItem.Name = "writeMultipleRegistersToolStripMenuItem";
-            writeMultipleRegistersToolStripMenuItem.Size = new Size(281, 22);
-            writeMultipleRegistersToolStripMenuItem.Text = "Write Multiple Registers";
             writeMultipleRegistersToolStripMenuItem.Click += writeMultipleRegistersToolStripMenuItem_Click;
             // 
             // writeRegisterMaskToolStripMenuItem
             // 
-            writeRegisterMaskToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(writeRegisterMaskToolStripMenuItem, "writeRegisterMaskToolStripMenuItem");
             writeRegisterMaskToolStripMenuItem.ForeColor = Color.White;
-            writeRegisterMaskToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             writeRegisterMaskToolStripMenuItem.Name = "writeRegisterMaskToolStripMenuItem";
-            writeRegisterMaskToolStripMenuItem.Size = new Size(281, 22);
-            writeRegisterMaskToolStripMenuItem.Text = "Write Register &Mask";
             writeRegisterMaskToolStripMenuItem.Click += writeRegisterMaskToolStripMenuItem_Click;
             // 
             // toolStripSeparator23
             // 
             toolStripSeparator23.Name = "toolStripSeparator23";
-            toolStripSeparator23.Size = new Size(278, 6);
+            resources.ApplyResources(toolStripSeparator23, "toolStripSeparator23");
             // 
             // querySenderToolStripMenuItem
             // 
             querySenderToolStripMenuItem.ForeColor = Color.White;
-            querySenderToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(querySenderToolStripMenuItem, "querySenderToolStripMenuItem");
             querySenderToolStripMenuItem.Name = "querySenderToolStripMenuItem";
-            querySenderToolStripMenuItem.Size = new Size(281, 22);
-            querySenderToolStripMenuItem.Text = "&Query Sender";
             querySenderToolStripMenuItem.Click += querySenderToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(278, 6);
+            resources.ApplyResources(toolStripSeparator2, "toolStripSeparator2");
             // 
             // btnModbusApplyonClick
             // 
             btnModbusApplyonClick.Checked = true;
             btnModbusApplyonClick.CheckState = CheckState.Checked;
             btnModbusApplyonClick.ForeColor = Color.White;
-            btnModbusApplyonClick.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnModbusApplyonClick, "btnModbusApplyonClick");
             btnModbusApplyonClick.Name = "btnModbusApplyonClick";
-            btnModbusApplyonClick.Size = new Size(281, 22);
-            btnModbusApplyonClick.Text = "Send on Change";
             btnModbusApplyonClick.Click += btnModbusApplyonClick_Click;
             // 
             // btnModbusLockEditors
             // 
             btnModbusLockEditors.ForeColor = Color.White;
-            btnModbusLockEditors.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnModbusLockEditors, "btnModbusLockEditors");
             btnModbusLockEditors.Name = "btnModbusLockEditors";
-            btnModbusLockEditors.ShortcutKeys = Keys.Control | Keys.L;
-            btnModbusLockEditors.Size = new Size(281, 22);
-            btnModbusLockEditors.Text = "Lock Editor";
             btnModbusLockEditors.Click += btnModbusLockEditors_Click;
             // 
             // toolStripSeparator16
             // 
             toolStripSeparator16.Name = "toolStripSeparator16";
-            toolStripSeparator16.Size = new Size(278, 6);
+            resources.ApplyResources(toolStripSeparator16, "toolStripSeparator16");
             // 
             // setIOFormatsToModbusRTUToolStripMenuItem
             // 
             setIOFormatsToModbusRTUToolStripMenuItem.ForeColor = Color.White;
-            setIOFormatsToModbusRTUToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(setIOFormatsToModbusRTUToolStripMenuItem, "setIOFormatsToModbusRTUToolStripMenuItem");
             setIOFormatsToModbusRTUToolStripMenuItem.Name = "setIOFormatsToModbusRTUToolStripMenuItem";
-            setIOFormatsToModbusRTUToolStripMenuItem.Size = new Size(281, 22);
-            setIOFormatsToModbusRTUToolStripMenuItem.Text = "Set &Formats to Modbus RTU";
             setIOFormatsToModbusRTUToolStripMenuItem.Click += setIOFormatsToModbusRTUToolStripMenuItem_Click;
             // 
             // setIOFormatsToModbusASCIIToolStripMenuItem
             // 
             setIOFormatsToModbusASCIIToolStripMenuItem.ForeColor = Color.White;
-            setIOFormatsToModbusASCIIToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(setIOFormatsToModbusASCIIToolStripMenuItem, "setIOFormatsToModbusASCIIToolStripMenuItem");
             setIOFormatsToModbusASCIIToolStripMenuItem.Name = "setIOFormatsToModbusASCIIToolStripMenuItem";
-            setIOFormatsToModbusASCIIToolStripMenuItem.Size = new Size(281, 22);
-            setIOFormatsToModbusASCIIToolStripMenuItem.Text = "Set &Formats to Modbus ASCII";
             setIOFormatsToModbusASCIIToolStripMenuItem.Click += setIOFormatsToModbusASCIIToolStripMenuItem_Click;
             // 
             // toolStripSeparator24
             // 
             toolStripSeparator24.Name = "toolStripSeparator24";
-            toolStripSeparator24.Size = new Size(278, 6);
+            resources.ApplyResources(toolStripSeparator24, "toolStripSeparator24");
             // 
             // btnMenuModbusMaster
             // 
             btnMenuModbusMaster.ForeColor = Color.White;
-            btnMenuModbusMaster.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnMenuModbusMaster, "btnMenuModbusMaster");
             btnMenuModbusMaster.Name = "btnMenuModbusMaster";
-            btnMenuModbusMaster.ShortcutKeys = Keys.Control | Keys.M;
-            btnMenuModbusMaster.Size = new Size(281, 22);
-            btnMenuModbusMaster.Text = "Modbus &Master";
             btnMenuModbusMaster.Click += btnMenuModbusMaster_Click;
             // 
             // changeAddressToolStripMenuItem1
             // 
             changeAddressToolStripMenuItem1.ForeColor = Color.White;
-            changeAddressToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(changeAddressToolStripMenuItem1, "changeAddressToolStripMenuItem1");
             changeAddressToolStripMenuItem1.Name = "changeAddressToolStripMenuItem1";
-            changeAddressToolStripMenuItem1.Size = new Size(281, 22);
-            changeAddressToolStripMenuItem1.Text = "&Change Address";
             // 
             // toolStripSeparator25
             // 
             toolStripSeparator25.Name = "toolStripSeparator25";
-            toolStripSeparator25.Size = new Size(278, 6);
+            resources.ApplyResources(toolStripSeparator25, "toolStripSeparator25");
             // 
             // newUnitToolStripMenuItem1
             // 
-            newUnitToolStripMenuItem1.Enabled = false;
+            resources.ApplyResources(newUnitToolStripMenuItem1, "newUnitToolStripMenuItem1");
             newUnitToolStripMenuItem1.ForeColor = Color.White;
-            newUnitToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             newUnitToolStripMenuItem1.Name = "newUnitToolStripMenuItem1";
-            newUnitToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.E;
-            newUnitToolStripMenuItem1.Size = new Size(281, 22);
-            newUnitToolStripMenuItem1.Text = "&New Unit";
             newUnitToolStripMenuItem1.Click += newUnitToolStripMenuItem1_Click;
             // 
             // renameUnitToolStripMenuItem1
             // 
-            renameUnitToolStripMenuItem1.Enabled = false;
+            resources.ApplyResources(renameUnitToolStripMenuItem1, "renameUnitToolStripMenuItem1");
             renameUnitToolStripMenuItem1.ForeColor = Color.White;
-            renameUnitToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             renameUnitToolStripMenuItem1.Name = "renameUnitToolStripMenuItem1";
-            renameUnitToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.R;
-            renameUnitToolStripMenuItem1.Size = new Size(281, 22);
-            renameUnitToolStripMenuItem1.Text = "R&ename Unit";
             renameUnitToolStripMenuItem1.Click += renameUnitToolStripMenuItem1_Click;
             // 
             // removeUnitToolStripMenuItem1
             // 
-            removeUnitToolStripMenuItem1.Enabled = false;
+            resources.ApplyResources(removeUnitToolStripMenuItem1, "removeUnitToolStripMenuItem1");
             removeUnitToolStripMenuItem1.ForeColor = Color.White;
-            removeUnitToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             removeUnitToolStripMenuItem1.Name = "removeUnitToolStripMenuItem1";
-            removeUnitToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.Delete;
-            removeUnitToolStripMenuItem1.Size = new Size(281, 22);
-            removeUnitToolStripMenuItem1.Text = "Re&move Unit";
             removeUnitToolStripMenuItem1.Click += removeUnitToolStripMenuItem1_Click;
             // 
             // toolStripSeparator8
             // 
             toolStripSeparator8.Name = "toolStripSeparator8";
-            toolStripSeparator8.Size = new Size(278, 6);
+            resources.ApplyResources(toolStripSeparator8, "toolStripSeparator8");
             // 
             // btnSelectionToSnapshot
             // 
             btnSelectionToSnapshot.ForeColor = Color.White;
-            btnSelectionToSnapshot.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnSelectionToSnapshot, "btnSelectionToSnapshot");
             btnSelectionToSnapshot.Name = "btnSelectionToSnapshot";
-            btnSelectionToSnapshot.ShortcutKeys = Keys.Alt | Keys.Shift | Keys.S;
-            btnSelectionToSnapshot.Size = new Size(281, 22);
-            btnSelectionToSnapshot.Text = "Add Selection to &Snapshot";
             btnSelectionToSnapshot.Click += addSelectionToSnapshotToolStripMenuItem_Click;
             // 
             // formatToolStripMenuItem
@@ -1404,102 +1166,77 @@
             formatToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ddbDisplayFormat, ddpDataSize, btnSigned, toolStripSeparator20, ddbWordOrder, toolStripSeparator17, changeAppearanceToolStripMenuItem, resetAppearanceToolStripMenuItem });
             formatToolStripMenuItem.ForeColor = Color.White;
             formatToolStripMenuItem.Name = "formatToolStripMenuItem";
-            formatToolStripMenuItem.Size = new Size(57, 20);
-            formatToolStripMenuItem.Text = "&Format";
+            resources.ApplyResources(formatToolStripMenuItem, "formatToolStripMenuItem");
             // 
             // ddbDisplayFormat
             // 
-            ddbDisplayFormat.Enabled = false;
+            resources.ApplyResources(ddbDisplayFormat, "ddbDisplayFormat");
             ddbDisplayFormat.ForeColor = Color.White;
-            ddbDisplayFormat.ImageScaling = ToolStripItemImageScaling.None;
             ddbDisplayFormat.Name = "ddbDisplayFormat";
-            ddbDisplayFormat.Size = new Size(223, 22);
-            ddbDisplayFormat.Text = "&Display";
             // 
             // ddpDataSize
             // 
-            ddpDataSize.Enabled = false;
+            resources.ApplyResources(ddpDataSize, "ddpDataSize");
             ddpDataSize.ForeColor = Color.White;
-            ddpDataSize.ImageScaling = ToolStripItemImageScaling.None;
             ddpDataSize.Name = "ddpDataSize";
-            ddpDataSize.Size = new Size(223, 22);
-            ddpDataSize.Text = "Data &Size";
             ddpDataSize.Click += ddpDataSize_Click;
             // 
             // btnSigned
             // 
             btnSigned.DropDownItems.AddRange(new ToolStripItem[] { ddbSigned, ddbUnsigned, ddbToggleSigned });
-            btnSigned.Enabled = false;
+            resources.ApplyResources(btnSigned, "btnSigned");
             btnSigned.ForeColor = Color.White;
-            btnSigned.ImageScaling = ToolStripItemImageScaling.None;
             btnSigned.Name = "btnSigned";
-            btnSigned.Size = new Size(223, 22);
-            btnSigned.Text = "Si&gned";
             // 
             // ddbSigned
             // 
             ddbSigned.ForeColor = Color.White;
-            ddbSigned.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(ddbSigned, "ddbSigned");
             ddbSigned.Name = "ddbSigned";
-            ddbSigned.Size = new Size(124, 22);
-            ddbSigned.Text = "&Signed";
             ddbSigned.Click += ddbSigned_Click;
             // 
             // ddbUnsigned
             // 
             ddbUnsigned.ForeColor = Color.White;
-            ddbUnsigned.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(ddbUnsigned, "ddbUnsigned");
             ddbUnsigned.Name = "ddbUnsigned";
-            ddbUnsigned.Size = new Size(124, 22);
-            ddbUnsigned.Text = "&Unsigned";
             ddbUnsigned.Click += ddbUnsigned_Click;
             // 
             // ddbToggleSigned
             // 
             ddbToggleSigned.ForeColor = Color.White;
-            ddbToggleSigned.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(ddbToggleSigned, "ddbToggleSigned");
             ddbToggleSigned.Name = "ddbToggleSigned";
-            ddbToggleSigned.Size = new Size(124, 22);
-            ddbToggleSigned.Text = "&Toggle";
             ddbToggleSigned.Click += ddbToggleSigned_Click;
             // 
             // toolStripSeparator20
             // 
             toolStripSeparator20.Name = "toolStripSeparator20";
-            toolStripSeparator20.Size = new Size(220, 6);
+            resources.ApplyResources(toolStripSeparator20, "toolStripSeparator20");
             // 
             // ddbWordOrder
             // 
-            ddbWordOrder.Enabled = false;
+            resources.ApplyResources(ddbWordOrder, "ddbWordOrder");
             ddbWordOrder.ForeColor = Color.White;
             ddbWordOrder.Name = "ddbWordOrder";
-            ddbWordOrder.Size = new Size(223, 22);
-            ddbWordOrder.Text = "&Word Order";
             // 
             // toolStripSeparator17
             // 
             toolStripSeparator17.Name = "toolStripSeparator17";
-            toolStripSeparator17.Size = new Size(220, 6);
+            resources.ApplyResources(toolStripSeparator17, "toolStripSeparator17");
             // 
             // changeAppearanceToolStripMenuItem
             // 
-            changeAppearanceToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(changeAppearanceToolStripMenuItem, "changeAppearanceToolStripMenuItem");
             changeAppearanceToolStripMenuItem.ForeColor = Color.White;
-            changeAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             changeAppearanceToolStripMenuItem.Name = "changeAppearanceToolStripMenuItem";
-            changeAppearanceToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.U;
-            changeAppearanceToolStripMenuItem.Size = new Size(223, 22);
-            changeAppearanceToolStripMenuItem.Text = "Change &Appearance";
             changeAppearanceToolStripMenuItem.Click += changeAppearanceToolStripMenuItem_Click;
             // 
             // resetAppearanceToolStripMenuItem
             // 
-            resetAppearanceToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(resetAppearanceToolStripMenuItem, "resetAppearanceToolStripMenuItem");
             resetAppearanceToolStripMenuItem.ForeColor = Color.White;
-            resetAppearanceToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             resetAppearanceToolStripMenuItem.Name = "resetAppearanceToolStripMenuItem";
-            resetAppearanceToolStripMenuItem.Size = new Size(223, 22);
-            resetAppearanceToolStripMenuItem.Text = "&Reset Appearance";
             resetAppearanceToolStripMenuItem.Click += resetAppearanceToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
@@ -1507,39 +1244,30 @@
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { checksumCalculatorToolStripMenuItem, toolStripSeparator26, customizeToolStripMenuItem, optionsToolStripMenuItem });
             toolsToolStripMenuItem.ForeColor = Color.White;
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(46, 20);
-            toolsToolStripMenuItem.Text = "&Tools";
+            resources.ApplyResources(toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
             // checksumCalculatorToolStripMenuItem
             // 
-            checksumCalculatorToolStripMenuItem.Enabled = false;
+            resources.ApplyResources(checksumCalculatorToolStripMenuItem, "checksumCalculatorToolStripMenuItem");
             checksumCalculatorToolStripMenuItem.ForeColor = Color.White;
             checksumCalculatorToolStripMenuItem.Name = "checksumCalculatorToolStripMenuItem";
-            checksumCalculatorToolStripMenuItem.Size = new Size(187, 22);
-            checksumCalculatorToolStripMenuItem.Text = "Chec&ksum Calculator";
             // 
             // toolStripSeparator26
             // 
             toolStripSeparator26.Name = "toolStripSeparator26";
-            toolStripSeparator26.Size = new Size(184, 6);
+            resources.ApplyResources(toolStripSeparator26, "toolStripSeparator26");
             // 
             // customizeToolStripMenuItem
             // 
             customizeToolStripMenuItem.ForeColor = Color.White;
-            customizeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(customizeToolStripMenuItem, "customizeToolStripMenuItem");
             customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            customizeToolStripMenuItem.Size = new Size(187, 22);
-            customizeToolStripMenuItem.Text = "&Customize";
-            customizeToolStripMenuItem.Visible = false;
             // 
             // optionsToolStripMenuItem
             // 
             optionsToolStripMenuItem.ForeColor = Color.White;
-            optionsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(optionsToolStripMenuItem, "optionsToolStripMenuItem");
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            optionsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.I;
-            optionsToolStripMenuItem.Size = new Size(187, 22);
-            optionsToolStripMenuItem.Text = "&Options";
             optionsToolStripMenuItem.Click += optionsToolStripMenuItem_Click;
             // 
             // windowToolStripMenuItem
@@ -1547,32 +1275,27 @@
             windowToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tileHorizontalToolStripMenuItem, toolStripSeparator13, windowManagerToolStripMenuItem });
             windowToolStripMenuItem.ForeColor = Color.White;
             windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            windowToolStripMenuItem.Size = new Size(63, 20);
-            windowToolStripMenuItem.Text = "&Window";
+            resources.ApplyResources(windowToolStripMenuItem, "windowToolStripMenuItem");
             // 
             // tileHorizontalToolStripMenuItem
             // 
             tileHorizontalToolStripMenuItem.Checked = true;
             tileHorizontalToolStripMenuItem.CheckState = CheckState.Checked;
             tileHorizontalToolStripMenuItem.ForeColor = Color.White;
-            tileHorizontalToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(tileHorizontalToolStripMenuItem, "tileHorizontalToolStripMenuItem");
             tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            tileHorizontalToolStripMenuItem.Size = new Size(168, 22);
-            tileHorizontalToolStripMenuItem.Text = "Tile Windows";
             tileHorizontalToolStripMenuItem.Click += tileHorizontalToolStripMenuItem_Click;
             // 
             // toolStripSeparator13
             // 
             toolStripSeparator13.Name = "toolStripSeparator13";
-            toolStripSeparator13.Size = new Size(165, 6);
+            resources.ApplyResources(toolStripSeparator13, "toolStripSeparator13");
             // 
             // windowManagerToolStripMenuItem
             // 
             windowManagerToolStripMenuItem.ForeColor = Color.White;
-            windowManagerToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(windowManagerToolStripMenuItem, "windowManagerToolStripMenuItem");
             windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
-            windowManagerToolStripMenuItem.Size = new Size(168, 22);
-            windowManagerToolStripMenuItem.Text = "&Window Manager";
             windowManagerToolStripMenuItem.Click += windowManagerToolStripMenuItem_Click;
             // 
             // cmDisplayFormats
@@ -1590,7 +1313,7 @@
             cmDisplayFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmDisplayFormats.ShowInsetShadow = false;
             cmDisplayFormats.ShowItemInsetShadow = false;
-            cmDisplayFormats.Size = new Size(61, 4);
+            resources.ApplyResources(cmDisplayFormats, "cmDisplayFormats");
             // 
             // cmDataSize
             // 
@@ -1607,7 +1330,7 @@
             cmDataSize.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmDataSize.ShowInsetShadow = false;
             cmDataSize.ShowItemInsetShadow = false;
-            cmDataSize.Size = new Size(61, 4);
+            resources.ApplyResources(cmDataSize, "cmDataSize");
             // 
             // cmChannels
             // 
@@ -1625,49 +1348,40 @@
             cmChannels.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmChannels.ShowInsetShadow = false;
             cmChannels.ShowItemInsetShadow = false;
-            cmChannels.Size = new Size(165, 104);
+            resources.ApplyResources(cmChannels, "cmChannels");
             // 
             // btnRenameChannel
             // 
-            btnRenameChannel.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnRenameChannel, "btnRenameChannel");
             btnRenameChannel.Name = "btnRenameChannel";
-            btnRenameChannel.Size = new Size(164, 22);
-            btnRenameChannel.Text = "&Rename Channel";
             btnRenameChannel.Click += btnRenameChannel_Click;
             // 
             // toolStripSeparator18
             // 
             toolStripSeparator18.Name = "toolStripSeparator18";
-            toolStripSeparator18.Size = new Size(161, 6);
+            resources.ApplyResources(toolStripSeparator18, "toolStripSeparator18");
             // 
             // btnModbusMaster
             // 
-            btnModbusMaster.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(btnModbusMaster, "btnModbusMaster");
             btnModbusMaster.Name = "btnModbusMaster";
-            btnModbusMaster.Size = new Size(164, 22);
-            btnModbusMaster.Text = "&Modbus Master";
             btnModbusMaster.Click += btnModbusMaster_Click;
             // 
             // toolStripSeparator19
             // 
             toolStripSeparator19.Name = "toolStripSeparator19";
-            toolStripSeparator19.Size = new Size(161, 6);
+            resources.ApplyResources(toolStripSeparator19, "toolStripSeparator19");
             // 
             // connectToolStripMenuItem
             // 
-            connectToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(connectToolStripMenuItem, "connectToolStripMenuItem");
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(164, 22);
-            connectToolStripMenuItem.Text = "&Connect";
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
             // disconnectToolStripMenuItem
             // 
-            disconnectToolStripMenuItem.Enabled = false;
-            disconnectToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(disconnectToolStripMenuItem, "disconnectToolStripMenuItem");
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(164, 22);
-            disconnectToolStripMenuItem.Text = "&Disconnect";
             disconnectToolStripMenuItem.Click += disconnectToolStripMenuItem_Click;
             // 
             // cmMBChannel
@@ -1686,74 +1400,58 @@
             cmMBChannel.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmMBChannel.ShowInsetShadow = false;
             cmMBChannel.ShowItemInsetShadow = false;
-            cmMBChannel.Size = new Size(161, 120);
+            resources.ApplyResources(cmMBChannel, "cmMBChannel");
             // 
             // modbusMasterToolStripMenuItem
             // 
-            modbusMasterToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(modbusMasterToolStripMenuItem, "modbusMasterToolStripMenuItem");
             modbusMasterToolStripMenuItem.Name = "modbusMasterToolStripMenuItem";
-            modbusMasterToolStripMenuItem.Size = new Size(160, 22);
-            modbusMasterToolStripMenuItem.Text = "&Modbus Master";
             modbusMasterToolStripMenuItem.Click += modbusMasterToolStripMenuItem_Click;
             // 
             // changeAddressToolStripMenuItem
             // 
-            changeAddressToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(changeAddressToolStripMenuItem, "changeAddressToolStripMenuItem");
             changeAddressToolStripMenuItem.Name = "changeAddressToolStripMenuItem";
-            changeAddressToolStripMenuItem.Size = new Size(160, 22);
-            changeAddressToolStripMenuItem.Text = "Change &Address";
             // 
             // toolStripSeparator21
             // 
             toolStripSeparator21.Name = "toolStripSeparator21";
-            toolStripSeparator21.Size = new Size(157, 6);
+            resources.ApplyResources(toolStripSeparator21, "toolStripSeparator21");
             // 
             // newUnitToolStripMenuItem
             // 
-            newUnitToolStripMenuItem.Enabled = false;
-            newUnitToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(newUnitToolStripMenuItem, "newUnitToolStripMenuItem");
             newUnitToolStripMenuItem.Name = "newUnitToolStripMenuItem";
-            newUnitToolStripMenuItem.Size = new Size(160, 22);
-            newUnitToolStripMenuItem.Text = "&New Unit";
             newUnitToolStripMenuItem.Click += newUnitToolStripMenuItem_Click;
             // 
             // removeUnitToolStripMenuItem
             // 
-            removeUnitToolStripMenuItem.Enabled = false;
-            removeUnitToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(removeUnitToolStripMenuItem, "removeUnitToolStripMenuItem");
             removeUnitToolStripMenuItem.Name = "removeUnitToolStripMenuItem";
-            removeUnitToolStripMenuItem.Size = new Size(160, 22);
-            removeUnitToolStripMenuItem.Text = "&Remove Unit";
             removeUnitToolStripMenuItem.Click += removeUnitToolStripMenuItem_Click;
             // 
             // renameUnitToolStripMenuItem
             // 
-            renameUnitToolStripMenuItem.Enabled = false;
-            renameUnitToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            resources.ApplyResources(renameUnitToolStripMenuItem, "renameUnitToolStripMenuItem");
             renameUnitToolStripMenuItem.Name = "renameUnitToolStripMenuItem";
-            renameUnitToolStripMenuItem.Size = new Size(160, 22);
-            renameUnitToolStripMenuItem.Text = "&Rename Unit";
             renameUnitToolStripMenuItem.Click += renameUnitToolStripMenuItem_Click;
             // 
             // ModbusRegisters
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
-            ClientSize = new Size(634, 411);
             Controls.Add(tbDataPages);
             Controls.Add(thDataPagesHeader);
             Controls.Add(tsMain);
             Controls.Add(msMain);
             DoubleBuffered = true;
-            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = msMain;
-            MinimumSize = new Size(291, 366);
             Name = "ModbusRegisters";
-            Text = "Modbus Registers";
             FormClosing += ModbusRegisters_FormClosing;
             FormClosed += ModbusRegisters_FormClosed;
             Load += ModbusRegisters_Load;
+            LocationChanged += ModbusRegisters_LocationChanged;
             SizeChanged += ModbusRegisters_SizeChanged;
             VisibleChanged += ModbusRegisters_VisibleChanged;
             cmMonitor.ResumeLayout(false);

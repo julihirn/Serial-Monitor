@@ -126,7 +126,7 @@
             deleteToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator9 = new ToolStripSeparator();
             selectAllToolStripMenuItem = new ToolStripMenuItem();
-            terminalToolStripMenuItem = new ToolStripMenuItem();
+            viewToolStripMenuItem = new ToolStripMenuItem();
             btnOptViewDataOnly = new ToolStripMenuItem();
             btnOptViewTime = new ToolStripMenuItem();
             btnOptViewDate = new ToolStripMenuItem();
@@ -201,7 +201,7 @@
             btnChannelOutputFormat = new ToolStripMenuItem();
             toolStripSeparator39 = new ToolStripSeparator();
             resetCountersToolStripMenuItem = new ToolStripMenuItem();
-            btnPrgNewStepLine = new ToolStripMenuItem();
+            programToolStripMenuItem = new ToolStripMenuItem();
             addCommandToolStripMenuItem = new ToolStripMenuItem();
             addCommandAfterToolStripMenuItem = new ToolStripMenuItem();
             btnPrgRemoveStepLines = new ToolStripMenuItem();
@@ -642,11 +642,11 @@
             pnlRenamePanel.Controls.Add(textBox1);
             pnlRenamePanel.Controls.Add(panel2);
             pnlRenamePanel.Dock = DockStyle.Top;
-            pnlRenamePanel.Location = new Point(0, 0);
+            pnlRenamePanel.Location = new Point(81, 0);
             pnlRenamePanel.Margin = new Padding(2, 1, 2, 1);
             pnlRenamePanel.Name = "pnlRenamePanel";
             pnlRenamePanel.Padding = new Padding(1);
-            pnlRenamePanel.Size = new Size(634, 20);
+            pnlRenamePanel.Size = new Size(553, 20);
             pnlRenamePanel.TabIndex = 3;
             pnlRenamePanel.Visible = false;
             // 
@@ -662,14 +662,14 @@
             textBox1.MaxLength = 20;
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Rename Channel";
-            textBox1.Size = new Size(537, 18);
+            textBox1.Size = new Size(456, 18);
             textBox1.TabIndex = 2;
             // 
             // panel2
             // 
             panel2.Controls.Add(button1);
             panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(538, 1);
+            panel2.Location = new Point(457, 1);
             panel2.Name = "panel2";
             panel2.Size = new Size(95, 18);
             panel2.TabIndex = 1;
@@ -724,7 +724,7 @@
             navigator1.Dock = DockStyle.Left;
             navigator1.ForeColor = Color.White;
             navigator1.LinkedList = null;
-            navigator1.Location = new Point(0, 20);
+            navigator1.Location = new Point(0, 0);
             navigator1.MidColor = Color.FromArgb(16, 16, 16);
             navigator1.Name = "navigator1";
             navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
@@ -734,7 +734,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(81, 162);
+            navigator1.Size = new Size(81, 182);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -1078,7 +1078,7 @@
             msMain.BackColorSouth = Color.FromArgb(31, 31, 31);
             msMain.ImageScalingSize = new Size(32, 32);
             msMain.ItemForeColor = Color.White;
-            msMain.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, terminalToolStripMenuItem, mitChannel, btnPrgNewStepLine, extensionsToolStripMenuItem, toolsToolStripMenuItem, windowToolStripMenuItem, helpToolStripMenuItem });
+            msMain.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem, mitChannel, programToolStripMenuItem, extensionsToolStripMenuItem, toolsToolStripMenuItem, windowToolStripMenuItem, helpToolStripMenuItem });
             msMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             msMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             msMain.ItemSelectedForeColor = Color.White;
@@ -1303,13 +1303,13 @@
             selectAllToolStripMenuItem.Size = new Size(164, 22);
             selectAllToolStripMenuItem.Text = "Select &All";
             // 
-            // terminalToolStripMenuItem
+            // viewToolStripMenuItem
             // 
-            terminalToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnOptViewDataOnly, btnOptViewTime, btnOptViewDate, btnOptViewDateTime, toolStripSeparator16, btnOptViewSource, toolStripSeparator13, channelsToolStripMenuItem, btnMenuShowStepPrg, toolStripSeparator11, btnMenuClearTerminal, zoomToolStripMenuItem, toolStripSeparator12, btnMenuTopMost, btnMenuFullScreen });
-            terminalToolStripMenuItem.ForeColor = Color.White;
-            terminalToolStripMenuItem.Name = "terminalToolStripMenuItem";
-            terminalToolStripMenuItem.Size = new Size(44, 22);
-            terminalToolStripMenuItem.Text = "&View";
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnOptViewDataOnly, btnOptViewTime, btnOptViewDate, btnOptViewDateTime, toolStripSeparator16, btnOptViewSource, toolStripSeparator13, channelsToolStripMenuItem, btnMenuShowStepPrg, toolStripSeparator11, btnMenuClearTerminal, zoomToolStripMenuItem, toolStripSeparator12, btnMenuTopMost, btnMenuFullScreen });
+            viewToolStripMenuItem.ForeColor = Color.White;
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new Size(44, 22);
+            viewToolStripMenuItem.Text = "&View";
             // 
             // btnOptViewDataOnly
             // 
@@ -1917,13 +1917,13 @@
             resetCountersToolStripMenuItem.Size = new Size(239, 22);
             resetCountersToolStripMenuItem.Text = "Reset Counters";
             // 
-            // btnPrgNewStepLine
+            // programToolStripMenuItem
             // 
-            btnPrgNewStepLine.DropDownItems.AddRange(new ToolStripItem[] { addCommandToolStripMenuItem, addCommandAfterToolStripMenuItem, btnPrgRemoveStepLines, toolStripSeparator17, btnPrgMoveUp, btnPrgMoveDown, toolStripSeparator18, btnEnableSelected, btnToggleSelected, btnDisableSelected, toolStripSeparator19, setStepCursorToolStripMenuItem, toolStripSeparator22, activeProgramToolStripMenuItem, commandPalletToolStripMenuItem, variablesToolStripMenuItem, propertiesToolStripMenuItem, toolStripSeparator26, btnRunPrg, runProgramToolStripMenuItem, btnPausePrg, btnStopPrg, toolStripSeparator27, newProgramToolStripMenuItem, removeProgramToolStripMenuItem });
-            btnPrgNewStepLine.ForeColor = Color.White;
-            btnPrgNewStepLine.Name = "btnPrgNewStepLine";
-            btnPrgNewStepLine.Size = new Size(65, 22);
-            btnPrgNewStepLine.Text = "&Program";
+            programToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { addCommandToolStripMenuItem, addCommandAfterToolStripMenuItem, btnPrgRemoveStepLines, toolStripSeparator17, btnPrgMoveUp, btnPrgMoveDown, toolStripSeparator18, btnEnableSelected, btnToggleSelected, btnDisableSelected, toolStripSeparator19, setStepCursorToolStripMenuItem, toolStripSeparator22, activeProgramToolStripMenuItem, commandPalletToolStripMenuItem, variablesToolStripMenuItem, propertiesToolStripMenuItem, toolStripSeparator26, btnRunPrg, runProgramToolStripMenuItem, btnPausePrg, btnStopPrg, toolStripSeparator27, newProgramToolStripMenuItem, removeProgramToolStripMenuItem });
+            programToolStripMenuItem.ForeColor = Color.White;
+            programToolStripMenuItem.Name = "programToolStripMenuItem";
+            programToolStripMenuItem.Size = new Size(65, 22);
+            programToolStripMenuItem.Text = "&Program";
             // 
             // addCommandToolStripMenuItem
             // 
@@ -2395,8 +2395,8 @@
             // pnlMainConsole
             // 
             pnlMainConsole.Controls.Add(Output);
-            pnlMainConsole.Controls.Add(navigator1);
             pnlMainConsole.Controls.Add(pnlRenamePanel);
+            pnlMainConsole.Controls.Add(navigator1);
             pnlMainConsole.Dock = DockStyle.Fill;
             pnlMainConsole.Location = new Point(0, 49);
             pnlMainConsole.Name = "pnlMainConsole";
@@ -2702,7 +2702,7 @@
         private ToolStripMenuItem searchToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator10;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private ToolStripMenuItem terminalToolStripMenuItem;
+        private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripMenuItem btnMenuClearTerminal;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripMenuItem zoomToolStripMenuItem;
@@ -2732,7 +2732,7 @@
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripMenuItem btnOptViewSource;
         private ODModules.ContextMenu cmStepPrg;
-        private ToolStripMenuItem btnPrgNewStepLine;
+        private ToolStripMenuItem programToolStripMenuItem;
         private ToolStripMenuItem addCommandToolStripMenuItem;
         private ToolStripMenuItem btnPrgRemoveStepLines;
         private ToolStripSeparator toolStripSeparator17;

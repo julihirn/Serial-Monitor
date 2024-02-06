@@ -13,10 +13,12 @@ using Serial_Monitor.Plugin;
 using static Serial_Monitor.Classes.SerialManager;
 using System.Reflection;
 using Serial_Monitor.Classes.Modbus;
+using ODModules;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
         public static MainWindow? MainInstance = null;
+
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();
 
@@ -355,6 +357,15 @@ namespace Serial_Monitor.Classes {
         private static void SystemLinkage_ProgramRun(string Name) {
             ProgramManager.ExecuteProgram(Name);
         }
+        #region Port Management
+        public static void CloseAll() {
+            foreach (SerialManager SerMan in SystemManager.SerialManagers) {
+                if (SerMan.Connected == true) {
+                    SerMan.Disconnect();
+                }
+            }
+        }
+        #endregion
         #region Plugins
         static List<Structures.PlugIn> plugins = new List<Structures.PlugIn>();
         public static List<Structures.PlugIn> Plugins {
@@ -432,5 +443,89 @@ namespace Serial_Monitor.Classes {
             }
         }
         #endregion
+        #region Editor Selectors
+        public static void CheckFormatOption(string Type, object Ctrl) {
+            if (Ctrl.GetType() == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsddbtn = (ToolStripDropDownButton)Ctrl;
+                foreach (object Item in Tsddbtn.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                        ((ToolStripMenuItem)Item).Checked = true;
+                    }
+                    else {
+                        ((ToolStripMenuItem)Item).Checked = false;
+                    }
+                }
+            }
+            else if (Ctrl.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Ctrl;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+                        ((ToolStripMenuItem)Item).Checked = true;
+                    }
+                    else {
+                        ((ToolStripMenuItem)Item).Checked = false;
+                    }
+                }
+            }
+        }
+        public static void CheckFormatOption(int Type, object Ctrl) {
+            if (Ctrl.GetType() == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsddbtn = (ToolStripDropDownButton)Ctrl;
+                foreach (object Item in Tsddbtn.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type.ToString()) {
+                        ((ToolStripMenuItem)Item).Checked = true;
+                    }
+                    else {
+                        ((ToolStripMenuItem)Item).Checked = false;
+                    }
+                }
+            }
+            else if (Ctrl.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Ctrl;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type.ToString()) {
+                        ((ToolStripMenuItem)Item).Checked = true;
+                    }
+                    else {
+                        ((ToolStripMenuItem)Item).Checked = false;
+                    }
+                }
+            }
+        }
+        //private void CheckOutputFormat(string Type) {
+        //    foreach (object Item in ddbOutputFormat.DropDownItems) {
+        //        if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+        //        if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+        //            ((ToolStripMenuItem)Item).Checked = true;
+        //        }
+        //        else {
+        //            ((ToolStripMenuItem)Item).Checked = false;
+        //        }
+        //    }
+        //    foreach (object Item in btnChannelOutputFormat.DropDownItems) {
+        //        if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+        //        if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
+        //            ((ToolStripMenuItem)Item).Checked = true;
+        //        }
+        //        else {
+        //            ((ToolStripMenuItem)Item).Checked = false;
+        //        }
+        //    }
+        //}
+        #endregion
+        internal static ProgramObject? GetProgramObjectFromTab(TabClickedEventArgs Args) {
+            if (Args.SelectedTab.GetType() == typeof(Tab)) {
+                Tab TabData = (Tab)Args.SelectedTab;
+                if (TabData.Tag == null) { return null; }
+                if (TabData.Tag.GetType() == typeof(ProgramObject)) {
+                    return (ProgramObject)TabData.Tag;
+                }
+            }
+            return null;
+        }
     }
 }

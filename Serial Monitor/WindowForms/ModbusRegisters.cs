@@ -1871,7 +1871,9 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(QueryApp, true);
         }
 
+        private void ModbusRegisters_LocationChanged(object sender, EventArgs e) {
 
+        }
 
         private enum DataEditor {
             MasterView = 0x00,

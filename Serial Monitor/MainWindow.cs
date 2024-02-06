@@ -18,6 +18,7 @@ using Serial_Monitor.Classes.Structures;
 using Serial_Monitor.Plugin;
 using System.Linq.Expressions;
 using Microsoft.VisualBasic;
+using System.Globalization;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -44,7 +45,8 @@ namespace Serial_Monitor {
             if (currentManager != null) {
                 ddbBAUDRate.Text = currentManager.BaudRate.ToString();
                 ddbBAUDRate.Tag = currentManager.BaudRate;
-                CheckBaudRate(currentManager.BaudRate);
+                SystemManager.CheckFormatOption(currentManager.BaudRate, ddbBAUDRate);
+                SystemManager.CheckFormatOption(currentManager.BaudRate, btnChannelBaud);
                 ddbBits.Text = currentManager.DataBits.ToString();
                 ddbBits.Tag = currentManager.DataBits.ToString();
                 CheckBits(ddbBits.Text);
@@ -55,19 +57,22 @@ namespace Serial_Monitor {
                 string Parity = EnumManager.ParityToString(currentManager.Parity);
                 ddbParity.Text = Parity;
                 ddbParity.Tag = Parity;
-                CheckParity(ddbParity.Text);
+                SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
+                SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
                 StringPair SelectIn = EnumManager.InputFormatToString(currentManager.InputFormat, false);
                 StringPair SelectOut = EnumManager.OutputFormatToString(currentManager.OutputFormat, false);
                 ddbInputFormat.Text = SelectIn.A;
                 ddbInputFormat.Tag = SelectIn.B;
-                CheckInputFormat(SelectIn.B);
+                SystemManager.CheckFormatOption(SelectIn.B, ddbInputFormat);
+                SystemManager.CheckFormatOption(SelectIn.B, btnChannelInputFormat);
                 ddbOutputFormat.Text = SelectOut.A;
                 ddbOutputFormat.Tag = SelectOut.B;
-                CheckOutputFormat(SelectOut.B);
+                SystemManager.CheckFormatOption(SelectOut.B, ddbOutputFormat);
+                SystemManager.CheckFormatOption(SelectOut.B, btnChannelOutputFormat);
                 ddbPorts.Text = currentManager.PortName;
                 SystemRunning(currentManager.Connected);
                 btnMenuModbusMaster.Checked = currentManager.IsMaster;
-                CheckControlFlow(EnumManager.HandshakeToString(currentManager.Handshake));
+                SystemManager.CheckFormatOption(EnumManager.HandshakeToString(currentManager.Handshake), btnChannelFlowCtrl);
                 CheckLineFormat();
             }
         }
@@ -95,10 +100,144 @@ namespace Serial_Monitor {
             }
             ProgramManager.LaunchThread();
             LoadRecentItems();
+            ApplyLocalisation();
             DocumentEdited = false;
         }
 
+        public void ApplyLocalisation() {
+            //LocalisationManager.GetLanguage(new CultureInfo("pl-PL"));
 
+            ApplyLocalisation_File();
+            ApplyLocalisation_Edit();
+            ApplyLocalisation_View();
+            ApplyLocalisation_Channels();
+            ApplyLocalisation_Program();
+
+            //-- Program
+
+
+            LocalisationManager.ApplyText(extensionsToolStripMenuItem, "extensions");
+            LocalisationManager.ApplyText(toolsToolStripMenuItem, "tools");
+            LocalisationManager.ApplyText(windowToolStripMenuItem, "window");
+
+        }
+        private void ApplyLocalisation_File() {
+            //-- File
+            LocalisationManager.ApplyText(fileToolStripMenuItem, "file");
+            LocalisationManager.ApplyText(btnNewStep, "new");
+            LocalisationManager.ApplyText(btnOpenStep, "open");
+            LocalisationManager.ApplyText(btnOpenLocation, "openFileLocation");
+            LocalisationManager.ApplyText(btnSaveStep, "save");
+            LocalisationManager.ApplyText(btnSaveAsStep, "saveAs");
+            LocalisationManager.ApplyText(btnPrint, "print");
+            LocalisationManager.ApplyText(btnPrintPreview, "printPreview");
+            LocalisationManager.ApplyText(btnRecentProjects, "recentProjects");
+            LocalisationManager.ApplyText(btnMenuExit, "exit");
+        }
+        private void ApplyLocalisation_Edit() {
+            //-- Edit
+            LocalisationManager.ApplyText(editToolStripMenuItem, "edit");
+            LocalisationManager.ApplyText(undoToolStripMenuItem, "undo");
+            LocalisationManager.ApplyText(redoToolStripMenuItem, "redo");
+            LocalisationManager.ApplyText(cutToolStripMenuItem, "cut");
+            LocalisationManager.ApplyText(cutToolStripMenuItem1, "cut");
+            LocalisationManager.ApplyText(copyToolStripMenuItem, "copy");
+            LocalisationManager.ApplyText(copyToolStripMenuItem1, "copy");
+            LocalisationManager.ApplyText(pasteToolStripMenuItem, "paste");
+            LocalisationManager.ApplyText(pasteToolStripMenuItem1, "paste");
+            LocalisationManager.ApplyText(deleteToolStripMenuItem, "delete");
+            LocalisationManager.ApplyText(selectAllToolStripMenuItem, "selectAll");
+        }
+        private void ApplyLocalisation_View() {
+            //-- View
+            LocalisationManager.ApplyText(viewToolStripMenuItem, "view");
+            LocalisationManager.ApplyText(btnOptViewDataOnly, "viewDataOnly");
+            LocalisationManager.ApplyText(btnOptViewTime, "viewTimeStamps");
+            LocalisationManager.ApplyText(btnOptViewDate, "viewDateStamps");
+            LocalisationManager.ApplyText(btnOptViewDateTime, "viewDateTimeStamps");
+            LocalisationManager.ApplyText(btnOptViewSource, "showSource");
+            LocalisationManager.ApplyText(channelsToolStripMenuItem, "channels");
+            LocalisationManager.ApplyText(btnClearTerminal, "clearTerminal");
+            LocalisationManager.ApplyText(btnMenuClearTerminal, "clearTerminal");
+            LocalisationManager.ApplyText(zoomToolStripMenuItem, "zoom");
+            LocalisationManager.ApplyText(btnMenuTopMost, "topMost");
+            LocalisationManager.ApplyText(btnTopMost, "topMost");
+            LocalisationManager.ApplyText(btnMenuFullScreen, "fullScreen");
+        }
+        private void ApplyLocalisation_Channels() {
+            //-- Channel
+            LocalisationManager.ApplyText(mitChannel, "channel");
+            LocalisationManager.ApplyText(newChannelToolStripMenuItem, "newChannel");
+            LocalisationManager.ApplyText(btnNewChannel, "newChannel");
+            LocalisationManager.ApplyText(removeChannelToolStripMenuItem, "removeChannel");
+            LocalisationManager.ApplyText(btnRemoveChannel, "removeChannel");
+            LocalisationManager.ApplyText(ddbChannels, "switchChannel");
+            LocalisationManager.ApplyText(renameChannelToolStripMenuItem, "renameChannel");
+            LocalisationManager.ApplyText(btnRenameChannel, "renameChannel");
+            LocalisationManager.ApplyText(outputInTerminalToolStripMenuItem, "outputInTerminal");
+            LocalisationManager.ApplyText(btnMenuOutputMaster, "outputInTerminal");
+            LocalisationManager.ApplyText(modbusMasterToolStripMenuItem, "modbusMaster");
+            LocalisationManager.ApplyText(btnMenuModbusMaster, "modbusMaster");
+            LocalisationManager.ApplyText(btnMenuTextFormat, "textFormatting");
+            LocalisationManager.ApplyText(btnMenuOpenNewTerminal, "openInTerminal");
+            LocalisationManager.ApplyText(connectToolStripMenuItem, "connect");
+            LocalisationManager.ApplyText(btnMenuConnect, "connect");
+            LocalisationManager.ApplyText(btnConnect, "connect");
+            LocalisationManager.ApplyText(disconnectToolStripMenuItem, "disconnect");
+            LocalisationManager.ApplyText(btnMenuDisconnect, "disconnect");
+            LocalisationManager.ApplyText(btnDisconnect, "disconnect");
+            LocalisationManager.ApplyText(propertiesToolStripMenuItem, "properties");
+            LocalisationManager.ApplyText(propertiesToolStripMenuItem1, "properties");
+            LocalisationManager.ApplyText(ddbPorts, "port");
+            LocalisationManager.ApplyText(btnChannelPort, "port");
+            LocalisationManager.ApplyText(ddbPorts, "port", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(btnChannelBaud, "baudRate");
+            LocalisationManager.ApplyText(ddbBAUDRate, "baudRate", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(btnChannelDataBits, "dataBits");
+            LocalisationManager.ApplyText(ddbBits, "dataBits", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(ddbParity, "parity", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(btnChannelParity, "parity");
+            LocalisationManager.ApplyText(btnChannelStopBits, "stopBits");
+            LocalisationManager.ApplyText(ddbStopBits, "stopBits", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(btnChannelFlowCtrl, "flowControl");
+            LocalisationManager.ApplyText(ddbInputFormat, "inputFormat", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(btnChannelInputFormat, "inputFormat");
+            LocalisationManager.ApplyText(ddbOutputFormat, "outputFormat", LocalisationManager.StringApplication.ToolTips);
+            LocalisationManager.ApplyText(btnChannelOutputFormat, "outputFormat");
+            LocalisationManager.ApplyText(resetCountersToolStripMenuItem, "resetCounters");
+        }
+        private void ApplyLocalisation_Program() {
+            LocalisationManager.ApplyText(programToolStripMenuItem, "program");
+            LocalisationManager.ApplyText(addCommandToolStripMenuItem, "addCommand");
+            LocalisationManager.ApplyText(addCommandToolStripMenuItem1, "addCommand");
+            LocalisationManager.ApplyText(removeSelectedToolStripMenuItem, "removeSelected");
+            LocalisationManager.ApplyText(btnPrgRemoveStepLines, "removeSelected");
+            LocalisationManager.ApplyText(btnPrgMoveDown, "moveDown");
+            LocalisationManager.ApplyText(btnPrgMoveUp, "moveUp");
+            LocalisationManager.ApplyText(btnEnableSelected, "enableSelected");
+            LocalisationManager.ApplyText(enableSelectedToolStripMenuItem1, "enableSelected");
+            LocalisationManager.ApplyText(btnDisableSelected, "disableSelected");
+            LocalisationManager.ApplyText(disableSelectedToolStripMenuItem1, "disableSelected");
+            LocalisationManager.ApplyText(btnToggleSelected, "toggleSelected");
+            LocalisationManager.ApplyText(setStepCursorToolStripMenuItem, "setStepCursor");
+            LocalisationManager.ApplyText(runFromStartToolStripMenuItem, "runProgramStart");
+            LocalisationManager.ApplyText(runToolStripMenuItem, "runProgram");
+            LocalisationManager.ApplyText(cmRunProgram, "runProgram");
+            LocalisationManager.ApplyText(btnRunCursor, "runProgram");
+            LocalisationManager.ApplyText(runProgramToolStripMenuItem, "runProgram");
+            LocalisationManager.ApplyText(btnRunPrg, "runProgramStart");
+            LocalisationManager.ApplyText(btnRun, "runProgram");
+            LocalisationManager.ApplyText(btnPause, "pauseProgram");
+            LocalisationManager.ApplyText(pauseToolStripMenuItem, "pauseProgram");
+            LocalisationManager.ApplyText(btnPausePrg, "pauseProgram");
+            LocalisationManager.ApplyText(btnStop, "stopProgram");
+            LocalisationManager.ApplyText(stopToolStripMenuItem, "stopProgram");
+            LocalisationManager.ApplyText(btnStopPrg, "stopProgram");
+            LocalisationManager.ApplyText(newProgramToolStripMenuItem, "newProgram");
+            LocalisationManager.ApplyText(cmbtnNewProgram, "newProgram");
+            LocalisationManager.ApplyText(removeProgramToolStripMenuItem, "removeProgram");
+            LocalisationManager.ApplyText(cmCloseProgram, "removeProgram");
+        }
 
         private void LoadEventHandlers() {
             ddbPorts.DropDownOpening += ddbPorts_DropDownOpening;
@@ -305,7 +444,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ErrorInvoked += SystemManager_ErrorInvoked;
-            SetTitle("Untitled");
+            SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
             //DetermineTabs();
             DocumentEdited = false;
         }
@@ -380,12 +519,18 @@ namespace Serial_Monitor {
                 ddbInputFormat.Text = EnumManager.InputFormatToString(currentManager.InputFormat, false).A;
                 currentManager.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
                 ddbOutputFormat.Text = EnumManager.OutputFormatToString(currentManager.OutputFormat, false).A;
-                CheckInputFormat(EnumManager.InputFormatToString(currentManager.InputFormat, false).B);
-                CheckOutputFormat(EnumManager.OutputFormatToString(currentManager.OutputFormat, false).B);
+                string InFrmt = EnumManager.InputFormatToString(currentManager.InputFormat, false).B;
+                string OutFrmt = EnumManager.OutputFormatToString(currentManager.OutputFormat, false).B;
 
+                SystemManager.CheckFormatOption(InFrmt, ddbInputFormat);
+                SystemManager.CheckFormatOption(InFrmt, btnChannelInputFormat);
+
+                SystemManager.CheckFormatOption(OutFrmt, ddbOutputFormat);
+                SystemManager.CheckFormatOption(OutFrmt, btnChannelOutputFormat);
             }
             LoadAllBauds();
-            CheckParity(ddbParity.Text);
+            SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
+            SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
             CheckBits(ddbBits.Text);
             CheckStopBits(ddbStopBits.Text);
             SystemRunning(false);
@@ -540,10 +685,6 @@ namespace Serial_Monitor {
             msMain.BackColorNorthFadeIn = FadeInColor;
             msMain.UseNorthFadeIn = true;
         }
-        #endregion
-        #region Form Border
-
-
         #endregion
         #region Receiving Data
         private void SerMan_DataReceived(object? sender, bool PrintLine, string Data) {
@@ -859,7 +1000,8 @@ namespace Serial_Monitor {
             foreach (int i in SystemManager.DefaultBauds) {
                 LoadBAUDRate(i);
             }
-            CheckBaudRate(Properties.Settings.Default.DEF_INT_BaudRate);
+            SystemManager.CheckFormatOption(Properties.Settings.Default.DEF_INT_BaudRate, ddbBAUDRate);
+            SystemManager.CheckFormatOption(Properties.Settings.Default.DEF_INT_BaudRate, btnChannelBaud);
             if (currentManager != null) {
                 currentManager.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
                 ddbBAUDRate.Text = Properties.Settings.Default.DEF_INT_BaudRate.ToString();
@@ -888,27 +1030,10 @@ namespace Serial_Monitor {
                     CurrentManager.BaudRate = int.Parse(ddbBAUDRate.Tag.ToString() ?? "9600");
                 }
             }
-            CheckBaudRate(int.Parse(ddbBAUDRate.Text));
+            SystemManager.CheckFormatOption(ddbBAUDRate.Text, ddbParity);
+            SystemManager.CheckFormatOption(ddbBAUDRate.Text, btnChannelParity);
             navigator1.Invalidate();
             DocumentEdited = true;
-        }
-        private void CheckBaudRate(int Rate) {
-            foreach (ToolStripMenuItem Item in ddbBAUDRate.DropDownItems) {
-                if (Item.Text == Rate.ToString()) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
-            foreach (ToolStripMenuItem Item in btnChannelBaud.DropDownItems) {
-                if (Item.Text == Rate.ToString()) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
         }
         #endregion
         #region Parity Settings
@@ -917,7 +1042,8 @@ namespace Serial_Monitor {
                 CurrentManager.Parity = PBits;
                 ddbParity.Text = EnumManager.ParityToString(PBits);
             }
-            CheckParity(ddbParity.Text);
+            SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
+            SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
             navigator1.Invalidate();
             DocumentEdited = true;
         }
@@ -950,24 +1076,6 @@ namespace Serial_Monitor {
         }
         private void btnChannelMarkParity_Click(object? sender, EventArgs e) {
             SetPortParityBits(Parity.Mark);
-        }
-        private void CheckParity(string Type) {
-            foreach (ToolStripMenuItem Item in ddbParity.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
-            foreach (ToolStripMenuItem Item in btnChannelParity.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
         }
         #endregion
         #region Bit Settings
@@ -1082,18 +1190,8 @@ namespace Serial_Monitor {
             if (CurrentManager != null) {
                 CurrentManager.Handshake = HandShake;
             }
-            CheckControlFlow(EnumManager.HandshakeToString(HandShake));
+            SystemManager.CheckFormatOption(EnumManager.HandshakeToString(HandShake), btnChannelFlowCtrl);
             DocumentEdited = true;
-        }
-        private void CheckControlFlow(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelFlowCtrl.DropDownItems) {
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
         }
         private void noneToolStripMenuItem_Click(object? sender, EventArgs e) {
             SetControlFlow(Handshake.None);
@@ -1120,46 +1218,6 @@ namespace Serial_Monitor {
             }
         }
         #region Format Settings
-        private void CheckInputFormat(string Type) {
-            foreach (object Item in ddbInputFormat.DropDownItems) {
-                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                    ((ToolStripMenuItem)Item).Checked = true;
-                }
-                else {
-                    ((ToolStripMenuItem)Item).Checked = false;
-                }
-            }
-            foreach (object Item in btnChannelInputFormat.DropDownItems) {
-                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                    ((ToolStripMenuItem)Item).Checked = true;
-                }
-                else {
-                    ((ToolStripMenuItem)Item).Checked = false;
-                }
-            }
-        }
-        private void CheckOutputFormat(string Type) {
-            foreach (object Item in ddbOutputFormat.DropDownItems) {
-                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                    ((ToolStripMenuItem)Item).Checked = true;
-                }
-                else {
-                    ((ToolStripMenuItem)Item).Checked = false;
-                }
-            }
-            foreach (object Item in btnChannelOutputFormat.DropDownItems) {
-                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                    ((ToolStripMenuItem)Item).Checked = true;
-                }
-                else {
-                    ((ToolStripMenuItem)Item).Checked = false;
-                }
-            }
-        }
         private void InputFormatChange(string ControlText) {
             StreamInputFormat FormatPair = EnumManager.StringToInputFormat(ControlText);
             StringPair TextualPair = EnumManager.InputFormatToString(FormatPair, false);
@@ -1167,7 +1225,8 @@ namespace Serial_Monitor {
                 CurrentManager.InputFormat = FormatPair;
                 ddbInputFormat.Text = TextualPair.A;
             }
-            CheckInputFormat(ControlText);
+            SystemManager.CheckFormatOption(ControlText, ddbInputFormat);
+            SystemManager.CheckFormatOption(ControlText, btnChannelInputFormat);
         }
         private void OutputFormatChange(string ControlText) {
             StreamOutputFormat FormatPair = EnumManager.StringToOutputFormat(ControlText);
@@ -1176,36 +1235,38 @@ namespace Serial_Monitor {
                 CurrentManager.OutputFormat = FormatPair;
                 ddbOutputFormat.Text = TextualPair.A;
             }
-            CheckOutputFormat(ControlText);
+            //CheckOutputFormat(ControlText);
+            SystemManager.CheckFormatOption(ControlText, ddbOutputFormat);
+            SystemManager.CheckFormatOption(ControlText, btnChannelOutputFormat);
         }
-        private void InputFormatClicked(object? sender, EventArgs e) {
-            if (sender == null) { return; }
-            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-            string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
-            foreach (ToolStripMenuItem Tsi in ddbInputFormat.DropDownItems) {
-                if (Tsi.Tag.ToString() == Cmd) {
-                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-                    Tsi.Checked = true;
-                    Properties.Settings.Default.DEF_STR_InputFormat = Tsi.Tag.ToString();
-                    Properties.Settings.Default.Save();
-                }
-                else { Tsi.Checked = false; }
-            }
-        }
-        private void OutputFormatClicked(object? sender, EventArgs e) {
-            if (sender == null) { return; }
-            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-            string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
-            foreach (ToolStripMenuItem Tsi in ddbOutputFormat.DropDownItems) {
-                if (Tsi.Tag.ToString() == Cmd) {
-                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-                    Tsi.Checked = true;
-                    Properties.Settings.Default.DEF_STR_OutputFormat = Tsi.Tag.ToString();
-                    Properties.Settings.Default.Save();
-                }
-                else { Tsi.Checked = false; }
-            }
-        }
+        //private void InputFormatClicked(object? sender, EventArgs e) {
+        //    if (sender == null) { return; }
+        //    if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+        //    string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
+        //    foreach (ToolStripMenuItem Tsi in ddbInputFormat.DropDownItems) {
+        //        if (Tsi.Tag.ToString() == Cmd) {
+        //            ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+        //            Tsi.Checked = true;
+        //            Properties.Settings.Default.DEF_STR_InputFormat = Tsi.Tag.ToString();
+        //            Properties.Settings.Default.Save();
+        //        }
+        //        else { Tsi.Checked = false; }
+        //    }
+        //}
+        //private void OutputFormatClicked(object? sender, EventArgs e) {
+        //    if (sender == null) { return; }
+        //    if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+        //    string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
+        //    foreach (ToolStripMenuItem Tsi in ddbOutputFormat.DropDownItems) {
+        //        if (Tsi.Tag.ToString() == Cmd) {
+        //            ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
+        //            Tsi.Checked = true;
+        //            Properties.Settings.Default.DEF_STR_OutputFormat = Tsi.Tag.ToString();
+        //            Properties.Settings.Default.Save();
+        //        }
+        //        else { Tsi.Checked = false; }
+        //    }
+        //}
         private void InputFormat_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
             InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
@@ -1642,7 +1703,7 @@ namespace Serial_Monitor {
                 if (item.Tag == null) { return; }
                 string FileName = item.Tag.ToString() ?? "";
                 if (FileName == "") { return; }
-                CloseAll();
+                SystemManager.CloseAll();
                 Open(FileName);
                 AddFiletoRecentFiles(FileName);
             }
@@ -2140,61 +2201,9 @@ namespace Serial_Monitor {
             }
         }
         private void ProgramManager_ProgramNameChanged(object? sender) {
-            DetermineName();
+            ProgramManager.DetermineName(thPrograms, btnRun);
         }
-        private void DetermineName() {
-            int j = 0;
-            string Name = "";
-            string StoredName = "";
-            bool Resulted = false;
-            foreach (Tab PrgTab in thPrograms.Tabs) {
-                if (PrgTab.Tag == null) { continue; }
-                if (PrgTab.Tag.GetType() != typeof(ProgramObject)) { continue; }
-                ProgramObject Prg = (ProgramObject)PrgTab.Tag;
-                if (Prg.Name.Trim().Length == 0) {
-                    Name = GetUntitledText(ref j);
-                }
-                else {
-                    Name = Prg.Name;
-                }
-                PrgTab.Text = Name;
-                if (Prg == ProgramManager.CurrentProgram) {
-                    StoredName = Name;
-                    Resulted = true;
-                }
-            }
-            if (Resulted == true) {
-                btnRun.Text = StoredName;
-            }
-            thPrograms.Invalidate();
-        }
-        private string GetUntitledText(ref int Index) {
-            if (Index > 0) {
-                Name = "Untitled Program " + Index.ToString();
-            }
-            else {
-                Name = "Untitled Program";
-            }
-            Index++;
-            return Name;
-        }
-        private void DetermineTabs() {
-            int j = 0;
-            string Name = "";
-            foreach (ProgramObject Prg in ProgramManager.Programs) {
-                if (Prg.Name.Trim().Length == 0) {
-                    Name = GetUntitledText(ref j);
-                }
-                else {
-                    Name = Prg.Name;
-                }
-                Tab Tb = new Tab();
-                Tb.Text = Name;
-                Tb.Tag = Prg;
-                thPrograms.Tabs.Add(Tb);
-            }
-            thPrograms.Invalidate();
-        }
+
         private void ListPrograms(object? MenuList) {
             if (MenuList == null) { return; }
             if (MenuList.GetType() == typeof(ToolStripSplitButton)) {
@@ -2219,12 +2228,13 @@ namespace Serial_Monitor {
             int j = 0;
             foreach (ProgramObject Prg in ProgramManager.Programs) {
                 ToolStripMenuItem TsMi = new ToolStripMenuItem();
+                string LocalisatedText = LocalisationManager.GetLocalisedText("untitledProgram", "Untitled Program");
                 if (Prg.Name.Trim().Length == 0) {
                     if (j > 0) {
-                        TsMi.Text = "Untitled Program " + j.ToString();
+                        TsMi.Text = LocalisatedText + " " + j.ToString();
                     }
                     else {
-                        TsMi.Text = "Untitled Program";
+                        TsMi.Text = LocalisatedText;
                     }
                     j++;
                 }
@@ -2452,7 +2462,7 @@ namespace Serial_Monitor {
             cmPrograms.Show(Tab.ScreenLocation);
         }
         private void cmRunProgram_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
             btnRun.Text = GetTextFromTab((TabClickedEventArgs)cmPrograms.Tag);
@@ -2465,13 +2475,13 @@ namespace Serial_Monitor {
             }
         }
         private void cmbtnSetAsActive_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
             btnRun.Text = GetTextFromTab((TabClickedEventArgs)cmPrograms.Tag);
         }
         private void cmbtnProperties_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramProperties PrgProp = new ProgramProperties();
             PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
@@ -2492,16 +2502,7 @@ namespace Serial_Monitor {
         private void cmbtnNewProgram_Click(object? sender, EventArgs e) {
             NewProgram();
         }
-        private ProgramObject? GetProgramObjectFromTab(TabClickedEventArgs Args) {
-            if (Args.SelectedTab.GetType() == typeof(Tab)) {
-                Tab TabData = (Tab)Args.SelectedTab;
-                if (TabData.Tag == null) { return null; }
-                if (TabData.Tag.GetType() == typeof(ProgramObject)) {
-                    return (ProgramObject)TabData.Tag;
-                }
-            }
-            return null;
-        }
+
         private string GetTextFromTab(TabClickedEventArgs Args) {
             //if (cmPrograms.Tag == null) { return ""; }
             // if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
@@ -2522,7 +2523,7 @@ namespace Serial_Monitor {
         }
         private void ShowProgramRenameBox(TabClickedEventArgs EventData, bool PushEventData = false) {
             Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(EventData, true);
-            ProgramObject? PrgObj = GetProgramObjectFromTab(EventData);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab(EventData);
             if (PrgObj == null) { return; }
             string CurrentText = GetTextFromTab(EventData);
             System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
@@ -2672,7 +2673,7 @@ namespace Serial_Monitor {
             set {
                 documentEdited = value;
                 if (CurrentDocument.Trim(' ') == "") {
-                    SetTitle("Untitled");
+                    SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
                 }
                 else {
                     SetTitle(Path.GetFileNameWithoutExtension(CurrentDocument));
@@ -2697,7 +2698,7 @@ namespace Serial_Monitor {
                 ProgramManager.CurrentProgram = ProgramManager.Programs[0];
 
                 thPrograms.SelectedIndex = 0;
-                UpdateProgramNames();
+                ProgramManager.UpdateProgramNames(thPrograms);
                 thPrograms.Invalidate();
                 navigator1.Invalidate();
                 btnRun.Text = "Main";
@@ -2709,16 +2710,10 @@ namespace Serial_Monitor {
                 else {
                     btnOpenLocation.Enabled = true;
                 }
-                SetTitle("Untitled");
+                SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
             }
         }
-        private void CloseAll() {
-            foreach (SerialManager SerMan in SystemManager.SerialManagers) {
-                if (SerMan.Connected == true) {
-                    SerMan.Disconnect();
-                }
-            }
-        }
+
         string CurrentDocument = "";
         private void btnNewStep_Click(object? sender, EventArgs e) {
             New();
@@ -2750,18 +2745,6 @@ namespace Serial_Monitor {
                 }
             }
         }
-        private void ArrangeProgramOrderings() {
-            int Index = 0;
-            foreach (Tab TabPrg in thPrograms.Tabs) {
-                if (TabPrg.Tag != null) {
-                    if (TabPrg.Tag.GetType() == typeof(ProgramObject)) {
-                        ((ProgramObject)TabPrg.Tag).DisplayIndex = Index;
-                        Index++;
-                    }
-                }
-            }
-            ProgramManager.Programs = ProgramManager.Programs.OrderBy(x => x.DisplayIndex).ToList();
-        }
         public void Save(bool SaveAs = false) {
             bool IsExistingFile = false;
             if (CurrentDocument.Trim(' ') != "") {
@@ -2769,7 +2752,7 @@ namespace Serial_Monitor {
                     IsExistingFile = true;
                 }
             }
-            ArrangeProgramOrderings();
+            ProgramManager.ArrangeProgramOrderings(thPrograms);
             if (SaveAs == true) { IsExistingFile = false; }
 
             if (IsExistingFile == false) {
@@ -2809,7 +2792,7 @@ namespace Serial_Monitor {
             }
         }
         private void CleanProjectData() {
-            CloseAll();
+            SystemManager.CloseAll();
             ProjectManager.ClearKeypadButtons();
             SystemManager.ClearChannels(SerManager_CommandProcessed, SerMan_DataReceived);
             ClearPrograms();
@@ -2849,8 +2832,8 @@ namespace Serial_Monitor {
             else {
                 btnOpenLocation.Enabled = true;
             }
-            DetermineName();
-            DetermineTabs();
+            ProgramManager.DetermineName(thPrograms, btnRun);
+            ProgramManager.DetermineTabs(thPrograms);
             btnRun.Text = thPrograms.Tabs[0].Text;
             thPrograms.SelectedIndex = 0;
             thPrograms.Invalidate();
@@ -2866,7 +2849,7 @@ namespace Serial_Monitor {
             Tb.Text = Name;
             Tb.Tag = PrgObj;
             thPrograms.Tabs.Add(Tb);
-            UpdateProgramNames();
+            ProgramManager.UpdateProgramNames(thPrograms);
             thPrograms.Invalidate();
             DocumentEdited = true;
         }
@@ -2914,40 +2897,8 @@ namespace Serial_Monitor {
             }
             thPrograms.Invalidate();
             DocumentEdited = true;
-            DetermineName();
+            ProgramManager.DetermineName(thPrograms, btnRun);
         }
-        private void UpdateProgramNames() {
-            int j = 0;
-            foreach (ProgramObject Prg in ProgramManager.Programs) {
-                if (Prg.Name.Trim().Length == 0) {
-                    Prg.UntitledProgramNmber = j;
-                    j++;
-                }
-                else {
-                    Prg.UntitledProgramNmber = -1;
-                }
-            }
-            if (thPrograms.Tabs.Count > 0) {
-                foreach (Tab Tb in thPrograms.Tabs) {
-                    if (Tb.Tag != null) {
-                        if (Tb.Tag.GetType() == typeof(ProgramObject)) {
-                            ProgramObject PrObj = (ProgramObject)Tb.Tag;
-                            if (PrObj.UntitledProgramNmber >= 1) {
-                                Tb.Text = "Untitled Program " + PrObj.UntitledProgramNmber.ToString();
-                            }
-                            else if (PrObj.UntitledProgramNmber == 0) {
-                                Tb.Text = "Untitled Program";
-                            }
-                            else {
-                                Tb.Text = PrObj.Name;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
         #endregion
         #region Window Management
         private void btnWinWindowManager_Click(object? sender, EventArgs e) {

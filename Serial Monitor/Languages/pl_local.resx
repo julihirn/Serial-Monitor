@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="activeProgram" xml:space="preserve">
+    <value>Aktywny program</value>
+  </data>
+  <data name="addCommand" xml:space="preserve">
+    <value>Dodaj polecenie</value>
+  </data>
+  <data name="addCommandAfter" xml:space="preserve">
+    <value>Dodaj polecenie po</value>
+  </data>
+  <data name="baudRate" xml:space="preserve">
+    <value>Szybkość transmisji</value>
+  </data>
+  <data name="bitToggler" xml:space="preserve">
+    <value>Przełącznik bitowy</value>
+  </data>
+  <data name="channel" xml:space="preserve">
+    <value>Kanał</value>
+  </data>
+  <data name="channels" xml:space="preserve">
+    <value>Kanały</value>
+  </data>
+  <data name="clearTerminal" xml:space="preserve">
+    <value>Wyczyść terminal</value>
+  </data>
+  <data name="closeAll" xml:space="preserve">
+    <value>Zamknij wszystko</value>
+  </data>
+  <data name="commandPalette" xml:space="preserve">
+    <value>Paleta poleceń</value>
+  </data>
+  <data name="connect" xml:space="preserve">
+    <value>Łączyć</value>
+  </data>
+  <data name="copy" xml:space="preserve">
+    <value>Kopiuj</value>
+  </data>
+  <data name="copyAppearance" xml:space="preserve">
+    <value>Kopiuj styl</value>
+  </data>
+  <data name="copyFormats" xml:space="preserve">
+    <value>Kopiuj formaty</value>
+  </data>
+  <data name="copyNames" xml:space="preserve">
+    <value>Kopiuj nazwy</value>
+  </data>
+  <data name="copySpecial" xml:space="preserve">
+    <value>Kopia specjalna</value>
+  </data>
+  <data name="copyValues" xml:space="preserve">
+    <value>Kopiuj wartości</value>
+  </data>
+  <data name="cut" xml:space="preserve">
+    <value>Wytnij</value>
+  </data>
+  <data name="dataBits" xml:space="preserve">
+    <value>Bity danych</value>
+  </data>
+  <data name="deviceManager" xml:space="preserve">
+    <value>Menadżer urządzeń</value>
+  </data>
+  <data name="disableSelected" xml:space="preserve">
+    <value>Wyłącz wybrane</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Rozłączyć się</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Edycja</value>
+  </data>
+  <data name="enableSelected" xml:space="preserve">
+    <value>Włączone Wybrane</value>
+  </data>
+  <data name="exit" xml:space="preserve">
+    <value>Wyjście</value>
+  </data>
+  <data name="extensions" xml:space="preserve">
+    <value>Rozszerzenia</value>
+  </data>
+  <data name="file" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="flowControl" xml:space="preserve">
+    <value>Kontrola przepływu</value>
+  </data>
+  <data name="fullScreen" xml:space="preserve">
+    <value>Pełny ekran</value>
+  </data>
+  <data name="inputFormat" xml:space="preserve">
+    <value>Format wejściowy</value>
+  </data>
+  <data name="keypad" xml:space="preserve">
+    <value>Klawiatura</value>
+  </data>
+  <data name="masterView" xml:space="preserve">
+    <value>Widok mistrzowski</value>
+  </data>
+  <data name="modbusMaster" xml:space="preserve">
+    <value>Mistrz Modbusa</value>
+  </data>
+  <data name="modbusRegisters" xml:space="preserve">
+    <value>Rejestry Modbus</value>
+  </data>
+  <data name="monitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
+  <data name="moveDown" xml:space="preserve">
+    <value>Padnij</value>
+  </data>
+  <data name="moveUp" xml:space="preserve">
+    <value>Podnieść</value>
+  </data>
+  <data name="new" xml:space="preserve">
+    <value>Nowy</value>
+  </data>
+  <data name="newChannel" xml:space="preserve">
+    <value>Nowy kanał</value>
+  </data>
+  <data name="newProgram" xml:space="preserve">
+    <value>Nowy program</value>
+  </data>
+  <data name="newView" xml:space="preserve">
+    <value>Nowy widok</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>Nic</value>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Otwórz</value>
+  </data>
+  <data name="openFileLocation" xml:space="preserve">
+    <value>Otwórz lokalizację pliku</value>
+  </data>
+  <data name="openInTerminal" xml:space="preserve">
+    <value>Otwórz w nowym terminalu</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Opcje</value>
+  </data>
+  <data name="outputFormat" xml:space="preserve">
+    <value>Format wyjściowy</value>
+  </data>
+  <data name="outputInTerminal" xml:space="preserve">
+    <value>Dane wyjściowe w terminalu</value>
+  </data>
+  <data name="partity" xml:space="preserve">
+    <value>Parytet</value>
+  </data>
+  <data name="paste" xml:space="preserve">
+    <value>Wklej</value>
+  </data>
+  <data name="pauseProgram" xml:space="preserve">
+    <value>Wstrzymaj program</value>
+  </data>
+  <data name="port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="print" xml:space="preserve">
+    <value>Wydrukować</value>
+  </data>
+  <data name="printPreview" xml:space="preserve">
+    <value>Podgląd wydruku</value>
+  </data>
+  <data name="program" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="programProperties" xml:space="preserve">
+    <value>Właściwości programu</value>
+  </data>
+  <data name="properties" xml:space="preserve">
+    <value>Nieruchomości</value>
+  </data>
+  <data name="recentProjects" xml:space="preserve">
+    <value>Ostatnie projekty</value>
+  </data>
+  <data name="redo" xml:space="preserve">
+    <value>Powtórz</value>
+  </data>
+  <data name="removeChannel" xml:space="preserve">
+    <value>Usuń kanał</value>
+  </data>
+  <data name="removeProgram" xml:space="preserve">
+    <value>Usuń program</value>
+  </data>
+  <data name="removeSelected" xml:space="preserve">
+    <value>Usuń wybrane</value>
+  </data>
+  <data name="renameChannel" xml:space="preserve">
+    <value>Zmień nazwę kanału</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Resetowanie</value>
+  </data>
+  <data name="resetCounters" xml:space="preserve">
+    <value>Zresetuj liczniki</value>
+  </data>
+  <data name="runProgram" xml:space="preserve">
+    <value>Uruchom program</value>
+  </data>
+  <data name="runProgramStart" xml:space="preserve">
+    <value>Uruchom program od początku</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="saveAs" xml:space="preserve">
+    <value>Zapisz jako</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Zaznacz wszystko</value>
+  </data>
+  <data name="selectInvert" xml:space="preserve">
+    <value>Wybierz opcję Odwróć</value>
+  </data>
+  <data name="selectMatchingFormats" xml:space="preserve">
+    <value>Wybierz opcję Dopasowane formaty</value>
+  </data>
+  <data name="selectMatchingNames" xml:space="preserve">
+    <value>Wybierz Pasujące nazwy</value>
+  </data>
+  <data name="selectMatchingValues" xml:space="preserve">
+    <value>Wybierz opcję Pasujące wartości</value>
+  </data>
+  <data name="selectSpecial" xml:space="preserve">
+    <value>Wybierz opcję Specjalne</value>
+  </data>
+  <data name="setStepCursor" xml:space="preserve">
+    <value>Ustaw kursor krokowy</value>
+  </data>
+  <data name="showFormats" xml:space="preserve">
+    <value>Pokaż formaty</value>
+  </data>
+  <data name="showSource" xml:space="preserve">
+    <value>Pokaż źródło</value>
+  </data>
+  <data name="showUnits" xml:space="preserve">
+    <value>Pokaż jednostki</value>
+  </data>
+  <data name="snapshotView" xml:space="preserve">
+    <value>Widok migawki</value>
+  </data>
+  <data name="stepProgram" xml:space="preserve">
+    <value>Program krokowy</value>
+  </data>
+  <data name="stopBits" xml:space="preserve">
+    <value>Zatrzymaj bity</value>
+  </data>
+  <data name="stopProgram" xml:space="preserve">
+    <value>Zatrzymaj program</value>
+  </data>
+  <data name="switchChannel" xml:space="preserve">
+    <value>Przełącz kanał</value>
+  </data>
+  <data name="textCompare" xml:space="preserve">
+    <value>Porównanie tekstu</value>
+  </data>
+  <data name="textFormatting" xml:space="preserve">
+    <value>Formatowanie tekstu</value>
+  </data>
+  <data name="toggleSelected" xml:space="preserve">
+    <value>Przełącz wybrane</value>
+  </data>
+  <data name="tools" xml:space="preserve">
+    <value>Narzędzia</value>
+  </data>
+  <data name="topMost" xml:space="preserve">
+    <value>Najwyżej</value>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>Cofnij</value>
+  </data>
+  <data name="untitled" xml:space="preserve">
+    <value>Nowy projekt</value>
+  </data>
+  <data name="untitledProgram" xml:space="preserve">
+    <value>Program bez nazwy</value>
+  </data>
+  <data name="variables" xml:space="preserve">
+    <value>Zmienne</value>
+  </data>
+  <data name="view" xml:space="preserve">
+    <value>Widok</value>
+  </data>
+  <data name="viewDataOnly" xml:space="preserve">
+    <value>Tylko dane</value>
+  </data>
+  <data name="viewDateStamps" xml:space="preserve">
+    <value>Znaczki daty</value>
+  </data>
+  <data name="viewDateTimeStamps" xml:space="preserve">
+    <value>Znaczki daty/godziny</value>
+  </data>
+  <data name="viewTimeStamps" xml:space="preserve">
+    <value>Znaczki czasu</value>
+  </data>
+  <data name="window" xml:space="preserve">
+    <value>Okno</value>
+  </data>
+  <data name="windowManager" xml:space="preserve">
+    <value>Menedżer okien</value>
+  </data>
+  <data name="zoom" xml:space="preserve">
+    <value>Powiększenie</value>
+  </data>
+</root>
