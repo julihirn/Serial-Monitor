@@ -1,5 +1,5 @@
 # Serial Monitor
-Serial Monitor is a versatile tool designed for multi-channel/multi-serial device control and communication. Whether you're working with binary data, plain text, C commands, or Modbus RTU, this Serial Monitor empowers you to send, receive, and visualize data seamlessly. Additionally, it offers step commands for precise control and the ability to save configurations and step programs to files.
+Serial Monitor is a versatile tool designed for multi-channel/multi-serial device control and communication. Whether you're working with binary data, plain text, C commands, or Modbus RTU/ASCII, this Serial Monitor empowers you to send, receive, and visualize data seamlessly. Additionally, it offers step commands for precise control and the ability to save configurations and step programs to files.
 
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/1f5f4483-f814-403a-85c7-ae812095cdc6)
 
@@ -14,12 +14,14 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
   - **Binary/Hexadecimal Stream**: Receive and display data in binary or hexadecimal format, enabling you to visualize raw data as it comes in.
   - **Plain Text**: Interpret incoming data as plain text, perfect for human-readable messages and information.
   - **C Command**: Process incoming data as C commands.
-  - **Modbus RTU**: Seamlessly interact with devices using the Modbus RTU protocol.
+  - **Modbus RTU/ASCII**: Seamlessly interact with devices using the Modbus RTU/ASCII protocol.
+  - **Numerical Formats**: Receive raw binary, octal, decimal and hexadecimal values.
 
 - **Data Transmission Formats**:
   - **Plain Text**: Easily send plain text messages to your serial devices.
   - **C Command**: Send C commands to your devices.
-  - **Modbus RTU**: Transmit data using the Modbus RTU protocol, ensuring compatibility with a wide range of industrial devices.
+  - **Modbus RTU/ASCII**: Transmit data using the Modbus RTU/ASCII protocol, ensuring compatibility with a wide range of industrial devices.
+  - **Numerical Formats**: Send raw binary, octal, decimal and hexadecimal values.
 
 - **Step Program**: Take precise control over your serial communication by utilizing step commands. This feature allows you to automate complex or repetitive actions at the click of a button. Programs can print, send (text, text files) and control the flow of operations.
   
@@ -34,6 +36,9 @@ Serial Monitor is a versatile tool designed for multi-channel/multi-serial devic
 - **Modbus Coil and Register Editor/Monitor**: Edit, view and monitor your Modbus devices with the Modbus Registers editor.
   
 ![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/4d51eadb-61ad-497e-8401-d16f86dea8a2)
+
+- **Modbus Query Editor**: Interact with your Modbus devices with the Modbus Query Language editor.
+![image](https://github.com/julihirn/Serial-Monitor/assets/94691568/1a4fca1a-1b74-452c-b721-d37798b5854e)
 
 ## System Requirements
 * Windows 7 or higher.
