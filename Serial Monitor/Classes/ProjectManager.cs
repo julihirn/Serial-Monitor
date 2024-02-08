@@ -255,6 +255,7 @@ namespace Serial_Monitor.Classes {
                         DocumentHandler.Write(Sw, 2, "Channel", SystemManager.GetChannelIndex(Mss.Manager));
                         DocumentHandler.Write(Sw, 2, "Unit", Mss.Manager.Address);
                         DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mss.Selection).B);
+                        DocumentHandler.Write(Sw, 2, "ShowUnits", Mss.ShowUnits);
 
                         if (Mss.SelectionType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
                             DocumentHandler.Write(Sw, 2, "Address", Mss.StartIndex);
@@ -460,6 +461,7 @@ namespace Serial_Monitor.Classes {
             DataSelection Snapshot_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(Pstrc, "Type", ""));
             SerialManager? Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(Pstrc, "Channel", -1));
             int Unit = DocumentHandler.GetIntegerVariable(Pstrc, "Unit", -1);
+            bool ShowUnits = DocumentHandler.GetBooleanVariable(Pstrc, "ShowUnits", true);
             if (Snapshot_Channel != null) {
                 Enums.ModbusEnums.SnapshotSelectionType Snapshot_Selection = EnumManager.ModbusStringToSnapshotType(DocumentHandler.GetStringVariable(Pstrc, "SnapshotType", ""));
                 if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
@@ -468,13 +470,13 @@ namespace Serial_Monitor.Classes {
                     Rectangle Bounds = StringToRectangle(DocumentHandler.GetStringVariable(Pstrc, "Bounds", ""));
                     if (Unit <= 0) {
                         if (Snapshot_Channel.Registers != null) {
-                            ModbusSupport.NewSnapshot(Snapshot_Channel.Registers, Snapshot_Type, Address, Count, Bounds);
+                            ModbusSupport.NewSnapshot(Snapshot_Name, Snapshot_Channel.Registers, Snapshot_Type, Address, Count, Bounds, ShowUnits);
                         }
                     }
                     else {
                         int SlaveIndex = ModbusSupport.UnitToIndex(Snapshot_Channel, Unit);
                         if (SlaveIndex < 0) { return; }
-                        ModbusSupport.NewSnapshot(Snapshot_Channel.Slave[SlaveIndex], Snapshot_Type, Address, Count, Bounds);
+                        ModbusSupport.NewSnapshot(Snapshot_Name, Snapshot_Channel.Slave[SlaveIndex], Snapshot_Type, Address, Count, Bounds, ShowUnits);
                     }
 
                 }
@@ -484,13 +486,13 @@ namespace Serial_Monitor.Classes {
                     if (Data.Count > 0) {
                         if (Unit < 0) {
                             if (Snapshot_Channel.Registers != null) {
-                                ModbusSupport.NewSnapshot(Snapshot_Channel.Registers, Snapshot_Type, Data, Bounds);
+                                ModbusSupport.NewSnapshot(Snapshot_Name, Snapshot_Channel.Registers, Snapshot_Type, Data, Bounds, ShowUnits);
                             }
                         }
                         else {
                             int Index = ModbusSupport.UnitToIndex(Snapshot_Channel, Unit);
                             if (Index > -1) {
-                                ModbusSupport.NewSnapshot(Snapshot_Channel.Slave[Index], Snapshot_Type, Data, Bounds);
+                                ModbusSupport.NewSnapshot(Snapshot_Name, Snapshot_Channel.Slave[Index], Snapshot_Type, Data, Bounds, ShowUnits);
                             }
                         }
                     }

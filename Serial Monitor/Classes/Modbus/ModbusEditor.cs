@@ -1045,7 +1045,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             Li.UseLineBackColor = Settings.UseBackColor;
 
 
-                            Li.Text = Reg.ValueWithUnit;
+                            Li[Indx_Value].Text = Reg.ValueWithUnit;
 
                             Indices.Add(Li.Value);
                         }

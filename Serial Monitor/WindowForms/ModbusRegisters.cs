@@ -233,6 +233,8 @@ namespace Serial_Monitor {
                     btnViewSnapshot.Checked = false;
                     showFormatsToolStripMenuItem.Checked = showFormats;
                     showFormatsToolStripMenuItem.Enabled = true;
+                    showUnitsToolStripMenuItem.Checked = ProjectManager.ShowUnits;
+                    showUnitsToolStripMenuItem.Enabled = true;
                     goToToolStripMenuItem.Enabled = true;
                     if (CurrentManager != null) {
                         btnMenuModbusMaster.Checked = CurrentManager.IsMaster;
@@ -263,6 +265,8 @@ namespace Serial_Monitor {
                     if (SnapshotCurrentIndex < 0) {
                         showFormatsToolStripMenuItem.Checked = false;
                         showFormatsToolStripMenuItem.Enabled = false;
+                        showUnitsToolStripMenuItem.Checked = false;
+                        showUnitsToolStripMenuItem.Enabled = false;
                         btnMenuModbusMaster.Enabled = false;
                         btnMenuModbusMaster.Checked = false;
                         modbusMasterToolStripMenuItem.Checked = false;
@@ -277,10 +281,13 @@ namespace Serial_Monitor {
                         setIOFormatsToModbusRTUToolStripMenuItem.Enabled = true;
                         setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = true;
                         showFormatsToolStripMenuItem.Enabled = true;
+                        showUnitsToolStripMenuItem.Enabled = true;
                         try {
                             if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
                                 bool FormatsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowFormats;
                                 showFormatsToolStripMenuItem.Checked = FormatsVisable;
+                                bool UnitsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
+                                showUnitsToolStripMenuItem.Checked = UnitsVisable;
                                 btnMenuModbusMaster.Enabled = true;
                                 btnMenuModbusMaster.Checked = false;
 
@@ -309,6 +316,7 @@ namespace Serial_Monitor {
                         }
                         catch {
                             showFormatsToolStripMenuItem.Enabled = false;
+                            showUnitsToolStripMenuItem.Enabled = false;
                             ChangeClipboardActions(false);
                         }
                     }
@@ -1815,9 +1823,21 @@ namespace Serial_Monitor {
         }
 
         private void showUnitsToolStripMenuItem_Click(object sender, EventArgs e) {
-            ProjectManager.ShowUnits = !ProjectManager.ShowUnits;
-            showUnitsToolStripMenuItem.Checked = ProjectManager.ShowUnits;
-            ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
+            if (currentEditorView == DataEditor.MasterView) {
+                ProjectManager.ShowUnits = !ProjectManager.ShowUnits;
+                showUnitsToolStripMenuItem.Checked = ProjectManager.ShowUnits;
+                ModbusEditor.LoadRegisters(lstMonitor, CurrentManager, dataSet, slaveindex);
+            }
+            else if (currentEditorView == DataEditor.SnapshotView) {
+                try {
+                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        bool UnitsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
+                        ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowUnits = !UnitsVisable;
+                        CurrentEditorView = currentEditorView;
+                    }
+                }
+                catch { }
+            }
         }
 
         private void changeAppearanceToolStripMenuItem_Click(object sender, EventArgs e) {

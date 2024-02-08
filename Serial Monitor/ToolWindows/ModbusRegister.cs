@@ -38,6 +38,19 @@ namespace Serial_Monitor.ToolWindows {
                 }
             }
         }
+        bool showUnits = true;
+        public bool ShowUnits {
+            get {
+                return showUnits;
+            }
+            set {
+                showUnits = value;
+                if (snapshot != null) {
+                    snapshot.ShowUnits = showUnits;
+                    lstRegisters.Invalidate();
+                }
+            }
+        }
 
         bool locked = false;
         public bool Locked {

@@ -112,6 +112,37 @@ namespace Serial_Monitor.Classes.Modbus {
         public List<ListItem> Listings {
             get { return listings; }
         }
+        bool showUnits = true;
+        public bool ShowUnits {
+            get {
+                return showUnits;
+            }
+            set {
+                showUnits = value;
+                UpdateUnits();
+            }
+        }
+        private void UpdateUnits() {
+            if (manager == null) { return; }
+            int i = -1;
+            foreach (ListItem itm in listings) {
+                i++;
+                if (itm.Tag == null) { continue; }
+                if (itm.SubItems.Count < ModbusEditor.Indx_Value) { continue; }
+                int Index = SelectionType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent ? StartIndex + i : itm.Value;
+                switch (selection) {
+                    case DataSelection.ModbusDataInputRegisters:
+                        itm[ModbusEditor.Indx_Value].Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
+                        break;
+                    case DataSelection.ModbusDataHoldingRegisters:
+                        itm[ModbusEditor.Indx_Value].Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
+                        break;
+                    default: break;
+                }
+
+
+            }
+        }
         #endregion
         string iD = "";
         [Browsable(false)]
@@ -157,7 +188,7 @@ namespace Serial_Monitor.Classes.Modbus {
             int LocalIndex = GetListIndex(Index, ref listings);
             if (LocalIndex >= listings.Count) { return; }
             if (LocalIndex < 0) { return; }
-            if (listings[LocalIndex].SubItems.Count <= ModbusEditor.Indx_Value) {
+            if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Value) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].Value.ToString();
@@ -169,13 +200,13 @@ namespace Serial_Monitor.Classes.Modbus {
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(manager.InputRegisters[Index].Format).A;
                         listings[LocalIndex][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(manager.InputRegisters[Index].Size);
                         listings[LocalIndex][ModbusEditor.Indx_Signed].Checked = manager.InputRegisters[Index].Signed;
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.InputRegisters[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
                         break;
                     case DataSelection.ModbusDataHoldingRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(manager.HoldingRegisters[Index].Format).A;
                         listings[LocalIndex][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(manager.HoldingRegisters[Index].Size);
                         listings[LocalIndex][ModbusEditor.Indx_Signed].Checked = manager.HoldingRegisters[Index].Signed;
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.HoldingRegisters[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
                         break;
                 }
             }
@@ -227,7 +258,7 @@ namespace Serial_Monitor.Classes.Modbus {
             if (listings.Count <= 0) { return; }
             if (LocalIndex >= listings.Count) { return; }
             if (LocalIndex < 0) { return; }
-            if (listings[LocalIndex].SubItems.Count <= ModbusEditor.Indx_Value) {
+            if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Value) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].Value.ToString();
@@ -236,10 +267,10 @@ namespace Serial_Monitor.Classes.Modbus {
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].Value.ToString();
                         break;
                     case DataSelection.ModbusDataInputRegisters:
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.InputRegisters[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
                         break;
                     case DataSelection.ModbusDataHoldingRegisters:
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.HoldingRegisters[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
                         break;
                 }
 
@@ -334,7 +365,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 CLi2.Text = EnumManager.DataFormatToString(manager.HoldingRegisters[Index].Format).A;
                 CLi3.Text = EnumManager.DataSizeToString(manager.HoldingRegisters[Index].Size);
                 CLi4.Checked = manager.HoldingRegisters[Index].Signed;
-                CLi5.Text = manager.HoldingRegisters[Index].ValueWithUnit;
+                CLi5.Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
             }
             else if (selection == DataSelection.ModbusDataInputRegisters) {
                 PLi.Tag = manager.InputRegisters[Index];
@@ -342,7 +373,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 CLi2.Text = EnumManager.DataFormatToString(manager.InputRegisters[Index].Format).A;
                 CLi3.Text = EnumManager.DataSizeToString(manager.InputRegisters[Index].Size);
                 CLi4.Checked = manager.InputRegisters[Index].Signed;
-                CLi5.Text = manager.InputRegisters[Index].ValueWithUnit;
+                CLi5.Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
             }
             PLi.SubItems.Add(CLi1);
             PLi.SubItems.Add(CLi2);

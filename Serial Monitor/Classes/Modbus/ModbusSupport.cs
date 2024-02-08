@@ -362,20 +362,28 @@ namespace Serial_Monitor.Classes.Modbus {
         #endregion
         #region Snapshots
         public static List<ModbusSnapshot> Snapshots = new List<ModbusSnapshot>();
-        public static void NewSnapshot(ModbusSlave Serman, DataSelection Selection, int Index, int Count) {
+        public static void NewSnapshot(string Name, ModbusSlave Serman, DataSelection Selection, int Index, int Count, bool ShowUnits) {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count);
+            Snap.Name = Name;
+            Snap.ShowUnits = ShowUnits;
             Snapshots.Add(Snap);
         }
-        public static void NewSnapshot(ModbusSlave Serman, DataSelection Selection, int Index, int Count, Rectangle Bounds) {
+        public static void NewSnapshot(string Name, ModbusSlave Serman, DataSelection Selection, int Index, int Count, Rectangle Bounds, bool ShowUnits) {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Index, Count, Bounds);
+            Snap.Name = Name;
+            Snap.ShowUnits = ShowUnits;
             Snapshots.Add(Snap);
         }
-        public static void NewSnapshot(ModbusSlave Serman, DataSelection Selection, List<int> Indices) {
+        public static void NewSnapshot(string Name, ModbusSlave Serman, DataSelection Selection, List<int> Indices, bool ShowUnits) {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Indices);
+            Snap.ShowUnits = ShowUnits;
+            Snap.Name = Name;
             Snapshots.Add(Snap);
         }
-        public static void NewSnapshot(ModbusSlave Serman, DataSelection Selection, List<int> Indices, Rectangle Bounds) {
+        public static void NewSnapshot(string Name, ModbusSlave Serman, DataSelection Selection, List<int> Indices, Rectangle Bounds, bool ShowUnits) {
             ModbusSnapshot Snap = new ModbusSnapshot(Serman, Selection, Indices, Bounds);
+            Snap.ShowUnits = ShowUnits;
+            Snap.Name = Name;
             Snapshots.Add(Snap);
         }
         public static ToolWindows.ModbusRegister NewSnapshotForm(string Name, ModbusSlave Serman, DataSelection Selection, int Index, int Count) {
