@@ -1643,6 +1643,7 @@ namespace Serial_Monitor.Classes {
             int Index = UseIndex == false ? ModbusSupport.UnitToIndex(this, Address) : Address;
             if (Index < 0) { return; }
             if (Index >= Slave.Count) { return; }
+            ModbusSupport.RemoveSnapshot(Slave[Index]);
             Slave[Index].CleanUp();
             Slave.RemoveAt(Index);
             GC.Collect();

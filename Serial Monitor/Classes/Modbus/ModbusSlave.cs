@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSlave {
         public ModbusSlave(SerialManager ParentManager, int Address) {
+            iD = Guid.NewGuid().ToString();
             manager = ParentManager;
             this.address = Address;
             LoadRegisters();
         }
         public ModbusSlave(SerialManager ParentManager, int Address, string Name) {
+            iD = Guid.NewGuid().ToString();
             manager = ParentManager;
             this.address = Address;
             this.name = Name;
@@ -23,6 +25,11 @@ namespace Serial_Monitor.Classes.Modbus {
         public string Name {
             get { return name; }
             set { name = value; }
+        }
+        string iD = "";
+        [Browsable(false)]
+        public string ID {
+            get { return iD; }
         }
         public string DisplayName {
             get { 

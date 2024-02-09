@@ -417,6 +417,16 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             GC.Collect();
         }
+        public static void RemoveSnapshot(ModbusSlave Slave) {
+            for (int i = Snapshots.Count - 1; i >= 0; i--) {
+                if (Snapshots[i].Manager == null) { continue; }
+                if (Snapshots[i].Manager.ID == Slave.ID) {
+                    Snapshots[i].Close();
+                    Snapshots.RemoveAt(i);
+                }
+            }
+            GC.Collect();
+        }
         public static void RemoveSnapshot(ModbusSnapshot Snapshot) {
             for (int i = Snapshots.Count - 1; i >= 0; i--) {
                 if (Snapshots[i].ID == Snapshot.ID) {
@@ -642,7 +652,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         public static byte[] BulidMaskWritePacket(StreamOutputFormat Format, int Device, int Address, int AndMask, int OrMask) {
-          if (Format == StreamOutputFormat.ModbusRTU) {
+            if (Format == StreamOutputFormat.ModbusRTU) {
                 byte[] Temp = new byte[8];
                 Temp[0] = (byte)Device;//Adr
                 Temp[1] = (byte)FunctionCode.WriteMaskRegister;//Fun
