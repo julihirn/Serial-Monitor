@@ -72,7 +72,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     case ModbusEnums.DataFormat.Decimal:
                         return formattedValue + GetUnitString();
                     case ModbusEnums.DataFormat.Float:
-                       return formattedValue + GetUnitString();
+                        return formattedValue + GetUnitString();
                     case ModbusEnums.DataFormat.Double:
                         return formattedValue + GetUnitString();
                 }
@@ -189,14 +189,14 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         ConversionHandler.Prefix prefix = ConversionHandler.Prefix.None;
-        public ConversionHandler.Prefix Prefix { 
+        public ConversionHandler.Prefix Prefix {
             get { return prefix; }
             set {
                 prefix = value;
                 SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
-        
+
         #endregion
         #region Value Modification
         public void PushValue(long Input, bool AllowTransmit) {
@@ -230,6 +230,18 @@ namespace Serial_Monitor.Classes.Modbus {
                         SetData(Index + 1, 0, Input, typeData, parent, AllowTransmit);
                     }
                 }
+                else if (wordOrder == ModbusEnums.ByteOrder.BigEndianByteSwap) {
+                    regValue = (short)SwapBytesAndCombine((ushort)(0xFFFF & Input), true);
+                    if (Index + 1 < ModbusSupport.MaximumRegisters) {
+                        SetData(Index + 1, 1, Input, typeData, parent, AllowTransmit, true);
+                    }
+                }
+                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndianByteSwap) {
+                    regValue = QuickShiftDataDown(Input, 1, true);
+                    if (Index + 1 < ModbusSupport.MaximumRegisters) {
+                        SetData(Index + 1, 0, Input, typeData, parent, AllowTransmit, true);
+                    }
+                }
                 ModifyValue();
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
                 if ((AllowTransmit) && (parent.Manager.IsMaster)) {
@@ -251,6 +263,22 @@ namespace Serial_Monitor.Classes.Modbus {
                         SetData(Index + 1, 2, Input, typeData, parent, AllowTransmit);
                         SetData(Index + 2, 1, Input, typeData, parent, AllowTransmit);
                         SetData(Index + 3, 0, Input, typeData, parent, AllowTransmit);
+                    }
+                }
+                else if (wordOrder == ModbusEnums.ByteOrder.BigEndianByteSwap) {
+                    regValue = (short)SwapBytesAndCombine((ushort)(0xFFFF & Input), true);
+                    if (Index + 3 < ModbusSupport.MaximumRegisters) {
+                        SetData(Index + 1, 1, Input, typeData, parent, AllowTransmit, true);
+                        SetData(Index + 2, 2, Input, typeData, parent, AllowTransmit);
+                        SetData(Index + 3, 3, Input, typeData, parent, AllowTransmit, true);
+                    }
+                }
+                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndianByteSwap) {
+                    regValue = QuickShiftDataDown(Input, 3, true);
+                    if (Index + 3 < ModbusSupport.MaximumRegisters) {
+                        SetData(Index + 1, 2, Input, typeData, parent, AllowTransmit, true);
+                        SetData(Index + 2, 1, Input, typeData, parent, AllowTransmit, true);
+                        SetData(Index + 3, 0, Input, typeData, parent, AllowTransmit, true);
                     }
                 }
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
@@ -285,7 +313,14 @@ namespace Serial_Monitor.Classes.Modbus {
                             Temp = QuickShiftDataUp(regValue, 1);
                             Temp |= AppendData(Index + 1, 0, typeData, parent);
                         }
-
+                        else if (wordOrder == ModbusEnums.ByteOrder.BigEndianByteSwap) {
+                            Temp = QuickShiftDataUp(regValue, 0, true);
+                            Temp |= AppendData(Index + 1, 1, typeData, parent, true);
+                        }
+                        else if (wordOrder == ModbusEnums.ByteOrder.LittleEndianByteSwap) {
+                            Temp = QuickShiftDataUp(regValue, 1, true);
+                            Temp |= AppendData(Index + 1, 0, typeData, parent, true);
+                        }
 #if TEST
                             Debug.Print(" Results In: " + Temp.ToString());
 #endif
@@ -312,6 +347,18 @@ namespace Serial_Monitor.Classes.Modbus {
                             Temp |= AppendData(Index + 1, 2, typeData, parent);
                             Temp |= AppendData(Index + 2, 1, typeData, parent);
                             Temp |= AppendData(Index + 3, 0, typeData, parent);
+                        }
+                        else if (wordOrder == ModbusEnums.ByteOrder.BigEndianByteSwap) {
+                            Temp = QuickShiftDataUp(regValue, 0, true);
+                            Temp |= AppendData(Index + 1, 1, typeData, parent, true);
+                            Temp |= AppendData(Index + 2, 2, typeData, parent, true);
+                            Temp |= AppendData(Index + 3, 3, typeData, parent, true);
+                        }
+                        else if (wordOrder == ModbusEnums.ByteOrder.LittleEndianByteSwap) {
+                            Temp = QuickShiftDataUp(regValue, 3, true);
+                            Temp |= AppendData(Index + 1, 2, typeData, parent, true);
+                            Temp |= AppendData(Index + 2, 1, typeData, parent, true);
+                            Temp |= AppendData(Index + 3, 0, typeData, parent, true);
                         }
                     }
                 }
@@ -438,49 +485,54 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Data Support Functions
-        private static long QuickShiftDataUp(short Input, int Shift) {
-            ushort Data = (ushort)Input;
+        private static long QuickShiftDataUp(short Input, int Shift, bool ByteSwap = false) {
+            ushort Data = SwapBytesAndCombine((ushort)Input, ByteSwap);
             long Output = 0;
             Output = (long)Data << (Shift * 16);
             return Output;
         }
-        private static short QuickShiftDataDown(long Input, int Shift) {
+        private static short QuickShiftDataDown(long Input, int Shift, bool ByteSwap = false) {
             short Output = 0;
-            Output = (short)((Input >> (Shift * 16)) & 0xFFFF);
+            Output = (short)SwapBytesAndCombine((ushort)((Input >> (Shift * 16)) & 0xFFFF), ByteSwap);
             return Output;
         }
-        private static long AppendData(int NextIndex, int Shift, DataSelection typeData, ModbusSlave parentManager) {
+        private static long AppendData(int NextIndex, int Shift, DataSelection typeData, ModbusSlave parentManager, bool SwapBytes = false) {
             if (parentManager == null) { return 0; }
             if (parentManager.Manager == null) { return 0; }
             if (typeData == DataSelection.ModbusDataInputRegisters) {
                 if (parentManager.InputRegisters.Length <= NextIndex) { return 0; }
-                ushort Data = (ushort)parentManager.InputRegisters[NextIndex].Value;
+                ushort Data = SwapBytesAndCombine((ushort)parentManager.InputRegisters[NextIndex].Value, SwapBytes);
                 long Output = 0;
                 Output = (long)Data << (Shift * 16);
                 return Output;
             }
             else if (typeData == DataSelection.ModbusDataHoldingRegisters) {
                 if (parentManager.HoldingRegisters.Length <= NextIndex) { return 0; }
-                ushort Data = (ushort)parentManager.HoldingRegisters[NextIndex].Value;
+                ushort Data = SwapBytesAndCombine((ushort)parentManager.HoldingRegisters[NextIndex].Value, SwapBytes);
                 long Output = 0;
                 Output = (long)Data << (Shift * 16);
                 return Output;
             }
             return 0;
         }
-        private static void SetData(int NextIndex, int Shift, long Value, DataSelection typeData, ModbusSlave? parentManager, bool AllowTransmit) {
+        private static ushort SwapBytesAndCombine(ushort Input, bool Swap) {
+            if (Swap == false) { return Input; }
+            ushort Temp = (ushort)((Input << 8) | ((Input >> 8) & 0x0F));
+            return Temp;
+        }
+        private static void SetData(int NextIndex, int Shift, long Value, DataSelection typeData, ModbusSlave? parentManager, bool AllowTransmit, bool ByteSwap = false) {
             if (parentManager == null) { return; }
             if (parentManager.Manager == null) { return; }
             if (typeData == DataSelection.ModbusDataInputRegisters) {
                 if (parentManager.InputRegisters.Length <= NextIndex) { return; }
                 long Temp = Value >> (Shift * 16);
-                ushort Output = (ushort)(Temp & 0xFFFF);
+                ushort Output = SwapBytesAndCombine((ushort)(Temp & 0xFFFF), ByteSwap);
                 parentManager.InputRegisters[NextIndex].PushValue((long)Output, AllowTransmit);
             }
             else if (typeData == DataSelection.ModbusDataHoldingRegisters) {
                 if (parentManager.HoldingRegisters.Length <= NextIndex) { return; }
                 long Temp = Value >> (Shift * 16);
-                ushort Output = (ushort)(Temp & 0xFFFF);
+                ushort Output = SwapBytesAndCombine((ushort)(Temp & 0xFFFF), ByteSwap);
                 parentManager.HoldingRegisters[NextIndex].PushValue((long)Output, AllowTransmit);
             }
         }

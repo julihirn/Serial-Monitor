@@ -150,6 +150,7 @@ namespace Serial_Monitor.Classes.Theming {
                 Bt.ActiveToggleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 Bt.InactiveToggleForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
                 Bt.MouseDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                Bt.SelectedForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
                 Bt.MouseOverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.TabHeader)) {

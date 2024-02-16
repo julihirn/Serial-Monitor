@@ -134,6 +134,7 @@ namespace Serial_Monitor.Classes {
             string NextQuery = Query;
             while (NextQuery.Length > 1) {
                 string CurrentQuery = Classes.CommandManager.GetQuery(NextQuery, ref NextQuery);
+                string CurrentQueryUntouched = CurrentQuery;
                 List<StringPair> Vars = GetModbusQueryVariables(ref CurrentQuery);
                 ApplyModbusQueryVariables(ref CurrentQuery, Vars);
                 string ChannelName = "";

@@ -85,7 +85,7 @@
             lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlRegisters.ShowCloseButton = false;
             lblpnlRegisters.Size = new Size(264, 122);
-            lblpnlRegisters.TabIndex = 8;
+            lblpnlRegisters.TabIndex = 0;
             lblpnlRegisters.Text = "Register Selection";
             // 
             // lblpnlQuantity
@@ -127,6 +127,7 @@
             numtxtAddress.AllowNegatives = false;
             numtxtAddress.AllowNumberEntry = true;
             numtxtAddress.AllowTyping = true;
+            numtxtAddress.ArrowKeysControlNumber = true;
             numtxtAddress.AutoSizeToText = false;
             numtxtAddress.Base = ODModules.NumericTextbox.NumberBase.Base10;
             numtxtAddress.BorderColor = Color.DimGray;
@@ -209,6 +210,7 @@
             numtxtUnit.AllowNegatives = false;
             numtxtUnit.AllowNumberEntry = true;
             numtxtUnit.AllowTyping = true;
+            numtxtUnit.ArrowKeysControlNumber = true;
             numtxtUnit.AutoSizeToText = false;
             numtxtUnit.Base = ODModules.NumericTextbox.NumberBase.Base10;
             numtxtUnit.BorderColor = Color.DimGray;
@@ -300,7 +302,7 @@
             panel2.Location = new Point(10, 351);
             panel2.Name = "panel2";
             panel2.Size = new Size(264, 40);
-            panel2.TabIndex = 14;
+            panel2.TabIndex = 2;
             // 
             // btnCancel
             // 
@@ -406,12 +408,14 @@
             lblpnlAndMask.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAndMask.ShowCloseButton = false;
             lblpnlAndMask.Size = new Size(264, 108);
-            lblpnlAndMask.TabIndex = 15;
+            lblpnlAndMask.TabIndex = 0;
             lblpnlAndMask.Text = "AND Mask";
             // 
             // btAnd
             // 
             btAnd.ActiveToggleForeColor = Color.Black;
+            btAnd.AllowKeyboardControl = true;
+            btAnd.AllowKeyboardInvertControl = true;
             btAnd.Bits = 32;
             btAnd.Dock = DockStyle.Fill;
             btAnd.InactiveToggleForeColor = Color.Gray;
@@ -419,8 +423,9 @@
             btAnd.MouseDownForeColor = Color.WhiteSmoke;
             btAnd.MouseOverForeColor = Color.Blue;
             btAnd.Name = "btAnd";
+            btAnd.SelectedForeColor = Color.Blue;
             btAnd.Size = new Size(254, 85);
-            btAnd.TabIndex = 1;
+            btAnd.TabIndex = 0;
             btAnd.TogglerSize = ODModules.BitToggle.WordSize.Word;
             btAnd.Value = "0";
             // 
@@ -450,12 +455,14 @@
             lblpnlOrMask.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlOrMask.ShowCloseButton = false;
             lblpnlOrMask.Size = new Size(264, 107);
-            lblpnlOrMask.TabIndex = 16;
+            lblpnlOrMask.TabIndex = 0;
             lblpnlOrMask.Text = "OR Mask";
             // 
             // btOr
             // 
             btOr.ActiveToggleForeColor = Color.Black;
+            btOr.AllowKeyboardControl = true;
+            btOr.AllowKeyboardInvertControl = true;
             btOr.Bits = 32;
             btOr.Dock = DockStyle.Fill;
             btOr.InactiveToggleForeColor = Color.Gray;
@@ -463,8 +470,9 @@
             btOr.MouseDownForeColor = Color.WhiteSmoke;
             btOr.MouseOverForeColor = Color.Blue;
             btOr.Name = "btOr";
+            btOr.SelectedForeColor = Color.Blue;
             btOr.Size = new Size(254, 84);
-            btOr.TabIndex = 2;
+            btOr.TabIndex = 0;
             btOr.TogglerSize = ODModules.BitToggle.WordSize.Word;
             btOr.Value = "0";
             // 
@@ -485,7 +493,8 @@
             splitContainer1.Panel2.Controls.Add(lblpnlOrMask);
             splitContainer1.Size = new Size(264, 219);
             splitContainer1.SplitterDistance = 108;
-            splitContainer1.TabIndex = 17;
+            splitContainer1.TabIndex = 1;
+            splitContainer1.TabStop = false;
             // 
             // WriteMask
             // 

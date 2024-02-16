@@ -27,8 +27,10 @@ namespace Serial_Monitor.Classes.Enums {
         }
         public enum ByteOrder {
             LittleEndian = 0x01,
+            LittleEndianByteSwap = 0x02,
             //LittleEndian16 = 0x02,
-            BigEndian = 0x03
+            BigEndian = 0x03,
+            BigEndianByteSwap = 0x04
         }
     }
 }

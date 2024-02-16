@@ -142,6 +142,12 @@ namespace Serial_Monitor.Classes {
             else if (Input == "mbWordLittleEnd") {
                 return ByteOrder.LittleEndian;
             }
+            else if (Input == "mbWordBigEndByteSwap") {
+                return ByteOrder.BigEndianByteSwap;
+            }
+            else if (Input == "mbWordLittleEndByteSwap") {
+                return ByteOrder.LittleEndianByteSwap;
+            }
             return ByteOrder.LittleEndian;
         }
         public static StringPair WordOrderToString(ByteOrder Input) {
@@ -150,6 +156,12 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == ByteOrder.LittleEndian) {
                 return new StringPair("Little Endian", "mbWordLittleEnd");
+            }
+            else if (Input == ByteOrder.BigEndianByteSwap) {
+                return new StringPair("Big Endian (Byte Swap)", "mbWordBigEndByteSwap");
+            }
+            else if (Input == ByteOrder.LittleEndianByteSwap) {
+                return new StringPair("Little Endian (Byte Swap)", "mbWordLittleEndByteSwap");
             }
             return new StringPair("Little Endian", "mbWordLittleEnd");
         }

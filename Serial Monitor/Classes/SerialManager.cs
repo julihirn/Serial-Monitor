@@ -22,6 +22,8 @@ namespace Serial_Monitor.Classes {
             iD = Guid.NewGuid().ToString();
             Port.DataReceived += Port_DataReceived;
             Port.WriteTimeout = 1000;
+            Port.ReadTimeout = 10000;
+            Port.ReadBufferSize = 10000;
             HeartbeatThread = new Thread(HeartBeat);
             HeartbeatThread.IsBackground = true;
             HeartbeatThread.Start();
@@ -173,6 +175,26 @@ namespace Serial_Monitor.Classes {
             get { return unitAddress; }
             set {
                 unitAddress = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        int outputRTUSilenceCalibration = 0;
+        [Category("Modbus RTU")]
+        [DisplayName("Output Silence Calibration")]
+        public int OutputRTUSilenceCalibration {
+            get { return outputRTUSilenceCalibration; }
+            set {
+                outputRTUSilenceCalibration = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        int inputRTUSilenceCalibration = 100;
+        [Category("Modbus RTU")]
+        [DisplayName("Input Silence Calibration")]
+        public int InputRTUSilenceCalibration {
+            get { return inputRTUSilenceCalibration; }
+            set {
+                inputRTUSilenceCalibration = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
@@ -523,6 +545,7 @@ namespace Serial_Monitor.Classes {
         #endregion
         #region Reception
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
+           
             switch (InputFormat) {
                 case StreamInputFormat.Text:
                     TextProcessor(sender);
@@ -639,7 +662,7 @@ namespace Serial_Monitor.Classes {
         private int RXCurrentByte = 0;
         private void ModbusRTUProcessor(object sender) {
             try {
-                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength) {
+                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + inputRTUSilenceCalibration) {
                     RXCurrentByte = 0;
                 }
                 int i = 0;
@@ -649,16 +672,72 @@ namespace Serial_Monitor.Classes {
                 i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
                 Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
                 RXCurrentByte += BytesToRead;
-                if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
-                    string StringBuffer = PrintStream(Buffer);
-                    DataReceived?.Invoke(this, true, StringBuffer);
-                    ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
-                    ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
-                    ModbusProcessCommand(ref Buffer, Func, Buffer[0]);
+                int LatchedBytesToCheck = RXCurrentByte;
+                bool NothingFound = true;
+                if (LatchedBytesToCheck >= 0) {
+                    for (int j = 4; j <= LatchedBytesToCheck; j++) {
+                        lastReceivedTime = DateTime.UtcNow;
+                        if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
+                        lastReceivedTime = DateTime.UtcNow;
+                        int NewIndex = j+1;
+                        int NewLength = (LatchedBytesToCheck - j);
+                        if (NewLength >= 0) {
+                            byte[] Temp = RXBuffer;
+                            byte[] TemoSends = new byte[j];
+                            Array.Copy(RXBuffer, 0, TemoSends, 0, j);
+                            if (NewLength > 0) {
+                                Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
+                            }
+                            RXCurrentByte = NewLength;
+                            Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
+                            TrMbRTURx.Name = "TrMbRTURx";
+                            TrMbRTURx.IsBackground = true;
+                            TrMbRTURx.Start();
+
+                        }
+                        else {
+                            RXCurrentByte = 0;
+                        }
+                        NothingFound = false;
+                        break;
+                    }
+                }
+                if (NothingFound == true) {
+                }
+                if (RXCurrentByte > 512) {
                     RXCurrentByte = 0;
                 }
+                lastReceivedTime = DateTime.UtcNow;
+                //if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
+                //    //string StringBuffer = PrintStream(Buffer);
+                //    //DataReceived?.Invoke(this, true, StringBuffer);
+                //    //ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
+                //    //ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
+                //    //ModbusProcessCommand(ref Buffer, Func, Buffer[0]);
+                //    RXCurrentByte = 0;
+                //    Thread TrMbRTURx = new Thread(() => RTUStringProcessor(Buffer));
+                //    TrMbRTURx.Name = "TrMbRTURx";
+                //    TrMbRTURx.IsBackground = true;
+                //    TrMbRTURx.Start();
+                //}
+                //else {
+                //    string StringBuffer = PrintStream(Buffer);
+                //    Debug.Print("Invalid: " + StringBuffer);
+                //}
             }
             catch { }
+            lastReceivedTime = DateTime.UtcNow;
+        }
+        private void TestPrint(byte[] InBuffer) {
+            string StringBuffer = PrintStream(InBuffer);
+            DataReceived?.Invoke(this, true, StringBuffer);
+        }
+        private void RTUStringProcessor(byte[] InBuffer) {
+            string StringBuffer = PrintStream(InBuffer);
+            DataReceived?.Invoke(this, true, StringBuffer);
+            ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
+            ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)InBuffer[1];
+            ModbusProcessCommand(ref InBuffer, Func, InBuffer[0]);
         }
         ModbusASCIIState ASCIIState = ModbusASCIIState.Ready;
         private void ModbusASCIIProcessor(object sender) {
@@ -1331,7 +1410,7 @@ namespace Serial_Monitor.Classes {
                         InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
                     }
                     else if (CommandManager.GetValue(ref Temp, "DISCRETE", out Start)) {
-                        InitialTestReadQuery(Unit, Start,ref Temp, DataSelection.ModbusDataDiscreteInputs);
+                        InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataDiscreteInputs);
                     }
                     else if (CommandManager.GetValue(ref Temp, "REGISTERS", out Start)) {
                         InitialTestReadQuery(Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
@@ -1571,7 +1650,7 @@ namespace Serial_Monitor.Classes {
         private List<byte[]> ModbusTransmitBuffer = new List<byte[]>();
         private void ModbusFramer() {
             while (ModbusTransmitBuffer.Count > 0) {
-                if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
+                if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength + outputRTUSilenceCalibration) {
                     lastTransmittedTime = DateTime.UtcNow;
                     if (ModbusTransmitBuffer.Count > 0) {
                         byte[] Data = ModbusTransmitBuffer[0];
@@ -1583,7 +1662,7 @@ namespace Serial_Monitor.Classes {
         }
         private void TransmitFrame(byte[] Data) {
             if (outputFormat == StreamOutputFormat.ModbusRTU) {
-                if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength) {
+                if ((DateTime.UtcNow.Ticks - LastTransmittedTime.Ticks) > SilenceLength + outputRTUSilenceCalibration) {
                     TransmitRTUFrame(Data);
                 }
                 else {

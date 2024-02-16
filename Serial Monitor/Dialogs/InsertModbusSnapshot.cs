@@ -51,7 +51,7 @@ namespace Serial_Monitor.Dialogs {
                     btngridChannels.Buttons.Add(Btn);
                 }
                 else {
-                    foreach(ModbusSlave Slve in Chan.Slave) {
+                    foreach (ModbusSlave Slve in Chan.Slave) {
                         GridButton Btn = new GridButton();
                         Btn.Text = Chan.StateName + ": " + Slve.DisplayName;
                         Btn.Tag = Chan;
@@ -66,7 +66,7 @@ namespace Serial_Monitor.Dialogs {
                         btngridChannels.Buttons.Add(Btn);
                     }
                 }
-                
+
             }
             DataSelection[] Formats = (DataSelection[])DataSelection.GetValues(typeof(DataSelection));
             foreach (DataSelection Frmt in Formats) {
@@ -92,7 +92,7 @@ namespace Serial_Monitor.Dialogs {
             Classes.Theming.ThemeManager.ThemeControl(numtxtAddress);
             Classes.Theming.ThemeManager.ThemeControl(numtxtQuantity);
             Classes.Theming.ThemeManager.ThemeControl(textBox1);
-           
+
 
             cmbxDataSet.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             cmbxDataSet.BackColor = Properties.Settings.Default.THM_COL_Editor;
