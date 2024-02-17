@@ -43,7 +43,7 @@ namespace Serial_Monitor {
             AppearancePopupHost = new TemplateContextMenuHost(popAppearance, this);
             BitTogglerPopupHost = new TemplateContextMenuHost(popToggler, this);
             tbDataPages.DebugMode = false;
-            mdiClient.TileWindows = true;
+            ssClient.TileWindows = true;
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
@@ -76,7 +76,7 @@ namespace Serial_Monitor {
 
 
 
-            mdiClient.MdiForm.MainMenuStrip = msMain;
+           // mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
             EnableDisableDialogEditors();
         }
@@ -129,7 +129,8 @@ namespace Serial_Monitor {
         private void LoadForms() {
             foreach (ModbusSnapshot Snap in ModbusSupport.Snapshots) {
                 ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap, true);
-                mdiClient.AddChild(frm);
+                // mdiClient.AddChild(frm);
+                ssClient.AddChild(frm);
             }
         }
         private void LoadSlaves() {
@@ -283,17 +284,17 @@ namespace Serial_Monitor {
                         showFormatsToolStripMenuItem.Enabled = true;
                         showUnitsToolStripMenuItem.Enabled = true;
                         try {
-                            if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                                bool FormatsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowFormats;
+                            if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                                bool FormatsVisable = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).ShowFormats;
                                 showFormatsToolStripMenuItem.Checked = FormatsVisable;
-                                bool UnitsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
+                                bool UnitsVisable = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
                                 showUnitsToolStripMenuItem.Checked = UnitsVisable;
                                 btnMenuModbusMaster.Enabled = true;
                                 btnMenuModbusMaster.Checked = false;
 
                                 modbusMasterToolStripMenuItem.Checked = false;
                                 modbusMasterToolStripMenuItem.Enabled = true;
-                                ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                                ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                                 if (Snap != null) {
                                     if (Snap.Manager != null) {
                                         SerialManager? Man = Snap.Manager.Manager;
@@ -367,8 +368,8 @@ namespace Serial_Monitor {
             else {
                 try {
                     if (SnapshotCurrentIndex >= 0) {
-                        if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                            ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                        if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                            ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                             if (Snap != null) {
                                 resetAppearanceToolStripMenuItem.Enabled = true;
                                 changeAddressToolStripMenuItem.Enabled = true;
@@ -443,8 +444,8 @@ namespace Serial_Monitor {
         public void GetIndexFromForm(ToolWindows.ModbusRegister? RegisterEditor) {
             if (RegisterEditor == null) { SnapshotCurrentIndex = -1; return; }
             int Index = 0;
-            if (mdiClient.ChildForms.Count <= 0) { SnapshotCurrentIndex = -1; }
-            foreach (Components.MdiClientForm Frm in mdiClient.ChildForms) {
+            if (ssClient.ChildForms.Count <= 0) { SnapshotCurrentIndex = -1; }
+            foreach (Components.MdiClientForm Frm in ssClient.ChildForms) {
                 if (Frm.GetType() == typeof(ToolWindows.ModbusRegister)) {
                     if (((ToolWindows.ModbusRegister)Frm).ID == RegisterEditor.ID) {
                         SnapshotCurrentIndex = Index; break;
@@ -454,8 +455,8 @@ namespace Serial_Monitor {
             }
         }
         public void GetIndexFromForm() {
-            if (mdiClient.ChildForms.Count <= 0) { SnapshotCurrentIndex = -1; }
-            SnapshotCurrentIndex = mdiClient.ChildForms.Count - 1;
+            if (ssClient.ChildForms.Count <= 0) { SnapshotCurrentIndex = -1; }
+            SnapshotCurrentIndex = ssClient.ChildForms.Count - 1;
         }
         #endregion
         #region Register Formatting
@@ -672,7 +673,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmMonitor);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             Classes.Theming.ThemeManager.ThemeControl(cmMBChannel);
-            mdiClient.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            ssClient.BackColor = Properties.Settings.Default.THM_COL_Editor;
             this.ResumeLayout();
         }
         #endregion
@@ -795,8 +796,8 @@ namespace Serial_Monitor {
             }
             else {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        return ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).lstRegisters;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        return ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).lstRegisters;
                     }
                 }
                 catch { }
@@ -815,8 +816,8 @@ namespace Serial_Monitor {
             }
             else {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap == null) { return null; }
                         return Snap.Manager;
                     }
@@ -831,8 +832,8 @@ namespace Serial_Monitor {
             }
             else {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap == null) { return null; }
                         return Snap.Selection;
                     }
@@ -931,10 +932,10 @@ namespace Serial_Monitor {
             }
             else {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        bool FormatsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Locked;
-                        ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Locked = !FormatsVisable;
-                        ChangeLockedIcon(((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Locked);
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        bool FormatsVisable = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Locked;
+                        ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Locked = !FormatsVisable;
+                        ChangeLockedIcon(((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Locked);
                     }
                 }
                 catch { }
@@ -950,8 +951,8 @@ namespace Serial_Monitor {
             else {
                 try {
                     if (SnapshotCurrentIndex >= 0) {
-                        if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                            ChangeLockedIcon(((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Locked);
+                        if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                            ChangeLockedIcon(((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Locked);
                         }
                         btnLockEditor.Enabled = true;
                         btnModbusLockEditors.Enabled = true;
@@ -1029,7 +1030,7 @@ namespace Serial_Monitor {
             if (InsSnap.DialogResult == DialogResult.OK) {
                 if (InsSnap.Manager != null) {
                     ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm(InsSnap.DisplayName, InsSnap.Manager, InsSnap.DataSet, InsSnap.Address, InsSnap.Quantity);
-                    mdiClient.AddChild(frm);
+                    ssClient.AddChild(frm);
                 }
             }
         }
@@ -1068,12 +1069,14 @@ namespace Serial_Monitor {
                     if (Slave < 0) {
                         if (CurrentManager.Registers == null) { return; }
                         ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager.Registers, DataSet, Address, Count);
-                        mdiClient.AddChild(frm);
+                        //mdiClient.AddChild(frm);
+                        ssClient.AddChild(frm);
                     }
                     else {
                         if (slaveindex > -1) {
                             ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager.Slave[slaveindex], DataSet, Address, Count);
-                            mdiClient.AddChild(frm);
+                            //mdiClient.AddChild(frm);
+                            ssClient.AddChild(frm);
                         }
                     }
                 }
@@ -1082,12 +1085,14 @@ namespace Serial_Monitor {
                         if (CurrentManager.Registers == null) { return; }
                         if (Slave < 0) {
                             ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager.Registers, DataSet, Values);
-                            mdiClient.AddChild(frm);
+                            //mdiClient.AddChild(frm);
+                            ssClient.AddChild(frm);
                         }
                         else {
                             if (slaveindex > -1) {
                                 ToolWindows.ModbusRegister frm = ModbusSupport.NewSnapshotForm("", CurrentManager.Slave[slaveindex], DataSet, Values);
-                                mdiClient.AddChild(frm);
+                                //mdiClient.AddChild(frm);
+                                ssClient.AddChild(frm);
                             }
                         }
                     }
@@ -1103,7 +1108,7 @@ namespace Serial_Monitor {
             GetIndexFromForm();
         }
         private void tileHorizontalToolStripMenuItem_Click(object sender, EventArgs e) {
-            mdiClient.TileWindows = !mdiClient.TileWindows;
+            ssClient.TileWindows = !ssClient.TileWindows;
             tileHorizontalToolStripMenuItem.Checked = !tileHorizontalToolStripMenuItem.Checked;
         }
         #endregion
@@ -1149,9 +1154,9 @@ namespace Serial_Monitor {
             }
             else if (currentEditorView == DataEditor.SnapshotView) {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        bool FormatsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowFormats;
-                        ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowFormats = !FormatsVisable;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        bool FormatsVisable = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).ShowFormats;
+                        ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).ShowFormats = !FormatsVisable;
                         CurrentEditorView = currentEditorView;
                     }
                 }
@@ -1206,8 +1211,8 @@ namespace Serial_Monitor {
             else {
                 try {
 
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusEditor.Reset(((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).lstRegisters, Flags);
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusEditor.Reset(((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).lstRegisters, Flags);
                     }
                 }
                 catch { }
@@ -1372,8 +1377,8 @@ namespace Serial_Monitor {
 
                 }
                 else {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap != null) {
                             if (Snap.Manager != null) {
                                 SerialManager? SerMan = Snap.Manager.Manager;
@@ -1406,8 +1411,8 @@ namespace Serial_Monitor {
 
                 }
                 else {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap != null) {
                             if (Snap.Manager != null) {
                                 SerialManager? SerMan = Snap.Manager.Manager;
@@ -1441,8 +1446,8 @@ namespace Serial_Monitor {
 
                 }
                 else {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap != null) {
                             if (Snap.Manager != null) {
                                 SerialManager? SerMan = Snap.Manager.Manager;
@@ -1830,9 +1835,9 @@ namespace Serial_Monitor {
             }
             else if (currentEditorView == DataEditor.SnapshotView) {
                 try {
-                    if (mdiClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
-                        bool UnitsVisable = ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
-                        ((ToolWindows.ModbusRegister)mdiClient.ChildForms[SnapshotCurrentIndex]).ShowUnits = !UnitsVisable;
+                    if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        bool UnitsVisable = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
+                        ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).ShowUnits = !UnitsVisable;
                         CurrentEditorView = currentEditorView;
                     }
                 }

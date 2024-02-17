@@ -28,6 +28,9 @@ namespace Serial_Monitor.Components {
             set;
         }
         public List<MdiClientForm> ChildForms = new List<MdiClientForm>();
+        public void AddForm(MdiClientForm Frm) {
+
+        }
         public MdiClientPanel() {
             InitializeComponent();
             base.Controls.Add(_ctlClient);
@@ -117,6 +120,7 @@ namespace Serial_Monitor.Components {
             get {
                 if (_mdiForm == null) {
                     _mdiForm = new Form();
+                   // _mdiForm.IsMdiContainer = true;
                     //_mdiForm.IsMdiContainer = true; 
                     // Set the hidden _ctlClient field which is used to determine if the form is an MDI form
                     System.Reflection.FieldInfo? field = typeof(Form).GetField("ctlClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -141,7 +145,7 @@ namespace Serial_Monitor.Components {
             ResumeLayout(false);
         }
         public MdiClientForm AddChild(MdiClientForm child) {
-            child.MyMdiContainer = this;
+            //child.MyMdiContainer = this;
             child.MdiParent = MdiForm;
             ChildForms.Add(child);
             child.FormBorderStyle = FormBorderStyle.None;

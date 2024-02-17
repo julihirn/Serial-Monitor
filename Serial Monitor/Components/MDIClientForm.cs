@@ -79,7 +79,8 @@ namespace Serial_Monitor.Components {
             }
             catch { }
         }
-        public MdiClientPanel MyMdiContainer { get; set; }
+        //public MdiClientPanel MyMdiContainer { get; set; }
+        public SnapshotClient MyMdiContainer { get; set; }
         public MdiClientForm() {
             iD = Guid.NewGuid().ToString();
             labelFont = new Font(Font.FontFamily, 8);
@@ -98,12 +99,13 @@ namespace Serial_Monitor.Components {
         public event CloseButtonClickedHandler? CloseButtonClicked;
         public delegate void CloseButtonClickedHandler(object sender);
         void OnFormClosed(object? sender, FormClosedEventArgs e) {
-            MyMdiContainer.ChildClosed(this);
+            //MyMdiContainer.ChildClosed(this);
+            MyMdiContainer.CloseForm(this);
             Activated -= OnFormActivated;
             FormClosed -= OnFormClosed;
         }
         private void OnFormActivated(object? sender, EventArgs e) {
-            MyMdiContainer.ChildActivated(this);
+            //MyMdiContainer.ChildActivated(this);
         }
 
         private void MdiClientForm_Load(object ?sender, EventArgs e) {

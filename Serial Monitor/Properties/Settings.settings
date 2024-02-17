@@ -102,7 +102,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CHAN_BOL_PreferLegacyPortListing" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PRG_BOL_LimitExecution1ms" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
