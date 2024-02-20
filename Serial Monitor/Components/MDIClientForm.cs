@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
@@ -80,7 +81,8 @@ namespace Serial_Monitor.Components {
             catch { }
         }
         //public MdiClientPanel MyMdiContainer { get; set; }
-        public SnapshotClient MyMdiContainer { get; set; }
+        public SnapshotClient? MyMdiContainer { get; set; }
+
         public MdiClientForm() {
             iD = Guid.NewGuid().ToString();
             labelFont = new Font(Font.FontFamily, 8);
@@ -100,7 +102,9 @@ namespace Serial_Monitor.Components {
         public delegate void CloseButtonClickedHandler(object sender);
         void OnFormClosed(object? sender, FormClosedEventArgs e) {
             //MyMdiContainer.ChildClosed(this);
-            MyMdiContainer.CloseForm(this);
+            if (MyMdiContainer != null) {
+                MyMdiContainer.CloseForm(this);
+            }
             Activated -= OnFormActivated;
             FormClosed -= OnFormClosed;
         }
@@ -108,7 +112,7 @@ namespace Serial_Monitor.Components {
             //MyMdiContainer.ChildActivated(this);
         }
 
-        private void MdiClientForm_Load(object ?sender, EventArgs e) {
+        private void MdiClientForm_Load(object? sender, EventArgs e) {
 
         }
 
@@ -127,7 +131,7 @@ namespace Serial_Monitor.Components {
         }
 
 
-        private void MdiClientForm_Load_1(object ?sender, EventArgs e) {
+        private void MdiClientForm_Load_1(object? sender, EventArgs e) {
             InitializeComponent();
         }
 
@@ -179,22 +183,21 @@ namespace Serial_Monitor.Components {
                 Invalidate();
             }
         }
-
         [Browsable(true)]
+        [AllowNull]
         public override string Text {
-            get {
-                return base.Text;
-            }
+            get { return base.Text; }
             set {
-                base.Text = value;
+                string? Val = value;
+                base.Text = Val ?? "";
                 PaddingSettingChanged = true;
                 Invalidate();
             }
         }
         bool PaddingSettingChanged = true;
-        private Font labelFont;
+        private Font? labelFont;
         [System.ComponentModel.Category("Appearance")]
-        public Font LabelFont {
+        public Font? LabelFont {
             get {
                 return labelFont;
             }
@@ -216,6 +219,8 @@ namespace Serial_Monitor.Components {
             }
         }
 
+
+
         float TextPadding = 10;
         int TextHeight = 20;
         //int BasicTextSize = 10;
@@ -227,8 +232,10 @@ namespace Serial_Monitor.Components {
                 UnitSize = e.Graphics.MeasureString("W", UnitFont);
             }
             if (PaddingSettingChanged == true) {
-                TextPadding = e.Graphics.MeasureString("W", labelFont).Width;
-                TextHeight = (int)e.Graphics.MeasureString("W", labelFont).Height + (int)(TextPadding / 4.0f);
+                if (labelFont != null) {
+                    TextPadding = e.Graphics.MeasureString("W", labelFont).Width;
+                    TextHeight = (int)e.Graphics.MeasureString("W", labelFont).Height + (int)(TextPadding / 4.0f);
+                }
 
                 Padding Pad = new Padding(Padding.Left, TextHeight, Padding.Right, Padding.Bottom);
                 Padding = Pad;
@@ -238,11 +245,16 @@ namespace Serial_Monitor.Components {
             //    e.Graphics.FillRectangle(BackColorBrush, new Rectangle(0, 0, Width, TextHeight));
             //}
             DrawActionButtons(e);
-            if (Text.Length > 0) {
-                using (SolidBrush ForeColorBrush = new SolidBrush(labelColor)) {
-                    e.Graphics.DrawString(Text, labelFont, ForeColorBrush, new Point((int)(TextPadding / 4.0f), (int)(TextPadding / 4.0f)));
+            if (Text != null) {
+                if (labelFont != null) {
+                    if (Text.Length > 0) {
+                        using (SolidBrush ForeColorBrush = new SolidBrush(labelColor)) {
+                            e.Graphics.DrawString(Text, labelFont, ForeColorBrush, new Point((int)(TextPadding / 4.0f), (int)(TextPadding / 4.0f)));
+                        }
+                    }
                 }
             }
+
             using (SolidBrush BrdBr = new SolidBrush(BorderColor)) {
                 using (Pen BrdPn = new Pen(BrdBr)) {
                     e.Graphics.DrawRectangle(BrdPn, new Rectangle(0, 0, Width - 1, Height - 1));
@@ -291,7 +303,7 @@ namespace Serial_Monitor.Components {
             //bool HitButton = false;
             if (CloseMarker.Contains(e.Location)) {
                 CloseMarker_MouseInRegion = true;
-               // HitButton = true;
+                // HitButton = true;
             }
             else {
                 CloseMarker_MouseInRegion = false;

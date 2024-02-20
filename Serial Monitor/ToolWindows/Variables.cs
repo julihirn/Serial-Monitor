@@ -25,7 +25,11 @@ namespace Serial_Monitor.ToolWindows {
             InitializeComponent();
         }
         ProgramObject? selectedProgram = null;
-        bool AllowChanges = true;
+        bool allowChanges = true;
+        bool AllowChanges {
+            get { return allowChanges; }
+            set { allowChanges = value; }
+        }
         public ProgramObject? SelectedProgram {
             get { return selectedProgram; }
             set {

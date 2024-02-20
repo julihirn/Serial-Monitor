@@ -13,7 +13,11 @@ namespace Serial_Monitor.WindowForms {
         public ChecksumCalculator() {
             InitializeComponent();
         }
-        bool ModbusRtu = true;
+        bool modbusRtu = true;
+        bool ModbusRTU {
+            get { return modbusRtu; }
+            set { modbusRtu = value; }
+        }
         public void ApplyTheme() {
             BackColor = Properties.Settings.Default.THM_COL_Editor;
         }

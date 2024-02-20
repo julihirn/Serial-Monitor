@@ -847,7 +847,11 @@ namespace Serial_Monitor {
                 lstMonitor.SelectNextDropDown();
             }
         }
-        bool ApplyOnClick = false;
+        bool applyOnClick = false;
+        bool ApplyOnClick {
+            get { return applyOnClick; }
+            set { applyOnClick = value; }
+        }
         private void lstMonitor_ItemCheckedChanged(object sender, ItemCheckedChangeEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
@@ -1502,7 +1506,11 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Renaming
-        bool InRenameMode = false;
+        bool inRenameMode = false;
+        bool InRenameMode {
+            get { return inRenameMode; }
+            set { inRenameMode = value; }
+        }
         private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
             Rectangle TabRectangle = EventData.TextArea;
             SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
@@ -1570,6 +1578,7 @@ namespace Serial_Monitor {
                 }
                 DeregisterTextbox((System.Windows.Forms.TextBox)Ctrl);
             }
+            InRenameMode = false;
         }
         private void RenameBox_TextChanged(object? sender, EventArgs e) {
             if (sender == null) { return; }

@@ -75,13 +75,17 @@ namespace Serial_Monitor {
         private void InputFormatClicked(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-            string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
+            ToolStripMenuItem BaseItem = (ToolStripMenuItem)sender;
+            if (BaseItem.Tag == null) { return; }
+            string Cmd = BaseItem.Tag.ToString() ?? "";
             foreach (object Tsi in ddbInputFormat.DropDownItems) {
                 if (Tsi.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Tsi).Tag.ToString() == Cmd) {
-                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(((ToolStripMenuItem)Tsi).Tag.ToString() ?? ""), false).A;
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Tsi;
+                if (Tsmi.Tag == null) { continue; }
+                if (Tsmi.Tag.ToString() == Cmd) {
+                    ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsmi.Tag.ToString() ?? ""), false).A;
                     ((ToolStripMenuItem)Tsi).Checked = true;
-                    Properties.Settings.Default.DEF_STR_InputFormat = ((ToolStripMenuItem)Tsi).Tag.ToString();
+                    Properties.Settings.Default.DEF_STR_InputFormat = Tsmi.Tag.ToString();
                     Properties.Settings.Default.Save();
                 }
                 else { ((ToolStripMenuItem)Tsi).Checked = false; }
@@ -90,13 +94,17 @@ namespace Serial_Monitor {
         private void OutputFormatClicked(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-            string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
+            ToolStripMenuItem BaseItem = (ToolStripMenuItem)sender;
+            if (BaseItem.Tag == null) { return; }
+            string Cmd = BaseItem.Tag.ToString() ?? "";
             foreach (object Tsi in ddbOutputFormat.DropDownItems) {
                 if (Tsi.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Tsi).Tag.ToString() == Cmd) {
-                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(((ToolStripMenuItem)Tsi).Tag.ToString() ?? ""), false).A;
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Tsi;
+                if (Tsmi.Tag == null) { continue; }
+                if (Tsmi.Tag.ToString() == Cmd) {
+                    ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsmi.Tag.ToString() ?? ""), false).A;
                     ((ToolStripMenuItem)Tsi).Checked = true;
-                    Properties.Settings.Default.DEF_STR_OutputFormat = ((ToolStripMenuItem)Tsi).Tag.ToString();
+                    Properties.Settings.Default.DEF_STR_OutputFormat = Tsmi.Tag.ToString();
                     Properties.Settings.Default.Save();
                 }
                 else { ((ToolStripMenuItem)Tsi).Checked = false; }
@@ -128,7 +136,9 @@ namespace Serial_Monitor {
         private void SelectComboboxItemWithValue(ComboBox Cm, string Value) {
             if (Cm.Items.Count == 0) { return; }
             for (int i = 0; i < Cm.Items.Count; i++) {
-                if (Cm.Items[i].ToString() == Value) {
+                object? Item = Cm.Items[i];
+                if (Item == null) { continue; }
+                if (Item.ToString() == Value) {
                     Cm.SelectedIndex = i;
                     break;
                 }
@@ -189,6 +199,7 @@ namespace Serial_Monitor {
         }
         private void CheckBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -199,6 +210,7 @@ namespace Serial_Monitor {
         }
         private void CheckParity(string Type) {
             foreach (ToolStripMenuItem Item in ddbParity.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -209,6 +221,7 @@ namespace Serial_Monitor {
         }
         private void CheckStopBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbOptSB1.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -219,7 +232,9 @@ namespace Serial_Monitor {
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
             if (PreventWriting) { return; }
-            int Temp = 9600; int.TryParse(comboBox1.SelectedItem.ToString(), out Temp);
+            object? Data = comboBox1.SelectedItem;
+            if (Data == null) { return; }
+            int Temp = 9600; int.TryParse(Data.ToString(), out Temp);
             Properties.Settings.Default.DEF_INT_BaudRate = Temp;
             Properties.Settings.Default.Save();
         }

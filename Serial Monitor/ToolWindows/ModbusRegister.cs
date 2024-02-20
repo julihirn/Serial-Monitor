@@ -231,6 +231,7 @@ namespace Serial_Monitor.ToolWindows {
             object? DataTag = LstItem.Tag;
             if (DataTag == null) { return; }
             if (e.ParentItem == null) { return; }
+            if (snapshot == null) { return; }
             if (e.Column == ModbusEditor.Indx_Name) {
                 if (snapshot != null) {
                     ModbusEditor.AddRenameBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);

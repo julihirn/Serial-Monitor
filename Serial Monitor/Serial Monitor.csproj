@@ -21,6 +21,15 @@
     <Version>1.10.630.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +37,7 @@
     <Compile Remove="Classes\Modbus\ModbusSupport-C3M_SURFACE5.cs" />
     <Compile Remove="Classes\SerialManager-C3M_SURFACE5.cs" />
     <Compile Remove="Components\EditValue-C3M_MEDIA2.cs" />
+    <Compile Remove="Components\MDIClientPanel.cs" />
     <Compile Remove="WindowForms\ModbusRegisters-C3M_SURFACE5.cs" />
   </ItemGroup>
 

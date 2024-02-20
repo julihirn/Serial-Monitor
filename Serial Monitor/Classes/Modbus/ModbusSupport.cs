@@ -419,8 +419,9 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         public static void RemoveSnapshot(ModbusSlave Slave) {
             for (int i = Snapshots.Count - 1; i >= 0; i--) {
-                if (Snapshots[i].Manager == null) { continue; }
-                if (Snapshots[i].Manager.ID == Slave.ID) {
+                ModbusSlave? TempSlave = Snapshots[i].Manager;
+                if (TempSlave == null) { continue; }
+                if (TempSlave.ID == Slave.ID) {
                     Snapshots[i].Close();
                     Snapshots.RemoveAt(i);
                 }

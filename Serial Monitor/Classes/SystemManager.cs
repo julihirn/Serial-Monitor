@@ -86,6 +86,7 @@ namespace Serial_Monitor.Classes {
         }
 
         public static void ModbusDiagnosticsReturn(SerialManager? SerMan, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data) {
+            if (SerMan == null) { return; }
             ModbusDiagnosticsReceived?.Invoke(SerMan, Slave, SubFunction, Data);
         }
         public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, List<int> Indices, DataSelection? DataType) {
@@ -450,11 +451,14 @@ namespace Serial_Monitor.Classes {
                 ToolStripDropDownButton Tsddbtn = (ToolStripDropDownButton)Ctrl;
                 foreach (object Item in Tsddbtn.DropDownItems) {
                     if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                        ((ToolStripMenuItem)Item).Checked = true;
+                    ToolStripMenuItem? Tsmi = (ToolStripMenuItem)Item;
+                    if (Tsmi == null) { continue; }
+                    if (Tsmi.Tag == null) { continue; }
+                    if (Tsmi.Tag.ToString() == Type) {
+                        Tsmi.Checked = true;
                     }
                     else {
-                        ((ToolStripMenuItem)Item).Checked = false;
+                        Tsmi.Checked = false;
                     }
                 }
             }
@@ -462,11 +466,14 @@ namespace Serial_Monitor.Classes {
                 ToolStripMenuItem Tsmi = (ToolStripMenuItem)Ctrl;
                 foreach (object Item in Tsmi.DropDownItems) {
                     if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                        ((ToolStripMenuItem)Item).Checked = true;
+                    ToolStripMenuItem? TsmiS = (ToolStripMenuItem)Item;
+                    if (TsmiS == null) { continue; }
+                    if (TsmiS.Tag == null) { continue; }
+                    if (TsmiS.Tag.ToString() == Type) {
+                        TsmiS.Checked = true;
                     }
                     else {
-                        ((ToolStripMenuItem)Item).Checked = false;
+                        TsmiS.Checked = false;
                     }
                 }
             }
@@ -476,11 +483,13 @@ namespace Serial_Monitor.Classes {
                 ToolStripDropDownButton Tsddbtn = (ToolStripDropDownButton)Ctrl;
                 foreach (object Item in Tsddbtn.DropDownItems) {
                     if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type.ToString()) {
-                        ((ToolStripMenuItem)Item).Checked = true;
+                    ToolStripMenuItem? Tsmi = (ToolStripMenuItem)Item;
+                    if (Tsmi.Tag == null) { continue; }
+                    if (Tsmi.Tag.ToString() == Type.ToString()) {
+                        Tsmi.Checked = true;
                     }
                     else {
-                        ((ToolStripMenuItem)Item).Checked = false;
+                        Tsmi.Checked = false;
                     }
                 }
             }
@@ -488,11 +497,13 @@ namespace Serial_Monitor.Classes {
                 ToolStripMenuItem Tsmi = (ToolStripMenuItem)Ctrl;
                 foreach (object Item in Tsmi.DropDownItems) {
                     if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                    if (((ToolStripMenuItem)Item).Tag.ToString() == Type.ToString()) {
-                        ((ToolStripMenuItem)Item).Checked = true;
+                    ToolStripMenuItem? TsmiS = (ToolStripMenuItem)Item;
+                    if (TsmiS.Tag == null) { continue; }
+                    if (TsmiS.Tag.ToString() == Type.ToString()) {
+                        TsmiS.Checked = true;
                     }
                     else {
-                        ((ToolStripMenuItem)Item).Checked = false;
+                        TsmiS.Checked = false;
                     }
                 }
             }
@@ -518,7 +529,8 @@ namespace Serial_Monitor.Classes {
         //    }
         //}
         #endregion
-        internal static ProgramObject? GetProgramObjectFromTab(TabClickedEventArgs Args) {
+        internal static ProgramObject? GetProgramObjectFromTab(TabClickedEventArgs? Args) {
+            if (Args == null) { return null; }
             if (Args.SelectedTab.GetType() == typeof(Tab)) {
                 Tab TabData = (Tab)Args.SelectedTab;
                 if (TabData.Tag == null) { return null; }

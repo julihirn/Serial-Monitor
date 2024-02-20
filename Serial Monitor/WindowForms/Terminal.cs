@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
@@ -271,7 +272,8 @@ namespace Serial_Monitor.WindowForms {
         private void Terminal_KeyPress(object sender, KeyPressEventArgs e) {
             Output.Focus();
         }
-        private void SetFormat(object Index) {
+        private void SetFormat(object ?Index) {
+            if (Index == null) { return;}
             int FormatIndex = -1; int.TryParse(Index.ToString(), out FormatIndex);
             foreach (ToolStripItem MItem in ddbDisplayTime.DropDownItems) {
                 if (MItem.Tag != null) {
@@ -655,6 +657,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void CheckBits(string Type) {
             foreach (ToolStripMenuItem Item in btnChannelDataBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -685,6 +688,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void CheckParity(string Type) {
             foreach (ToolStripMenuItem Item in btnChannelParity.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -718,6 +722,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void CheckStopBits(string Type) {
             foreach (ToolStripMenuItem Item in btnChannelStopBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -749,8 +754,10 @@ namespace Serial_Monitor.WindowForms {
         private void BaudRateBtn_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+                if (Tsmi.Tag == null) { return ; }
                 if (manager != null) {
-                    manager.BaudRate = int.Parse(((ToolStripMenuItem)sender).Tag.ToString() ?? "9600");
+                    manager.BaudRate = int.Parse(Tsmi.Tag.ToString() ?? "9600");
                     CheckBaudRate(manager.BaudRate);
                 }
             }
@@ -799,8 +806,10 @@ namespace Serial_Monitor.WindowForms {
         private bool ItemExists(string Name) {
             foreach (object Item in btnChannelPort.DropDownItems) {
                 if (Item.GetType() == typeof(ToolStripMenuItem)) {
+                    ToolStripMenuItem Tsmi = (ToolStripMenuItem)Item;
+                    if (Tsmi.Tag == null) { continue; }
                     if (((ToolStripMenuItem)Item).Tag != null) {
-                        if (((ToolStripMenuItem)Item).Tag.ToString() == Name) {
+                        if (Tsmi.Tag.ToString() == Name) {
                             return true;
                         }
                     }
@@ -812,8 +821,10 @@ namespace Serial_Monitor.WindowForms {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
                 string SelectedPort = "COM1";
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+                if (Tsmi.Tag == null) { return; }
                 if (manager != null) {
-                    SelectedPort = ((ToolStripMenuItem)sender).Tag.ToString() ?? "COM1";
+                    SelectedPort = Tsmi.Tag.ToString() ?? "COM1";
                     manager.PortName = SelectedPort;
                 }
                 CheckPort(SelectedPort);
@@ -821,6 +832,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void CheckPort(string Type) {
             foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -843,6 +855,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void CheckControlFlow(string Type) {
             foreach (ToolStripMenuItem Item in btnChannelFlowCtrl.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -867,13 +880,18 @@ namespace Serial_Monitor.WindowForms {
         #region IO Formats
         private void InputFormat_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+            ToolStripItem Tsi = (ToolStripItem)sender;
+            if (Tsi.Tag == null) { return; }
+            InputFormatChange(Tsi.Tag.ToString() ?? "");
         }
         private void OutputFormat_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+            ToolStripItem Tsi = (ToolStripItem)sender;
+            if (Tsi.Tag == null) { return; }
+            OutputFormatChange(Tsi.Tag.ToString() ?? "");
         }
-        private void InputFormatChange(string ControlText) {
+        private void InputFormatChange(string? ControlText) {
+            if (ControlText == null) { return; }
             StreamInputFormat FormatPair = EnumManager.StringToInputFormat(ControlText);
             StringPair TextualPair = EnumManager.InputFormatToString(FormatPair, false);
             if (manager != null) {
@@ -882,7 +900,8 @@ namespace Serial_Monitor.WindowForms {
             }
 
         }
-        private void OutputFormatChange(string ControlText) {
+        private void OutputFormatChange(string ?ControlText) {
+            if (ControlText == null) { return; }
             StreamOutputFormat FormatPair = EnumManager.StringToOutputFormat(ControlText);
             StringPair TextualPair = EnumManager.OutputFormatToString(FormatPair, false);
             if (manager != null) {
@@ -893,22 +912,26 @@ namespace Serial_Monitor.WindowForms {
         private void CheckInputFormat(string Type) {
             foreach (object Item in btnChannelInputFormat.DropDownItems) {
                 if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                    ((ToolStripMenuItem)Item).Checked = true;
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Item;
+                if (Tsmi.Tag == null) { continue; }
+                if (Tsmi.Tag.ToString() == Type) {
+                    Tsmi.Checked = true;
                 }
                 else {
-                    ((ToolStripMenuItem)Item).Checked = false;
+                    Tsmi.Checked = false;
                 }
             }
         }
         private void CheckOutputFormat(string Type) {
             foreach (object Item in btnChannelOutputFormat.DropDownItems) {
                 if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-                    ((ToolStripMenuItem)Item).Checked = true;
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Item;
+                if (Tsmi.Tag == null) { continue; }
+                if (Tsmi.Tag.ToString() == Type) {
+                    Tsmi.Checked = true;
                 }
                 else {
-                    ((ToolStripMenuItem)Item).Checked = false;
+                    Tsmi.Checked = false;
                 }
             }
         }

@@ -126,7 +126,9 @@ namespace Serial_Monitor.WindowForms {
                 if (listView1.SelectedItems.Count == 1) {
                     if (listView1.SelectedItems[0].SubItems[1].Text != this.Name) {
                         if (listView1.SelectedItems[0].Tag != null) {
-                            if (listView1.SelectedItems[0].Tag.GetType().BaseType == typeof(Form)) {
+                            object? TagData = listView1.SelectedItems[0].Tag;
+                            if (TagData == null) { return null; }
+                            if (TagData.GetType().BaseType == typeof(Form)) {
                                 return listView1.SelectedItems[0].Tag;
                             }
                         }

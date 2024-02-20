@@ -1394,7 +1394,7 @@ namespace Serial_Monitor.Classes {
                 string Temp = Input.ToUpper().TrimStart(' ').TrimStart('\t');
                 int Unit = 1;
                 int Start = 0;
-                int Count = 1;
+                //int Count = 1;
                 if (CommandManager.TestKeyword(ref Temp, "UNIT")) {
                     string StrAddress = CommandManager.ReadAndRemove(ref Temp);
 

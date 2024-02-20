@@ -32,11 +32,11 @@ namespace Serial_Monitor {
         }
         public void GetLoadedAssemblies() {
             Assembly[] assemblies = Thread.GetDomain().GetAssemblies();
-
+            string ProductNume = Application.ProductName ?? "";
             for (int i = 0; i < assemblies.Length; i++) {
                 string AssemblyName = assemblies[i].GetName().Name ?? "";
                 if (AssemblyName.ToLower().StartsWith("system") || AssemblyName.ToLower().StartsWith("microsoft") || AssemblyName.ToLower().StartsWith("mscor")) { }
-                else if (AssemblyName.ToLower().StartsWith(Application.ProductName.ToLower())) { }
+                else if (AssemblyName.ToLower().StartsWith(ProductNume.ToLower())) { }
                 else if (AssemblyName.ToLower().StartsWith("netstandard")) { }
                 else {
                     try {

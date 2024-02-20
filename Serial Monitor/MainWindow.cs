@@ -49,7 +49,7 @@ namespace Serial_Monitor {
                 SystemManager.CheckFormatOption(currentManager.BaudRate, btnChannelBaud);
                 ddbBits.Text = currentManager.DataBits.ToString();
                 ddbBits.Tag = currentManager.DataBits.ToString();
-                CheckBits(ddbBits.Text);
+                CheckBits(ddbBits.Text ?? "");
                 string StopBits = EnumManager.StopBitsToString(currentManager.StopBits);
                 ddbStopBits.Text = StopBits;
                 ddbStopBits.Tag = StopBits;
@@ -529,10 +529,10 @@ namespace Serial_Monitor {
                 SystemManager.CheckFormatOption(OutFrmt, btnChannelOutputFormat);
             }
             LoadAllBauds();
-            SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
-            SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
-            CheckBits(ddbBits.Text);
-            CheckStopBits(ddbStopBits.Text);
+            SystemManager.CheckFormatOption(ddbParity.Text ?? "", ddbParity);
+            SystemManager.CheckFormatOption(ddbParity.Text ?? "", btnChannelParity);
+            CheckBits(ddbBits.Text ?? "");
+            CheckStopBits(ddbStopBits.Text ?? "");
             SystemRunning(false);
 
             SetDefaultStyleValues();
@@ -758,8 +758,10 @@ namespace Serial_Monitor {
         private void Itm_Channel(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem MenuItem = (ToolStripMenuItem)sender;
+                if (MenuItem.Tag == null) { return; };
                 if (CurrentManager != null) {
-                    int Temp = (int)((ToolStripMenuItem)sender).Tag;
+                    int Temp = (int)MenuItem.Tag;
                     navigator1.SelectedItem = Temp;
                 }
                 navigator1.Invalidate();
@@ -934,14 +936,15 @@ namespace Serial_Monitor {
                 foreach (SerialManager SerMan in SystemManager.SerialManagers) {
                     SerMan.SystemEnabled = true;
                 }
-                CheckPort(ddbPorts.Text);
+                CheckPort(ddbPorts.Text ?? "");
             }
         }
         private bool ItemExists(string Name) {
             foreach (object Item in ddbPorts.DropDownItems) {
                 if (Item.GetType() == typeof(ToolStripMenuItem)) {
-                    if (((ToolStripMenuItem)Item).Tag != null) {
-                        if (((ToolStripMenuItem)Item).Tag.ToString() == Name) {
+                    ToolStripMenuItem Tsmi = ((ToolStripMenuItem)Item);
+                    if (Tsmi.Tag != null) {
+                        if (Tsmi.Tag.ToString() == Name) {
                             return true;
                         }
                     }
@@ -953,9 +956,11 @@ namespace Serial_Monitor {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
                 string SelectedPort = "COM1";
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+                if (Tsmi.Tag == null) { return; }
                 if (CurrentManager != null) {
-                    ddbPorts.Text = ((ToolStripMenuItem)sender).Text;
-                    SelectedPort = ((ToolStripMenuItem)sender).Tag.ToString() ?? "COM1";
+                    ddbPorts.Text = Tsmi.Text;
+                    SelectedPort = Tsmi.Tag.ToString() ?? "COM1";
                     CurrentManager.PortName = SelectedPort;
                 }
                 CheckPort(SelectedPort);
@@ -970,13 +975,14 @@ namespace Serial_Monitor {
             if (ddbPorts.DropDownItems.Count > 0) {
                 if (CurrentManager != null) {
                     ddbPorts.Text = ddbPorts.DropDownItems[0].Text;
-                    CurrentManager.PortName = ddbPorts.Text;
+                    CurrentManager.PortName = ddbPorts.Text ?? "";
                 }
-                CheckPort(ddbPorts.Text);
+                CheckPort(ddbPorts.Text ?? "");
             }
         }
         private void CheckPort(string Type) {
             foreach (ToolStripMenuItem Item in ddbPorts.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -985,6 +991,7 @@ namespace Serial_Monitor {
                 }
             }
             foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -1026,12 +1033,14 @@ namespace Serial_Monitor {
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
                 ddbBAUDRate.Text = ((ToolStripMenuItem)sender).Text;
                 ddbBAUDRate.Tag = ((ToolStripMenuItem)sender).Tag;
-                if (CurrentManager != null) {
-                    CurrentManager.BaudRate = int.Parse(ddbBAUDRate.Tag.ToString() ?? "9600");
+                if (ddbBAUDRate.Tag != null) {
+                    if (CurrentManager != null) {
+                        CurrentManager.BaudRate = int.Parse(ddbBAUDRate.Tag.ToString() ?? "9600");
+                    }
                 }
             }
-            SystemManager.CheckFormatOption(ddbBAUDRate.Text, ddbParity);
-            SystemManager.CheckFormatOption(ddbBAUDRate.Text, btnChannelParity);
+            SystemManager.CheckFormatOption(ddbBAUDRate.Text ?? "", ddbParity);
+            SystemManager.CheckFormatOption(ddbBAUDRate.Text ?? "", btnChannelParity);
             navigator1.Invalidate();
             DocumentEdited = true;
         }
@@ -1042,8 +1051,8 @@ namespace Serial_Monitor {
                 CurrentManager.Parity = PBits;
                 ddbParity.Text = EnumManager.ParityToString(PBits);
             }
-            SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
-            SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
+            SystemManager.CheckFormatOption(ddbParity.Text ?? "", ddbParity);
+            SystemManager.CheckFormatOption(ddbParity.Text ?? "", btnChannelParity);
             navigator1.Invalidate();
             DocumentEdited = true;
         }
@@ -1114,6 +1123,7 @@ namespace Serial_Monitor {
         }
         private void CheckBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -1122,6 +1132,7 @@ namespace Serial_Monitor {
                 }
             }
             foreach (ToolStripMenuItem Item in btnChannelDataBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -1137,7 +1148,7 @@ namespace Serial_Monitor {
                 CurrentManager.StopBits = StopBts;
                 ddbStopBits.Text = EnumManager.StopBitsToString(StopBts);
             }
-            CheckStopBits(ddbStopBits.Text);
+            CheckStopBits(ddbStopBits.Text ?? "");
             navigator1.Invalidate();
             DocumentEdited = true;
         }
@@ -1167,6 +1178,7 @@ namespace Serial_Monitor {
         }
         private void CheckStopBits(string Type) {
             foreach (ToolStripMenuItem Item in ddbStopBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -1175,6 +1187,7 @@ namespace Serial_Monitor {
                 }
             }
             foreach (ToolStripMenuItem Item in btnChannelStopBits.DropDownItems) {
+                if (Item.Tag == null) { continue; }
                 if (Item.Tag.ToString() == Type) {
                     Item.Checked = true;
                 }
@@ -1269,11 +1282,15 @@ namespace Serial_Monitor {
         //}
         private void InputFormat_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            InputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+            ToolStripItem toolStripItem = (ToolStripItem)sender;
+            if (toolStripItem.Tag == null) { return; }
+            InputFormatChange(toolStripItem.Tag.ToString() ?? "");
         }
         private void OutputFormat_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            OutputFormatChange(((ToolStripItem)sender).Tag.ToString() ?? "");
+            ToolStripItem toolStripItem = (ToolStripItem)sender;
+            if (toolStripItem.Tag == null) { return; }
+            OutputFormatChange(toolStripItem.Tag.ToString() ?? "");
         }
         private void btnOptFrmLineNone_Click(object? sender, EventArgs e) {
             SetLineFormat(LineFormatting.None);
@@ -1782,7 +1799,7 @@ namespace Serial_Monitor {
             if (sender == null) { return; }
             if (cmStepPrg.Tag == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
-
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
                 try {
                     if (cmStepPrg.Tag.GetType() == typeof(DropDownClickedEventArgs)) {
                         ListItem? LstItem = ((DropDownClickedEventArgs)cmStepPrg.Tag).ParentItem;
@@ -1790,7 +1807,7 @@ namespace Serial_Monitor {
                         int Column = ((DropDownClickedEventArgs)cmStepPrg.Tag).Column;
                         int Item = ((DropDownClickedEventArgs)cmStepPrg.Tag).Item;
                         StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
-                        object? objExe = ((ToolStripMenuItem)sender).Tag;
+                        object? objExe = Tsmi.Tag;
                         if (objExe != null) {
                             if (objExe.GetType() == typeof(StepEnumerations.StepExecutable)) {
                                 StepExe = (StepEnumerations.StepExecutable)objExe;
@@ -1798,11 +1815,11 @@ namespace Serial_Monitor {
                         }
                         if (Column == 0) {
                             LstItem.Tag = StepExe;
-                            LstItem.Text = ((ToolStripMenuItem)sender).Text;
+                            LstItem.Text = Tsmi.Text ?? "";
                         }
                         else {
                             LstItem.SubItems[Column - 1].Tag = StepExe;
-                            LstItem.SubItems[Column - 1].Text = ((ToolStripMenuItem)sender).Text;
+                            LstItem.SubItems[Column - 1].Text = Tsmi.Text ?? "";
                         }
                         SetDefault(LstItem, StepExe);
                         ProgramManager.ApplyIndentation(lstStepProgram, false);
@@ -1828,9 +1845,11 @@ namespace Serial_Monitor {
             //}
             Li.SubItems[2].Text = DefaultText;
         }
-#pragma warning disable IDE0052 // Remove unread private members
-        bool InEditingMode = false;
-#pragma warning restore IDE0052 // Remove unread private members
+        bool inEditingMode = false;
+        bool InEditingMode {
+            get { return inEditingMode; }
+            set { inEditingMode = value; }
+        }
         private void lstStepProgram_DropDownClicked(object? sender, DropDownClickedEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
@@ -2070,7 +2089,7 @@ namespace Serial_Monitor {
             if (!Clipboard.ContainsData(Clipboard_ProgramDataType)) { return; }
             try {
                 if (lstStepProgram.ExternalItems == null) { return; }
-                List<ProgramDataObject>? CopiedItems = (List<ProgramDataObject>)Clipboard.GetData(Clipboard_ProgramDataType);
+                List<ProgramDataObject>? CopiedItems = (List<ProgramDataObject>?)Clipboard.GetData(Clipboard_ProgramDataType);
                 if (CopiedItems == null) { return; }
                 if (CopiedItems.Count > 0) {
                     if (lstStepProgram.SelectionCount > 0) {
@@ -2462,10 +2481,10 @@ namespace Serial_Monitor {
             cmPrograms.Show(Tab.ScreenLocation);
         }
         private void cmRunProgram_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs?)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
-            btnRun.Text = GetTextFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            btnRun.Text = GetTextFromTab((TabClickedEventArgs?)cmPrograms.Tag);
             RunFromStart();
         }
         private void cmCloseProgram_Click(object? sender, EventArgs e) {
@@ -2475,15 +2494,16 @@ namespace Serial_Monitor {
             }
         }
         private void cmbtnSetAsActive_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs?)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
-            btnRun.Text = GetTextFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            btnRun.Text = GetTextFromTab((TabClickedEventArgs?)cmPrograms.Tag);
         }
         private void cmbtnProperties_Click(object? sender, EventArgs e) {
-            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs)cmPrograms.Tag);
+            ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab((TabClickedEventArgs?)cmPrograms.Tag);
             if (PrgObj == null) { return; }
             ProgramProperties PrgProp = new ProgramProperties();
+            if (lstStepProgram.Tag == null) { return; }
             PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
             ApplicationManager.OpenInternalApplicationAsDialog(PrgProp, this);
         }
@@ -2503,10 +2523,11 @@ namespace Serial_Monitor {
             NewProgram();
         }
 
-        private string GetTextFromTab(TabClickedEventArgs Args) {
+        private string GetTextFromTab(TabClickedEventArgs? Args) {
             //if (cmPrograms.Tag == null) { return ""; }
             // if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
             // TabClickedEventArgs Args = (TabClickedEventArgs)cmPrograms.Tag;
+            if (Args == null) { return ""; }
             if (Args.SelectedTab.GetType() == typeof(Tab)) {
                 Tab TabData = (Tab)Args.SelectedTab;
                 return TabData.Text;
@@ -2519,9 +2540,10 @@ namespace Serial_Monitor {
             ShowProgramRenameBox(Tab);
         }
         private void renameToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ShowProgramRenameBox((TabClickedEventArgs)cmPrograms.Tag);
+            ShowProgramRenameBox((TabClickedEventArgs?)cmPrograms.Tag);
         }
-        private void ShowProgramRenameBox(TabClickedEventArgs EventData, bool PushEventData = false) {
+        private void ShowProgramRenameBox(TabClickedEventArgs? EventData, bool PushEventData = false) {
+            if (EventData == null) { return; }
             Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(EventData, true);
             ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab(EventData);
             if (PrgObj == null) { return; }
@@ -2908,8 +2930,10 @@ namespace Serial_Monitor {
         private void btnWinCloseAll_Click(object? sender, EventArgs e) {
             FormCollection fc = Application.OpenForms;
             for (int i = fc.Count - 1; i >= 0; i--) {
-                if ((fc[i].GetType() != typeof(MainWindow))) {
-                    fc[i].Close();
+                object? Frm = fc[i];
+                if (Frm == null) { continue; }
+                if ((Frm.GetType() != typeof(MainWindow))) {
+                    ((Form)Frm).Close();
                 }
             }
         }

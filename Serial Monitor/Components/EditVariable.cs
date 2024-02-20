@@ -16,7 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Serial_Monitor.Components {
     public partial class EditVariable : UserControl, Interfaces.ITheme {
         public event ArrowKeyPressedHandler? ArrowKeyPress;
-        private static MyFilter? mf = null;
+        //private static MyFilter? mf = null;
         ODModules.ListControl? lstControl = null;
         ListItem? ListItem = null;
         ProgramObject? SelectedProgram = null;

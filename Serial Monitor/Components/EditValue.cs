@@ -40,7 +40,7 @@ namespace Serial_Monitor.Components {
             }
         }
 
-        private static MyFilter? mf = null;
+        //private static MyFilter? mf = null;
         public EditValue() {
 
             InitializeComponent();
@@ -207,7 +207,11 @@ namespace Serial_Monitor.Components {
             Step = StepExe;
             InitaliseWithType(Classes.ProgramManager.StepExecutableToDataType(StepExe), InputValue, ListCtrl, Item);
         }
-        bool IsPositionOffset = false;
+        bool isPositionOffset = false;
+        bool IsPositionOffset {
+            get { return isPositionOffset; }
+            set { isPositionOffset = value; }
+        }
         StepEnumerations.StepExecutable Step = StepEnumerations.StepExecutable.NoOperation;
         private void InitaliseWithType(DataType StepExe, string InputValue, ODModules.ListControl ListCtrl, ListItem Item) {
             textBox1.AutoSize = false;

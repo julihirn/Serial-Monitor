@@ -376,7 +376,8 @@ namespace Serial_Monitor {
 
         
 
-        private void Monitor_CommandProcessed(object sender, string Data) {
+        private void Monitor_CommandProcessed(object ?sender, string Data) {
+            if (sender == null) { return; } 
             if (sender.GetType() == typeof(Classes.SerialManager)) {
                 SerialManager SerMan = (Classes.SerialManager)sender;
                 string Port = SerMan.PortName;

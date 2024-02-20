@@ -655,7 +655,7 @@
             textBox1.BackColor = Color.FromArgb(30, 30, 30);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Dock = DockStyle.Top;
-            textBox1.Font = new Font("Segoe UI", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox1.Font = new Font("Segoe UI", 10.125F);
             textBox1.ForeColor = Color.White;
             textBox1.Location = new Point(1, 1);
             textBox1.Margin = new Padding(2, 1, 2, 1);
@@ -703,7 +703,7 @@
             button1.Margin = new Padding(2, 1, 2, 1);
             button1.Name = "button1";
             button1.RadioButtonGroup = "";
-            button1.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            button1.SecondaryFont = new Font("Segoe UI", 9F);
             button1.SecondaryText = "";
             button1.Size = new Size(95, 18);
             button1.Style = ODModules.ButtonStyle.Square;
@@ -838,9 +838,11 @@
             lstStepProgram.ColumnLineColor = Color.FromArgb(64, 64, 64);
             column1.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column1.CountOffset = 0;
+            column1.DataFormat = ODModules.ColumnDataFormat.None;
             column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
             column1.DropDownRight = false;
             column1.DropDownVisible = true;
+            column1.Exportable = false;
             column1.FixedWidth = false;
             column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
             column1.Text = "Step";
@@ -850,9 +852,11 @@
             column1.Width = 50;
             column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
             column2.CountOffset = 0;
+            column2.DataFormat = ODModules.ColumnDataFormat.None;
             column2.DisplayType = ODModules.ColumnDisplayType.Checkbox;
             column2.DropDownRight = false;
             column2.DropDownVisible = true;
+            column2.Exportable = false;
             column2.FixedWidth = true;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column2.Text = "";
@@ -862,9 +866,11 @@
             column2.Width = 40;
             column3.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
             column3.CountOffset = 0;
+            column3.DataFormat = ODModules.ColumnDataFormat.None;
             column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column3.DropDownRight = false;
             column3.DropDownVisible = true;
+            column3.Exportable = false;
             column3.FixedWidth = false;
             column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column3.Text = "Command";
@@ -874,9 +880,11 @@
             column3.Width = 100;
             column4.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
             column4.CountOffset = 0;
+            column4.DataFormat = ODModules.ColumnDataFormat.None;
             column4.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column4.DropDownRight = false;
             column4.DropDownVisible = true;
+            column4.Exportable = false;
             column4.FixedWidth = false;
             column4.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column4.Text = "Arguments";
@@ -2336,7 +2344,7 @@
             pnlStepProgram.Inlinelabel = false;
             pnlStepProgram.InlineWidth = 100;
             pnlStepProgram.LabelBackColor = Color.FromArgb(31, 31, 31);
-            pnlStepProgram.LabelFont = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            pnlStepProgram.LabelFont = new Font("Segoe UI", 8F);
             pnlStepProgram.LabelForeColor = Color.WhiteSmoke;
             pnlStepProgram.Location = new Point(0, 231);
             pnlStepProgram.Name = "pnlStepProgram";
@@ -2413,7 +2421,7 @@
             Output.Dock = DockStyle.Fill;
             Output.ExtraLineAfterCommandEntered = false;
             Output.FlashCursor = false;
-            Output.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Output.Font = new Font("Consolas", 9F);
             Output.ForeColor = Color.FromArgb(255, 255, 192);
             Output.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             Output.LineFormatting = true;
@@ -2426,7 +2434,7 @@
             Output.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
             Output.ScrollBarNorth = Color.FromArgb(64, 64, 64);
             Output.ScrollBarSouth = Color.FromArgb(64, 64, 64);
-            Output.SecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Output.SecondaryFont = new Font("Segoe UI", 9F);
             Output.SelectionColor = Color.FromArgb(47, 47, 74);
             Output.ShowOrigin = true;
             Output.Size = new Size(553, 162);

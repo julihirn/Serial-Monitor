@@ -210,8 +210,10 @@ namespace Serial_Monitor.Classes.Modbus {
                     CheckPreviousRegisters(Index, typeData, parent);
                 }
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
-                if ((AllowTransmit) && (parent.Manager.IsMaster)) {
-                    SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
+                if (parent != null) {
+                    if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                        SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
+                    }
                 }
 #if TEST
                     Debug.Print("Size: 16, Input: " + Input.ToString() + ", Set: " + regValue.ToString());

@@ -81,6 +81,7 @@ namespace Serial_Monitor.Dialogs {
         }
         private void btnHiddenAccept_Click(object sender, EventArgs e) {
             displayname = textBox1.Text;
+            if (cmbxUnitAddress.SelectedItem == null) { return; }
             if (cmbxUnitAddress.SelectedItem.GetType() == typeof(UnitPreview)) {
                 unit = ((UnitPreview)cmbxUnitAddress.SelectedItem).Unit;
             }
@@ -88,6 +89,7 @@ namespace Serial_Monitor.Dialogs {
         }
         private void btnAccept_ButtonClicked(object sender) {
             displayname = textBox1.Text;
+            if (cmbxUnitAddress.SelectedItem == null) { return; }
             if (cmbxUnitAddress.SelectedItem.GetType() == typeof(UnitPreview)) {
                 unit = ((UnitPreview)cmbxUnitAddress.SelectedItem).Unit;
             }
