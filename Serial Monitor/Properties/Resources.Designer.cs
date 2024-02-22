@@ -173,6 +173,46 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Close {
+            get {
+                object obj = ResourceManager.GetObject("Close", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CloseAll {
+            get {
+                object obj = ResourceManager.GetObject("CloseAll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CloseDocumentGroup {
+            get {
+                object obj = ResourceManager.GetObject("CloseDocumentGroup", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CloseSolution {
+            get {
+                object obj = ResourceManager.GetObject("CloseSolution", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] ColorPalette {
             get {
                 object obj = ResourceManager.GetObject("ColorPalette", resourceCulture);

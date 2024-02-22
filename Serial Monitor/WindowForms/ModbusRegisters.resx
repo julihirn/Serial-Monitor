@@ -1516,22 +1516,67 @@
     <value>None</value>
   </data>
   <data name="tileHorizontalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>255, 22</value>
   </data>
   <data name="tileHorizontalToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tile Windows</value>
+    <value>&amp;Tile Windows</value>
   </data>
   <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>252, 6</value>
   </data>
   <data name="windowManagerToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="windowManagerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>255, 22</value>
   </data>
   <data name="windowManagerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Window Manager</value>
+  </data>
+  <data name="toolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 6</value>
+  </data>
+  <data name="closeSnapshotToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="closeSnapshotToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="closeSnapshotToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+F4</value>
+  </data>
+  <data name="closeSnapshotToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 22</value>
+  </data>
+  <data name="closeSnapshotToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Close Snapshot</value>
+  </data>
+  <data name="closeAllSnapshotsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="closeAllSnapshotsToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="closeAllSnapshotsToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+F4</value>
+  </data>
+  <data name="closeAllSnapshotsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 22</value>
+  </data>
+  <data name="closeAllSnapshotsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Close &amp;All Snapshots</value>
+  </data>
+  <data name="snapshotsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="snapshotsToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="snapshotsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 22</value>
+  </data>
+  <data name="snapshotsToolStripMenuItem.Text" xml:space="preserve">
+    <value>S&amp;napshots</value>
   </data>
   <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 20</value>
@@ -5292,6 +5337,30 @@
     <value>windowManagerToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;windowManagerToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator27.Name" xml:space="preserve">
+    <value>toolStripSeparator27</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator27.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;closeSnapshotToolStripMenuItem.Name" xml:space="preserve">
+    <value>closeSnapshotToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;closeSnapshotToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;closeAllSnapshotsToolStripMenuItem.Name" xml:space="preserve">
+    <value>closeAllSnapshotsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;closeAllSnapshotsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;snapshotsToolStripMenuItem.Name" xml:space="preserve">
+    <value>snapshotsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;snapshotsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnRenameChannel.Name" xml:space="preserve">

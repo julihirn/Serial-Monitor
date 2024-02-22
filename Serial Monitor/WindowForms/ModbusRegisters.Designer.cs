@@ -158,6 +158,10 @@
             tileHorizontalToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator13 = new ToolStripSeparator();
             windowManagerToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator27 = new ToolStripSeparator();
+            closeSnapshotToolStripMenuItem = new ToolStripMenuItem();
+            closeAllSnapshotsToolStripMenuItem = new ToolStripMenuItem();
+            snapshotsToolStripMenuItem = new ToolStripMenuItem();
             cmDisplayFormats = new ODModules.ContextMenu();
             cmDataSize = new ODModules.ContextMenu();
             cmChannels = new ODModules.ContextMenu();
@@ -604,7 +608,11 @@
             // 
             resources.ApplyResources(ssClient, "ssClient");
             ssClient.Name = "ssClient";
+            ssClient.SelectorCollection = null;
             ssClient.TileWindows = false;
+            ssClient.OnChildActivated += ssClient_OnChildActivated;
+            ssClient.OnNoForms += ssClient_OnNoForms;
+            ssClient.SnapshotsChanged += ssClient_SnapshotsChanged;
             // 
             // thDataPagesHeader
             // 
@@ -623,7 +631,7 @@
             thDataPagesHeader.HeaderForeColor = Color.Black;
             thDataPagesHeader.HeaderHoverForeColor = Color.Blue;
             thDataPagesHeader.Name = "thDataPagesHeader";
-            thDataPagesHeader.SelectedIndex = 1;
+            thDataPagesHeader.SelectedIndex = 0;
             thDataPagesHeader.ShowAddButton = false;
             thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
@@ -1281,7 +1289,7 @@
             // 
             // windowToolStripMenuItem
             // 
-            windowToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tileHorizontalToolStripMenuItem, toolStripSeparator13, windowManagerToolStripMenuItem });
+            windowToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tileHorizontalToolStripMenuItem, toolStripSeparator13, windowManagerToolStripMenuItem, toolStripSeparator27, closeSnapshotToolStripMenuItem, closeAllSnapshotsToolStripMenuItem, snapshotsToolStripMenuItem });
             windowToolStripMenuItem.ForeColor = Color.White;
             windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             resources.ApplyResources(windowToolStripMenuItem, "windowToolStripMenuItem");
@@ -1306,6 +1314,31 @@
             resources.ApplyResources(windowManagerToolStripMenuItem, "windowManagerToolStripMenuItem");
             windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
             windowManagerToolStripMenuItem.Click += windowManagerToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator27
+            // 
+            toolStripSeparator27.Name = "toolStripSeparator27";
+            resources.ApplyResources(toolStripSeparator27, "toolStripSeparator27");
+            // 
+            // closeSnapshotToolStripMenuItem
+            // 
+            resources.ApplyResources(closeSnapshotToolStripMenuItem, "closeSnapshotToolStripMenuItem");
+            closeSnapshotToolStripMenuItem.ForeColor = Color.White;
+            closeSnapshotToolStripMenuItem.Name = "closeSnapshotToolStripMenuItem";
+            closeSnapshotToolStripMenuItem.Click += closeSnapshotToolStripMenuItem_Click;
+            // 
+            // closeAllSnapshotsToolStripMenuItem
+            // 
+            resources.ApplyResources(closeAllSnapshotsToolStripMenuItem, "closeAllSnapshotsToolStripMenuItem");
+            closeAllSnapshotsToolStripMenuItem.ForeColor = Color.White;
+            closeAllSnapshotsToolStripMenuItem.Name = "closeAllSnapshotsToolStripMenuItem";
+            closeAllSnapshotsToolStripMenuItem.Click += closeAllSnapshotsToolStripMenuItem_Click;
+            // 
+            // snapshotsToolStripMenuItem
+            // 
+            resources.ApplyResources(snapshotsToolStripMenuItem, "snapshotsToolStripMenuItem");
+            snapshotsToolStripMenuItem.ForeColor = Color.White;
+            snapshotsToolStripMenuItem.Name = "snapshotsToolStripMenuItem";
             // 
             // cmDisplayFormats
             // 
@@ -1616,5 +1649,9 @@
         private ToolStripMenuItem writeMultipleRegistersToolStripMenuItem;
         private ToolStripMenuItem copyAppearanceToolStripMenuItem;
         private Components.SnapshotClient ssClient;
+        private ToolStripSeparator toolStripSeparator27;
+        private ToolStripMenuItem closeAllSnapshotsToolStripMenuItem;
+        private ToolStripMenuItem closeSnapshotToolStripMenuItem;
+        private ToolStripMenuItem snapshotsToolStripMenuItem;
     }
 }

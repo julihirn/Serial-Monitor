@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -22,7 +23,13 @@ namespace Serial_Monitor.Components {
         private const int HTBOTTOM = 15;
         private const int HTBOTTOMLEFT = 16;
         private const int HTBOTTOMRIGHT = 17;
+
+        private const int WM_MOUSEACTIVATE = 33;
+        private const int WM_CHILDACTIVATE = 34;
         // Private Const WM_NCHITTEST As Integer = &H84
+
+        public delegate void ActivateHandler(MdiClientForm child);
+        public event ActivateHandler OnActivation;
         protected override void WndProc(ref System.Windows.Forms.Message m) {
             if (m.Msg != 0x5) {
                 base.WndProc(ref m);
@@ -74,7 +81,24 @@ namespace Serial_Monitor.Components {
                             break;
                         }
 
+                    case WM_MOUSEACTIVATE:
+                      
+                        base.WndProc(ref m);
+                        this.BringToFront();
+                        OnActivation?.Invoke(this);
+                      
+                        break;
+                    case WM_CHILDACTIVATE:
+                        base.WndProc(ref m);
+                        OnActivation?.Invoke(this);
+                        
+                        break;
                     default:
+                        //if (this.IsDisposed == false) {
+                        //   // Debug.Print(m.Msg.ToString());
+                        //    base.WndProc(ref m);
+                        //}
+                       
                         break;
                 }
             }
@@ -88,8 +112,10 @@ namespace Serial_Monitor.Components {
             labelFont = new Font(Font.FontFamily, 8);
             Activated += OnFormActivated;
             FormClosed += OnFormClosed;
-
+            this.SetStyle(ControlStyles.Selectable, true);
+            this.TabStop = true;
         }
+      
 
 
 
@@ -117,19 +143,17 @@ namespace Serial_Monitor.Components {
         }
 
         private void InitializeComponent() {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // MdiClientForm
             // 
-            this.ClientSize = new System.Drawing.Size(228, 219);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "MdiClientForm";
-            this.Load += new System.EventHandler(this.MdiClientForm_Load_1);
-            this.ResumeLayout(false);
-
+            ClientSize = new Size(228, 219);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "MdiClientForm";
+            Load += MdiClientForm_Load_1;
+            ResumeLayout(false);
         }
-
 
         private void MdiClientForm_Load_1(object? sender, EventArgs e) {
             InitializeComponent();
@@ -158,6 +182,17 @@ namespace Serial_Monitor.Components {
             }
             set {
                 borderColor = value;
+                Invalidate();
+            }
+        }
+        private Color selectedBorderColor = Color.Gray;
+        [System.ComponentModel.Category("Appearance")]
+        public Color SelectedBorderColor {
+            get {
+                return selectedBorderColor;
+            }
+            set {
+                selectedBorderColor = value;
                 Invalidate();
             }
         }
@@ -218,7 +253,17 @@ namespace Serial_Monitor.Components {
                 Invalidate();
             }
         }
-
+        private bool selected = false;
+        [System.ComponentModel.Category("Appearance")]
+        public bool Selected {
+            get {
+                return selected;
+            }
+            set {
+                selected = value;
+                Invalidate();
+            }
+        }
 
 
         float TextPadding = 10;
@@ -258,6 +303,11 @@ namespace Serial_Monitor.Components {
             using (SolidBrush BrdBr = new SolidBrush(BorderColor)) {
                 using (Pen BrdPn = new Pen(BrdBr)) {
                     e.Graphics.DrawRectangle(BrdPn, new Rectangle(0, 0, Width - 1, Height - 1));
+                }
+            }
+            if (selected) {
+                using (SolidBrush BrdBr = new SolidBrush(selectedBorderColor)) {
+                    e.Graphics.FillRectangle(BrdBr, new Rectangle(0, 0, Width - 1, 3));
                 }
             }
             base.OnPaint(e);

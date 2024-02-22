@@ -54,7 +54,7 @@ namespace Serial_Monitor {
             //        ((Form1)Attached).
             //    }
             //}
-
+            ssClient.SelectorCollection = snapshotsToolStripMenuItem;
             btnApplyOnClick.Checked = ModbusSupport.SendOnChange;
             btnModbusApplyonClick.Checked = ModbusSupport.SendOnChange;
             AdjustUserInterface();
@@ -76,7 +76,7 @@ namespace Serial_Monitor {
 
 
 
-           // mdiClient.MdiForm.MainMenuStrip = msMain;
+            // mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
             EnableDisableDialogEditors();
         }
@@ -722,6 +722,9 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Connect_16x, connectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Disconnect_16x, disconnectToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.CloseSolution, closeSnapshotToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.CloseDocumentGroup, closeAllSnapshotsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             ChangeLockedIcon(LockedEditor);
         }
         private void ChangeLockedIcon(bool Input) {
@@ -796,6 +799,7 @@ namespace Serial_Monitor {
             }
             else {
                 try {
+                    if (SnapshotCurrentIndex < 0) { return null; }
                     if (ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
                         return ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).lstRegisters;
                     }
@@ -1027,6 +1031,16 @@ namespace Serial_Monitor {
         }
         #endregion 
         #region Snapshot Editing and Support
+        private void CheckSnapshotEditors() {
+            if (ssClient.Count == 0) {
+                closeAllSnapshotsToolStripMenuItem.Enabled = false;
+                closeSnapshotToolStripMenuItem.Enabled = false;
+            }
+            else {
+                closeAllSnapshotsToolStripMenuItem.Enabled = true;
+                closeSnapshotToolStripMenuItem.Enabled = true;
+            }
+        }
         private void newToolStripMenuItem_Click(object sender, EventArgs e) {
             Dialogs.InsertModbusSnapshot InsSnap = new Dialogs.InsertModbusSnapshot();
             // PrgProp.SelectedProgram = (ProgramObject)lstStepProgram.Tag;
@@ -1043,6 +1057,9 @@ namespace Serial_Monitor {
         }
         private void addSelectionToSnapshotToolStripMenuItem_Click(object sender, EventArgs e) {
             AddSelectionToSnapshot();
+        }
+        private void ssClient_SnapshotsChanged(object sender) {
+            CheckSnapshotEditors();
         }
         private void AddSelectionToSnapshot() {
             if (CurrentManager == null) { return; }
@@ -1103,13 +1120,23 @@ namespace Serial_Monitor {
                 }
             }
         }
-        private void mdiClient_OnChildActivated(object sender, MdiClientForm child) {
-            if (child.GetType() == typeof(ToolWindows.ModbusRegister)) {
-                GetIndexFromForm((ToolWindows.ModbusRegister)child);
-            }
+        private void ssClient_OnNoForms(object sender) {
+            SnapshotCurrentIndex = -1;
         }
+        private void ssClient_OnChildActivated(object sender, MdiClientForm child, int Index) {
+            //if(child.GetType() == typeof(ToolWindows.ModbusRegister)) {
+            //    GetIndexFromForm((ToolWindows.ModbusRegister)child);
+            //}
+            SnapshotCurrentIndex = Index;
+        }
+        //private void mdiClient_OnChildActivated(object sender, MdiClientForm child) {
+        //    if (child.GetType() == typeof(ToolWindows.ModbusRegister)) {
+        //        GetIndexFromForm((ToolWindows.ModbusRegister)child);
+        //    }
+        //}
         private void ModbusSupport_SnapshotClosed() {
             GetIndexFromForm();
+            CheckSnapshotEditors();
         }
         private void tileHorizontalToolStripMenuItem_Click(object sender, EventArgs e) {
             ssClient.TileWindows = !ssClient.TileWindows;
@@ -1865,6 +1892,7 @@ namespace Serial_Monitor {
             if (CurrentEditor == null) { return false; }
             if (CurrentEditor.SelectionCount != 1) { return false; }
             int Index = CurrentEditor.SelectedIndex;
+            if (Index < 0) { return false; }
             object? TagData = CurrentEditor.CurrentItems[Index].Tag;
             if (TagData == null) { return false; }
             if (TagData.GetType() != typeof(ModbusRegister)) { return false; }
@@ -1907,6 +1935,12 @@ namespace Serial_Monitor {
 
         private void ModbusRegisters_LocationChanged(object sender, EventArgs e) {
 
+        }
+        private void closeAllSnapshotsToolStripMenuItem_Click(object sender, EventArgs e) {
+            ssClient.CloseAll();
+        }
+        private void closeSnapshotToolStripMenuItem_Click(object sender, EventArgs e) {
+            ssClient.CloseAtIndex(snapShotCurrentIndex);
         }
 
         private enum DataEditor {

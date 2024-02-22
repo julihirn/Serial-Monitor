@@ -183,6 +183,20 @@ namespace Serial_Monitor.Components {
             }
             base.OnResize(eventargs);
         }
+        public void ChildActivated(MdiClientForm? child) {
+            if (child == null) { return; }
+            ActiveMDIWnd = child;
+
+            if (OnChildActivated != null)
+                OnChildActivated(this, child);
+        }
+        public void ChildClosed(MdiClientForm? child) {
+            if (child == null) { return; }
+            ChildForms.Remove(child);
+            if (tileWindows == true) {
+                LayoutGrid();
+            }
+        }
     }
     public static class MDIClientSupport {
         [DllImport("user32.dll")]

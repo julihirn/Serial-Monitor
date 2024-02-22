@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.white{fill: #ffffff; opacity: 1;}.cls-1{opacity:0.75;}.cls-2{fill:none;}</style>
+  </defs>
+  <title>IconLightCloseSolution</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M14.5,5.5v8H1.5V8H6.914L8,6.914V5.5Z" />
+      <path class="light-defaultgrey" d="M15,5.5v8l-.5.5H1.5L1,13.5V8H2v5H14V6H8V5h6.5Z" />
+    </g>
+    <path class="light-defaultgrey-10" d="M14.5,2.5v3H8v-3Z" />
+    <path class="light-defaultgrey" d="M15,2.5v3l-.5.5H8V5h6V3H8V2h6.5Z" />
+    <path class="cls-2" d="M16,16H0V0H16Z" />
+    <path class="light-defaultgrey-10" d="M6.5,6.5H.5V.5h6Z" />
+    <path class="light-defaultgrey" d="M6.5,7H.5L0,6.5V.5L.5,0h6L7,.5v6Z" />
+    <path class="white" d="M4.561,5.268,3.5,4.207,2.439,5.268l-.707-.707L2.793,3.5,1.732,2.439l.707-.707L3.5,2.793,4.561,1.732l.707.707L4.207,3.5,5.268,4.561Z" />
+  </g>
+</svg>

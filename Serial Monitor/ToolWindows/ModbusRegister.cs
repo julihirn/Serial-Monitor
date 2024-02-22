@@ -99,8 +99,8 @@ namespace Serial_Monitor.ToolWindows {
                 SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
                 SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
                 SystemManager.ModbusAppearanceChanged += SystemManager_ModbusAppearanceChanged;
-                this.GotFocus += ModbusRegister_GotFocus;
-                this.LostFocus += ModbusRegister_LostFocus;
+                //this.GotFocus += ModbusRegister_GotFocus;
+                //this.LostFocus += ModbusRegister_LostFocus;
                 IgnoreBoundsChange = false;
             }
         }
@@ -201,6 +201,7 @@ namespace Serial_Monitor.ToolWindows {
             this.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             this.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
             this.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            this.SelectedBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(lstRegisters);
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
@@ -218,8 +219,8 @@ namespace Serial_Monitor.ToolWindows {
 
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
-            this.GotFocus -= ModbusRegister_GotFocus;
-            this.LostFocus -= ModbusRegister_LostFocus;
+            //this.GotFocus -= ModbusRegister_GotFocus;
+            //this.LostFocus -= ModbusRegister_LostFocus;
         }
 
 
@@ -288,6 +289,9 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void ModbusRegister_CloseButtonClicked(object sender) {
+            ForceClose();
+        }
+        public void ForceClose() {
             if (snapshot != null) {
                 ModbusSupport.RemoveSnapshot(snapshot);
             }

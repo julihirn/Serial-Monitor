@@ -34,6 +34,7 @@
             pnlClient.Size = new Size(558, 452);
             pnlClient.TabIndex = 0;
             pnlClient.SizeChanged += pnlClient_SizeChanged;
+            pnlClient.Paint += pnlClient_Paint;
             // 
             // SnapshotClient
             // 

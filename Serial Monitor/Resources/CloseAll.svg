@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightCloseAll</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M14.5,9.5h-2v2H11v-6L10.5,5h-6V3.5h2v-2h8Z" />
+      <path class="light-defaultgrey" d="M14.5,1h-8L6,1.5V3H4.5L4,3.5V5H5V4h7v7H11v1h1.5l.5-.5V10h1.5l.5-.5v-8ZM14,9H13V3.5L12.5,3H7V2h7Z" />
+    </g>
+    <path class="light-defaultgrey" d="M8.621,8.086,7.207,9.5l1.414,1.414-.707.707L6.5,10.207,5.086,11.621l-.707-.707L5.793,9.5,4.379,8.086l.707-.707L6.5,8.793,7.914,7.379Z" />
+    <path class="light-defaultgrey-10" d="M10.5,5.5v8h-8v-8Z" />
+    <path class="light-defaultgrey" d="M10.5,5h-8L2,5.5v8l.5.5h8l.5-.5v-8ZM10,13H3V6h7Z" />
+  </g>
+</svg>

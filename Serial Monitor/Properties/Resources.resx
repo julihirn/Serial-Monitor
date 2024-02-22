@@ -151,6 +151,18 @@
   <data name="ClearWindowContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ClearWindowContent.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Close.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CloseAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseAll.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CloseDocumentGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseDocumentGroup.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CloseSolution" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseSolution.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="ColorPalette" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ColorPalette.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
