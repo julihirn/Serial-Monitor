@@ -1389,6 +1389,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         public void ModbusCommand(string Input) {
+            if (Connected == false) { return; }
             try {
                 if (isMaster == false) { return; }
                 string Temp = Input.ToUpper().TrimStart(' ').TrimStart('\t');
