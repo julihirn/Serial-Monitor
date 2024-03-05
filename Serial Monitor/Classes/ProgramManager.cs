@@ -19,6 +19,7 @@ using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 using System.Text.RegularExpressions;
 using System.ComponentModel.Design;
 using System.Xml.Linq;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Serial_Monitor.Classes {
     public static class ProgramManager {
@@ -68,7 +69,15 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region State and System Variables
-        public static StepEnumerations.StepState ProgramState = StepEnumerations.StepState.Stopped;
+        static StepEnumerations.StepState programState = StepEnumerations.StepState.Stopped;
+        static StepEnumerations.StepState PreviousProgramState;
+        public static StepEnumerations.StepState ProgramState {
+            get { return programState; }
+            set {
+                PreviousProgramState = programState;
+                programState = value;
+            }
+        }
         static bool executionThreadRunning = true;
         public static bool ExecutionThreadRunning {
             get { return executionThreadRunning; }
@@ -181,6 +190,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void FindConditionalEnd() {
             Conditionals.Clear();
+            LabelPositions.Clear();
             int IfDepth = 0;
             if (CurrentProgram == null) { return; }
             for (int i = 0; i < CurrentProgram.Program.Count; i++) {
@@ -204,6 +214,9 @@ namespace Serial_Monitor.Classes {
                     }
                     catch { }
                 }
+                else if (ExeStep == StepExecutable.Label) {
+                    BulidGoTos(GetArgumentFromIndex(i), i);
+                }
             }
         }
         private static StepEnumerations.StepExecutable GetStepFunctionFromIndex(int i) {
@@ -215,14 +228,32 @@ namespace Serial_Monitor.Classes {
             }
             return StepEnumerations.StepExecutable.NoOperation;
         }
+        private static string GetArgumentFromIndex(int i) {
+            if (CurrentProgram == null) { return ""; }
+            if (CurrentProgram.Program[i].SubItems.Count == 3) {
+                string? TagData = CurrentProgram.Program[i].SubItems[2].Text;
+                if (TagData == null) { return ""; }
+                return TagData;
+            }
+            return "";
+        }
         #endregion
         #region Program Execution
         static DateTime LastUICommand = DateTime.UtcNow;
+        private static void InvokeSetup() {
+            if (ProgramState == StepEnumerations.StepState.Running) {
+                if (ProgramState != PreviousProgramState) {
+                    FindConditionalEnd();
+                }
+            }
+            PreviousProgramState = ProgramState;
+        }
         public static void StepProgram() {
             bool CleanAll = false;
             try {
                 while (true) {
                     if (CurrentProgram != null) {
+                        InvokeSetup();
                         if (ProgramStep < 0) {
                             ProgramState = StepEnumerations.StepState.Stopped;
                         }
@@ -1181,6 +1212,20 @@ namespace Serial_Monitor.Classes {
                     LabelLinkage LblLink = new LabelLinkage(Arguments, ProgramManager.ProgramStep);
                     LabelPositions.Add(LblLink);
                 }
+            }
+        }
+        private static void BulidGoTos(string LabelName, int LabelIndex) {
+            bool ExistsInPositions = false;
+            if (LabelPositions.Count > 0) {
+                for (int i = 0; i < LabelPositions.Count; i++) {
+                    if (LabelPositions[i].Label == LabelName) {
+                        ExistsInPositions = true;  break;
+                    }
+                }
+            }
+            if (ExistsInPositions == false) {
+                LabelLinkage LblLink = new LabelLinkage(LabelName, LabelIndex);
+                LabelPositions.Add(LblLink);
             }
         }
         private static void ContinueWithProgram(string ProgramName) {

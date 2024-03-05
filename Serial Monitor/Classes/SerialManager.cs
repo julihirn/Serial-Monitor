@@ -545,7 +545,7 @@ namespace Serial_Monitor.Classes {
         #endregion
         #region Reception
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
-           
+
             switch (InputFormat) {
                 case StreamInputFormat.Text:
                     TextProcessor(sender);
@@ -679,7 +679,7 @@ namespace Serial_Monitor.Classes {
                         lastReceivedTime = DateTime.UtcNow;
                         if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
                         lastReceivedTime = DateTime.UtcNow;
-                        int NewIndex = j+1;
+                        int NewIndex = j + 1;
                         int NewLength = (LatchedBytesToCheck - j);
                         if (NewLength >= 0) {
                             byte[] Temp = RXBuffer;
@@ -1656,7 +1656,12 @@ namespace Serial_Monitor.Classes {
                     if (ModbusTransmitBuffer.Count > 0) {
                         byte[] Data = ModbusTransmitBuffer[0];
                         TransmitRTUFrame(Data);
-                        ModbusTransmitBuffer.RemoveAt(0);
+                        if (ModbusTransmitBuffer.Count > 0) {
+                            try {
+                                ModbusTransmitBuffer.RemoveAt(0);
+                            }
+                            catch { }
+                        }
                     }
                 }
             }

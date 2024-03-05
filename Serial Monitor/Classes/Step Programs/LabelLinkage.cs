@@ -18,5 +18,8 @@ namespace Serial_Monitor.Classes.Step_Programs {
             this.label = label;
             this.lineNumber = lineNumber;
         }
+        public override string ToString() {
+            return label + "-> " + lineNumber.ToString();
+        }
     }
 }
