@@ -274,7 +274,8 @@ namespace Serial_Monitor.Classes {
                     SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
                     ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
                     ApplicationManager.CloseInternalApplication("PROP_" + SerialManagers[ChannelIndex].ID);
-                    Modbus.ModbusSupport.CloseSnapshot(SerialManagers[ChannelIndex]);
+                    ModbusSupport.CloseSnapshot(SerialManagers[ChannelIndex]);
+                    ModbusSupport.RemovePollers(SerialManagers[ChannelIndex]);
                     SerialManagers[ChannelIndex].CleanUp();
                     SerialManagers.RemoveAt(ChannelIndex);
                     ChannelRemoved?.Invoke(ChannelIndex);
@@ -283,6 +284,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void ClearChannels(CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
             Modbus.ModbusSupport.ClearSnapshots();
+            ModbusSupport.ClearPollers();
             for (int i = SerialManagers.Count - 1; i >= 0; i--) {
                 SerialManagers[i].CleanUp();
                 SerialManagers[i].CommandProcessed -= SerManager_CommandProcessed;

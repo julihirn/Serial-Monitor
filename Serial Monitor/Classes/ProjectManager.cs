@@ -121,6 +121,8 @@ namespace Serial_Monitor.Classes {
                 Sw.WriteLine("");
                 WriteSnapshots(Sw);
                 Sw.WriteLine("");
+                WritePollersAndDrivers(Sw);
+                Sw.WriteLine("");
                 WriteKeypad(Sw);
 
             }
@@ -276,6 +278,28 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        private static void WritePollersAndDrivers(StreamWriter Sw) {
+            if (ModbusSupport.Pollers.Count > 0) {
+                DocumentHandler.WriteComment(Sw, 0, "  Modbus Pollers");
+                int Cnt = 0;
+                foreach (ModbusPoller Mbp in ModbusSupport.Pollers) {
+                    if (Mbp.Channel != null) {
+                        DocumentHandler.Write(Sw, 1, "MBPOLL_" + Cnt.ToString());
+                        DocumentHandler.Write(Sw, 2, "Name", Mbp.Name);
+                        DocumentHandler.Write(Sw, 2, "Channel", SystemManager.GetChannelIndex(Mbp.Channel));
+                        DocumentHandler.Write(Sw, 2, "Read", Mbp.Read);
+                        DocumentHandler.Write(Sw, 2, "Unit", Mbp.Unit);
+                        DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mbp.Selection).B);
+                        DocumentHandler.Write(Sw, 2, "Start", Mbp.Start);
+                        if (Mbp.Start != Mbp.End) {
+                            DocumentHandler.Write(Sw, 2, "End", Mbp.End);
+                        }
+                        Sw.WriteLine(StringHandler.AddTabs(1, "}"));
+                    }
+                    Cnt++;
+                }
+            }
+        }
         private static string RectangleToString(Rectangle Rect) {
             return Rect.X.ToString() + "," + Rect.Y.ToString() + "," + Rect.Width.ToString() + "," + Rect.Height.ToString();
         }
@@ -324,6 +348,9 @@ namespace Serial_Monitor.Classes {
                 }
                 else if (ParameterName.StartsWith("MSPSH")) {
                     LoadSnapshots(Pstrc);
+                }
+                else if (ParameterName.StartsWith("MBPOLL")) {
+                    LoadPollers(Pstrc);
                 }
                 //MSPSH
             }
@@ -497,6 +524,21 @@ namespace Serial_Monitor.Classes {
                         }
                     }
                 }
+            }
+        }
+        private static void LoadPollers(ParameterStructure Pstrc) {
+            string Poller_Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
+            DataSelection Poller_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(Pstrc, "Type", ""));
+            SerialManager? Poller_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(Pstrc, "Channel", -1));
+            int Unit = DocumentHandler.GetIntegerVariable(Pstrc, "Unit", -1);
+            bool Action = DocumentHandler.GetBooleanVariable(Pstrc, "Read", true);
+            int Start = DocumentHandler.GetIntegerVariable(Pstrc, "Start", 1);
+            int End = DocumentHandler.GetIntegerVariable(Pstrc, "End", Start);
+            if (Start == End) {
+                ModbusSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start);
+            }
+            else {
+                ModbusSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start, End);
             }
         }
         public static void ReadCMSLFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
