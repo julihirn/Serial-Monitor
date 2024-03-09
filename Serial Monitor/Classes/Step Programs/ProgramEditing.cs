@@ -1,4 +1,5 @@
 ﻿using ODModules;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -192,6 +193,64 @@ namespace Serial_Monitor.Classes.Step_Programs {
             //}
             Li.SubItems[2].Text = DefaultText;
         }
+        internal static void DropDownClicked(ODModules.ListControl? ProgramEditor, ODModules.ContextMenu? StepDropDown, DropDownClickedEventArgs e, ref bool InEditingMode) {
+            if (ProgramEditor == null) { return; }
+            if (StepDropDown == null) { return; }
+            ListItem? LstItem = e.ParentItem;
+            if (LstItem == null) { return; }
+            if (e.Column == 2) {
+                StepDropDown.Tag = e;
+                StepDropDown.Show(e.ScreenLocation);
+            }
+            else if (e.Column == 3) {
+                if (e.ParentItem == null) { return; }
+                if (e.ParentItem.SubItems == null) { return; }
+                object? objTag = e.ParentItem.SubItems[1].Tag;
+                StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
+                if (objTag != null) {
+                    if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                        StepExe = (StepEnumerations.StepExecutable)objTag;
+                    }
+                }
+                if (ProgramManager.AcceptsArguments(StepExe) == false) { return; }
+                if ((StepExe == StepEnumerations.StepExecutable.SendText) || (StepExe == StepEnumerations.StepExecutable.PrintText)) {
+                    OpenFileDialog OpenDia = new OpenFileDialog();
+                    OpenDia.Filter = @"Plain Text Document (*.txt)|*.txt";
+                    OpenDia.ShowDialog();
+                    if (File.Exists(OpenDia.FileName)) {
+                        e.ParentItem.SubItems[2].Text = OpenDia.FileName;
+                        ProgramEditor.Invalidate();
+                    }
+                }
+                else {
+                    if (ProgramManager.StepExecutableToDataType(StepExe) != Classes.Step_Programs.DataType.Null) {
+                        Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
+                        Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
+                        Components.EditValue EdVal = new Components.EditValue(StepExe, e.ParentItem.SubItems[2].Text, ProgramEditor, e.ParentItem, 3, null, false, Rect, ParRect);
+                        if ((StepExe == StepEnumerations.StepExecutable.Open) || (StepExe == StepEnumerations.StepExecutable.Close)) {
+                            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
+                            foreach (StringPair port in Ports) {
+                                EdVal.flatComboBox1.Items.Add(port.A);
+                            }
+                        }
+                        ProgramEditor.Controls.Add(EdVal);
+                        EdVal.Focus();
+                        EdVal.Show();
+                        InEditingMode = true;
+                        //EditValue EdVal = new EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem);
+                        //EdVal.Sz = e.ItemSize;
+                        //EdVal.Location = e.ScreenLocation;
+                        //EdVal.Show();
+
+                        //if (EdVal.DialogResult == DialogResult.OK) {
+                        //e.ParentItem.SubItems[2].Text = EdVal.Output;
+                        // lstStepProgram.Invalidate();
+                        //}
+                    }
+                }
+
+            }
+        }
         #endregion
         #region Line Editing
         internal static void NewLine(ODModules.ListControl? ProgramEditor, bool InvertInsert = false) {
@@ -259,6 +318,59 @@ namespace Serial_Monitor.Classes.Step_Programs {
             StepOperationBtn.ImageScaling = ToolStripItemImageScaling.None;
             StepOperationBtn.Click += ClickHandle;
             ContextEditor.Items.Add(StepOperationBtn);
+        }
+        internal static void ListPrograms(object? MenuList, EventHandler ClickHandler) {
+            if (MenuList == null) { return; }
+            if (MenuList.GetType() == typeof(ToolStripSplitButton)) {
+                ToolStripSplitButton menu = (ToolStripSplitButton)MenuList;
+                for (int i = menu.DropDownItems.Count - 1; i >= 0; i--) {
+                    if (menu.DropDownItems[i].Tag != null) {
+                        menu.Click -= ClickHandler;
+                        menu.DropDownItems.RemoveAt(i);
+                    }
+                }
+            }
+            else if (MenuList.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem menu = (ToolStripMenuItem)MenuList;
+                for (int i = menu.DropDownItems.Count - 1; i >= 0; i--) {
+                    if (menu.DropDownItems[i].Tag != null) {
+                        menu.Click -= ClickHandler;
+                        menu.DropDownItems.RemoveAt(i);
+                    }
+                }
+            }
+
+            int j = 0;
+            foreach (ProgramObject Prg in ProgramManager.Programs) {
+                ToolStripMenuItem TsMi = new ToolStripMenuItem();
+                string LocalisatedText = LocalisationManager.GetLocalisedText("untitledProgram", "Untitled Program");
+                if (Prg.Name.Trim().Length == 0) {
+                    if (j > 0) {
+                        TsMi.Text = LocalisatedText + " " + j.ToString();
+                    }
+                    else {
+                        TsMi.Text = LocalisatedText;
+                    }
+                    j++;
+                }
+                else {
+                    TsMi.Text = Prg.Name;
+                }
+                TsMi.ImageScaling = ToolStripItemImageScaling.None;
+                TsMi.Tag = Prg;
+                if (ProgramManager.CurrentProgram == Prg) {
+                    TsMi.Checked = true;
+                }
+                TsMi.Click += ClickHandler;
+                if (MenuList.GetType() == typeof(ToolStripSplitButton)) {
+                    ToolStripSplitButton menu = (ToolStripSplitButton)MenuList;
+                    menu.DropDownItems.Add(TsMi);
+                }
+                else if (MenuList.GetType() == typeof(ToolStripMenuItem)) {
+                    ToolStripMenuItem menu = (ToolStripMenuItem)MenuList;
+                    menu.DropDownItems.Add(TsMi);
+                }
+            }
         }
         #endregion
     }

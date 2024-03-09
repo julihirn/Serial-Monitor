@@ -1718,7 +1718,6 @@ namespace Serial_Monitor {
             ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
             ProgramManager.ApplyIndentation(lstStepProgram);
         }
-
         private void variablesToolStripMenuItem_Click(object? sender, EventArgs e) {
             if (lstStepProgram.Tag == null) { return; }
             if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
@@ -1754,60 +1753,7 @@ namespace Serial_Monitor {
             set { inEditingMode = value; }
         }
         private void lstStepProgram_DropDownClicked(object? sender, DropDownClickedEventArgs e) {
-            ListItem? LstItem = e.ParentItem;
-            if (LstItem == null) { return; }
-            if (e.Column == 2) {
-                cmStepPrg.Tag = e;
-                cmStepPrg.Show(e.ScreenLocation);
-            }
-            else if (e.Column == 3) {
-                if (e.ParentItem == null) { return; }
-                if (e.ParentItem.SubItems == null) { return; }
-                object? objTag = e.ParentItem.SubItems[1].Tag;
-                StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
-                if (objTag != null) {
-                    if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                        StepExe = (StepEnumerations.StepExecutable)objTag;
-                    }
-                }
-                if (ProgramManager.AcceptsArguments(StepExe) == false) { return; }
-                if ((StepExe == StepEnumerations.StepExecutable.SendText) || (StepExe == StepEnumerations.StepExecutable.PrintText)) {
-                    OpenFileDialog OpenDia = new OpenFileDialog();
-                    OpenDia.Filter = @"Plain Text Document (*.txt)|*.txt";
-                    OpenDia.ShowDialog();
-                    if (File.Exists(OpenDia.FileName)) {
-                        e.ParentItem.SubItems[2].Text = OpenDia.FileName;
-                        lstStepProgram.Invalidate();
-                    }
-                }
-                else {
-                    if (ProgramManager.StepExecutableToDataType(StepExe) != Classes.Step_Programs.DataType.Null) {
-                        Rectangle Rect = new Rectangle(e.Location, e.ItemSize);
-                        Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
-                        Components.EditValue EdVal = new Components.EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem, 3, null, false, Rect, ParRect);
-                        if ((StepExe == StepEnumerations.StepExecutable.Open) || (StepExe == StepEnumerations.StepExecutable.Close)) {
-                            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
-                            foreach (StringPair port in Ports) {
-                                EdVal.flatComboBox1.Items.Add(port.A);
-                            }
-                        }
-                        lstStepProgram.Controls.Add(EdVal);
-                        EdVal.Focus();
-                        EdVal.Show();
-                        InEditingMode = true;
-                        //EditValue EdVal = new EditValue(StepExe, e.ParentItem.SubItems[2].Text, lstStepProgram, e.ParentItem);
-                        //EdVal.Sz = e.ItemSize;
-                        //EdVal.Location = e.ScreenLocation;
-                        //EdVal.Show();
-
-                        //if (EdVal.DialogResult == DialogResult.OK) {
-                        //e.ParentItem.SubItems[2].Text = EdVal.Output;
-                        // lstStepProgram.Invalidate();
-                        //}
-                    }
-                }
-
-            }
+            ProgramEditing.DropDownClicked(lstStepProgram, cmStepPrg, e, ref inEditingMode);
         }
         private const int WM_LBUTTONDOWN = 0x0201;
         public event EventHandler<MouseDownEventArgs>? MouseEvent;
@@ -1944,60 +1890,6 @@ namespace Serial_Monitor {
         }
         private void ProgramManager_ProgramNameChanged(object? sender) {
             ProgramManager.DetermineName(thPrograms, btnRun);
-        }
-
-        private void ListPrograms(object? MenuList) {
-            if (MenuList == null) { return; }
-            if (MenuList.GetType() == typeof(ToolStripSplitButton)) {
-                ToolStripSplitButton menu = (ToolStripSplitButton)MenuList;
-                for (int i = menu.DropDownItems.Count - 1; i >= 0; i--) {
-                    if (menu.DropDownItems[i].Tag != null) {
-                        menu.Click -= TsMi_Click;
-                        menu.DropDownItems.RemoveAt(i);
-                    }
-                }
-            }
-            else if (MenuList.GetType() == typeof(ToolStripMenuItem)) {
-                ToolStripMenuItem menu = (ToolStripMenuItem)MenuList;
-                for (int i = menu.DropDownItems.Count - 1; i >= 0; i--) {
-                    if (menu.DropDownItems[i].Tag != null) {
-                        menu.Click -= TsMi_Click;
-                        menu.DropDownItems.RemoveAt(i);
-                    }
-                }
-            }
-
-            int j = 0;
-            foreach (ProgramObject Prg in ProgramManager.Programs) {
-                ToolStripMenuItem TsMi = new ToolStripMenuItem();
-                string LocalisatedText = LocalisationManager.GetLocalisedText("untitledProgram", "Untitled Program");
-                if (Prg.Name.Trim().Length == 0) {
-                    if (j > 0) {
-                        TsMi.Text = LocalisatedText + " " + j.ToString();
-                    }
-                    else {
-                        TsMi.Text = LocalisatedText;
-                    }
-                    j++;
-                }
-                else {
-                    TsMi.Text = Prg.Name;
-                }
-                TsMi.ImageScaling = ToolStripItemImageScaling.None;
-                TsMi.Tag = Prg;
-                if (ProgramManager.CurrentProgram == Prg) {
-                    TsMi.Checked = true;
-                }
-                TsMi.Click += TsMi_Click;
-                if (MenuList.GetType() == typeof(ToolStripSplitButton)) {
-                    ToolStripSplitButton menu = (ToolStripSplitButton)MenuList;
-                    menu.DropDownItems.Add(TsMi);
-                }
-                else if (MenuList.GetType() == typeof(ToolStripMenuItem)) {
-                    ToolStripMenuItem menu = (ToolStripMenuItem)MenuList;
-                    menu.DropDownItems.Add(TsMi);
-                }
-            }
         }
         private void TsMi_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
@@ -2686,10 +2578,10 @@ namespace Serial_Monitor {
 
 
         private void btnRun_DropDownOpening(object? sender, EventArgs e) {
-            ListPrograms(sender);
+            ProgramEditing.ListPrograms(sender, TsMi_Click);
         }
         private void activeProgramToolStripMenuItem_DropDownOpening(object? sender, EventArgs e) {
-            ListPrograms(sender);
+            ProgramEditing.ListPrograms(sender, TsMi_Click);
         }
 
         #region Not Used Events
