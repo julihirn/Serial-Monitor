@@ -128,9 +128,9 @@ namespace Serial_Monitor.ToolWindows {
             // lstRegisters.ExternalItems[Index]
             if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
-            if (snapshot.Manager.Manager == null) { return; }
-            if (parentManager.Manager == null) { return; }
-            if (snapshot.Manager.Manager.ID == parentManager.Manager.ID) {
+            if (snapshot.Manager.Channel == null) { return; }
+            if (parentManager.Channel == null) { return; }
+            if (snapshot.Manager.Channel.ID == parentManager.Channel.ID) {
                 snapshot.UpdateRow(Index);
                 lstRegisters.Invalidate();
             }
@@ -139,9 +139,9 @@ namespace Serial_Monitor.ToolWindows {
             if (snapshot == null) { return; }
             if (snapshot.Selection != DataType) { return; }
             if (snapshot.Manager == null) { return; }
-            if (snapshot.Manager.Manager == null) { return; }
-            if (parentManager.Manager == null) { return; }
-            if (snapshot.Manager.Manager.ID == parentManager.Manager.ID) {
+            if (snapshot.Manager.Channel == null) { return; }
+            if (parentManager.Channel == null) { return; }
+            if (snapshot.Manager.Channel.ID == parentManager.Channel.ID) {
                 snapshot.RenameFromRegister(Index);
                 lstRegisters.Invalidate();
             }
@@ -149,9 +149,9 @@ namespace Serial_Monitor.ToolWindows {
         private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
             if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
-            if (snapshot.Manager.Manager == null) { return; }
-            if (sender.Manager == null) { return; }
-            if (snapshot.Manager.Manager.ID != sender.Manager.ID) { return; }
+            if (snapshot.Manager.Channel == null) { return; }
+            if (sender.Channel == null) { return; }
+            if (snapshot.Manager.Channel.ID != sender.Channel.ID) { return; }
             foreach (int i in Indices) {
                 snapshot.UpdateRowAppearance(i);
             }
@@ -161,8 +161,8 @@ namespace Serial_Monitor.ToolWindows {
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
-            if (snapshot.Manager.Manager == null) { return; }
-            if (sender.ID == snapshot.Manager.Manager.ID) {
+            if (snapshot.Manager.Channel == null) { return; }
+            if (sender.ID == snapshot.Manager.Channel.ID) {
                 UpdateWindowName();
             }
         }
@@ -174,10 +174,10 @@ namespace Serial_Monitor.ToolWindows {
             if (snapshot == null) { return; }
             if (snapshot.Selection != DataType) { return; }
             if (snapshot.Manager == null) { return; }
-            if (snapshot.Manager.Manager == null) { return; }
-            if (parentManager.Manager == null) { return; }
+            if (snapshot.Manager.Channel == null) { return; }
+            if (parentManager.Channel == null) { return; }
             bool Proceed = false;
-            if (parentManager.Manager.IsMaster) {
+            if (parentManager.Channel.IsMaster) {
                 if (snapshot.Manager.Address == parentManager.Address) {
                     Proceed = true;
                 }
@@ -186,7 +186,7 @@ namespace Serial_Monitor.ToolWindows {
                 Proceed = true;
             }
             if (Proceed) {
-                if (snapshot.Manager.Manager.ID == parentManager.Manager.ID) {
+                if (snapshot.Manager.Channel.ID == parentManager.Channel.ID) {
                     snapshot.SetValue(Index);
                     lstRegisters.Invalidate();
                 }
@@ -255,11 +255,11 @@ namespace Serial_Monitor.ToolWindows {
             else if (e.Column == ModbusEditor.Indx_Value) {
                 if (locked == true) { return; }
                 if (snapshot.Manager == null) { return; }
-                if (snapshot.Manager.Manager == null) { return; }
+                if (snapshot.Manager.Channel == null) { return; }
                 if (DataTag.GetType() == typeof(Classes.Modbus.ModbusCoil)) {
                     Classes.Modbus.ModbusCoil coil = (Classes.Modbus.ModbusCoil)DataTag;
                     if (snapshot != null) {
-                        if (ModbusEditor.CanChangeValue(snapshot.Manager.Manager, coil.ComponentType) == false) { return; }
+                        if (ModbusEditor.CanChangeValue(snapshot.Manager.Channel, coil.ComponentType) == false) { return; }
                         coil.Value = !coil.Value;
 
                         LstItem[ModbusEditor.Indx_Value].Text = coil.Value.ToString();
@@ -269,7 +269,7 @@ namespace Serial_Monitor.ToolWindows {
                 }
                 else if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
                     if (snapshot != null) {
-                        if (ModbusEditor.CanChangeValue(snapshot.Manager.Manager, ((Classes.Modbus.ModbusRegister)DataTag).ComponentType) == false) { return; }
+                        if (ModbusEditor.CanChangeValue(snapshot.Manager.Channel, ((Classes.Modbus.ModbusRegister)DataTag).ComponentType) == false) { return; }
                         ModbusEditor.AddValueBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
                     }
                 }

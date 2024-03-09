@@ -63,6 +63,13 @@ namespace Serial_Monitor.Classes {
         public static event PluginsLoadedHandler? PluginsLoaded;
         public delegate void PluginsLoadedHandler();
 
+        public static event ProjectEditedHandler? ProjectEdited;
+        public delegate void ProjectEditedHandler();
+
+        public static void InvokeProjectEdited() {
+            ProjectEdited?.Invoke();
+        }
+
         public static void InvokeSlaveAdded(SerialManager sender) {
             SlaveAdded?.Invoke(sender);
         }
@@ -91,91 +98,47 @@ namespace Serial_Monitor.Classes {
         }
         public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, List<int> Indices, DataSelection? DataType) {
             if (Sender == null) { return; }
-            if (Sender.Manager == null) { return; }
+            if (Sender.Channel == null) { return; }
             if (DataType == null) { return; }
             ModbusAppearanceChanged?.Invoke(Sender, Indices, (DataSelection)DataType);
         }
         public static void ModbusRegisterPropertyChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
-            if (Sender.Manager == null) { return; }
+            if (Sender.Channel == null) { return; }
             ModbusPropertyChanged?.Invoke(Sender, Data, Index, DataType);
         }
         public static void RegisterNameChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
-            if (Sender.Manager == null) { return; }
+            if (Sender.Channel == null) { return; }
             ModbusRegisterRenamed?.Invoke(Sender, Data, Index, DataType);
         }
         public static void RegisterValueChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }
-            if (Sender.Manager == null) { return; }
+            if (Sender.Channel == null) { return; }
             ModbusReceived?.Invoke(Sender, Data, Index, DataType);
         }
         public static void SendModbusCommand(SerialManager? CurrentManager, DataSelection DataSet, string Command) {
             if (CurrentManager == null) { return; }
             if (CurrentManager.IsMaster == false) { return; }
             if ((DataSet == DataSelection.ModbusDataCoils) || (DataSet == DataSelection.ModbusDataHoldingRegisters)) {
-                CurrentManager.ModbusCommand(Command);
+                ModbusQuery.ModbusCommand(CurrentManager, Command);
             }
         }
         public static void SendModbusCommand(ModbusSlave? CurrentManager, DataSelection DataSet, string Command) {
             if (CurrentManager == null) { return; }
-            if (CurrentManager.Manager == null) { return; }
+            if (CurrentManager.Channel == null) { return; }
             if (CurrentManager.Address < 0) { return; }
-            if (CurrentManager.Manager.IsMaster == false) { return; }
+            if (CurrentManager.Channel.IsMaster == false) { return; }
             if ((DataSet == DataSelection.ModbusDataCoils) || (DataSet == DataSelection.ModbusDataHoldingRegisters)) {
-                CurrentManager.Manager.ModbusCommand("Unit " + CurrentManager.Address + " " + Command);
+                ModbusQuery.ModbusCommand(CurrentManager.Channel, "Unit " + CurrentManager.Address + " " + Command);
             }
         }
         public static void SendModbusCommand(SerialManager? CurrentManager, string Command) {
             if (CurrentManager == null) { return; }
             if (CurrentManager.IsMaster == false) { return; }
-            CurrentManager.ModbusCommand(Command);
+            ModbusQuery.ModbusCommand(CurrentManager,Command);
         }
-        public static void ExecuteModbusQuery(string Query) {
-            string NextQuery = Query;
-            while (NextQuery.Length > 1) {
-                string CurrentQuery = Classes.CommandManager.GetQuery(NextQuery, ref NextQuery);
-                string CurrentQueryUntouched = CurrentQuery;
-                List<StringPair> Vars = GetModbusQueryVariables(ref CurrentQuery);
-                ApplyModbusQueryVariables(ref CurrentQuery, Vars);
-                string ChannelName = "";
-                bool State = Classes.CommandManager.GetValue(ref CurrentQuery, "USING", out ChannelName, false);
-                if (State == false) { break; }
-                SerialManager? Current = SystemManager.GetChannel(ChannelName);
-                if (Current == null) { break; }
-                bool WasMaster = Current.IsMaster;
-                bool ResetMaster = false;
-                CurrentQuery = CurrentQuery.ToUpper();
-                if (Classes.CommandManager.TestKeyword(ref CurrentQuery, "AS")) {
-                    if (Classes.CommandManager.TestKeyword(ref CurrentQuery, "MASTER")) {
-                        Current.IsMaster = true;
-                        ResetMaster = true;
-                    }
-                }
-                SystemManager.SendModbusCommand(Current, CurrentQuery);
-                if (ResetMaster == true) { Current.IsMaster = WasMaster; }
-            }
-        }
-        private static List<StringPair> GetModbusQueryVariables(ref string CurrentQuery) {
-            List <StringPair>  Output = new List<StringPair>();
-            while (CurrentQuery.ToUpper().Contains("DECLARE")) {
-                string TempName = "";
-                string TempValue = "";
-                if (Classes.CommandManager.GetValue(ref CurrentQuery, "DECLARE", out TempName, false, true)) {
-                    if (Classes.CommandManager.IsModbusKeyword(TempName) == false) {
-                        if (Classes.CommandManager.GetValue(ref CurrentQuery, "=", out TempValue, false)) {
-                            Output.Add(new StringPair(TempName, TempValue));
-                        }
-                    }
-                }
-            }
-            return Output;
-        }
-        private static void ApplyModbusQueryVariables(ref string CurrentQuery, List<StringPair> Vars) {
-            foreach(StringPair Sp in Vars) {
-                CurrentQuery = CurrentQuery.Replace(Sp.A, Sp.B);
-            }
-        }
+        
         public static void LoadDefaultBauds() {
             DefaultBauds.Add(50);
             DefaultBauds.Add(75);
@@ -318,9 +281,9 @@ namespace Serial_Monitor.Classes {
         }
         public static int GetChannelIndex(ModbusSlave? Slave) {
             if (Slave == null) { return -1; }
-            if (Slave.Manager == null) { return -1; }
+            if (Slave.Channel == null) { return -1; }
             if (SerialManagers.Count > 0) {
-                int Output = SerialManagers.IndexOf(Slave.Manager);
+                int Output = SerialManagers.IndexOf(Slave.Channel);
                 return Output;
             }
             return -1;
@@ -448,7 +411,7 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Editor Selectors
-        public static void CheckFormatOption(string Type, object Ctrl) {
+        internal static void CheckFormatOption(string Type, object Ctrl) {
             if (Ctrl.GetType() == typeof(ToolStripDropDownButton)) {
                 ToolStripDropDownButton Tsddbtn = (ToolStripDropDownButton)Ctrl;
                 foreach (object Item in Tsddbtn.DropDownItems) {
@@ -480,7 +443,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        public static void CheckFormatOption(int Type, object Ctrl) {
+        internal static void CheckFormatOption(int Type, object Ctrl) {
             if (Ctrl.GetType() == typeof(ToolStripDropDownButton)) {
                 ToolStripDropDownButton Tsddbtn = (ToolStripDropDownButton)Ctrl;
                 foreach (object Item in Tsddbtn.DropDownItems) {
@@ -510,26 +473,6 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        //private void CheckOutputFormat(string Type) {
-        //    foreach (object Item in ddbOutputFormat.DropDownItems) {
-        //        if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-        //        if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-        //            ((ToolStripMenuItem)Item).Checked = true;
-        //        }
-        //        else {
-        //            ((ToolStripMenuItem)Item).Checked = false;
-        //        }
-        //    }
-        //    foreach (object Item in btnChannelOutputFormat.DropDownItems) {
-        //        if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-        //        if (((ToolStripMenuItem)Item).Tag.ToString() == Type) {
-        //            ((ToolStripMenuItem)Item).Checked = true;
-        //        }
-        //        else {
-        //            ((ToolStripMenuItem)Item).Checked = false;
-        //        }
-        //    }
-        //}
         #endregion
         internal static ProgramObject? GetProgramObjectFromTab(TabClickedEventArgs? Args) {
             if (Args == null) { return null; }

@@ -92,6 +92,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRemoved += SystemManager_ChannelRemoved;
             SystemManager.ChannelAdded += SystemManager_ChannelAdded;
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
+            SystemManager.ProjectEdited += SystemManager_ProjectEdited;
 
             SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
             currentManager = SystemManager.SerialManagers[0];
@@ -102,6 +103,10 @@ namespace Serial_Monitor {
             LoadRecentItems();
             ApplyLocalisation();
             DocumentEdited = false;
+        }
+
+        private void SystemManager_ProjectEdited() {
+            MarkDocumentChanged();
         }
 
         public void ApplyLocalisation() {
@@ -429,7 +434,7 @@ namespace Serial_Monitor {
             ProjectManager.LoadGenericKeypadButtons();
             RecolorAll();
             AddIcons();
-            LoadProgramOperations();
+            ProgramEditing.LoadProgramOperations(cmStepPrg, StepOperationBtn_Click);
             RefreshPorts();
             SelectFirstPort();
             LoadPlugins();
@@ -1252,34 +1257,6 @@ namespace Serial_Monitor {
             SystemManager.CheckFormatOption(ControlText, ddbOutputFormat);
             SystemManager.CheckFormatOption(ControlText, btnChannelOutputFormat);
         }
-        //private void InputFormatClicked(object? sender, EventArgs e) {
-        //    if (sender == null) { return; }
-        //    if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-        //    string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
-        //    foreach (ToolStripMenuItem Tsi in ddbInputFormat.DropDownItems) {
-        //        if (Tsi.Tag.ToString() == Cmd) {
-        //            ddbInputFormat.Text = EnumManager.InputFormatToString(EnumManager.StringToInputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-        //            Tsi.Checked = true;
-        //            Properties.Settings.Default.DEF_STR_InputFormat = Tsi.Tag.ToString();
-        //            Properties.Settings.Default.Save();
-        //        }
-        //        else { Tsi.Checked = false; }
-        //    }
-        //}
-        //private void OutputFormatClicked(object? sender, EventArgs e) {
-        //    if (sender == null) { return; }
-        //    if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-        //    string Cmd = ((ToolStripMenuItem)sender).Tag.ToString() ?? "";
-        //    foreach (ToolStripMenuItem Tsi in ddbOutputFormat.DropDownItems) {
-        //        if (Tsi.Tag.ToString() == Cmd) {
-        //            ddbOutputFormat.Text = EnumManager.OutputFormatToString(EnumManager.StringToOutputFormat(Tsi.Tag.ToString() ?? ""), false).A;
-        //            Tsi.Checked = true;
-        //            Properties.Settings.Default.DEF_STR_OutputFormat = Tsi.Tag.ToString();
-        //            Properties.Settings.Default.Save();
-        //        }
-        //        else { Tsi.Checked = false; }
-        //    }
-        //}
         private void InputFormat_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
             ToolStripItem toolStripItem = (ToolStripItem)sender;
@@ -1634,27 +1611,27 @@ namespace Serial_Monitor {
         #region Clipboard
         object? LastEntered = null;
         private void copyToolStripMenuItem_Click(object? sender, EventArgs e) {
-            CopyStepProgram();
+            ProgramEditing.CopyStepProgram(lstStepProgram);
         }
         private void pasteToolStripMenuItem_Click(object? sender, EventArgs e) {
-            if (Clipboard.ContainsData(Clipboard_ProgramDataType)) {
-                PasteStepProgram();
+            if (Clipboard.ContainsData(ProgramEditing.Clipboard_ProgramDataType)) {
+                ProgramEditing.PasteStepProgram(lstStepProgram);
             }
             else {
                 Output.Paste();
             }
         }
         private void cutToolStripMenuItem_Click(object? sender, EventArgs e) {
-            CopyStepProgram(true);
+            ProgramEditing.CopyStepProgram(lstStepProgram, true);
         }
         private void cutToolStripMenuItem1_Click(object? sender, EventArgs e) {
-            CopyStepProgram(true);
+            ProgramEditing.CopyStepProgram(lstStepProgram, true);
         }
         private void copyToolStripMenuItem1_Click(object? sender, EventArgs e) {
-            CopyStepProgram(false);
+            ProgramEditing.CopyStepProgram(lstStepProgram, false);
         }
         private void pasteToolStripMenuItem1_Click(object? sender, EventArgs e) {
-            PasteStepProgram(true);
+            ProgramEditing.PasteStepProgram(lstStepProgram, true);
         }
         #endregion
         #region Program UI
@@ -1735,33 +1712,6 @@ namespace Serial_Monitor {
             btnMenuShowStepPrg.Checked = false;
             pnlStepProgram.Visible = false;
         }
-        private void LoadProgramOperations() {
-            StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));
-            int Index = 0;
-            long LastValue = 0;
-            foreach (StepEnumerations.StepExecutable StepEx in Steps) {
-                long Value = (long)StepEx & 0x00FF0000;
-                bool CommandInvisable = ((long)StepEx & 0xF0000000) >= 0x10000000 ? true : false;
-                if (CommandInvisable == true) { continue; }
-                if (Index != 0) {
-                    if (LastValue != Value) {
-                        cmStepPrg.Items.Add(new ToolStripSeparator());
-                    }
-                }
-                LoadProgramOperation(StepEx);
-                Index++;
-                LastValue = Value;
-            }
-        }
-        private void LoadProgramOperation(StepEnumerations.StepExecutable StepEx) {
-            ToolStripMenuItem StepOperationBtn = new ToolStripMenuItem();
-            StepOperationBtn.Text = ProgramManager.StepExecutableToString(StepEx); //StepEx.ToString();
-            StepOperationBtn.Tag = StepEx;
-            StepOperationBtn.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            StepOperationBtn.ImageScaling = ToolStripItemImageScaling.None;
-            StepOperationBtn.Click += StepOperationBtn_Click; ;
-            cmStepPrg.Items.Add(StepOperationBtn);
-        }
         #endregion
         #region Program Settings
         private void ProgramManager_ProgramSettingChanged() {
@@ -1796,54 +1746,7 @@ namespace Serial_Monitor {
             }
         }
         private void StepOperationBtn_Click(object? sender, EventArgs e) {
-            if (sender == null) { return; }
-            if (cmStepPrg.Tag == null) { return; }
-            if (sender.GetType() == typeof(ToolStripMenuItem)) {
-                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
-                try {
-                    if (cmStepPrg.Tag.GetType() == typeof(DropDownClickedEventArgs)) {
-                        ListItem? LstItem = ((DropDownClickedEventArgs)cmStepPrg.Tag).ParentItem;
-                        if (LstItem == null) { return; }
-                        int Column = ((DropDownClickedEventArgs)cmStepPrg.Tag).Column;
-                        int Item = ((DropDownClickedEventArgs)cmStepPrg.Tag).Item;
-                        StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
-                        object? objExe = Tsmi.Tag;
-                        if (objExe != null) {
-                            if (objExe.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                                StepExe = (StepEnumerations.StepExecutable)objExe;
-                            }
-                        }
-                        if (Column == 0) {
-                            LstItem.Tag = StepExe;
-                            LstItem.Text = Tsmi.Text ?? "";
-                        }
-                        else {
-                            LstItem.SubItems[Column - 1].Tag = StepExe;
-                            LstItem.SubItems[Column - 1].Text = Tsmi.Text ?? "";
-                        }
-                        SetDefault(LstItem, StepExe);
-                        ProgramManager.ApplyIndentation(lstStepProgram, false);
-                        ProgramManager.ApplySyntaxColouring(lstStepProgram, Item);
-                        lstStepProgram.Invalidate();
-                        DocumentEdited = true;
-                    }
-                }
-                catch { }
-            }
-        }
-        private void SetDefault(ListItem Li, StepEnumerations.StepExecutable StepEx) {
-            if (Li.SubItems.Count != 3) { return; }
-            string DefaultText = "";
-            if (StepEx == StepEnumerations.StepExecutable.Delay) {
-                DefaultText = "1000";
-            }
-            else if (StepEx == StepEnumerations.StepExecutable.Open) {
-                DefaultText = "COM1";
-            }
-            //else if (StepEx == StepEnumerations.StepExecutable.Close) {
-            //    DefaultText = "COM1";
-            //}
-            Li.SubItems[2].Text = DefaultText;
+            ProgramEditing.ChangeStepCommand(lstStepProgram, cmStepPrg, sender);
         }
         bool inEditingMode = false;
         bool InEditingMode {
@@ -1930,39 +1833,16 @@ namespace Serial_Monitor {
             LastEntered = lstStepProgram;
             ProgramManager.ApplySyntaxColouring(lstStepProgram, e.Item);
         }
-
-
-
         private void addCommandToolStripMenuItem_Click(object? sender, EventArgs e) {
-            Program_NewLine();
+            ProgramEditing.NewLine(lstStepProgram);
         }
         private void addCommandAfterToolStripMenuItem_Click(object? sender, EventArgs e) {
-            Program_NewLine(true);
-        }
-        private void Program_NewLine(bool InvertInsert = false) {
-            ListItem LiPar = new ListItem();
-            ListSubItem LiChk = new ListSubItem(true); LiPar.SubItems.Add(LiChk);
-            ListSubItem LiCmd = new ListSubItem(); LiPar.SubItems.Add(LiCmd);
-            ListSubItem LiArgs = new ListSubItem(); LiPar.SubItems.Add(LiArgs);
-            LiCmd.Text = ProgramManager.StepExecutableToString(StepEnumerations.StepExecutable.NoOperation);
-            LiCmd.Tag = StepEnumerations.StepExecutable.NoOperation;
-            //if (lstStepProgram.ExternalItems != null) {
-            //    lstStepProgram.ExternalItems.Add(LiPar);
-            //}
-            bool InsertState = Properties.Settings.Default.PRG_BOL_InsertBefore;
-            if (InvertInsert == true) {
-                InsertState = !InsertState;
-            }
-            lstStepProgram.LineInsertAtSelected(LiPar, InsertState, true);
-            ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
-            ProgramManager.ApplyIndentation(lstStepProgram);
-            lstStepProgram.Invalidate();
-            DocumentEdited = true;
+            ProgramEditing.NewLine(lstStepProgram, true);
         }
         private void deleteToolStripMenuItem_Click(object? sender, EventArgs e) {
             if (LastEntered != null) {
                 if (LastEntered.GetType() == typeof(ODModules.ListControl)) {
-                    Program_RemoveSelected();
+                    ProgramEditing.RemoveSelected(lstStepProgram);
                 }
                 else {
                     Output.ClearEntered();
@@ -1973,182 +1853,39 @@ namespace Serial_Monitor {
             }
         }
         private void addCommandToolStripMenuItem1_Click(object? sender, EventArgs e) {
-            Program_NewLine();
+            ProgramEditing.NewLine(lstStepProgram);
         }
         private void removeSelectedToolStripMenuItem_Click(object? sender, EventArgs e) {
-            Program_RemoveSelected();
+            ProgramEditing.RemoveSelected(lstStepProgram);
         }
         private void btnPrgRemoveStepLines_Click(object? sender, EventArgs e) {
-            Program_RemoveSelected();
+            ProgramEditing.RemoveSelected(lstStepProgram);
         }
         private void MarkDocumentChanged() {
-            if (lstStepProgram.SelectionCount > 0) {
+            //if (lstStepProgram.SelectionCount > 0) {
                 DocumentEdited = true;
-            }
-        }
-        private void Program_RemoveSelected() {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Stopped;
-            MarkDocumentChanged();
-            lstStepProgram.LineRemoveSelected();
-            ProgramManager.ApplyIndentation(lstStepProgram, false);
-            ProgramManager.ApplyIndentation(lstStepProgram);
-        }
-        private void btnPrgMoveUp_Click(object? sender, EventArgs e) {
-            MarkDocumentChanged();
-            lstStepProgram.LineMove(false);
-            ProgramManager.ApplyIndentation(lstStepProgram, true);
-        }
-        private void btnPrgMoveDown_Click(object? sender, EventArgs e) {
-            MarkDocumentChanged();
-            lstStepProgram.LineMove(true);
-            ProgramManager.ApplyIndentation(lstStepProgram, true);
-        }
-        private void enableSelectedToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ChangeEnable(EnableChanged.EnableSelected);
-        }
-        private void toggleEnableToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ChangeEnable(EnableChanged.ToggleSelected);
-        }
-        private void disableSelectedToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ChangeEnable(EnableChanged.DisableSelected);
-        }
-        private void enableSelectedToolStripMenuItem1_Click(object? sender, EventArgs e) {
-            ChangeEnable(EnableChanged.EnableSelected);
-        }
-        private void disableSelectedToolStripMenuItem1_Click(object? sender, EventArgs e) {
-            ChangeEnable(EnableChanged.DisableSelected);
-        }
-        private void ChangeEnable(EnableChanged TypeOfChange) {
-            if (lstStepProgram.CurrentItems == null) { return; }
-            MarkDocumentChanged();
-            int i = 0;
-            foreach (ListItem Li in lstStepProgram.CurrentItems) {
-                if (Li.SubItems.Count == 3) {
-                    if (Li.Selected == true) {
-                        switch (TypeOfChange) {
-                            case EnableChanged.EnableSelected:
-                                Li.SubItems[0].Checked = true;
-                                break;
-                            case EnableChanged.DisableSelected:
-                                Li.SubItems[0].Checked = false;
-                                break;
-
-                            case EnableChanged.ToggleSelected:
-                                Li.SubItems[0].Checked = !Li.SubItems[0].Checked;
-                                break;
-                            default:
-                                break;
-                        }
-                        ProgramManager.ApplySyntaxColouring(lstStepProgram, i);
-                    }
-                }
-                i++;
-            }
-            lstStepProgram.Invalidate();
-        }
-        const string Clipboard_ProgramDataType = "SERMAN:PRG_EVEDAT";
-        public void CopyStepProgram(bool DeleteCopy = false, bool ClearSelection = true) {
-            if (lstStepProgram.ExternalItems == null) { return; }
-            List<ProgramDataObject> list = new List<ProgramDataObject>();
-            for (int i = lstStepProgram.ExternalItems.Count - 1; i >= 0; i--) {
-                if (lstStepProgram.ExternalItems[i].Selected == true) {
-                    if (lstStepProgram.ExternalItems[i].SubItems.Count == 3) {
-                        ProgramDataObject ProgramItem = new ProgramDataObject();
-                        ProgramItem.Enabled = lstStepProgram.ExternalItems[i].SubItems[0].Checked;
-                        object? objCmd = lstStepProgram.ExternalItems[i].SubItems[1].Tag;
-                        if (objCmd != null) {
-                            if (objCmd.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                                ProgramItem.Command = (StepEnumerations.StepExecutable)objCmd;
-                            }
-                            else { ProgramItem.Command = StepEnumerations.StepExecutable.NoOperation; }
-                        }
-                        else { ProgramItem.Command = StepEnumerations.StepExecutable.NoOperation; }
-
-
-                        ProgramItem.Arguments = lstStepProgram.ExternalItems[i].SubItems[2].Text;
-                        list.Add(ProgramItem);
-                        if (DeleteCopy == true) {
-                            lstStepProgram.LineRemove(i, false);
-                        }
-                        else {
-                            if (ClearSelection == true) {
-                                lstStepProgram.ExternalItems[i].Selected = false;
-                            }
-                        }
-                    }
-                }
-            }
-            lstStepProgram.Invalidate();
-            if (list.Count > 0) {
-                Clipboard.SetData(Clipboard_ProgramDataType, list);
-            }
-            //Clipboard.SetDataObject(null);
-        }
-        public void PasteStepProgram(bool ClearSelection = true) {
-            object? Data = Clipboard.GetDataObject();
-            if (!Clipboard.ContainsData(Clipboard_ProgramDataType)) { return; }
-            try {
-                if (lstStepProgram.ExternalItems == null) { return; }
-                List<ProgramDataObject>? CopiedItems = (List<ProgramDataObject>?)Clipboard.GetData(Clipboard_ProgramDataType);
-                if (CopiedItems == null) { return; }
-                if (CopiedItems.Count > 0) {
-                    if (lstStepProgram.SelectionCount > 0) {
-                        int CountBuffer = lstStepProgram.ExternalItems.Count - 1;
-                        for (int i = CountBuffer; i >= 0; i--) {
-                            if (lstStepProgram.ExternalItems[i].Selected == true) {
-                                InsertAtPoint(CopiedItems, i, false);
-                            }
-                        }
-                    }
-                    else {
-                        InsertAtPoint(CopiedItems, -1, true);
-                    }
-                    DocumentEdited = true;
-                }
-                ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
-                ProgramManager.ApplyIndentation(lstStepProgram, false);
-                lstStepProgram.Invalidate();
-            }
-            catch { }
             //}
         }
-        private void InsertAtPoint(List<ProgramDataObject>? CopiedItems, int Index, bool ReverseInsert) {
-            if (CopiedItems == null) { return; }
-            if (CopiedItems.Count == 0) { return; }
-            if (ReverseInsert == true) {
-                for (int j = CopiedItems.Count - 1; j >= 0; j--) {
-                    ListItem itPar = new ListItem();
-                    ListSubItem itEnb = new ListSubItem(CopiedItems[j].Enabled);
-                    StepEnumerations.StepExecutable StCmd = CopiedItems[j].Command;
-                    ListSubItem itCmd = new ListSubItem(ProgramManager.StepExecutableToString(StCmd));
-                    itCmd.Tag = StCmd;
-                    ListSubItem itArg = new ListSubItem(CopiedItems[j].Arguments);
-                    itPar.SubItems.Add(itEnb);
-                    itPar.SubItems.Add(itCmd);
-                    itPar.SubItems.Add(itArg);
-                    lstStepProgram.LineInsert(Index, itPar, false);
-                }
-            }
-            else {
-                for (int j = 0; j < CopiedItems.Count; j++) {
-                    ListItem itPar = new ListItem();
-                    ListSubItem itEnb = new ListSubItem(CopiedItems[j].Enabled);
-                    StepEnumerations.StepExecutable StCmd = CopiedItems[j].Command;
-                    ListSubItem itCmd = new ListSubItem(ProgramManager.StepExecutableToString(StCmd));
-                    itCmd.Tag = StCmd;
-                    ListSubItem itArg = new ListSubItem(CopiedItems[j].Arguments);
-                    itPar.SubItems.Add(itEnb);
-                    itPar.SubItems.Add(itCmd);
-                    itPar.SubItems.Add(itArg);
-                    lstStepProgram.LineInsert(Index, itPar, false);
-                }
-            }
-
+        private void btnPrgMoveUp_Click(object? sender, EventArgs e) {
+            ProgramEditing.MoveSelected(lstStepProgram, false);
         }
-        private enum EnableChanged {
-            EnableSelected = 0x01,
-            DisableSelected = 0x00,
-            ToggleSelected = 0x02
+        private void btnPrgMoveDown_Click(object? sender, EventArgs e) {
+            ProgramEditing.MoveSelected(lstStepProgram, true);
+        }
+        private void enableSelectedToolStripMenuItem_Click(object? sender, EventArgs e) {
+            ProgramEditing.ChangeEnable(lstStepProgram, ProgramManager.EnableChanged.EnableSelected);
+        }
+        private void toggleEnableToolStripMenuItem_Click(object? sender, EventArgs e) {
+            ProgramEditing.ChangeEnable(lstStepProgram, ProgramManager.EnableChanged.ToggleSelected);
+        }
+        private void disableSelectedToolStripMenuItem_Click(object? sender, EventArgs e) {
+            ProgramEditing.ChangeEnable(lstStepProgram, ProgramManager.EnableChanged.DisableSelected);
+        }
+        private void enableSelectedToolStripMenuItem1_Click(object? sender, EventArgs e) {
+            ProgramEditing.ChangeEnable(lstStepProgram, ProgramManager.EnableChanged.EnableSelected);
+        }
+        private void disableSelectedToolStripMenuItem1_Click(object? sender, EventArgs e) {
+            ProgramEditing.ChangeEnable(lstStepProgram, ProgramManager.EnableChanged.DisableSelected);
         }
         #endregion 
         #region Program Control
@@ -2203,20 +1940,6 @@ namespace Serial_Monitor {
                 string TxCount = currentManager.BytesSent.ToString();
                 if (lblRxBytes.Text != RxCount) { lblRxBytes.Text = RxCount; }
                 if (lblTxBytes.Text != TxCount) { lblTxBytes.Text = TxCount; }
-            }
-        }
-        private void Run() {
-            ProgramManager.TestThread();
-            if (ProgramManager.CurrentProgram == null) { return; }
-            if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
-                if (ProgramManager.CurrentProgram.ProgramMarker >= ProgramManager.CurrentProgram.Program.Count) {
-                    ProgramManager.RunFromStart();
-                }
-                else {
-                    ProgramManager.SetupProgram();
-                    ProgramManager.ProgramStep = ProgramManager.CurrentProgram.ProgramMarker;
-                    ProgramManager.ProgramState = StepEnumerations.StepState.Running;
-                }
             }
         }
         private void ProgramManager_ProgramNameChanged(object? sender) {
@@ -2291,81 +2014,54 @@ namespace Serial_Monitor {
         private void btnRun_Click(object? sender, EventArgs e) {
 
         }
-        private void RunFromStart() {
-            ProgramManager.TestThread();
-            ProgramManager.RunFromStart();
-        }
         private void btnRun_ButtonClick(object? sender, EventArgs e) {
-            RunFromStart();
+            ProgramManager.RunProgramFromStart();
         }
         private void runFromStartToolStripMenuItem_Click(object? sender, EventArgs e) {
-            RunFromStart();
+            ProgramManager.RunProgramFromStart();
         }
         private void btnPause_Click(object? sender, EventArgs e) {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Paused;
+            ProgramManager.PauseProgram();
         }
         private void btnStop_Click(object? sender, EventArgs e) {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Stopped;
-            ProgramManager.ProgramStep = 0;
+            ProgramManager.StopProgram();
         }
         private void btnRunPrg_Click(object? sender, EventArgs e) {
-            RunFromStart();
+            ProgramManager.RunProgramFromStart();
         }
         private void btnPausePrg_Click(object? sender, EventArgs e) {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Paused;
+            ProgramManager.PauseProgram();
         }
         private void btnStopPrg_Click(object? sender, EventArgs e) {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Stopped;
-            ProgramManager.ProgramStep = 0;
+            ProgramManager.StopProgram();
         }
         private void runToolStripMenuItem_Click(object? sender, EventArgs e) {
-            RunFromStart();
+            ProgramManager.RunProgramFromStart();
         }
         private void runProgramToolStripMenuItem_Click(object? sender, EventArgs e) {
-            Run();
+            ProgramManager.Run(lstStepProgram);
         }
         private void pauseToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Paused;
+            ProgramManager.PauseProgram();
         }
         private void stopToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ProgramManager.ProgramState = StepEnumerations.StepState.Stopped;
-            ProgramManager.ProgramStep = 0;
+            ProgramManager.StopProgram();
         }
         private void btnRunCursor_Click(object? sender, EventArgs e) {
-            Run();
+            ProgramManager.Run(lstStepProgram);
         }
         private void setStepCursorToolStripMenuItem_Click(object? sender, EventArgs e) {
-            SetCursor();
-        }
-        private void SetCursor() {
-            if (lstStepProgram.SelectionCount == 1) {
-                if (ProgramManager.CurrentProgram != null) {
-                    if (ProgramManager.CurrentProgram == lstStepProgram.Tag) {
-                        ProgramManager.CurrentProgram.ProgramMarker = lstStepProgram.SelectedIndex;
-                    }
-                }
-                //if (CurrentProgram == lstStepProgram.Tag) {
-                lstStepProgram.LineMarkerIndex = lstStepProgram.SelectedIndex;
-                if (lstStepProgram.Tag != null) {
-                    if (lstStepProgram.Tag.GetType() == typeof(ProgramObject)) {
-                        ((ProgramObject)lstStepProgram.Tag).ProgramMarker = lstStepProgram.SelectedIndex;
-                    }
-                }
-                //}
-            }
+            ProgramManager.SetCursorAtSelected(lstStepProgram);
         }
         private void lstStepProgram_KeyDown(object? sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
-                SetCursor();
+                ProgramManager.SetCursorAtSelected(lstStepProgram);
             }
             e.Handled = true;
         }
         private void lstStepProgram_ItemMiddleClicked(object? sender, ListItem Item, int Index, Rectangle ItemBounds) {
             LastEntered = lstStepProgram;
-            if (ProgramManager.CurrentProgram != null) {
-                lstStepProgram.LineMarkerIndex = Index;
-                ProgramManager.CurrentProgram.ProgramMarker = Index;
-            }
+            ProgramManager.SetCursorAtIndex(lstStepProgram, Index);
         }
 
         #endregion
@@ -2485,7 +2181,7 @@ namespace Serial_Monitor {
             if (PrgObj == null) { return; }
             ProgramManager.CurrentProgram = PrgObj;
             btnRun.Text = GetTextFromTab((TabClickedEventArgs?)cmPrograms.Tag);
-            RunFromStart();
+            ProgramManager.RunProgramFromStart();
         }
         private void cmCloseProgram_Click(object? sender, EventArgs e) {
             if (cmPrograms.Tag == null) { return; }
@@ -2522,7 +2218,6 @@ namespace Serial_Monitor {
         private void cmbtnNewProgram_Click(object? sender, EventArgs e) {
             NewProgram();
         }
-
         private string GetTextFromTab(TabClickedEventArgs? Args) {
             //if (cmPrograms.Tag == null) { return ""; }
             // if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
@@ -2739,7 +2434,6 @@ namespace Serial_Monitor {
         string CurrentDocument = "";
         private void btnNewStep_Click(object? sender, EventArgs e) {
             New();
-
         }
         private void btnSaveStep_Click(object? sender, EventArgs e) {
             Save();
@@ -2823,6 +2517,7 @@ namespace Serial_Monitor {
             DocumentEdited = false;
         }
         public void Open(string FileAddress) {
+            if (!File.Exists(FileAddress)) { return; }
             string Extension = Path.GetExtension(FileAddress).ToLower();
             if (Extension == ".smp") {
                 DocumentHandler.Open(FileAddress);

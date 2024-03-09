@@ -48,7 +48,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 regValue = value;
                 ModifyValue();
                 if (Parent != null) {
-                    if (Parent.Manager != null) {
+                    if (Parent.Channel != null) {
                         CheckPreviousRegisters(Index, typeData, Parent);
                     }
                 }
@@ -201,7 +201,7 @@ namespace Serial_Monitor.Classes.Modbus {
         #region Value Modification
         public void PushValue(long Input, bool AllowTransmit) {
             if (parent == null) { return; }
-            if (parent.Manager == null) { return; }
+            if (parent.Channel == null) { return; }
             if (dataSize <= ModbusEnums.DataSize.Bits16) {
                 short Temp = (short)(0xFFFF & Input);
                 regValue = Temp;
@@ -211,7 +211,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
                 if (parent != null) {
-                    if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                    if ((AllowTransmit) && (parent.Channel.IsMaster)) {
                         SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                     }
                 }
@@ -246,7 +246,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 ModifyValue();
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
-                if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                if ((AllowTransmit) && (parent.Channel.IsMaster)) {
                     SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
             }
@@ -285,7 +285,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
                 ModifyValue();
-                if ((AllowTransmit) && (parent.Manager.IsMaster)) {
+                if ((AllowTransmit) && (parent.Channel.IsMaster)) {
                     SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
             }
@@ -371,7 +371,7 @@ namespace Serial_Monitor.Classes.Modbus {
         #region Format/Size Support Functions
         private static bool CheckAndChangeNeighbouringFormats(int Index, ModbusSlave? parentManager, ModbusEnums.DataSize Size, DataSelection Selection) {
             if (parentManager == null) { return false; }
-            if (parentManager.Manager == null) { return false; }
+            if (parentManager.Channel == null) { return false; }
             int ItemsToCheck = 0;
             if (Size == ModbusEnums.DataSize.Bits32) { ItemsToCheck = 3; }
             else if (Size == ModbusEnums.DataSize.Bits64) { ItemsToCheck = 3; }
@@ -500,7 +500,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         private static long AppendData(int NextIndex, int Shift, DataSelection typeData, ModbusSlave parentManager, bool SwapBytes = false) {
             if (parentManager == null) { return 0; }
-            if (parentManager.Manager == null) { return 0; }
+            if (parentManager.Channel == null) { return 0; }
             if (typeData == DataSelection.ModbusDataInputRegisters) {
                 if (parentManager.InputRegisters.Length <= NextIndex) { return 0; }
                 ushort Data = SwapBytesAndCombine((ushort)parentManager.InputRegisters[NextIndex].Value, SwapBytes);
@@ -524,7 +524,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         private static void SetData(int NextIndex, int Shift, long Value, DataSelection typeData, ModbusSlave? parentManager, bool AllowTransmit, bool ByteSwap = false) {
             if (parentManager == null) { return; }
-            if (parentManager.Manager == null) { return; }
+            if (parentManager.Channel == null) { return; }
             if (typeData == DataSelection.ModbusDataInputRegisters) {
                 if (parentManager.InputRegisters.Length <= NextIndex) { return; }
                 long Temp = Value >> (Shift * 16);

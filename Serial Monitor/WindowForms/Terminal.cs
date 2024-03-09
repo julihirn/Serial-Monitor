@@ -45,7 +45,7 @@ namespace Serial_Monitor.WindowForms {
             RefreshPorts();
             EnumManager.LoadInputFormats(btnChannelInputFormat, InputFormat_Click, false);
             EnumManager.LoadOutputFormats(btnChannelOutputFormat, OutputFormat_Click, false);
-            CheckBaudRate(Properties.Settings.Default.DEF_INT_BaudRate);
+            SystemManager.CheckFormatOption(Properties.Settings.Default.DEF_INT_BaudRate, btnChannelBaudVals);
             SetProperties();
             ConnectionStatus();
         }
@@ -66,13 +66,13 @@ namespace Serial_Monitor.WindowForms {
             if (manager == null) { return; }
             CheckLineFormat();
             modbusMasterToolStripMenuItem.Checked = manager.IsMaster;
-            CheckBits(manager.DataBits.ToString());
-            CheckParity(EnumManager.ParityToString(manager.Parity));
-            CheckStopBits(EnumManager.StopBitsToString(manager.StopBits));
-            CheckBaudRate(manager.BaudRate);
-            CheckControlFlow(EnumManager.HandshakeToString(manager.Handshake));
-            CheckInputFormat(EnumManager.InputFormatToString(manager.InputFormat).B);
-            CheckOutputFormat(EnumManager.OutputFormatToString(manager.OutputFormat).B);
+            SystemManager.CheckFormatOption(manager.DataBits.ToString(), btnChannelDataBits);
+            SystemManager.CheckFormatOption(EnumManager.ParityToString(manager.Parity), btnChannelParity);
+            SystemManager.CheckFormatOption(EnumManager.StopBitsToString(manager.StopBits), btnChannelStopBits);
+            SystemManager.CheckFormatOption(manager.BaudRate, btnChannelBaudVals);
+            SystemManager.CheckFormatOption(EnumManager.HandshakeToString(manager.Handshake), btnChannelFlowCtrl);
+            SystemManager.CheckFormatOption(EnumManager.InputFormatToString(manager.InputFormat).B, btnChannelInputFormat);
+            SystemManager.CheckFormatOption(EnumManager.OutputFormatToString(manager.OutputFormat).B, btnChannelOutputFormat);
             outputInMasterTerminalToolStripMenuItem.Checked = manager.OutputToMasterTerminal;
         }
         private void ConnectionStatus() {
@@ -610,26 +610,14 @@ namespace Serial_Monitor.WindowForms {
         private void SetLineFormat(LineFormatting Format) {
             if (manager != null) {
                 manager.LineFormat = Format;
-                CheckLineFormat(EnumManager.LineFormattingToString(manager.LineFormat));
+                SystemManager.CheckFormatOption(EnumManager.LineFormattingToString(manager.LineFormat), btnMenuTextFormat);
             }
         }
         private void CheckLineFormat() {
             if (manager != null) {
-                CheckLineFormat(EnumManager.LineFormattingToString(manager.LineFormat));
+                SystemManager.CheckFormatOption(EnumManager.LineFormattingToString(manager.LineFormat), btnMenuTextFormat);
             }
         }
-        private void CheckLineFormat(string FormatString) {
-            foreach (ToolStripMenuItem Tmi in btnMenuTextFormat.DropDownItems) {
-                if (Tmi.Tag != null) {
-                    if (Tmi.Tag.ToString() == FormatString) {
-                        Tmi.Checked = true;
-                    }
-                    else { Tmi.Checked = false; }
-                }
-                else { Tmi.Checked = false; }
-            }
-        }
-
         private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
             if (manager != null) {
                 manager.Connect();
@@ -653,18 +641,7 @@ namespace Serial_Monitor.WindowForms {
             if (manager != null) {
                 manager.DataBits = Bits;
             }
-            CheckBits(Bits.ToString());
-        }
-        private void CheckBits(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelDataBits.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
+            SystemManager.CheckFormatOption(Bits.ToString(), btnChannelDataBits);
         }
         private void btnChanDB5_Click(object sender, EventArgs e) {
             SetPortBits(5);
@@ -683,18 +660,7 @@ namespace Serial_Monitor.WindowForms {
         private void SetPortParityBits(Parity PBits) {
             if (manager != null) {
                 manager.Parity = PBits;
-                CheckParity(EnumManager.ParityToString(manager.Parity));
-            }
-        }
-        private void CheckParity(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelParity.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
+                SystemManager.CheckFormatOption(EnumManager.ParityToString(manager.Parity), btnChannelParity);
             }
         }
         private void btnChannelNoParity_Click(object sender, EventArgs e) {
@@ -717,21 +683,9 @@ namespace Serial_Monitor.WindowForms {
         private void SetPortStopBits(StopBits StopBts) {
             if (manager != null) {
                 manager.StopBits = StopBts;
-                CheckStopBits(EnumManager.StopBitsToString(manager.StopBits));
+                SystemManager.CheckFormatOption(EnumManager.StopBitsToString(manager.StopBits), btnChannelStopBits);
             }
         }
-        private void CheckStopBits(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelStopBits.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
-        }
-
         private void btnChannelStopBits1_Click(object sender, EventArgs e) {
             SetPortStopBits(StopBits.One);
         }
@@ -758,17 +712,7 @@ namespace Serial_Monitor.WindowForms {
                 if (Tsmi.Tag == null) { return ; }
                 if (manager != null) {
                     manager.BaudRate = int.Parse(Tsmi.Tag.ToString() ?? "9600");
-                    CheckBaudRate(manager.BaudRate);
-                }
-            }
-        }
-        private void CheckBaudRate(int Rate) {
-            foreach (ToolStripMenuItem Item in btnChannelBaudVals.DropDownItems) {
-                if (Item.Text == Rate.ToString()) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
+                    SystemManager.CheckFormatOption(manager.BaudRate, btnChannelBaudVals);
                 }
             }
         }
@@ -800,7 +744,7 @@ namespace Serial_Monitor.WindowForms {
                 }
             }
             if (manager != null) {
-                CheckPort(manager.PortName);
+                SystemManager.CheckFormatOption(manager.PortName, btnChannelPort);
             }
         }
         private bool ItemExists(string Name) {
@@ -827,21 +771,9 @@ namespace Serial_Monitor.WindowForms {
                     SelectedPort = Tsmi.Tag.ToString() ?? "COM1";
                     manager.PortName = SelectedPort;
                 }
-                CheckPort(SelectedPort);
+                SystemManager.CheckFormatOption(SelectedPort, btnChannelPort);
             }
         }
-        private void CheckPort(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
-        }
-
         private void btnChannelPort_DropDownOpening(object sender, EventArgs e) {
             RefreshPorts();
         }
@@ -850,18 +782,7 @@ namespace Serial_Monitor.WindowForms {
         private void SetControlFlow(Handshake HandShake) {
             if (manager != null) {
                 manager.Handshake = HandShake;
-                CheckControlFlow(EnumManager.HandshakeToString(manager.Handshake));
-            }
-        }
-        private void CheckControlFlow(string Type) {
-            foreach (ToolStripMenuItem Item in btnChannelFlowCtrl.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
+                SystemManager.CheckFormatOption(EnumManager.HandshakeToString(manager.Handshake), btnChannelFlowCtrl);
             }
         }
         private void btnChannelFlowNone_Click(object sender, EventArgs e) {
@@ -896,9 +817,8 @@ namespace Serial_Monitor.WindowForms {
             StringPair TextualPair = EnumManager.InputFormatToString(FormatPair, false);
             if (manager != null) {
                 manager.InputFormat = FormatPair;
-                CheckInputFormat(ControlText);
+                SystemManager.CheckFormatOption(ControlText, btnChannelInputFormat);
             }
-
         }
         private void OutputFormatChange(string ?ControlText) {
             if (ControlText == null) { return; }
@@ -906,33 +826,7 @@ namespace Serial_Monitor.WindowForms {
             StringPair TextualPair = EnumManager.OutputFormatToString(FormatPair, false);
             if (manager != null) {
                 manager.OutputFormat = FormatPair;
-                CheckOutputFormat(ControlText);
-            }
-        }
-        private void CheckInputFormat(string Type) {
-            foreach (object Item in btnChannelInputFormat.DropDownItems) {
-                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Item;
-                if (Tsmi.Tag == null) { continue; }
-                if (Tsmi.Tag.ToString() == Type) {
-                    Tsmi.Checked = true;
-                }
-                else {
-                    Tsmi.Checked = false;
-                }
-            }
-        }
-        private void CheckOutputFormat(string Type) {
-            foreach (object Item in btnChannelOutputFormat.DropDownItems) {
-                if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
-                ToolStripMenuItem Tsmi = (ToolStripMenuItem)Item;
-                if (Tsmi.Tag == null) { continue; }
-                if (Tsmi.Tag.ToString() == Type) {
-                    Tsmi.Checked = true;
-                }
-                else {
-                    Tsmi.Checked = false;
-                }
+                SystemManager.CheckFormatOption(ControlText, btnChannelOutputFormat);
             }
         }
         #endregion

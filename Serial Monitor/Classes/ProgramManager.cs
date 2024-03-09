@@ -1219,7 +1219,7 @@ namespace Serial_Monitor.Classes {
             if (LabelPositions.Count > 0) {
                 for (int i = 0; i < LabelPositions.Count; i++) {
                     if (LabelPositions[i].Label == LabelName) {
-                        ExistsInPositions = true;  break;
+                        ExistsInPositions = true; break;
                     }
                 }
             }
@@ -1285,7 +1285,7 @@ namespace Serial_Monitor.Classes {
             }
         }
         #endregion
-        #region Program Editing
+        #region Program Arguments and Commands
         public static DataType StepExecutableToDataType(StepEnumerations.StepExecutable StepExe) {
             switch (StepExe) {
                 case StepEnumerations.StepExecutable.Delay:
@@ -1411,13 +1411,15 @@ namespace Serial_Monitor.Classes {
             }
             ProgramListingChanged?.Invoke();
         }
+        #endregion
+        #region Program Editing
         public static void AddCommandLine(StepEnumerations.StepExecutable StepChange) {
             if (CurrentEditingProgram == null) { return; }
             ListItem Lip = new ListItem();
             ListSubItem LiE = new ListSubItem(true);
             ListSubItem LiC = new ListSubItem();
             LiC.Tag = StepChange;
-            LiC.Text = StepExecutableToString((StepEnumerations.StepExecutable)StepChange);
+            LiC.Text = StepExecutableToString(StepChange);
 
             ListSubItem LiA = new ListSubItem();
             LiA.Text = CommandDefaultValue(StepChange);
@@ -1477,7 +1479,7 @@ namespace Serial_Monitor.Classes {
                         if (Tb.Tag.GetType() == typeof(ProgramObject)) {
                             ProgramObject PrObj = (ProgramObject)Tb.Tag;
                             if (PrObj.UntitledProgramNmber >= 1) {
-                                Tb.Text = LocalisatedText + " "  + PrObj.UntitledProgramNmber.ToString();
+                                Tb.Text = LocalisatedText + " " + PrObj.UntitledProgramNmber.ToString();
                             }
                             else if (PrObj.UntitledProgramNmber == 0) {
                                 Tb.Text = LocalisatedText;
@@ -1489,6 +1491,58 @@ namespace Serial_Monitor.Classes {
                     }
                 }
             }
+        }
+       
+        #endregion
+        #region Program Transport
+        internal static void SetCursorAtSelected(ODModules.ListControl? ProgramEditor) {
+            if (ProgramEditor == null) { return; }
+            if (ProgramEditor.SelectionCount == 1) {
+                if (CurrentProgram != null) {
+                    if (CurrentProgram == ProgramEditor.Tag) {
+                        CurrentProgram.ProgramMarker = ProgramEditor.SelectedIndex;
+                    }
+                }
+                ProgramEditor.LineMarkerIndex = ProgramEditor.SelectedIndex;
+                if (ProgramEditor.Tag != null) {
+                    if (ProgramEditor.Tag.GetType() == typeof(ProgramObject)) {
+                        ((ProgramObject)ProgramEditor.Tag).ProgramMarker = ProgramEditor.SelectedIndex;
+                    }
+                }
+            }
+        }
+        internal static void SetCursorAtIndex(ODModules.ListControl? ProgramEditor, int Index) {
+            if (ProgramEditor == null) { return; }
+            if (CurrentProgram != null) {
+                ProgramEditor.LineMarkerIndex = Index;
+                CurrentProgram.ProgramMarker = Index;
+            }
+        }
+        internal static void Run(ODModules.ListControl? ProgramEditor) {
+            if (ProgramEditor == null) { return; }
+            TestThread();
+            if (CurrentProgram == null) { return; }
+            if (CurrentProgram == ProgramEditor.Tag) {
+                if (CurrentProgram.ProgramMarker >= CurrentProgram.Program.Count) {
+                    RunFromStart();
+                }
+                else {
+                    SetupProgram();
+                    ProgramStep = CurrentProgram.ProgramMarker;
+                    ProgramState = StepState.Running;
+                }
+            }
+        }
+        public static void RunProgramFromStart() {
+            TestThread();
+            RunFromStart();
+        }
+        public static void StopProgram() {
+            ProgramState = StepState.Stopped;
+            ProgramStep = 0;
+        }
+        public static void PauseProgram() {
+            ProgramState = StepState.Paused;
         }
         #endregion
         #region Program Command Connectivity
@@ -1627,7 +1681,7 @@ namespace Serial_Monitor.Classes {
         internal static void DetermineTabs(TabHeader thPrograms) {
             int j = 0;
             string Name = "";
-            foreach (ProgramObject Prg in ProgramManager.Programs) {
+            foreach (ProgramObject Prg in Programs) {
                 if (Prg.Name.Trim().Length == 0) {
                     Name = GetUntitledText(ref j);
                 }
@@ -1681,6 +1735,11 @@ namespace Serial_Monitor.Classes {
             Index++;
             return TempName;
         }
-        #endregion 
+        #endregion
+        public enum EnableChanged {
+            EnableSelected = 0x01,
+            DisableSelected = 0x00,
+            ToggleSelected = 0x02
+        }
     }
 }

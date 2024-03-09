@@ -52,13 +52,13 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 else {
                     if (manager != null) {
-                        if (manager.Manager != null) {
-                            string DeviceName = manager.Manager.StateName;
-                            if (manager.Manager.IsMaster) {
+                        if (manager.Channel != null) {
+                            string DeviceName = manager.Channel.StateName;
+                            if (manager.Channel.IsMaster) {
                                 DeviceName += " (Master: Unit " + manager.Address.ToString() + ")";
                             }
                             else {
-                                DeviceName += " (Slave: Unit " + manager.Manager.UnitAddress.ToString() + ")";
+                                DeviceName += " (Slave: Unit " + manager.Channel.UnitAddress.ToString() + ")";
                             }
                             if (selectType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
                                 string Range = "(" + StartIndex.ToString() + ", " + EndIndex.ToString() + ")";

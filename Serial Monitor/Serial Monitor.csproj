@@ -18,7 +18,7 @@
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.10.630.0</Version>
+    <Version>1.11.830.1</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>

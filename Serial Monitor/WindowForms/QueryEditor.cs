@@ -3,6 +3,7 @@ using Handlers;
 using Microsoft.VisualBasic.Devices;
 using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -114,10 +115,10 @@ namespace Serial_Monitor.WindowForms {
             e.ChangedRange.SetFoldingMarkers("(?<!--.*)(?:{|(?i:begin))", "(?<!--.*)(?:})");
         }
         private void executeToolStripMenuItem_Click(object sender, EventArgs e) {
-            SystemManager.ExecuteModbusQuery(fctEditor.Text);
+            ModbusQuery.ExecuteQuery(fctEditor.Text);
         }
         private void btnExecute_Click(object sender, EventArgs e) {
-            SystemManager.ExecuteModbusQuery(fctEditor.Text);
+            ModbusQuery.ExecuteQuery(fctEditor.Text);
         }
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
             Settings ConfigApp = new Settings();

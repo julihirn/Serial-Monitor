@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSlave {
-        public ModbusSlave(SerialManager ParentManager, int Address) {
+        public ModbusSlave(SerialManager Channel, int Address) {
             iD = Guid.NewGuid().ToString();
-            manager = ParentManager;
+            channel = Channel;
             this.address = Address;
             LoadRegisters();
         }
-        public ModbusSlave(SerialManager ParentManager, int Address, string Name) {
+        public ModbusSlave(SerialManager Channel, int Address, string Name) {
             iD = Guid.NewGuid().ToString();
-            manager = ParentManager;
+            channel = Channel;
             this.address = Address;
             this.name = Name;
             LoadRegisters();
@@ -43,9 +43,9 @@ namespace Serial_Monitor.Classes.Modbus {
         public int Address {
             get { return address; } 
         }
-        SerialManager? manager = null;
-        public SerialManager? Manager {
-            get { return manager; }
+        SerialManager? channel = null;
+        public SerialManager? Channel {
+            get { return channel; }
         }
         private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters);//new ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];
         [Browsable(false)]
@@ -84,7 +84,7 @@ namespace Serial_Monitor.Classes.Modbus {
             discreteInputs = new ModbusCoil[0];
             inputRegisters = new ModbusRegister[0];
             holdingRegisters = new ModbusRegister[0];
-            manager = null;
+            channel = null;
             GC.Collect();
         }
         public void Reset() {

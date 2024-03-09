@@ -405,8 +405,8 @@ namespace Serial_Monitor.Classes.Modbus {
             for (int i = Snapshots.Count - 1; i >= 0; i--) {
                 ModbusSlave? CurrentSlave = Snapshots[i].Manager;
                 if (CurrentSlave != null) {
-                    if (CurrentSlave.Manager != null) {
-                        SerialManager? CurrentManager = CurrentSlave.Manager;
+                    if (CurrentSlave.Channel != null) {
+                        SerialManager? CurrentManager = CurrentSlave.Channel;
                         if (CurrentManager != null) {
                             if (CurrentManager.ID == Manager.ID) {
                                 Snapshots[i].Close();
@@ -442,7 +442,7 @@ namespace Serial_Monitor.Classes.Modbus {
             for (int i = Snapshots.Count - 1; i >= 0; i--) {
                 ModbusSlave? Slave = Snapshots[i].Manager;
                 if (Slave == null) { continue; }
-                SerialManager? CurrentManager = Slave.Manager;
+                SerialManager? CurrentManager = Slave.Channel;
                 if (CurrentManager != null) {
                     Snapshots[i].Close();
                     Snapshots.RemoveAt(i);

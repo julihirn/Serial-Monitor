@@ -297,7 +297,7 @@ namespace Serial_Monitor {
                                 ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                                 if (Snap != null) {
                                     if (Snap.Manager != null) {
-                                        SerialManager? Man = Snap.Manager.Manager;
+                                        SerialManager? Man = Snap.Manager.Channel;
                                         if (Man != null) {
                                             btnMenuModbusMaster.Checked = Man.IsMaster;
                                             modbusMasterToolStripMenuItem.Checked = Man.IsMaster;
@@ -534,8 +534,8 @@ namespace Serial_Monitor {
         private void SystemManager_ModbusPropertyChanged(ModbusSlave parentManager, object Data, int Index, DataSelection DataType) {
             // lstRegisters.ExternalItems[Index]
             if (CurrentManager == null) { return; }
-            if (parentManager.Manager == null) { return; }
-            if (CurrentManager.ID != parentManager.Manager.ID) { return; }
+            if (parentManager.Channel == null) { return; }
+            if (CurrentManager.ID != parentManager.Channel.ID) { return; }
             if (Slave != parentManager.Address) { return; };
             try {
                 if (lstMonitor.CurrentItems[Index].SubItems.Count <= ModbusEditor.Indx_Value) {
@@ -567,8 +567,8 @@ namespace Serial_Monitor {
         private void SystemManager_ModbusRegisterRenamed(ModbusSlave parentManager, object Data, int Index, DataSelection DataType) {
             if (Data == null) { return; }
             if (CurrentManager == null) { return; }
-            if (parentManager.Manager == null) { return; }
-            if (CurrentManager.ID != parentManager.Manager.ID) { return; }
+            if (parentManager.Channel == null) { return; }
+            if (CurrentManager.ID != parentManager.Channel.ID) { return; }
             if (Data.GetType() == typeof(ModbusCoil)) {
                 if (DataSet == DataType) {
                     ModbusCoil DigitalData = (ModbusCoil)Data;
@@ -594,9 +594,9 @@ namespace Serial_Monitor {
         private void SystemManager_ModbusReceived(ModbusSlave parentManager, object Data, int Index, DataSelection DataType) {
             if (Data == null) { return; }
             if (CurrentManager == null) { return; }
-            if (parentManager.Manager == null) { return; }
+            if (parentManager.Channel == null) { return; }
             bool Proceed = false;
-            if (parentManager.Manager.IsMaster) {
+            if (parentManager.Channel.IsMaster) {
                 if (Slave == parentManager.Address) {
                     Proceed = true;
                 }
@@ -604,7 +604,7 @@ namespace Serial_Monitor {
             else {
                 Proceed = true;
             }
-            if ((CurrentManager.ID == parentManager.Manager.ID) && (Proceed)) {
+            if ((CurrentManager.ID == parentManager.Channel.ID) && (Proceed)) {
                 if (Data.GetType() == typeof(ModbusCoil)) {
                     if (DataSet == DataType) {
                         ModbusCoil DigitalData = (ModbusCoil)Data;
@@ -1412,7 +1412,7 @@ namespace Serial_Monitor {
                         ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap != null) {
                             if (Snap.Manager != null) {
-                                SerialManager? SerMan = Snap.Manager.Manager;
+                                SerialManager? SerMan = Snap.Manager.Channel;
                                 if (SerMan == null) { return null; }
                                 if (SerMan.IsMaster == false) { return null; }
                                 return SerMan;
@@ -1446,7 +1446,7 @@ namespace Serial_Monitor {
                         ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap != null) {
                             if (Snap.Manager != null) {
-                                SerialManager? SerMan = Snap.Manager.Manager;
+                                SerialManager? SerMan = Snap.Manager.Channel;
                                 if (SerMan == null) { return; }
                                 SerMan.IsMaster = !SerMan.IsMaster;
                                 btnMenuModbusMaster.Checked = SerMan.IsMaster;
@@ -1481,7 +1481,7 @@ namespace Serial_Monitor {
                         ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap != null) {
                             if (Snap.Manager != null) {
-                                SerialManager? SerMan = Snap.Manager.Manager;
+                                SerialManager? SerMan = Snap.Manager.Channel;
                                 if (SerMan == null) { return; }
                                 SerMan.InputFormat = ModbusRTU == true ? FormatEnums.StreamInputFormat.ModbusRTU : FormatEnums.StreamInputFormat.ModbusASCII;
                                 SerMan.OutputFormat = ModbusRTU == true ? FormatEnums.StreamOutputFormat.ModbusRTU : FormatEnums.StreamOutputFormat.ModbusASCII;
@@ -1514,8 +1514,8 @@ namespace Serial_Monitor {
 
         private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
             if (CurrentManager == null) { return; }
-            if (sender.Manager == null) { return; }
-            if (CurrentManager.ID != sender.Manager.ID) { return; }
+            if (sender.Channel == null) { return; }
+            if (CurrentManager.ID != sender.Channel.ID) { return; }
             if (lstMonitor.CurrentItems.Count == 0) { return; }
             foreach (int i in Indices) {
                 if (i < lstMonitor.CurrentItems.Count) {
