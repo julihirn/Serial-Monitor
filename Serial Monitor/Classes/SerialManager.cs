@@ -664,6 +664,7 @@ namespace Serial_Monitor.Classes {
             try {
                 if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + inputRTUSilenceCalibration) {
                     RXCurrentByte = 0;
+                    Debug.Print("Timeout");
                 }
                 int i = 0;
                 int BytesToRead = ((SerialPort)sender).BytesToRead;
@@ -728,6 +729,7 @@ namespace Serial_Monitor.Classes {
             catch { }
             lastReceivedTime = DateTime.UtcNow;
         }
+
         private void TestPrint(byte[] InBuffer) {
             string StringBuffer = PrintStream(InBuffer);
             DataReceived?.Invoke(this, true, StringBuffer);

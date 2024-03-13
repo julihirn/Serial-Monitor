@@ -117,69 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="navigator1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="navigator1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="navigator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 307</value>
-  </data>
-  <data name="navigator1.Status1" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAC9PRE1vZHVsZXMsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5
-        VG9rZW49bnVsbAwDAAAAUVN5c3RlbS5EcmF3aW5nLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1
-        dHJhbCwgUHVibGljS2V5VG9rZW49YjAzZjVmN2YxMWQ1MGEzYQUBAAAAGU9ETW9kdWxlcy5TdGF0dXND
-        b25kaXRpb24DAAAAC2JvcmRlckNvbG9yCWJhY2tDb2xvcgphY3RpdmF0ZU9uBAQBFFN5c3RlbS5EcmF3
-        aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAACAAAABfz///8UU3lzdGVtLkRyYXdp
-        bmcuQ29sb3IEAAAABG5hbWUFdmFsdWUKa25vd25Db2xvcgVzdGF0ZQEAAAAJBwcDAAAACgAAAAAAAAAA
-        OwABAAH7/////P///woAAAAAAAAAADsAAQAGBgAAAAAL
-</value>
-  </data>
-  <data name="navigator1.Status2" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAC9PRE1vZHVsZXMsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5
-        VG9rZW49bnVsbAwDAAAAUVN5c3RlbS5EcmF3aW5nLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1
-        dHJhbCwgUHVibGljS2V5VG9rZW49YjAzZjVmN2YxMWQ1MGEzYQUBAAAAGU9ETW9kdWxlcy5TdGF0dXND
-        b25kaXRpb24DAAAAC2JvcmRlckNvbG9yCWJhY2tDb2xvcgphY3RpdmF0ZU9uBAQBFFN5c3RlbS5EcmF3
-        aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAACAAAABfz///8UU3lzdGVtLkRyYXdp
-        bmcuQ29sb3IEAAAABG5hbWUFdmFsdWUKa25vd25Db2xvcgVzdGF0ZQEAAAAJBwcDAAAACgAAAAAAAAAA
-        OwABAAH7/////P///woAAAAAAAAAADsAAQAGBgAAAAAL
-</value>
-  </data>
-  <data name="navigator1.Status3" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAC9PRE1vZHVsZXMsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5
-        VG9rZW49bnVsbAwDAAAAUVN5c3RlbS5EcmF3aW5nLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1
-        dHJhbCwgUHVibGljS2V5VG9rZW49YjAzZjVmN2YxMWQ1MGEzYQUBAAAAGU9ETW9kdWxlcy5TdGF0dXND
-        b25kaXRpb24DAAAAC2JvcmRlckNvbG9yCWJhY2tDb2xvcgphY3RpdmF0ZU9uBAQBFFN5c3RlbS5EcmF3
-        aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAACAAAABfz///8UU3lzdGVtLkRyYXdp
-        bmcuQ29sb3IEAAAABG5hbWUFdmFsdWUKa25vd25Db2xvcgVzdGF0ZQEAAAAJBwcDAAAACgAAAAAAAAAA
-        OwABAAH7/////P///woAAAAAAAAAADsAAQAGBgAAAAAL
-</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="navigator1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;navigator1.Name" xml:space="preserve">
-    <value>navigator1</value>
-  </data>
-  <data name="&gt;&gt;navigator1.Type" xml:space="preserve">
-    <value>ODModules.Navigator, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;navigator1.Parent" xml:space="preserve">
-    <value>tpRegisters</value>
-  </data>
-  <data name="&gt;&gt;navigator1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <metadata name="cmMonitor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>11, 10</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cmMonitor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>175, 76</value>
+  </data>
+  <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
+    <value>cmMonitor</value>
+  </data>
+  <data name="&gt;&gt;cmMonitor.Type" xml:space="preserve">
+    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="btnCmSelectionToSnapshot.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
@@ -189,6 +139,7 @@
   <data name="toolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="copyToolStripMenuItem1.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -207,42 +158,38 @@
   <data name="pasteToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Paste</value>
   </data>
-  <data name="cmMonitor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 76</value>
-  </data>
-  <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
-    <value>cmMonitor</value>
-  </data>
-  <data name="&gt;&gt;cmMonitor.Type" xml:space="preserve">
-    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="lstMonitor.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="lstMonitor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 27</value>
-  </data>
-  <data name="lstMonitor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>545, 280</value>
-  </data>
-  <data name="lstMonitor.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lstMonitor.Name" xml:space="preserve">
-    <value>lstMonitor</value>
-  </data>
-  <data name="&gt;&gt;lstMonitor.Type" xml:space="preserve">
-    <value>ODModules.ListControl, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;lstMonitor.Parent" xml:space="preserve">
-    <value>tpRegisters</value>
-  </data>
-  <data name="&gt;&gt;lstMonitor.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <metadata name="tsMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>344, 13</value>
   </metadata>
+  <data name="tsMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tsMain.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 2, 0</value>
+  </data>
+  <data name="tsMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>634, 25</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tsMain.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tsMain.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;tsMain.Name" xml:space="preserve">
+    <value>tsMain</value>
+  </data>
+  <data name="&gt;&gt;tsMain.Type" xml:space="preserve">
+    <value>ODModules.ToolStrip, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tsMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tsMain.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="btnCoils.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -402,202 +349,39 @@
   <data name="btnMenuTopMost.Text" xml:space="preserve">
     <value>Top Most</value>
   </data>
-  <data name="tsMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tsMain.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 2, 0</value>
-  </data>
-  <data name="tsMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 25</value>
-  </data>
-  <data name="tsMain.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="tsMain.Text" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
-  <data name="&gt;&gt;tsMain.Name" xml:space="preserve">
-    <value>tsMain</value>
-  </data>
-  <data name="&gt;&gt;tsMain.Type" xml:space="preserve">
-    <value>ODModules.ToolStrip, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tsMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tsMain.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="thSlaves.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="thSlaves.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 0</value>
-  </data>
-  <data name="thSlaves.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 0, 0, 0</value>
-  </data>
-  <data name="thSlaves.Size" type="System.Drawing.Size, System.Drawing">
-    <value>545, 27</value>
-  </data>
-  <data name="thSlaves.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;thSlaves.Name" xml:space="preserve">
-    <value>thSlaves</value>
-  </data>
-  <data name="&gt;&gt;thSlaves.Type" xml:space="preserve">
-    <value>ODModules.TabHeader, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;thSlaves.Parent" xml:space="preserve">
-    <value>tpRegisters</value>
-  </data>
-  <data name="&gt;&gt;thSlaves.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tpRegisters.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="tpRegisters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="tpRegisters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>626, 307</value>
-  </data>
-  <data name="tpRegisters.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tpRegisters.Text" xml:space="preserve">
-    <value>Master View</value>
-  </data>
-  <data name="&gt;&gt;tpRegisters.Name" xml:space="preserve">
-    <value>tpRegisters</value>
-  </data>
-  <data name="&gt;&gt;tpRegisters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tpRegisters.Parent" xml:space="preserve">
-    <value>tbDataPages</value>
-  </data>
-  <data name="&gt;&gt;tpRegisters.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ssClient.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ssClient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="ssClient.Size" type="System.Drawing.Size, System.Drawing">
-    <value>620, 301</value>
-  </data>
-  <data name="ssClient.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;ssClient.Name" xml:space="preserve">
-    <value>ssClient</value>
-  </data>
-  <data name="&gt;&gt;ssClient.Type" xml:space="preserve">
-    <value>Serial_Monitor.Components.SnapshotClient, Serial Monitor, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;ssClient.Parent" xml:space="preserve">
-    <value>tpRegisterFiltering</value>
-  </data>
-  <data name="&gt;&gt;ssClient.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tpRegisterFiltering.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="tpRegisterFiltering.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="tpRegisterFiltering.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tpRegisterFiltering.Size" type="System.Drawing.Size, System.Drawing">
-    <value>626, 307</value>
-  </data>
-  <data name="tpRegisterFiltering.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tpRegisterFiltering.Text" xml:space="preserve">
-    <value>Snapshot View</value>
-  </data>
-  <data name="&gt;&gt;tpRegisterFiltering.Name" xml:space="preserve">
-    <value>tpRegisterFiltering</value>
-  </data>
-  <data name="&gt;&gt;tpRegisterFiltering.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tpRegisterFiltering.Parent" xml:space="preserve">
-    <value>tbDataPages</value>
-  </data>
-  <data name="&gt;&gt;tpRegisterFiltering.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tbDataPages.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tbDataPages.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="tbDataPages.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 76</value>
-  </data>
-  <data name="tbDataPages.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="tbDataPages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 335</value>
-  </data>
-  <data name="tbDataPages.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;tbDataPages.Name" xml:space="preserve">
-    <value>tbDataPages</value>
-  </data>
-  <data name="&gt;&gt;tbDataPages.Type" xml:space="preserve">
-    <value>ODModules.HiddenTabControl, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tbDataPages.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tbDataPages.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="thDataPagesHeader.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="thDataPagesHeader.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 49</value>
-  </data>
-  <data name="thDataPagesHeader.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 0, 0, 0</value>
-  </data>
-  <data name="thDataPagesHeader.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 27</value>
-  </data>
-  <data name="thDataPagesHeader.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;thDataPagesHeader.Name" xml:space="preserve">
-    <value>thDataPagesHeader</value>
-  </data>
-  <data name="&gt;&gt;thDataPagesHeader.Type" xml:space="preserve">
-    <value>ODModules.TabHeader, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;thDataPagesHeader.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;thDataPagesHeader.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <metadata name="msMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>428, 14</value>
   </metadata>
+  <data name="msMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="msMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>634, 24</value>
+  </data>
+  <data name="msMain.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="msMain.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;msMain.Name" xml:space="preserve">
+    <value>msMain</value>
+  </data>
+  <data name="&gt;&gt;msMain.Type" xml:space="preserve">
+    <value>ODModules.MenuStrip, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;msMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;msMain.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
   <data name="newToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -739,11 +523,11 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
   </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
+  <data name="editToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
   </data>
   <data name="undoToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -781,6 +565,12 @@
   <data name="toolStripSeparator4.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="goToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 22</value>
+  </data>
+  <data name="goToToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Go To</value>
+  </data>
   <data name="goToToolStripMenuItem1.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+G</value>
   </data>
@@ -801,12 +591,6 @@
   </data>
   <data name="goToRegisterToolStripMenuItem.Text" xml:space="preserve">
     <value>Go To &amp;Register</value>
-  </data>
-  <data name="goToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 22</value>
-  </data>
-  <data name="goToToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Go To</value>
   </data>
   <data name="toolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
     <value>213, 6</value>
@@ -861,6 +645,15 @@
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
+  <data name="copySpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="copySpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 22</value>
+  </data>
+  <data name="copySpecialToolStripMenuItem.Text" xml:space="preserve">
+    <value>Copy &amp;Special</value>
+  </data>
   <data name="copyNamesToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -896,15 +689,6 @@
   </data>
   <data name="copyAppearanceToolStripMenuItem.Text" xml:space="preserve">
     <value>Copy &amp;Appearance</value>
-  </data>
-  <data name="copySpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="copySpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 22</value>
-  </data>
-  <data name="copySpecialToolStripMenuItem.Text" xml:space="preserve">
-    <value>Copy &amp;Special</value>
   </data>
   <data name="copyAsTextToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -981,6 +765,15 @@
   <data name="selectInvertToolStripMenuItem.Text" xml:space="preserve">
     <value>Select &amp;Invert</value>
   </data>
+  <data name="selectSpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="selectSpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 22</value>
+  </data>
+  <data name="selectSpecialToolStripMenuItem.Text" xml:space="preserve">
+    <value>Select Special </value>
+  </data>
   <data name="selectMatchingNamesToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1008,15 +801,6 @@
   <data name="selectMatchingFormatsToolStripMenuItem.Text" xml:space="preserve">
     <value>Select Matching &amp;Formats</value>
   </data>
-  <data name="selectSpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="selectSpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 22</value>
-  </data>
-  <data name="selectSpecialToolStripMenuItem.Text" xml:space="preserve">
-    <value>Select Special </value>
-  </data>
   <data name="toolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
     <value>213, 6</value>
   </data>
@@ -1035,11 +819,11 @@
   <data name="bitTogglerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Bit Toggler</value>
   </data>
-  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
+  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
-  <data name="editToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
+  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;View</value>
   </data>
   <data name="viewCoilsToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1143,11 +927,11 @@
   <data name="btnTopMost.Text" xml:space="preserve">
     <value>&amp;Top Most</value>
   </data>
-  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+  <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 20</value>
   </data>
-  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;View</value>
+  <data name="modbusToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Modbus</value>
   </data>
   <data name="writeCoilToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1353,11 +1137,11 @@
   <data name="btnSelectionToSnapshot.Text" xml:space="preserve">
     <value>Add Selection to &amp;Snapshot</value>
   </data>
-  <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 20</value>
+  <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 20</value>
   </data>
-  <data name="modbusToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Modbus</value>
+  <data name="formatToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Format</value>
   </data>
   <data name="ddbDisplayFormat.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1382,6 +1166,18 @@
   </data>
   <data name="ddpDataSize.Text" xml:space="preserve">
     <value>Data &amp;Size</value>
+  </data>
+  <data name="btnSigned.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnSigned.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="btnSigned.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
+  </data>
+  <data name="btnSigned.Text" xml:space="preserve">
+    <value>Si&amp;gned</value>
   </data>
   <data name="ddbSigned.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1409,18 +1205,6 @@
   </data>
   <data name="ddbToggleSigned.Text" xml:space="preserve">
     <value>&amp;Toggle</value>
-  </data>
-  <data name="btnSigned.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnSigned.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="btnSigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 22</value>
-  </data>
-  <data name="btnSigned.Text" xml:space="preserve">
-    <value>Si&amp;gned</value>
   </data>
   <data name="toolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 6</value>
@@ -1464,11 +1248,11 @@
   <data name="resetAppearanceToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Reset Appearance</value>
   </data>
-  <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
+  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 20</value>
   </data>
-  <data name="formatToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Format</value>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Tools</value>
   </data>
   <data name="checksumCalculatorToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1506,11 +1290,11 @@
   <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Options</value>
   </data>
-  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 20</value>
+  <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 20</value>
   </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Tools</value>
+  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Window</value>
   </data>
   <data name="tileHorizontalToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1578,36 +1362,6 @@
   <data name="snapshotsToolStripMenuItem.Text" xml:space="preserve">
     <value>S&amp;napshots</value>
   </data>
-  <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 20</value>
-  </data>
-  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Window</value>
-  </data>
-  <data name="msMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="msMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 24</value>
-  </data>
-  <data name="msMain.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="msMain.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;msMain.Name" xml:space="preserve">
-    <value>msMain</value>
-  </data>
-  <data name="&gt;&gt;msMain.Type" xml:space="preserve">
-    <value>ODModules.MenuStrip, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;msMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;msMain.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <metadata name="cmDisplayFormats.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>109, 9</value>
   </metadata>
@@ -1635,6 +1389,15 @@
   <metadata name="cmChannels.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>525, 14</value>
   </metadata>
+  <data name="cmChannels.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 104</value>
+  </data>
+  <data name="&gt;&gt;cmChannels.Name" xml:space="preserve">
+    <value>cmChannels</value>
+  </data>
+  <data name="&gt;&gt;cmChannels.Type" xml:space="preserve">
+    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="btnRenameChannel.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1680,18 +1443,18 @@
   <data name="disconnectToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Disconnect</value>
   </data>
-  <data name="cmChannels.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 104</value>
-  </data>
-  <data name="&gt;&gt;cmChannels.Name" xml:space="preserve">
-    <value>cmChannels</value>
-  </data>
-  <data name="&gt;&gt;cmChannels.Type" xml:space="preserve">
-    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
   <metadata name="cmMBChannel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>630, 16</value>
   </metadata>
+  <data name="cmMBChannel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 120</value>
+  </data>
+  <data name="&gt;&gt;cmMBChannel.Name" xml:space="preserve">
+    <value>cmMBChannel</value>
+  </data>
+  <data name="&gt;&gt;cmMBChannel.Type" xml:space="preserve">
+    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="modbusMasterToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1749,14 +1512,53 @@
   <data name="renameUnitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Rename Unit</value>
   </data>
-  <data name="cmMBChannel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 120</value>
+  <data name="editorModbus.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
   </data>
-  <data name="&gt;&gt;cmMBChannel.Name" xml:space="preserve">
-    <value>cmMBChannel</value>
+  <data name="editorModbus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>391, 49</value>
   </data>
-  <data name="&gt;&gt;cmMBChannel.Type" xml:space="preserve">
-    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  <data name="editorModbus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 362</value>
+  </data>
+  <data name="editorModbus.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;editorModbus.Name" xml:space="preserve">
+    <value>editorModbus</value>
+  </data>
+  <data name="&gt;&gt;editorModbus.Type" xml:space="preserve">
+    <value>Serial_Monitor.Docks.ModbusEditor, Serial Monitor, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;editorModbus.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;editorModbus.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="pnlDocker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlDocker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 49</value>
+  </data>
+  <data name="pnlDocker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>391, 362</value>
+  </data>
+  <data name="pnlDocker.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;pnlDocker.Name" xml:space="preserve">
+    <value>pnlDocker</value>
+  </data>
+  <data name="&gt;&gt;pnlDocker.Type" xml:space="preserve">
+    <value>ODModules.Docking.DockPanel, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlDocker.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlDocker.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
