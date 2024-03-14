@@ -180,6 +180,33 @@ namespace Serial_Monitor.Classes.Theming {
                     TbHdr.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 }
             }
+            else if (ControlObject.GetType() == typeof(ODModules.Docking.DockPanel)) {
+                ODModules.Docking.DockPanel TbHdr = (ODModules.Docking.DockPanel)ControlObject;
+                TbHdr.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
+                TbHdr.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+                //TbHdr.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
+                TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                TbHdr.TabSelectedForeColor = Properties.Settings.Default.THM_COL_TabSelectedForeColor;
+                TbHdr.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                TbHdr.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
+                TbHdr.TabSelectedBackColor = Properties.Settings.Default.THM_COL_TabSelectedColor;
+                if (ApplicationManager.IsDark == true) {
+                    TbHdr.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
+                }
+                else {
+                    TbHdr.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
+                }
+                TbHdr.WindowBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                TbHdr.ActiveTitleBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                TbHdr.InactiveTitleBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                TbHdr.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+
+                TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                TbHdr.ActiveTitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                TbHdr.InactiveTitleForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                //TbHdr.HeaderDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                //TbHdr.HeaderHoverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
+            }
             else if (ControlObject.GetType() == typeof(ODModules.ConsoleInterface)) {
                 ODModules.ConsoleInterface Cons = (ODModules.ConsoleInterface)ControlObject;
                 Cons.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;

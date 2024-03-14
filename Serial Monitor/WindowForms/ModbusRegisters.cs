@@ -55,6 +55,9 @@ namespace Serial_Monitor {
             Application.AddMessageFilter(new ControlScrollFilter());
             Application.AddMessageFilter(pnlDocker.DockContentDragFilter);
             Application.AddMessageFilter(pnlDocker.DockResizeFilter);
+
+            Docks.ModbusPollers Poller = new Docks.ModbusPollers();
+            ToolWindows.Add(Poller);
             if (File.Exists("dock.cfg")) {
                 ////DeserializeDockPanel("dock.cfg");
             }
@@ -700,6 +703,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.lstMonitor);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.tbDataPages);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.navigator1);
+            Classes.Theming.ThemeManager.ThemeControl(pnlDocker);
 
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
