@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModbusRegisters));
             cmMonitor = new ODModules.ContextMenu();
             btnCmSelectionToSnapshot = new ToolStripMenuItem();
@@ -159,6 +160,7 @@
             renameUnitToolStripMenuItem = new ToolStripMenuItem();
             editorModbus = new Docks.ModbusEditor();
             pnlDocker = new ODModules.Docking.DockPanel();
+            tmrRefresh = new System.Windows.Forms.Timer(components);
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -1128,6 +1130,7 @@
             // 
             // editorModbus
             // 
+            editorModbus.BorderColor = Color.Gray;
             resources.ApplyResources(editorModbus, "editorModbus");
             editorModbus.DockText = "Modbus Editor";
             editorModbus.Icon = null;
@@ -1144,6 +1147,8 @@
             pnlDocker.InactiveTitleBackColor = Color.DimGray;
             pnlDocker.InactiveTitleForeColor = Color.Gray;
             pnlDocker.Name = "pnlDocker";
+            pnlDocker.SelectedBorderColor = Color.Gray;
+            pnlDocker.ShowBorder = false;
             pnlDocker.TabBackColor = Color.Gray;
             pnlDocker.TabBorderColor = Color.DimGray;
             pnlDocker.TabClickedBackColor = Color.DarkGray;
@@ -1156,6 +1161,11 @@
             pnlDocker.TabSelectedShadowColor = Color.Black;
             pnlDocker.TabStyle = ODModules.Docking.DockPanel.TabStyles.Normal;
             pnlDocker.WindowBackColor = Color.Black;
+            pnlDocker.WindowBorderColor = Color.DimGray;
+            // 
+            // tmrRefresh
+            // 
+            tmrRefresh.Tick += tmrRefresh_Tick;
             // 
             // ModbusRegisters
             // 
@@ -1322,5 +1332,6 @@
         private ToolStripMenuItem snapshotsToolStripMenuItem;
         private Docks.ModbusEditor editorModbus;
         private ODModules.Docking.DockPanel pnlDocker;
+        private System.Windows.Forms.Timer tmrRefresh;
     }
 }

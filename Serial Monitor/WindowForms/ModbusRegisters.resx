@@ -1518,6 +1518,9 @@
   <data name="editorModbus.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 49</value>
   </data>
+  <data name="editorModbus.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
   <data name="editorModbus.Size" type="System.Drawing.Size, System.Drawing">
     <value>622, 362</value>
   </data>
@@ -1563,6 +1566,9 @@
   <data name="&gt;&gt;pnlDocker.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <metadata name="tmrRefresh.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>763, 16</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -5239,6 +5245,12 @@
   </data>
   <data name="&gt;&gt;renameUnitToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tmrRefresh.Name" xml:space="preserve">
+    <value>tmrRefresh</value>
+  </data>
+  <data name="&gt;&gt;tmrRefresh.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ModbusRegisters</value>

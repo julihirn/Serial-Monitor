@@ -56,6 +56,7 @@ namespace Serial_Monitor.Classes {
 
         public static event ModbusAppearanceChangedHandler? ModbusAppearanceChanged;
         public delegate void ModbusAppearanceChangedHandler(ModbusSlave sender, List<int> Indices, DataSelection DataType);
+        public static event ModbusAppearanceChangedHandler? ModbusPropertiesChanged;
 
         public static event ModbusDiagnosticsReceivedHandler? ModbusDiagnosticsReceived;
         public delegate void ModbusDiagnosticsReceivedHandler(SerialManager sender, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data);
@@ -101,6 +102,12 @@ namespace Serial_Monitor.Classes {
             if (Sender.Channel == null) { return; }
             if (DataType == null) { return; }
             ModbusAppearanceChanged?.Invoke(Sender, Indices, (DataSelection)DataType);
+        }
+        public static void ModbusRegisterPropertiesChanged(ModbusSlave? Sender, List<int> Indices, DataSelection? DataType) {
+            if (Sender == null) { return; }
+            if (Sender.Channel == null) { return; }
+            if (DataType == null) { return; }
+            ModbusPropertiesChanged?.Invoke(Sender, Indices, (DataSelection)DataType);
         }
         public static void ModbusRegisterPropertyChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }

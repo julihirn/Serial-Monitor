@@ -52,7 +52,7 @@
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2365.46" />
-    <PackageReference Include="ODModules" Version="2.0.18.3" />
+    <PackageReference Include="ODModules" Version="2.0.18.4" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />

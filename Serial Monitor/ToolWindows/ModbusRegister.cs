@@ -99,11 +99,13 @@ namespace Serial_Monitor.ToolWindows {
                 SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
                 SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
                 SystemManager.ModbusAppearanceChanged += SystemManager_ModbusAppearanceChanged;
+                SystemManager.ModbusPropertiesChanged += SystemManager_ModbusPropertiesChanged;
                 //this.GotFocus += ModbusRegister_GotFocus;
                 //this.LostFocus += ModbusRegister_LostFocus;
                 IgnoreBoundsChange = false;
             }
         }
+
 
 
         private void ModbusRegister_LostFocus(object? sender, EventArgs e) {
@@ -157,7 +159,25 @@ namespace Serial_Monitor.ToolWindows {
             }
             lstRegisters.Invalidate();
         }
-
+        private void SystemManager_ModbusPropertiesChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+            Thread Tr = new Thread(() => ApplyProperties(sender, Indices, DataType));
+            Tr.Name = "ModbusProp_Apply";
+            Tr.IsBackground = true;
+            Tr.Start();
+        }
+        private void ApplyProperties(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+            if (snapshot == null) { return; }
+            if (snapshot.Manager == null) { return; }
+            if (snapshot.Manager.Channel == null) { return; }
+            if (sender.Channel == null) { return; }
+            if (snapshot.Manager.Channel.ID != sender.Channel.ID) { return; }
+            foreach (int i in Indices) {
+                snapshot.UpdateRowAppearance(i);
+            }
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.lstRegisters.Invalidate();
+            }));
+        }
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
@@ -216,6 +236,7 @@ namespace Serial_Monitor.ToolWindows {
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusPropertyChanged -= SystemManager_ModbusPropertyChanged;
+            SystemManager.ModbusPropertiesChanged -= SystemManager_ModbusPropertiesChanged;
 
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
@@ -355,6 +376,7 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void lstRegisters_ItemCheckedChanged(object sender, ItemCheckedChangeEventArgs e) {
+            if (snapshot == null) { return; }
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
             object? DataTag = LstItem.Tag;
@@ -363,7 +385,8 @@ namespace Serial_Monitor.ToolWindows {
                 if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
                     Classes.Modbus.ModbusRegister Reg = (Classes.Modbus.ModbusRegister)DataTag;
                     Reg.Signed = e.Checked;
-                    LstItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    //LstItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    snapshot.UpdateRow(e.Item);
                     lstRegisters.Invalidate();
                 }
             }

@@ -14,9 +14,36 @@ namespace Serial_Monitor.Docks {
         public ModbusEditor() {
             InitializeComponent();
         }
-
+        private Color borderColor = Color.Gray;
+        [System.ComponentModel.Category("Appearance")]
+        public Color BorderColor {
+            get {
+                return borderColor;
+            }
+            set {
+                borderColor = value;
+                Invalidate();
+            }
+        }
         private void ModbusEditor_Load(object sender, EventArgs e) {
 
+        }
+
+        protected override void OnPaint(PaintEventArgs e) {
+            base.OnPaint(e);
+           
+        }
+
+        private void pnlInset_Resize(object sender, EventArgs e) {
+            pnlInset.Invalidate();
+        }
+
+        private void pnlInset_Paint(object sender, PaintEventArgs e) {
+            using (SolidBrush brush = new SolidBrush(borderColor)) {
+                using (Pen Pn = new Pen(brush)) {
+                    e.Graphics.FillRectangle(brush, new Rectangle(0, 0, Width - 1, Height - 1));
+                }
+            }
         }
     }
 }

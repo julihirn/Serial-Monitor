@@ -1,4 +1,5 @@
-﻿using ODModules;
+﻿using Handlers;
+using ODModules;
 using ODModules.Docking;
 using ODModules.Win32;
 using Serial_Monitor.Classes;
@@ -6,6 +7,7 @@ using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Components;
+using Serial_Monitor.Interfaces;
 using Serial_Monitor.WindowForms;
 using Svg;
 using System;
@@ -13,7 +15,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -55,8 +56,9 @@ namespace Serial_Monitor {
             Application.AddMessageFilter(new ControlScrollFilter());
             Application.AddMessageFilter(pnlDocker.DockContentDragFilter);
             Application.AddMessageFilter(pnlDocker.DockResizeFilter);
-
+            Docks.ModbusProperties Props = new Docks.ModbusProperties(this);
             Docks.ModbusPollers Poller = new Docks.ModbusPollers();
+            ToolWindows.Add(Props);
             ToolWindows.Add(Poller);
             if (File.Exists("dock.cfg")) {
                 ////DeserializeDockPanel("dock.cfg");
@@ -138,6 +140,7 @@ namespace Serial_Monitor {
             SystemManager.SlaveChanged += SystemManager_SlaveChanged;
 
             SystemManager.ModbusAppearanceChanged += SystemManager_ModbusAppearanceChanged;
+            SystemManager.ModbusPropertiesChanged += SystemManager_ModbusPropertiesChanged;
 
             AppearancePopupHost.Opening += AppearancePopupHost_Opening;
             AppearancePopupHost.Closing += AppearancePopupHost_Closing;
@@ -704,12 +707,19 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.tbDataPages);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.navigator1);
             Classes.Theming.ThemeManager.ThemeControl(pnlDocker);
+            editorModbus.BorderColor = Color.FromArgb(100, 128, 128, 128);
 
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
             Classes.Theming.ThemeManager.ThemeControl(cmMonitor);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             Classes.Theming.ThemeManager.ThemeControl(cmMBChannel);
+
+            foreach (ODModules.Docking.ToolWindow ToolWin in ToolWindows) {
+                if (ToolWin is ITheme) {
+                    ((ITheme)ToolWin).ApplyTheme();
+                }
+            }
             editorModbus.ssClient.BackColor = Properties.Settings.Default.THM_COL_Editor;
             this.ResumeLayout();
         }
@@ -830,7 +840,7 @@ namespace Serial_Monitor {
         #region Editing and List Support
 
         Point LastPoint = Point.Empty;
-        private ListControl? GetCurrentListView() {
+        internal ListControl? GetCurrentListView() {
             if (currentEditorView == DataEditor.MasterView) {
                 return editorModbus.lstMonitor;
             }
@@ -845,7 +855,7 @@ namespace Serial_Monitor {
             }
             return null;
         }
-        private ModbusSlave? GetCurrentSlave() {
+        internal ModbusSlave? GetCurrentSlave() {
             if (currentEditorView == DataEditor.MasterView) {
                 if (CurrentManager == null) { return null; }
                 if (CurrentManager.IsMaster) {
@@ -867,7 +877,7 @@ namespace Serial_Monitor {
             }
             return null;
         }
-        private DataSelection? GetDataSelection() {
+        internal DataSelection? GetDataSelection() {
             if (currentEditorView == DataEditor.MasterView) {
                 return DataSet;
             }
@@ -1040,6 +1050,7 @@ namespace Serial_Monitor {
             SystemManager.PortStatusChanged -= SystemManager_PortStatusChanged;
 
             SystemManager.ModbusAppearanceChanged -= SystemManager_ModbusAppearanceChanged;
+            SystemManager.ModbusPropertiesChanged -= SystemManager_ModbusPropertiesChanged;
 
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
@@ -1095,7 +1106,7 @@ namespace Serial_Monitor {
         private void addSelectionToSnapshotToolStripMenuItem_Click(object sender, EventArgs e) {
             AddSelectionToSnapshot();
         }
-        private void ssClient_SnapshotsChanged(object sender) {
+        private void ssClient_SnapshotsChanged(object? sender) {
             CheckSnapshotEditors();
         }
         private void AddSelectionToSnapshot() {
@@ -1157,10 +1168,10 @@ namespace Serial_Monitor {
                 }
             }
         }
-        private void ssClient_OnNoForms(object sender) {
+        private void ssClient_OnNoForms(object? sender) {
             SnapshotCurrentIndex = -1;
         }
-        private void ssClient_OnChildActivated(object sender, MdiClientForm child, int Index) {
+        private void ssClient_OnChildActivated(object? sender, MdiClientForm child, int Index) {
             //if(child.GetType() == typeof(ToolWindows.ModbusRegister)) {
             //    GetIndexFromForm((ToolWindows.ModbusRegister)child);
             //}
@@ -1548,7 +1559,48 @@ namespace Serial_Monitor {
         private void ddpDataSize_Click(object sender, EventArgs e) {
 
         }
-
+        private void SystemManager_ModbusPropertiesChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+            Thread Tr = new Thread(() => ApplyProperties(sender, Indices, DataType));
+            Tr.Name = "ModbusProp_Apply";
+            Tr.IsBackground = true;
+            Tr.Start();
+        }
+        private void ApplyProperties(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+            if (CurrentManager == null) { return; }
+            if (sender.Channel == null) { return; }
+            if (CurrentManager.ID != sender.Channel.ID) { return; }
+            if (editorModbus.lstMonitor.CurrentItems.Count == 0) { return; }
+            foreach (int i in Indices) {
+                if (i < editorModbus.lstMonitor.CurrentItems.Count) {
+                    object? Data = editorModbus.lstMonitor.CurrentItems[i].Tag;
+                    if (Data == null) { continue; }
+                    //if (Data.GetType() != typeof(ModbusObject)) { continue; }
+                    ModbusObject MBObject = (ModbusObject)Data;
+                    editorModbus.lstMonitor.CurrentItems[i].UseLineBackColor = MBObject.UseBackColor;
+                    editorModbus.lstMonitor.CurrentItems[i].LineBackColor = MBObject.BackColor;
+                    editorModbus.lstMonitor.CurrentItems[i].UseLineForeColor = MBObject.UseForeColor;
+                    editorModbus.lstMonitor.CurrentItems[i].LineForeColor = MBObject.ForeColor;
+                }
+            }
+            TriggerRefresh();
+        }
+        int RefreshCount = 0;
+        private void TriggerRefresh() {
+            RefreshCount = 0;
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.tmrRefresh.Enabled = true;
+            }));
+        }
+        private void tmrRefresh_Tick(object sender, EventArgs e) {
+            if (RefreshCount < 4){
+                tmrRefresh.Enabled = false;
+                RefreshCount = 0;
+                editorModbus.lstMonitor.Invalidate();
+            }
+            else {
+                RefreshCount++;
+            }
+        }
         private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
             if (CurrentManager == null) { return; }
             if (sender.Channel == null) { return; }
@@ -1979,6 +2031,8 @@ namespace Serial_Monitor {
         private void closeSnapshotToolStripMenuItem_Click(object sender, EventArgs e) {
             editorModbus.ssClient.CloseAtIndex(snapShotCurrentIndex);
         }
+
+       
 
         private enum DataEditor {
             MasterView = 0x00,

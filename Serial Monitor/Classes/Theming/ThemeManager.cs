@@ -196,14 +196,19 @@ namespace Serial_Monitor.Classes.Theming {
                 else {
                     TbHdr.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
                 }
-                TbHdr.WindowBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-                TbHdr.ActiveTitleBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-                TbHdr.InactiveTitleBackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                TbHdr.TabBackColor = Color.Transparent;
+                TbHdr.WindowBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                TbHdr.ActiveTitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                TbHdr.InactiveTitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
                 TbHdr.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
 
+                TbHdr.TabBorderColor = Color.Transparent;
                 TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 TbHdr.ActiveTitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 TbHdr.InactiveTitleForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+
+                TbHdr.WindowBorderColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+                TbHdr.SelectedBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
                 //TbHdr.HeaderDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
                 //TbHdr.HeaderHoverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
@@ -320,6 +325,24 @@ namespace Serial_Monitor.Classes.Theming {
                 Label CxBx = (Label)ControlObject;
                 CxBx.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
+            }
+        }
+        public static void ThemeControlAlternative(object ControlObject) {
+            if (ControlObject.GetType() == typeof(ODModules.LabelPanel)) {
+                ODModules.LabelPanel lblPnl = (ODModules.LabelPanel)ControlObject;
+                lblPnl.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                lblPnl.LabelBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                lblPnl.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                lblPnl.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
+                lblPnl.ArrowMouseOverColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
+            }
+            else if (ControlObject.GetType() == typeof(ODModules.PrefixScale)) {
+                ODModules.PrefixScale PrefixSc = (ODModules.PrefixScale)ControlObject;
+                PrefixSc.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                PrefixSc.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                PrefixSc.InactiveForecolor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                PrefixSc.DownColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                PrefixSc.HoverColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
         }
         #endregion
