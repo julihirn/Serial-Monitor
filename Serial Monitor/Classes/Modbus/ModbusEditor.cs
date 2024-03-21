@@ -1095,27 +1095,27 @@ namespace Serial_Monitor.Classes.Modbus {
 
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.BackColor)) {
                             Reg.BackColor = Settings.BackColor;
-                            Li.LineBackColor = Settings.BackColor;
+                            //Li.LineBackColor = Settings.BackColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.ForeColor)) {
                             Reg.ForeColor = Settings.ForeColor;
-                            Li.LineForeColor = Settings.ForeColor;
+                            //Li.LineForeColor = Settings.ForeColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseBackColor)) {
                             Reg.UseBackColor = Settings.UseBackColor;
-                            Li.UseLineBackColor = Settings.UseBackColor;
+                            //Li.UseLineBackColor = Settings.UseBackColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseForeColor)) {
                             Reg.UseForeColor = Settings.UseForeColor;
-                            Li.UseLineForeColor = Settings.UseForeColor;
+                            //Li.UseLineForeColor = Settings.UseForeColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.Unit)) {
                             Reg.Unit = Settings.Unit;
-                            Li[Indx_Value].Text = Reg.ValueWithUnit;
+                            //Li[Indx_Value].Text = Reg.ValueWithUnit;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.Prefix)) {
                             Reg.Prefix = Settings.Prefix;
-                            Li[Indx_Value].Text = Reg.ValueWithUnit;
+                            //Li[Indx_Value].Text = Reg.ValueWithUnit;
                         }
 
                         return Li.Value;
@@ -1124,19 +1124,19 @@ namespace Serial_Monitor.Classes.Modbus {
                         ModbusCoil Reg = (ModbusCoil)Li.Tag;
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.BackColor)) {
                             Reg.BackColor = Settings.BackColor;
-                            Li.LineBackColor = Settings.BackColor;
+                            //Li.LineBackColor = Settings.BackColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.ForeColor)) {
                             Reg.ForeColor = Settings.ForeColor;
-                            Li.LineForeColor = Settings.ForeColor;
+                            //Li.LineForeColor = Settings.ForeColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseBackColor)) {
                             Reg.UseBackColor = Settings.UseBackColor;
-                            Li.UseLineBackColor = Settings.UseBackColor;
+                            //Li.UseLineBackColor = Settings.UseBackColor;
                         }
                         if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseForeColor)) {
                             Reg.UseForeColor = Settings.UseForeColor;
-                            Li.UseLineForeColor = Settings.UseForeColor;
+                            //Li.UseLineForeColor = Settings.UseForeColor;
                         }
 
                        return Li.Value;
@@ -1149,6 +1149,12 @@ namespace Serial_Monitor.Classes.Modbus {
             ModbusProperty Appearance = new ModbusProperty();
             Appearance.Prefix = Prefix;
             ModbusPropertyFlags Flags = ModbusPropertyFlags.Prefix;
+            ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
+        }
+        public static void ChangeSize(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, DataSize Size) {
+            ModbusProperty Appearance = new ModbusProperty();
+            Appearance.Size = Size;
+            ModbusPropertyFlags Flags = ModbusPropertyFlags.Size;
             ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
         }
         public static void ChangeAppearance(object? sender, ListControl lstMonitor) {
@@ -1213,6 +1219,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public bool UseBackColor;
         public string Unit;
         public ConversionHandler.Prefix Prefix;
+        public DataSize Size;
     }
     public enum ModbusPropertyFlags {
         None = 0x00,
@@ -1221,6 +1228,7 @@ namespace Serial_Monitor.Classes.Modbus {
         UseForeColor = 0x04,
         UseBackColor = 0x08,
         Unit = 0x10,
-        Prefix = 0x20
+        Prefix = 0x20,
+        Size = 0x40
     }
 }

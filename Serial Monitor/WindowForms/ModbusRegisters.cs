@@ -28,6 +28,8 @@ using ListControl = ODModules.ListControl;
 namespace Serial_Monitor {
     public partial class ModbusRegisters : Form, Interfaces.ITheme {
         public Form? Attached = null;
+        public event ViewChangedHandler? ViewChanged;
+        public delegate void ViewChangedHandler(object ?sender);
         TemplateContextMenuHost AppearancePopupHost;
         AppearancePopup popAppearance = new AppearancePopup();
         BitTogglerPopup popToggler = new BitTogglerPopup();
@@ -101,6 +103,7 @@ namespace Serial_Monitor {
             // mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
             EnableDisableDialogEditors();
+            ViewChanged?.Invoke(this);
         }
         private void AppearancePopupHost_Opening(object? sender, CancelEventArgs e) {
         }
@@ -261,6 +264,7 @@ namespace Serial_Monitor {
                 ModbusEditor.ShowHideColumns(showFormats, DataSet, editorModbus.lstMonitor);
                 ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 CheckModbusDataSelection();
+                ViewChanged?.Invoke(this);
             }
         }
         private DataEditor currentEditorView = DataEditor.MasterView;
@@ -363,6 +367,7 @@ namespace Serial_Monitor {
                 }
                 ChangeLockView();
                 SetEditors();
+                ViewChanged?.Invoke(this);
             }
         }
         private int slaveAddress = -1;
@@ -379,6 +384,7 @@ namespace Serial_Monitor {
                 }
                 ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 ModbusEditor.ClearControls(editorModbus.lstMonitor);
+                ViewChanged?.Invoke(this);
             }
         }
 
@@ -1592,9 +1598,10 @@ namespace Serial_Monitor {
             }));
         }
         private void tmrRefresh_Tick(object sender, EventArgs e) {
-            if (RefreshCount < 4){
+            if (RefreshCount < 10){
                 tmrRefresh.Enabled = false;
                 RefreshCount = 0;
+                Debug.Print("Refresh");
                 editorModbus.lstMonitor.Invalidate();
             }
             else {

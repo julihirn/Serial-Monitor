@@ -12,17 +12,75 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Handlers;
 using System.Diagnostics;
+using Svg;
+using ODModules;
+using Serial_Monitor.Classes.Enums;
 
 namespace Serial_Monitor.Docks {
     public partial class ModbusProperties : ODModules.Docking.ToolWindow, Interfaces.ITheme {
         ModbusRegisters? EditorInstance = null;
+        protected override CreateParams CreateParams {
+            get {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+                return handleParam;
+            }
+        }
         public ModbusProperties(ModbusRegisters? EditorInstance) {
             InitializeComponent();
             this.EditorInstance = EditorInstance;
             if (this.EditorInstance != null) {
                 this.EditorInstance.FormClosing += EditorInstance_FormClosing;
+                this.EditorInstance.ViewChanged += EditorInstance_ViewChanged;
+            }
+            EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
+            EnumManager.LoadDataFormats(ddbFormat, Format_Click, true);
+        }
+
+        private void EditorInstance_ViewChanged(object? sender) {
+            DataSelection? Select = GetDataSelection();
+            if (Select >= DataSelection.ModbusDataDiscreteInputs) {
+                lblpnlFormat.Visible = true;
+                lblpnlUnits.Visible = true;
+            }
+            else {
+                lblpnlFormat.Visible = false;
+                lblpnlUnits.Visible = false;
             }
         }
+
+        private void DataSize_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            this.Focus();
+            //if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            //ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+            //object? Tag = Tsmi.Tag;
+            //if (Tag == null) { return; }
+            //if (sender.GetType() != typeof(Classes.Enums.ModbusEnums.DataSize)) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeSizeList(sender, CurrentEditor);
+        }
+        private void Format_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            this.Focus();
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+            object? Tag = Tsmi.Tag;
+            if (Tag == null) { return; }
+            if (Tag.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
+            ModbusEnums.DataFormat DataFormat = (ModbusEnums.DataFormat)Tag;
+            ddbFormat.Text = EnumManager.DataFormatToString(DataFormat).A;
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeDisplayFormatList(sender, CurrentEditor);
+        }
+
         private void EditorInstance_FormClosing(object? sender, FormClosingEventArgs e) {
             if (EditorInstance == null) { return; }
             EditorInstance.FormClosing -= EditorInstance_FormClosing;
@@ -35,8 +93,21 @@ namespace Serial_Monitor.Docks {
         public void ApplyTheme() {
             foreach (Control control in panel2.Controls) {
                 ThemeManager.ThemeControlAlternative(control);
+                ThemePanel(control);
             }
             ThemeManager.ThemeControlAlternative(pfsMain);
+            ThemeManager.ThemeControl(toolStrip2);
+            ThemeManager.ThemeControl(toolStrip1);
+            toolStrip1.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+            toolStrip2.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+        }
+        private void ThemePanel(object Pnl) {
+            if (Pnl.GetType() == typeof(LabelPanel)) {
+                LabelPanel ChildPnl = (LabelPanel)Pnl;
+                foreach (Control control in ChildPnl.Controls) {
+                    ThemeManager.ThemeControlAlternative(control);
+                }
+            }
         }
         private ODModules.ListControl? GetCurrentListView() {
             if (EditorInstance == null) { return null; }
@@ -57,7 +128,7 @@ namespace Serial_Monitor.Docks {
             //ModbusAppearance MbAppear = new ModbusAppearance(popAppearance.UseItemForeColor, popAppearance.ItemForeColor, popAppearance.UseItemBackColor, popAppearance.ItemBackColor, popAppearance.Unit, popAppearance.Prefix);
             ConversionHandler.Prefix CurrentPrefix = (ConversionHandler.Prefix)ntbMain.Prefix;
             if (LastPrefix != CurrentPrefix) {
-                Debug.Print("RQ");
+                //Debug.Print("RQ");
                 Classes.Modbus.ModbusEditor.ChangePrefix(GetCurrentSlave(), Select, sender, CurrentEditor, CurrentPrefix);
             }
             LastPrefix = CurrentPrefix;

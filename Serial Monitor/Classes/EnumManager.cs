@@ -588,7 +588,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        public static void LoadDataFormats(object DropDownList, EventHandler FormatClick) {
+        public static void LoadDataFormats(object DropDownList, EventHandler FormatClick, bool ApplyChecked = false) {
             DataFormat[] Formats = (DataFormat[])DataFormat.GetValues(typeof(Enums.ModbusEnums.DataFormat));
             bool CheckFirst = true;
             foreach (ModbusEnums.DataFormat Frmt in Formats) {
@@ -612,8 +612,13 @@ namespace Serial_Monitor.Classes {
                     Btn.DropDownItems.Add(Tsi);
                 }
                 else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
-                    Tsi.Checked = false;
                     ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    if (ApplyChecked == false) { Tsi.Checked = false; }
+                    else {
+                        if (Tsi.Checked) {
+                            Btn.Text = Data.A;
+                        }
+                    }
                     Btn.DropDownItems.Add(Tsi);
                 }
             }
@@ -645,6 +650,12 @@ namespace Serial_Monitor.Classes {
                     Tsi.Checked = false;
                     ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
                     Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ODModules.ToolStrip)) {
+                    Tsi.Checked = false;
+                    Tsi.Text = DataSizeToInteger(Frmt).ToString();
+                    ODModules.ToolStrip TsMenu = (ODModules.ToolStrip)DropDownList;
+                    TsMenu.Items.Add(Tsi);
                 }
             }
         }

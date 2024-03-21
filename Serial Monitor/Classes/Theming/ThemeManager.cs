@@ -282,6 +282,13 @@ namespace Serial_Monitor.Classes.Theming {
                 btn.BorderColorDownNorth = Properties.Settings.Default.THM_COL_BorderColor;
                 btn.BorderColorDownSouth = Properties.Settings.Default.THM_COL_BorderColor;
             }
+            else if(ControlObject.GetType() == typeof(ODModules.FlatComboBox)) {
+                ODModules.FlatComboBox cmbxTemp = (ODModules.FlatComboBox)ControlObject;
+                cmbxTemp.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                cmbxTemp.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                cmbxTemp.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                cmbxTemp.ButtonColor = Properties.Settings.Default.THM_COL_Editor;
+            }
             else if (ControlObject.GetType() == typeof(ODModules.PrefixScale)) {
                 ODModules.PrefixScale PrefixSc = (ODModules.PrefixScale)ControlObject;
                 PrefixSc.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
