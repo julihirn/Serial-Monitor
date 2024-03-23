@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Serial_Monitor.Classes.Enums.ControlEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 using static System.Windows.Forms.AxHost;
 using ListControl = ODModules.ListControl;
@@ -889,6 +890,7 @@ namespace Serial_Monitor {
             }
             else {
                 try {
+                    if (SnapshotCurrentIndex < 0) { return null; }
                     if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
                         ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
                         if (Snap == null) { return null; }
@@ -899,10 +901,19 @@ namespace Serial_Monitor {
             }
             return null;
         }
-        private void EdVal_ArrowKeyPress(bool IsUp) {
-            if (IsUp == false) {
+        private void EdVal_ArrowKeyPress(ArrowKey Direction) {
+            if (Direction == ArrowKey.Down) {
                 editorModbus.lstMonitor.SelectNextDropDown();
             }
+            else if (Direction == ArrowKey.Up) {
+                editorModbus.lstMonitor.SelectPreviousDropDown();
+            }
+            //else if (Direction == ArrowKey.Right) {
+            //    editorModbus.lstMonitor.SelectDropForward(1);
+            //}
+            //else if (Direction == ArrowKey.Left) {
+            //    editorModbus.lstMonitor.SelectDropForward(-1);
+            //}
         }
         bool applyOnClick = false;
         bool ApplyOnClick {

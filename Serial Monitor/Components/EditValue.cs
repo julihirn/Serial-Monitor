@@ -17,12 +17,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Serial_Monitor.Classes.Enums.ControlEnums;
 using DataType = Serial_Monitor.Classes.Step_Programs.DataType;
 
 namespace Serial_Monitor.Components {
     public partial class EditValue : UserControl, Interfaces.ITheme {
         public event ArrowKeyPressedHandler? ArrowKeyPress;
-        public delegate void ArrowKeyPressedHandler(bool IsUp);
+        public delegate void ArrowKeyPressedHandler(ArrowKey Direction);
 
         private bool m_MouseEventSubscribed = false;
         protected override void OnHandleCreated(EventArgs e) {
@@ -640,7 +641,7 @@ namespace Serial_Monitor.Components {
                 PushValue();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-                ArrowKeyPress?.Invoke(false);
+                ArrowKeyPress?.Invoke(ArrowKey.Down);
             }
         }
         private void textBox3_KeyDown(object sender, KeyEventArgs e) {
@@ -843,13 +844,27 @@ namespace Serial_Monitor.Components {
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             if (keyData == Keys.Down) {
+
+                ArrowKeyPress?.Invoke(ArrowKey.Down);
                 PushValue();
-                ArrowKeyPress?.Invoke(false);
                 return true;
             }
             else if (keyData == Keys.Up) {
+
+                ArrowKeyPress?.Invoke(ArrowKey.Up);
                 PushValue();
-                ArrowKeyPress?.Invoke(true);
+                return true;
+            }
+            else if (keyData == Keys.Left) {
+
+                ArrowKeyPress?.Invoke(ArrowKey.Left);
+                PushValue();
+                return true;
+            }
+            else if (keyData == Keys.Right) {
+
+                ArrowKeyPress?.Invoke(ArrowKey.Right);
+                PushValue();
                 return true;
             }
             else {
@@ -858,7 +873,7 @@ namespace Serial_Monitor.Components {
         }
         private void EditValue_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) {
             if (e.KeyCode == Keys.Down) {
-                ArrowKeyPress?.Invoke(false);
+                ArrowKeyPress?.Invoke(ArrowKey.Down);
             }
         }
     }

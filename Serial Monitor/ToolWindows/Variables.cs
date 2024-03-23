@@ -1,6 +1,7 @@
 ﻿using Handlers;
 using ODModules;
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
@@ -494,10 +495,8 @@ namespace Serial_Monitor.ToolWindows {
             EdVal.Focus();
             EdVal.Show();
         }
-        private void EdVal_ArrowKeyPress(bool IsUp) {
-            if (IsUp == false) {
-
-            }
+        private void EdVal_ArrowKeyPress(ControlEnums.ArrowKey IsUp) {
+          
         }
         public void ClearControls(ODModules.ListControl LstCtrl) {
             LstCtrl.Controls.Clear();

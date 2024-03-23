@@ -39,7 +39,7 @@ namespace Serial_Monitor.Docks {
 
         private void EditorInstance_ViewChanged(object? sender) {
             DataSelection? Select = GetDataSelection();
-            if (Select >= DataSelection.ModbusDataDiscreteInputs) {
+            if (Select > DataSelection.ModbusDataDiscreteInputs) {
                 lblpnlFormat.Visible = true;
                 lblpnlUnits.Visible = true;
             }

@@ -30,6 +30,7 @@
             panel2 = new Panel();
             labelPanel1 = new ODModules.LabelPanel();
             lblpnlUnits = new ODModules.LabelPanel();
+            labelPanel2 = new ODModules.LabelPanel();
             pfsMain = new ODModules.PrefixScale();
             ntbMain = new ODModules.NumericTextbox();
             lblpnlFormat = new ODModules.LabelPanel();
@@ -84,7 +85,7 @@
             labelPanel1.LabelBackColor = Color.White;
             labelPanel1.LabelFont = new Font("Segoe UI", 8F);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(0, 290);
+            labelPanel1.Location = new Point(0, 313);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = true;
             labelPanel1.Padding = new Padding(0, 18, 0, 0);
@@ -103,6 +104,7 @@
             lblpnlUnits.CloseMouseOverColor = Color.Red;
             lblpnlUnits.Collapsed = false;
             lblpnlUnits.Controls.Add(pfsMain);
+            lblpnlUnits.Controls.Add(labelPanel2);
             lblpnlUnits.Controls.Add(ntbMain);
             lblpnlUnits.Dock = DockStyle.Top;
             lblpnlUnits.DropShadow = false;
@@ -113,16 +115,43 @@
             lblpnlUnits.LabelBackColor = Color.White;
             lblpnlUnits.LabelFont = new Font("Segoe UI", 8F);
             lblpnlUnits.LabelForeColor = Color.Black;
-            lblpnlUnits.Location = new Point(0, 145);
+            lblpnlUnits.Location = new Point(0, 166);
             lblpnlUnits.Name = "lblpnlUnits";
             lblpnlUnits.OverrideCollapseControl = true;
             lblpnlUnits.Padding = new Padding(0, 18, 0, 0);
             lblpnlUnits.PanelCollapsible = true;
             lblpnlUnits.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlUnits.ShowCloseButton = false;
-            lblpnlUnits.Size = new Size(243, 145);
+            lblpnlUnits.Size = new Size(243, 147);
             lblpnlUnits.TabIndex = 1;
             lblpnlUnits.Text = "Unit";
+            // 
+            // labelPanel2
+            // 
+            labelPanel2.ArrowColor = Color.Black;
+            labelPanel2.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel2.CloseColor = Color.Black;
+            labelPanel2.CloseMouseOverColor = Color.Red;
+            labelPanel2.Collapsed = false;
+            labelPanel2.Dock = DockStyle.Top;
+            labelPanel2.DropShadow = false;
+            labelPanel2.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel2.FixedInlineWidth = true;
+            labelPanel2.Inlinelabel = true;
+            labelPanel2.InlineWidth = 50;
+            labelPanel2.LabelBackColor = Color.White;
+            labelPanel2.LabelFont = new Font("Segoe UI", 8F);
+            labelPanel2.LabelForeColor = Color.White;
+            labelPanel2.Location = new Point(0, 45);
+            labelPanel2.Name = "labelPanel2";
+            labelPanel2.OverrideCollapseControl = false;
+            labelPanel2.Padding = new Padding(63, 5, 5, 5);
+            labelPanel2.PanelCollapsible = true;
+            labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel2.ShowCloseButton = true;
+            labelPanel2.Size = new Size(243, 30);
+            labelPanel2.TabIndex = 2;
+            labelPanel2.Text = "Unit";
             // 
             // pfsMain
             // 
@@ -131,9 +160,9 @@
             pfsMain.HoverColor = Color.FromArgb(255, 255, 192);
             pfsMain.InactiveForecolor = Color.Gray;
             pfsMain.LinkedNumericControl = ntbMain;
-            pfsMain.Location = new Point(0, 45);
+            pfsMain.Location = new Point(0, 75);
             pfsMain.Name = "pfsMain";
-            pfsMain.Size = new Size(243, 66);
+            pfsMain.Size = new Size(243, 53);
             pfsMain.TabIndex = 0;
             // 
             // ntbMain
@@ -216,7 +245,7 @@
             lblpnlFormat.PanelCollapsible = true;
             lblpnlFormat.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlFormat.ShowCloseButton = false;
-            lblpnlFormat.Size = new Size(243, 145);
+            lblpnlFormat.Size = new Size(243, 166);
             lblpnlFormat.TabIndex = 0;
             lblpnlFormat.Text = "Format";
             // 
@@ -383,5 +412,6 @@
         private ODModules.ToolStrip toolStrip1;
         private ODModules.ToolStrip toolStrip2;
         private ToolStripDropDownButton ddbFormat;
+        private ODModules.LabelPanel labelPanel2;
     }
 }

@@ -336,8 +336,8 @@ namespace Serial_Monitor.Dialogs {
             EdVal.Focus();
             EdVal.Show();
         }
-        private void EdVal_ArrowKeyPress(bool IsUp) {
-            if (IsUp == false) {
+        private void EdVal_ArrowKeyPress(ControlEnums.ArrowKey Direction) {
+            if (Direction == ControlEnums.ArrowKey.Up) {
 
             }
         }

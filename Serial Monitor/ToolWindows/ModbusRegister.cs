@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Serial_Monitor.Classes.Enums.ControlEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 using ListControl = ODModules.ListControl;
 
@@ -319,9 +320,12 @@ namespace Serial_Monitor.ToolWindows {
             this.Close();
             ModbusSupport.SnapshotClosedApp();
         }
-        private void EdVal_ArrowKeyPress(bool IsUp) {
-            if (IsUp == false) {
-
+        private void EdVal_ArrowKeyPress(ControlEnums.ArrowKey Direction) {
+            if (Direction == ArrowKey.Down) {
+                lstRegisters.SelectNextDropDown();
+            }
+            else if (Direction == ArrowKey.Up) {
+                lstRegisters.SelectPreviousDropDown();
             }
         }
 
