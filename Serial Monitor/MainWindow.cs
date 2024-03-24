@@ -1426,6 +1426,15 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Channel Settings
+        private void sendFileToolStripMenuItem_Click(object sender, EventArgs e) {
+            OpenFileDialog OpenDia = new OpenFileDialog();
+            OpenDia.Filter = @"Intel HEX Files (*.hex)|*.hex|Comma Separated Value Files (*.csv)|*.csv|Tab Separated Value Files (*.tsv)|*.csv|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            if (OpenDia.ShowDialog() == DialogResult.OK) {
+                if (File.Exists(OpenDia.FileName)) {
+                    SystemManager.SendTextFile(currentManager,  OpenDia.FileName);
+                }
+            }
+        }
         private void resetCountersToolStripMenuItem_Click(object? sender, EventArgs e) {
             if (currentManager == null) { return; }
             currentManager.ResetCounters();
@@ -1809,7 +1818,7 @@ namespace Serial_Monitor {
         }
         private void MarkDocumentChanged() {
             //if (lstStepProgram.SelectionCount > 0) {
-                DocumentEdited = true;
+            DocumentEdited = true;
             //}
         }
         private void btnPrgMoveUp_Click(object? sender, EventArgs e) {
@@ -2652,6 +2661,8 @@ namespace Serial_Monitor {
         private void lstStepProgram_MouseClick(object? sender, EventArgs e) {
             LastEntered = sender;
         }
+
+       
     }
 
 

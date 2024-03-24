@@ -35,6 +35,7 @@ namespace Serial_Monitor.Docks {
             }
             EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
             EnumManager.LoadDataFormats(ddbFormat, Format_Click, true);
+            EnumManager.LoadWordOrders(ddbEndianness, Endian_Click, true);
         }
 
         private void EditorInstance_ViewChanged(object? sender) {
@@ -80,7 +81,23 @@ namespace Serial_Monitor.Docks {
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
             Classes.Modbus.ModbusEditor.ChangeDisplayFormatList(sender, CurrentEditor);
         }
+        private void Endian_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            this.Focus();
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+            object? Tag = Tsmi.Tag;
+            if (Tag == null) { return; }
+            if (Tag.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
+            ModbusEnums.ByteOrder DataFormat = (ModbusEnums.ByteOrder)Tag;
+            ddbEndianness.Text = EnumManager.WordOrderToString(DataFormat).A;
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
 
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeWordOrderList(sender, CurrentEditor);
+        }
         private void EditorInstance_FormClosing(object? sender, FormClosingEventArgs e) {
             if (EditorInstance == null) { return; }
             EditorInstance.FormClosing -= EditorInstance_FormClosing;
@@ -98,8 +115,8 @@ namespace Serial_Monitor.Docks {
             ThemeManager.ThemeControlAlternative(pfsMain);
             ThemeManager.ThemeControl(toolStrip2);
             ThemeManager.ThemeControl(toolStrip1);
-            toolStrip1.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-            toolStrip2.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+            ThemeManager.ThemeControl(toolStrip3);
+  
         }
         private void ThemePanel(object Pnl) {
             if (Pnl.GetType() == typeof(LabelPanel)) {

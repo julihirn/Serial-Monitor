@@ -14,6 +14,7 @@ using static Serial_Monitor.Classes.SerialManager;
 using System.Reflection;
 using Serial_Monitor.Classes.Modbus;
 using ODModules;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -184,6 +185,23 @@ namespace Serial_Monitor.Classes {
                             while (Sr.Peek() > -1) {
                                 string item = Sr.ReadLine() ?? "";
                                 SendAtIndex(SendOn, item);
+                            }
+                        }
+                    }
+                }
+                catch { }
+            }
+        }
+        public static void SendTextFile(SerialManager ?Channel, string FilePath) {
+            if (Channel == null) { return; }
+            if (Channel.Connected == false) { return; }
+            if (File.Exists(FilePath)) {
+                try {
+                    using (StreamReader Sr = new StreamReader(FilePath)) {
+                        if (Sr != null) {
+                            while (Sr.Peek() > -1) {
+                                string item = Sr.ReadLine() ?? "";
+                                Channel.Post(item);
                             }
                         }
                     }
