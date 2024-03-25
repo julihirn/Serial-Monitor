@@ -1926,6 +1926,7 @@
             // 
             // sendFileToolStripMenuItem
             // 
+            sendFileToolStripMenuItem.Enabled = false;
             sendFileToolStripMenuItem.ForeColor = Color.White;
             sendFileToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             sendFileToolStripMenuItem.Name = "sendFileToolStripMenuItem";

@@ -847,6 +847,7 @@ namespace Serial_Monitor {
                     btnChannelParity.Enabled = false;
                     btnChannelStopBits.Enabled = false;
                     btnChannelFlowCtrl.Enabled = false;
+                    sendFileToolStripMenuItem.Enabled = CurrentManager.Connected;
                 }
                 else {
                     btnConnect.Enabled = CurrentManager.SystemEnabled;
@@ -864,6 +865,7 @@ namespace Serial_Monitor {
                     btnChannelParity.Enabled = CurrentManager.SystemEnabled;
                     btnChannelStopBits.Enabled = CurrentManager.SystemEnabled;
                     btnChannelFlowCtrl.Enabled = CurrentManager.SystemEnabled;
+                    sendFileToolStripMenuItem.Enabled = false;
                 }
             }
             else {
@@ -882,6 +884,7 @@ namespace Serial_Monitor {
                 btnChannelParity.Enabled = false;
                 btnChannelStopBits.Enabled = false;
                 btnChannelFlowCtrl.Enabled = false;
+                sendFileToolStripMenuItem.Enabled = false;
             }
 
         }

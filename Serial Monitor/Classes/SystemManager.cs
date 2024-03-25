@@ -15,6 +15,7 @@ using System.Reflection;
 using Serial_Monitor.Classes.Modbus;
 using ODModules;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Threading.Channels;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -144,9 +145,9 @@ namespace Serial_Monitor.Classes {
         public static void SendModbusCommand(SerialManager? CurrentManager, string Command) {
             if (CurrentManager == null) { return; }
             if (CurrentManager.IsMaster == false) { return; }
-            ModbusQuery.ModbusCommand(CurrentManager,Command);
+            ModbusQuery.ModbusCommand(CurrentManager, Command);
         }
-        
+
         public static void LoadDefaultBauds() {
             DefaultBauds.Add(50);
             DefaultBauds.Add(75);
@@ -192,21 +193,31 @@ namespace Serial_Monitor.Classes {
                 catch { }
             }
         }
-        public static void SendTextFile(SerialManager ?Channel, string FilePath) {
+        public static void SendTextFile(SerialManager? Channel, string FilePath) {
             if (Channel == null) { return; }
             if (Channel.Connected == false) { return; }
-            if (File.Exists(FilePath)) {
-                try {
-                    using (StreamReader Sr = new StreamReader(FilePath)) {
-                        if (Sr != null) {
-                            while (Sr.Peek() > -1) {
-                                string item = Sr.ReadLine() ?? "";
-                                Channel.Post(item);
-                            }
+            if (!File.Exists(FilePath)) { return; }
+            List<string> Lines = new List<string>();
+            try {
+                using (StreamReader Sr = new StreamReader(FilePath)) {
+                    if (Sr != null) {
+                        while (Sr.Peek() > -1) {
+                            string item = Sr.ReadLine() ?? "";
+                            Lines.Add(item);
                         }
                     }
                 }
-                catch { }
+            }
+            catch { }
+            Thread TrPost = new Thread(() => SendTextAsync(Channel, Lines));
+            TrPost.IsBackground = true;
+            TrPost.Start();
+        }
+        private static void SendTextAsync(SerialManager? Channel, List<string> Lines) {
+            if (Channel == null) { return; }
+            if (Channel.Connected == false) { return; }
+            foreach(string l in Lines) {
+                Channel.Post(l);    
             }
         }
         private static void SendAtIndex(int SendOn, string Data) {

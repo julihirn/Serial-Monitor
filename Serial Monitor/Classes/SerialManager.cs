@@ -24,6 +24,7 @@ namespace Serial_Monitor.Classes {
             Port.WriteTimeout = 1000;
             Port.ReadTimeout = 10000;
             Port.ReadBufferSize = 10000;
+            Port.WriteBufferSize = 50000;
             HeartbeatThread = new Thread(HeartBeat);
             HeartbeatThread.IsBackground = true;
             HeartbeatThread.Start();
@@ -188,7 +189,7 @@ namespace Serial_Monitor.Classes {
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
-        int inputRTUSilenceCalibration = 100;
+        int inputRTUSilenceCalibration = 0;
         [Category("Modbus RTU")]
         [DisplayName("Input Silence Calibration")]
         public int InputRTUSilenceCalibration {
