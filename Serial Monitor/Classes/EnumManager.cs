@@ -133,6 +133,12 @@ namespace Serial_Monitor.Classes {
             }
             return new StringPair("Integer", "mbDataFrmtDecimal");
         }
+        public static DataFormat IntegerToDataFormat(int Input) {
+            DataFormat[] Formats = (DataFormat[])DataFormat.GetValues(typeof(Enums.ModbusEnums.DataFormat));
+            if (Input < 0) { return Formats[0]; }
+            else if (Input >= Formats.Length) { return Formats[Formats.Length - 1]; }
+            else { return Formats[Input]; }
+        }
         #endregion
         #region Modbus Word Order
         public static ByteOrder StringToWordOrder(string Input) {
@@ -164,6 +170,12 @@ namespace Serial_Monitor.Classes {
                 return new StringPair("Little Endian (Byte Swap)", "mbWordLittleEndByteSwap");
             }
             return new StringPair("Little Endian", "mbWordLittleEnd");
+        }
+        public static ByteOrder IntegerToWordOrder(int Input) {
+            ByteOrder[] Formats = (ByteOrder[])ByteOrder.GetValues(typeof(Enums.ModbusEnums.ByteOrder));
+            if (Input < 0) { return Formats[0]; }
+            else if (Input >= Formats.Length) { return Formats[Formats.Length - 1]; }
+            else { return Formats[Input]; }
         }
         #endregion
         #region Modbus Data Selection
@@ -623,6 +635,20 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        public static void LoadDataFormats(object DropDownList, DataFormat SelectedFormat) {
+            DataFormat[] Formats = (DataFormat[])DataFormat.GetValues(typeof(Enums.ModbusEnums.DataFormat));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.DataFormat Frmt in Formats) {
+                StringPair Data = DataFormatToString(Frmt);
+                if (DropDownList.GetType() == typeof(DropDownBox)) {
+                    DropDownBox Btn = (DropDownBox)DropDownList;
+                    Btn.Items.Add(Data.A);
+                    if (SelectedFormat == Frmt) {
+                        Btn.SelectedIndex = Btn.Items.Count - 1;
+                    }
+                }
+            }
+        }
         public static void LoadDataSizes(object DropDownList, EventHandler FormatClick) {
             Enums.ModbusEnums.DataSize[] Formats = (DataSize[])DataSize.GetValues(typeof(Enums.ModbusEnums.DataSize));
             bool CheckFirst = true;
@@ -692,6 +718,20 @@ namespace Serial_Monitor.Classes {
                         }
                     }
                     Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
+        public static void LoadWordOrders(object DropDownList, ByteOrder SelectedFormat) {
+            ByteOrder[] Formats = (ByteOrder[])ByteOrder.GetValues(typeof(Enums.ModbusEnums.ByteOrder));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.ByteOrder Frmt in Formats) {
+                StringPair Data =WordOrderToString(Frmt);
+                if (DropDownList.GetType() == typeof(DropDownBox)) {
+                    DropDownBox Btn = (DropDownBox)DropDownList;
+                    Btn.Items.Add(Data.A);
+                    if (SelectedFormat == Frmt) {
+                        Btn.SelectedIndex = Btn.Items.Count - 1;
+                    }
                 }
             }
         }

@@ -344,8 +344,14 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ChangeDisplayFormatList(object? sender, ListControl? lstMonitor) {
             if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
-            if (ButtonData == null) { return; }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
+            if (ButtonData == null) {
+                if (sender == null) { return; }
+                if (sender.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
+                ButtonData = sender;
+            }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) { 
+                return; 
+            }
             DataFormat Frmt = (DataFormat)ButtonData;
 
             int SelectedCount = lstMonitor.SelectionCount;
@@ -398,7 +404,11 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ChangeSizeList(object? sender, ListControl? lstMonitor) {
             if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
-            if (ButtonData == null) { return; }
+            if (ButtonData == null) {
+                if (sender == null) { return; }
+                if (sender.GetType()! != typeof(ModbusEnums.DataSize)) { return; }
+                ButtonData = sender;
+            }
             if (ButtonData.GetType()! != typeof(ModbusEnums.DataSize)) { return; }
             DataSize Frmt = (DataSize)ButtonData;
 
@@ -490,7 +500,11 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ChangeWordOrderList(object? sender, ListControl? lstMonitor) {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) { return; }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.ByteOrder)) {
+                if (sender == null) { return; }
+                if (sender.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
+                ButtonData = sender;
+            }
             ByteOrder State = (ByteOrder)ButtonData;
 
             if (lstMonitor == null) { return; }

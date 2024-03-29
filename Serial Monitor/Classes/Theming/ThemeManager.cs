@@ -289,6 +289,17 @@ namespace Serial_Monitor.Classes.Theming {
                 cmbxTemp.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
                 cmbxTemp.ButtonColor = Properties.Settings.Default.THM_COL_Editor;
             }
+            else if (ControlObject.GetType() == typeof(ODModules.DropDownBox)) {
+                ODModules.DropDownBox cmbxTemp = (ODModules.DropDownBox)ControlObject;
+                cmbxTemp.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                cmbxTemp.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                cmbxTemp.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                cmbxTemp.ArrowColor = Properties.Settings.Default.THM_COL_Editor;
+
+                cmbxTemp.SelectedBackColor = Properties.Settings.Default.THM_COL_Editor;
+                cmbxTemp.SelectedBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                cmbxTemp.SelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            }
             else if (ControlObject.GetType() == typeof(ODModules.PrefixScale)) {
                 ODModules.PrefixScale PrefixSc = (ODModules.PrefixScale)ControlObject;
                 PrefixSc.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -383,6 +394,7 @@ namespace Serial_Monitor.Classes.Theming {
             Themes.Add(Theme_ClassicLight());
             Themes.Add(Theme_ClassicDark());
             Themes.Add(Theme_PastelBlue());
+            Themes.Add(Theme_PastelPurple());
             Themes.Add(Theme_MidnightBlue());
             Themes.Add(Theme_HighContrastConsole());
         }
@@ -504,6 +516,50 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.TabSelectedForeColor = Color.White;
 
             Thm_Light2.RowColor = Color.FromArgb(228, 232, 247);
+            Thm_Light2.GridLineColor = Color.FromArgb(225, 225, 225);
+
+            Thm_Light2.MatchColor = Color.FromArgb(191, 255, 191);
+            Thm_Light2.MismatchedColor = Color.FromArgb(255, 191, 191);
+
+            Thm_Light2.SyntaxHighlightComments = Color.FromArgb(0, 128, 12);
+            Thm_Light2.SyntaxHighlightControlFlow = Color.FromArgb(54, 0, 255);
+            Thm_Light2.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
+            Thm_Light2.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
+
+            Thm_Light2.IsDarkTheme = false;
+            return Thm_Light2;
+        }
+        private static Theme Theme_PastelPurple() {
+            Theme Thm_Light2 = new Theme();
+
+            Thm_Light2.ShadowColor = Color.FromArgb(84, 44, 91);
+            Thm_Light2.MenuBackColor = Color.FromArgb(232, 214, 233);
+            Thm_Light2.ButtonSelectedColor = Color.FromArgb(207, 189, 208);
+            Thm_Light2.ButtonCheckedColor = Color.FromArgb(177, 155, 183);
+            Thm_Light2.EditorColor = Color.FromArgb(245, 245, 245);
+            Thm_Light2.ForeColor = Color.Black;
+            Thm_Light2.SecondaryForeColor = Color.FromArgb(90, 48, 98);
+            Thm_Light2.BorderColor = Color.FromArgb(188, 135, 169);
+            Thm_Light2.SeperatorColor = Color.FromArgb(185, 142, 188);
+            Thm_Light2.SelectedColor = Color.FromArgb(219, 204, 218);
+            Thm_Light2.ScrollColor = Color.FromArgb(219, 204, 218);
+            Thm_Light2.SymbolColor = Color.FromArgb(85, 27, 58);
+            Thm_Light2.StopColor = Color.Brown;
+            Thm_Light2.SeconaryBackColor = Color.FromArgb(227, 207, 229);
+            Thm_Light2.TerminalForeColor = Color.FromArgb(63, 0, 49);
+
+            Thm_Light2.ItemInactiveColor = Color.Gray;
+
+            Thm_Light2.MouseDownForeColor = Color.FromArgb(130, 88, 138);
+            Thm_Light2.MouseOverForeColor = Color.FromArgb(90, 48, 98);
+
+            Thm_Light2.ColumnSeperatorColor = Color.FromArgb(219, 204, 219);
+
+            Thm_Light2.TabSelectedBorderColor = Color.FromArgb(185, 142, 188);
+            Thm_Light2.TabSelectedColor = Color.FromArgb(122, 77, 130);
+            Thm_Light2.TabSelectedForeColor = Color.White;
+
+            Thm_Light2.RowColor = Color.FromArgb(247, 228, 247);
             Thm_Light2.GridLineColor = Color.FromArgb(225, 225, 225);
 
             Thm_Light2.MatchColor = Color.FromArgb(191, 255, 191);

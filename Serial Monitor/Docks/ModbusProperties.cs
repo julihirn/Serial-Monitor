@@ -26,6 +26,7 @@ namespace Serial_Monitor.Docks {
                 return handleParam;
             }
         }
+        bool PreventLoad = true;
         public ModbusProperties(ModbusRegisters? EditorInstance) {
             InitializeComponent();
             this.EditorInstance = EditorInstance;
@@ -34,8 +35,9 @@ namespace Serial_Monitor.Docks {
                 this.EditorInstance.ViewChanged += EditorInstance_ViewChanged;
             }
             EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
-            EnumManager.LoadDataFormats(ddbFormat, Format_Click, true);
-            EnumManager.LoadWordOrders(ddbEndianness, Endian_Click, true);
+            EnumManager.LoadDataFormats(ddlDisplay, ModbusEnums.DataFormat.Decimal);
+            EnumManager.LoadWordOrders(ddlEndianness, ModbusEnums.ByteOrder.LittleEndian);
+            PreventLoad = false;
         }
 
         private void EditorInstance_ViewChanged(object? sender) {
@@ -64,40 +66,6 @@ namespace Serial_Monitor.Docks {
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
             Classes.Modbus.ModbusEditor.ChangeSizeList(sender, CurrentEditor);
         }
-        private void Format_Click(object? sender, EventArgs e) {
-            if (sender == null) { return; }
-            this.Focus();
-            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-            ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
-            object? Tag = Tsmi.Tag;
-            if (Tag == null) { return; }
-            if (Tag.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
-            ModbusEnums.DataFormat DataFormat = (ModbusEnums.DataFormat)Tag;
-            ddbFormat.Text = EnumManager.DataFormatToString(DataFormat).A;
-            ODModules.ListControl? CurrentEditor = GetCurrentListView();
-
-            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
-            //DataSelection? Select = GetDataSelection();
-            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
-            Classes.Modbus.ModbusEditor.ChangeDisplayFormatList(sender, CurrentEditor);
-        }
-        private void Endian_Click(object? sender, EventArgs e) {
-            if (sender == null) { return; }
-            this.Focus();
-            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
-            ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
-            object? Tag = Tsmi.Tag;
-            if (Tag == null) { return; }
-            if (Tag.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
-            ModbusEnums.ByteOrder DataFormat = (ModbusEnums.ByteOrder)Tag;
-            ddbEndianness.Text = EnumManager.WordOrderToString(DataFormat).A;
-            ODModules.ListControl? CurrentEditor = GetCurrentListView();
-
-            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
-            //DataSelection? Select = GetDataSelection();
-            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
-            Classes.Modbus.ModbusEditor.ChangeWordOrderList(sender, CurrentEditor);
-        }
         private void EditorInstance_FormClosing(object? sender, FormClosingEventArgs e) {
             if (EditorInstance == null) { return; }
             EditorInstance.FormClosing -= EditorInstance_FormClosing;
@@ -113,10 +81,10 @@ namespace Serial_Monitor.Docks {
                 ThemePanel(control);
             }
             ThemeManager.ThemeControlAlternative(pfsMain);
-            ThemeManager.ThemeControl(toolStrip2);
             ThemeManager.ThemeControl(toolStrip1);
-            ThemeManager.ThemeControl(toolStrip3);
-  
+            ThemeManager.ThemeControl(ddlEndianness);
+            ThemeManager.ThemeControl(ddlDisplay);
+
         }
         private void ThemePanel(object Pnl) {
             if (Pnl.GetType() == typeof(LabelPanel)) {
@@ -150,6 +118,27 @@ namespace Serial_Monitor.Docks {
             }
             LastPrefix = CurrentPrefix;
 
+        }
+
+        private void labelPanel2_Paint(object sender, PaintEventArgs e) {
+
+        }
+        private void ddlDisplay_SelectedIndexChanged(object sender, EventArgs e) {
+            if (PreventLoad == true) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeDisplayFormatList(EnumManager.IntegerToDataFormat(ddlDisplay.SelectedIndex), CurrentEditor);
+        }
+
+        private void ddlEndianness_SelectedIndexChanged(object sender, EventArgs e) {
+            if (PreventLoad == true) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeWordOrderList(EnumManager.IntegerToWordOrder(ddlEndianness.SelectedIndex), CurrentEditor);
         }
     }
 }

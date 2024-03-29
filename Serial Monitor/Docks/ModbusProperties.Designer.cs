@@ -25,7 +25,6 @@
         private void InitializeComponent() {
             Handlers.NumericalString numericalString1 = new Handlers.NumericalString();
             Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModbusProperties));
             panel1 = new Panel();
             panel2 = new Panel();
             labelPanel1 = new ODModules.LabelPanel();
@@ -35,13 +34,11 @@
             labelPanel2 = new ODModules.LabelPanel();
             lblpnlFormat = new ODModules.LabelPanel();
             lblpnlEndianess = new ODModules.LabelPanel();
+            ddlEndianness = new ODModules.DropDownBox();
             lblpnlSize = new ODModules.LabelPanel();
             toolStrip1 = new ODModules.ToolStrip();
             lblpnlDisplay = new ODModules.LabelPanel();
-            toolStrip2 = new ODModules.ToolStrip();
-            ddbFormat = new ToolStripDropDownButton();
-            ddbEndianness = new ToolStripDropDownButton();
-            toolStrip3 = new ODModules.ToolStrip();
+            ddlDisplay = new ODModules.DropDownBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             lblpnlUnits.SuspendLayout();
@@ -49,8 +46,6 @@
             lblpnlEndianess.SuspendLayout();
             lblpnlSize.SuspendLayout();
             lblpnlDisplay.SuspendLayout();
-            toolStrip2.SuspendLayout();
-            toolStrip3.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -90,14 +85,14 @@
             labelPanel1.LabelBackColor = Color.White;
             labelPanel1.LabelFont = new Font("Segoe UI", 8F);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(0, 313);
+            labelPanel1.Location = new Point(0, 244);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = true;
             labelPanel1.Padding = new Padding(0, 18, 0, 0);
             labelPanel1.PanelCollapsible = true;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel1.ShowCloseButton = false;
-            labelPanel1.Size = new Size(243, 145);
+            labelPanel1.Size = new Size(243, 117);
             labelPanel1.TabIndex = 2;
             labelPanel1.Text = "Appearance";
             // 
@@ -120,7 +115,7 @@
             lblpnlUnits.LabelBackColor = Color.White;
             lblpnlUnits.LabelFont = new Font("Segoe UI", 8F);
             lblpnlUnits.LabelForeColor = Color.Black;
-            lblpnlUnits.Location = new Point(0, 166);
+            lblpnlUnits.Location = new Point(0, 97);
             lblpnlUnits.Name = "lblpnlUnits";
             lblpnlUnits.OverrideCollapseControl = true;
             lblpnlUnits.Padding = new Padding(5, 18, 0, 0);
@@ -138,7 +133,7 @@
             pfsMain.HoverColor = Color.FromArgb(255, 255, 192);
             pfsMain.InactiveForecolor = Color.Gray;
             pfsMain.LinkedNumericControl = ntbMain;
-            pfsMain.Location = new Point(5, 75);
+            pfsMain.Location = new Point(5, 69);
             pfsMain.Name = "pfsMain";
             pfsMain.Size = new Size(238, 53);
             pfsMain.TabIndex = 0;
@@ -221,14 +216,16 @@
             labelPanel2.PanelCollapsible = true;
             labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel2.ShowCloseButton = true;
-            labelPanel2.Size = new Size(238, 30);
+            labelPanel2.Size = new Size(238, 24);
             labelPanel2.TabIndex = 2;
             labelPanel2.Text = "Unit";
+            labelPanel2.Paint += labelPanel2_Paint;
             // 
             // lblpnlFormat
             // 
             lblpnlFormat.ArrowColor = Color.Black;
             lblpnlFormat.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlFormat.AutoSize = true;
             lblpnlFormat.CloseColor = Color.Black;
             lblpnlFormat.CloseMouseOverColor = Color.Red;
             lblpnlFormat.Collapsed = false;
@@ -247,11 +244,11 @@
             lblpnlFormat.Location = new Point(0, 0);
             lblpnlFormat.Name = "lblpnlFormat";
             lblpnlFormat.OverrideCollapseControl = true;
-            lblpnlFormat.Padding = new Padding(5, 18, 0, 0);
+            lblpnlFormat.Padding = new Padding(5, 18, 0, 5);
             lblpnlFormat.PanelCollapsible = true;
             lblpnlFormat.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlFormat.ShowCloseButton = false;
-            lblpnlFormat.Size = new Size(243, 166);
+            lblpnlFormat.Size = new Size(243, 97);
             lblpnlFormat.TabIndex = 0;
             lblpnlFormat.Text = "Format";
             // 
@@ -259,11 +256,10 @@
             // 
             lblpnlEndianess.ArrowColor = Color.Black;
             lblpnlEndianess.ArrowMouseOverColor = Color.DodgerBlue;
-            lblpnlEndianess.AutoSize = true;
             lblpnlEndianess.CloseColor = Color.Black;
             lblpnlEndianess.CloseMouseOverColor = Color.Red;
             lblpnlEndianess.Collapsed = false;
-            lblpnlEndianess.Controls.Add(toolStrip3);
+            lblpnlEndianess.Controls.Add(ddlEndianness);
             lblpnlEndianess.Dock = DockStyle.Top;
             lblpnlEndianess.DropShadow = false;
             lblpnlEndianess.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
@@ -273,7 +269,7 @@
             lblpnlEndianess.LabelBackColor = Color.White;
             lblpnlEndianess.LabelFont = new Font("Segoe UI", 8F);
             lblpnlEndianess.LabelForeColor = Color.White;
-            lblpnlEndianess.Location = new Point(5, 68);
+            lblpnlEndianess.Location = new Point(5, 67);
             lblpnlEndianess.Name = "lblpnlEndianess";
             lblpnlEndianess.OverrideCollapseControl = false;
             lblpnlEndianess.Padding = new Padding(93, 0, 0, 0);
@@ -283,6 +279,24 @@
             lblpnlEndianess.Size = new Size(238, 25);
             lblpnlEndianess.TabIndex = 2;
             lblpnlEndianess.Text = "Endianness";
+            // 
+            // ddlEndianness
+            // 
+            ddlEndianness.ArrowColor = Color.Black;
+            ddlEndianness.BorderColor = Color.Gray;
+            ddlEndianness.Dock = DockStyle.Top;
+            ddlEndianness.DrawMode = DrawMode.OwnerDrawFixed;
+            ddlEndianness.FlatStyle = FlatStyle.Flat;
+            ddlEndianness.FormattingEnabled = true;
+            ddlEndianness.Location = new Point(93, 0);
+            ddlEndianness.Name = "ddlEndianness";
+            ddlEndianness.SelectedBackColor = Color.LightGray;
+            ddlEndianness.SelectedBorderColor = Color.BlueViolet;
+            ddlEndianness.SelectedColor = Color.SteelBlue;
+            ddlEndianness.SelectedForeColor = Color.DimGray;
+            ddlEndianness.Size = new Size(145, 24);
+            ddlEndianness.TabIndex = 4;
+            ddlEndianness.SelectedIndexChanged += ddlEndianness_SelectedIndexChanged;
             // 
             // lblpnlSize
             // 
@@ -302,7 +316,7 @@
             lblpnlSize.LabelBackColor = Color.White;
             lblpnlSize.LabelFont = new Font("Segoe UI", 8F);
             lblpnlSize.LabelForeColor = Color.White;
-            lblpnlSize.Location = new Point(5, 43);
+            lblpnlSize.Location = new Point(5, 42);
             lblpnlSize.Name = "lblpnlSize";
             lblpnlSize.OverrideCollapseControl = false;
             lblpnlSize.Padding = new Padding(93, 0, 0, 0);
@@ -349,7 +363,7 @@
             lblpnlDisplay.CloseColor = Color.Black;
             lblpnlDisplay.CloseMouseOverColor = Color.Red;
             lblpnlDisplay.Collapsed = false;
-            lblpnlDisplay.Controls.Add(toolStrip2);
+            lblpnlDisplay.Controls.Add(ddlDisplay);
             lblpnlDisplay.Dock = DockStyle.Top;
             lblpnlDisplay.DropShadow = false;
             lblpnlDisplay.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
@@ -366,86 +380,27 @@
             lblpnlDisplay.PanelCollapsible = true;
             lblpnlDisplay.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlDisplay.ShowCloseButton = true;
-            lblpnlDisplay.Size = new Size(238, 25);
+            lblpnlDisplay.Size = new Size(238, 24);
             lblpnlDisplay.TabIndex = 0;
             lblpnlDisplay.Text = "Display";
             // 
-            // toolStrip2
+            // ddlDisplay
             // 
-            toolStrip2.BackColorNorth = Color.DodgerBlue;
-            toolStrip2.BackColorSouth = Color.DodgerBlue;
-            toolStrip2.BorderColor = Color.WhiteSmoke;
-            toolStrip2.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip2.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
-            toolStrip2.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
-            toolStrip2.ItemForeColor = Color.Black;
-            toolStrip2.Items.AddRange(new ToolStripItem[] { ddbFormat });
-            toolStrip2.ItemSelectedBackColorNorth = Color.White;
-            toolStrip2.ItemSelectedBackColorSouth = Color.White;
-            toolStrip2.ItemSelectedForeColor = Color.Black;
-            toolStrip2.Location = new Point(93, 0);
-            toolStrip2.MenuBackColorNorth = Color.DodgerBlue;
-            toolStrip2.MenuBackColorSouth = Color.DodgerBlue;
-            toolStrip2.MenuBorderColor = Color.WhiteSmoke;
-            toolStrip2.MenuSeparatorColor = Color.WhiteSmoke;
-            toolStrip2.MenuSymbolColor = Color.WhiteSmoke;
-            toolStrip2.Name = "toolStrip2";
-            toolStrip2.Padding = new Padding(1, 0, 1, 0);
-            toolStrip2.RoundedToolStrip = false;
-            toolStrip2.ShowBorder = false;
-            toolStrip2.Size = new Size(145, 25);
-            toolStrip2.StripItemSelectedBackColorNorth = Color.White;
-            toolStrip2.StripItemSelectedBackColorSouth = Color.White;
-            toolStrip2.TabIndex = 1;
-            toolStrip2.Text = "toolStrip2";
-            // 
-            // ddbFormat
-            // 
-            ddbFormat.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            ddbFormat.Image = (Image)resources.GetObject("ddbFormat.Image");
-            ddbFormat.ImageScaling = ToolStripItemImageScaling.None;
-            ddbFormat.ImageTransparentColor = Color.Magenta;
-            ddbFormat.Name = "ddbFormat";
-            ddbFormat.Size = new Size(58, 22);
-            ddbFormat.Text = "Format";
-            // 
-            // ddbEndianness
-            // 
-            ddbEndianness.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            ddbEndianness.Image = (Image)resources.GetObject("ddbEndianness.Image");
-            ddbEndianness.ImageTransparentColor = Color.Magenta;
-            ddbEndianness.Name = "ddbEndianness";
-            ddbEndianness.Size = new Size(56, 22);
-            ddbEndianness.Text = "Endian";
-            // 
-            // toolStrip3
-            // 
-            toolStrip3.BackColorNorth = Color.DodgerBlue;
-            toolStrip3.BackColorSouth = Color.DodgerBlue;
-            toolStrip3.BorderColor = Color.WhiteSmoke;
-            toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip3.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
-            toolStrip3.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
-            toolStrip3.ItemForeColor = Color.Black;
-            toolStrip3.Items.AddRange(new ToolStripItem[] { ddbEndianness });
-            toolStrip3.ItemSelectedBackColorNorth = Color.White;
-            toolStrip3.ItemSelectedBackColorSouth = Color.White;
-            toolStrip3.ItemSelectedForeColor = Color.Black;
-            toolStrip3.Location = new Point(93, 0);
-            toolStrip3.MenuBackColorNorth = Color.DodgerBlue;
-            toolStrip3.MenuBackColorSouth = Color.DodgerBlue;
-            toolStrip3.MenuBorderColor = Color.WhiteSmoke;
-            toolStrip3.MenuSeparatorColor = Color.WhiteSmoke;
-            toolStrip3.MenuSymbolColor = Color.WhiteSmoke;
-            toolStrip3.Name = "toolStrip3";
-            toolStrip3.Padding = new Padding(1, 0, 1, 0);
-            toolStrip3.RoundedToolStrip = false;
-            toolStrip3.ShowBorder = false;
-            toolStrip3.Size = new Size(145, 25);
-            toolStrip3.StripItemSelectedBackColorNorth = Color.White;
-            toolStrip3.StripItemSelectedBackColorSouth = Color.White;
-            toolStrip3.TabIndex = 0;
-            toolStrip3.Text = "toolStrip3";
+            ddlDisplay.ArrowColor = Color.Black;
+            ddlDisplay.BorderColor = Color.Gray;
+            ddlDisplay.Dock = DockStyle.Top;
+            ddlDisplay.DrawMode = DrawMode.OwnerDrawFixed;
+            ddlDisplay.FlatStyle = FlatStyle.Flat;
+            ddlDisplay.FormattingEnabled = true;
+            ddlDisplay.Location = new Point(93, 0);
+            ddlDisplay.Name = "ddlDisplay";
+            ddlDisplay.SelectedBackColor = Color.LightGray;
+            ddlDisplay.SelectedBorderColor = Color.BlueViolet;
+            ddlDisplay.SelectedColor = Color.SteelBlue;
+            ddlDisplay.SelectedForeColor = Color.DimGray;
+            ddlDisplay.Size = new Size(145, 24);
+            ddlDisplay.TabIndex = 3;
+            ddlDisplay.SelectedIndexChanged += ddlDisplay_SelectedIndexChanged;
             // 
             // ModbusProperties
             // 
@@ -459,19 +414,14 @@
             Load += ModbusProperties_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             lblpnlUnits.ResumeLayout(false);
             lblpnlFormat.ResumeLayout(false);
             lblpnlFormat.PerformLayout();
             lblpnlEndianess.ResumeLayout(false);
-            lblpnlEndianess.PerformLayout();
             lblpnlSize.ResumeLayout(false);
             lblpnlSize.PerformLayout();
             lblpnlDisplay.ResumeLayout(false);
-            lblpnlDisplay.PerformLayout();
-            toolStrip2.ResumeLayout(false);
-            toolStrip2.PerformLayout();
-            toolStrip3.ResumeLayout(false);
-            toolStrip3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -487,11 +437,9 @@
         private ODModules.LabelPanel lblpnlDisplay;
         private ODModules.LabelPanel lblpnlSize;
         private ODModules.ToolStrip toolStrip1;
-        private ODModules.ToolStrip toolStrip2;
-        private ToolStripDropDownButton ddbFormat;
         private ODModules.LabelPanel labelPanel2;
         private ODModules.LabelPanel lblpnlEndianess;
-        private ODModules.ToolStrip toolStrip3;
-        private ToolStripDropDownButton ddbEndianness;
+        private ODModules.DropDownBox ddlDisplay;
+        private ODModules.DropDownBox ddlEndianness;
     }
 }
