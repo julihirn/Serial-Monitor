@@ -866,6 +866,7 @@ namespace Serial_Monitor {
             if (currentEditorView == DataEditor.MasterView) {
                 if (CurrentManager == null) { return null; }
                 if (CurrentManager.IsMaster) {
+                    if (slaveindex < 0) { return null; }
                     return CurrentManager.Slave[slaveindex];
                 }
                 else {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
 namespace Serial_Monitor.Classes {
@@ -124,7 +125,8 @@ namespace Serial_Monitor.Classes {
         public static string LongToString(long Input, DataFormat Format, DataSize Size, bool IsSigned) {
             string Output = "0";
             if (Format == DataFormat.Binary) {
-                return LongToBinary(Input, Size);
+                string BinaryValue = LongToBinary(Input, Size);
+                return PadBinary(BinaryValue, Size, PadFrequency.EveryFourth);
             }
             else if (Format == DataFormat.Octal) {
                 return LongToOctal(Input, Size);
@@ -456,7 +458,35 @@ namespace Serial_Monitor.Classes {
             }
             return true;
         }
-        #endregion 
+        #endregion
+        private static string PadBinary(string Input, DataSize Size, PadFrequency Frequency) {
+            if (Frequency == PadFrequency.None) { return Input; }
+            int SizeInt = EnumManager.DataSizeToInteger(Size);
+            StringBuilder Sb = new StringBuilder();
+            string Output = "";
+            int TickFrequency = 0;
+            switch (Frequency) {
+                case PadFrequency.EveryFourth:
+                    TickFrequency = 4; break;
+                case PadFrequency.EveryEighth:
+                    TickFrequency = 8; break;
+                default:
+                    return Input;
+            }
+            for (int i = 0; i < Input.Length; i++) {
+                int x = Input.Length - 1 - i;
+              
+                Sb.Append(Input[i]);
+                if ((x != SizeInt - 1) && (x != 0)) {
+                    if ((x % TickFrequency) == 0) {
+                        Sb.Append(" ");
+                    }
+                }
+
+
+            }
+            return Sb.ToString();
+        }
     }
 
 }

@@ -51,5 +51,10 @@ namespace Serial_Monitor.Classes.Enums {
             Signed = 0x01,
             Toogle = 0x02
         }
+        public enum PadFrequency {
+            None = 0x00,
+            EveryFourth = 0x01,
+            EveryEighth = 0x02
+        }
     }
 }

@@ -1789,7 +1789,9 @@ namespace Serial_Monitor {
 
         private void LstStepProgram_ItemCheckedChanged(object sender, ItemCheckedChangeEventArgs e) {
             LastEntered = lstStepProgram;
+            ProgramManager.ApplyIndentation(lstStepProgram);
             ProgramManager.ApplySyntaxColouring(lstStepProgram, e.Item);
+     
         }
         private void addCommandToolStripMenuItem_Click(object? sender, EventArgs e) {
             ProgramEditing.NewLine(lstStepProgram);

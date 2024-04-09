@@ -1492,7 +1492,7 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-       
+
         #endregion
         #region Program Transport
         internal static void SetCursorAtSelected(ODModules.ListControl? ProgramEditor) {
@@ -1632,7 +1632,6 @@ namespace Serial_Monitor.Classes {
                     else {
                         lstStepProgram.CurrentItems[Index][i].ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                     }
-                    //sdfsdfsdf
                 }
 
             }
@@ -1649,6 +1648,7 @@ namespace Serial_Monitor.Classes {
             for (int i = 0; i < lstStepProgram.CurrentItems.Count; i++) {
                 if (lstStepProgram.CurrentItems[i].SubItems.Count != 3) { continue; }
                 object? objTag = lstStepProgram.CurrentItems[i][2].Tag;
+                bool IsCommented = !lstStepProgram.CurrentItems[i][1].Checked;
                 StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
                 if (objTag != null) {
                     if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
@@ -1656,15 +1656,21 @@ namespace Serial_Monitor.Classes {
                     }
                 }
                 StepEnumerations.StepKeyWordType KeywordType = ProgramManager.StepExecutableToKeyWordType(StepExe);
+
                 if (KeywordType == StepEnumerations.StepKeyWordType.ControlFlow) {
-                    if (Indent > 0) {
-                        if ((StepExe == StepEnumerations.StepExecutable.EndIf) || (StepExe == StepEnumerations.StepExecutable.Else)) {
-                            Indent--;
-                        }
+                    if (IsCommented == true) {
+                        lstStepProgram.CurrentItems[i][2].Indentation = Indent;
                     }
-                    lstStepProgram.CurrentItems[i][2].Indentation = Indent;
-                    if ((StepExe == StepEnumerations.StepExecutable.If) || (StepExe == StepEnumerations.StepExecutable.Else)) {
-                        Indent++;
+                    else {
+                        if (Indent > 0) {
+                            if ((StepExe == StepEnumerations.StepExecutable.EndIf) || (StepExe == StepEnumerations.StepExecutable.Else)) {
+                                Indent--;
+                            }
+                        }
+                        lstStepProgram.CurrentItems[i][2].Indentation = Indent;
+                        if ((StepExe == StepEnumerations.StepExecutable.If) || (StepExe == StepEnumerations.StepExecutable.Else)) {
+                            Indent++;
+                        }
                     }
                 }
                 else {

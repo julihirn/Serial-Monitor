@@ -304,7 +304,7 @@ namespace Serial_Monitor.Components {
                         DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
                         numericTextbox1.Minimum = DualNum.A;
                         numericTextbox1.Maximum = DualNum.B;
-                        InputValue = InputValue.TrimStart('0');
+                        InputValue = InputValue.TrimStart('0').Replace(" ","");
                     }
                     else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Octal) {
                         numericTextbox1.Base = NumericTextbox.NumberBase.Base8;
