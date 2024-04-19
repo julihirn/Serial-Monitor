@@ -29,9 +29,9 @@
             // pnlClient
             // 
             pnlClient.Dock = DockStyle.Fill;
-            pnlClient.Location = new Point(0, 0);
+            pnlClient.Location = new Point(3, 3);
             pnlClient.Name = "pnlClient";
-            pnlClient.Size = new Size(558, 452);
+            pnlClient.Size = new Size(552, 446);
             pnlClient.TabIndex = 0;
             pnlClient.SizeChanged += pnlClient_SizeChanged;
             pnlClient.Paint += pnlClient_Paint;
@@ -41,7 +41,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(pnlClient);
+            DoubleBuffered = true;
             Name = "SnapshotClient";
+            Padding = new Padding(3);
             Size = new Size(558, 452);
             Load += SnapshotClient_Load;
             ResumeLayout(false);

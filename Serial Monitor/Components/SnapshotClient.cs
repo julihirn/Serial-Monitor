@@ -1,4 +1,5 @@
-﻿using Serial_Monitor.Classes.Modbus;
+﻿using ODModules;
+using Serial_Monitor.Classes.Modbus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace Serial_Monitor.Components {
                 }
             }
         }
-     
+
         private void SnapshotClient_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
             if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
@@ -230,6 +231,7 @@ namespace Serial_Monitor.Components {
             if (tileWindows) {
                 LayoutGrid();
             }
+            Invalidate();
         }
         #region Closing
         public void CloseAll() {
@@ -307,6 +309,35 @@ namespace Serial_Monitor.Components {
                 }
                 i++;
             }
+        }
+        private Color borderColor = Color.Gray;
+        [System.ComponentModel.Category("Appearance")]
+        public Color BorderColor {
+            get {
+                return borderColor;
+            }
+            set {
+                borderColor = value;
+                Invalidate();
+            }
+        }
+        protected override void OnPaint(PaintEventArgs e) {
+           // base.OnPaint(e);
+            using (SolidBrush BdBr = new SolidBrush(borderColor)) {
+                using (Pen BdPen = new Pen(BdBr)) {
+                    e.Graphics.DrawLines(BdPen, new Point[] {
+                            new Point(0,  0),
+                            new Point(0, Height - 1),
+                            new Point(Width - 1, Height - 1),
+                            new Point(Width - 1, 0)
+                        });
+                }
+            }
+        }
+
+        protected override void OnResize(EventArgs e) {
+            base.OnResize(e);
+            Invalidate();
         }
         #endregion
     }

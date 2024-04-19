@@ -30,7 +30,7 @@ namespace Serial_Monitor {
     public partial class ModbusRegisters : Form, Interfaces.ITheme {
         public Form? Attached = null;
         public event ViewChangedHandler? ViewChanged;
-        public delegate void ViewChangedHandler(object ?sender);
+        public delegate void ViewChangedHandler(object? sender);
         TemplateContextMenuHost AppearancePopupHost;
         AppearancePopup popAppearance = new AppearancePopup();
         BitTogglerPopup popToggler = new BitTogglerPopup();
@@ -714,8 +714,11 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.tbDataPages);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.navigator1);
             Classes.Theming.ThemeManager.ThemeControl(pnlDocker);
-            editorModbus.BorderColor = Color.FromArgb(100, 128, 128, 128);
-
+            // editorModbus.BorderColor = Color.FromArgb(100, 128, 128, 128);
+            editorModbus.navigator1.BorderColor = Color.FromArgb(100, 128, 128, 128);
+            editorModbus.lstMonitor.BorderColor = Color.FromArgb(100, 128, 128, 128);
+            editorModbus.thSlaves.BorderColor = Color.FromArgb(100, 128, 128, 128);
+            editorModbus.ssClient.BorderColor = Color.FromArgb(100, 128, 128, 128);
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
             Classes.Theming.ThemeManager.ThemeControl(cmMonitor);
@@ -768,6 +771,7 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectRows, btnSelectionToSnapshot, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.ExportData, exportToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             //DesignerSetup.LinkSVGtoControl(Properties.Resources.SaveAs_16x, saveAsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, saveToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, openToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -1610,10 +1614,10 @@ namespace Serial_Monitor {
             }));
         }
         private void tmrRefresh_Tick(object sender, EventArgs e) {
-            if (RefreshCount < 10){
+            if (RefreshCount < 10) {
                 tmrRefresh.Enabled = false;
                 RefreshCount = 0;
-                Debug.Print("Refresh");
+                //Debug.Print("Refresh");
                 editorModbus.lstMonitor.Invalidate();
             }
             else {
@@ -2051,7 +2055,31 @@ namespace Serial_Monitor {
             editorModbus.ssClient.CloseAtIndex(snapShotCurrentIndex);
         }
 
-       
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                SaveFileDialog Save = new SaveFileDialog();
+                Save.Title = "Export";
+                Save.Filter = @"Comma-separated value File (*.csv)|*.csv|Tab separated value File (*.tsv)|*.tsv|JSON File (*.json)|*.json";
+                if (Save.ShowDialog() == DialogResult.OK) {
+                    ListControl? Editor = GetCurrentListView();
+                    if (Editor == null) { return; }
+                    if (Save.FileName != "") {
+                        string Ext = Path.GetExtension(Save.FileName).ToLower();
+                        if (Ext == ".csv") {
+                            Editor.ExportData(Save.FileName, ListExportFormat.CSV, true, false);
+                        }
+                        else if (Ext == ".tsv") {
+                            Editor.ExportData(Save.FileName, ListExportFormat.TSV, true, false);
+                        }
+                        else if (Ext == ".json") {
+                            Editor.ExportData(Save.FileName, ListExportFormat.JSON, true, false);
+                        }
+                    }
+                }
+
+            }
+            catch { }
+        }
 
         private enum DataEditor {
             MasterView = 0x00,

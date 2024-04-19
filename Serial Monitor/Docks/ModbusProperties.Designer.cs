@@ -23,8 +23,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            Handlers.NumericalString numericalString1 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString5 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString6 = new Handlers.NumericalString();
             panel1 = new Panel();
             panel2 = new Panel();
             labelPanel1 = new ODModules.LabelPanel();
@@ -39,8 +39,11 @@
             toolStrip1 = new ODModules.ToolStrip();
             lblpnlDisplay = new ODModules.LabelPanel();
             ddlDisplay = new ODModules.DropDownBox();
+            cwMain = new ODModules.ColorWheel();
+            lcsBrightness = new ODModules.LightnessColorSlider();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            labelPanel1.SuspendLayout();
             lblpnlUnits.SuspendLayout();
             lblpnlFormat.SuspendLayout();
             lblpnlEndianess.SuspendLayout();
@@ -76,6 +79,8 @@
             labelPanel1.CloseColor = Color.Black;
             labelPanel1.CloseMouseOverColor = Color.Red;
             labelPanel1.Collapsed = false;
+            labelPanel1.Controls.Add(cwMain);
+            labelPanel1.Controls.Add(lcsBrightness);
             labelPanel1.Dock = DockStyle.Top;
             labelPanel1.DropShadow = false;
             labelPanel1.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
@@ -92,7 +97,7 @@
             labelPanel1.PanelCollapsible = true;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel1.ShowCloseButton = false;
-            labelPanel1.Size = new Size(243, 117);
+            labelPanel1.Size = new Size(243, 141);
             labelPanel1.TabIndex = 2;
             labelPanel1.Text = "Appearance";
             // 
@@ -166,12 +171,12 @@
             ntbMain.Marked = false;
             ntbMain.MarkedBackColor = Color.Empty;
             ntbMain.MarkedBorderColor = Color.Beige;
-            numericalString1.DisplayValue = "100";
-            numericalString1.Value = "100";
-            ntbMain.Maximum = numericalString1;
-            numericalString2.DisplayValue = "0";
-            numericalString2.Value = "0";
-            ntbMain.Minimum = numericalString2;
+            numericalString5.DisplayValue = "100";
+            numericalString5.Value = "100";
+            ntbMain.Maximum = numericalString5;
+            numericalString6.DisplayValue = "0";
+            numericalString6.Value = "0";
+            ntbMain.Minimum = numericalString6;
             ntbMain.Name = "ntbMain";
             ntbMain.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             ntbMain.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -225,7 +230,6 @@
             // 
             lblpnlFormat.ArrowColor = Color.Black;
             lblpnlFormat.ArrowMouseOverColor = Color.DodgerBlue;
-            lblpnlFormat.AutoSize = true;
             lblpnlFormat.CloseColor = Color.Black;
             lblpnlFormat.CloseMouseOverColor = Color.Red;
             lblpnlFormat.Collapsed = false;
@@ -402,6 +406,25 @@
             ddlDisplay.TabIndex = 3;
             ddlDisplay.SelectedIndexChanged += ddlDisplay_SelectedIndexChanged;
             // 
+            // cwMain
+            // 
+            cwMain.Alpha = 1D;
+            cwMain.Dock = DockStyle.Right;
+            cwMain.Location = new Point(98, 18);
+            cwMain.Name = "cwMain";
+            cwMain.ShowSaturationRing = true;
+            cwMain.Size = new Size(126, 123);
+            cwMain.TabIndex = 1;
+            // 
+            // lcsBrightness
+            // 
+            lcsBrightness.Dock = DockStyle.Right;
+            lcsBrightness.Location = new Point(224, 18);
+            lcsBrightness.Name = "lcsBrightness";
+            lcsBrightness.Orientation = Orientation.Vertical;
+            lcsBrightness.Size = new Size(19, 123);
+            lcsBrightness.TabIndex = 7;
+            // 
             // ModbusProperties
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -414,7 +437,7 @@
             Load += ModbusProperties_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            labelPanel1.ResumeLayout(false);
             lblpnlUnits.ResumeLayout(false);
             lblpnlFormat.ResumeLayout(false);
             lblpnlFormat.PerformLayout();
@@ -441,5 +464,7 @@
         private ODModules.LabelPanel lblpnlEndianess;
         private ODModules.DropDownBox ddlDisplay;
         private ODModules.DropDownBox ddlEndianness;
+        private ODModules.ColorWheel cwMain;
+        private ODModules.LightnessColorSlider lcsBrightness;
     }
 }

@@ -161,6 +161,8 @@
             editorModbus = new Docks.ModbusEditor();
             pnlDocker = new ODModules.Docking.DockPanel();
             tmrRefresh = new System.Windows.Forms.Timer(components);
+            toolStripSeparator28 = new ToolStripSeparator();
+            exportToolStripMenuItem = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -328,7 +330,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, toolStripSeparator11, newToolStripMenuItem1, openToolStripMenuItem, toolStripSeparator12, saveToolStripMenuItem, saveAsToolStripMenuItem, printToolStripMenuItem, printPreviewToolStripMenuItem, toolStripSeparator7, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, toolStripSeparator11, newToolStripMenuItem1, openToolStripMenuItem, toolStripSeparator12, saveToolStripMenuItem, saveAsToolStripMenuItem, printToolStripMenuItem, printPreviewToolStripMenuItem, toolStripSeparator7, exportToolStripMenuItem, toolStripSeparator28, exitToolStripMenuItem });
             fileToolStripMenuItem.ForeColor = Color.White;
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
@@ -1130,7 +1132,6 @@
             // 
             // editorModbus
             // 
-            editorModbus.BorderColor = Color.Gray;
             resources.ApplyResources(editorModbus, "editorModbus");
             editorModbus.DockText = "Modbus Editor";
             editorModbus.Icon = null;
@@ -1166,6 +1167,18 @@
             // tmrRefresh
             // 
             tmrRefresh.Tick += tmrRefresh_Tick;
+            // 
+            // toolStripSeparator28
+            // 
+            toolStripSeparator28.Name = "toolStripSeparator28";
+            resources.ApplyResources(toolStripSeparator28, "toolStripSeparator28");
+            // 
+            // exportToolStripMenuItem
+            // 
+            exportToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(exportToolStripMenuItem, "exportToolStripMenuItem");
+            exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            exportToolStripMenuItem.Click += exportToolStripMenuItem_Click;
             // 
             // ModbusRegisters
             // 
@@ -1333,5 +1346,7 @@
         private Docks.ModbusEditor editorModbus;
         private ODModules.Docking.DockPanel pnlDocker;
         private System.Windows.Forms.Timer tmrRefresh;
+        private ToolStripMenuItem exportToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator28;
     }
 }

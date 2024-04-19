@@ -199,6 +199,9 @@
   <data name="ExcelWorksheetView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExcelWorksheetView.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ExportData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExportData.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="FullScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FullScreen.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

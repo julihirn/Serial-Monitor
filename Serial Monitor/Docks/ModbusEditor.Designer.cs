@@ -45,11 +45,9 @@
             navigator1 = new ODModules.Navigator();
             tpRegisterFiltering = new TabPage();
             ssClient = new Components.SnapshotClient();
-            pnlInset = new Panel();
             tbDataPages.SuspendLayout();
             tpRegisters.SuspendLayout();
             tpRegisterFiltering.SuspendLayout();
-            pnlInset.SuspendLayout();
             SuspendLayout();
             // 
             // thDataPagesHeader
@@ -62,6 +60,8 @@
             thDataPagesHeader.ArrowHoverColor = Color.SteelBlue;
             thDataPagesHeader.BackColor = Color.FromArgb(31, 31, 31);
             thDataPagesHeader.BindedTabControl = tbDataPages;
+            thDataPagesHeader.BorderColor = Color.Gray;
+            thDataPagesHeader.Borders = ODModules.Borders.None;
             thDataPagesHeader.CloseHoverColor = Color.Brown;
             thDataPagesHeader.Dock = DockStyle.Top;
             thDataPagesHeader.ForeColor = Color.White;
@@ -71,7 +71,7 @@
             thDataPagesHeader.Location = new Point(0, 0);
             thDataPagesHeader.Name = "thDataPagesHeader";
             thDataPagesHeader.Padding = new Padding(5, 0, 0, 0);
-            thDataPagesHeader.SelectedIndex = 1;
+            thDataPagesHeader.SelectedIndex = 0;
             thDataPagesHeader.ShowAddButton = false;
             thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
@@ -94,7 +94,6 @@
             thDataPagesHeader.TabSelectedShadowColor = Color.Black;
             thDataPagesHeader.TabStyle = ODModules.TabHeader.TabStyles.Normal;
             thDataPagesHeader.UseBindingTabControl = true;
-            thDataPagesHeader.Load += thDataPagesHeader_Load;
             // 
             // tbDataPages
             // 
@@ -106,12 +105,12 @@
             tbDataPages.DrawMode = TabDrawMode.OwnerDrawFixed;
             tbDataPages.ForeColor = Color.White;
             tbDataPages.ItemSize = new Size(20, 20);
-            tbDataPages.Location = new Point(1, 0);
+            tbDataPages.Location = new Point(0, 27);
             tbDataPages.Margin = new Padding(0);
             tbDataPages.Multiline = true;
             tbDataPages.Name = "tbDataPages";
             tbDataPages.SelectedIndex = 0;
-            tbDataPages.Size = new Size(471, 351);
+            tbDataPages.Size = new Size(473, 352);
             tbDataPages.TabIndex = 8;
             // 
             // tpRegisters
@@ -122,7 +121,7 @@
             tpRegisters.Font = new Font("Segoe UI", 9F);
             tpRegisters.Location = new Point(4, 24);
             tpRegisters.Name = "tpRegisters";
-            tpRegisters.Size = new Size(463, 323);
+            tpRegisters.Size = new Size(465, 324);
             tpRegisters.TabIndex = 0;
             tpRegisters.Text = "Master View";
             tpRegisters.UseVisualStyleBackColor = true;
@@ -132,16 +131,19 @@
             lstMonitor.AllowColumnSpanning = false;
             lstMonitor.AllowMouseWheel = true;
             lstMonitor.BackColor = Color.FromArgb(20, 20, 20);
+            lstMonitor.BorderColor = Color.Gray;
+            lstMonitor.Borders = ODModules.Borders.BottomAndRight;
             lstMonitor.ColumnColor = Color.FromArgb(30, 30, 30);
             lstMonitor.ColumnForeColor = Color.WhiteSmoke;
             lstMonitor.ColumnLineColor = Color.FromArgb(64, 64, 64);
             column1.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
             column1.CountOffset = 0;
-            column1.DataFormat = ODModules.ColumnDataFormat.None;
+            column1.DataFormat = ODModules.ColumnDataFormat.Integer;
             column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
             column1.DropDownRight = false;
             column1.DropDownVisible = false;
-            column1.Exportable = false;
+            column1.Exportable = true;
+            column1.ExportName = "address";
             column1.FixedWidth = false;
             column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
             column1.Text = "";
@@ -155,7 +157,8 @@
             column2.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column2.DropDownRight = false;
             column2.DropDownVisible = false;
-            column2.Exportable = false;
+            column2.Exportable = true;
+            column2.ExportName = "";
             column2.FixedWidth = false;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column2.Text = "Name";
@@ -165,11 +168,12 @@
             column2.Width = 100;
             column3.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column3.CountOffset = 0;
-            column3.DataFormat = ODModules.ColumnDataFormat.None;
+            column3.DataFormat = ODModules.ColumnDataFormat.Boolean;
             column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column3.DropDownRight = false;
             column3.DropDownVisible = true;
-            column3.Exportable = false;
+            column3.Exportable = true;
+            column3.ExportName = "";
             column3.FixedWidth = false;
             column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column3.Text = "Display";
@@ -179,11 +183,12 @@
             column3.Width = 80;
             column4.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column4.CountOffset = 0;
-            column4.DataFormat = ODModules.ColumnDataFormat.None;
+            column4.DataFormat = ODModules.ColumnDataFormat.Integer;
             column4.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column4.DropDownRight = false;
             column4.DropDownVisible = true;
-            column4.Exportable = false;
+            column4.Exportable = true;
+            column4.ExportName = "";
             column4.FixedWidth = true;
             column4.ItemAlignment = ODModules.ItemTextAlignment.Right;
             column4.Text = "Size";
@@ -193,11 +198,12 @@
             column4.Width = 75;
             column5.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column5.CountOffset = 0;
-            column5.DataFormat = ODModules.ColumnDataFormat.None;
+            column5.DataFormat = ODModules.ColumnDataFormat.Boolean;
             column5.DisplayType = ODModules.ColumnDisplayType.Checkbox;
             column5.DropDownRight = false;
             column5.DropDownVisible = true;
-            column5.Exportable = false;
+            column5.Exportable = true;
+            column5.ExportName = "";
             column5.FixedWidth = true;
             column5.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column5.Text = "Signed";
@@ -211,7 +217,8 @@
             column6.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column6.DropDownRight = false;
             column6.DropDownVisible = false;
-            column6.Exportable = false;
+            column6.Exportable = true;
+            column6.ExportName = "";
             column6.FixedWidth = false;
             column6.ItemAlignment = ODModules.ItemTextAlignment.Right;
             column6.Text = "Value";
@@ -304,7 +311,7 @@
             lstMonitor.ShowItemIndentation = false;
             lstMonitor.ShowMarker = false;
             lstMonitor.ShowRowColors = true;
-            lstMonitor.Size = new Size(382, 296);
+            lstMonitor.Size = new Size(384, 297);
             lstMonitor.SpanColumn = -1;
             lstMonitor.TabIndex = 3;
             lstMonitor.UseLocalList = false;
@@ -320,6 +327,8 @@
             thSlaves.ArrowHoverColor = Color.SteelBlue;
             thSlaves.BackColor = Color.FromArgb(31, 31, 31);
             thSlaves.BindedTabControl = null;
+            thSlaves.BorderColor = Color.Gray;
+            thSlaves.Borders = ODModules.Borders.Right;
             thSlaves.CloseHoverColor = Color.Brown;
             thSlaves.Dock = DockStyle.Top;
             thSlaves.ForeColor = Color.White;
@@ -334,7 +343,7 @@
             thSlaves.ShowHeader = true;
             thSlaves.ShowTabDividers = true;
             thSlaves.ShowTabs = true;
-            thSlaves.Size = new Size(382, 27);
+            thSlaves.Size = new Size(384, 27);
             thSlaves.TabBackColor = Color.Transparent;
             thSlaves.TabBorderColor = Color.Transparent;
             thSlaves.TabClickedBackColor = Color.DarkGray;
@@ -358,9 +367,11 @@
             navigator1.ArrowColor = Color.Black;
             navigator1.ArrowMouseOverColor = Color.DodgerBlue;
             navigator1.BackColor = Color.FromArgb(40, 40, 40);
-            navigator1.BorderColor = Color.FromArgb(0, 0, 0);
+            navigator1.BorderColor = Color.Gray;
+            navigator1.Borders = ODModules.Borders.BottomAndLeft;
             navigator1.DisplayStyle = ODModules.Navigator.Style.Right;
             navigator1.DisplayText = "StateName";
+            navigator1.DividerBorderColor = Color.FromArgb(0, 0, 0);
             navigator1.Dock = DockStyle.Left;
             navigator1.ForeColor = Color.White;
             navigator1.LinkedList = null;
@@ -374,7 +385,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(81, 323);
+            navigator1.Size = new Size(81, 324);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -387,39 +398,28 @@
             tpRegisterFiltering.Font = new Font("Segoe UI", 9F);
             tpRegisterFiltering.Location = new Point(4, 24);
             tpRegisterFiltering.Name = "tpRegisterFiltering";
-            tpRegisterFiltering.Padding = new Padding(3);
-            tpRegisterFiltering.Size = new Size(463, 323);
+            tpRegisterFiltering.Size = new Size(465, 324);
             tpRegisterFiltering.TabIndex = 1;
             tpRegisterFiltering.Text = "Snapshot View";
             tpRegisterFiltering.UseVisualStyleBackColor = true;
             // 
             // ssClient
             // 
+            ssClient.BorderColor = Color.Gray;
             ssClient.Dock = DockStyle.Fill;
-            ssClient.Location = new Point(3, 3);
+            ssClient.Location = new Point(0, 0);
             ssClient.Name = "ssClient";
+            ssClient.Padding = new Padding(1);
             ssClient.SelectorCollection = null;
-            ssClient.Size = new Size(457, 317);
+            ssClient.Size = new Size(465, 324);
             ssClient.TabIndex = 1;
             ssClient.TileWindows = false;
-            // 
-            // pnlInset
-            // 
-            pnlInset.Controls.Add(tbDataPages);
-            pnlInset.Dock = DockStyle.Fill;
-            pnlInset.Location = new Point(0, 27);
-            pnlInset.Name = "pnlInset";
-            pnlInset.Padding = new Padding(1, 0, 1, 1);
-            pnlInset.Size = new Size(473, 352);
-            pnlInset.TabIndex = 9;
-            pnlInset.Paint += pnlInset_Paint;
-            pnlInset.Resize += pnlInset_Resize;
             // 
             // ModbusEditor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(pnlInset);
+            Controls.Add(tbDataPages);
             Controls.Add(thDataPagesHeader);
             DockText = "Modbus Editor";
             DoubleBuffered = true;
@@ -430,7 +430,6 @@
             tbDataPages.ResumeLayout(false);
             tpRegisters.ResumeLayout(false);
             tpRegisterFiltering.ResumeLayout(false);
-            pnlInset.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -443,6 +442,5 @@
         internal ODModules.Navigator navigator1;
         internal Components.SnapshotClient ssClient;
         internal ODModules.HiddenTabControl tbDataPages;
-        private Panel pnlInset;
     }
 }

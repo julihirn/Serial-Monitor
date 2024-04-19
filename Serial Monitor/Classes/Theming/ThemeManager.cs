@@ -136,7 +136,7 @@ namespace Serial_Monitor.Classes.Theming {
                     Nav.SelectedColor = Color.FromArgb(20, 0, 0, 0);
                     Nav.SideShadowColor = Color.FromArgb(20, Temp.R, Temp.G, Temp.B);
                 }
-                Nav.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                Nav.DividerBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.BitToggle)) {
                 ODModules.BitToggle Bt = (ODModules.BitToggle)ControlObject;
