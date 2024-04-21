@@ -91,6 +91,7 @@ namespace Serial_Monitor.ToolWindows {
         private void ModbusRegister_Load(object sender, EventArgs e) {
             AdjustUserInterface();
             ApplyTheme();
+            EnumManager.LoadCoilFormats(cmCoilFormats, CmCoilFormat_Click);
             EnumManager.LoadDataFormats(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.LoadDataSizes(cmDataSize, CmDisplaySize_Click);
             if (snapshot != null) {
@@ -226,6 +227,7 @@ namespace Serial_Monitor.ToolWindows {
             Classes.Theming.ThemeManager.ThemeControl(lstRegisters);
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
+            Classes.Theming.ThemeManager.ThemeControl(cmCoilFormats);
         }
 
         private void ModbusRegister_FormClosing(object sender, FormClosingEventArgs e) {
@@ -238,7 +240,7 @@ namespace Serial_Monitor.ToolWindows {
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             SystemManager.ModbusPropertyChanged -= SystemManager_ModbusPropertyChanged;
             SystemManager.ModbusPropertiesChanged -= SystemManager_ModbusPropertiesChanged;
-
+            EnumManager.ClearClickHandles(cmCoilFormats, CmCoilFormat_Click);
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
             //this.GotFocus -= ModbusRegister_GotFocus;
@@ -266,6 +268,11 @@ namespace Serial_Monitor.ToolWindows {
                     cmDisplayFormats.Tag = e;
                     cmDisplayFormats.Show(ModbusEditor.AddPoint(e));
                 }
+                else if (DataTag.GetType() == typeof(ModbusCoil)) {
+                    ModbusEditor.CheckItem(cmCoilFormats, ((ModbusCoil)DataTag).Format);
+                    cmCoilFormats.Tag = e;
+                    cmCoilFormats.Show(ModbusEditor.AddPoint(e));
+                }
             }
             else if (e.Column == ModbusEditor.Indx_Size) {
                 if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
@@ -284,7 +291,7 @@ namespace Serial_Monitor.ToolWindows {
                         if (ModbusEditor.CanChangeValue(snapshot.Manager.Channel, coil.ComponentType) == false) { return; }
                         coil.Value = !coil.Value;
 
-                        LstItem[ModbusEditor.Indx_Value].Text = coil.Value.ToString();
+                        LstItem[ModbusEditor.Indx_Value].Text = coil.ValueWithUnit;
                         if (ModbusSupport.SendOnChange == false) { return; }
                         SystemManager.SendModbusCommand(snapshot.Manager, snapshot.Selection, "Write Coil " + e.ParentItem.Value.ToString() + " = " + coil.Value.ToString());
                     }
@@ -329,7 +336,26 @@ namespace Serial_Monitor.ToolWindows {
             }
         }
 
-
+        private void CmCoilFormat_Click(object? sender, EventArgs e) {
+            object? ButtonData = ModbusEditor.GetContextMenuItemData(sender);
+            object? Data = ModbusEditor.GetContextMenuData(sender);
+            if (Data == null) { return; }
+            if (ButtonData == null) { return; }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.CoilFormat)) { return; }
+            CoilFormat Frmt = (CoilFormat)ButtonData;
+            if (Data.GetType() == typeof(DropDownClickedEventArgs)) {
+                DropDownClickedEventArgs Args = (DropDownClickedEventArgs)Data;
+                if (Args.ParentItem == null) { return; }
+                if (Args.ParentItem.Tag == null) { return; }
+                if (Args.ParentItem.Tag.GetType() == typeof(ModbusCoil)) {
+                    ModbusCoil Reg = (ModbusCoil)Args.ParentItem.Tag;
+                    Reg.Format = Frmt;
+                    Args.ParentItem[Args.Column].Text = EnumManager.CoilFormatToString(Reg.Format).A;
+                    Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
+                    lstRegisters.Invalidate();
+                }
+            }
+        }
         private void CmDisplayFormat_Click(object? sender, EventArgs e) {
             object? ButtonData = ModbusEditor.GetContextMenuItemData(sender);
             object? Data = ModbusEditor.GetContextMenuData(sender);

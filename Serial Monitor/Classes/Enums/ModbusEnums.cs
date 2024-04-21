@@ -15,6 +15,14 @@ namespace Serial_Monitor.Classes.Enums {
             Float = 0x05,
             Double = 0x06
         }
+        public enum CoilFormat {
+            Bit = 0x00,
+            Boolean = 0x01,
+            PowerState = 0x02,
+            ValveState = 0x03,
+            EnabledState = 0x04,
+            ActivationState = 0x05
+        }
         public enum DataSize {
             Bits8 = 0x00,
             Bits16 = 0x01,

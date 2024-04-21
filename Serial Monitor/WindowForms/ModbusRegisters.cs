@@ -85,8 +85,10 @@ namespace Serial_Monitor {
             AdjustUserInterface();
             ModbusEditor.ShowHideColumns(showFormats, DataSet, editorModbus.lstMonitor);
             EnumManager.LoadDataFormats(cmDisplayFormats, CmDisplayFormat_Click);
+            EnumManager.LoadCoilFormats(cmCoilFormats, CmCoilFormat_Click);
             EnumManager.LoadDataSizes(cmDataSize, CmDisplaySize_Click);
             EnumManager.LoadDataFormats(ddbDisplayFormat, CmDisplayFormatList_Click);
+            EnumManager.LoadCoilFormats(ddbDisplayFormat, CmDisplayFormatList_Click);
             EnumManager.LoadDataSizes(ddpDataSize, CmDisplaySizeList_Click);
             EnumManager.LoadWordOrders(ddbWordOrder, CmDisplayWordOrderList_Click);
             RecolorAll();
@@ -121,6 +123,7 @@ namespace Serial_Monitor {
                         }
                     }
                     else {
+                        slaveindex = -1;
                         ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                     }
 
@@ -388,7 +391,10 @@ namespace Serial_Monitor {
                 ViewChanged?.Invoke(this);
             }
         }
-
+        FormatEditor editorType = FormatEditor.Coil;
+        private FormatEditor EditorType {
+            get { return editorType; }
+        }
         int snapShotCurrentIndex = -1;
         public int SnapshotCurrentIndex {
             get { return snapShotCurrentIndex; }
@@ -400,12 +406,43 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Enable/Disable Buttons and Actions
+        private void EnableFormatType() {
+            foreach (ToolStripItem Tsi in ddbDisplayFormat.DropDownItems) {
+                object? Data = ModbusEditor.GetContextMenuItemData(Tsi);
+                if (Data == null) { Tsi.Enabled = false; continue; }
+                if (editorType == FormatEditor.Coil) {
+                    if (Data.GetType() == typeof(CoilFormat)) {
+                        Tsi.Visible = true;
+                        Tsi.Enabled = true;
+                    }
+                    else {
+                        Tsi.Visible = false;
+                        Tsi.Enabled = false;
+                    }
+                }
+                else if (editorType == FormatEditor.Register) {
+                    if (Data.GetType() == typeof(DataFormat)) {
+                        Tsi.Visible = true;
+                        Tsi.Enabled = true;
+                    }
+                    else {
+                        Tsi.Visible = false;
+                        Tsi.Enabled = false;
+                    }
+                }
+                else {
+                    Tsi.Enabled = false;
+                }
+            }
+        }
         private void SetEditors() {
             if (currentEditorView == DataEditor.MasterView) {
                 if (dataSet > DataSelection.ModbusDataDiscreteInputs) {
+                    editorType = FormatEditor.Register;
                     SetFormatters(true);
                 }
                 else {
+                    editorType = FormatEditor.Coil;
                     SetFormatters(false);
                 }
                 resetAppearanceToolStripMenuItem.Enabled = true;
@@ -420,9 +457,11 @@ namespace Serial_Monitor {
                                 resetAppearanceToolStripMenuItem.Enabled = true;
                                 changeAddressToolStripMenuItem.Enabled = true;
                                 if (Snap.Selection > DataSelection.ModbusDataDiscreteInputs) {
+                                    editorType = FormatEditor.Register;
                                     SetFormatters(true);
                                 }
                                 else {
+                                    editorType = FormatEditor.Coil;
                                     SetFormatters(false);
                                 }
                             }
@@ -430,12 +469,14 @@ namespace Serial_Monitor {
                         else {
                             resetAppearanceToolStripMenuItem.Enabled = false;
                             changeAppearanceToolStripMenuItem.Enabled = false;
+                            editorType = FormatEditor.None;
                             SetFormatters(false);
                         }
                     }
                     else {
                         resetAppearanceToolStripMenuItem.Enabled = false;
                         changeAppearanceToolStripMenuItem.Enabled = false;
+                        editorType = FormatEditor.None;
                         SetFormatters(false);
                     }
 
@@ -443,12 +484,27 @@ namespace Serial_Monitor {
                 catch {
                     resetAppearanceToolStripMenuItem.Enabled = false;
                     changeAppearanceToolStripMenuItem.Enabled = false;
+                    editorType = FormatEditor.None;
                     SetFormatters(false);
                 }
             }
         }
+        private enum FormatEditor {
+            None = 0x00,
+            Coil = 0x01,
+            Register = 0x02,
+        }
         private void SetFormatters(bool State) {
-            ddbDisplayFormat.Enabled = State;
+            EnableFormatType();
+            if (editorType == FormatEditor.None) {
+                ddbDisplayFormat.Enabled = false;
+            }
+            else if (editorType == FormatEditor.Coil) {
+                ddbDisplayFormat.Enabled = true;
+            }
+            else if (editorType == FormatEditor.Register) {
+                ddbDisplayFormat.Enabled = true;
+            }
             ddpDataSize.Enabled = State;
             btnSigned.Enabled = State;
             ddbWordOrder.Enabled = State;
@@ -508,7 +564,12 @@ namespace Serial_Monitor {
         #region Register Formatting
         private void CmDisplayFormatList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.ChangeDisplayFormatList(sender, CurrentEditor);
+            if (editorType == FormatEditor.Coil) {
+                ModbusEditor.ChangeCoilFormatList(sender, CurrentEditor);
+            }
+            else if (editorType == FormatEditor.Register) {
+                ModbusEditor.ChangeDisplayFormatList(sender, CurrentEditor);
+            }
         }
         private void CmDisplaySizeList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
@@ -530,6 +591,26 @@ namespace Serial_Monitor {
         private void ChangeSigned(FormatEnums.SignedState State) {
             ListControl? CurrentEditor = GetCurrentListView();
             ModbusEditor.ChangeSignedList(CurrentEditor, State);
+        }
+        private void CmCoilFormat_Click(object? sender, EventArgs e) {
+            object? ButtonData = ModbusEditor.GetContextMenuItemData(sender);
+            object? Data = ModbusEditor.GetContextMenuData(sender);
+            if (Data == null) { return; }
+            if (ButtonData == null) { return; }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.CoilFormat)) { return; }
+            CoilFormat Frmt = (CoilFormat)ButtonData;
+            if (Data.GetType() == typeof(DropDownClickedEventArgs)) {
+                DropDownClickedEventArgs Args = (DropDownClickedEventArgs)Data;
+                if (Args.ParentItem == null) { return; }
+                if (Args.ParentItem.Tag == null) { return; }
+                if (Args.ParentItem.Tag.GetType() == typeof(ModbusCoil)) {
+                    ModbusCoil Reg = (ModbusCoil)Args.ParentItem.Tag;
+                    Reg.Format = Frmt;
+                    Args.ParentItem[Args.Column].Text = EnumManager.CoilFormatToString(Reg.Format).A;
+                    Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
+                    editorModbus.lstMonitor.Invalidate();
+                }
+            }
         }
         private void CmDisplayFormat_Click(object? sender, EventArgs e) {
             object? ButtonData = ModbusEditor.GetContextMenuItemData(sender);
@@ -587,10 +668,12 @@ namespace Serial_Monitor {
                 if (editorModbus.lstMonitor.CurrentItems[Index].SubItems.Count <= ModbusEditor.Indx_Value) {
                     switch (dataSet) {
                         case DataSelection.ModbusDataCoils:
-                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.Coils[Index].Value.ToString();
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.Coils[Index].ValueWithUnit;
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(parentManager.Coils[Index].Format).A;
                             break;
                         case DataSelection.ModbusDataDiscreteInputs:
-                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.DiscreteInputs[Index].Value.ToString();
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.DiscreteInputs[Index].ValueWithUnit;
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(parentManager.DiscreteInputs[Index].Format).A;
                             break;
                         case DataSelection.ModbusDataInputRegisters:
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.InputRegisters[Index].Format).A;
@@ -655,7 +738,7 @@ namespace Serial_Monitor {
                     if (DataSet == DataType) {
                         ModbusCoil DigitalData = (ModbusCoil)Data;
                         if (ModbusEditor.ItemInBounds(editorModbus.lstMonitor, Index, ModbusEditor.Indx_Value)) {
-                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = DigitalData.Value.ToString();
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = DigitalData.ValueWithUnit;
                         }
                     }
                 }
@@ -721,6 +804,7 @@ namespace Serial_Monitor {
             editorModbus.ssClient.BorderColor = Color.FromArgb(100, 128, 128, 128);
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
+            Classes.Theming.ThemeManager.ThemeControl(cmCoilFormats);
             Classes.Theming.ThemeManager.ThemeControl(cmMonitor);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             Classes.Theming.ThemeManager.ThemeControl(cmMBChannel);
@@ -955,6 +1039,11 @@ namespace Serial_Monitor {
                     cmDisplayFormats.Tag = e;
                     cmDisplayFormats.Show(ModbusEditor.AddPoint(e));
                 }
+                else if (DataTag.GetType() == typeof(ModbusCoil)) {
+                    ModbusEditor.CheckItem(cmCoilFormats, ((ModbusCoil)DataTag).Format);
+                    cmCoilFormats.Tag = e;
+                    cmCoilFormats.Show(ModbusEditor.AddPoint(e));
+                }
             }
             else if (e.Column == ModbusEditor.Indx_Size) {
                 if (DataTag.GetType() == typeof(ModbusRegister)) {
@@ -970,7 +1059,7 @@ namespace Serial_Monitor {
                     if (ModbusEditor.CanChangeValue(CurrentManager, coil.ComponentType) == false) { return; }
                     coil.Value = !coil.Value;
 
-                    LstItem[ModbusEditor.Indx_Value].Text = coil.Value.ToString();
+                    LstItem[ModbusEditor.Indx_Value].Text = coil.ValueWithUnit;
                     if (ModbusSupport.SendOnChange == false) { return; }
                     if (Slave >= 0) {
                         SystemManager.SendModbusCommand(CurrentManager, DataSet, "Unit " + Slave.ToString() + " Write Coil " + e.Item.ToString() + " = " + coil.Value.ToString());

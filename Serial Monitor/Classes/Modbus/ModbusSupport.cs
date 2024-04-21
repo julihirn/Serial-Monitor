@@ -42,6 +42,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (CheckValues == true) {
                     if (Current.Value != false) { return true; }
                 }
+                if (Current.Format != Enums.ModbusEnums.CoilFormat.Boolean) { return true; }
                 if (Current.UseForeColor == true) { return true; }
                 if (Current.UseBackColor == true) { return true; }
             }
@@ -128,6 +129,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 if (Current.UseBackColor) {
                     Values.Add(TagData("BackColor", Current.BackColor.ToArgb()));
+                }
+                if (Current.Format != Enums.ModbusEnums.CoilFormat.Boolean) {
+                    Values.Add(TagData("Format", EnumManager.CoilFormatToString(Current.Format).B));
                 }
                 if (Current.UseForeColor) {
                     Values.Add(TagData("ForeColor", Current.ForeColor.ToArgb()));

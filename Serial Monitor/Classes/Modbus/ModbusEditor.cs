@@ -98,10 +98,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 PLi.LineBackColor = Coil.BackColor;
                 PLi.LineForeColor = Coil.ForeColor;
                 ListSubItem CLi1 = new ListSubItem(Coil.Name);
-                ListSubItem CLi2 = new ListSubItem("Boolean");
+                ListSubItem CLi2 = new ListSubItem(EnumManager.CoilFormatToString(Coil.Format).A);
                 ListSubItem CLi3 = new ListSubItem();
                 ListSubItem CLi4 = new ListSubItem();
-                ListSubItem CLi5 = new ListSubItem(Coil.Value.ToString());
+                ListSubItem CLi5 = new ListSubItem(Coil.ValueWithUnit);
                 PLi.SubItems.Add(CLi1);
                 PLi.SubItems.Add(CLi2);
                 PLi.SubItems.Add(CLi3);
@@ -117,10 +117,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index].LineBackColor = Coil.BackColor;
                 MasterRegisterEditor[Index].LineForeColor = Coil.ForeColor;
                 MasterRegisterEditor[Index][Indx_Name].Text = Coil.Name;
-                MasterRegisterEditor[Index][Indx_Display].Text = "Boolean";
+                MasterRegisterEditor[Index][Indx_Display].Text = EnumManager.CoilFormatToString(Coil.Format).A;
                 MasterRegisterEditor[Index][Indx_Size].Text = "";
                 MasterRegisterEditor[Index][Indx_Signed].Text = "";
-                MasterRegisterEditor[Index][Indx_Value].Text = Coil.Value.ToString();
+                MasterRegisterEditor[Index][Indx_Value].Text = Coil.ValueWithUnit;
             }
         }
         private static void AddMonitorItem(ModbusRegister Register, int Index) {
@@ -341,6 +341,41 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Format Editing
+        public static void ChangeCoilFormatList(object? sender, ListControl? lstMonitor) {
+            if (lstMonitor == null) { return; }
+            object? ButtonData = GetContextMenuItemData(sender);
+            if (ButtonData == null) {
+                if (sender == null) { return; }
+                if (sender.GetType()! != typeof(ModbusEnums.CoilFormat)) { return; }
+                ButtonData = sender;
+            }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.CoilFormat)) {
+                return;
+            }
+            CoilFormat Frmt = (CoilFormat)ButtonData;
+
+            int SelectedCount = lstMonitor.SelectionCount;
+            if (SelectedCount <= 0) { return; }
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count >= Indx_Value) {
+                    if (Li.Selected == true) {
+                        if (Li.Tag == null) { continue; }
+                        if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                            ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                            Reg.Format = Frmt;
+                            Li[Indx_Display].Text = EnumManager.CoilFormatToString(Reg.Format).A;
+                            Li[Indx_Value].Text = Reg.ValueWithUnit;
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                        }
+                        SelectedCount--;
+                    }
+                    if (SelectedCount <= 0) {
+                        break;
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+        }
         public static void ChangeDisplayFormatList(object? sender, ListControl? lstMonitor) {
             if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
@@ -546,6 +581,26 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Format Editing Support
+        public static void CheckItem(object DropDownList, CoilFormat CheckOn) {
+            if (DropDownList.GetType() == typeof(ContextMenu)) {
+                ContextMenu Btn = (ContextMenu)DropDownList;
+                foreach (ToolStripItem Tsi in Btn.Items) {
+                    if (Tsi.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Item = (ToolStripMenuItem)Tsi;
+                    if (Item.Tag == null) {
+                        Item.Checked = false;
+                        continue;
+                    }
+                    else {
+                        if (Item.Tag.GetType() == typeof(ModbusEnums.CoilFormat)) {
+                            ModbusEnums.CoilFormat dataFormat = (ModbusEnums.CoilFormat)Item.Tag;
+                            if (dataFormat == CheckOn) { Item.Checked = true; }
+                            else { Item.Checked = false; }
+                        }
+                    }
+                }
+            }
+        }
         public static void CheckItem(object DropDownList, DataFormat CheckOn) {
             if (DropDownList.GetType() == typeof(ContextMenu)) {
                 ContextMenu Btn = (ContextMenu)DropDownList;
@@ -658,6 +713,9 @@ namespace Serial_Monitor.Classes.Modbus {
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
                                 Reg.Value = false;
+                            }
+                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeFormat)) {
+                                Reg.Format = CoilFormat.Boolean;
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
                                 Reg.UseBackColor = false;
@@ -1153,7 +1211,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             //Li.UseLineForeColor = Settings.UseForeColor;
                         }
 
-                       return Li.Value;
+                        return Li.Value;
                     }
                 }
             }

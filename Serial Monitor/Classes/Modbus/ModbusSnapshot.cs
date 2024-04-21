@@ -191,10 +191,12 @@ namespace Serial_Monitor.Classes.Modbus {
             if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Value) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].Value.ToString();
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(manager.Coils[Index].Format).A;
                         break;
                     case DataSelection.ModbusDataDiscreteInputs:
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].Value.ToString();
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(manager.Coils[Index].Format).A;
                         break;
                     case DataSelection.ModbusDataInputRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(manager.InputRegisters[Index].Format).A;
@@ -261,10 +263,10 @@ namespace Serial_Monitor.Classes.Modbus {
             if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Value) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].Value.ToString();
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].ValueWithUnit;
                         break;
                     case DataSelection.ModbusDataDiscreteInputs:
-                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].Value.ToString();
+                        listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].ValueWithUnit;
                         break;
                     case DataSelection.ModbusDataInputRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
@@ -346,18 +348,18 @@ namespace Serial_Monitor.Classes.Modbus {
             if (selection == DataSelection.ModbusDataCoils) {
                 PLi.Tag = manager.Coils[Index];
                 CLi1.Text = manager.Coils[Index].Name;
-                CLi2.Text = "Boolean";
+                CLi2.Text = EnumManager.CoilFormatToString(manager.Coils[Index].Format).A;
                 CLi3.Text = "";
                 CLi4.Text = "";
-                CLi5.Text = manager.Coils[Index].Value.ToString();
+                CLi5.Text = manager.Coils[Index].ValueWithUnit;
             }
             else if (selection == DataSelection.ModbusDataDiscreteInputs) {
                 PLi.Tag = manager.DiscreteInputs[Index];
                 CLi1.Text = manager.DiscreteInputs[Index].Name;
-                CLi2.Text = "Boolean";
+                CLi2.Text = EnumManager.CoilFormatToString(manager.DiscreteInputs[Index].Format).A;
                 CLi3.Text = "";
                 CLi4.Text = "";
-                CLi5.Text = manager.DiscreteInputs[Index].Value.ToString();
+                CLi5.Text = manager.DiscreteInputs[Index].ValueWithUnit;
             }
             else if (selection == DataSelection.ModbusDataHoldingRegisters) {
                 PLi.Tag = manager.HoldingRegisters[Index];

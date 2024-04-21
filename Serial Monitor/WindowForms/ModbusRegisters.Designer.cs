@@ -53,6 +53,8 @@
             printToolStripMenuItem = new ToolStripMenuItem();
             printPreviewToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator7 = new ToolStripSeparator();
+            exportToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator28 = new ToolStripSeparator();
             exitToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
             undoToolStripMenuItem = new ToolStripMenuItem();
@@ -161,8 +163,8 @@
             editorModbus = new Docks.ModbusEditor();
             pnlDocker = new ODModules.Docking.DockPanel();
             tmrRefresh = new System.Windows.Forms.Timer(components);
-            toolStripSeparator28 = new ToolStripSeparator();
-            exportToolStripMenuItem = new ToolStripMenuItem();
+            contextMenu1 = new ODModules.ContextMenu();
+            cmCoilFormats = new ODModules.ContextMenu();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -396,6 +398,18 @@
             // 
             toolStripSeparator7.Name = "toolStripSeparator7";
             resources.ApplyResources(toolStripSeparator7, "toolStripSeparator7");
+            // 
+            // exportToolStripMenuItem
+            // 
+            exportToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(exportToolStripMenuItem, "exportToolStripMenuItem");
+            exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            exportToolStripMenuItem.Click += exportToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator28
+            // 
+            toolStripSeparator28.Name = "toolStripSeparator28";
+            resources.ApplyResources(toolStripSeparator28, "toolStripSeparator28");
             // 
             // exitToolStripMenuItem
             // 
@@ -1168,17 +1182,38 @@
             // 
             tmrRefresh.Tick += tmrRefresh_Tick;
             // 
-            // toolStripSeparator28
+            // contextMenu1
             // 
-            toolStripSeparator28.Name = "toolStripSeparator28";
-            resources.ApplyResources(toolStripSeparator28, "toolStripSeparator28");
+            contextMenu1.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            contextMenu1.BorderColor = Color.Black;
+            contextMenu1.DropShadowEnabled = false;
+            contextMenu1.ForeColor = Color.White;
+            contextMenu1.ImageScalingSize = new Size(32, 32);
+            contextMenu1.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            contextMenu1.MenuBackColorNorth = Color.DodgerBlue;
+            contextMenu1.MenuBackColorSouth = Color.DodgerBlue;
+            contextMenu1.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            contextMenu1.Name = "cmDisplayFormats";
+            contextMenu1.SeparatorColor = Color.FromArgb(200, 200, 200);
+            contextMenu1.ShowInsetShadow = false;
+            contextMenu1.ShowItemInsetShadow = false;
+            resources.ApplyResources(contextMenu1, "contextMenu1");
             // 
-            // exportToolStripMenuItem
+            // cmCoilFormats
             // 
-            exportToolStripMenuItem.ForeColor = Color.White;
-            resources.ApplyResources(exportToolStripMenuItem, "exportToolStripMenuItem");
-            exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Click += exportToolStripMenuItem_Click;
+            cmCoilFormats.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmCoilFormats.BorderColor = Color.Black;
+            cmCoilFormats.DropShadowEnabled = false;
+            cmCoilFormats.ForeColor = Color.White;
+            cmCoilFormats.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmCoilFormats.MenuBackColorNorth = Color.DodgerBlue;
+            cmCoilFormats.MenuBackColorSouth = Color.DodgerBlue;
+            cmCoilFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmCoilFormats.Name = "cmCoilFormats";
+            cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmCoilFormats.ShowInsetShadow = true;
+            cmCoilFormats.ShowItemInsetShadow = true;
+            resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             // 
             // ModbusRegisters
             // 
@@ -1348,5 +1383,7 @@
         private System.Windows.Forms.Timer tmrRefresh;
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator28;
+        private ODModules.ContextMenu contextMenu1;
+        private ODModules.ContextMenu cmCoilFormats;
     }
 }

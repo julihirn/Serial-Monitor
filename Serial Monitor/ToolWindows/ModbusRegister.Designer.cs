@@ -32,6 +32,7 @@
             lstRegisters = new ODModules.ListControl();
             cmDisplayFormats = new ODModules.ContextMenu();
             cmDataSize = new ODModules.ContextMenu();
+            cmCoilFormats = new ODModules.ContextMenu();
             SuspendLayout();
             // 
             // lstRegisters
@@ -210,6 +211,22 @@
             cmDataSize.ShowItemInsetShadow = false;
             cmDataSize.Size = new Size(61, 4);
             // 
+            // cmCoilFormats
+            // 
+            cmCoilFormats.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmCoilFormats.BorderColor = Color.Black;
+            cmCoilFormats.DropShadowEnabled = false;
+            cmCoilFormats.ForeColor = Color.White;
+            cmCoilFormats.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmCoilFormats.MenuBackColorNorth = Color.DodgerBlue;
+            cmCoilFormats.MenuBackColorSouth = Color.DodgerBlue;
+            cmCoilFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmCoilFormats.Name = "cmCoilFormats";
+            cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmCoilFormats.ShowInsetShadow = true;
+            cmCoilFormats.ShowItemInsetShadow = true;
+            cmCoilFormats.Size = new Size(181, 26);
+            // 
             // ModbusRegister
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -236,5 +253,6 @@
         private ODModules.ContextMenu cmDisplayFormats;
         private ODModules.ContextMenu cmDataSize;
         public ODModules.ListControl lstRegisters;
+        private ODModules.ContextMenu cmCoilFormats;
     }
 }

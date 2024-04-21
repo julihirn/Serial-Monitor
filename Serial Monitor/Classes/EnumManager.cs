@@ -85,6 +85,51 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Modbus Data Format
+        public static CoilFormat StringToCoilFormat(string Input) {
+            if (Input == "mbDataFrmtBoolean") {
+                return CoilFormat.Boolean;
+            }
+            else if (Input == "mbDataFrmtBit") {
+                return CoilFormat.Bit;
+            }
+            else if (Input == "mbDataFrmtPwrState") {
+                return CoilFormat.PowerState;
+            }
+            else if (Input == "mbDataFrmtValState") {
+                return CoilFormat.ValveState;
+            }
+            else if (Input == "mbDataFrmtValState") {
+                return CoilFormat.ValveState;
+            }
+            else if (Input == "mbDataFrmEnabled") {
+                return CoilFormat.EnabledState;
+            }
+            else if (Input == "mbDataFrmActivate") {
+                return CoilFormat.ActivationState;
+            }
+            return CoilFormat.Boolean;
+        }
+        public static StringPair CoilFormatToString(CoilFormat Input) {
+            if (Input == CoilFormat.Boolean) {
+                return new StringPair("Boolean", "mbDataFrmtBoolean");
+            }
+            else if (Input == CoilFormat.Bit) {
+                return new StringPair("Bit", "mbDataFrmtBit");
+            }
+            else if (Input == CoilFormat.PowerState) {
+                return new StringPair("State (Power)", "mbDataFrmtPwrState");
+            }
+            else if (Input == CoilFormat.ValveState) {
+                return new StringPair("State (Valve)", "mbDataFrmtValState");
+            }
+            else if (Input == CoilFormat.EnabledState) {
+                return new StringPair("State (Enabled)", "mbDataFrmEnabled");
+            }
+            else if (Input == CoilFormat.ActivationState) {
+                return new StringPair("State (Activation)", "mbDataFrmActivate");
+            }
+            return new StringPair("Boolean", "mbDataFrmtBoolean");
+        }
         public static DataFormat StringToDataFormat(string Input) {
             if (Input == "mbDataFrmtBinary") {
                 return DataFormat.Binary;
@@ -597,6 +642,55 @@ namespace Serial_Monitor.Classes {
                 ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
                 foreach (ToolStripItem Tsi in Btn.DropDownItems) {
                     Btn.Click -= FormatClick;
+                }
+            }
+        }
+        public static void LoadCoilFormats(object DropDownList, EventHandler FormatClick, bool ApplyChecked = false) {
+            CoilFormat[] Formats = (CoilFormat[])CoilFormat.GetValues(typeof(Enums.ModbusEnums.CoilFormat));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.CoilFormat Frmt in Formats) {
+                StringPair Data = CoilFormatToString(Frmt);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data.A;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    if (ApplyChecked == false) { Tsi.Checked = false; }
+                    else {
+                        if (Tsi.Checked) {
+                            Btn.Text = Data.A;
+                        }
+                    }
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
+        public static void LoadCoilFormats(object DropDownList, CoilFormat SelectedFormat) {
+            CoilFormat[] Formats = (CoilFormat[])CoilFormat.GetValues(typeof(Enums.ModbusEnums.CoilFormat));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.CoilFormat Frmt in Formats) {
+                StringPair Data = CoilFormatToString(Frmt);
+                if (DropDownList.GetType() == typeof(DropDownBox)) {
+                    DropDownBox Btn = (DropDownBox)DropDownList;
+                    Btn.Items.Add(Data.A);
+                    if (SelectedFormat == Frmt) {
+                        Btn.SelectedIndex = Btn.Items.Count - 1;
+                    }
                 }
             }
         }

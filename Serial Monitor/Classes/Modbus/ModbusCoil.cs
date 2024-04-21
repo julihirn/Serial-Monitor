@@ -1,9 +1,13 @@
-﻿using Serial_Monitor.Classes.Structures;
+﻿using Serial_Monitor.Classes.Enums;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.ModbusEnums;
+using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusCoil : ModbusObject {
@@ -39,6 +43,35 @@ namespace Serial_Monitor.Classes.Modbus {
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
             }
         }
+        public string ValueWithUnit {
+            get {
+                switch (format) {
+                    case CoilFormat.Boolean:
+                        return coilValue.ToString();
+                    case CoilFormat.Bit:
+                        return coilValue == true ? "1" : "0";
+                    case CoilFormat.PowerState:
+                        return coilValue == true ? "On" : "Off";
+                    case CoilFormat.ValveState:
+                        return coilValue == true ? "Open" : "Closed";
+                    case CoilFormat.EnabledState:
+                        return coilValue == true ? "Enabled" : "Disabled";
+                    case CoilFormat.ActivationState:
+                        return coilValue == true ? "Activated" : "Deactivated";
+                    default:
+                        return coilValue.ToString();
+                }
+                
+            }
+        }
+        ModbusEnums.CoilFormat format = ModbusEnums.CoilFormat.Boolean;
+        public ModbusEnums.CoilFormat Format {
+            get { return format; }
+            set {
+                format = value;
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
+            }
+        }
         #endregion 
         #region File Support
         public void Set(StringPair Input) {
@@ -59,6 +92,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 int.TryParse(Input.B, out Temp);
                 BackColor = Color.FromArgb(Temp);
                 UseBackColor = true;
+            }
+            else if (Input.A.ToLower() == "format") {
+                Format = EnumManager.StringToCoilFormat(Input.B);
             }
         }
         #endregion
