@@ -1223,6 +1223,12 @@ namespace Serial_Monitor.Classes.Modbus {
             ModbusPropertyFlags Flags = ModbusPropertyFlags.Prefix;
             ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
         }
+        public static void ChangeUnit(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, string Unit) {
+            ModbusProperty Appearance = new ModbusProperty();
+            Appearance.Unit = Unit;
+            ModbusPropertyFlags Flags = ModbusPropertyFlags.Unit;
+            ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
+        }
         public static void ChangeSize(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, DataSize Size) {
             ModbusProperty Appearance = new ModbusProperty();
             Appearance.Size = Size;

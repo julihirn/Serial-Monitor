@@ -232,12 +232,7 @@ namespace Serial_Monitor.Classes.Theming {
                 lblPnl.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 lblPnl.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
                 lblPnl.BackColor = Properties.Settings.Default.THM_COL_Editor;
-            }
-            else if (ControlObject.GetType() == typeof(ODModules.LabelPanel)) {
-                ODModules.LabelPanel lblPnl = (ODModules.LabelPanel)ControlObject;
-                lblPnl.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                lblPnl.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
-                lblPnl.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                lblPnl.SeparatorColor  = Properties.Settings.Default.THM_COL_SeperatorColor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.ButtonGrid)) {
                 ODModules.ButtonGrid btnGrid = (ODModules.ButtonGrid)ControlObject;
@@ -294,8 +289,8 @@ namespace Serial_Monitor.Classes.Theming {
                 cmbxTemp.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 cmbxTemp.BackColor = Properties.Settings.Default.THM_COL_Editor;
                 cmbxTemp.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
-                cmbxTemp.ArrowColor = Properties.Settings.Default.THM_COL_Editor;
-
+                cmbxTemp.ArrowColor = Properties.Settings.Default.THM_COL_SymbolColor;
+                cmbxTemp.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
                 cmbxTemp.SelectedBackColor = Properties.Settings.Default.THM_COL_Editor;
                 cmbxTemp.SelectedBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
                 cmbxTemp.SelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;

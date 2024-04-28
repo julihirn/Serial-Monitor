@@ -184,6 +184,12 @@ namespace Serial_Monitor.Classes {
             else if (Input >= Formats.Length) { return Formats[Formats.Length - 1]; }
             else { return Formats[Input]; }
         }
+        public static CoilFormat IntegerToCoilFormat(int Input) {
+            CoilFormat[] Formats = (CoilFormat[])CoilFormat.GetValues(typeof(Enums.ModbusEnums.CoilFormat));
+            if (Input < 0) { return Formats[0]; }
+            else if (Input >= Formats.Length) { return Formats[Formats.Length - 1]; }
+            else { return Formats[Input]; }
+        }
         #endregion
         #region Modbus Word Order
         public static ByteOrder StringToWordOrder(string Input) {

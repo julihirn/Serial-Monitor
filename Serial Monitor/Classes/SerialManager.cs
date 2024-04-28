@@ -21,10 +21,12 @@ namespace Serial_Monitor.Classes {
         public SerialManager() {
             iD = Guid.NewGuid().ToString();
             Port.DataReceived += Port_DataReceived;
+            //Port.
             Port.WriteTimeout = 1000;
             Port.ReadTimeout = 10000;
             Port.ReadBufferSize = 10000;
             Port.WriteBufferSize = 50000;
+            Port.DtrEnable = true;
             HeartbeatThread = new Thread(HeartBeat);
             HeartbeatThread.IsBackground = true;
             HeartbeatThread.Start();
@@ -33,6 +35,7 @@ namespace Serial_Monitor.Classes {
             ModbusRTUFramerThread.IsBackground = true;
 
             registers = new ModbusSlave(this, -1);
+            DeriveSilence();
             //TrFramer = new Thread(Framer);
             //TrFramer.IsBackground = true;
             //TrFramer.Start();
@@ -244,7 +247,8 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     if (value > 0) {
                         Port.BaudRate = value;
-                        SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
+                        DeriveSilence();
+
                         SystemManager.InvokeChannelPropertiesChanged(this);
                     }
                 }
@@ -279,6 +283,7 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     try {
                         Port.DataBits = value;
+                        DeriveSilence();
                         SystemManager.InvokeChannelPropertiesChanged(this);
                     }
                     catch { }
@@ -296,6 +301,7 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     try {
                         Port.StopBits = value;
+                        DeriveSilence();
                         SystemManager.InvokeChannelPropertiesChanged(this);
                     }
                     catch { }
@@ -313,6 +319,7 @@ namespace Serial_Monitor.Classes {
                 if (Port != null) {
                     try {
                         Port.Parity = value;
+                        DeriveSilence();
                         SystemManager.InvokeChannelPropertiesChanged(this);
                     }
                     catch { }
@@ -345,6 +352,24 @@ namespace Serial_Monitor.Classes {
         [Browsable(false)]
         public List<ModbusSlave> Slave {
             get { return slave; }
+        }
+        private void DeriveSilence() {
+            decimal PacketLength = DataBits;
+            if (Parity != Parity.None) {
+                PacketLength++;
+            }
+            if (StopBits == StopBits.One) {
+                PacketLength++;
+            }
+            else if (StopBits == StopBits.OnePointFive) {
+                PacketLength += 1.5m;
+            }
+            else if (StopBits == StopBits.Two) {
+                PacketLength += 1.5m;
+            }
+            //tk = 1/(b/s)  (3.5) =>  (1/1/s) => s, s * 3.5
+            SilenceLength = (long)((1.0m / (decimal)Port.BaudRate) * 35000000.0m * PacketLength);
+            //SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
         }
         //private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters);//new ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];
         //[Browsable(false)]
@@ -661,24 +686,15 @@ namespace Serial_Monitor.Classes {
 
         byte[] RXBuffer = new byte[short.MaxValue];
         private int RXCurrentByte = 0;
-        private void ModbusRTUProcessor(object sender) {
+        private void ModbusRTUVerifier() {
             try {
-                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + inputRTUSilenceCalibration) {
-                    RXCurrentByte = 0;
-                    Debug.Print("Timeout");
-                }
-                int i = 0;
-                int BytesToRead = ((SerialPort)sender).BytesToRead;
-                byte[] Buffer = new byte[BytesToRead];
-                bytesReceived += (ulong)BytesToRead;
-                i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
-                Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
-                RXCurrentByte += BytesToRead;
                 int LatchedBytesToCheck = RXCurrentByte;
                 bool NothingFound = true;
                 if (LatchedBytesToCheck >= 0) {
+                    // Debug.Print("Read Length: " + Buffer.Length + " " + RXCurrentByte.ToString());
                     for (int j = 4; j <= LatchedBytesToCheck; j++) {
                         lastReceivedTime = DateTime.UtcNow;
+
                         if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
                         lastReceivedTime = DateTime.UtcNow;
                         int NewIndex = j + 1;
@@ -691,6 +707,7 @@ namespace Serial_Monitor.Classes {
                                 Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
                             }
                             RXCurrentByte = NewLength;
+                            Port.DiscardInBuffer();
                             Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
                             TrMbRTURx.Name = "TrMbRTURx";
                             TrMbRTURx.IsBackground = true;
@@ -706,6 +723,66 @@ namespace Serial_Monitor.Classes {
                 }
                 if (NothingFound == true) {
                 }
+                if (RXCurrentByte > 512) {
+                    RXCurrentByte = 0;
+                }
+                lastReceivedTime = DateTime.UtcNow;
+            }
+            catch { }
+        }
+        private void ModbusRTUProcessor(object sender) {
+            try {
+                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength) {
+                    RXCurrentByte = 0;
+                    Debug.Print("Timeout");
+                }
+                int i = 0;
+                int BytesToRead = ((SerialPort)sender).BytesToRead;
+                byte[] Buffer = new byte[BytesToRead];
+                bytesReceived += (ulong)BytesToRead;
+                i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
+                Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
+                RXCurrentByte += BytesToRead;
+                //Debug.Print(DateTime.UtcNow.Ticks.ToString() + " Read Length: " + Buffer.Length.ToString() + " " + RXCurrentByte.ToString());
+                Thread TrMbRTUVerfy = new Thread(() => ModbusRTUVerifier());
+                TrMbRTUVerfy.Name = "TrMbRTUVerfy";
+                TrMbRTUVerfy.IsBackground = true;
+                TrMbRTUVerfy.Start();
+                //int LatchedBytesToCheck = RXCurrentByte;
+                //bool NothingFound = true;
+                //if (LatchedBytesToCheck >= 0) {
+                //    Debug.Print("Read Length: " + Buffer.Length + " " + RXCurrentByte.ToString());
+                //    for (int j = 4; j <= LatchedBytesToCheck; j++) {
+                //        lastReceivedTime = DateTime.UtcNow;
+
+                //        if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
+
+                //        lastReceivedTime = DateTime.UtcNow;
+                //        int NewIndex = j + 1;
+                //        int NewLength = (LatchedBytesToCheck - j);
+                //        if (NewLength >= 0) {
+                //            byte[] Temp = RXBuffer;
+                //            byte[] TemoSends = new byte[j];
+                //            Array.Copy(RXBuffer, 0, TemoSends, 0, j);
+                //            if (NewLength > 0) {
+                //                Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
+                //            }
+                //            RXCurrentByte = NewLength;
+                //            Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
+                //            TrMbRTURx.Name = "TrMbRTURx";
+                //            TrMbRTURx.IsBackground = true;
+                //            TrMbRTURx.Start();
+
+                //        }
+                //        else {
+                //            RXCurrentByte = 0;
+                //        }
+                //        NothingFound = false;
+                //        break;
+                //    }
+                //}
+                //if (NothingFound == true) {
+                //}
                 if (RXCurrentByte > 512) {
                     RXCurrentByte = 0;
                 }
@@ -1236,40 +1313,43 @@ namespace Serial_Monitor.Classes {
             }
         }
         private void ModbusMasterReadRegisters(byte[] Input, int Length, bool IsHolding = true) {
-            if (inputFormat == StreamInputFormat.ModbusRTU) {
-                int Device = Input[0];
-                int Count = Input[2] / 2;
-                int k = 0;
-                for (int i = 0; i < Count; i++) {
-                    short Temp = (short)(((int)Input[3 + k] << 8) | (int)Input[4 + k]);
-                    if (IsHolding == true) {
-                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, Device, LastRequestedAddress + i, Temp);
-                        //holdingRegisters[LastRequestedAddress + i].Value = Temp;
+            try {
+                if (inputFormat == StreamInputFormat.ModbusRTU) {
+                    int Device = Input[0];
+                    int Count = Input[2] / 2;
+                    int k = 0;
+                    for (int i = 0; i < Count; i++) {
+                        short Temp = (short)(((int)Input[3 + k] << 8) | (int)Input[4 + k]);
+                        if (IsHolding == true) {
+                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, Device, LastRequestedAddress + i, Temp);
+                            //holdingRegisters[LastRequestedAddress + i].Value = Temp;
+                        }
+                        else {
+                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataInputRegisters, Device, LastRequestedAddress + i, Temp);
+                            //inputRegisters[LastRequestedAddress + i].Value = Temp;
+                        }
+                        k += 2;
                     }
-                    else {
-                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataInputRegisters, Device, LastRequestedAddress + i, Temp);
-                        //inputRegisters[LastRequestedAddress + i].Value = Temp;
+                }
+                else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                    int Device = ModbusSupport.GetArrayValue(0, ref Input);
+                    int Count = ModbusSupport.GetArrayValue(4, ref Input) / 2;
+                    int k = 0;
+                    for (int i = 0; i < Count; i++) {
+                        short Temp = (short)ModbusSupport.GetArrayValueRead4(6 + k, ref Input);
+                        if (IsHolding == true) {
+                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, Device, LastRequestedAddress + i, Temp);
+                            //holdingRegisters[LastRequestedAddress + i].Value = Temp;
+                        }
+                        else {
+                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataInputRegisters, Device, LastRequestedAddress + i, Temp);
+                            //inputRegisters[LastRequestedAddress + i].Value = Temp;
+                        }
+                        k += 4;
                     }
-                    k += 2;
                 }
             }
-            else if (inputFormat == StreamInputFormat.ModbusASCII) {
-                int Device = ModbusSupport.GetArrayValue(0, ref Input);
-                int Count = ModbusSupport.GetArrayValue(4, ref Input) / 2;
-                int k = 0;
-                for (int i = 0; i < Count; i++) {
-                    short Temp = (short)ModbusSupport.GetArrayValueRead4(6 + k, ref Input);
-                    if (IsHolding == true) {
-                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, Device, LastRequestedAddress + i, Temp);
-                        //holdingRegisters[LastRequestedAddress + i].Value = Temp;
-                    }
-                    else {
-                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataInputRegisters, Device, LastRequestedAddress + i, Temp);
-                        //inputRegisters[LastRequestedAddress + i].Value = Temp;
-                    }
-                    k += 4;
-                }
-            }
+            catch { }
         }
         private string PrintStream(byte[] Data) {
             string Temp = "";
@@ -1391,9 +1471,9 @@ namespace Serial_Monitor.Classes {
                 SystemManager.InvokeSlaveAdded(this);
             }
         }
-        
-        
-       
+
+
+
         #endregion
         #region Modbus Transmission
         private List<byte[]> ModbusTransmitBuffer = new List<byte[]>();

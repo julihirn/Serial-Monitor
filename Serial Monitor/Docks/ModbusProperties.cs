@@ -35,6 +35,7 @@ namespace Serial_Monitor.Docks {
                 this.EditorInstance.ViewChanged += EditorInstance_ViewChanged;
             }
             EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
+            EnumManager.LoadCoilFormats(ddlBooleanDisplay, ModbusEnums.CoilFormat.Boolean);
             EnumManager.LoadDataFormats(ddlDisplay, ModbusEnums.DataFormat.Decimal);
             EnumManager.LoadWordOrders(ddlEndianness, ModbusEnums.ByteOrder.LittleEndian);
             PreventLoad = false;
@@ -43,11 +44,17 @@ namespace Serial_Monitor.Docks {
         private void EditorInstance_ViewChanged(object? sender) {
             DataSelection? Select = GetDataSelection();
             if (Select > DataSelection.ModbusDataDiscreteInputs) {
-                lblpnlFormat.Visible = true;
+                lblpnlBoolDisplay.Visible = false;
+                lblpnlDisplay.Visible = true;
+                lblpnlEndianess.Visible = true;
+                lblpnlSize.Visible = true;
                 lblpnlUnits.Visible = true;
             }
             else {
-                lblpnlFormat.Visible = false;
+                lblpnlBoolDisplay.Visible = true;
+                lblpnlDisplay.Visible = false;
+                lblpnlEndianess.Visible = false;
+                lblpnlSize.Visible = false;
                 lblpnlUnits.Visible = false;
             }
         }
@@ -82,8 +89,10 @@ namespace Serial_Monitor.Docks {
             }
             ThemeManager.ThemeControlAlternative(pfsMain);
             ThemeManager.ThemeControl(toolStrip1);
+            ThemeManager.ThemeControl(ddlBooleanDisplay);
             ThemeManager.ThemeControl(ddlEndianness);
             ThemeManager.ThemeControl(ddlDisplay);
+            ThemeManager.ThemeControl(tbUnit);
 
         }
         private void ThemePanel(object Pnl) {
@@ -139,6 +148,21 @@ namespace Serial_Monitor.Docks {
             //DataSelection? Select = GetDataSelection();
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
             Classes.Modbus.ModbusEditor.ChangeWordOrderList(EnumManager.IntegerToWordOrder(ddlEndianness.SelectedIndex), CurrentEditor);
+        }
+
+        private void tbUnit__TextChanged(object sender, EventArgs e) {
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            DataSelection? Select = GetDataSelection();
+            Classes.Modbus.ModbusEditor.ChangeUnit(GetCurrentSlave(), Select, sender, CurrentEditor, tbUnit.Text);
+        }
+
+        private void ddlBooleanDisplay_SelectedIndexChanged(object sender, EventArgs e) {
+            if (PreventLoad == true) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeCoilFormatList(EnumManager.IntegerToCoilFormat(ddlBooleanDisplay.SelectedIndex), CurrentEditor);
         }
     }
 }

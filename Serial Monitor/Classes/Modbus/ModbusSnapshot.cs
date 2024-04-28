@@ -232,18 +232,18 @@ namespace Serial_Monitor.Classes.Modbus {
                 listings[LocalIndex].LineForeColor = ModbusData.ForeColor;
             }
         }
-        private static ModbusObject GetModbusObject(int Index, DataSelection Selection, ModbusSlave Manager) {
+        private static ModbusObject GetModbusObject(int Index, DataSelection Selection, ModbusSlave Slave) {
             switch (Selection) {
                 case DataSelection.ModbusDataCoils:
-                    return Manager.Coils[Index];
+                    return Slave.Coils[Index];
                 case DataSelection.ModbusDataDiscreteInputs:
-                    return Manager.DiscreteInputs[Index];
+                    return Slave.DiscreteInputs[Index];
                 case DataSelection.ModbusDataInputRegisters:
-                    return Manager.InputRegisters[Index];
+                    return Slave.InputRegisters[Index];
                 case DataSelection.ModbusDataHoldingRegisters:
-                    return Manager.HoldingRegisters[Index];
+                    return Slave.HoldingRegisters[Index];
             }
-            return Manager.Coils[Index];
+            return Slave.Coils[Index];
         }
         private static int GetListIndex(int AbsoluteIndex, ref List<ListItem> List) {
             if (List.Count <= 0) { return -1; }
