@@ -39,6 +39,10 @@ namespace Serial_Monitor.Classes {
 
             }
         }
+        static string projectName = "";
+        public static string ProjectName {
+            get { return projectName; }
+        }
         static bool showUnits = true;
         public static bool ShowUnits {
             get { return showUnits; } set {  showUnits = value; }
@@ -126,6 +130,7 @@ namespace Serial_Monitor.Classes {
                 WriteKeypad(Sw);
 
             }
+            projectName = Path.GetFileNameWithoutExtension(FileAddress);
         }
         private static void WriteProperties(StreamWriter Sw) {
             DocumentHandler.WriteComment(Sw, 0, "  Document Details");
@@ -361,6 +366,7 @@ namespace Serial_Monitor.Classes {
             DocumentHandler.LINES.Clear();
             DocumentHandler.ENUMERATION.Clear();
             GC.Collect();
+            projectName = Path.GetFileNameWithoutExtension(FileAddress);
         }
         private static void LoadChannel(ParameterStructure Pstrc, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
             SerialManager Sm = new SerialManager();
@@ -553,6 +559,7 @@ namespace Serial_Monitor.Classes {
                         ProgramManager.Programs[0].DecodeLegacyFileCommand(TxtReader.ReadLine() ?? "");
                     }
                 }
+                projectName = Path.GetFileNameWithoutExtension(FileAddress);
             }
             catch { }
         }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
@@ -75,8 +76,13 @@ namespace Serial_Monitor.Classes {
             return new Point(End, (Start - End) + 1);
         }
         public static bool GetIntegerValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
+            string OldValue = Input;
             if (TestKeyword(ref Input, Compare)) {
-
+                string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
+                List<string> SupportedFunctions = new List<string>();
+                string Function = "";
+                 if (TestSupportFunctions(ref TempCheck, SupportedFunctions, out Function) == false) { Input = OldValue; return false; }
+                if (TempCheck.StartsWith("\"") && TempCheck.EndsWith("\"")) { Input = OldValue; return false; }
                 if (DelimitOnEquals) {
                     string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
                     STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
@@ -95,6 +101,65 @@ namespace Serial_Monitor.Classes {
                         bool Success = short.TryParse(TempValues.Value[i], out Temp);
                         if (Success == false) { return false; }
                         Values.Add(Temp);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        public static bool GetCharacterValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false, bool TwoBytesPerRegister = false) {
+            string OldValue = Input;
+            if (TestKeyword(ref Input, Compare)) {
+                List<string> SupportedFunctions = new List<string>();
+                SupportedFunctions.Add("PACKED");
+                string Function = "";
+                if (TestSupportFunctions(ref Input, SupportedFunctions, out Function) == false) { Input = OldValue; return false; }
+                string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
+                if (TempCheck.StartsWith("\"") || TempCheck.EndsWith("\"")) {
+                    Input = Input.TrimStart(' ').TrimEnd(' ');
+                    if (Input.Length >= 2) {
+                        Input = Input.Remove(Input.Length - 1, 1);
+                        Input = Input.Remove(0, 1);
+                    }
+                    else { return false; }
+                }
+                if (Function == "PACKED") {
+                    TwoBytesPerRegister = true;
+                }
+
+                if (DelimitOnEquals) {
+                    string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
+                    short LastValue = 0x00;
+                    for (int i = 0; i < StrAddress.Length; i++) {
+                        char Temp = StrAddress[i];
+                        if (TwoBytesPerRegister == true) {
+                            if (i % 2 == 0) {
+                                LastValue = (short)((byte)Temp << 8);
+                                if (i == StrAddress.Length - 1) { Values.Add(LastValue); }
+                            }
+                            else {
+                                LastValue |= (short)((byte)Temp);
+                                Values.Add(LastValue);
+                            }
+                        }
+                        else { Values.Add((short)Temp); }
+                    }
+                }
+                else {
+                    short LastValue = 0x00;
+                    for (int i = 0; i < Input.Length; i++) {
+                        char Temp = Input[i];
+                        if (TwoBytesPerRegister == true) {
+                            if (i % 2 == 0) {
+                                LastValue = (short)((byte)Temp << 8);
+                                if (i == Input.Length - 1) { Values.Add(LastValue); }
+                            }
+                            else {
+                                LastValue |= (short)((byte)Temp);
+                                Values.Add(LastValue);
+                            }
+                        }
+                        else { Values.Add((short)Temp); }
                     }
                 }
                 return true;
@@ -166,12 +231,12 @@ namespace Serial_Monitor.Classes {
         }
         public static bool GetValue(ref string Input, string Compare, out int Value, bool DelimitOnEquals = false) {
             string OldVal = Input;
-            if (TestKeyword(ref Input, Compare)) {
+            if (TestKeyword(ref Input, Compare, true)) {
 
                 if (DelimitOnEquals) {
                     string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
                     bool Success = int.TryParse(StrAddress, out Value);
-                    if (Success == false) { Input = OldVal;  return false; }
+                    if (Success == false) { Input = OldVal; return false; }
                 }
                 else {
                     string StrAddress = ReadAndRemove(ref Input).TrimStart(' ');
@@ -211,7 +276,7 @@ namespace Serial_Monitor.Classes {
             Value = 0;
             return false;
         }
-        public static bool TestKeyword(ref string Input, string Compare, bool CaseInvariant = false) {
+        public static bool TestKeyword(ref string Input, string Compare, bool CaseInvariant = true) {
             if (CaseInvariant == true) {
                 if (Input.ToUpper().StartsWith(Compare.ToUpper())) {
                     Input = Input.Remove(0, Compare.Length);
@@ -227,6 +292,30 @@ namespace Serial_Monitor.Classes {
                 }
             }
             return false;
+        }
+        public static bool TestSupportFunctions(ref string Input, List<string> SupportedFunctions, out string Function) {
+            string Temp = Input.TrimStart(' ').TrimEnd(' ');
+            if (Temp.ToUpper().StartsWith("(") && Temp.EndsWith(")")) {
+                if (Temp.Length >= 2) {
+                    Temp = Temp.Remove(Temp.Length - 1, 1);
+                    Temp = Temp.Remove(0, 1);
+                    Input = Temp; Function = ""; return true;
+                }
+            }
+            if (Regex.Match(Input, "^\\w+\\(.*\\)").Success == false){
+               Input = Temp; Function = ""; return true;
+            }
+            foreach (string Func in SupportedFunctions) {
+                if (Temp.ToUpper().StartsWith(Func + "(") && Temp.EndsWith(")")) {
+                    if (Temp.Length >= Func.Length + 2) {
+                        Temp = Temp.Remove(Temp.Length - 1, 1);
+                        Temp = Temp.Remove(0, Func.Length + 1);
+                        Input = Temp; Function = Func; return true;
+                    }
+                    else { Function = ""; return false; }
+                }
+            }
+            Function = ""; return false;
         }
         public static string ReadAndRemove(ref string Input, char RemoveChar = ' ') {
             string Temp = Input.Split(RemoveChar)[0];
@@ -252,7 +341,7 @@ namespace Serial_Monitor.Classes {
                     }
                     else if (Temp.ToUpper() == "END") {
                         if (InQuery == true) {
-                            QueryEnd = i-4;
+                            QueryEnd = i - 4;
                             QueryAbsoluteEnd = i;
                             InQuery = false;
                             break;
@@ -277,7 +366,7 @@ namespace Serial_Monitor.Classes {
         public static bool IsModbusKeyword(string Input) {
             string Temp = Input.ToLower();
             if (Temp == "read") { return true; }
-            else if (Temp == "write") {  return true; }
+            else if (Temp == "write") { return true; }
             else if (Temp == "using") { return true; }
             else if (Temp == "begin") { return true; }
             else if (Temp == "end") { return true; }

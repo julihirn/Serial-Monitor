@@ -2043,12 +2043,16 @@ namespace Serial_Monitor {
             }
             InsSnap.CleanUp();
         }
+        private void ReassignSlaves() {
+
+        }
         private void RemoveSelectedSlave() {
             if (CurrentManager == null) { return; }
             if ((slaveindex < editorModbus.thSlaves.Tabs.Count) && (slaveindex >= 0)) {
                 editorModbus.thSlaves.Tabs[slaveindex].Tag = null;
             }
             CurrentManager.RemoveSlave(Slave);
+            ReassignSlaves();
         }
         private void thSlaves_CloseButtonClicked(object sender, int Index) {
             if (CurrentManager == null) { return; }

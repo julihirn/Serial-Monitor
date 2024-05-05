@@ -106,7 +106,7 @@ namespace Serial_Monitor.WindowForms {
             //e.ChangedRange.ClearStyle(Headers);
             //highlight tags
             e.ChangedRange.SetStyle(Headers, @"(?<!--.*)(?:\b((?i:begin)|(?i:end))\b)");
-            e.ChangedRange.SetStyle(KeyWord, @"(?<!--.*)(?:\b((?i:using)|(?i:declare)|(?i:as)|(?i:master)|(?i:unit)|(?i:write)|(?i:read)|(?i:register)|(?i:coil)|(?i:registers)|(?i:coils)|(?i:from)|(?i:with)|(?i:qty)|(?i:diagnostics)|(?i:query)|(?i:bus)|(?i:slave)|(?i:clear)|(?i:counters)|(?i:overrun)|(?i:restart)|(?i:force)|(?i:set)|(?i:delimiter)|(?i:discrete)|(?i:inregisters)|(?i:inregister)|(?i:holding)|(?i:holdings)|(?i:input)|(?i:inputs)|(?i:true)|(?i:false)|(?i:to))\b)");
+            e.ChangedRange.SetStyle(KeyWord, @"(?<!--.*)(?:\b((?i:using)|(?i:declare)|(?i:as)|(?i:master)|(?i:unit)|(?i:write)|(?i:read)|(?i:register)|(?i:coil)|(?i:registers)|(?i:coils)|(?i:from)|(?i:with)|(?i:qty)|(?i:diagnostics)|(?i:query)|(?i:bus)|(?i:slave)|(?i:clear)|(?i:counters)|(?i:overrun)|(?i:restart)|(?i:force)|(?i:set)|(?i:delimiter)|(?i:discrete)|(?i:inregisters)|(?i:inregister)|(?i:holding)|(?i:holdings)|(?i:input)|(?i:inputs)|(?i:return)|(?i:true)|(?i:false)|(?i:to))\b)");
             //e.ChangedRange.SetStyle(Headers, @"(?<!--.*)(?:\b((?i:begin)|(?i:create lines)))");
             e.ChangedRange.SetStyle(String, "(?<!--.*)(?:(\").+(\"))");
             //e.ChangedRange.SetStyle(Special, @"(?<!--.*)(?:\bE\(\w+\)\B)|(?:\be\(\w+\)\B)|(?:\bA\(\w+\)\B)|(?:\ba\(\w+\)\B)");

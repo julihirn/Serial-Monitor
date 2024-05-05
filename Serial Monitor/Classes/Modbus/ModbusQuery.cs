@@ -21,7 +21,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (Current == null) { break; }
                 bool WasMaster = Current.IsMaster;
                 bool ResetMaster = false;
-                CurrentQuery = CurrentQuery.ToUpper();
+                //CurrentQuery = CurrentQuery.ToUpper();
                 if (Classes.CommandManager.TestKeyword(ref CurrentQuery, "AS")) {
                     if (Classes.CommandManager.TestKeyword(ref CurrentQuery, "MASTER")) {
                         Current.IsMaster = true;
@@ -58,11 +58,11 @@ namespace Serial_Monitor.Classes.Modbus {
             if (Channel.Connected == false) { return; }
             try {
                 if (Channel.IsMaster == false) { return; }
-                string Temp = Input.ToUpper().TrimStart(' ').TrimStart('\t');
+                string Temp = Input.TrimStart(' ').TrimStart('\t');
                 int Unit = 1;
                 int Start = 0;
                 //int Count = 1;
-                if (CommandManager.TestKeyword(ref Temp, "UNIT")) {
+                if (CommandManager.TestKeyword(ref Temp, "UNIT", true)) {
                     string StrAddress = CommandManager.ReadAndRemove(ref Temp);
 
                     bool Success = int.TryParse(StrAddress, out Unit);
@@ -132,12 +132,18 @@ namespace Serial_Monitor.Classes.Modbus {
                             if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
                                 Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                             }
+                            else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+                                Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
+                            }
                         }
                     }
                     else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
                         if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                             List<short> Values = new List<short>();
                             if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                                Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
+                            }
+                            else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
                                 Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                             }
                         }

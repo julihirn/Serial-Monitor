@@ -101,7 +101,10 @@ namespace Serial_Monitor.Classes {
         }
         public void Connect() {
             try {
-                this.Port.Open();
+                if (!Connected) {
+                    DeriveSilence();
+                    this.Port.Open();
+                }
             }
             catch {
                 SystemManager.InvokeErrorMessage(ErrorType.M_Error, "COM_PSTART", "Could not open the port");
@@ -369,6 +372,9 @@ namespace Serial_Monitor.Classes {
             }
             //tk = 1/(b/s)  (3.5) =>  (1/1/s) => s, s * 3.5
             SilenceLength = (long)((1.0m / (decimal)Port.BaudRate) * 35000000.0m * PacketLength);
+            //if (SilenceLength < 10000) {
+            //    SilenceLength = 1000000;
+            //}
             //SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
         }
         //private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters);//new ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];
@@ -607,6 +613,21 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Data Processing
+        private string lastReceivedLine = "";
+        [Browsable(false)]
+        public string LastReceivedLine {
+            get { return lastReceivedLine; }
+        }
+        private string secondLastReceivedLine = "";
+        [Browsable(false)]
+        public string SecondLastReceivedLine {
+            get { return secondLastReceivedLine; }
+        }
+        private string thirdLastReceivedLine = "";
+        [Browsable(false)]
+        public string ThirdLastReceivedLine {
+            get { return thirdLastReceivedLine; }
+        }
         private void TextProcessor(object sender) {
             try {
                 byte[] Buffer = new byte[ushort.MaxValue + 1];
@@ -616,12 +637,31 @@ namespace Serial_Monitor.Classes {
                 i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
                 for (int j = 0; j < BytesToRead; j++) {
                     string Result = ((char)Buffer[j]).ToString();
+                    PushToLast((char)Buffer[j]);
                     //Output.AttendToLastLine(((char)Buffer[j]).ToString(), true);
                     DataReceived?.Invoke(this, false, Result);
                     ProgramManager.ProgramDataReceived(this.ID, Result);
                 }
             }
             catch { }
+        }
+        private void PushToLast(char Input) {
+            if (lastReceivedLine.Length > 400) {
+                if ((Input == '\r') || (Input == '\n')) {
+                    thirdLastReceivedLine = secondLastReceivedLine;
+                    secondLastReceivedLine = lastReceivedLine;
+                    lastReceivedLine = "";
+                }
+                else { lastReceivedLine = Input.ToString(); }
+            }
+            else {
+                if ((Input == '\r') || (Input == '\n')) {
+                    thirdLastReceivedLine = secondLastReceivedLine;
+                    secondLastReceivedLine = lastReceivedLine;
+                    lastReceivedLine = "";
+                }
+                else { lastReceivedLine += Input; }
+            }
         }
         private void CCommandProcessor(object sender) {
             try {
@@ -732,10 +772,11 @@ namespace Serial_Monitor.Classes {
         }
         private void ModbusRTUProcessor(object sender) {
             try {
-                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength) {
+                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + 1000) {
                     RXCurrentByte = 0;
                     Debug.Print("Timeout");
                 }
+                lastReceivedTime = DateTime.UtcNow;
                 int i = 0;
                 int BytesToRead = ((SerialPort)sender).BytesToRead;
                 byte[] Buffer = new byte[BytesToRead];

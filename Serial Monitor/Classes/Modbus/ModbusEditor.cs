@@ -33,8 +33,10 @@ namespace Serial_Monitor.Classes.Modbus {
             //}
             // //
             // GC.Collect();
+
             if (CurrentManager == null) { return; }
             if (CurrentManager.Registers == null) { return; }
+            if (SlaveIndex >= CurrentManager.Slave.Count) { return; }
             if (SlaveIndex < 0) {
                 int i = 0;
                 if (DataSet == DataSelection.ModbusDataCoils) {
@@ -384,8 +386,8 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (sender.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
                 ButtonData = sender;
             }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) { 
-                return; 
+            if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) {
+                return;
             }
             DataFormat Frmt = (DataFormat)ButtonData;
 
