@@ -432,6 +432,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark1.SyntaxHighlightControlFlow = Color.FromArgb(78, 156, 206);
             Thm_Dark1.SyntaxHighlightCalls = Color.FromArgb(187, 155, 211);
             Thm_Dark1.SyntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
+            Thm_Dark1.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
 
             Thm_Dark1.IsDarkTheme = true;
             return Thm_Dark1;
@@ -476,6 +477,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light1.SyntaxHighlightControlFlow = Color.FromArgb(54, 0, 255);
             Thm_Light1.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
             Thm_Light1.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
+            Thm_Light1.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
 
             Thm_Light1.IsDarkTheme = false;
             return Thm_Light1;
@@ -520,6 +522,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.SyntaxHighlightControlFlow = Color.FromArgb(54, 0, 255);
             Thm_Light2.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
             Thm_Light2.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
+            Thm_Light2.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
 
             Thm_Light2.IsDarkTheme = false;
             return Thm_Light2;
@@ -564,6 +567,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.SyntaxHighlightControlFlow = Color.FromArgb(54, 0, 255);
             Thm_Light2.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
             Thm_Light2.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
+            Thm_Light2.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
 
             Thm_Light2.IsDarkTheme = false;
             return Thm_Light2;
@@ -608,6 +612,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.SyntaxHighlightControlFlow = Color.FromArgb(78, 156, 206);
             Thm_Dark2.SyntaxHighlightCalls = Color.FromArgb(187, 155, 211);
             Thm_Dark2.SyntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
+            Thm_Dark2.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
 
             Thm_Dark2.IsDarkTheme = true;
             return Thm_Dark2;
@@ -652,6 +657,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.SyntaxHighlightControlFlow = Color.CadetBlue;
             Thm_Dark2.SyntaxHighlightCalls = Color.Magenta;
             Thm_Dark2.SyntaxHighlightDeclarations = Color.Cyan;
+            Thm_Dark2.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
 
             Thm_Dark2.IsDarkTheme = true;
             return Thm_Dark2;

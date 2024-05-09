@@ -43,6 +43,14 @@ namespace Serial_Monitor.Docks {
 
         private void EditorInstance_ViewChanged(object? sender) {
             DataSelection? Select = GetDataSelection();
+            if(Select == null) {
+                lblpnlBoolDisplay.Visible = false;
+                lblpnlDisplay.Visible = false;
+                lblpnlEndianess.Visible = false;
+                lblpnlSize.Visible = false;
+                lblpnlUnits.Visible = false;
+                return;
+            }
             if (Select > DataSelection.ModbusDataDiscreteInputs) {
                 lblpnlBoolDisplay.Visible = false;
                 lblpnlDisplay.Visible = true;

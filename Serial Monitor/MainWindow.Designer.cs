@@ -724,8 +724,10 @@
             navigator1.ArrowMouseOverColor = Color.DodgerBlue;
             navigator1.BackColor = Color.FromArgb(40, 40, 40);
             navigator1.BorderColor = SystemColors.ScrollBar;
+            navigator1.Borders = ODModules.Borders.None;
             navigator1.DisplayStyle = ODModules.Navigator.Style.Right;
             navigator1.DisplayText = "StateName";
+            navigator1.DividerBorderColor = Color.FromArgb(0, 0, 0);
             navigator1.Dock = DockStyle.Left;
             navigator1.ForeColor = Color.White;
             navigator1.LinkedList = null;
@@ -838,6 +840,8 @@
             lstStepProgram.AllowColumnSpanning = true;
             lstStepProgram.AllowMouseWheel = true;
             lstStepProgram.BackColor = Color.FromArgb(16, 16, 16);
+            lstStepProgram.BorderColor = Color.Gray;
+            lstStepProgram.Borders = ODModules.Borders.None;
             lstStepProgram.ColumnColor = Color.FromArgb(31, 31, 31);
             lstStepProgram.ColumnForeColor = Color.WhiteSmoke;
             lstStepProgram.ColumnLineColor = Color.FromArgb(64, 64, 64);
@@ -848,6 +852,7 @@
             column1.DropDownRight = false;
             column1.DropDownVisible = true;
             column1.Exportable = false;
+            column1.ExportName = "";
             column1.FixedWidth = false;
             column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
             column1.Text = "Step";
@@ -862,6 +867,7 @@
             column2.DropDownRight = false;
             column2.DropDownVisible = true;
             column2.Exportable = false;
+            column2.ExportName = "";
             column2.FixedWidth = true;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column2.Text = "";
@@ -876,6 +882,7 @@
             column3.DropDownRight = false;
             column3.DropDownVisible = true;
             column3.Exportable = false;
+            column3.ExportName = "";
             column3.FixedWidth = false;
             column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column3.Text = "Command";
@@ -890,6 +897,7 @@
             column4.DropDownRight = false;
             column4.DropDownVisible = true;
             column4.Exportable = false;
+            column4.ExportName = "";
             column4.FixedWidth = false;
             column4.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column4.Text = "Arguments";
@@ -955,7 +963,7 @@
             listItem1.Value = 0;
             lstStepProgram.Items.Add(listItem1);
             lstStepProgram.LineMarkerIndex = 0;
-            lstStepProgram.Location = new Point(0, 45);
+            lstStepProgram.Location = new Point(0, 49);
             lstStepProgram.MarkerBorderColor = Color.LimeGreen;
             lstStepProgram.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstStepProgram.MarkerStyle = ODModules.MarkerStyleType.PointerWithBox;
@@ -972,7 +980,7 @@
             lstStepProgram.ShowItemIndentation = true;
             lstStepProgram.ShowMarker = true;
             lstStepProgram.ShowRowColors = true;
-            lstStepProgram.Size = new Size(634, 113);
+            lstStepProgram.Size = new Size(634, 109);
             lstStepProgram.SpanColumn = 3;
             lstStepProgram.TabIndex = 0;
             lstStepProgram.UseLocalList = false;
@@ -2371,10 +2379,12 @@
             pnlStepProgram.Location = new Point(0, 231);
             pnlStepProgram.Name = "pnlStepProgram";
             pnlStepProgram.OverrideCollapseControl = true;
-            pnlStepProgram.Padding = new Padding(0, 18, 0, 0);
+            pnlStepProgram.Padding = new Padding(0, 22, 0, 0);
             pnlStepProgram.PanelCollapsible = true;
             pnlStepProgram.ResizeControl = ODModules.LabelPanel.ResizeDirection.Top;
+            pnlStepProgram.SeparatorColor = Color.Gray;
             pnlStepProgram.ShowCloseButton = true;
+            pnlStepProgram.ShowSeparator = false;
             pnlStepProgram.Size = new Size(634, 158);
             pnlStepProgram.TabIndex = 3;
             pnlStepProgram.Text = "Step Program";
@@ -2389,13 +2399,15 @@
             thPrograms.ArrowHoverColor = Color.SteelBlue;
             thPrograms.BackColor = Color.FromArgb(31, 31, 31);
             thPrograms.BindedTabControl = null;
+            thPrograms.BorderColor = Color.Gray;
+            thPrograms.Borders = ODModules.Borders.None;
             thPrograms.CloseHoverColor = Color.Brown;
             thPrograms.Dock = DockStyle.Top;
             thPrograms.ForeColor = Color.White;
             thPrograms.HeaderDownForeColor = Color.Gray;
             thPrograms.HeaderForeColor = Color.Black;
             thPrograms.HeaderHoverForeColor = Color.Blue;
-            thPrograms.Location = new Point(0, 18);
+            thPrograms.Location = new Point(0, 22);
             thPrograms.Name = "thPrograms";
             thPrograms.Padding = new Padding(5, 0, 0, 0);
             thPrograms.SelectedIndex = 0;

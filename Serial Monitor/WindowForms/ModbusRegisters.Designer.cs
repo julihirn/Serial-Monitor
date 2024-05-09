@@ -1211,8 +1211,8 @@
             cmCoilFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmCoilFormats.Name = "cmCoilFormats";
             cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
-            cmCoilFormats.ShowInsetShadow = true;
-            cmCoilFormats.ShowItemInsetShadow = true;
+            cmCoilFormats.ShowInsetShadow = false;
+            cmCoilFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             // 
             // ModbusRegisters

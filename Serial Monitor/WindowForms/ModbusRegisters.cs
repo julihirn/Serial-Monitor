@@ -62,7 +62,7 @@ namespace Serial_Monitor {
             Docks.ModbusProperties Props = new Docks.ModbusProperties(this);
             Docks.ModbusPollers Poller = new Docks.ModbusPollers();
             ToolWindows.Add(Props);
-            ToolWindows.Add(Poller);
+            //ToolWindows.Add(Poller);
             if (File.Exists("dock.cfg")) {
                 ////DeserializeDockPanel("dock.cfg");
             }

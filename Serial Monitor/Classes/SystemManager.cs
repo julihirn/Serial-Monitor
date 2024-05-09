@@ -14,8 +14,9 @@ using static Serial_Monitor.Classes.SerialManager;
 using System.Reflection;
 using Serial_Monitor.Classes.Modbus;
 using ODModules;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Threading.Channels;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -337,11 +338,33 @@ namespace Serial_Monitor.Classes {
             return Results.OrderBy(x => x.A.Length).ThenBy(x => x.A).ToList();
         }
         private static List<StringPair> GetSerialPort() {
-            var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
+            //var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
             List<StringPair> Results = new List<StringPair>();
-            foreach (ManagementObject result in searcher.Get()) {
-                StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
-                Results.Add(Sp);
+            //foreach (ManagementObject result in searcher.Get()) {
+            //    StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
+            //    Results.Add(Sp);
+            //}
+            //return Results;
+            try {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2","SELECT * FROM Win32_PnPEntity");
+                ManagementObjectCollection moc = searcher.Get();
+                foreach (ManagementObject queryObj in moc) {
+                    if (queryObj["Caption"] == null) { continue; }
+                    string Name = queryObj["Caption"].ToString() ?? "";
+                    Regex Pattern = new Regex(@"(?<Port>\(COM\d+\))");
+                    Match Match = Pattern.Match(Name);
+                    if (Match.Success){
+                        string PortBracketed = Match.Groups["Port"].Value;
+                        string Port = PortBracketed.Replace("(","").Replace(")","");
+                        string CleanName = Name.Replace(PortBracketed, "");
+                        string DeviceID = queryObj["DeviceID"].ToString() ?? "COM1";
+                        StringPair Sp = new StringPair(Port, queryObj["Caption"].ToString() ?? "");
+                        Results.Add(Sp);
+                    }
+
+                }
+            }
+            catch (ManagementException e) {
             }
             return Results;
         }

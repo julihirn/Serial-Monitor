@@ -158,7 +158,11 @@ namespace Serial_Monitor.Classes.Theming {
             get { return syntaxHighlightDeclarations; }
             set { syntaxHighlightDeclarations = value; }
         }
-
+        private Color syntaxxHighlightFunctions = Color.FromArgb(156, 220, 254);
+        public Color SyntaxHighlightFunctions {
+            get { return syntaxxHighlightFunctions; }
+            set { syntaxxHighlightFunctions = value; }
+        }
 
         private bool isDarkTheme = true;
         public bool IsDarkTheme {
@@ -207,6 +211,7 @@ namespace Serial_Monitor.Classes.Theming {
             Properties.Settings.Default.THM_COL_ReturnsAndCalls = syntaxHighlightCalls;
             Properties.Settings.Default.THM_COL_VariablesColor = syntaxHighlightDeclarations;
             Properties.Settings.Default.THM_COL_KeyWordColor= syntaxHighlightControlFlow;
+            Properties.Settings.Default.THM_COL_Function = syntaxxHighlightFunctions;
 
             Properties.Settings.Default.THM_COL_ItemInactiveForeColor = itemInactiveColor;
 

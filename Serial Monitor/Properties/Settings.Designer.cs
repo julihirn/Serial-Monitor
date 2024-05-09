@@ -420,7 +420,7 @@ namespace Serial_Monitor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool CHAN_BOL_PreferLegacyPortListing {
             get {
                 return ((bool)(this["CHAN_BOL_PreferLegacyPortListing"]));
@@ -559,6 +559,18 @@ namespace Serial_Monitor.Properties {
             }
             set {
                 this["THM_COL_ItemInactiveForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("220, 220, 170")]
+        public global::System.Drawing.Color THM_COL_Function {
+            get {
+                return ((global::System.Drawing.Color)(this["THM_COL_Function"]));
+            }
+            set {
+                this["THM_COL_Function"] = value;
             }
         }
     }
