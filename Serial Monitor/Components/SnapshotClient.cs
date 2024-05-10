@@ -241,6 +241,13 @@ namespace Serial_Monitor.Components {
                 }
             }
         }
+        public void CloseAllForms() {
+            for (int i = this.ChildForms.Count - 1; i >= 0; i--) {
+                if (this.ChildForms[i].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                    ((ToolWindows.ModbusRegister)this.ChildForms[i]).FormClose();
+                }
+            }
+        }
         public void CloseAtIndex(int Index) {
             if (ChildForms.Count <= 0) { return; }
             if (Index >= ChildForms.Count) { return; }

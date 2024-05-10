@@ -173,6 +173,7 @@ namespace Serial_Monitor {
 
 
         private void LoadForms() {
+                    editorModbus.ssClient.CloseAllForms();
             foreach (ModbusSnapshot Snap in ModbusSupport.Snapshots) {
                 ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap, true);
                 // mdiClient.AddChild(frm);

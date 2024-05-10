@@ -19,6 +19,7 @@ using Serial_Monitor.Plugin;
 using System.Linq.Expressions;
 using Microsoft.VisualBasic;
 using System.Globalization;
+using System.Text;
 
 namespace Serial_Monitor {
     public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {

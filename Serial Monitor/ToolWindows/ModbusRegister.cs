@@ -327,6 +327,10 @@ namespace Serial_Monitor.ToolWindows {
             this.Close();
             ModbusSupport.SnapshotClosedApp();
         }
+        public void FormClose() {
+            this.Close();
+            ModbusSupport.SnapshotClosedApp();
+        }
         private void EdVal_ArrowKeyPress(ControlEnums.ArrowKey Direction) {
             if (Direction == ArrowKey.Down) {
                 lstRegisters.SelectNextDropDown();
