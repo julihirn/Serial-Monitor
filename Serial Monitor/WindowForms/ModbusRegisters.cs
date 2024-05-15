@@ -145,6 +145,7 @@ namespace Serial_Monitor {
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.SlaveAdded += SystemManager_SlaveAdded;
             SystemManager.SlaveChanged += SystemManager_SlaveChanged;
+            ModbusEditor.ViewUpdated += ModbusEditor_ViewUpdated;
 
             SystemManager.ModbusAppearanceChanged += SystemManager_ModbusAppearanceChanged;
             SystemManager.ModbusPropertiesChanged += SystemManager_ModbusPropertiesChanged;
@@ -153,6 +154,13 @@ namespace Serial_Monitor {
             AppearancePopupHost.Closing += AppearancePopupHost_Closing;
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
         }
+
+        private void ModbusEditor_ViewUpdated(ListControl LstControl) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                LstControl.Invalidate();
+            }));
+        }
+
         private void LinkModbusEditorEvents() {
             editorModbus.navigator1.SelectedIndexChanged += navigator1_SelectedIndexChanged;
             editorModbus.navigator1.TabRightClicked += navigator1_TabRightClicked;
@@ -173,7 +181,7 @@ namespace Serial_Monitor {
 
 
         private void LoadForms() {
-                    editorModbus.ssClient.CloseAllForms();
+            editorModbus.ssClient.CloseAllForms();
             foreach (ModbusSnapshot Snap in ModbusSupport.Snapshots) {
                 ToolWindows.ModbusRegister frm = new ToolWindows.ModbusRegister(Snap, true);
                 // mdiClient.AddChild(frm);
@@ -182,9 +190,10 @@ namespace Serial_Monitor {
         }
         private void LoadSlaves() {
             editorModbus.thSlaves.ClearTabs();
-            if (CurrentManager == null) { editorModbus.thSlaves.Invalidate(); return; }
+            if (CurrentManager == null) { editorModbus.thSlaves.Invalidate(); return;}
             editorModbus.thSlaves.Text = CurrentManager.IsMaster == true ? "Master" : "Unit " + CurrentManager.UnitAddress.ToString();
             editorModbus.thSlaves.ShowTabs = CurrentManager.IsMaster;
+
             foreach (ModbusSlave Slve in CurrentManager.Slave) {
                 Tab? Result = GenerateTab(Slve);
                 if (Result != null) {
@@ -927,9 +936,10 @@ namespace Serial_Monitor {
                     }
                     else {
                         ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
+                        ModbusEditor.ClearControls(editorModbus.lstMonitor);
                     }
                     EnableDisableDialogEditors();
-                    ModbusEditor.ClearControls(editorModbus.lstMonitor);
+                    //ModbusEditor.ClearControls(editorModbus.lstMonitor);
                 }
             }
         }
@@ -1163,7 +1173,7 @@ namespace Serial_Monitor {
 
             SystemManager.ModbusAppearanceChanged -= SystemManager_ModbusAppearanceChanged;
             SystemManager.ModbusPropertiesChanged -= SystemManager_ModbusPropertiesChanged;
-
+            ModbusEditor.ViewUpdated -= ModbusEditor_ViewUpdated;
             EnumManager.ClearClickHandles(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.ClearClickHandles(cmDataSize, CmDisplaySize_Click);
             EnumManager.ClearClickHandles(ddbDisplayFormat, CmDisplayFormatList_Click);
@@ -2067,6 +2077,10 @@ namespace Serial_Monitor {
                 editorModbus.thSlaves.Tabs[Index].Tag = null;
             }
             CurrentManager.RemoveSlave(SlaveTemp);
+            if (Index >= editorModbus.thSlaves.Tabs.Count) {
+                editorModbus.thSlaves.SelectedIndex = editorModbus.thSlaves.Tabs.Count - 1;
+            }
+            Slave = Slave;
         }
 
         private void showUnitsToolStripMenuItem_Click(object sender, EventArgs e) {

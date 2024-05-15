@@ -5,6 +5,7 @@ using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
+using Serial_Monitor.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -45,7 +46,8 @@ namespace Serial_Monitor.Classes {
         }
         static bool showUnits = true;
         public static bool ShowUnits {
-            get { return showUnits; } set {  showUnits = value; }
+            get { return showUnits; }
+            set { showUnits = value; }
 
         }
         public static decimal ProgramVersion {
@@ -162,7 +164,7 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "AutoConnect", Sm.AutoReconnect);
                     WriteRegisters(Sw, Sm, -1, 0);
                     for (int x = 0; x < Sm.Slave.Count; x++) {
-                        int SlaveIndex = ModbusSupport.UnitToIndex(Sm,Sm.Slave[x].Address);
+                        int SlaveIndex = ModbusSupport.UnitToIndex(Sm, Sm.Slave[x].Address);
                         WriteRegisters(Sw, Sm, SlaveIndex, Sm.Slave[x].Address);
                     }
                     Sw.WriteLine(StringHandler.AddTabs(1, "}"));
@@ -172,12 +174,28 @@ namespace Serial_Monitor.Classes {
         }
         private static void WriteRegisters(StreamWriter Sw, SerialManager Sm, int Index, int Unit) {
             List<RegisterRequest> RegistersToWrite = Modbus.ModbusSupport.GetModifiedRegisters(Sm, Index);
-            if (RegistersToWrite.Count > 0) {
+            bool WriteRegisters = RegistersToWrite.Count > 0;
+            bool WriteProperties = false;
+            string Name = "";
+            if (Index >= 0) {
+                try {
+                    if (Sm.Slave.Count > Index) {
+                        WriteRegisters = Sm.Slave[Index].Name.Trim().Length > 0;
+                        Name = Sm.Slave[Index].Name;
+                        WriteProperties = true;
+                    }
+                }
+                catch { }
+            }
+            if (WriteRegisters) {
                 if (Index < 0) {
                     Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
                 }
                 else {
                     Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers_" + Unit.ToString() + "={"));
+                }
+                if (WriteProperties) {
+                    Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString("Prop, Name = " + StringHandler.EncapsulateString(Name))));
                 }
                 foreach (RegisterRequest Rq in RegistersToWrite) {
                     ValidString Result = Modbus.ModbusSupport.BulidRegisterSerialisedString(Sm, Index, Rq.Index, Rq.Selection);
@@ -440,7 +458,7 @@ namespace Serial_Monitor.Classes {
             }
             Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
             Sm.DataReceived += DataProc;// SerMan_DataReceived;
-            if (Sm.Slave.Count  == 0) {
+            if (Sm.Slave.Count == 0) {
                 Sm.Slave.Add(new ModbusSlave(Sm, 1));
             }
             SystemManager.SerialManagers.Add(Sm);

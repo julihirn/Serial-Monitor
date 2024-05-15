@@ -23,17 +23,20 @@ namespace Serial_Monitor.Classes.Modbus {
         public const int Indx_Signed = 4;
         public const int Indx_Value = 5;
 
+        public static event ViewUpdatedHandler? ViewUpdated;
+        public delegate void ViewUpdatedHandler(ListControl LstControl);
+
         public static Size MinimumSize = new Size(464, 213);
         #region Loaders
         static bool IsFirstLoad = true;
         public static List<ListItem> MasterRegisterEditor = new List<ListItem>();
         public static void LoadRegisters(ListControl LstControl, SerialManager? CurrentManager, DataSelection DataSet, int SlaveIndex) {
-            //if (IsFirstLoad == true) {
-            //    lstMonitor.LineRemoveAll();
-            //}
-            // //
-            // GC.Collect();
-
+            Thread Tr = new Thread(() => LoadRegistersThreaded(LstControl, CurrentManager, DataSet, SlaveIndex));
+            Tr.IsBackground = true;
+            Tr.Name = "Tr_RegisterLoader";
+            Tr.Start();
+        }
+        private static void LoadRegistersThreaded(ListControl LstControl, SerialManager? CurrentManager, DataSelection DataSet, int SlaveIndex) {
             if (CurrentManager == null) { return; }
             if (CurrentManager.Registers == null) { return; }
             if (SlaveIndex >= CurrentManager.Slave.Count) { return; }
@@ -88,7 +91,14 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             IsFirstLoad = false;
-            LstControl.Invalidate();
+            //LstControl.Invoke(new MethodInvoker(delegate {
+
+            //}));
+            //LstControl.Invalidate();
+            ViewUpdate(LstControl);
+        }
+        public static void ViewUpdate(ListControl LstControl) {
+            ViewUpdated?.Invoke(LstControl);
         }
         private static void AddMonitorItem(ModbusCoil Coil, int Index) {
             if (IsFirstLoad) {
@@ -226,7 +236,17 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         public static void ClearControls(ListControl LstCtrl) {
             LstCtrl.Controls.Clear();
-            GC.Collect();
+            // GC.Collect();
+            Thread Tr = new Thread(PurgeData);
+            Tr.IsBackground = true;
+            Tr.Start();
+        }
+        static DateTime PreviousInstance = DateTime.MinValue;
+        private static void PurgeData() {
+            if (ConversionHandler.DateIntervalDifference(PreviousInstance, DateTime.UtcNow, ConversionHandler.Interval.Millisecond ) >= 1000) {
+                GC.Collect();
+                PreviousInstance = DateTime.UtcNow;
+            }
         }
         #endregion
         #region Editing Support

@@ -553,6 +553,9 @@ namespace Serial_Monitor.Classes {
                     case StreamOutputFormat.StreamHexadecimal:
                         StreamTransmit(Data, Enums.ModbusEnums.DataFormat.Hexadecimal);
                         break;
+                    case StreamOutputFormat.Base64:
+                        TransmitBase64(Data);
+                        break;
                 }
                 return true;
             }
@@ -1728,6 +1731,14 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Stream Transmission
+        private void TransmitBase64(string Data) {
+            byte[] TextBytes = System.Text.Encoding.UTF8.GetBytes(Data);
+            string Temp = System.Convert.ToBase64String(TextBytes);
+            if (Port.IsOpen) {
+                Port.Write(Temp);
+                bytesSent += (ulong)Temp.Length;
+            }
+        }
         private bool StreamTransmit(string Data, Enums.ModbusEnums.DataFormat Format) {
             byte[] Output;
             if (Formatters.StringToByteStream(Data, Format, out Output)) {

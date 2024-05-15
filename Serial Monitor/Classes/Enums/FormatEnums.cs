@@ -38,7 +38,9 @@ namespace Serial_Monitor.Classes.Enums {
             [Description("Decimal")]
             StreamDecimal = 0x0403,
             [Description("Hexadecimal")]
-            StreamHexadecimal = 0x0404
+            StreamHexadecimal = 0x0404,
+            [Description("Base 64")]
+            Base64 = 0x0502
         }
         public enum LineFormatting {
             None = 0x00,

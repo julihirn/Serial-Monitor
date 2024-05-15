@@ -473,6 +473,9 @@ namespace Serial_Monitor.Classes {
             else if (Input == "frmStreamHex") {
                 return Enums.FormatEnums.StreamOutputFormat.StreamHexadecimal;
             }
+            else if (Input == "frmBase64") {
+                return Enums.FormatEnums.StreamOutputFormat.Base64;
+            }
             return Enums.FormatEnums.StreamOutputFormat.Text;
         }
         public static StringPair OutputFormatToString(Enums.FormatEnums.StreamOutputFormat Input, bool UseLongName = true) {
@@ -504,6 +507,9 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == Enums.FormatEnums.StreamOutputFormat.StreamHexadecimal) {
                 return new StringPair("Hexadecimal", "frmStreamHex");
+            }
+            else if (Input == Enums.FormatEnums.StreamOutputFormat.Base64) {
+                return new StringPair("Base 64", "frmBase64");
             }
             return new StringPair("Text", "frmTxt");
         }

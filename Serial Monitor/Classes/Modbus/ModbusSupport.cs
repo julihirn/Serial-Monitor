@@ -241,6 +241,22 @@ namespace Serial_Monitor.Classes.Modbus {
             if (CurrentManager.Registers == null) { return; }
             if (!SerialisedString.Contains(',')) { return; }
             string TempStrSelection = SerialisedString.Split(',')[0];
+            if (TempStrSelection.ToLower().StartsWith("prop")) {
+                if (Unit < 0) { return; }
+                SerialisedString = StringHandler.SpiltAndCombineAfter(SerialisedString, ',', 1).Value[1];
+                List<StringPair> Props = GetTaggedData(SerialisedString);
+                int SlaveIndex = ModbusSupport.UnitToIndex(CurrentManager, Unit);
+                if (SlaveIndex < 0) { return; }
+                foreach (StringPair DataPair in Props) {
+                    if (DataPair.A.ToLower() == "name") {
+                        try {
+                            CurrentManager.Slave[SlaveIndex].Name = DataPair.B;
+                        }
+                        catch { }
+                    }
+                }
+                return;
+            }
             if (!Regex.IsMatch(TempStrSelection, "[A-Za-z][0-9]+")) { return; }
             SerialisedString = StringHandler.SpiltAndCombineAfter(SerialisedString, ',', 1).Value[1];
             string TempStrIndex = TempStrSelection.Remove(0, 1);
