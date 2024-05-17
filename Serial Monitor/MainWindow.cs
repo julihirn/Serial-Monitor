@@ -2335,6 +2335,7 @@ namespace Serial_Monitor {
                     btnOpenLocation.Enabled = true;
                 }
                 SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
+                ProjectManager.InvokeProjectLoaded();
             }
         }
 

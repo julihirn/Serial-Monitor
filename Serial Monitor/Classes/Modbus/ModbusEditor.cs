@@ -29,6 +29,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public static Size MinimumSize = new Size(464, 213);
         #region Loaders
         static bool IsFirstLoad = true;
+        static bool RefreshThreadRunning = false;
         public static List<ListItem> MasterRegisterEditor = new List<ListItem>();
         public static void LoadRegisters(ListControl LstControl, SerialManager? CurrentManager, DataSelection DataSet, int SlaveIndex) {
             Thread Tr = new Thread(() => LoadRegistersThreaded(LstControl, CurrentManager, DataSet, SlaveIndex));
@@ -37,9 +38,11 @@ namespace Serial_Monitor.Classes.Modbus {
             Tr.Start();
         }
         private static void LoadRegistersThreaded(ListControl LstControl, SerialManager? CurrentManager, DataSelection DataSet, int SlaveIndex) {
+            if (RefreshThreadRunning == true) { return; }
             if (CurrentManager == null) { return; }
             if (CurrentManager.Registers == null) { return; }
             if (SlaveIndex >= CurrentManager.Slave.Count) { return; }
+            RefreshThreadRunning = true;
             if (SlaveIndex < 0) {
                 int i = 0;
                 if (DataSet == DataSelection.ModbusDataCoils) {
@@ -92,7 +95,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             IsFirstLoad = false;
             //LstControl.Invoke(new MethodInvoker(delegate {
-
+            RefreshThreadRunning = false;
             //}));
             //LstControl.Invalidate();
             ViewUpdate(LstControl);

@@ -597,5 +597,8 @@ namespace Serial_Monitor.Classes {
             else if (Input == "SWS") { return StepEnumerations.StepExecutable.SwitchSender; }
             else { return StepEnumerations.StepExecutable.NoOperation; }
         }
+        internal static void InvokeProjectLoaded() {
+            DocumentLoaded?.Invoke();
+        }
     }
 }

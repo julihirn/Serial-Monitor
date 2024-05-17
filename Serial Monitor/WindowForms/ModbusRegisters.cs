@@ -190,16 +190,16 @@ namespace Serial_Monitor {
         }
         private void LoadSlaves() {
             editorModbus.thSlaves.ClearTabs();
-            if (CurrentManager == null) { editorModbus.thSlaves.Invalidate(); return;}
+            if (CurrentManager == null) { slaveindex = -1; editorModbus.thSlaves.Invalidate(); return; }
             editorModbus.thSlaves.Text = CurrentManager.IsMaster == true ? "Master" : "Unit " + CurrentManager.UnitAddress.ToString();
             editorModbus.thSlaves.ShowTabs = CurrentManager.IsMaster;
-
             foreach (ModbusSlave Slve in CurrentManager.Slave) {
                 Tab? Result = GenerateTab(Slve);
                 if (Result != null) {
                     editorModbus.thSlaves.Tabs.Add(Result);
                 }
             }
+            slaveindex = ModbusSupport.UnitToIndex(CurrentManager, slaveAddress);
             editorModbus.thSlaves.Invalidate();
         }
         private void SystemManager_SlaveChanged(SerialManager sender) {
@@ -248,6 +248,7 @@ namespace Serial_Monitor {
             get { return dataSet; }
             set {
                 dataSet = value;
+                RedetermineSlave();
                 lblTypeSelection.Text = EnumManager.ModbusDataSelectionToString(value).A;
                 if (value == DataSelection.ModbusDataCoils) {
                     btnDiscrete.Checked = false;
@@ -400,6 +401,23 @@ namespace Serial_Monitor {
                 ModbusEditor.ClearControls(editorModbus.lstMonitor);
                 ViewChanged?.Invoke(this);
             }
+        }
+        private void RedetermineSlave() {
+            //if (CurrentManager != null) {
+            //    if (CurrentManager.IsMaster) {
+            //        //try {
+            //        //    object? Val = editorModbus.thSlaves.Tabs[CurrentIndex].Tag;
+            //        //    if (Val == null) { return; }
+            //        //    if (Val.GetType() == typeof(ModbusSlave)) {
+            //        //        Slave = ((ModbusSlave)Val).Address;
+            //        //    }
+            //        //}
+            //        //catch { }
+            //    }
+            //    else {
+            //        slaveAddress = -1;
+            //    }
+            //}
         }
         FormatEditor editorType = FormatEditor.Coil;
         private FormatEditor EditorType {
