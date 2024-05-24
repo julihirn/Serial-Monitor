@@ -368,7 +368,7 @@ namespace Serial_Monitor.Classes {
                 PacketLength += 1.5m;
             }
             else if (StopBits == StopBits.Two) {
-                PacketLength += 1.5m;
+                PacketLength += 2.0m;
             }
             //tk = 1/(b/s)  (3.5) =>  (1/1/s) => s, s * 3.5
             SilenceLength = (long)((1.0m / (decimal)Port.BaudRate) * 35000000.0m * PacketLength);
