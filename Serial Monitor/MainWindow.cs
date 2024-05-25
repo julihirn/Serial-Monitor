@@ -914,20 +914,21 @@ namespace Serial_Monitor {
 
         private void RefreshPorts() {
             CleanHandlers();
-            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
-            foreach (StringPair port in Ports) {
-                if (ItemExists(port.A) == false) {
+            List<Port> Ports = SystemManager.GetSerialPortSettingBased();
+            foreach (Port port in Ports) {
+                if (ItemExists(port.PortName) == false) {
                     ToolStripMenuItem Itm = new ToolStripMenuItem();
-                    Itm.Text = port.A;
-                    Itm.Tag = port.A;
-                    Itm.ToolTipText = port.B;
+                    Itm.Text = port.DisplayName;
+                    Itm.Tag = port.PortName;
+                    Itm.ToolTipText = port.ToolTip;
                     Itm.ImageScaling = ToolStripItemImageScaling.None;
                     Itm.CheckOnClick = true;
                     Itm.Click += Itm_Click;
                     ddbPorts.DropDownItems.Add(Itm);
                     ToolStripMenuItem Itm2 = new ToolStripMenuItem();
-                    Itm2.Text = port.A;
-                    Itm2.Tag = port.A;
+                    Itm2.Text = port.DisplayName;
+                    Itm2.Tag = port.PortName;
+                    Itm2.ToolTipText = port.ToolTip;
                     Itm2.ImageScaling = ToolStripItemImageScaling.None;
                     Itm2.CheckOnClick = true;
                     Itm2.Click += Itm_Click;
@@ -968,7 +969,7 @@ namespace Serial_Monitor {
                 ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
                 if (Tsmi.Tag == null) { return; }
                 if (CurrentManager != null) {
-                    ddbPorts.Text = Tsmi.Text;
+                    ddbPorts.Text = Tsmi.Tag.ToString() ?? "COM1";
                     SelectedPort = Tsmi.Tag.ToString() ?? "COM1";
                     CurrentManager.PortName = SelectedPort;
                 }
@@ -982,11 +983,16 @@ namespace Serial_Monitor {
         }
         private void SelectFirstPort() {
             if (ddbPorts.DropDownItems.Count > 0) {
+                string TempPort = "COM1";
                 if (CurrentManager != null) {
-                    ddbPorts.Text = ddbPorts.DropDownItems[0].Text;
-                    CurrentManager.PortName = ddbPorts.Text ?? "";
+                    object ? Tag = ddbPorts.DropDownItems[0].Tag;
+                    if (Tag != null) {
+                        TempPort = Tag.ToString() ?? "COM1";
+                    }
+                    ddbPorts.Text = TempPort;
+                    CurrentManager.PortName = TempPort;
                 }
-                CheckPort(ddbPorts.Text ?? "");
+                CheckPort(TempPort);
             }
         }
         private void CheckPort(string Type) {

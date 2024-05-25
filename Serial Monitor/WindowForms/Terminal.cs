@@ -731,12 +731,13 @@ namespace Serial_Monitor.WindowForms {
         }
         private void RefreshPorts() {
             CleanHandlers();
-            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
-            foreach (StringPair port in Ports) {
-                if (ItemExists(port.A) == false) {
+            List<Port> Ports = SystemManager.GetSerialPortSettingBased();
+            foreach (Port port in Ports) {
+                if (ItemExists(port.PortName) == false) {
                     ToolStripMenuItem Itm2 = new ToolStripMenuItem();
-                    Itm2.Text = port.A;
-                    Itm2.Tag = port.A;
+                    Itm2.Text = port.DisplayName;
+                    Itm2.Tag = port.PortName;
+                    Itm2.ToolTipText = port.ToolTip;
                     Itm2.ImageScaling = ToolStripItemImageScaling.None;
                     Itm2.CheckOnClick = true;
                     Itm2.Click += Itm_Click;

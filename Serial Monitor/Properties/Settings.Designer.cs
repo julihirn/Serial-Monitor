@@ -573,5 +573,17 @@ namespace Serial_Monitor.Properties {
                 this["THM_COL_Function"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CHAN_OPT_PortDisplay {
+            get {
+                return ((int)(this["CHAN_OPT_PortDisplay"]));
+            }
+            set {
+                this["CHAN_OPT_PortDisplay"] = value;
+            }
+        }
     }
 }

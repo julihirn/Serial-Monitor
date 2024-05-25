@@ -218,7 +218,8 @@ namespace Serial_Monitor.Classes {
             if (Channel == null) { return; }
             if (Channel.Connected == false) { return; }
             foreach(string l in Lines) {
-                Channel.Post(l);    
+                Channel.Post(l);
+                Thread.Sleep(1);
             }
         }
         private static void SendAtIndex(int SendOn, string Data) {
@@ -327,19 +328,19 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Ports and Listing
-        public static List<StringPair> GetSerialPortSettingBased() {
-            List<StringPair> Results = new List<StringPair>();
+        public static List<Port> GetSerialPortSettingBased() {
+            List<Port> Results = new List<Port>();
             if (Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
                 Results = GetSerialPortLegacyListing();
             }
             else {
                 Results = GetSerialPort();
             }
-            return Results.OrderBy(x => x.A.Length).ThenBy(x => x.A).ToList();
+            return Results.OrderBy(x => x.PortName.Length).ThenBy(x => x.PortName).ToList();
         }
-        private static List<StringPair> GetSerialPort() {
+        private static List<Port> GetSerialPort() {
             //var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
-            List<StringPair> Results = new List<StringPair>();
+            List<Port> Results = new List<Port>();
             //foreach (ManagementObject result in searcher.Get()) {
             //    StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
             //    Results.Add(Sp);
@@ -358,7 +359,7 @@ namespace Serial_Monitor.Classes {
                         string Port = PortBracketed.Replace("(","").Replace(")","");
                         string CleanName = Name.Replace(PortBracketed, "");
                         string DeviceID = queryObj["DeviceID"].ToString() ?? "COM1";
-                        StringPair Sp = new StringPair(Port, queryObj["Caption"].ToString() ?? "");
+                        Port Sp = new Port(Port, CleanName, queryObj["Caption"].ToString() ?? "");
                         Results.Add(Sp);
                     }
 
@@ -368,11 +369,11 @@ namespace Serial_Monitor.Classes {
             }
             return Results;
         }
-        private static List<StringPair> GetSerialPortLegacyListing() {
-            List<StringPair> Results = new List<StringPair>();
+        private static List<Port> GetSerialPortLegacyListing() {
+            List<Port> Results = new List<Port>();
             string[] TempPorts = SerialPort.GetPortNames();
             foreach (string Str in TempPorts) {
-                Results.Add(new StringPair(Str, ""));
+                Results.Add(new Port(Str, Str, ""));
             }
             return Results;
         }

@@ -228,9 +228,9 @@ namespace Serial_Monitor.Classes.Step_Programs {
                         Rectangle ParRect = new Rectangle(e.ScreenLocation, e.ItemSize);
                         Components.EditValue EdVal = new Components.EditValue(StepExe, e.ParentItem.SubItems[2].Text, ProgramEditor, e.ParentItem, 3, null, false, Rect, ParRect);
                         if ((StepExe == StepEnumerations.StepExecutable.Open) || (StepExe == StepEnumerations.StepExecutable.Close)) {
-                            List<StringPair> Ports = SystemManager.GetSerialPortSettingBased();
-                            foreach (StringPair port in Ports) {
-                                EdVal.flatComboBox1.Items.Add(port.A);
+                            List<Port> Ports = SystemManager.GetSerialPortSettingBased();
+                            foreach (Port port in Ports) {
+                                EdVal.flatComboBox1.Items.Add(port.PortName);
                             }
                         }
                         ProgramEditor.Controls.Add(EdVal);

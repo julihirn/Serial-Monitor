@@ -129,6 +129,16 @@ namespace Serial_Monitor {
                 chbxProgSyntaxHighlighting.Checked = Properties.Settings.Default.PRG_BOL_SyntaxHighlighting;
                 chbxProgCommandIndentation.Checked = Properties.Settings.Default.PRG_BOL_CommandIndentation;
                 chbxProgCommandInsertBefore.Checked = Properties.Settings.Default.PRG_BOL_InsertBefore;
+                int Indx_PortDisplay = Properties.Settings.Default.CHAN_OPT_PortDisplay;
+                if (Indx_PortDisplay < 0) {
+                    comboBox2.SelectedIndex = 0;
+                }
+                else if (Indx_PortDisplay >= comboBox2.Items.Count) {
+                    comboBox2.SelectedIndex = comboBox2.Items.Count - 1;
+                }
+                else {
+                    comboBox2.SelectedIndex = Indx_PortDisplay;
+                }
             }
             catch { }
             PreventWriting = false;
@@ -343,6 +353,12 @@ namespace Serial_Monitor {
         private void chbxProgCommandInsertBefore_CheckedChanged(object sender, EventArgs e) {
             if (PreventWriting) { return; }
             Properties.Settings.Default.PRG_BOL_InsertBefore = chbxProgCommandInsertBefore.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.CHAN_OPT_PortDisplay = comboBox2.SelectedIndex;
             Properties.Settings.Default.Save();
         }
     }

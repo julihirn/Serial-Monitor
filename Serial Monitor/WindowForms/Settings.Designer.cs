@@ -31,6 +31,8 @@
             hiddenTabControl1 = new ODModules.HiddenTabControl();
             tabPage3 = new TabPage();
             labelPanel5 = new ODModules.LabelPanel();
+            labelPanel7 = new ODModules.LabelPanel();
+            comboBox2 = new ComboBox();
             label1 = new Label();
             chbxUseLegacyListing = new CheckBox();
             lblPnlDefaults = new ODModules.LabelPanel();
@@ -72,6 +74,7 @@
             hiddenTabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             labelPanel5.SuspendLayout();
+            labelPanel7.SuspendLayout();
             lblPnlDefaults.SuspendLayout();
             labelPanel2.SuspendLayout();
             toolStrip2.SuspendLayout();
@@ -265,6 +268,7 @@
             labelPanel5.CloseColor = Color.Black;
             labelPanel5.CloseMouseOverColor = Color.Red;
             labelPanel5.Collapsed = false;
+            labelPanel5.Controls.Add(labelPanel7);
             labelPanel5.Controls.Add(label1);
             labelPanel5.Controls.Add(chbxUseLegacyListing);
             labelPanel5.Dock = DockStyle.Top;
@@ -285,14 +289,58 @@
             labelPanel5.SeparatorColor = Color.Gray;
             labelPanel5.ShowCloseButton = false;
             labelPanel5.ShowSeparator = false;
-            labelPanel5.Size = new Size(336, 97);
+            labelPanel5.Size = new Size(336, 115);
             labelPanel5.TabIndex = 3;
             labelPanel5.Text = "Ports & Communications";
+            // 
+            // labelPanel7
+            // 
+            labelPanel7.ArrowColor = Color.Black;
+            labelPanel7.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel7.AutoSize = true;
+            labelPanel7.BackColor = SystemColors.ButtonFace;
+            labelPanel7.CloseColor = Color.Black;
+            labelPanel7.CloseMouseOverColor = Color.Red;
+            labelPanel7.Collapsed = false;
+            labelPanel7.Controls.Add(comboBox2);
+            labelPanel7.Dock = DockStyle.Top;
+            labelPanel7.DropShadow = false;
+            labelPanel7.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel7.FixedInlineWidth = true;
+            labelPanel7.Inlinelabel = true;
+            labelPanel7.InlineWidth = 100;
+            labelPanel7.LabelBackColor = Color.White;
+            labelPanel7.LabelFont = new Font("Segoe UI", 8F);
+            labelPanel7.LabelForeColor = Color.Black;
+            labelPanel7.Location = new Point(0, 22);
+            labelPanel7.Name = "labelPanel7";
+            labelPanel7.OverrideCollapseControl = true;
+            labelPanel7.Padding = new Padding(113, 3, 3, 3);
+            labelPanel7.PanelCollapsible = true;
+            labelPanel7.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel7.SeparatorColor = Color.Gray;
+            labelPanel7.ShowCloseButton = false;
+            labelPanel7.ShowSeparator = false;
+            labelPanel7.Size = new Size(336, 29);
+            labelPanel7.TabIndex = 5;
+            labelPanel7.Text = "Port Display";
+            // 
+            // comboBox2
+            // 
+            comboBox2.Dock = DockStyle.Top;
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "Port Name and Device Name", "Device Name", "Port Name" });
+            comboBox2.Location = new Point(113, 3);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(220, 23);
+            comboBox2.TabIndex = 0;
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(21, 43);
+            label1.Location = new Point(21, 73);
             label1.Name = "label1";
             label1.Size = new Size(293, 33);
             label1.TabIndex = 4;
@@ -304,7 +352,7 @@
             chbxUseLegacyListing.Checked = true;
             chbxUseLegacyListing.CheckState = CheckState.Checked;
             chbxUseLegacyListing.ForeColor = Color.Black;
-            chbxUseLegacyListing.Location = new Point(5, 27);
+            chbxUseLegacyListing.Location = new Point(5, 57);
             chbxUseLegacyListing.Name = "chbxUseLegacyListing";
             chbxUseLegacyListing.Size = new Size(148, 19);
             chbxUseLegacyListing.TabIndex = 3;
@@ -895,6 +943,7 @@
             tabPage3.ResumeLayout(false);
             labelPanel5.ResumeLayout(false);
             labelPanel5.PerformLayout();
+            labelPanel7.ResumeLayout(false);
             lblPnlDefaults.ResumeLayout(false);
             lblPnlDefaults.PerformLayout();
             labelPanel2.ResumeLayout(false);
@@ -959,5 +1008,7 @@
         private CheckBox chbxProgSyntaxHighlighting;
         private CheckBox chbxProgCommandIndentation;
         private CheckBox chbxProgCommandInsertBefore;
+        private ODModules.LabelPanel labelPanel7;
+        private ComboBox comboBox2;
     }
 }

@@ -140,5 +140,8 @@
     <Setting Name="THM_COL_Function" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">220, 220, 170</Value>
     </Setting>
+    <Setting Name="CHAN_OPT_PortDisplay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
