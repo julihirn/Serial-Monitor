@@ -1,4 +1,5 @@
-﻿using Handlers;
+﻿using Enum.Extensions;
+using Handlers;
 using Microsoft.Win32;
 using ODModules;
 using Serial_Monitor.Classes.Enums;
@@ -25,6 +26,9 @@ namespace Serial_Monitor.Classes.Modbus {
 
         public static event ViewUpdatedHandler? ViewUpdated;
         public delegate void ViewUpdatedHandler(ListControl LstControl);
+
+        public static event EditorPropertiesEqualHandler? EditorPropertiesEqual;
+        public delegate void EditorPropertiesEqualHandler(ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties);
 
         public static Size MinimumSize = new Size(464, 213);
         #region Loaders
@@ -246,7 +250,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         static DateTime PreviousInstance = DateTime.MinValue;
         private static void PurgeData() {
-            if (ConversionHandler.DateIntervalDifference(PreviousInstance, DateTime.UtcNow, ConversionHandler.Interval.Millisecond ) >= 1000) {
+            if (ConversionHandler.DateIntervalDifference(PreviousInstance, DateTime.UtcNow, ConversionHandler.Interval.Millisecond) >= 1000) {
                 GC.Collect();
                 PreviousInstance = DateTime.UtcNow;
             }
@@ -400,6 +404,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             lstMonitor.Invalidate();
+        }
+        public static void ChangeDisplayFormatListDual(object? sender, ListControl? lstMonitor) {
+            ChangeDisplayFormatList(sender, lstMonitor);
+            ChangeDisplayFormatList(sender, lstMonitor);
         }
         public static void ChangeDisplayFormatList(object? sender, ListControl? lstMonitor) {
             if (lstMonitor == null) { return; }
@@ -559,10 +567,19 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         public static void ChangeWordOrderList(object? sender, ListControl? lstMonitor) {
             object? ButtonData = GetContextMenuItemData(sender);
-            if (ButtonData == null) { return; }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.ByteOrder)) {
+            if (ButtonData == null) {
+                if (sender == null) {
+                    return;
+                }
+                else {
+                    if (sender.GetType() == typeof(ModbusEnums.ByteOrder)) {
+                        ButtonData = sender;
+                    }
+                }
+            }
+            if (ButtonData.GetType() != typeof(ModbusEnums.ByteOrder)) {
                 if (sender == null) { return; }
-                if (sender.GetType()! != typeof(ModbusEnums.ByteOrder)) { return; }
+                if (sender.GetType() != typeof(ModbusEnums.ByteOrder)) { return; }
                 ButtonData = sender;
             }
             ByteOrder State = (ByteOrder)ButtonData;
@@ -1289,6 +1306,84 @@ namespace Serial_Monitor.Classes.Modbus {
             int SetFlags = (int)Flags;
             return (SetFlags & (int)FlagToCompare) == (int)FlagToCompare;
         }
+        public static void CheckSelectedPropertiesAreEqualAsync(object? lstMonitor) {
+            Thread Tr = new Thread(() => CheckSelectedPropertiesAreEqual((ListControl?)lstMonitor));
+            Tr.IsBackground = true;
+            Tr.Name = "Tr_PropertyChecker";
+            Tr.Start();
+        }
+        public static void CheckSelectedPropertiesAreEqualAsync(ListControl? lstMonitor) {
+            Thread Tr = new Thread(() => CheckSelectedPropertiesAreEqual(lstMonitor));
+            Tr.IsBackground = true;
+            Tr.Name = "Tr_PropertyChecker";
+            Tr.Start();
+        }
+        private static void CheckSelectedPropertiesAreEqual(ListControl? lstMonitor) {
+            if (lstMonitor == null) { EditorPropertiesEqual?.Invoke(lstMonitor, ModbusPropertyFlags.None, new ModbusProperty()); return; }
+            ModbusPropertyFlags Flags = ModbusPropertyFlags.None;
+            Flags = Flags.Add(ModbusPropertyFlags.ForeColor);
+            Flags = Flags.Add(ModbusPropertyFlags.BackColor);
+            Flags = Flags.Add(ModbusPropertyFlags.UseForeColor);
+            Flags = Flags.Add(ModbusPropertyFlags.UseBackColor);
+            Flags = Flags.Add(ModbusPropertyFlags.Unit);
+            Flags = Flags.Add(ModbusPropertyFlags.Size);
+            Flags = Flags.Add(ModbusPropertyFlags.Prefix);
+            Flags = Flags.Add(ModbusPropertyFlags.Format);
+            Flags = Flags.Add(ModbusPropertyFlags.ByteOrder);
+            int i = 0;
+            ModbusProperty PreviousProperty = new ModbusProperty();
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count < Indx_Value) { continue; }
+                if (Li.Selected == false) { continue; }
+                if (Li.Tag == null) { continue; }
+
+                if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                    ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                    if (i == 0) {
+                        PreviousProperty.Size = Reg.Size;
+                        PreviousProperty.Prefix = Reg.Prefix;
+                        PreviousProperty.Unit = Reg.Unit;
+                        PreviousProperty.BackColor = Reg.BackColor;
+                        PreviousProperty.ForeColor = Reg.ForeColor;
+                        PreviousProperty.UseBackColor = Reg.UseBackColor;
+                        PreviousProperty.UseForeColor = Reg.UseForeColor;
+                        PreviousProperty.Format = Reg.Format;
+                        PreviousProperty.WordOrder = Reg.WordOrder;
+                    }
+                    else {
+                        if (PreviousProperty.Size != Reg.Size) { Flags = Flags.Remove(ModbusPropertyFlags.Size); }
+                        if (PreviousProperty.Prefix != Reg.Prefix) { Flags = Flags.Remove(ModbusPropertyFlags.Prefix); }
+                        if (PreviousProperty.Unit != Reg.Unit) { Flags = Flags.Remove(ModbusPropertyFlags.Unit); }
+                        if (PreviousProperty.UseBackColor != Reg.UseBackColor) { Flags = Flags.Remove(ModbusPropertyFlags.UseBackColor); }
+                        if (PreviousProperty.UseForeColor != Reg.UseForeColor) { Flags = Flags.Remove(ModbusPropertyFlags.UseForeColor); }
+                        if (PreviousProperty.ForeColor != Reg.ForeColor) { Flags = Flags.Remove(ModbusPropertyFlags.ForeColor); }
+                        if (PreviousProperty.BackColor != Reg.BackColor) { Flags = Flags.Remove(ModbusPropertyFlags.BackColor); }
+                        if (PreviousProperty.WordOrder != Reg.WordOrder) { Flags = Flags.Remove(ModbusPropertyFlags.ByteOrder); }
+                        if (PreviousProperty.Format != Reg.Format) { Flags = Flags.Remove(ModbusPropertyFlags.Format); }
+                    }
+                }
+                else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                    ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                    if (i == 0) {
+                        PreviousProperty.BackColor = Reg.BackColor;
+                        PreviousProperty.ForeColor = Reg.ForeColor;
+                        PreviousProperty.UseBackColor = Reg.UseBackColor;
+                        PreviousProperty.UseForeColor = Reg.UseForeColor;
+                        PreviousProperty.CoilFormat = Reg.Format;
+                    }
+                    else {
+                        if (PreviousProperty.UseBackColor != Reg.UseBackColor) { Flags = Flags.Remove(ModbusPropertyFlags.UseBackColor); }
+                        if (PreviousProperty.UseForeColor != Reg.UseForeColor) { Flags = Flags.Remove(ModbusPropertyFlags.UseForeColor); }
+                        if (PreviousProperty.ForeColor != Reg.ForeColor) { Flags = Flags.Remove(ModbusPropertyFlags.ForeColor); }
+                        if (PreviousProperty.BackColor != Reg.BackColor) { Flags = Flags.Remove(ModbusPropertyFlags.BackColor); }
+                        if (PreviousProperty.CoilFormat != Reg.Format) { Flags = Flags.Remove(ModbusPropertyFlags.Format); }
+                    }
+                }
+                i++;
+            }
+            EditorPropertiesEqual?.Invoke(lstMonitor, Flags, PreviousProperty);
+            return;
+        }
     }
     public struct ModbusAppearance {
         public Color ForeColor;
@@ -1315,7 +1410,7 @@ namespace Serial_Monitor.Classes.Modbus {
             this.Prefix = Prefix;
         }
     }
-    public struct ModbusProperty {
+    public class ModbusProperty {
         public Color ForeColor;
         public Color BackColor;
         public bool UseForeColor;
@@ -1323,6 +1418,9 @@ namespace Serial_Monitor.Classes.Modbus {
         public string Unit;
         public ConversionHandler.Prefix Prefix;
         public DataSize Size;
+        public DataFormat Format;
+        public CoilFormat CoilFormat;
+        public ByteOrder WordOrder;
     }
     public enum ModbusPropertyFlags {
         None = 0x00,
@@ -1332,6 +1430,8 @@ namespace Serial_Monitor.Classes.Modbus {
         UseBackColor = 0x08,
         Unit = 0x10,
         Prefix = 0x20,
-        Size = 0x40
+        Size = 0x40,
+        Format = 0x80,
+        ByteOrder = 0x100
     }
 }

@@ -316,6 +316,7 @@
             lstMonitor.TabIndex = 3;
             lstMonitor.UseLocalList = false;
             lstMonitor.VerScroll = 0;
+            lstMonitor.Zoom = 100;
             // 
             // thSlaves
             // 

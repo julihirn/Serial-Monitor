@@ -173,9 +173,11 @@
             lstRegisters.TabIndex = 0;
             lstRegisters.UseLocalList = false;
             lstRegisters.VerScroll = 0;
+            lstRegisters.Zoom = 100;
             lstRegisters.DropDownClicked += lstRegisters_DropDownClicked;
             lstRegisters.ItemCheckedChanged += lstRegisters_ItemCheckedChanged;
             lstRegisters.ItemClicked += lstRegisters_ItemClicked;
+            lstRegisters.SelectionChanged += lstRegisters_SelectionChanged;
             // 
             // cmDisplayFormats
             // 
@@ -225,7 +227,7 @@
             cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmCoilFormats.ShowInsetShadow = true;
             cmCoilFormats.ShowItemInsetShadow = true;
-            cmCoilFormats.Size = new Size(181, 26);
+            cmCoilFormats.Size = new Size(61, 4);
             // 
             // ModbusRegister
             // 

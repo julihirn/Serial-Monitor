@@ -439,5 +439,9 @@ namespace Serial_Monitor.ToolWindows {
             //return null;
             return Frm;
         }
+
+        private void lstRegisters_SelectionChanged(object sender, SelectedItemsEventArgs e) {
+            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
+        }
     }
 }

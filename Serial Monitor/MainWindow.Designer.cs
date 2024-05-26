@@ -739,13 +739,13 @@
             navigator1.ShadowColor = Color.FromArgb(40, 0, 0, 0);
             navigator1.ShowAnimations = true;
             navigator1.ShowBorder = true;
-            navigator1.ShowStatuses = false;
+            navigator1.ShowStatuses = true;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
             navigator1.Size = new Size(81, 182);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
-            navigator1.StatusData = "Status";
+            navigator1.StatusData = "Connected";
             navigator1.TabIndex = 1;
             // 
             // cmChannels

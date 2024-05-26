@@ -985,7 +985,7 @@ namespace Serial_Monitor {
             if (ddbPorts.DropDownItems.Count > 0) {
                 string TempPort = "COM1";
                 if (CurrentManager != null) {
-                    object ? Tag = ddbPorts.DropDownItems[0].Tag;
+                    object? Tag = ddbPorts.DropDownItems[0].Tag;
                     if (Tag != null) {
                         TempPort = Tag.ToString() ?? "COM1";
                     }
@@ -1441,7 +1441,7 @@ namespace Serial_Monitor {
             OpenDia.Filter = @"Intel HEX Files (*.hex)|*.hex|Comma Separated Value Files (*.csv)|*.csv|Tab Separated Value Files (*.tsv)|*.csv|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
             if (OpenDia.ShowDialog() == DialogResult.OK) {
                 if (File.Exists(OpenDia.FileName)) {
-                    SystemManager.SendTextFile(currentManager,  OpenDia.FileName);
+                    SystemManager.SendTextFile(currentManager, OpenDia.FileName);
                 }
             }
         }
@@ -1798,7 +1798,7 @@ namespace Serial_Monitor {
             LastEntered = lstStepProgram;
             ProgramManager.ApplyIndentation(lstStepProgram);
             ProgramManager.ApplySyntaxColouring(lstStepProgram, e.Item);
-     
+
         }
         private void addCommandToolStripMenuItem_Click(object? sender, EventArgs e) {
             ProgramEditing.NewLine(lstStepProgram);
@@ -1857,11 +1857,12 @@ namespace Serial_Monitor {
         #endregion 
         #region Program Control
         //StepEnumerations.StepState LastProgramState = StepEnumerations.StepState.Stopped;
-        DateTime LastUpdate = DateTime.Now;
+        DateTime LastUpdate = DateTime.UtcNow;
+        DateTime LastStateCheckUpdate = DateTime.UtcNow;
         private void tmrProg_Tick(object? sender, EventArgs e) {
 
             //if (LastProgramState != ProgramManager.ProgramState) {
-            if (ConversionHandler.DateIntervalDifference(LastUpdate, DateTime.Now, ConversionHandler.Interval.Millisecond) > 10) {
+            if (ConversionHandler.DateIntervalDifference(LastUpdate, DateTime.UtcNow, ConversionHandler.Interval.Millisecond) > 10) {
                 if (ProgramManager.ProgramState == StepEnumerations.StepState.Running) {
                     btnRun.Enabled = false;
                     btnPause.Enabled = true;
@@ -1888,7 +1889,7 @@ namespace Serial_Monitor {
                     runProgramToolStripMenuItem.Enabled = true;
                     btnRunCursor.Enabled = true;
                 }
-                LastUpdate = DateTime.Now;
+                LastUpdate = DateTime.UtcNow;
                 // LastProgramState = ProgramManager.ProgramState;
             }
             if (ProgramManager.LastProgramStep != ProgramManager.ProgramStep) {
@@ -1907,6 +1908,10 @@ namespace Serial_Monitor {
                 string TxCount = currentManager.BytesSent.ToString();
                 if (lblRxBytes.Text != RxCount) { lblRxBytes.Text = RxCount; }
                 if (lblTxBytes.Text != TxCount) { lblTxBytes.Text = TxCount; }
+            }
+            if (ConversionHandler.DateIntervalDifference(LastStateCheckUpdate, DateTime.UtcNow, ConversionHandler.Interval.Second) > 1) {
+                navigator1.Invalidate();
+                LastStateCheckUpdate = DateTime.UtcNow;
             }
         }
         private void ProgramManager_ProgramNameChanged(object? sender) {
@@ -2675,7 +2680,7 @@ namespace Serial_Monitor {
             LastEntered = sender;
         }
 
-       
+
     }
 
 

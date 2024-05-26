@@ -34,16 +34,76 @@ namespace Serial_Monitor.Docks {
                 this.EditorInstance.FormClosing += EditorInstance_FormClosing;
                 this.EditorInstance.ViewChanged += EditorInstance_ViewChanged;
             }
+            Classes.Modbus.ModbusEditor.EditorPropertiesEqual += ModbusEditor_EditorPropertiesEqual;
             EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
             EnumManager.LoadCoilFormats(ddlBooleanDisplay, ModbusEnums.CoilFormat.Boolean);
             EnumManager.LoadDataFormats(ddlDisplay, ModbusEnums.DataFormat.Decimal);
             EnumManager.LoadWordOrders(ddlEndianness, ModbusEnums.ByteOrder.LittleEndian);
             PreventLoad = false;
         }
+        private void ModbusEditor_EditorPropertiesEqual(ODModules.ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                AdjustProperties(EqualProperties, CurrentProperties);
+            }));
+        }
+        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties) {
+            PreventLoad = true;
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.ForeColor)) {
 
+            }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.BackColor)) {
+
+            }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Size)) {
+
+            }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Prefix)) {
+                ntbMain.Prefix = (NumericTextbox.MetricPrefix)CurrentProperties.Prefix;
+                pfsMain.Invalidate();
+            }
+            else {
+               ntbMain.Prefix = NumericTextbox.MetricPrefix.None;
+                pfsMain.Invalidate();
+            }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Unit)) {
+                tbUnit.Text = CurrentProperties.Unit;
+            }
+            else {
+                tbUnit.Text = ""; 
+            }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Format)) {
+                try {
+                    ddlDisplay.SelectedIndex = (int)CurrentProperties.Format;
+                }
+                catch { }
+                try {
+                    ddlBooleanDisplay.SelectedIndex = (int)CurrentProperties.CoilFormat;
+                }
+                catch { }
+            }
+            else {
+                ddlDisplay.SelectedIndex = -1;
+                ddlBooleanDisplay.SelectedIndex = -1;
+            }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.ByteOrder)) {
+                try {
+                    ddlEndianness.SelectedIndex = (int)CurrentProperties.WordOrder;
+                }
+                catch { }
+            }
+            else {
+                ddlEndianness.SelectedIndex = -1;
+            }
+            PreventLoad = false;
+        }
+        private bool IsFlagEqual(ModbusPropertyFlags SetFlags, ModbusPropertyFlags FlagToCheck) {
+            int Flags = (int)SetFlags;
+            if ((Flags & (int)FlagToCheck) == (int)FlagToCheck) { return true; }
+            return false;
+        }
         private void EditorInstance_ViewChanged(object? sender) {
             DataSelection? Select = GetDataSelection();
-            if(Select == null) {
+            if (Select == null) {
                 lblpnlBoolDisplay.Visible = false;
                 lblpnlDisplay.Visible = false;
                 lblpnlEndianess.Visible = false;
@@ -85,6 +145,7 @@ namespace Serial_Monitor.Docks {
             if (EditorInstance == null) { return; }
             EditorInstance.FormClosing -= EditorInstance_FormClosing;
             EditorInstance = null;
+            Classes.Modbus.ModbusEditor.EditorPropertiesEqual -= ModbusEditor_EditorPropertiesEqual;
         }
 
         private void ModbusProperties_Load(object sender, EventArgs e) {
@@ -125,6 +186,7 @@ namespace Serial_Monitor.Docks {
         }
         ConversionHandler.Prefix LastPrefix = ConversionHandler.Prefix.None;
         private void ntbMain_PrefixChanged(object sender) {
+            if (PreventLoad == true) { return; }
             ODModules.ListControl? CurrentEditor = GetCurrentListView();
             DataSelection? Select = GetDataSelection();
             //ModbusAppearance MbAppear = new ModbusAppearance(popAppearance.UseItemForeColor, popAppearance.ItemForeColor, popAppearance.UseItemBackColor, popAppearance.ItemBackColor, popAppearance.Unit, popAppearance.Prefix);
@@ -146,7 +208,7 @@ namespace Serial_Monitor.Docks {
             //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
             //DataSelection? Select = GetDataSelection();
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
-            Classes.Modbus.ModbusEditor.ChangeDisplayFormatList(EnumManager.IntegerToDataFormat(ddlDisplay.SelectedIndex), CurrentEditor);
+            Classes.Modbus.ModbusEditor.ChangeDisplayFormatListDual(EnumManager.IntegerToDataFormat(ddlDisplay.SelectedIndex), CurrentEditor);
         }
 
         private void ddlEndianness_SelectedIndexChanged(object sender, EventArgs e) {
@@ -159,6 +221,7 @@ namespace Serial_Monitor.Docks {
         }
 
         private void tbUnit__TextChanged(object sender, EventArgs e) {
+            if (PreventLoad == true) { return; }
             ODModules.ListControl? CurrentEditor = GetCurrentListView();
             DataSelection? Select = GetDataSelection();
             Classes.Modbus.ModbusEditor.ChangeUnit(GetCurrentSlave(), Select, sender, CurrentEditor, tbUnit.Text);

@@ -153,8 +153,12 @@ namespace Serial_Monitor {
             AppearancePopupHost.Opening += AppearancePopupHost_Opening;
             AppearancePopupHost.Closing += AppearancePopupHost_Closing;
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
-        }
 
+            editorModbus.lstMonitor.SelectionChanged += LstMonitor_SelectionChanged;
+        }
+        private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
+            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
+        }
         private void ModbusEditor_ViewUpdated(ListControl LstControl) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 LstControl.Invalidate();
@@ -596,7 +600,7 @@ namespace Serial_Monitor {
                 ModbusEditor.ChangeCoilFormatList(sender, CurrentEditor);
             }
             else if (editorType == FormatEditor.Register) {
-                ModbusEditor.ChangeDisplayFormatList(sender, CurrentEditor);
+                ModbusEditor.ChangeDisplayFormatListDual(sender, CurrentEditor);
             }
         }
         private void CmDisplaySizeList_Click(object? sender, EventArgs e) {
