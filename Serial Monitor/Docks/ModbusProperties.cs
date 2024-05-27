@@ -39,6 +39,7 @@ namespace Serial_Monitor.Docks {
             EnumManager.LoadCoilFormats(ddlBooleanDisplay, ModbusEnums.CoilFormat.Boolean);
             EnumManager.LoadDataFormats(ddlDisplay, ModbusEnums.DataFormat.Decimal);
             EnumManager.LoadWordOrders(ddlEndianness, ModbusEnums.ByteOrder.LittleEndian);
+            EnumManager.LoadFloatFormats(ddlDecimalPlaces, ModbusEnums.FloatFormat.None);
             PreventLoad = false;
         }
         private void ModbusEditor_EditorPropertiesEqual(ODModules.ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties) {
@@ -62,14 +63,14 @@ namespace Serial_Monitor.Docks {
                 pfsMain.Invalidate();
             }
             else {
-               ntbMain.Prefix = NumericTextbox.MetricPrefix.None;
+                ntbMain.Prefix = NumericTextbox.MetricPrefix.None;
                 pfsMain.Invalidate();
             }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Unit)) {
                 tbUnit.Text = CurrentProperties.Unit;
             }
             else {
-                tbUnit.Text = ""; 
+                tbUnit.Text = "";
             }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Format)) {
                 try {
@@ -85,9 +86,18 @@ namespace Serial_Monitor.Docks {
                 ddlDisplay.SelectedIndex = -1;
                 ddlBooleanDisplay.SelectedIndex = -1;
             }
+            if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.DecimalFormat)) {
+                try {
+                    ddlDecimalPlaces.SelectedIndex = (int)CurrentProperties.DecimalFormat;
+                }
+                catch { }
+            }
+            else {
+                ddlDecimalPlaces.SelectedIndex = -1;
+            }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.ByteOrder)) {
                 try {
-                    ddlEndianness.SelectedIndex = (int)CurrentProperties.WordOrder;
+                    SelectWordSize(CurrentProperties.WordOrder);
                 }
                 catch { }
             }
@@ -95,6 +105,17 @@ namespace Serial_Monitor.Docks {
                 ddlEndianness.SelectedIndex = -1;
             }
             PreventLoad = false;
+        }
+        private void SelectWordSize(ModbusEnums.ByteOrder WordOrder) {
+            string Temp_ByteOrder = EnumManager.WordOrderToString(WordOrder).A;
+            for (int i = 0; i < ddlEndianness.Items.Count; i++) {
+                object? Item = ddlEndianness.Items[i];
+                if (Item == null) { continue; }
+                string ItemValue = Item.ToString() ?? "";
+                if (ItemValue == Temp_ByteOrder) {
+                    ddlEndianness.SelectedIndex = i; break;
+                }
+            }
         }
         private bool IsFlagEqual(ModbusPropertyFlags SetFlags, ModbusPropertyFlags FlagToCheck) {
             int Flags = (int)SetFlags;
@@ -117,6 +138,7 @@ namespace Serial_Monitor.Docks {
                 lblpnlEndianess.Visible = true;
                 lblpnlSize.Visible = true;
                 lblpnlUnits.Visible = true;
+                lblpnlDecimalFormat.Visible = true;
             }
             else {
                 lblpnlBoolDisplay.Visible = true;
@@ -124,6 +146,7 @@ namespace Serial_Monitor.Docks {
                 lblpnlEndianess.Visible = false;
                 lblpnlSize.Visible = false;
                 lblpnlUnits.Visible = false;
+                lblpnlDecimalFormat.Visible = false;
             }
         }
 
@@ -161,6 +184,7 @@ namespace Serial_Monitor.Docks {
             ThemeManager.ThemeControl(ddlBooleanDisplay);
             ThemeManager.ThemeControl(ddlEndianness);
             ThemeManager.ThemeControl(ddlDisplay);
+            ThemeManager.ThemeControl(ddlDecimalPlaces);
             ThemeManager.ThemeControl(tbUnit);
 
         }
@@ -234,6 +258,15 @@ namespace Serial_Monitor.Docks {
             //DataSelection? Select = GetDataSelection();
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
             Classes.Modbus.ModbusEditor.ChangeCoilFormatList(EnumManager.IntegerToCoilFormat(ddlBooleanDisplay.SelectedIndex), CurrentEditor);
+        }
+        private void ddlDecimalPlaces_SelectedIndexChanged(object sender, EventArgs e) {
+            if (PreventLoad == true) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
+            //DataSelection? Select = GetDataSelection();
+            //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
+            Classes.Modbus.ModbusEditor.ChangeFloatFormatList(EnumManager.IntegerToFloatFormat(ddlDecimalPlaces.SelectedIndex), CurrentEditor);
+
         }
     }
 }

@@ -37,6 +37,8 @@
             labelPanel2 = new ODModules.LabelPanel();
             tbUnit = new ODModules.TextBox();
             lblpnlFormat = new ODModules.LabelPanel();
+            lblpnlDecimalFormat = new ODModules.LabelPanel();
+            ddlDecimalPlaces = new ODModules.DropDownBox();
             lblpnlEndianess = new ODModules.LabelPanel();
             ddlEndianness = new ODModules.DropDownBox();
             lblpnlSize = new ODModules.LabelPanel();
@@ -51,6 +53,7 @@
             lblpnlUnits.SuspendLayout();
             labelPanel2.SuspendLayout();
             lblpnlFormat.SuspendLayout();
+            lblpnlDecimalFormat.SuspendLayout();
             lblpnlEndianess.SuspendLayout();
             lblpnlSize.SuspendLayout();
             lblpnlDisplay.SuspendLayout();
@@ -64,7 +67,7 @@
             panel1.Location = new Point(1, 25);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(3);
-            panel1.Size = new Size(258, 474);
+            panel1.Size = new Size(258, 750);
             panel1.TabIndex = 0;
             // 
             // panel2
@@ -75,7 +78,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(252, 468);
+            panel2.Size = new Size(252, 744);
             panel2.TabIndex = 0;
             // 
             // labelPanel1
@@ -96,7 +99,7 @@
             labelPanel1.LabelBackColor = Color.White;
             labelPanel1.LabelFont = new Font("Segoe UI", 8F);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(0, 305);
+            labelPanel1.Location = new Point(0, 329);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = true;
             labelPanel1.Padding = new Padding(0, 22, 0, 0);
@@ -148,7 +151,7 @@
             lblpnlUnits.LabelBackColor = Color.White;
             lblpnlUnits.LabelFont = new Font("Segoe UI", 8F);
             lblpnlUnits.LabelForeColor = Color.Black;
-            lblpnlUnits.Location = new Point(0, 125);
+            lblpnlUnits.Location = new Point(0, 149);
             lblpnlUnits.Name = "lblpnlUnits";
             lblpnlUnits.OverrideCollapseControl = true;
             lblpnlUnits.Padding = new Padding(0, 22, 0, 0);
@@ -326,6 +329,7 @@
             lblpnlFormat.CloseColor = Color.Black;
             lblpnlFormat.CloseMouseOverColor = Color.Red;
             lblpnlFormat.Collapsed = false;
+            lblpnlFormat.Controls.Add(lblpnlDecimalFormat);
             lblpnlFormat.Controls.Add(lblpnlEndianess);
             lblpnlFormat.Controls.Add(lblpnlSize);
             lblpnlFormat.Controls.Add(lblpnlDisplay);
@@ -348,9 +352,57 @@
             lblpnlFormat.SeparatorColor = Color.Gray;
             lblpnlFormat.ShowCloseButton = false;
             lblpnlFormat.ShowSeparator = true;
-            lblpnlFormat.Size = new Size(252, 125);
+            lblpnlFormat.Size = new Size(252, 149);
             lblpnlFormat.TabIndex = 0;
             lblpnlFormat.Text = "Format";
+            // 
+            // lblpnlDecimalFormat
+            // 
+            lblpnlDecimalFormat.ArrowColor = Color.Black;
+            lblpnlDecimalFormat.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlDecimalFormat.CloseColor = Color.Black;
+            lblpnlDecimalFormat.CloseMouseOverColor = Color.Red;
+            lblpnlDecimalFormat.Collapsed = false;
+            lblpnlDecimalFormat.Controls.Add(ddlDecimalPlaces);
+            lblpnlDecimalFormat.Dock = DockStyle.Top;
+            lblpnlDecimalFormat.DropShadow = false;
+            lblpnlDecimalFormat.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblpnlDecimalFormat.FixedInlineWidth = true;
+            lblpnlDecimalFormat.Inlinelabel = true;
+            lblpnlDecimalFormat.InlineWidth = 80;
+            lblpnlDecimalFormat.LabelBackColor = Color.White;
+            lblpnlDecimalFormat.LabelFont = new Font("Segoe UI", 8F);
+            lblpnlDecimalFormat.LabelForeColor = Color.White;
+            lblpnlDecimalFormat.Location = new Point(0, 120);
+            lblpnlDecimalFormat.Name = "lblpnlDecimalFormat";
+            lblpnlDecimalFormat.OverrideCollapseControl = false;
+            lblpnlDecimalFormat.Padding = new Padding(93, 0, 0, 0);
+            lblpnlDecimalFormat.PanelCollapsible = true;
+            lblpnlDecimalFormat.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlDecimalFormat.SeparatorColor = Color.Gray;
+            lblpnlDecimalFormat.ShowCloseButton = true;
+            lblpnlDecimalFormat.ShowSeparator = false;
+            lblpnlDecimalFormat.Size = new Size(252, 24);
+            lblpnlDecimalFormat.TabIndex = 4;
+            lblpnlDecimalFormat.Text = "Decimal Places";
+            // 
+            // ddlDecimalPlaces
+            // 
+            ddlDecimalPlaces.ArrowColor = Color.Black;
+            ddlDecimalPlaces.BorderColor = Color.Gray;
+            ddlDecimalPlaces.Dock = DockStyle.Top;
+            ddlDecimalPlaces.DrawMode = DrawMode.OwnerDrawFixed;
+            ddlDecimalPlaces.FlatStyle = FlatStyle.Flat;
+            ddlDecimalPlaces.FormattingEnabled = true;
+            ddlDecimalPlaces.Location = new Point(93, 0);
+            ddlDecimalPlaces.Name = "ddlDecimalPlaces";
+            ddlDecimalPlaces.SelectedBackColor = Color.LightGray;
+            ddlDecimalPlaces.SelectedBorderColor = Color.BlueViolet;
+            ddlDecimalPlaces.SelectedColor = Color.SteelBlue;
+            ddlDecimalPlaces.SelectedForeColor = Color.DimGray;
+            ddlDecimalPlaces.Size = new Size(159, 24);
+            ddlDecimalPlaces.TabIndex = 5;
+            ddlDecimalPlaces.SelectedIndexChanged += ddlDecimalPlaces_SelectedIndexChanged;
             // 
             // lblpnlEndianess
             // 
@@ -566,7 +618,7 @@
             DefaultDockArea = ODModules.Docking.DockArea.Right;
             DockText = "Properties";
             Name = "ModbusProperties";
-            Size = new Size(260, 500);
+            Size = new Size(260, 776);
             Load += ModbusProperties_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
@@ -576,6 +628,7 @@
             labelPanel2.ResumeLayout(false);
             lblpnlFormat.ResumeLayout(false);
             lblpnlFormat.PerformLayout();
+            lblpnlDecimalFormat.ResumeLayout(false);
             lblpnlEndianess.ResumeLayout(false);
             lblpnlSize.ResumeLayout(false);
             lblpnlSize.PerformLayout();
@@ -606,5 +659,7 @@
         private ODModules.TextBox tbUnit;
         private ODModules.LabelPanel lblpnlBoolDisplay;
         private ODModules.DropDownBox ddlBooleanDisplay;
+        private ODModules.LabelPanel lblpnlDecimalFormat;
+        private ODModules.DropDownBox ddlDecimalPlaces;
     }
 }

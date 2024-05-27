@@ -66,18 +66,29 @@ namespace Serial_Monitor.Classes.Modbus {
         public string ValueWithUnit {
             get {
                 if (ProjectManager.ShowUnits == false) {
-                    return formattedValue;
+                    if (format >= ModbusEnums.DataFormat.Float) {
+                        return FormatDecimal(formattedValue, decimalFormat);
+                    }
+                    else {
+                        return formattedValue;
+                    }
                 }
                 switch (format) {
                     case ModbusEnums.DataFormat.Decimal:
                         return formattedValue + GetUnitString();
                     case ModbusEnums.DataFormat.Float:
-                        return formattedValue + GetUnitString();
+                        return FormatDecimal(formattedValue, decimalFormat) + GetUnitString();
                     case ModbusEnums.DataFormat.Double:
-                        return formattedValue + GetUnitString();
+                        return FormatDecimal(formattedValue, decimalFormat) + GetUnitString();
                 }
                 return formattedValue;
             }
+        }
+        private static string FormatDecimal(string Input, ModbusEnums.FloatFormat Frmt) {
+            if (Frmt == ModbusEnums.FloatFormat.None) { return  Input; }
+            decimal Out = 0.0m;
+            decimal.TryParse(Input, out Out);
+            return Out.ToString(EnumManager.FloatFormatToString(Frmt).A);
         }
         private string GetUnitString() {
             string UnitBuild = ConversionHandler.PrefixToSymbol(prefix) + unit;
@@ -196,7 +207,15 @@ namespace Serial_Monitor.Classes.Modbus {
                 SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
             }
         }
-
+        ModbusEnums.FloatFormat decimalFormat = ModbusEnums.FloatFormat.None;
+        public ModbusEnums.FloatFormat DecimalFormat {
+            get { return decimalFormat; }
+            set {
+                decimalFormat = value;
+                ModifyValue();
+                SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
+            }
+        }
         #endregion
         #region Value Modification
         public void PushValue(long Input, bool AllowTransmit) {
@@ -560,6 +579,9 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             else if (Input.A.ToLower() == "format") {
                 Format = EnumManager.StringToDataFormat(Input.B);
+            }
+            else if (Input.A.ToLower() == "decimalformat") {
+                DecimalFormat = EnumManager.StringToFloatFormat(Input.B);
             }
             else if (Input.A.ToLower() == "forecolor") {
                 int Temp = 0;

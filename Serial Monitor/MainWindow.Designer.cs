@@ -739,7 +739,7 @@
             navigator1.ShadowColor = Color.FromArgb(40, 0, 0, 0);
             navigator1.ShowAnimations = true;
             navigator1.ShowBorder = true;
-            navigator1.ShowStatuses = true;
+            navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
             navigator1.Size = new Size(81, 182);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
@@ -985,6 +985,7 @@
             lstStepProgram.TabIndex = 0;
             lstStepProgram.UseLocalList = false;
             lstStepProgram.VerScroll = 0;
+            lstStepProgram.Zoom = 100;
             // 
             // cmStepEditor
             // 

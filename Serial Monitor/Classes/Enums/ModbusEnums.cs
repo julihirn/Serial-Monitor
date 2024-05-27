@@ -40,5 +40,33 @@ namespace Serial_Monitor.Classes.Enums {
             BigEndian = 0x03,
             BigEndianByteSwap = 0x04
         }
+        public enum FloatFormat {
+            None = 0x00,
+            //0.0
+            FixedPlaces1 = 0x01,
+            //0.00
+            FixedPlaces2 = 0x02,
+            //0.000
+            FixedPlaces3 = 0x03,
+            //0.0000
+            FixedPlaces4 = 0x04,
+            //0.00000
+            FixedPlaces5 = 0x05,
+            //0.000000
+            FixedPlaces6 = 0x06,
+            //0.0000000
+            FixedPlaces7 = 0x07,
+            //0.00000000
+            FixedPlaces8 = 0x08,
+            //0.000000000
+            FixedPlaces9 = 0x09,
+            //0.0000000000
+            FixedPlaces10 = 0x0A,
+            //0.00000000000
+            FixedPlaces11 = 0x0B,
+            //0.000000000000
+            FixedPlaces12 = 0x0C
+
+        }
     }
 }

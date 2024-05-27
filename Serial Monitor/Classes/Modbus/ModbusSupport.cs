@@ -58,7 +58,8 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (Current.Value != 0) { return true; }
                 }
                 if (Current.UseForeColor == true) { return true; }
-                if (Current.UseBackColor == true) { return true; }
+                if (Current.UseForeColor == true) { return true; }
+                if (Current.DecimalFormat != Enums.ModbusEnums.FloatFormat.None) { return true; }
             }
             return false;
         }
@@ -162,6 +163,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 if (Current.Prefix != ConversionHandler.Prefix.None) {
                     Values.Add(TagData("Prefix", ConversionHandler.PrefixToSymbol(Current.Prefix)));
+                }
+                if (Current.DecimalFormat != Enums.ModbusEnums.FloatFormat.None) {
+                    Values.Add(TagData("DecimalFormat", EnumManager.FloatFormatToString(Current.DecimalFormat).B));
                 }
                 Values.Add(TagData("Signed", Current.Signed));
                 Values.Add(TagData("Value", Current.Value));

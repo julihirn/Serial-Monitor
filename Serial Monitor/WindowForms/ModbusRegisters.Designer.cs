@@ -165,6 +165,7 @@
             tmrRefresh = new System.Windows.Forms.Timer(components);
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
+            ddpDecimalPlaces = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -846,7 +847,7 @@
             // 
             // formatToolStripMenuItem
             // 
-            formatToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ddbDisplayFormat, ddpDataSize, btnSigned, toolStripSeparator20, ddbWordOrder, toolStripSeparator17, changeAppearanceToolStripMenuItem, resetAppearanceToolStripMenuItem });
+            formatToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ddbDisplayFormat, ddpDataSize, btnSigned, ddpDecimalPlaces, toolStripSeparator20, ddbWordOrder, toolStripSeparator17, changeAppearanceToolStripMenuItem, resetAppearanceToolStripMenuItem });
             formatToolStripMenuItem.ForeColor = Color.White;
             formatToolStripMenuItem.Name = "formatToolStripMenuItem";
             resources.ApplyResources(formatToolStripMenuItem, "formatToolStripMenuItem");
@@ -1215,6 +1216,12 @@
             cmCoilFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             // 
+            // ddpDecimalPlaces
+            // 
+            resources.ApplyResources(ddpDecimalPlaces, "ddpDecimalPlaces");
+            ddpDecimalPlaces.ForeColor = Color.White;
+            ddpDecimalPlaces.Name = "ddpDecimalPlaces";
+            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
@@ -1385,5 +1392,6 @@
         private ToolStripSeparator toolStripSeparator28;
         private ODModules.ContextMenu contextMenu1;
         private ODModules.ContextMenu cmCoilFormats;
+        private ToolStripMenuItem ddpDecimalPlaces;
     }
 }

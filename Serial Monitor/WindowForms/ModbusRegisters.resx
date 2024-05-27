@@ -1153,7 +1153,7 @@
     <value>None</value>
   </data>
   <data name="ddbSigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ddbSigned.Text" xml:space="preserve">
     <value>&amp;Signed</value>
@@ -1162,7 +1162,7 @@
     <value>None</value>
   </data>
   <data name="ddbUnsigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ddbUnsigned.Text" xml:space="preserve">
     <value>&amp;Unsigned</value>
@@ -1171,7 +1171,7 @@
     <value>None</value>
   </data>
   <data name="ddbToggleSigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ddbToggleSigned.Text" xml:space="preserve">
     <value>&amp;Toggle</value>
@@ -1187,6 +1187,18 @@
   </data>
   <data name="btnSigned.Text" xml:space="preserve">
     <value>Si&amp;gned</value>
+  </data>
+  <data name="ddpDecimalPlaces.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ddpDecimalPlaces.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="ddpDecimalPlaces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
+  </data>
+  <data name="ddpDecimalPlaces.Text" xml:space="preserve">
+    <value>Decimal &amp;Places</value>
   </data>
   <data name="toolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 6</value>
@@ -1597,7 +1609,7 @@
     <value>875, 16</value>
   </metadata>
   <data name="cmCoilFormats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 26</value>
+    <value>61, 4</value>
   </data>
   <data name="&gt;&gt;cmCoilFormats.Name" xml:space="preserve">
     <value>cmCoilFormats</value>
@@ -5302,6 +5314,12 @@
   </data>
   <data name="&gt;&gt;tmrRefresh.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ddpDecimalPlaces.Name" xml:space="preserve">
+    <value>ddpDecimalPlaces</value>
+  </data>
+  <data name="&gt;&gt;ddpDecimalPlaces.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ModbusRegisters</value>

@@ -370,6 +370,38 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Format Editing
+        public static void ChangeFloatFormatList(object? sender, ListControl? lstMonitor) {
+            if (lstMonitor == null) { return; }
+            object? ButtonData = GetContextMenuItemData(sender);
+            if (ButtonData == null) {
+                if (sender == null) { return; }
+                if (sender.GetType()! != typeof(ModbusEnums.FloatFormat)) { return; }
+                ButtonData = sender;
+            }
+            if (ButtonData.GetType()! != typeof(ModbusEnums.FloatFormat)) {
+                return;
+            }
+            FloatFormat Frmt = (FloatFormat)ButtonData;
+
+            int SelectedCount = lstMonitor.SelectionCount;
+            if (SelectedCount <= 0) { return; }
+            foreach (ListItem Li in lstMonitor.CurrentItems) {
+                if (Li.SubItems.Count >= Indx_Value) {
+                    if (Li.Selected == true) {
+                        if (Li.Tag == null) { continue; }
+                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                            Reg.DecimalFormat = Frmt;
+                        }
+                        SelectedCount--;
+                    }
+                    if (SelectedCount <= 0) {
+                        break;
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+        }
         public static void ChangeCoilFormatList(object? sender, ListControl? lstMonitor) {
             if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
@@ -1330,6 +1362,7 @@ namespace Serial_Monitor.Classes.Modbus {
             Flags = Flags.Add(ModbusPropertyFlags.Prefix);
             Flags = Flags.Add(ModbusPropertyFlags.Format);
             Flags = Flags.Add(ModbusPropertyFlags.ByteOrder);
+            Flags = Flags.Add(ModbusPropertyFlags.DecimalFormat);
             int i = 0;
             ModbusProperty PreviousProperty = new ModbusProperty();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
@@ -1349,6 +1382,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         PreviousProperty.UseForeColor = Reg.UseForeColor;
                         PreviousProperty.Format = Reg.Format;
                         PreviousProperty.WordOrder = Reg.WordOrder;
+                        PreviousProperty.DecimalFormat = Reg.DecimalFormat;
                     }
                     else {
                         if (PreviousProperty.Size != Reg.Size) { Flags = Flags.Remove(ModbusPropertyFlags.Size); }
@@ -1360,6 +1394,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         if (PreviousProperty.BackColor != Reg.BackColor) { Flags = Flags.Remove(ModbusPropertyFlags.BackColor); }
                         if (PreviousProperty.WordOrder != Reg.WordOrder) { Flags = Flags.Remove(ModbusPropertyFlags.ByteOrder); }
                         if (PreviousProperty.Format != Reg.Format) { Flags = Flags.Remove(ModbusPropertyFlags.Format); }
+                        if (PreviousProperty.DecimalFormat != Reg.DecimalFormat) { Flags = Flags.Remove(ModbusPropertyFlags.DecimalFormat); }
                     }
                 }
                 else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
@@ -1421,6 +1456,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public DataFormat Format;
         public CoilFormat CoilFormat;
         public ByteOrder WordOrder;
+        public FloatFormat DecimalFormat;
     }
     public enum ModbusPropertyFlags {
         None = 0x00,
@@ -1432,6 +1468,7 @@ namespace Serial_Monitor.Classes.Modbus {
         Prefix = 0x20,
         Size = 0x40,
         Format = 0x80,
-        ByteOrder = 0x100
+        ByteOrder = 0x100,
+        DecimalFormat = 0x200
     }
 }

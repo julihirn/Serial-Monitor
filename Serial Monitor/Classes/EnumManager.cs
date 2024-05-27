@@ -15,7 +15,98 @@ using static ODModules.NumericTextbox;
 
 namespace Serial_Monitor.Classes {
     public static class EnumManager {
-
+        #region Modbus Number Formatting
+        public static FloatFormat StringToFloatFormat(string Input) {
+            if (Input == "mbFFNone") {
+                return FloatFormat.None;
+            }
+            else if (Input == "mbFFDec1") {
+                return FloatFormat.FixedPlaces1;
+            }
+            else if (Input == "mbFFDec2") {
+                return FloatFormat.FixedPlaces2;
+            }
+            else if (Input == "mbFFDec3") {
+                return FloatFormat.FixedPlaces3;
+            }
+            else if (Input == "mbFFDec4") {
+                return FloatFormat.FixedPlaces4;
+            }
+            else if (Input == "mbFFDec5") {
+                return FloatFormat.FixedPlaces5;
+            }
+            else if (Input == "mbFFDec6") {
+                return FloatFormat.FixedPlaces6;
+            }
+            else if (Input == "mbFFDec7") {
+                return FloatFormat.FixedPlaces7;
+            }
+            else if (Input == "mbFFDec8") {
+                return FloatFormat.FixedPlaces8;
+            }
+            else if (Input == "mbFFDec9") {
+                return FloatFormat.FixedPlaces9;
+            }
+            else if (Input == "mbFFDec10") {
+                return FloatFormat.FixedPlaces10;
+            }
+            else if (Input == "mbFFDec11") {
+                return FloatFormat.FixedPlaces11;
+            }
+            else if (Input == "mbFFDec12") {
+                return FloatFormat.FixedPlaces12;
+            }
+            return FloatFormat.None;
+        }
+        public static StringPair FloatFormatToString(FloatFormat Input) {
+            if (Input == FloatFormat.None) {
+                return new StringPair("None", "mbFFNone");
+            }
+            else if (Input == FloatFormat.FixedPlaces1) {
+                return new StringPair("0.0", "mbFFDec1");
+            }
+            else if (Input == FloatFormat.FixedPlaces2) {
+                return new StringPair("0.00", "mbFFDec2");
+            }
+            else if (Input == FloatFormat.FixedPlaces3) {
+                return new StringPair("0.000", "mbFFDec3");
+            }
+            else if (Input == FloatFormat.FixedPlaces4) {
+                return new StringPair("0.0000", "mbFFDec4");
+            }
+            else if (Input == FloatFormat.FixedPlaces5) {
+                return new StringPair("0.00000", "mbFFDec5");
+            }
+            else if (Input == FloatFormat.FixedPlaces6) {
+                return new StringPair("0.000000", "mbFFDec6");
+            }
+            else if (Input == FloatFormat.FixedPlaces7) {
+                return new StringPair("0.0000000", "mbFFDec7");
+            }
+            else if (Input == FloatFormat.FixedPlaces8) {
+                return new StringPair("0.00000000", "mbFFDec8");
+            }
+            else if (Input == FloatFormat.FixedPlaces9) {
+                return new StringPair("0.000000000", "mbFFDec9");
+            }
+            else if (Input == FloatFormat.FixedPlaces10) {
+                return new StringPair("0.0000000000", "mbFFDec10");
+            }
+            else if (Input == FloatFormat.FixedPlaces11) {
+                return new StringPair("0.00000000000", "mbFFDec11");
+            }
+            else if (Input == FloatFormat.FixedPlaces12) {
+                return new StringPair("0.000000000000", "mbFFDec12");
+            }
+            return new StringPair("None", "mbFFNone");
+        }
+        public static FloatFormat IntegerToFloatFormat(int Input) {
+            FloatFormat[] Formats = (FloatFormat[])FloatFormat.GetValues(typeof(Enums.ModbusEnums.FloatFormat));
+            if (Input < 0) { return Formats[0]; }
+            else if (Input >= Formats.Length) { return Formats[Formats.Length - 1]; }
+            else { return Formats[Input]; }
+        }
+        #endregion
         #region Modbus Data Size
         public static DataSize IntegerToDataSize(int Input) {
             if (Input == 8) {
@@ -832,6 +923,55 @@ namespace Serial_Monitor.Classes {
             bool CheckFirst = true;
             foreach (ModbusEnums.ByteOrder Frmt in Formats) {
                 StringPair Data =WordOrderToString(Frmt);
+                if (DropDownList.GetType() == typeof(DropDownBox)) {
+                    DropDownBox Btn = (DropDownBox)DropDownList;
+                    Btn.Items.Add(Data.A);
+                    if (SelectedFormat == Frmt) {
+                        Btn.SelectedIndex = Btn.Items.Count - 1;
+                    }
+                }
+            }
+        }
+        public static void LoadFloatFormats(object DropDownList, EventHandler FormatClick, bool ApplyChecked = false) {
+            Enums.ModbusEnums.FloatFormat[] Formats = (FloatFormat[])FloatFormat.GetValues(typeof(Enums.ModbusEnums.FloatFormat));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.FloatFormat Frmt in Formats) {
+                string Data = FloatFormatToString(Frmt).A;
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    if (ApplyChecked == false) { Tsi.Checked = false; }
+                    else {
+                        if (Tsi.Checked) {
+                            Btn.Text = Data;
+                        }
+                    }
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
+        public static void LoadFloatFormats(object DropDownList, FloatFormat SelectedFormat) {
+            FloatFormat[] Formats = (FloatFormat[])FloatFormat.GetValues(typeof(Enums.ModbusEnums.FloatFormat));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.FloatFormat Frmt in Formats) {
+                StringPair Data = FloatFormatToString(Frmt);
                 if (DropDownList.GetType() == typeof(DropDownBox)) {
                     DropDownBox Btn = (DropDownBox)DropDownList;
                     Btn.Items.Add(Data.A);

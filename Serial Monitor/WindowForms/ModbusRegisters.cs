@@ -91,6 +91,7 @@ namespace Serial_Monitor {
             EnumManager.LoadCoilFormats(ddbDisplayFormat, CmDisplayFormatList_Click);
             EnumManager.LoadDataSizes(ddpDataSize, CmDisplaySizeList_Click);
             EnumManager.LoadWordOrders(ddbWordOrder, CmDisplayWordOrderList_Click);
+            EnumManager.LoadFloatFormats(ddpDecimalPlaces, CmDisplayDecimalPlacesList_Click);
             RecolorAll();
             AddIcons();
             LoadEvents();
@@ -540,6 +541,7 @@ namespace Serial_Monitor {
             ddpDataSize.Enabled = State;
             btnSigned.Enabled = State;
             ddbWordOrder.Enabled = State;
+            ddpDecimalPlaces.Enabled = State;
         }
         private void ChangeClipboardActions(bool Enable) {
             copyAsTextToolStripMenuItem.Enabled = Enable;
@@ -606,6 +608,10 @@ namespace Serial_Monitor {
         private void CmDisplaySizeList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
             ModbusEditor.ChangeSizeList(sender, CurrentEditor);
+        }
+        private void CmDisplayDecimalPlacesList_Click(object? sender, EventArgs e) {
+            ListControl? CurrentEditor = GetCurrentListView();
+            ModbusEditor.ChangeFloatFormatList(sender, CurrentEditor);
         }
         private void CmDisplayWordOrderList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
