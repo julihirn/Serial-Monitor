@@ -15,10 +15,17 @@ using System.Diagnostics;
 using Svg;
 using ODModules;
 using Serial_Monitor.Classes.Enums;
+using Serial_Monitor.Components;
 
 namespace Serial_Monitor.Docks {
     public partial class ModbusProperties : ODModules.Docking.ToolWindow, Interfaces.ITheme {
         ModbusRegisters? EditorInstance = null;
+
+        TemplateContextMenuHost TextColorPopupHost;
+        ColorPopup popTextColor = new ColorPopup(false);
+
+        TemplateContextMenuHost BackColorPopupHost;
+        ColorPopup popBackColor = new ColorPopup(true);
         protected override CreateParams CreateParams {
             get {
                 CreateParams handleParam = base.CreateParams;
@@ -33,6 +40,14 @@ namespace Serial_Monitor.Docks {
             if (this.EditorInstance != null) {
                 this.EditorInstance.FormClosing += EditorInstance_FormClosing;
                 this.EditorInstance.ViewChanged += EditorInstance_ViewChanged;
+                TextColorPopupHost = new TemplateContextMenuHost(popTextColor, this.EditorInstance);
+                BackColorPopupHost = new TemplateContextMenuHost(popBackColor, this.EditorInstance);
+                popTextColor.Host = TextColorPopupHost;
+                popBackColor.Host = BackColorPopupHost;
+                TextColorPopupHost.Closing += TextColorPopupHost_Closing;
+                BackColorPopupHost.Closing += BackColorPopupHost_Closing;
+                TextColorPopupHost.Opening += TextColorPopupHost_Opening;
+                BackColorPopupHost.Opening += BackColorPopupHost_Opening;
             }
             Classes.Modbus.ModbusEditor.EditorPropertiesEqual += ModbusEditor_EditorPropertiesEqual;
             EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
@@ -42,18 +57,34 @@ namespace Serial_Monitor.Docks {
             EnumManager.LoadFloatFormats(ddlDecimalPlaces, ModbusEnums.FloatFormat.None);
             PreventLoad = false;
         }
-        private void ModbusEditor_EditorPropertiesEqual(ODModules.ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties) {
+        private void ModbusEditor_EditorPropertiesEqual(ODModules.ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected) {
             this.BeginInvoke(new MethodInvoker(delegate {
-                AdjustProperties(EqualProperties, CurrentProperties);
+                AdjustProperties(EqualProperties, CurrentProperties, ItemsSelected);
             }));
         }
-        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties) {
+        private void SetEditors(bool Enabled) {
+            ddlBooleanDisplay.Enabled = Enabled;
+            ddlDisplay.Enabled = Enabled;
+            ddlDecimalPlaces.Enabled = Enabled;
+            ddlEndianness.Enabled = Enabled;
+            ddlDisplay.Enabled = Enabled;
+            tbUnit.Enabled = Enabled;
+            pfsMain.Enabled = Enabled;
+        }
+        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected) {
             PreventLoad = true;
+            SetEditors(ItemsSelected);
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.ForeColor)) {
-
+                SetButtonColor(btnTextColor, CurrentProperties.ForeColor, CurrentProperties.UseForeColor);
+            }
+            else {
+                SetButtonColor(btnTextColor, CurrentProperties.ForeColor, false);
             }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.BackColor)) {
-
+                SetButtonColor(btnBackColor, CurrentProperties.BackColor, CurrentProperties.UseBackColor);
+            }
+            else {
+                SetButtonColor(btnBackColor, CurrentProperties.BackColor, false);
             }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Size)) {
 
@@ -186,6 +217,8 @@ namespace Serial_Monitor.Docks {
             ThemeManager.ThemeControl(ddlDisplay);
             ThemeManager.ThemeControl(ddlDecimalPlaces);
             ThemeManager.ThemeControl(tbUnit);
+            ThemeManager.ThemeControl(btnTextColor, true);
+            ThemeManager.ThemeControl(btnBackColor, true);
 
         }
         private void ThemePanel(object Pnl) {
@@ -267,6 +300,46 @@ namespace Serial_Monitor.Docks {
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
             Classes.Modbus.ModbusEditor.ChangeFloatFormatList(EnumManager.IntegerToFloatFormat(ddlDecimalPlaces.SelectedIndex), CurrentEditor);
 
+        }
+
+        private void btnTextColor_ButtonClicked(object sender) {
+            TextColorPopupHost.Show((Control)sender, new Rectangle(0, 0, 0, ((Control)sender).Height));
+        }
+
+        private void btnBackColor_ButtonClicked(object sender) {
+            BackColorPopupHost.Show((Control)sender, new Rectangle(0, 0, 0, ((Control)sender).Height));
+        }
+        private void BackColorPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            if (PreventLoad == true) { return; }
+            if (popBackColor.IsValid == false) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            DataSelection? Select = GetDataSelection();
+            SetButtonColor(btnBackColor, popBackColor.SelectedColor, popBackColor.ApplyColor);
+            Classes.Modbus.ModbusEditor.ChangeBackColor(GetCurrentSlave(), Select, sender, CurrentEditor, popBackColor.SelectedColor, popBackColor.ApplyColor);
+        }
+        private void TextColorPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            if (PreventLoad == true) { return; }
+            if(popTextColor.IsValid == false) { return; }
+            ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            DataSelection? Select = GetDataSelection();
+            SetButtonColor(btnTextColor, popTextColor.SelectedColor, popTextColor.ApplyColor);
+            Classes.Modbus.ModbusEditor.ChangeTextColor(GetCurrentSlave(), Select, sender, CurrentEditor, popTextColor.SelectedColor, popTextColor.ApplyColor);
+        }
+        private void SetButtonColor(ODModules.Button Btn, Color DisplayColor, bool UseColor) {
+            if (UseColor) {
+                Btn.BackColorNorth = DisplayColor;
+                Btn.BackColorSouth = DisplayColor;
+            }
+            else {
+                Btn.BackColorNorth = Color.Transparent;
+                Btn.BackColorSouth = Color.Transparent;
+            }
+        }
+        private void BackColorPopupHost_Opening(object? sender, CancelEventArgs e) {
+            popBackColor.ResetState();
+        }
+        private void TextColorPopupHost_Opening(object? sender, CancelEventArgs e) {
+            popTextColor.ResetState();
         }
     }
 }

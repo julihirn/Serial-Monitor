@@ -28,7 +28,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public delegate void ViewUpdatedHandler(ListControl LstControl);
 
         public static event EditorPropertiesEqualHandler? EditorPropertiesEqual;
-        public delegate void EditorPropertiesEqualHandler(ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties);
+        public delegate void EditorPropertiesEqualHandler(ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected);
 
         public static Size MinimumSize = new Size(464, 213);
         #region Loaders
@@ -1309,7 +1309,21 @@ namespace Serial_Monitor.Classes.Modbus {
             ModbusPropertyFlags Flags = ModbusPropertyFlags.Size;
             ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
         }
-        public static void ChangeAppearance(object? sender, ListControl lstMonitor) {
+        public static void ChangeTextColor(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, Color ForeColor, bool UseColor) {
+            ModbusProperty Appearance = new ModbusProperty();
+            Appearance.ForeColor = ForeColor;
+            Appearance.UseForeColor = UseColor;
+            ModbusPropertyFlags Flags = ModbusPropertyFlags.ForeColor | ModbusPropertyFlags.UseForeColor;
+            ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
+        }
+        public static void ChangeBackColor(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, Color BackColor, bool UseColor) {
+            ModbusProperty Appearance = new ModbusProperty();
+            Appearance.BackColor = BackColor;
+            Appearance.UseBackColor = UseColor;
+            ModbusPropertyFlags Flags = ModbusPropertyFlags.BackColor | ModbusPropertyFlags.UseBackColor;
+            ChangeProperty(Slave, Selection, sender, lstMonitor, Appearance, Flags);
+        }
+        public static void UpdateAppearance(object? sender, ListControl lstMonitor) {
             int SelectedCount = lstMonitor.SelectionCount;
             if (SelectedCount <= 0) { return; }
             foreach (ListItem Li in lstMonitor.CurrentItems) {
@@ -1351,7 +1365,7 @@ namespace Serial_Monitor.Classes.Modbus {
             Tr.Start();
         }
         private static void CheckSelectedPropertiesAreEqual(ListControl? lstMonitor) {
-            if (lstMonitor == null) { EditorPropertiesEqual?.Invoke(lstMonitor, ModbusPropertyFlags.None, new ModbusProperty()); return; }
+            if (lstMonitor == null) { EditorPropertiesEqual?.Invoke(lstMonitor, ModbusPropertyFlags.None, new ModbusProperty(), false); return; }
             ModbusPropertyFlags Flags = ModbusPropertyFlags.None;
             Flags = Flags.Add(ModbusPropertyFlags.ForeColor);
             Flags = Flags.Add(ModbusPropertyFlags.BackColor);
@@ -1365,6 +1379,11 @@ namespace Serial_Monitor.Classes.Modbus {
             Flags = Flags.Add(ModbusPropertyFlags.DecimalFormat);
             int i = 0;
             ModbusProperty PreviousProperty = new ModbusProperty();
+            if (lstMonitor.SelectionCount <= 0) {
+                Flags = ModbusPropertyFlags.None;
+                EditorPropertiesEqual?.Invoke(lstMonitor, Flags, PreviousProperty, false);
+                return;
+            }
             foreach (ListItem Li in lstMonitor.CurrentItems) {
                 if (Li.SubItems.Count < Indx_Value) { continue; }
                 if (Li.Selected == false) { continue; }
@@ -1416,7 +1435,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 i++;
             }
-            EditorPropertiesEqual?.Invoke(lstMonitor, Flags, PreviousProperty);
+            EditorPropertiesEqual?.Invoke(lstMonitor, Flags, PreviousProperty, true);
             return;
         }
     }

@@ -29,6 +29,8 @@
             // btToggler
             // 
             btToggler.ActiveToggleForeColor = Color.Black;
+            btToggler.AllowKeyboardControl = true;
+            btToggler.AllowKeyboardInvertControl = true;
             btToggler.Bits = 32;
             btToggler.Dock = DockStyle.Fill;
             btToggler.InactiveToggleForeColor = Color.Gray;
@@ -36,11 +38,13 @@
             btToggler.MouseDownForeColor = Color.WhiteSmoke;
             btToggler.MouseOverForeColor = Color.Blue;
             btToggler.Name = "btToggler";
+            btToggler.SelectedForeColor = Color.Blue;
             btToggler.Size = new Size(300, 300);
             btToggler.TabIndex = 0;
             btToggler.TogglerSize = ODModules.BitToggle.WordSize.QWord;
             btToggler.Value = "0";
             btToggler.BitToggled += btToggler_BitToggled;
+            btToggler.Load += btToggler_Load;
             // 
             // BitTogglerPopup
             // 

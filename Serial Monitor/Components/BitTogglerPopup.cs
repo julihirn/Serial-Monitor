@@ -64,6 +64,11 @@ namespace Serial_Monitor.Components {
             SystemManager.RegisterValueChanged(Register.Parent, Register.FormattedValue, Register.Address, Register.ComponentType);
         }
         ModbusRegister? register = null;
+
+        private void btToggler_Load(object sender, EventArgs e) {
+
+        }
+
         public ModbusRegister? Register {
             get { return register; }
             set {

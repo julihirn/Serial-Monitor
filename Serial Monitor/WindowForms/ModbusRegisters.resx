@@ -152,6 +152,9 @@
   <data name="cmMonitor.Size" type="System.Drawing.Size, System.Drawing">
     <value>175, 76</value>
   </data>
+  <metadata name="cntrlExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 53</value>
+  </metadata>
   <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
     <value>cmMonitor</value>
   </data>
@@ -1153,7 +1156,7 @@
     <value>None</value>
   </data>
   <data name="ddbSigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>124, 22</value>
   </data>
   <data name="ddbSigned.Text" xml:space="preserve">
     <value>&amp;Signed</value>
@@ -1162,7 +1165,7 @@
     <value>None</value>
   </data>
   <data name="ddbUnsigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>124, 22</value>
   </data>
   <data name="ddbUnsigned.Text" xml:space="preserve">
     <value>&amp;Unsigned</value>
@@ -1171,7 +1174,7 @@
     <value>None</value>
   </data>
   <data name="ddbToggleSigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>124, 22</value>
   </data>
   <data name="ddbToggleSigned.Text" xml:space="preserve">
     <value>&amp;Toggle</value>
@@ -5129,6 +5132,12 @@
   <data name="&gt;&gt;ddbToggleSigned.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ddpDecimalPlaces.Name" xml:space="preserve">
+    <value>ddpDecimalPlaces</value>
+  </data>
+  <data name="&gt;&gt;ddpDecimalPlaces.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator20.Name" xml:space="preserve">
     <value>toolStripSeparator20</value>
   </data>
@@ -5315,11 +5324,11 @@
   <data name="&gt;&gt;tmrRefresh.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ddpDecimalPlaces.Name" xml:space="preserve">
-    <value>ddpDecimalPlaces</value>
+  <data name="&gt;&gt;cntrlExtender.Name" xml:space="preserve">
+    <value>cntrlExtender</value>
   </data>
-  <data name="&gt;&gt;ddpDecimalPlaces.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;cntrlExtender.Type" xml:space="preserve">
+    <value>ODModules.ControlExtensions.ControlExtender, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ModbusRegisters</value>

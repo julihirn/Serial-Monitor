@@ -236,9 +236,16 @@ namespace Serial_Monitor.Classes.Theming {
             }
             else if (ControlObject.GetType() == typeof(ODModules.ButtonGrid)) {
                 ODModules.ButtonGrid btnGrid = (ODModules.ButtonGrid)ControlObject;
-                btnGrid.BackColor = Properties.Settings.Default.THM_COL_Editor;
-                btnGrid.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
-                btnGrid.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+                if (UseAlternative) {
+                    btnGrid.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                    btnGrid.BackColorNorth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                    btnGrid.BackColorSouth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                }
+                else {
+                    btnGrid.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                    btnGrid.BackColorNorth = Properties.Settings.Default.THM_COL_MenuBack;
+                    btnGrid.BackColorSouth = Properties.Settings.Default.THM_COL_MenuBack;
+                }
                 btnGrid.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
                 btnGrid.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
@@ -268,8 +275,10 @@ namespace Serial_Monitor.Classes.Theming {
             else if (ControlObject.GetType() == typeof(ODModules.Button)) {
                 ODModules.Button btn = (ODModules.Button)ControlObject;
                 btn.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                btn.BackColorNorth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
-                btn.BackColorSouth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                if (!UseAlternative) {
+                    btn.BackColorNorth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                    btn.BackColorSouth = Properties.Settings.Default.THM_COL_SeconaryBackColor;
+                }
                 btn.BackColorDownNorth = Properties.Settings.Default.THM_COL_ButtonSelected;
                 btn.BackColorDownSouth = Properties.Settings.Default.THM_COL_ButtonSelected;
                 btn.BorderColorNorth = Properties.Settings.Default.THM_COL_BorderColor;

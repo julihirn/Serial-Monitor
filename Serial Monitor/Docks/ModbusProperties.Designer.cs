@@ -28,8 +28,10 @@
             panel1 = new Panel();
             panel2 = new Panel();
             labelPanel1 = new ODModules.LabelPanel();
-            cwMain = new ODModules.ColorWheel();
-            lcsBrightness = new ODModules.LightnessColorSlider();
+            labelPanel5 = new ODModules.LabelPanel();
+            btnBackColor = new ODModules.Button();
+            labelPanel4 = new ODModules.LabelPanel();
+            btnTextColor = new ODModules.Button();
             lblpnlUnits = new ODModules.LabelPanel();
             pfsMain = new ODModules.PrefixScale();
             ntbMain = new ODModules.NumericTextbox();
@@ -50,6 +52,8 @@
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             labelPanel1.SuspendLayout();
+            labelPanel5.SuspendLayout();
+            labelPanel4.SuspendLayout();
             lblpnlUnits.SuspendLayout();
             labelPanel2.SuspendLayout();
             lblpnlFormat.SuspendLayout();
@@ -88,8 +92,8 @@
             labelPanel1.CloseColor = Color.Black;
             labelPanel1.CloseMouseOverColor = Color.Red;
             labelPanel1.Collapsed = false;
-            labelPanel1.Controls.Add(cwMain);
-            labelPanel1.Controls.Add(lcsBrightness);
+            labelPanel1.Controls.Add(labelPanel5);
+            labelPanel1.Controls.Add(labelPanel4);
             labelPanel1.Dock = DockStyle.Top;
             labelPanel1.DropShadow = false;
             labelPanel1.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
@@ -99,7 +103,7 @@
             labelPanel1.LabelBackColor = Color.White;
             labelPanel1.LabelFont = new Font("Segoe UI", 8F);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(0, 329);
+            labelPanel1.Location = new Point(0, 306);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = true;
             labelPanel1.Padding = new Padding(0, 22, 0, 0);
@@ -108,33 +112,150 @@
             labelPanel1.SeparatorColor = Color.Gray;
             labelPanel1.ShowCloseButton = false;
             labelPanel1.ShowSeparator = true;
-            labelPanel1.Size = new Size(252, 141);
+            labelPanel1.Size = new Size(252, 85);
             labelPanel1.TabIndex = 2;
             labelPanel1.Text = "Appearance";
             // 
-            // cwMain
+            // labelPanel5
             // 
-            cwMain.Alpha = 1D;
-            cwMain.Dock = DockStyle.Right;
-            cwMain.Location = new Point(107, 22);
-            cwMain.Name = "cwMain";
-            cwMain.ShowSaturationRing = true;
-            cwMain.Size = new Size(126, 119);
-            cwMain.TabIndex = 1;
+            labelPanel5.ArrowColor = Color.Black;
+            labelPanel5.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel5.CloseColor = Color.Black;
+            labelPanel5.CloseMouseOverColor = Color.Red;
+            labelPanel5.Collapsed = false;
+            labelPanel5.Controls.Add(btnBackColor);
+            labelPanel5.Dock = DockStyle.Top;
+            labelPanel5.DropShadow = false;
+            labelPanel5.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel5.FixedInlineWidth = true;
+            labelPanel5.Inlinelabel = true;
+            labelPanel5.InlineWidth = 80;
+            labelPanel5.LabelBackColor = Color.White;
+            labelPanel5.LabelFont = new Font("Segoe UI", 8F);
+            labelPanel5.LabelForeColor = Color.White;
+            labelPanel5.Location = new Point(0, 46);
+            labelPanel5.Name = "labelPanel5";
+            labelPanel5.OverrideCollapseControl = false;
+            labelPanel5.Padding = new Padding(93, 0, 0, 0);
+            labelPanel5.PanelCollapsible = true;
+            labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel5.SeparatorColor = Color.Gray;
+            labelPanel5.ShowCloseButton = true;
+            labelPanel5.ShowSeparator = false;
+            labelPanel5.Size = new Size(252, 24);
+            labelPanel5.TabIndex = 9;
+            labelPanel5.Text = "Back Color";
             // 
-            // lcsBrightness
+            // btnBackColor
             // 
-            lcsBrightness.Dock = DockStyle.Right;
-            lcsBrightness.Location = new Point(233, 22);
-            lcsBrightness.Name = "lcsBrightness";
-            lcsBrightness.Orientation = Orientation.Vertical;
-            lcsBrightness.Size = new Size(19, 119);
-            lcsBrightness.TabIndex = 7;
+            btnBackColor.AllowGroupUnchecking = false;
+            btnBackColor.BackColorCheckedNorth = Color.Orange;
+            btnBackColor.BackColorCheckedSouth = Color.Orange;
+            btnBackColor.BackColorDownNorth = Color.DimGray;
+            btnBackColor.BackColorDownSouth = Color.DimGray;
+            btnBackColor.BackColorHoverNorth = Color.SkyBlue;
+            btnBackColor.BackColorHoverSouth = Color.SkyBlue;
+            btnBackColor.BackColorNorth = Color.Transparent;
+            btnBackColor.BackColorSouth = Color.Transparent;
+            btnBackColor.BorderColorCheckedNorth = Color.Black;
+            btnBackColor.BorderColorCheckedSouth = Color.Black;
+            btnBackColor.BorderColorDownNorth = Color.Black;
+            btnBackColor.BorderColorDownSouth = Color.Black;
+            btnBackColor.BorderColorHoverNorth = Color.Black;
+            btnBackColor.BorderColorHoverSouth = Color.Black;
+            btnBackColor.BorderColorNorth = Color.White;
+            btnBackColor.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            btnBackColor.BorderColorSouth = Color.White;
+            btnBackColor.BorderRadius = 5;
+            btnBackColor.Checked = false;
+            btnBackColor.Dock = DockStyle.Left;
+            btnBackColor.GroupMaximumChecked = 2;
+            btnBackColor.Location = new Point(93, 0);
+            btnBackColor.Name = "btnBackColor";
+            btnBackColor.RadioButtonGroup = "";
+            btnBackColor.SecondaryFont = new Font("Segoe UI", 9F);
+            btnBackColor.SecondaryText = "";
+            btnBackColor.Size = new Size(24, 24);
+            btnBackColor.Style = ODModules.ButtonStyle.Square;
+            btnBackColor.TabIndex = 1;
+            btnBackColor.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btnBackColor.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            btnBackColor.Type = ODModules.ButtonType.Button;
+            btnBackColor.ButtonClicked += btnBackColor_ButtonClicked;
+            // 
+            // labelPanel4
+            // 
+            labelPanel4.ArrowColor = Color.Black;
+            labelPanel4.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel4.CloseColor = Color.Black;
+            labelPanel4.CloseMouseOverColor = Color.Red;
+            labelPanel4.Collapsed = false;
+            labelPanel4.Controls.Add(btnTextColor);
+            labelPanel4.Dock = DockStyle.Top;
+            labelPanel4.DropShadow = false;
+            labelPanel4.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel4.FixedInlineWidth = true;
+            labelPanel4.Inlinelabel = true;
+            labelPanel4.InlineWidth = 80;
+            labelPanel4.LabelBackColor = Color.White;
+            labelPanel4.LabelFont = new Font("Segoe UI", 8F);
+            labelPanel4.LabelForeColor = Color.White;
+            labelPanel4.Location = new Point(0, 22);
+            labelPanel4.Name = "labelPanel4";
+            labelPanel4.OverrideCollapseControl = false;
+            labelPanel4.Padding = new Padding(93, 0, 0, 0);
+            labelPanel4.PanelCollapsible = true;
+            labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel4.SeparatorColor = Color.Gray;
+            labelPanel4.ShowCloseButton = true;
+            labelPanel4.ShowSeparator = false;
+            labelPanel4.Size = new Size(252, 24);
+            labelPanel4.TabIndex = 8;
+            labelPanel4.Text = "Text Color";
+            // 
+            // btnTextColor
+            // 
+            btnTextColor.AllowGroupUnchecking = false;
+            btnTextColor.BackColorCheckedNorth = Color.Orange;
+            btnTextColor.BackColorCheckedSouth = Color.Orange;
+            btnTextColor.BackColorDownNorth = Color.DimGray;
+            btnTextColor.BackColorDownSouth = Color.DimGray;
+            btnTextColor.BackColorHoverNorth = Color.SkyBlue;
+            btnTextColor.BackColorHoverSouth = Color.SkyBlue;
+            btnTextColor.BackColorNorth = Color.Transparent;
+            btnTextColor.BackColorSouth = Color.Transparent;
+            btnTextColor.BorderColorCheckedNorth = Color.Black;
+            btnTextColor.BorderColorCheckedSouth = Color.Black;
+            btnTextColor.BorderColorDownNorth = Color.Black;
+            btnTextColor.BorderColorDownSouth = Color.Black;
+            btnTextColor.BorderColorHoverNorth = Color.Black;
+            btnTextColor.BorderColorHoverSouth = Color.Black;
+            btnTextColor.BorderColorNorth = Color.White;
+            btnTextColor.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
+            btnTextColor.BorderColorSouth = Color.White;
+            btnTextColor.BorderRadius = 5;
+            btnTextColor.Checked = false;
+            btnTextColor.Dock = DockStyle.Left;
+            btnTextColor.GroupMaximumChecked = 2;
+            btnTextColor.Location = new Point(93, 0);
+            btnTextColor.Name = "btnTextColor";
+            btnTextColor.RadioButtonGroup = "";
+            btnTextColor.SecondaryFont = new Font("Segoe UI", 9F);
+            btnTextColor.SecondaryText = "";
+            btnTextColor.Size = new Size(24, 24);
+            btnTextColor.Style = ODModules.ButtonStyle.Square;
+            btnTextColor.TabIndex = 0;
+            btnTextColor.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
+            btnTextColor.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            btnTextColor.Type = ODModules.ButtonType.Button;
+            btnTextColor.ButtonClicked += btnTextColor_ButtonClicked;
             // 
             // lblpnlUnits
             // 
             lblpnlUnits.ArrowColor = Color.Black;
             lblpnlUnits.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlUnits.AutoScroll = true;
+            lblpnlUnits.AutoSize = true;
             lblpnlUnits.CloseColor = Color.Black;
             lblpnlUnits.CloseMouseOverColor = Color.Red;
             lblpnlUnits.Collapsed = false;
@@ -160,7 +281,7 @@
             lblpnlUnits.SeparatorColor = Color.Gray;
             lblpnlUnits.ShowCloseButton = false;
             lblpnlUnits.ShowSeparator = true;
-            lblpnlUnits.Size = new Size(252, 180);
+            lblpnlUnits.Size = new Size(252, 157);
             lblpnlUnits.TabIndex = 1;
             lblpnlUnits.Text = "Unit of Measure";
             // 
@@ -172,8 +293,9 @@
             pfsMain.InactiveForecolor = Color.Gray;
             pfsMain.LinkedNumericControl = ntbMain;
             pfsMain.Location = new Point(0, 97);
+            pfsMain.MinimumSize = new Size(0, 60);
             pfsMain.Name = "pfsMain";
-            pfsMain.Size = new Size(252, 53);
+            pfsMain.Size = new Size(252, 60);
             pfsMain.TabIndex = 0;
             // 
             // ntbMain
@@ -624,6 +746,8 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             labelPanel1.ResumeLayout(false);
+            labelPanel5.ResumeLayout(false);
+            labelPanel4.ResumeLayout(false);
             lblpnlUnits.ResumeLayout(false);
             labelPanel2.ResumeLayout(false);
             lblpnlFormat.ResumeLayout(false);
@@ -653,13 +777,15 @@
         private ODModules.LabelPanel lblpnlEndianess;
         private ODModules.DropDownBox ddlDisplay;
         private ODModules.DropDownBox ddlEndianness;
-        private ODModules.ColorWheel cwMain;
-        private ODModules.LightnessColorSlider lcsBrightness;
         private ODModules.LabelPanel labelPanel3;
         private ODModules.TextBox tbUnit;
         private ODModules.LabelPanel lblpnlBoolDisplay;
         private ODModules.DropDownBox ddlBooleanDisplay;
         private ODModules.LabelPanel lblpnlDecimalFormat;
         private ODModules.DropDownBox ddlDecimalPlaces;
+        private ODModules.LabelPanel labelPanel4;
+        private ODModules.LabelPanel labelPanel5;
+        private ODModules.Button btnBackColor;
+        private ODModules.Button btnTextColor;
     }
 }

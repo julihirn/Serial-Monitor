@@ -277,7 +277,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
         internal static void MoveSelected(ODModules.ListControl? ProgramEditor, bool MoveDown) {
             if (ProgramEditor == null) { return; }
             SystemManager.InvokeProjectEdited();
-            ProgramEditor.LineMove(true);
+            ProgramEditor.LineMove(MoveDown);
             ProgramManager.ApplyIndentation(ProgramEditor, true);
         }
         internal static void RemoveSelected(ODModules.ListControl? ProgramEditor) {

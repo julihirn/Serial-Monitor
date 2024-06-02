@@ -126,6 +126,7 @@
             ddbSigned = new ToolStripMenuItem();
             ddbUnsigned = new ToolStripMenuItem();
             ddbToggleSigned = new ToolStripMenuItem();
+            ddpDecimalPlaces = new ToolStripMenuItem();
             toolStripSeparator20 = new ToolStripSeparator();
             ddbWordOrder = new ToolStripMenuItem();
             toolStripSeparator17 = new ToolStripSeparator();
@@ -165,7 +166,7 @@
             tmrRefresh = new System.Windows.Forms.Timer(components);
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
-            ddpDecimalPlaces = new ToolStripMenuItem();
+            cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -190,6 +191,7 @@
             cmMonitor.ShowInsetShadow = false;
             cmMonitor.ShowItemInsetShadow = false;
             resources.ApplyResources(cmMonitor, "cmMonitor");
+            cntrlExtender.SetTranslationReference(cmMonitor, "");
             // 
             // btnCmSelectionToSnapshot
             // 
@@ -238,6 +240,7 @@
             tsMain.ShowBorder = false;
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
+            cntrlExtender.SetTranslationReference(tsMain, "");
             // 
             // btnCoils
             // 
@@ -329,6 +332,7 @@
             msMain.Name = "msMain";
             msMain.StripItemSelectedBackColorNorth = Color.White;
             msMain.StripItemSelectedBackColorSouth = Color.White;
+            cntrlExtender.SetTranslationReference(msMain, "");
             msMain.UseNorthFadeIn = false;
             // 
             // fileToolStripMenuItem
@@ -893,6 +897,12 @@
             ddbToggleSigned.Name = "ddbToggleSigned";
             ddbToggleSigned.Click += ddbToggleSigned_Click;
             // 
+            // ddpDecimalPlaces
+            // 
+            resources.ApplyResources(ddpDecimalPlaces, "ddpDecimalPlaces");
+            ddpDecimalPlaces.ForeColor = Color.White;
+            ddpDecimalPlaces.Name = "ddpDecimalPlaces";
+            // 
             // toolStripSeparator20
             // 
             toolStripSeparator20.Name = "toolStripSeparator20";
@@ -1023,6 +1033,7 @@
             cmDisplayFormats.ShowInsetShadow = false;
             cmDisplayFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmDisplayFormats, "cmDisplayFormats");
+            cntrlExtender.SetTranslationReference(cmDisplayFormats, "");
             // 
             // cmDataSize
             // 
@@ -1040,6 +1051,7 @@
             cmDataSize.ShowInsetShadow = false;
             cmDataSize.ShowItemInsetShadow = false;
             resources.ApplyResources(cmDataSize, "cmDataSize");
+            cntrlExtender.SetTranslationReference(cmDataSize, "");
             // 
             // cmChannels
             // 
@@ -1058,6 +1070,7 @@
             cmChannels.ShowInsetShadow = false;
             cmChannels.ShowItemInsetShadow = false;
             resources.ApplyResources(cmChannels, "cmChannels");
+            cntrlExtender.SetTranslationReference(cmChannels, "");
             // 
             // btnRenameChannel
             // 
@@ -1110,6 +1123,7 @@
             cmMBChannel.ShowInsetShadow = false;
             cmMBChannel.ShowItemInsetShadow = false;
             resources.ApplyResources(cmMBChannel, "cmMBChannel");
+            cntrlExtender.SetTranslationReference(cmMBChannel, "");
             // 
             // modbusMasterToolStripMenuItem
             // 
@@ -1152,6 +1166,7 @@
             editorModbus.Icon = null;
             editorModbus.Name = "editorModbus";
             editorModbus.SerializationKey = "mbEditor";
+            cntrlExtender.SetTranslationReference(editorModbus, "");
             // 
             // pnlDocker
             // 
@@ -1176,6 +1191,7 @@
             pnlDocker.TabSelectedForeColor = Color.Black;
             pnlDocker.TabSelectedShadowColor = Color.Black;
             pnlDocker.TabStyle = ODModules.Docking.DockPanel.TabStyles.Normal;
+            cntrlExtender.SetTranslationReference(pnlDocker, "");
             pnlDocker.WindowBackColor = Color.Black;
             pnlDocker.WindowBorderColor = Color.DimGray;
             // 
@@ -1199,6 +1215,7 @@
             contextMenu1.ShowInsetShadow = false;
             contextMenu1.ShowItemInsetShadow = false;
             resources.ApplyResources(contextMenu1, "contextMenu1");
+            cntrlExtender.SetTranslationReference(contextMenu1, "");
             // 
             // cmCoilFormats
             // 
@@ -1215,12 +1232,7 @@
             cmCoilFormats.ShowInsetShadow = false;
             cmCoilFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
-            // 
-            // ddpDecimalPlaces
-            // 
-            resources.ApplyResources(ddpDecimalPlaces, "ddpDecimalPlaces");
-            ddpDecimalPlaces.ForeColor = Color.White;
-            ddpDecimalPlaces.Name = "ddpDecimalPlaces";
+            cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
             // ModbusRegisters
             // 
@@ -1393,5 +1405,6 @@
         private ODModules.ContextMenu contextMenu1;
         private ODModules.ContextMenu cmCoilFormats;
         private ToolStripMenuItem ddpDecimalPlaces;
+        private ODModules.ControlExtensions.ControlExtender cntrlExtender;
     }
 }

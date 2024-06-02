@@ -53,7 +53,7 @@
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35" />
-    <PackageReference Include="ODModules" Version="2.0.19.1" />
+    <PackageReference Include="ODModules" Version="2.0.19.2" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
@@ -76,6 +76,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Components\ColorPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Languages\pl_local.Designer.cs">
       <DependentUpon>pl_local.resx</DependentUpon>
       <DesignTime>True</DesignTime>
