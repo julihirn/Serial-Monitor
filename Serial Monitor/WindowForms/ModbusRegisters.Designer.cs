@@ -167,6 +167,7 @@
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            showLastUpdatedTimeToolStripMenuItem = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -604,7 +605,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, btnTopMost });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, btnTopMost });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
@@ -1234,6 +1235,13 @@
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
+            // showLastUpdatedTimeToolStripMenuItem
+            // 
+            showLastUpdatedTimeToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(showLastUpdatedTimeToolStripMenuItem, "showLastUpdatedTimeToolStripMenuItem");
+            showLastUpdatedTimeToolStripMenuItem.Name = "showLastUpdatedTimeToolStripMenuItem";
+            showLastUpdatedTimeToolStripMenuItem.Click += showLastUpdatedTimeToolStripMenuItem_Click;
+            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
@@ -1406,5 +1414,6 @@
         private ODModules.ContextMenu cmCoilFormats;
         private ToolStripMenuItem ddpDecimalPlaces;
         private ODModules.ControlExtensions.ControlExtender cntrlExtender;
+        private ToolStripMenuItem showLastUpdatedTimeToolStripMenuItem;
     }
 }

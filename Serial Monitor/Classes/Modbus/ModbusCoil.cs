@@ -40,6 +40,7 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return coilValue; }
             set {
                 coilValue = value;
+                UpdateLastUpdate();
                 SystemManager.RegisterValueChanged(parent, this, Index, typeData);
             }
         }

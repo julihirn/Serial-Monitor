@@ -41,6 +41,10 @@ namespace Serial_Monitor.Docks {
 
         }
 
+        private void thDataPagesHeader_Load(object sender, EventArgs e) {
+
+        }
+
         //private void pnlInset_Resize(object sender, EventArgs e) {
         //    pnlInset.Invalidate();
         //}

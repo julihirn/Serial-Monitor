@@ -30,6 +30,7 @@
             ODModules.Column column4 = new ODModules.Column();
             ODModules.Column column5 = new ODModules.Column();
             ODModules.Column column6 = new ODModules.Column();
+            ODModules.Column column7 = new ODModules.Column();
             ODModules.ListItem listItem1 = new ODModules.ListItem();
             ODModules.ListSubItem listSubItem1 = new ODModules.ListSubItem();
             ODModules.ListSubItem listSubItem2 = new ODModules.ListSubItem();
@@ -94,6 +95,7 @@
             thDataPagesHeader.TabSelectedShadowColor = Color.Black;
             thDataPagesHeader.TabStyle = ODModules.TabHeader.TabStyles.Normal;
             thDataPagesHeader.UseBindingTabControl = true;
+            thDataPagesHeader.Load += thDataPagesHeader_Load;
             // 
             // tbDataPages
             // 
@@ -168,7 +170,7 @@
             column2.Width = 100;
             column3.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
             column3.CountOffset = 0;
-            column3.DataFormat = ODModules.ColumnDataFormat.Boolean;
+            column3.DataFormat = ODModules.ColumnDataFormat.Text;
             column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
             column3.DropDownRight = false;
             column3.DropDownVisible = true;
@@ -225,13 +227,29 @@
             column6.UseItemBackColor = false;
             column6.UseItemForeColor = false;
             column6.Visible = true;
-            column6.Width = 120;
+            column6.Width = 80;
+            column7.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column7.CountOffset = 0;
+            column7.DataFormat = ODModules.ColumnDataFormat.Text;
+            column7.DisplayType = ODModules.ColumnDisplayType.Text;
+            column7.DropDownRight = false;
+            column7.DropDownVisible = true;
+            column7.Exportable = true;
+            column7.ExportName = "";
+            column7.FixedWidth = false;
+            column7.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column7.Text = "Last Updated";
+            column7.UseItemBackColor = false;
+            column7.UseItemForeColor = false;
+            column7.Visible = false;
+            column7.Width = 100;
             lstMonitor.Columns.Add(column1);
             lstMonitor.Columns.Add(column2);
             lstMonitor.Columns.Add(column3);
             lstMonitor.Columns.Add(column4);
             lstMonitor.Columns.Add(column5);
             lstMonitor.Columns.Add(column6);
+            lstMonitor.Columns.Add(column7);
             lstMonitor.Dock = DockStyle.Fill;
             lstMonitor.DropDownMouseDown = Color.DimGray;
             lstMonitor.DropDownMouseOver = Color.LightGray;

@@ -23,6 +23,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public const int Indx_Size = 3;
         public const int Indx_Signed = 4;
         public const int Indx_Value = 5;
+        public const int Indx_LastUpdated = 6;
 
         public static event ViewUpdatedHandler? ViewUpdated;
         public delegate void ViewUpdatedHandler(ListControl LstControl);
@@ -121,11 +122,13 @@ namespace Serial_Monitor.Classes.Modbus {
                 ListSubItem CLi3 = new ListSubItem();
                 ListSubItem CLi4 = new ListSubItem();
                 ListSubItem CLi5 = new ListSubItem(Coil.ValueWithUnit);
+                ListSubItem CLi6 = new ListSubItem(Coil.GetLastUpdatedTime());
                 PLi.SubItems.Add(CLi1);
                 PLi.SubItems.Add(CLi2);
                 PLi.SubItems.Add(CLi3);
                 PLi.SubItems.Add(CLi4);
                 PLi.SubItems.Add(CLi5);
+                PLi.SubItems.Add(CLi6);
                 MasterRegisterEditor.Add(PLi);
             }
             else {
@@ -140,6 +143,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index][Indx_Size].Text = "";
                 MasterRegisterEditor[Index][Indx_Signed].Text = "";
                 MasterRegisterEditor[Index][Indx_Value].Text = Coil.ValueWithUnit;
+                MasterRegisterEditor[Index][Indx_LastUpdated].Text = Coil.GetLastUpdatedTime();
             }
         }
         private static void AddMonitorItem(ModbusRegister Register, int Index) {
@@ -156,11 +160,13 @@ namespace Serial_Monitor.Classes.Modbus {
                 ListSubItem CLi3 = new ListSubItem(EnumManager.DataSizeToString(Register.Size));
                 ListSubItem CLi4 = new ListSubItem(Register.Signed);
                 ListSubItem CLi5 = new ListSubItem(Register.ValueWithUnit);
+                ListSubItem CLi6 = new ListSubItem(Register.GetLastUpdatedTime());
                 PLi.SubItems.Add(CLi1);
                 PLi.SubItems.Add(CLi2);
                 PLi.SubItems.Add(CLi3);
                 PLi.SubItems.Add(CLi4);
                 PLi.SubItems.Add(CLi5);
+                PLi.SubItems.Add(CLi6);
                 MasterRegisterEditor.Add(PLi);
             }
             else {
@@ -175,6 +181,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index][Indx_Size].Text = EnumManager.DataSizeToString(Register.Size);
                 MasterRegisterEditor[Index][Indx_Signed].Checked = Register.Signed;
                 MasterRegisterEditor[Index][Indx_Value].Text = Register.ValueWithUnit;
+                MasterRegisterEditor[Index][Indx_LastUpdated].Text = Register.GetLastUpdatedTime();
             }
         }
         public static void RemoveReferences() {
@@ -277,7 +284,8 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Appearance/View
-        public static void ShowHideColumns(bool showFormats, DataSelection DataSet, ListControl lstMonitor) {
+        public static void ShowHideColumns(bool showFormats, bool showLastUpdate, DataSelection DataSet, ListControl lstMonitor) {
+            lstMonitor.Columns[Indx_LastUpdated].Visible = showLastUpdate;
             if (showFormats == false) {
                 lstMonitor.Columns[Indx_Size].Visible = false;
                 lstMonitor.Columns[Indx_Signed].Visible = false;
@@ -341,6 +349,8 @@ namespace Serial_Monitor.Classes.Modbus {
                         lstMonitor.Items[BeforeIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
                         lstMonitor.Items[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
                         lstMonitor.Items[BeforeIndex][Indx_Value].Text = Itm.FormattedValue;
+                        lstMonitor.Items[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
+                        lstMonitor.Items[BeforeIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
                     }
                 }
                 if (AfterIndex < lstMonitor.Items.Count) {
@@ -349,6 +359,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         lstMonitor.Items[AfterIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
                         lstMonitor.Items[AfterIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
                         lstMonitor.Items[AfterIndex][Indx_Value].Text = Itm.FormattedValue;
+                        lstMonitor.Items[AfterIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
                     }
                 }
             }

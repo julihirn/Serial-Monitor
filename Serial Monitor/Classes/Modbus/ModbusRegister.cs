@@ -46,6 +46,7 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return regValue; }
             set {
                 regValue = value;
+                UpdateLastUpdate();
                 ModifyValue();
                 if (Parent != null) {
                     if (Parent.Channel != null) {
@@ -308,6 +309,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     SystemManager.SendModbusCommand(parent, typeData, "Write Register " + Index.ToString() + " = " + Value.ToString());
                 }
             }
+            UpdateLastUpdate();
         }
         public void ModifyValue() {
             if (dataSize <= ModbusEnums.DataSize.Bits16) {
@@ -385,6 +387,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 formattedValue = Formatters.LongToString((long)Temp, format, dataSize, signed);
             }
+            UpdateLastUpdate();
         }
         #endregion
         #region Format/Size Support Functions

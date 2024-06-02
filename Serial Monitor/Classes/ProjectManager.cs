@@ -48,7 +48,11 @@ namespace Serial_Monitor.Classes {
         public static bool ShowUnits {
             get { return showUnits; }
             set { showUnits = value; }
-
+        }
+        static bool showLastUpdated = false;
+        public static bool ShowLastUpdated {
+            get { return showLastUpdated; }
+            set { showLastUpdated = value; }
         }
         public static decimal ProgramVersion {
             get {

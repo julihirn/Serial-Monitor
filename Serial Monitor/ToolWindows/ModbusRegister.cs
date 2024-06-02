@@ -34,7 +34,20 @@ namespace Serial_Monitor.ToolWindows {
             set {
                 showFormats = value;
                 if (snapshot != null) {
-                    ModbusEditor.ShowHideColumns(showFormats, snapshot.Selection, lstRegisters);
+                    ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, snapshot.Selection, lstRegisters);
+                    lstRegisters.Invalidate();
+                }
+            }
+        }
+        bool showLastUpdated = false;
+        public bool ShowLastUpdated {
+            get {
+                return showLastUpdated;
+            }
+            set {
+                showLastUpdated = value;
+                if (snapshot != null) {
+                    ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, snapshot.Selection, lstRegisters);
                     lstRegisters.Invalidate();
                 }
             }
@@ -83,7 +96,7 @@ namespace Serial_Monitor.ToolWindows {
                 }
                 lstRegisters.Columns[0].CountOffset = snapshot.StartIndex;
             }
-            ModbusEditor.ShowHideColumns(showFormats, snapshot.Selection, lstRegisters);
+            ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, snapshot.Selection, lstRegisters);
             lstRegisters.ExternalItems = snapshot.Listings;
             lstRegisters.Invalidate();
             UpdateWindowName();
@@ -356,6 +369,7 @@ namespace Serial_Monitor.ToolWindows {
                     Reg.Format = Frmt;
                     Args.ParentItem[Args.Column].Text = EnumManager.CoilFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
+                    Args.ParentItem[ModbusEditor.Indx_LastUpdated].Text = Reg.GetLastUpdatedTime();
                     lstRegisters.Invalidate();
                 }
             }
@@ -377,6 +391,7 @@ namespace Serial_Monitor.ToolWindows {
                     Args.ParentItem[Args.Column].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    Args.ParentItem[ModbusEditor.Indx_LastUpdated].Text = Reg.GetLastUpdatedTime();
                     ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstRegisters);
                     lstRegisters.Invalidate();
                 }
@@ -399,6 +414,7 @@ namespace Serial_Monitor.ToolWindows {
                     Args.ParentItem[Args.Column].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
+                    Args.ParentItem[ModbusEditor.Indx_LastUpdated].Text = Reg.GetLastUpdatedTime();
                     ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstRegisters);
                     lstRegisters.Invalidate();
                 }

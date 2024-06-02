@@ -128,7 +128,7 @@ namespace Serial_Monitor.Classes.Modbus {
             foreach (ListItem itm in listings) {
                 i++;
                 if (itm.Tag == null) { continue; }
-                if (itm.SubItems.Count < ModbusEditor.Indx_Value) { continue; }
+                if (itm.SubItems.Count < ModbusEditor.Indx_LastUpdated) { continue; }
                 int Index = SelectionType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent ? StartIndex + i : itm.Value;
                 switch (selection) {
                     case DataSelection.ModbusDataInputRegisters:
@@ -188,27 +188,31 @@ namespace Serial_Monitor.Classes.Modbus {
             int LocalIndex = GetListIndex(Index, ref listings);
             if (LocalIndex >= listings.Count) { return; }
             if (LocalIndex < 0) { return; }
-            if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Value) {
+            if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_LastUpdated) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].ValueWithUnit;
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(manager.Coils[Index].Format).A;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.Coils[Index].GetLastUpdatedTime();
                         break;
                     case DataSelection.ModbusDataDiscreteInputs:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].ValueWithUnit;
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(manager.Coils[Index].Format).A;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.DiscreteInputs[Index].GetLastUpdatedTime();
                         break;
                     case DataSelection.ModbusDataInputRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(manager.InputRegisters[Index].Format).A;
                         listings[LocalIndex][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(manager.InputRegisters[Index].Size);
                         listings[LocalIndex][ModbusEditor.Indx_Signed].Checked = manager.InputRegisters[Index].Signed;
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.InputRegisters[Index].GetLastUpdatedTime();
                         break;
                     case DataSelection.ModbusDataHoldingRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(manager.HoldingRegisters[Index].Format).A;
                         listings[LocalIndex][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(manager.HoldingRegisters[Index].Size);
                         listings[LocalIndex][ModbusEditor.Indx_Signed].Checked = manager.HoldingRegisters[Index].Signed;
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.HoldingRegisters[Index].GetLastUpdatedTime();
                         break;
                 }
             }
@@ -260,22 +264,25 @@ namespace Serial_Monitor.Classes.Modbus {
             if (listings.Count <= 0) { return; }
             if (LocalIndex >= listings.Count) { return; }
             if (LocalIndex < 0) { return; }
-            if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Value) {
+            if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_LastUpdated) {
                 switch (selection) {
                     case DataSelection.ModbusDataCoils:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.Coils[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.Coils[Index].GetLastUpdatedTime();
                         break;
                     case DataSelection.ModbusDataDiscreteInputs:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = manager.DiscreteInputs[Index].ValueWithUnit;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.DiscreteInputs[Index].GetLastUpdatedTime();
                         break;
                     case DataSelection.ModbusDataInputRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.InputRegisters[Index].GetLastUpdatedTime();
                         break;
                     case DataSelection.ModbusDataHoldingRegisters:
                         listings[LocalIndex][ModbusEditor.Indx_Value].Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
+                        listings[LocalIndex][ModbusEditor.Indx_LastUpdated].Text = manager.HoldingRegisters[Index].GetLastUpdatedTime();
                         break;
                 }
-
             }
         }
 
@@ -344,6 +351,7 @@ namespace Serial_Monitor.Classes.Modbus {
             ListSubItem CLi3 = new ListSubItem();
             ListSubItem CLi4 = new ListSubItem();
             ListSubItem CLi5 = new ListSubItem();
+            ListSubItem CLi6 = new ListSubItem();
 
             if (selection == DataSelection.ModbusDataCoils) {
                 PLi.Tag = manager.Coils[Index];
@@ -352,6 +360,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 CLi3.Text = "";
                 CLi4.Text = "";
                 CLi5.Text = manager.Coils[Index].ValueWithUnit;
+                CLi6.Text = manager.Coils[Index].GetLastUpdatedTime();
             }
             else if (selection == DataSelection.ModbusDataDiscreteInputs) {
                 PLi.Tag = manager.DiscreteInputs[Index];
@@ -360,6 +369,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 CLi3.Text = "";
                 CLi4.Text = "";
                 CLi5.Text = manager.DiscreteInputs[Index].ValueWithUnit;
+                CLi6.Text = manager.DiscreteInputs[Index].GetLastUpdatedTime();
             }
             else if (selection == DataSelection.ModbusDataHoldingRegisters) {
                 PLi.Tag = manager.HoldingRegisters[Index];
@@ -368,6 +378,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 CLi3.Text = EnumManager.DataSizeToString(manager.HoldingRegisters[Index].Size);
                 CLi4.Checked = manager.HoldingRegisters[Index].Signed;
                 CLi5.Text = showUnits == true ? manager.HoldingRegisters[Index].ValueWithUnit : manager.HoldingRegisters[Index].FormattedValue;
+                CLi6.Text = manager.HoldingRegisters[Index].GetLastUpdatedTime();
             }
             else if (selection == DataSelection.ModbusDataInputRegisters) {
                 PLi.Tag = manager.InputRegisters[Index];
@@ -376,12 +387,14 @@ namespace Serial_Monitor.Classes.Modbus {
                 CLi3.Text = EnumManager.DataSizeToString(manager.InputRegisters[Index].Size);
                 CLi4.Checked = manager.InputRegisters[Index].Signed;
                 CLi5.Text = showUnits == true ? manager.InputRegisters[Index].ValueWithUnit : manager.InputRegisters[Index].FormattedValue;
+                CLi6.Text = manager.InputRegisters[Index].GetLastUpdatedTime();
             }
             PLi.SubItems.Add(CLi1);
             PLi.SubItems.Add(CLi2);
             PLi.SubItems.Add(CLi3);
             PLi.SubItems.Add(CLi4);
             PLi.SubItems.Add(CLi5);
+            PLi.SubItems.Add(CLi6);
             listings.Add(PLi);
         }
     }

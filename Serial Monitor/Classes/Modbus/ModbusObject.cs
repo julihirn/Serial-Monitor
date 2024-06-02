@@ -22,14 +22,25 @@ namespace Serial_Monitor.Classes.Modbus {
             set { foreColor = value; }
         }
         bool useBackColor = false;
-        public bool UseBackColor { 
-            get { return useBackColor; } 
-            set {  useBackColor = value; }
+        public bool UseBackColor {
+            get { return useBackColor; }
+            set { useBackColor = value; }
         }
         bool useForeColor = false;
         public bool UseForeColor {
             get { return useForeColor; }
             set { useForeColor = value; }
+        }
+        private DateTime lastUpdated = DateTime.MinValue;
+        public DateTime LastUpdated {
+            get { return lastUpdated; }
+        }
+        private protected void UpdateLastUpdate() {
+            lastUpdated = DateTime.Now;
+        }
+        protected internal string GetLastUpdatedTime() {
+            if (lastUpdated == DateTime.MinValue) { return "Never"; }
+            return lastUpdated.ToString("yyyy/MM/dd HH:mm:ss.fff");
         }
     }
 }

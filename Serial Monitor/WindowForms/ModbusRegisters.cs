@@ -83,7 +83,7 @@ namespace Serial_Monitor {
             btnApplyOnClick.Checked = ModbusSupport.SendOnChange;
             btnModbusApplyonClick.Checked = ModbusSupport.SendOnChange;
             AdjustUserInterface();
-            ModbusEditor.ShowHideColumns(showFormats, DataSet, editorModbus.lstMonitor);
+            ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
             EnumManager.LoadDataFormats(cmDisplayFormats, CmDisplayFormat_Click);
             EnumManager.LoadCoilFormats(cmCoilFormats, CmCoilFormat_Click);
             EnumManager.LoadDataSizes(cmDataSize, CmDisplaySize_Click);
@@ -245,7 +245,21 @@ namespace Serial_Monitor {
             set {
                 showFormatsToolStripMenuItem.Checked = value;
                 showFormats = value;
-                ModbusEditor.ShowHideColumns(showFormats, DataSet, editorModbus.lstMonitor);
+                ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
+            }
+        }
+        bool showLastUpdated = false;
+        public bool ShowLastUpdated {
+            get {
+                return showLastUpdated;
+            }
+            set {
+                showLastUpdatedTimeToolStripMenuItem.Checked = value;
+                showLastUpdated = value;
+                if (currentEditorView == DataEditor.MasterView) {
+                    ProjectManager.ShowLastUpdated = value;
+                }
+                ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
             }
         }
         DataSelection dataSet = DataSelection.ModbusDataCoils;
@@ -281,7 +295,7 @@ namespace Serial_Monitor {
                 }
                 SetEditors();
                 ClearEditors();
-                ModbusEditor.ShowHideColumns(showFormats, DataSet, editorModbus.lstMonitor);
+                ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
                 ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 CheckModbusDataSelection();
                 ViewChanged?.Invoke(this);
@@ -295,6 +309,8 @@ namespace Serial_Monitor {
                 if (value == DataEditor.MasterView) {
                     btnViewMaster.Checked = true;
                     btnViewSnapshot.Checked = false;
+                    showLastUpdatedTimeToolStripMenuItem.Enabled = true;
+                    showLastUpdatedTimeToolStripMenuItem.Checked = ProjectManager.ShowLastUpdated;
                     showFormatsToolStripMenuItem.Checked = showFormats;
                     showFormatsToolStripMenuItem.Enabled = true;
                     showUnitsToolStripMenuItem.Checked = ProjectManager.ShowUnits;
@@ -331,6 +347,7 @@ namespace Serial_Monitor {
                         showFormatsToolStripMenuItem.Enabled = false;
                         showUnitsToolStripMenuItem.Checked = false;
                         showUnitsToolStripMenuItem.Enabled = false;
+                        showLastUpdatedTimeToolStripMenuItem.Enabled = false;
                         btnMenuModbusMaster.Enabled = false;
                         btnMenuModbusMaster.Checked = false;
                         modbusMasterToolStripMenuItem.Checked = false;
@@ -346,12 +363,15 @@ namespace Serial_Monitor {
                         setIOFormatsToModbusASCIIToolStripMenuItem.Enabled = true;
                         showFormatsToolStripMenuItem.Enabled = true;
                         showUnitsToolStripMenuItem.Enabled = true;
+                        showLastUpdatedTimeToolStripMenuItem.Enabled = true;
                         try {
                             if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
                                 bool FormatsVisable = ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).ShowFormats;
                                 showFormatsToolStripMenuItem.Checked = FormatsVisable;
                                 bool UnitsVisable = ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
                                 showUnitsToolStripMenuItem.Checked = UnitsVisable;
+                                bool LastUpdateVisable = ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).ShowLastUpdated;
+                                showLastUpdatedTimeToolStripMenuItem.Checked = LastUpdateVisable;
                                 btnMenuModbusMaster.Enabled = true;
                                 btnMenuModbusMaster.Checked = false;
 
@@ -703,27 +723,31 @@ namespace Serial_Monitor {
             if (CurrentManager.ID != parentManager.Channel.ID) { return; }
             if (Slave != parentManager.Address) { return; };
             try {
-                if (editorModbus.lstMonitor.CurrentItems[Index].SubItems.Count <= ModbusEditor.Indx_Value) {
+                if (editorModbus.lstMonitor.CurrentItems[Index].SubItems.Count <= ModbusEditor.Indx_LastUpdated) {
                     switch (dataSet) {
                         case DataSelection.ModbusDataCoils:
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.Coils[Index].ValueWithUnit;
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(parentManager.Coils[Index].Format).A;
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_LastUpdated].Text = parentManager.Coils[Index].GetLastUpdatedTime();
                             break;
                         case DataSelection.ModbusDataDiscreteInputs:
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.DiscreteInputs[Index].ValueWithUnit;
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.CoilFormatToString(parentManager.DiscreteInputs[Index].Format).A;
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_LastUpdated].Text = parentManager.DiscreteInputs[Index].GetLastUpdatedTime();
                             break;
                         case DataSelection.ModbusDataInputRegisters:
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.InputRegisters[Index].Format).A;
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(parentManager.InputRegisters[Index].Size);
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Signed].Checked = parentManager.InputRegisters[Index].Signed;
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.InputRegisters[Index].ValueWithUnit;
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_LastUpdated].Text = parentManager.InputRegisters[Index].GetLastUpdatedTime();
                             break;
                         case DataSelection.ModbusDataHoldingRegisters:
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(parentManager.HoldingRegisters[Index].Format).A;
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(parentManager.HoldingRegisters[Index].Size);
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Signed].Checked = parentManager.HoldingRegisters[Index].Signed;
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = parentManager.HoldingRegisters[Index].ValueWithUnit;
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_LastUpdated].Text = parentManager.HoldingRegisters[Index].GetLastUpdatedTime();
                             break;
                     }
                 }
@@ -778,6 +802,9 @@ namespace Serial_Monitor {
                         if (ModbusEditor.ItemInBounds(editorModbus.lstMonitor, Index, ModbusEditor.Indx_Value)) {
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = DigitalData.ValueWithUnit;
                         }
+                        if (ModbusEditor.ItemInBounds(editorModbus.lstMonitor, Index, ModbusEditor.Indx_LastUpdated)) {
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_LastUpdated].Text = DigitalData.GetLastUpdatedTime();
+                        }
                     }
                 }
                 else if (Data.GetType() == typeof(ModbusRegister)) {
@@ -785,6 +812,9 @@ namespace Serial_Monitor {
                         ModbusRegister DigitalData = (ModbusRegister)Data;
                         if (ModbusEditor.ItemInBounds(editorModbus.lstMonitor, Index, ModbusEditor.Indx_Value)) {
                             editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_Value].Text = DigitalData.ValueWithUnit;
+                        }
+                        if (ModbusEditor.ItemInBounds(editorModbus.lstMonitor, Index, ModbusEditor.Indx_LastUpdated)) {
+                            editorModbus.lstMonitor.CurrentItems[Index][ModbusEditor.Indx_LastUpdated].Text = DigitalData.GetLastUpdatedTime();
                         }
                     }
                 }
@@ -2128,7 +2158,21 @@ namespace Serial_Monitor {
                 catch { }
             }
         }
-
+        private void showLastUpdatedTimeToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (currentEditorView == DataEditor.MasterView) {
+                ShowLastUpdated = !ShowLastUpdated;
+            }
+            else if (currentEditorView == DataEditor.SnapshotView) {
+                try {
+                    if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        bool FormatsVisable = ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).ShowLastUpdated;
+                        ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).ShowLastUpdated = !FormatsVisable;
+                        CurrentEditorView = currentEditorView;
+                    }
+                }
+                catch { }
+            }
+        }
         private void changeAppearanceToolStripMenuItem_Click(object sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
             popAppearance.LinkedList = CurrentEditor;
@@ -2216,6 +2260,8 @@ namespace Serial_Monitor {
             }
             catch { }
         }
+
+       
 
         private enum DataEditor {
             MasterView = 0x00,
