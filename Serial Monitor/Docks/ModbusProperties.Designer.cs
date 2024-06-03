@@ -27,7 +27,10 @@
             Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
             panel1 = new Panel();
             panel2 = new Panel();
-            labelPanel1 = new ODModules.LabelPanel();
+            lblpnlSnapshot = new ODModules.LabelPanel();
+            lblpnlSnapshotName = new ODModules.LabelPanel();
+            tbSnapshotName = new ODModules.TextBox();
+            lblpnlAppearance = new ODModules.LabelPanel();
             labelPanel5 = new ODModules.LabelPanel();
             btnBackColor = new ODModules.Button();
             labelPanel4 = new ODModules.LabelPanel();
@@ -51,7 +54,9 @@
             ddlBooleanDisplay = new ODModules.DropDownBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            labelPanel1.SuspendLayout();
+            lblpnlSnapshot.SuspendLayout();
+            lblpnlSnapshotName.SuspendLayout();
+            lblpnlAppearance.SuspendLayout();
             labelPanel5.SuspendLayout();
             labelPanel4.SuspendLayout();
             lblpnlUnits.SuspendLayout();
@@ -76,7 +81,8 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(labelPanel1);
+            panel2.Controls.Add(lblpnlSnapshot);
+            panel2.Controls.Add(lblpnlAppearance);
             panel2.Controls.Add(lblpnlUnits);
             panel2.Controls.Add(lblpnlFormat);
             panel2.Dock = DockStyle.Fill;
@@ -85,36 +91,127 @@
             panel2.Size = new Size(252, 744);
             panel2.TabIndex = 0;
             // 
-            // labelPanel1
+            // lblpnlSnapshot
             // 
-            labelPanel1.ArrowColor = Color.Black;
-            labelPanel1.ArrowMouseOverColor = Color.DodgerBlue;
-            labelPanel1.CloseColor = Color.Black;
-            labelPanel1.CloseMouseOverColor = Color.Red;
-            labelPanel1.Collapsed = false;
-            labelPanel1.Controls.Add(labelPanel5);
-            labelPanel1.Controls.Add(labelPanel4);
-            labelPanel1.Dock = DockStyle.Top;
-            labelPanel1.DropShadow = false;
-            labelPanel1.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
-            labelPanel1.FixedInlineWidth = false;
-            labelPanel1.Inlinelabel = false;
-            labelPanel1.InlineWidth = 100;
-            labelPanel1.LabelBackColor = Color.White;
-            labelPanel1.LabelFont = new Font("Segoe UI", 8F);
-            labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(0, 306);
-            labelPanel1.Name = "labelPanel1";
-            labelPanel1.OverrideCollapseControl = true;
-            labelPanel1.Padding = new Padding(0, 22, 0, 0);
-            labelPanel1.PanelCollapsible = true;
-            labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
-            labelPanel1.SeparatorColor = Color.Gray;
-            labelPanel1.ShowCloseButton = false;
-            labelPanel1.ShowSeparator = true;
-            labelPanel1.Size = new Size(252, 85);
-            labelPanel1.TabIndex = 2;
-            labelPanel1.Text = "Appearance";
+            lblpnlSnapshot.ArrowColor = Color.Black;
+            lblpnlSnapshot.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlSnapshot.AutoSize = true;
+            lblpnlSnapshot.CloseColor = Color.Black;
+            lblpnlSnapshot.CloseMouseOverColor = Color.Red;
+            lblpnlSnapshot.Collapsed = false;
+            lblpnlSnapshot.Controls.Add(lblpnlSnapshotName);
+            lblpnlSnapshot.Dock = DockStyle.Top;
+            lblpnlSnapshot.DropShadow = false;
+            lblpnlSnapshot.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblpnlSnapshot.FixedInlineWidth = false;
+            lblpnlSnapshot.Inlinelabel = false;
+            lblpnlSnapshot.InlineWidth = 100;
+            lblpnlSnapshot.LabelBackColor = Color.White;
+            lblpnlSnapshot.LabelFont = new Font("Segoe UI", 8F);
+            lblpnlSnapshot.LabelForeColor = Color.Black;
+            lblpnlSnapshot.Location = new Point(0, 391);
+            lblpnlSnapshot.Name = "lblpnlSnapshot";
+            lblpnlSnapshot.OverrideCollapseControl = true;
+            lblpnlSnapshot.Padding = new Padding(0, 22, 0, 0);
+            lblpnlSnapshot.PanelCollapsible = true;
+            lblpnlSnapshot.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlSnapshot.SeparatorColor = Color.Gray;
+            lblpnlSnapshot.ShowCloseButton = false;
+            lblpnlSnapshot.ShowSeparator = true;
+            lblpnlSnapshot.Size = new Size(252, 46);
+            lblpnlSnapshot.TabIndex = 3;
+            lblpnlSnapshot.Text = "Snapshot";
+            // 
+            // lblpnlSnapshotName
+            // 
+            lblpnlSnapshotName.ArrowColor = Color.Black;
+            lblpnlSnapshotName.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlSnapshotName.CloseColor = Color.Black;
+            lblpnlSnapshotName.CloseMouseOverColor = Color.Red;
+            lblpnlSnapshotName.Collapsed = false;
+            lblpnlSnapshotName.Controls.Add(tbSnapshotName);
+            lblpnlSnapshotName.Dock = DockStyle.Top;
+            lblpnlSnapshotName.DropShadow = false;
+            lblpnlSnapshotName.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblpnlSnapshotName.FixedInlineWidth = true;
+            lblpnlSnapshotName.Inlinelabel = true;
+            lblpnlSnapshotName.InlineWidth = 80;
+            lblpnlSnapshotName.LabelBackColor = Color.White;
+            lblpnlSnapshotName.LabelFont = new Font("Segoe UI", 8F);
+            lblpnlSnapshotName.LabelForeColor = Color.White;
+            lblpnlSnapshotName.Location = new Point(0, 22);
+            lblpnlSnapshotName.Name = "lblpnlSnapshotName";
+            lblpnlSnapshotName.OverrideCollapseControl = false;
+            lblpnlSnapshotName.Padding = new Padding(93, 0, 0, 0);
+            lblpnlSnapshotName.PanelCollapsible = true;
+            lblpnlSnapshotName.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlSnapshotName.SeparatorColor = Color.Gray;
+            lblpnlSnapshotName.ShowCloseButton = true;
+            lblpnlSnapshotName.ShowSeparator = false;
+            lblpnlSnapshotName.Size = new Size(252, 24);
+            lblpnlSnapshotName.TabIndex = 8;
+            lblpnlSnapshotName.Text = "Name";
+            // 
+            // tbSnapshotName
+            // 
+            tbSnapshotName.AutoCompleteMode = AutoCompleteMode.None;
+            tbSnapshotName.AutoCompleteSource = AutoCompleteSource.None;
+            tbSnapshotName.BackColor = SystemColors.Window;
+            tbSnapshotName.BorderColor = Color.MediumSlateBlue;
+            tbSnapshotName.BorderSize = 1;
+            tbSnapshotName.Dock = DockStyle.Fill;
+            tbSnapshotName.Font = new Font("Segoe UI", 9F);
+            tbSnapshotName.ForeColor = Color.DimGray;
+            tbSnapshotName.Location = new Point(93, 0);
+            tbSnapshotName.Margin = new Padding(4);
+            tbSnapshotName.MaxLength = 15;
+            tbSnapshotName.Multiline = false;
+            tbSnapshotName.Name = "tbSnapshotName";
+            tbSnapshotName.Padding = new Padding(3, 4, 2, 4);
+            tbSnapshotName.PasswordChar = '\0';
+            tbSnapshotName.PlaceholderText = "";
+            tbSnapshotName.ReadOnly = false;
+            tbSnapshotName.SelectedBackColor = Color.LightGray;
+            tbSnapshotName.SelectedBorderColor = Color.HotPink;
+            tbSnapshotName.ShortcutsEnabled = true;
+            tbSnapshotName.Size = new Size(159, 24);
+            tbSnapshotName.TabIndex = 1;
+            tbSnapshotName.TextAlign = HorizontalAlignment.Left;
+            tbSnapshotName.UnderlinedStyle = false;
+            tbSnapshotName.UseSystemPasswordChar = false;
+            tbSnapshotName.WordWrap = true;
+            tbSnapshotName._TextChanged += tbSnapshotName__TextChanged;
+            // 
+            // lblpnlAppearance
+            // 
+            lblpnlAppearance.ArrowColor = Color.Black;
+            lblpnlAppearance.ArrowMouseOverColor = Color.DodgerBlue;
+            lblpnlAppearance.CloseColor = Color.Black;
+            lblpnlAppearance.CloseMouseOverColor = Color.Red;
+            lblpnlAppearance.Collapsed = false;
+            lblpnlAppearance.Controls.Add(labelPanel5);
+            lblpnlAppearance.Controls.Add(labelPanel4);
+            lblpnlAppearance.Dock = DockStyle.Top;
+            lblpnlAppearance.DropShadow = false;
+            lblpnlAppearance.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lblpnlAppearance.FixedInlineWidth = false;
+            lblpnlAppearance.Inlinelabel = false;
+            lblpnlAppearance.InlineWidth = 100;
+            lblpnlAppearance.LabelBackColor = Color.White;
+            lblpnlAppearance.LabelFont = new Font("Segoe UI", 8F);
+            lblpnlAppearance.LabelForeColor = Color.Black;
+            lblpnlAppearance.Location = new Point(0, 306);
+            lblpnlAppearance.Name = "lblpnlAppearance";
+            lblpnlAppearance.OverrideCollapseControl = true;
+            lblpnlAppearance.Padding = new Padding(0, 22, 0, 0);
+            lblpnlAppearance.PanelCollapsible = true;
+            lblpnlAppearance.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlAppearance.SeparatorColor = Color.Gray;
+            lblpnlAppearance.ShowCloseButton = false;
+            lblpnlAppearance.ShowSeparator = true;
+            lblpnlAppearance.Size = new Size(252, 85);
+            lblpnlAppearance.TabIndex = 2;
+            lblpnlAppearance.Text = "Appearance";
             // 
             // labelPanel5
             // 
@@ -745,7 +842,9 @@
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            labelPanel1.ResumeLayout(false);
+            lblpnlSnapshot.ResumeLayout(false);
+            lblpnlSnapshotName.ResumeLayout(false);
+            lblpnlAppearance.ResumeLayout(false);
             labelPanel5.ResumeLayout(false);
             labelPanel4.ResumeLayout(false);
             lblpnlUnits.ResumeLayout(false);
@@ -769,7 +868,7 @@
         private ODModules.LabelPanel lblpnlUnits;
         private ODModules.PrefixScale pfsMain;
         private ODModules.NumericTextbox ntbMain;
-        private ODModules.LabelPanel labelPanel1;
+        private ODModules.LabelPanel lblpnlAppearance;
         private ODModules.LabelPanel lblpnlDisplay;
         private ODModules.LabelPanel lblpnlSize;
         private ODModules.ToolStrip toolStrip1;
@@ -787,5 +886,8 @@
         private ODModules.LabelPanel labelPanel5;
         private ODModules.Button btnBackColor;
         private ODModules.Button btnTextColor;
+        private ODModules.LabelPanel lblpnlSnapshot;
+        private ODModules.LabelPanel lblpnlSnapshotName;
+        private ODModules.TextBox tbSnapshotName;
     }
 }

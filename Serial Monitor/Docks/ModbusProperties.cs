@@ -155,14 +155,29 @@ namespace Serial_Monitor.Docks {
         }
         private void EditorInstance_ViewChanged(object? sender) {
             DataSelection? Select = GetDataSelection();
+            ModbusSnapshot? Snap = GetSnapshot();
+            if (Snap == null) {
+                lblpnlSnapshot.Visible = false;
+            }
+            else {
+                PreventLoad = true;
+                tbSnapshotName.Text = Snap.BaseName;
+                PreventLoad = false;
+                lblpnlSnapshot.Visible = true;
+            }
             if (Select == null) {
+                lblpnlFormat.Visible = false;
+                lblpnlAppearance.Visible = false;
                 lblpnlBoolDisplay.Visible = false;
                 lblpnlDisplay.Visible = false;
                 lblpnlEndianess.Visible = false;
                 lblpnlSize.Visible = false;
                 lblpnlUnits.Visible = false;
+                lblpnlDecimalFormat.Visible = false;
                 return;
             }
+            lblpnlFormat.Visible = true;
+            lblpnlAppearance.Visible = true;
             if (Select > DataSelection.ModbusDataDiscreteInputs) {
                 lblpnlBoolDisplay.Visible = false;
                 lblpnlDisplay.Visible = true;
@@ -217,6 +232,7 @@ namespace Serial_Monitor.Docks {
             ThemeManager.ThemeControl(ddlDisplay);
             ThemeManager.ThemeControl(ddlDecimalPlaces);
             ThemeManager.ThemeControl(tbUnit);
+            ThemeManager.ThemeControl(tbSnapshotName);
             ThemeManager.ThemeControl(btnTextColor, true);
             ThemeManager.ThemeControl(btnBackColor, true);
 
@@ -236,6 +252,23 @@ namespace Serial_Monitor.Docks {
         private DataSelection? GetDataSelection() {
             if (EditorInstance == null) { return null; }
             return EditorInstance.GetDataSelection();
+        }
+        private ModbusSnapshot? GetSnapshot() {
+            if (EditorInstance == null) { return null; }
+            if (EditorInstance.CurrentEditorView == ModbusRegisters.DataEditor.MasterView) { return null; }
+            try {
+                int TempIndex = EditorInstance.SnapshotCurrentIndex;
+                if (TempIndex >= 0) {
+                    if (EditorInstance.editorModbus.ssClient.ChildForms[TempIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        ModbusSnapshot? Snap = ((ToolWindows.ModbusRegister)EditorInstance.editorModbus.ssClient.ChildForms[TempIndex]).Snapshot;
+                        return Snap;
+                    }
+                }
+            }
+            catch {
+                return null;
+            }
+            return null;
         }
         private ModbusSlave? GetCurrentSlave() {
             if (EditorInstance == null) { return null; }
@@ -319,7 +352,7 @@ namespace Serial_Monitor.Docks {
         }
         private void TextColorPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
             if (PreventLoad == true) { return; }
-            if(popTextColor.IsValid == false) { return; }
+            if (popTextColor.IsValid == false) { return; }
             ODModules.ListControl? CurrentEditor = GetCurrentListView();
             DataSelection? Select = GetDataSelection();
             SetButtonColor(btnTextColor, popTextColor.SelectedColor, popTextColor.ApplyColor);
@@ -340,6 +373,12 @@ namespace Serial_Monitor.Docks {
         }
         private void TextColorPopupHost_Opening(object? sender, CancelEventArgs e) {
             popTextColor.ResetState();
+        }
+        private void tbSnapshotName__TextChanged(object sender, EventArgs e) {
+            if (PreventLoad == true) { return; }
+            ModbusSnapshot? Snap = GetSnapshot();
+            if (Snap == null) { return; }
+            Snap.Name = tbSnapshotName.Text;
         }
     }
 }

@@ -302,7 +302,7 @@ namespace Serial_Monitor {
             }
         }
         private DataEditor currentEditorView = DataEditor.MasterView;
-        private DataEditor CurrentEditorView {
+        internal DataEditor CurrentEditorView {
             get { return currentEditorView; }
             set {
                 currentEditorView = value;
@@ -2260,10 +2260,7 @@ namespace Serial_Monitor {
             }
             catch { }
         }
-
-       
-
-        private enum DataEditor {
+        internal enum DataEditor {
             MasterView = 0x00,
             SnapshotView = 0x01
         }

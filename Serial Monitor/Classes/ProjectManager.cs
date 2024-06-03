@@ -146,6 +146,7 @@ namespace Serial_Monitor.Classes {
             Sw.WriteLine("");
             DocumentHandler.Write(Sw, 1, "KeypadTopMost", keypadTopMost);
             DocumentHandler.Write(Sw, 1, "ShowUnits", showUnits);
+            DocumentHandler.Write(Sw, 1, "ShowLastUpdated", showLastUpdated);
         }
         private static void WriteChannels(StreamWriter Sw) {
             if (SystemManager.SerialManagers.Count > 0) {
@@ -359,6 +360,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void ReadSMPFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
             showUnits = DocumentHandler.GetBooleanVariable("ShowUnits");
+            showLastUpdated = DocumentHandler.GetBooleanVariable("ShowLastUpdated");
             ProgramManager.Programs.Add(new ProgramObject());
             int CurrentProgramIndex = 0;
             for (int i = 0; i < DocumentHandler.PARM.Count; i++) {

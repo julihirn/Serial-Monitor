@@ -12,7 +12,8 @@ namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSnapshot {
         //public event SnapshotAppearanceChangedHandler? AppearanceChanged;
         //public delegate void SnapshotAppearanceChangedHandler(object sender);
-
+        public event SnapshotRenamedHandler? SnapshotRenamed;
+        public delegate void SnapshotRenamedHandler(object sender);
 
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
@@ -75,7 +76,10 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
                 }
             }
-            set { name = value; }
+            set { 
+                name = value;
+                SnapshotRenamed?.Invoke(this);
+            }
         }
         Rectangle bounds = new Rectangle();
         public Rectangle Bounds {

@@ -91,6 +91,7 @@
             toolStripSeparator3 = new ToolStripSeparator();
             showUnitsToolStripMenuItem = new ToolStripMenuItem();
             showFormatsToolStripMenuItem = new ToolStripMenuItem();
+            showLastUpdatedTimeToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator9 = new ToolStripSeparator();
             btnViewMaster = new ToolStripMenuItem();
             btnViewSnapshot = new ToolStripMenuItem();
@@ -167,7 +168,6 @@
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
-            showLastUpdatedTimeToolStripMenuItem = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -666,6 +666,13 @@
             resources.ApplyResources(showFormatsToolStripMenuItem, "showFormatsToolStripMenuItem");
             showFormatsToolStripMenuItem.Name = "showFormatsToolStripMenuItem";
             showFormatsToolStripMenuItem.Click += showFormatsToolStripMenuItem_Click;
+            // 
+            // showLastUpdatedTimeToolStripMenuItem
+            // 
+            showLastUpdatedTimeToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(showLastUpdatedTimeToolStripMenuItem, "showLastUpdatedTimeToolStripMenuItem");
+            showLastUpdatedTimeToolStripMenuItem.Name = "showLastUpdatedTimeToolStripMenuItem";
+            showLastUpdatedTimeToolStripMenuItem.Click += showLastUpdatedTimeToolStripMenuItem_Click;
             // 
             // toolStripSeparator9
             // 
@@ -1235,13 +1242,6 @@
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
-            // showLastUpdatedTimeToolStripMenuItem
-            // 
-            showLastUpdatedTimeToolStripMenuItem.ForeColor = Color.White;
-            resources.ApplyResources(showLastUpdatedTimeToolStripMenuItem, "showLastUpdatedTimeToolStripMenuItem");
-            showLastUpdatedTimeToolStripMenuItem.Name = "showLastUpdatedTimeToolStripMenuItem";
-            showLastUpdatedTimeToolStripMenuItem.Click += showLastUpdatedTimeToolStripMenuItem_Click;
-            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
@@ -1405,7 +1405,6 @@
         private ToolStripMenuItem closeAllSnapshotsToolStripMenuItem;
         private ToolStripMenuItem closeSnapshotToolStripMenuItem;
         private ToolStripMenuItem snapshotsToolStripMenuItem;
-        private Docks.ModbusEditor editorModbus;
         private ODModules.Docking.DockPanel pnlDocker;
         private System.Windows.Forms.Timer tmrRefresh;
         private ToolStripMenuItem exportToolStripMenuItem;
@@ -1415,5 +1414,6 @@
         private ToolStripMenuItem ddpDecimalPlaces;
         private ODModules.ControlExtensions.ControlExtender cntrlExtender;
         private ToolStripMenuItem showLastUpdatedTimeToolStripMenuItem;
+        internal Docks.ModbusEditor editorModbus;
     }
 }

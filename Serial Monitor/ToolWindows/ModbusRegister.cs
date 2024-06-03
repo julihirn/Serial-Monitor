@@ -90,6 +90,7 @@ namespace Serial_Monitor.ToolWindows {
             InitializeComponent();
             if (snapShot == null) { return; }
             snapshot = snapShot;
+            snapshot.SnapshotRenamed += Snapshot_SnapshotRenamed;
             if (lstRegisters.Columns.Count > 0) {
                 if (snapshot.SelectionType == Classes.Enums.ModbusEnums.SnapshotSelectionType.Custom) {
                     lstRegisters.Columns[0].DisplayType = ColumnDisplayType.Text;
@@ -99,6 +100,9 @@ namespace Serial_Monitor.ToolWindows {
             ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, snapshot.Selection, lstRegisters);
             lstRegisters.ExternalItems = snapshot.Listings;
             lstRegisters.Invalidate();
+            UpdateWindowName();
+        }
+        private void Snapshot_SnapshotRenamed(object sender) {
             UpdateWindowName();
         }
         private void ModbusRegister_Load(object sender, EventArgs e) {
@@ -247,6 +251,7 @@ namespace Serial_Monitor.ToolWindows {
             if (snapshot != null) {
                 snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
             }
+            snapshot.SnapshotRenamed -= Snapshot_SnapshotRenamed;
             SystemManager.ModbusRegisterRenamed -= SystemManager_ModbusRegisterRenamed;
             SystemManager.ModbusAppearanceChanged -= SystemManager_ModbusAppearanceChanged;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
