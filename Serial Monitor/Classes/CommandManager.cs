@@ -407,6 +407,12 @@ namespace Serial_Monitor.Classes {
             else if (Temp == "listen") { return true; }
             else if (Temp == "set") { return true; }
             else if (Temp == "delimiter") { return true; }
+            else if (Temp == "identification") { return true; }
+            else if (Temp == "id") { return true; }
+            else if (Temp == "basic") { return true; }
+            else if (Temp == "regular") { return true; }
+            else if (Temp == "extended") { return true; }
+            else if (Temp == "specific") { return true; }
             return false;
         }
         #endregion

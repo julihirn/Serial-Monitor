@@ -704,6 +704,28 @@ namespace Serial_Monitor.Classes.Modbus {
                 return Temp;
             }
         }
+        public static byte[] BulidReadDeviceIdPacket(StreamOutputFormat Format, int Device, DiagnosticDeviceIdentification DeviceIdComponent, short ObjectId) {
+            int TempData = ObjectId;
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[5];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)FunctionCode.ReadDeviceIdentification;//Fun
+                Temp[2] = (byte)0x0E;//Str1
+                Temp[3] = (byte)((int)DeviceIdComponent & 0xFF);//Str1
+                Temp[4] = (byte)(TempData & 0xFF);//Cnt2
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[10];
+                int RunningAddress = 0;
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)FunctionCode.ReadDeviceIdentification, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)0X0E, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)((int)DeviceIdComponent & 0xFF), ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)(TempData & 0xFF), ref Temp);
+                return Temp;
+            }
+        }
         public static byte[] BulidDiagnosticsPacket(StreamOutputFormat Format, int Device, DiagnosticSubFunction SubFunction, short Request) {
             int TempData = Request;
             if (SubFunction == DiagnosticSubFunction.ReturnDiagnosticRegister) { TempData = 0x00; }
@@ -1094,7 +1116,8 @@ namespace Serial_Monitor.Classes.Modbus {
             WriteSingleHoldingRegister = 0x06,
             WriteMultipleHoldingRegisters = 0x10,
             Diagnostics = 0x08,
-            WriteMaskRegister = 0x16
+            WriteMaskRegister = 0x16,
+            ReadDeviceIdentification = 0x2B
         }
         public enum DiagnosticSubFunction {
             ReturnQueryData = 0x00,
@@ -1112,6 +1135,12 @@ namespace Serial_Monitor.Classes.Modbus {
             ReturnSlaveBusyCount = 0x11,
             ReturnBusCharacterOverrunCount = 0x12,
             ClearOverrunCounterAndFlag = 0x14
+        }
+        public enum DiagnosticDeviceIdentification {
+            ReadBasicIdentification = 0x01,
+            ReadRegularIdentification = 0x02,
+            ReadExtendedIdentification = 0x03,
+            ReadSpecificIdentification = 0x04
         }
     }
 }

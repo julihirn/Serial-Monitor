@@ -1405,6 +1405,17 @@ namespace Serial_Monitor.Classes {
         #endregion
         #region Modbus Functions
         List<ModbusReturnResult> AwaitingResults = new List<ModbusReturnResult>();
+        public void ModbusReadDeviceIdentification(int Device, ModbusSupport.DiagnosticDeviceIdentification ReadSection, short ObjectId) {
+            if ((Device < 0) || (Device > 255)) {
+                return;
+            }
+            if ((ObjectId < 0) || (ObjectId > 255)) {
+                return;
+            }
+            byte[] Temp = ModbusSupport.BulidReadDeviceIdPacket(outputFormat, Device, ReadSection, ObjectId);
+            //LastRequestedAddress = (ushort)Address;
+            TransmitFrame(Temp);
+        }
         public void ModbusDiagnostics(int Device, ModbusSupport.DiagnosticSubFunction SubFunction, short Request) {
             if ((Device < 0) || (Device > 255)) {
                 return;

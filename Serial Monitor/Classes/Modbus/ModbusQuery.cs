@@ -60,7 +60,6 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (Channel.IsMaster == false) { return; }
                 string Temp = Input.TrimStart(' ').TrimStart('\t');
                 int Unit = 1;
-                int Start = 0;
                 //int Count = 1;
                 if (CommandManager.TestKeyword(ref Temp, "UNIT", true)) {
                     string StrAddress = CommandManager.ReadAndRemove(ref Temp);
@@ -73,200 +72,247 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
                 }
                 if (CommandManager.TestKeyword(ref Temp, "READ")) {
-                    if (CommandManager.GetValue(ref Temp, "COILS", out Start)) {
-                        InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "DISCRETE", out Start)) {
-                        InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataDiscreteInputs);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "REGISTERS", out Start)) {
-                        InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "HOLDINGS", out Start)) {
-                        InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "INREGISTERS", out Start)) {
-                        InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "INPUTS", out Start)) {
-                        InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
-                        SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataCoils);
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "DISCRETE")) {
-                        SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataDiscreteInputs);
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
-                        SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataHoldingRegisters);
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
-                        SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataHoldingRegisters);
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "INREGISTERS")) {
-                        SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataInputRegisters);
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "INPUTS")) {
-                        SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataInputRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "COIL", out Start)) {
-                        SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start)) {
-                        SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "HOLDING", out Start)) {
-                        SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "INREGISTER", out Start)) {
-                        SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "INPUT", out Start)) {
-                        SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
-                    }
+                    PerformRead(Channel, Unit, ref Temp);
                 }
                 else if (CommandManager.TestKeyword(ref Temp, "WRITE")) {
-                    if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
-                        if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
-                            List<short> Values = new List<short>();
-                            if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
-                                Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
-                            }
-                            else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
-                                Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
-                            }
-                        }
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
-                        if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
-                            List<short> Values = new List<short>();
-                            if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
-                                Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
-                            }
-                            else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
-                                Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
-                            }
-                        }
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
-                        if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
-                            List<bool> Values = new List<bool>();
-                            if (CommandManager.GetBooleanValues(ref Temp, "WITH", ref Values)) {
-                                Channel.ModbusWriteMultipleCoils(Unit, (short)Start, Values);
-                            }
-                        }
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "COIL", out Start, true)) {
-                        if (CommandManager.TestKeyword(ref Temp, "=")) {
-                            bool Tbool = false;
-                            if (Temp.Trim(' ') == "TRUE") {
-                                Tbool = true;
-                            }
-                            else if (Temp.Trim(' ') == "T") {
-                                Tbool = true;
-                            }
-                            else if (Temp.Trim(' ') == "1") {
-                                Tbool = true;
-                            }
-                            Channel.ModbusWriteCoil(Unit, (short)Start, Tbool);
-                        }
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start, true)) {
-                        int Value = 0;
-                        if (CommandManager.GetValue(ref Temp, "=", out Value)) {
-                            Channel.ModbusWriteRegister(Unit, (short)Start, (short)Value);
-                        }
-                        else { Channel.ModbusWriteRegister(Unit, (short)Start, (short)0); }
-                    }
-                    else if (CommandManager.GetValue(ref Temp, "HOLDING", out Start, true)) {
-                        int Value = 0;
-                        if (CommandManager.GetValue(ref Temp, "=", out Value)) {
-                            Channel.ModbusWriteRegister(Unit, (short)Start, (short)Value);
-                        }
-                        else { Channel.ModbusWriteRegister(Unit, (short)Start, (short)0); }
-                    }
-                    else if (CommandManager.TestKeyword(ref Temp, "MASK")) {
-                        if (CommandManager.GetValue(ref Temp, "REGISTER", out Start, ' ')) {
-                            int Value = 0;
-                            if (CommandManager.GetValue(ref Temp, "WITH", out Value, ',')) {
-                                int Value2 = 0;
-                                if (CommandManager.GetValue(ref Temp, ",", out Value2)) {
-                                    Channel.ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, (short)Value2);
-                                }
-                                else {
-                                    Channel.ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, 0);
-                                }
-                            }
-                        }
-                    }
+                    PerformWrite(Channel, Unit, ref Temp);
                 }
                 else if (CommandManager.TestKeyword(ref Temp, "DIAGNOSTICS")) {
-                    if (CommandManager.TestKeyword(ref Temp, "RETURN")) {
-                        if (CommandManager.TestKeyword(ref Temp, "QUERY")) {
-                            if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnQueryData, (short)Start);
-                            }
-                        }
-                        else if (CommandManager.TestKeyword(ref Temp, "REGISTER")) {
-                            Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnDiagnosticRegister, 0);
-                        }
-                        else if (CommandManager.TestKeyword(ref Temp, "BUS")) {
-                            if (CommandManager.TestKeyword(ref Temp, "MESSAGES")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusMessageCount, 0);
-                            }
-                            else if (CommandManager.TestKeyword(ref Temp, "ERRORS")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCommunicationErrorCount, 0);
-                            }
-                            else if (CommandManager.TestKeyword(ref Temp, "EXCEPTIONS")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusExceptionErrorCount, 0);
-                            }
-                            else if (CommandManager.TestKeyword(ref Temp, "OVERRUNS")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCharacterOverrunCount, 0);
-                            }
-                        }
-                        else if (CommandManager.TestKeyword(ref Temp, "SLAVE")) {
-                            if (CommandManager.TestKeyword(ref Temp, "MESSAGES")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveMessageCount, 0);
-                            }
-                            else if (CommandManager.TestKeyword(ref Temp, "BUSY")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveBusyCount, 0);
-                            }
-                            else if (CommandManager.TestKeyword(ref Temp, "NORES")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNoResponseCount, 0);
-                            }
-                            else if (CommandManager.TestKeyword(ref Temp, "NONAK")) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNAKCount, 0);
-                            }
-                        }
+                    PerformDiagnosticFunctions(Channel, Unit, ref Temp);
+                }
+            }
+            catch { }
+        }
+        #region QueryFunctionGroups
+        private static void PerformRead(SerialManager Channel, int Unit, ref string Temp) {
+            int Start = 0;
+            if (CommandManager.GetValue(ref Temp, "COILS", out Start)) {
+                InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
+            }
+            else if (CommandManager.GetValue(ref Temp, "DISCRETE", out Start)) {
+                InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataDiscreteInputs);
+            }
+            else if (CommandManager.GetValue(ref Temp, "REGISTERS", out Start)) {
+                InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "HOLDINGS", out Start)) {
+                InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "INREGISTERS", out Start)) {
+                InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "INPUTS", out Start)) {
+                InitialTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
+                SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataCoils);
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "DISCRETE")) {
+                SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataDiscreteInputs);
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
+                SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
+                SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "INREGISTERS")) {
+                SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataInputRegisters);
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "INPUTS")) {
+                SecondTestReadQuery(Channel, Unit, ref Temp, DataSelection.ModbusDataInputRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "COIL", out Start)) {
+                SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
+            }
+            else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start)) {
+                SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "HOLDING", out Start)) {
+                SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "INREGISTER", out Start)) {
+                SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+            }
+            else if (CommandManager.GetValue(ref Temp, "INPUT", out Start)) {
+                SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataInputRegisters);
+            }
+        }
+        private static void PerformWrite(SerialManager Channel, int Unit, ref string Temp) {
+            int Start = 0;
+            if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
+                if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
+                    List<short> Values = new List<short>();
+                    if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                        Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                     }
-                    else if (CommandManager.TestKeyword(ref Temp, "CLEAR")) {
-                        if (CommandManager.TestKeyword(ref Temp, "COUNTERS")) {
-                            Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearCountersAndDiagnosticRegister, 0);
-                        }
-                        else if (CommandManager.TestKeyword(ref Temp, "OVERRUN")) {
-                            Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearOverrunCounterAndFlag, 0);
-                        }
+                    else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+                        Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                     }
-                    else if (CommandManager.TestKeyword(ref Temp, "RESTART")) {
-                        if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
-                            Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.RestartCommunicationsOption, (short)Start);
-                        }
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
+                if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
+                    List<short> Values = new List<short>();
+                    if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                        Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                     }
-                    else if (CommandManager.TestKeyword(ref Temp, "FORCE")) {
-                        if (CommandManager.TestKeyword(ref Temp, "LISTEN")) {
-                            Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ForceListenOnlyMode, 0);
-                        }
+                    else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+                        Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                     }
-                    else if (CommandManager.TestKeyword(ref Temp, "SET")) {
-                        if (CommandManager.TestKeyword(ref Temp, "DELIMITER")) {
-                            if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
-                                Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ChangeASCIIInputDelimiter, (short)Start);
-                            }
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
+                if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
+                    List<bool> Values = new List<bool>();
+                    if (CommandManager.GetBooleanValues(ref Temp, "WITH", ref Values)) {
+                        Channel.ModbusWriteMultipleCoils(Unit, (short)Start, Values);
+                    }
+                }
+            }
+            else if (CommandManager.GetValue(ref Temp, "COIL", out Start, true)) {
+                if (CommandManager.TestKeyword(ref Temp, "=")) {
+                    bool Tbool = false;
+                    if (Temp.Trim(' ') == "TRUE") {
+                        Tbool = true;
+                    }
+                    else if (Temp.Trim(' ') == "T") {
+                        Tbool = true;
+                    }
+                    else if (Temp.Trim(' ') == "1") {
+                        Tbool = true;
+                    }
+                    Channel.ModbusWriteCoil(Unit, (short)Start, Tbool);
+                }
+            }
+            else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start, true)) {
+                int Value = 0;
+                if (CommandManager.GetValue(ref Temp, "=", out Value)) {
+                    Channel.ModbusWriteRegister(Unit, (short)Start, (short)Value);
+                }
+                else { Channel.ModbusWriteRegister(Unit, (short)Start, (short)0); }
+            }
+            else if (CommandManager.GetValue(ref Temp, "HOLDING", out Start, true)) {
+                int Value = 0;
+                if (CommandManager.GetValue(ref Temp, "=", out Value)) {
+                    Channel.ModbusWriteRegister(Unit, (short)Start, (short)Value);
+                }
+                else { Channel.ModbusWriteRegister(Unit, (short)Start, (short)0); }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "MASK")) {
+                if (CommandManager.GetValue(ref Temp, "REGISTER", out Start, ' ')) {
+                    int Value = 0;
+                    if (CommandManager.GetValue(ref Temp, "WITH", out Value, ',')) {
+                        int Value2 = 0;
+                        if (CommandManager.GetValue(ref Temp, ",", out Value2)) {
+                            Channel.ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, (short)Value2);
+                        }
+                        else {
+                            Channel.ModbusWriteMaskRegister(Unit, (short)Start, (short)Value, 0);
                         }
                     }
                 }
             }
-            catch { }
+        }
+        private static void PerformDiagnosticFunctions(SerialManager Channel, int Unit, ref string Temp) {
+            int Start = 0;
+            if (CommandManager.TestKeyword(ref Temp, "RETURN")) {
+                if (CommandManager.TestKeyword(ref Temp, "QUERY")) {
+                    if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnQueryData, (short)Start);
+                    }
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "REGISTER")) {
+                    Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnDiagnosticRegister, 0);
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "BUS")) {
+                    if (CommandManager.TestKeyword(ref Temp, "MESSAGES")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusMessageCount, 0);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "ERRORS")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCommunicationErrorCount, 0);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "EXCEPTIONS")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusExceptionErrorCount, 0);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "OVERRUNS")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnBusCharacterOverrunCount, 0);
+                    }
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "SLAVE")) {
+                    if (CommandManager.TestKeyword(ref Temp, "MESSAGES")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveMessageCount, 0);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "BUSY")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveBusyCount, 0);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "NORES")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNoResponseCount, 0);
+                    }
+                    else if (CommandManager.TestKeyword(ref Temp, "NONAK")) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ReturnSlaveNAKCount, 0);
+                    }
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "CLEAR")) {
+                if (CommandManager.TestKeyword(ref Temp, "COUNTERS")) {
+                    Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearCountersAndDiagnosticRegister, 0);
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "OVERRUN")) {
+                    Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ClearOverrunCounterAndFlag, 0);
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "RESTART")) {
+                if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
+                    Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.RestartCommunicationsOption, (short)Start);
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "FORCE")) {
+                if (CommandManager.TestKeyword(ref Temp, "LISTEN")) {
+                    Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ForceListenOnlyMode, 0);
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "SET")) {
+                if (CommandManager.TestKeyword(ref Temp, "DELIMITER")) {
+                    if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
+                        Channel.ModbusDiagnostics(Unit, ModbusSupport.DiagnosticSubFunction.ChangeASCIIInputDelimiter, (short)Start);
+                    }
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "READ")) {
+                if (CommandManager.TestKeyword(ref Temp, "BASIC")) {
+                    ReadDeviceIdentification(Channel, Unit, ModbusSupport.DiagnosticDeviceIdentification.ReadBasicIdentification, ref Temp);
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "REGULAR")) {
+                    ReadDeviceIdentification(Channel, Unit, ModbusSupport.DiagnosticDeviceIdentification.ReadRegularIdentification, ref Temp);
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "EXTENDED")) {
+                    ReadDeviceIdentification(Channel, Unit, ModbusSupport.DiagnosticDeviceIdentification.ReadExtendedIdentification, ref Temp);
+                }
+                else if (CommandManager.TestKeyword(ref Temp, "SPECIFIC")) {
+                    ReadDeviceIdentification(Channel, Unit, ModbusSupport.DiagnosticDeviceIdentification.ReadExtendedIdentification, ref Temp);
+                }
+            }
+        }
+        #endregion
+        private static void ReadDeviceIdentification(SerialManager Channel, int Unit, ModbusSupport.DiagnosticDeviceIdentification ReadRequest, ref string Temp) {
+            int Start = 0;
+            if (CommandManager.TestKeyword(ref Temp, "IDENTIFICATION")) {
+                if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
+                    Channel.ModbusReadDeviceIdentification(Unit, ReadRequest, (short)Start);
+                }
+                else {
+                    Channel.ModbusReadDeviceIdentification(Unit, ReadRequest, 0);
+                }
+            }
+            else if (CommandManager.TestKeyword(ref Temp, "ID")) {
+                if (CommandManager.GetValue(ref Temp, "WITH", out Start, false)) {
+                    Channel.ModbusReadDeviceIdentification(Unit, ReadRequest, (short)Start);
+                }
+                else {
+                    Channel.ModbusReadDeviceIdentification(Unit, ReadRequest, 0);
+                }
+            }
         }
         internal static void InitialTestReadQuery(SerialManager Channel, int Unit, int Start, ref string Temp, DataSelection DataSet) {
             int Count = 0;
