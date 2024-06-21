@@ -357,7 +357,7 @@ namespace Serial_Monitor.Classes {
             get { return slave; }
         }
         private void DeriveSilence() {
-            decimal PacketLength = DataBits;
+            decimal PacketLength = DataBits + 1;
             if (Parity != Parity.None) {
                 PacketLength++;
             }

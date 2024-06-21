@@ -975,10 +975,13 @@ namespace Serial_Monitor {
             }
         }
         private void navigator1_SelectedIndexChanged(object sender, int SelectedIndex) {
+            SetSlave(SelectedIndex);
+        }
+        private void SetSlave(int InputSlave) {
             if (SystemManager.SerialManagers.Count > 0) {
-                if ((SelectedIndex >= 0) && (SelectedIndex < SystemManager.SerialManagers.Count)) {
+                if ((InputSlave >= 0) && (InputSlave < SystemManager.SerialManagers.Count)) {
                     CurrentManager = null;
-                    CurrentManager = SystemManager.SerialManagers[SelectedIndex];
+                    CurrentManager = SystemManager.SerialManagers[InputSlave];
                     if (CurrentManager != null) {
                         CurrentEditorView = CurrentEditorView;
                         LoadSlaves();
@@ -1667,7 +1670,7 @@ namespace Serial_Monitor {
                     CurrentManager.IsMaster = !CurrentManager.IsMaster;
                     btnMenuModbusMaster.Checked = CurrentManager.IsMaster;
                     modbusMasterToolStripMenuItem.Checked = CurrentManager.IsMaster;
-
+              
                 }
                 else {
                     if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
@@ -1679,13 +1682,13 @@ namespace Serial_Monitor {
                                 SerMan.IsMaster = !SerMan.IsMaster;
                                 btnMenuModbusMaster.Checked = SerMan.IsMaster;
                                 modbusMasterToolStripMenuItem.Checked = SerMan.IsMaster;
-                                modbusMasterToolStripMenuItem.Checked = SerMan.IsMaster;
                             }
                         }
                     }
                 }
             }
             catch { }
+            SetSlave(editorModbus.thDataPagesHeader.SelectedIndex);
         }
         private void btnMenuModbusMaster_Click(object sender, EventArgs e) {
             SetModbusMaster();
