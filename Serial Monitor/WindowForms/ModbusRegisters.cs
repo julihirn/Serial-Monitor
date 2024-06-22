@@ -935,6 +935,8 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.CloseSolution, closeSnapshotToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.CloseDocumentGroup, closeAllSnapshotsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.FullScreen, fullScreenToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             ChangeLockedIcon(LockedEditor);
         }
         private void ChangeLockedIcon(bool Input) {
@@ -1670,7 +1672,7 @@ namespace Serial_Monitor {
                     CurrentManager.IsMaster = !CurrentManager.IsMaster;
                     btnMenuModbusMaster.Checked = CurrentManager.IsMaster;
                     modbusMasterToolStripMenuItem.Checked = CurrentManager.IsMaster;
-              
+
                 }
                 else {
                     if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
@@ -2263,6 +2265,77 @@ namespace Serial_Monitor {
             }
             catch { }
         }
+        private void ClearSelection() {
+            ListControl? LstCtl = GetCurrentListView();
+            if (LstCtl == null) { return; }
+            LstCtl.LineClearSelected();
+        }
+        private void clearSelectionToolStripMenuItem_Click(object sender, EventArgs e) {
+            ClearSelection();
+        }
+        private void ModbusRegisters_KeyPress(object sender, KeyPressEventArgs e) {
+
+        }
+        private void ModbusRegisters_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Escape) {
+                ClearSelection();
+            }
+        }
+        private void ModbusRegisters_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) {
+
+        }
+
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e) {
+            bool Resulted = ToolWindows.Any(i => i.GetType() == typeof(Docks.ModbusProperties));
+            if (Resulted == true) {
+                foreach (DockContent Dc in ToolWindows) {
+                    if (Dc == null) { continue; }
+                    if (Dc.GetType() == typeof(Docks.ModbusProperties)) {
+                        Dc.Show();
+                        pnlDocker.AddContent(Dc);
+                    }
+                }
+                return;
+            }
+            Docks.ModbusProperties Props = new Docks.ModbusProperties(this);
+            ToolWindows.Add(Props);
+        }
+
+        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (PreviousStyle != null) {
+                SetFullScreen(!PreviousStyle.IsFullScreen);
+            }
+        }
+        FullScreenStyle PreviousStyle = new FullScreenStyle();
+        private void SetDefaultStyleValues() {
+            PreviousStyle.WindowState = this.WindowState;
+            PreviousStyle.BorderStyle = this.FormBorderStyle;
+            PreviousStyle.WindowPosition = this.Location;
+            PreviousStyle.WindowSize = this.Size;
+        }
+        public void SetFullScreen(bool FullScreen) {
+            if (PreviousStyle.IsFullScreen != FullScreen) {
+                PreviousStyle.IsFullScreen = FullScreen;
+                if (FullScreen == true) {
+                    SetDefaultStyleValues();
+                    this.SuspendLayout();
+                    this.WindowState = FormWindowState.Normal;
+                    this.TopMost = true;
+                    this.FormBorderStyle = FormBorderStyle.None;
+                    this.WindowState = FormWindowState.Maximized;
+                    this.ResumeLayout();
+                    this.TopMost = false;
+                }
+                else {
+                    this.SuspendLayout();
+                    this.TopMost = false;
+                    this.WindowState = PreviousStyle.WindowState;
+                    this.FormBorderStyle = PreviousStyle.BorderStyle;
+                    this.ResumeLayout();
+                }
+            }
+        }
+
         internal enum DataEditor {
             MasterView = 0x00,
             SnapshotView = 0x01

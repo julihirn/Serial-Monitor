@@ -81,6 +81,7 @@
             selectMatchingNamesToolStripMenuItem = new ToolStripMenuItem();
             selectMatchingValuesToolStripMenuItem = new ToolStripMenuItem();
             selectMatchingFormatsToolStripMenuItem = new ToolStripMenuItem();
+            clearSelectionToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator22 = new ToolStripSeparator();
             bitTogglerToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
@@ -96,7 +97,10 @@
             btnViewMaster = new ToolStripMenuItem();
             btnViewSnapshot = new ToolStripMenuItem();
             toolStripSeparator10 = new ToolStripSeparator();
+            propertiesToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator29 = new ToolStripSeparator();
             btnTopMost = new ToolStripMenuItem();
+            fullScreenToolStripMenuItem = new ToolStripMenuItem();
             modbusToolStripMenuItem = new ToolStripMenuItem();
             writeCoilToolStripMenuItem = new ToolStripMenuItem();
             writeMultipleCoilsToolStripMenuItem = new ToolStripMenuItem();
@@ -426,7 +430,7 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem, toolStripSeparator4, goToToolStripMenuItem, toolStripSeparator15, cutToolStripMenuItem, copyToolStripMenuItem, copySpecialToolStripMenuItem, copyAsTextToolStripMenuItem, pasteToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator5, selectAllToolStripMenuItem, selectInvertToolStripMenuItem, selectSpecialToolStripMenuItem, toolStripSeparator22, bitTogglerToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem, toolStripSeparator4, goToToolStripMenuItem, toolStripSeparator15, cutToolStripMenuItem, copyToolStripMenuItem, copySpecialToolStripMenuItem, copyAsTextToolStripMenuItem, pasteToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator5, selectAllToolStripMenuItem, selectInvertToolStripMenuItem, selectSpecialToolStripMenuItem, clearSelectionToolStripMenuItem, toolStripSeparator22, bitTogglerToolStripMenuItem });
             editToolStripMenuItem.ForeColor = Color.White;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
@@ -591,6 +595,13 @@
             selectMatchingFormatsToolStripMenuItem.Name = "selectMatchingFormatsToolStripMenuItem";
             selectMatchingFormatsToolStripMenuItem.Click += selectMatchingFormatsToolStripMenuItem_Click;
             // 
+            // clearSelectionToolStripMenuItem
+            // 
+            clearSelectionToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(clearSelectionToolStripMenuItem, "clearSelectionToolStripMenuItem");
+            clearSelectionToolStripMenuItem.Name = "clearSelectionToolStripMenuItem";
+            clearSelectionToolStripMenuItem.Click += clearSelectionToolStripMenuItem_Click;
+            // 
             // toolStripSeparator22
             // 
             toolStripSeparator22.Name = "toolStripSeparator22";
@@ -605,7 +616,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, btnTopMost });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, propertiesToolStripMenuItem, toolStripSeparator29, btnTopMost, fullScreenToolStripMenuItem });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
@@ -700,12 +711,31 @@
             toolStripSeparator10.Name = "toolStripSeparator10";
             resources.ApplyResources(toolStripSeparator10, "toolStripSeparator10");
             // 
+            // propertiesToolStripMenuItem
+            // 
+            propertiesToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(propertiesToolStripMenuItem, "propertiesToolStripMenuItem");
+            propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
+            propertiesToolStripMenuItem.Click += propertiesToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator29
+            // 
+            toolStripSeparator29.Name = "toolStripSeparator29";
+            resources.ApplyResources(toolStripSeparator29, "toolStripSeparator29");
+            // 
             // btnTopMost
             // 
             btnTopMost.ForeColor = Color.White;
             resources.ApplyResources(btnTopMost, "btnTopMost");
             btnTopMost.Name = "btnTopMost";
             btnTopMost.Click += windowTopMostToolStripMenuItem_Click;
+            // 
+            // fullScreenToolStripMenuItem
+            // 
+            fullScreenToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(fullScreenToolStripMenuItem, "fullScreenToolStripMenuItem");
+            fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
+            fullScreenToolStripMenuItem.Click += fullScreenToolStripMenuItem_Click;
             // 
             // modbusToolStripMenuItem
             // 
@@ -1252,6 +1282,7 @@
             Controls.Add(tsMain);
             Controls.Add(msMain);
             DoubleBuffered = true;
+            KeyPreview = true;
             MainMenuStrip = msMain;
             Name = "ModbusRegisters";
             FormClosing += ModbusRegisters_FormClosing;
@@ -1260,6 +1291,9 @@
             LocationChanged += ModbusRegisters_LocationChanged;
             SizeChanged += ModbusRegisters_SizeChanged;
             VisibleChanged += ModbusRegisters_VisibleChanged;
+            KeyDown += ModbusRegisters_KeyDown;
+            KeyPress += ModbusRegisters_KeyPress;
+            PreviewKeyDown += ModbusRegisters_PreviewKeyDown;
             cmMonitor.ResumeLayout(false);
             tsMain.ResumeLayout(false);
             tsMain.PerformLayout();
@@ -1415,5 +1449,9 @@
         private ODModules.ControlExtensions.ControlExtender cntrlExtender;
         private ToolStripMenuItem showLastUpdatedTimeToolStripMenuItem;
         internal Docks.ModbusEditor editorModbus;
+        private ToolStripMenuItem clearSelectionToolStripMenuItem;
+        private ToolStripMenuItem propertiesToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator29;
+        private ToolStripMenuItem fullScreenToolStripMenuItem;
     }
 }
