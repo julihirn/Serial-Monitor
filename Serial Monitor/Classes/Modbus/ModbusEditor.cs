@@ -859,7 +859,7 @@ namespace Serial_Monitor.Classes.Modbus {
             List<ModbusDataObject> list = new List<ModbusDataObject>();
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
                 if (ListEditor.CurrentItems[i].Selected == true) {
-                    if (ListEditor.CurrentItems[i].SubItems.Count == 5) {
+                    if (ListEditor.CurrentItems[i].SubItems.Count == ModbusEditor.Indx_LastUpdated) {
                         object? objCmd = ListEditor.CurrentItems[i].Tag;
                         if (objCmd == null) { continue; }
                         if (objCmd.GetType() == typeof(ModbusRegister)) {
@@ -1051,6 +1051,14 @@ namespace Serial_Monitor.Classes.Modbus {
                         }
                         if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeValue)) {
                             if (SelectedCoil.Value == Temp.Value) {
+                                Select = true;
+                            }
+                            else {
+                                Select = false;
+                            }
+                        }
+                        if (IsCopyFlagSet(SelectFlags, ModbusClipboardFlags.IncludeFormat)) {
+                            if (SelectedCoil.Format == Temp.Format) {
                                 Select = true;
                             }
                             else {

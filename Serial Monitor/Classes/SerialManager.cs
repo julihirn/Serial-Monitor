@@ -906,10 +906,54 @@ namespace Serial_Monitor.Classes {
             }
             catch { }
         }
+        SDI12State SDIState = SDI12State.Ready;
+        private void SPI12Processor(object sender) {
+            try {
+                int j = 0;
+                int BytesToRead = ((SerialPort)sender).BytesToRead;
+                byte[] Buffer = new byte[BytesToRead];
+                bytesReceived += (ulong)BytesToRead;
+                j = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
+                for (int i = 0; i < BytesToRead; i++) {
+                    switch (SDIState) {
+                        case SDI12State.Ready:
+                            RXBuffer[RXCurrentByte] = Buffer[i];
+                            RXCurrentByte++;
+                            break;
+                        case SDI12State.Armmed:
+                            if (Buffer[i] == '\r') {
+                                SDIState = SDI12State.Closing;
+                            }
+                            else if (Buffer[i] == '\n') {
+                                //Invalid!
+                                SDIState = SDI12State.Ready;
+                                RXCurrentByte = 0;
+                            }
+                            else {
+                                RXBuffer[RXCurrentByte] = Buffer[i];
+                                RXCurrentByte++;
+                            }
+                            break;
+                        case SDI12State.Closing:
+                            if (Buffer[i] == '\n') {
+                                SDI12CommandProcessor();
+                                //ClearRXBuffer();
+                            }
+                            RXCurrentByte = 0;
+                            SDIState = SDI12State.Ready;
+                            break;
+                    }
+                }
+            }
+            catch { }
+        }
         private void ClearRXBuffer() {
             for (int i = 0; i < RXCurrentByte; i++) {
                 RXBuffer[i] = 0x00;
             }
+        }
+        private void SDI12CommandProcessor() {
+
         }
         private void ModbusASCIICommandProcessor() {
             if (RXCurrentByte < 4) { return; }
@@ -1626,8 +1670,18 @@ namespace Serial_Monitor.Classes {
             Slave[Index].Name = Name;
             SystemManager.InvokeSlaveChanged(this);
         }
-        #endregion 
+        #endregion
         #region Data Formatting
+        public bool Transmit(byte[] Data) {
+            try {
+                if (Port.IsOpen == true) {
+                    Port.Write(Data, 0, Data.Length);
+                }
+                bytesSent += (ulong)Data.Length;
+                return true;
+            }
+            catch { return false; }
+        }
         public bool Transmit(string Input, bool OverrideChecksum = false) {
             string BuildString = "C:" + Input + ";";
             if ((useCheckSums == true) && (OverrideChecksum == false)) {
@@ -1773,6 +1827,11 @@ namespace Serial_Monitor.Classes {
             Complete = 0x04
         }
         private enum ModbusASCIIState {
+            Ready = 0x00,
+            Armmed = 0x01,
+            Closing = 0x02
+        }
+        private enum SDI12State {
             Ready = 0x00,
             Armmed = 0x01,
             Closing = 0x02
