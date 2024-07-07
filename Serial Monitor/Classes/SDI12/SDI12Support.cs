@@ -46,5 +46,24 @@ namespace Serial_Monitor.Classes.SDI12 {
                 return Output;
             }
         }
+        public enum FunctionCode {
+            NoCommand = 0x00,
+            AcknowledgeActive = 0x01,
+            SendIdentification = 0x02,
+            ChangeAddress = 0x04,
+            AddressQuery = 0x08,
+            StartMeasurement = 0x10,
+            StartMeasurementRequestCRC = 0x20,
+            SendData = 0x40,
+            AdditionalMeasurments = 0x80,
+            AdditionalMeasurmentsRequestCRC = 0x100,
+            StartVerification = 0x200,
+            StartConcurrentMeasurement = 0x400,
+            StartConcurrentMeasurementRequestCRC = 0x800,
+            AdditionalConcurrentMeasurements = 0x1000,
+            AdditionalConcurrentMeasurementRequestCRC = 0x2000,
+            ContinuousMeasurements = 0x4000,
+            ContinuousMeasurementsRequestCRC = 0x8000
+        }
     }
 }
