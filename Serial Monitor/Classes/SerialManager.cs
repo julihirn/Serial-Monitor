@@ -907,7 +907,7 @@ namespace Serial_Monitor.Classes {
             catch { }
         }
         SDI12State SDIState = SDI12State.Ready;
-        private void SPI12Processor(object sender) {
+        private void SDI12Processor(object sender) {
             try {
                 int j = 0;
                 int BytesToRead = ((SerialPort)sender).BytesToRead;
