@@ -30,6 +30,8 @@ namespace Serial_Monitor.Classes.Step_Programs {
             //ElseIf            = 0x010082,
             Else              = 0x010083,
             EndIf =             0x01FFFF,
+            //For               = 0x011000,
+            //Next =              0x011001,
             SwitchSender    =   0x020001,
             Open =              0x020020,
             Close =             0x020040,
