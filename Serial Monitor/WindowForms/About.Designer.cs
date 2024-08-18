@@ -42,8 +42,8 @@
             // aboutBanner1
             // 
             aboutBanner1.BackColor = Color.FromArgb(16, 16, 16);
-            aboutBanner1.BrandFont = new Font("Segoe UI Semilight", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
-            aboutBanner1.BrandSecondaryFont = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            aboutBanner1.BrandFont = new Font("Segoe UI Semilight", 15.75F);
+            aboutBanner1.BrandSecondaryFont = new Font("Segoe UI", 9F);
             aboutBanner1.BrandSecondaryText = "";
             aboutBanner1.BrandText = "Serial Monitor";
             aboutBanner1.Dock = DockStyle.Top;
@@ -60,7 +60,7 @@
             // 
             lblProductName.AutoSize = true;
             lblProductName.Dock = DockStyle.Top;
-            lblProductName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblProductName.Font = new Font("Segoe UI", 14.25F);
             lblProductName.Location = new Point(5, 5);
             lblProductName.Margin = new Padding(0);
             lblProductName.Name = "lblProductName";
@@ -81,7 +81,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 83);
             panel1.Name = "panel1";
-            panel1.Padding = new Padding(5, 5, 5, 5);
+            panel1.Padding = new Padding(5);
             panel1.Size = new Size(364, 135);
             panel1.TabIndex = 2;
             // 
@@ -89,7 +89,7 @@
             // 
             lblLoadedAssemblies.AutoSize = true;
             lblLoadedAssemblies.Dock = DockStyle.Top;
-            lblLoadedAssemblies.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblLoadedAssemblies.Font = new Font("Segoe UI", 14.25F);
             lblLoadedAssemblies.Location = new Point(5, 105);
             lblLoadedAssemblies.Name = "lblLoadedAssemblies";
             lblLoadedAssemblies.Size = new Size(172, 25);

@@ -263,7 +263,7 @@ namespace Serial_Monitor {
             SetPortBits(5);
         }
         private void ddbOptDB6_Click(object sender, EventArgs e) {
-            SetPortBits(5);
+            SetPortBits(6);
         }
         private void ddbOptDB7_Click(object sender, EventArgs e) {
             SetPortBits(7);

@@ -166,8 +166,10 @@
             btngrThemes.Buttons.Add(gridButton1);
             btngrThemes.ButtonSize = new Size(40, 40);
             btngrThemes.CenterButtons = false;
+            btngrThemes.Columns = 2;
             btngrThemes.Dock = DockStyle.Fill;
             btngrThemes.Filter = "";
+            btngrThemes.FixedColumns = false;
             btngrThemes.IconInline = false;
             btngrThemes.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             btngrThemes.ImageSize = new Size(32, 32);
@@ -573,7 +575,7 @@
             ddbOptDB5.ForeColor = Color.Black;
             ddbOptDB5.ImageScaling = ToolStripItemImageScaling.None;
             ddbOptDB5.Name = "ddbOptDB5";
-            ddbOptDB5.Size = new Size(102, 22);
+            ddbOptDB5.Size = new Size(180, 22);
             ddbOptDB5.Tag = "5";
             ddbOptDB5.Text = "5 Bits";
             ddbOptDB5.Click += ddbOptDB5_Click;
@@ -583,7 +585,7 @@
             ddbOptDB6.ForeColor = Color.Black;
             ddbOptDB6.ImageScaling = ToolStripItemImageScaling.None;
             ddbOptDB6.Name = "ddbOptDB6";
-            ddbOptDB6.Size = new Size(102, 22);
+            ddbOptDB6.Size = new Size(180, 22);
             ddbOptDB6.Tag = "6";
             ddbOptDB6.Text = "6 Bits";
             ddbOptDB6.Click += ddbOptDB6_Click;
@@ -593,7 +595,7 @@
             ddbOptDB7.ForeColor = Color.Black;
             ddbOptDB7.ImageScaling = ToolStripItemImageScaling.None;
             ddbOptDB7.Name = "ddbOptDB7";
-            ddbOptDB7.Size = new Size(102, 22);
+            ddbOptDB7.Size = new Size(180, 22);
             ddbOptDB7.Tag = "7";
             ddbOptDB7.Text = "7 Bits";
             ddbOptDB7.Click += ddbOptDB7_Click;
@@ -605,7 +607,7 @@
             ddbOptDB8.ForeColor = Color.Black;
             ddbOptDB8.ImageScaling = ToolStripItemImageScaling.None;
             ddbOptDB8.Name = "ddbOptDB8";
-            ddbOptDB8.Size = new Size(102, 22);
+            ddbOptDB8.Size = new Size(180, 22);
             ddbOptDB8.Tag = "8";
             ddbOptDB8.Text = "8 Bits";
             ddbOptDB8.Click += ddbOptDB8_Click;
@@ -695,7 +697,7 @@
             stopBitToolStripMenuItem.ForeColor = Color.Black;
             stopBitToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             stopBitToolStripMenuItem.Name = "stopBitToolStripMenuItem";
-            stopBitToolStripMenuItem.Size = new Size(138, 22);
+            stopBitToolStripMenuItem.Size = new Size(180, 22);
             stopBitToolStripMenuItem.Tag = "1";
             stopBitToolStripMenuItem.Text = "1 Stop Bit";
             stopBitToolStripMenuItem.Click += stopBitToolStripMenuItem_Click;
@@ -705,8 +707,8 @@
             ddbOptSB15.ForeColor = Color.Black;
             ddbOptSB15.ImageScaling = ToolStripItemImageScaling.None;
             ddbOptSB15.Name = "ddbOptSB15";
-            ddbOptSB15.Size = new Size(138, 22);
-            ddbOptSB15.Tag = "2.5";
+            ddbOptSB15.Size = new Size(180, 22);
+            ddbOptSB15.Tag = "1.5";
             ddbOptSB15.Text = "1.5 Stop Bits";
             ddbOptSB15.Click += ddbOptSB15_Click;
             // 
@@ -715,7 +717,7 @@
             ddbOptSB2.ForeColor = Color.Black;
             ddbOptSB2.ImageScaling = ToolStripItemImageScaling.None;
             ddbOptSB2.Name = "ddbOptSB2";
-            ddbOptSB2.Size = new Size(138, 22);
+            ddbOptSB2.Size = new Size(180, 22);
             ddbOptSB2.Tag = "2";
             ddbOptSB2.Text = "2 Stop Bits";
             ddbOptSB2.Click += ddbOptSB2_Click;
