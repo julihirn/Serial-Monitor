@@ -9,6 +9,7 @@ namespace Serial_Monitor {
         /// </summary>
         [STAThread]
         static void Main(string[] args) {
+            //Application.SetColorMode(SystemColorMode.Dark);
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();

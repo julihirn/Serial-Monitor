@@ -194,22 +194,25 @@ namespace Serial_Monitor.Classes {
             int IfDepth = 0;
             if (CurrentProgram == null) { return; }
             for (int i = 0; i < CurrentProgram.Program.Count; i++) {
+                int LastConditional = Conditionals.Count - 1;
                 StepExecutable ExeStep = GetStepFunctionFromIndex(i);
                 if (ExeStep == StepEnumerations.StepExecutable.EndIf) {
                     try {
                         IfDepth--;
-                        Conditionals[IfDepth].End = i;
+                        SetEndIf(IfDepth, i);
+                        //Conditionals[LastConditional - IfDepth].End = i;
                     }
                     catch { }
                 }
                 else if (ExeStep == StepEnumerations.StepExecutable.If) {
-                    Conditionals.Add(new ConditionalLinkage(i, CurrentProgram.Program.Count));
+                    Conditionals.Add(new ConditionalLinkage(i, CurrentProgram.Program.Count, IfDepth));
                     IfDepth++;
                 }
                 else if (ExeStep == StepEnumerations.StepExecutable.Else) {
                     try {
                         if (IfDepth > 0) {
-                            Conditionals[IfDepth - 1].ElseEnd = i;
+                            SetElse(IfDepth - 1, i);
+                            //Conditionals[LastConditional - IfDepth - 1].ElseEnd = i;
                         }
                     }
                     catch { }
@@ -217,6 +220,32 @@ namespace Serial_Monitor.Classes {
                 else if (ExeStep == StepExecutable.Label) {
                     BulidGoTos(GetArgumentFromIndex(i), i);
                 }
+            }
+        }
+        private static void SetEndIf(int Depth, int EndLine) {
+            int LastDepth = 0;
+            for (int j = Conditionals.Count - 1; j >= 0; j--) {
+                if (Conditionals[j].Depth == Depth) {
+                    Conditionals[j].End = EndLine;
+                    return;
+                }
+                if (LastDepth == Conditionals[j].Depth) {
+                    break;
+                }
+                LastDepth = Conditionals[j].Depth;
+            }
+        }
+        private static void SetElse(int Depth, int EndLine) {
+            int LastDepth = 0;
+            for (int j = Conditionals.Count - 1; j >= 0; j--) {
+                if (Conditionals[j].Depth == Depth) {
+                    Conditionals[j].ElseEnd = EndLine;
+                    return;
+                }
+                if (LastDepth == Conditionals[j].Depth) {
+                    break;
+                }
+                LastDepth = Conditionals[j].Depth;
             }
         }
         private static StepEnumerations.StepExecutable GetStepFunctionFromIndex(int i) {
