@@ -475,7 +475,7 @@ namespace Serial_Monitor.Classes.Modbus {
             GC.Collect();
         }
         public static bool IsModbusFrameVaild(byte[] InputBuffer, int Length) {
-            if (Length < 6) { return false; }
+            if (Length < 5) { return false; }
             if ((InputBuffer[0] < 1) || (InputBuffer[0] > 247)) { return false; }
             byte[] CRC = new byte[2];
             CRC = BitConverter.GetBytes(CalculateCRC(InputBuffer, (ushort)(Length - 2), 0));
@@ -1141,6 +1141,17 @@ namespace Serial_Monitor.Classes.Modbus {
             ReadRegularIdentification = 0x02,
             ReadExtendedIdentification = 0x03,
             ReadSpecificIdentification = 0x04
+        }
+        public enum ModbusException {
+            IllegalFunction = 0x01,
+            IllegalDataAddress = 0x02,
+            IllegalDataValue = 0x03,
+            SlaveDeviceFailure = 0x04,
+            Acknowledge = 0x05,
+            SlaveDeviceBusy = 0x06,
+            MemoryParityError = 0x08,
+            GatewayPathUnavaliable = 0x0A,
+            GatewayTargetDeviceFailedToRespond = 0x0B
         }
     }
 }

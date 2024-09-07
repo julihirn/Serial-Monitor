@@ -111,14 +111,14 @@ namespace Serial_Monitor.Classes {
             string str = BitConverter.ToString(bytes);
             if (str.Length == 1) {
                 if (AffixStart == true) {
-                    str = "0x0" + str;
+                    str = "0x0" + str.ToUpper();
                 }
-                else { str = "0" + str; }
+                else { str = "0" + str.ToUpper(); }
             }
             else {
-                if (AffixStart == true) { str = "0x" + str; }
+                if (AffixStart == true) { str = "0x" + str.ToUpper(); }
             }
-            return str.ToUpper();
+            return str;
         }
         #endregion
         #region Modbus Data Input Formatters

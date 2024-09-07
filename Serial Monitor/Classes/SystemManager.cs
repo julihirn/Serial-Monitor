@@ -61,6 +61,9 @@ namespace Serial_Monitor.Classes {
         public delegate void ModbusAppearanceChangedHandler(ModbusSlave sender, List<int> Indices, DataSelection DataType);
         public static event ModbusAppearanceChangedHandler? ModbusPropertiesChanged;
 
+        public static event ModbusExceptionRaisedHandler? ModbusExceptionRaised;
+        public delegate void ModbusExceptionRaisedHandler(SerialManager sender, int Slave, ModbusSupport.FunctionCode Function, ModbusSupport.ModbusException Exception);
+
         public static event ModbusDiagnosticsReceivedHandler? ModbusDiagnosticsReceived;
         public delegate void ModbusDiagnosticsReceivedHandler(SerialManager sender, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data);
 
@@ -95,7 +98,10 @@ namespace Serial_Monitor.Classes {
         public static void InvokeChannelSelectedChanged(SerialManager? sender) {
             ChannelSelectedChanged?.Invoke(sender);
         }
-
+        public static void ModbusExceptionReturn(SerialManager? SerMan, int Slave, ModbusSupport.FunctionCode Function, ModbusSupport.ModbusException Exception) {
+            if (SerMan == null) { return; }
+            ModbusExceptionRaised?.Invoke(SerMan, Slave, Function, Exception);
+        }
         public static void ModbusDiagnosticsReturn(SerialManager? SerMan, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data) {
             if (SerMan == null) { return; }
             ModbusDiagnosticsReceived?.Invoke(SerMan, Slave, SubFunction, Data);

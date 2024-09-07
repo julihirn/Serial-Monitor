@@ -95,5 +95,85 @@ namespace Serial_Monitor.Classes.Modbus {
                 holdingRegisters[i].Reset();
             }
         }
+        public void RaiseException(Modbus.ModbusSupport.FunctionCode Function, Modbus.ModbusSupport.ModbusException Exception) {
+            if (Exception == ModbusSupport.ModbusException.IllegalFunction) {
+                exceptionCountIllegalFunction++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.IllegalDataAddress) {
+                exceptionCountIllegalDataAddress++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.IllegalDataValue) {
+                exceptionCountIllegalDataValue++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.SlaveDeviceFailure) {
+                exceptionCountSlaveDeviceFailure++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.Acknowledge) {
+                exceptionCountAcknowledge++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.SlaveDeviceBusy) {
+                exceptionCountSlaveDeviceBusy++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.MemoryParityError) {
+                exceptionCountAcknowledge++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.GatewayPathUnavaliable) {
+                exceptionCountGatewayPathUnavaliable++;
+            }
+            else if (Exception == ModbusSupport.ModbusException.GatewayTargetDeviceFailedToRespond) {
+                exceptionCountFailedToRespond++;
+            }
+            exceptionCount++;
+        }
+        ulong exceptionCount = 0;
+        [Browsable(false)]
+        public ulong ExceptionCount {
+            get { return exceptionCount; }
+        }
+        ulong exceptionCountIllegalFunction = 0;
+        [Browsable(false)]
+        public ulong IllegalFunctionErrorCount {
+            get { return exceptionCountIllegalFunction; }
+        }
+        ulong exceptionCountIllegalDataAddress = 0;
+        [Browsable(false)]
+        public ulong IllegalDataAddressCount {
+            get { return exceptionCountIllegalDataAddress; }
+        }
+        ulong exceptionCountIllegalDataValue = 0;
+        [Browsable(false)]
+        public ulong IllegalDataValueCount {
+            get { return exceptionCountIllegalDataValue; }
+        }
+        ulong exceptionCountSlaveDeviceFailure = 0;
+        [Browsable(false)]
+        public ulong SlaveDeviceFailureCount {
+            get { return exceptionCountSlaveDeviceFailure; }
+        }
+        ulong exceptionCountAcknowledge = 0;
+        [Browsable(false)]
+        public ulong AcknowledgeCount {
+            get { return exceptionCountAcknowledge; }
+        }
+        ulong exceptionCountSlaveDeviceBusy = 0;
+        [Browsable(false)]
+        public ulong SlaveDeviceBusyCount {
+            get { return exceptionCountSlaveDeviceBusy; }
+        }
+        ulong exceptionCountMemoryParityError = 0;
+        [Browsable(false)]
+        public ulong MemoryParityErrorCount {
+            get { return exceptionCountMemoryParityError; }
+        }
+        ulong exceptionCountGatewayPathUnavaliable = 0;
+        [Browsable(false)]
+        public ulong GatewayPathUnavaliableCount {
+            get { return exceptionCountGatewayPathUnavaliable; }
+        }
+        ulong exceptionCountFailedToRespond = 0;
+        [Browsable(false)]
+        public ulong GatewayTargetDeviceFailedToRespond {
+            get { return exceptionCountFailedToRespond; }
+        }
     }
 }
