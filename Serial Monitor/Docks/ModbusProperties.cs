@@ -55,7 +55,22 @@ namespace Serial_Monitor.Docks {
             EnumManager.LoadDataFormats(ddlDisplay, ModbusEnums.DataFormat.Decimal);
             EnumManager.LoadWordOrders(ddlEndianness, ModbusEnums.ByteOrder.LittleEndian);
             EnumManager.LoadFloatFormats(ddlDecimalPlaces, ModbusEnums.FloatFormat.None);
+            AdjustUI();
             PreventLoad = false;
+        }
+        private void AdjustUI() {
+            if (PreventLoad == false) { return; }
+            foreach(Control LblPnlParent in panel2.Controls) {
+                if (LblPnlParent.GetType() != typeof(LabelPanel)) { continue; }
+                foreach (Control LblPnl in LblPnlParent.Controls) {
+                    if (LblPnl.GetType() != typeof(LabelPanel)) { continue; }
+                    LabelPanel LblPnlCtrl = (LabelPanel)LblPnl;
+                    if (LblPnlCtrl.Inlinelabel) {
+                        LblPnlCtrl.InlineWidth = DesignerSetup.ScaleInteger(LblPnlCtrl.InlineWidth);
+                    }
+
+                }
+            }
         }
         private void ModbusEditor_EditorPropertiesEqual(ODModules.ListControl LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected) {
             this.BeginInvoke(new MethodInvoker(delegate {

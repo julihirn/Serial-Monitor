@@ -136,6 +136,7 @@
             numericTextbox1.LabelForeColor = Color.Gray;
             numericTextbox1.LabelText = "";
             numericTextbox1.Location = new Point(0, 0);
+            numericTextbox1.Margin = new Padding(6);
             numericTextbox1.Marked = false;
             numericTextbox1.MarkedBackColor = Color.Empty;
             numericTextbox1.MarkedBorderColor = Color.Beige;
@@ -158,7 +159,7 @@
             numericTextbox1.SelectedBackColor = Color.Empty;
             numericTextbox1.SelectedBorderColor = Color.FromArgb(40, 40, 40);
             numericTextbox1.ShowLabel = true;
-            numericTextbox1.Size = new Size(428, 40);
+            numericTextbox1.Size = new Size(795, 85);
             numericTextbox1.TabIndex = 2;
             numericTextbox1.Unit = "";
             numericTextbox1.UseFixedNumericPadding = false;
@@ -173,9 +174,10 @@
             flatComboBox1.Font = new Font("Segoe UI", 8.75F);
             flatComboBox1.ForeColor = Color.White;
             flatComboBox1.FormattingEnabled = true;
-            flatComboBox1.Location = new Point(4, 31);
+            flatComboBox1.Location = new Point(7, 66);
+            flatComboBox1.Margin = new Padding(6);
             flatComboBox1.Name = "flatComboBox1";
-            flatComboBox1.Size = new Size(428, 23);
+            flatComboBox1.Size = new Size(795, 39);
             flatComboBox1.TabIndex = 3;
             flatComboBox1.Visible = false;
             // 
@@ -187,14 +189,16 @@
             textBox1.Font = new Font("Segoe UI", 9F);
             textBox1.ForeColor = Color.White;
             textBox1.Location = new Point(0, 0);
+            textBox1.Margin = new Padding(6);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(428, 16);
+            textBox1.Size = new Size(795, 32);
             textBox1.TabIndex = 4;
             // 
             // pnlDualText
             // 
             pnlDualText.Dock = DockStyle.Top;
-            pnlDualText.Location = new Point(4, 54);
+            pnlDualText.Location = new Point(7, 105);
+            pnlDualText.Margin = new Padding(6);
             pnlDualText.Name = "pnlDualText";
             // 
             // pnlDualText.Panel1
@@ -204,9 +208,10 @@
             // pnlDualText.Panel2
             // 
             pnlDualText.Panel2.Controls.Add(textBox3);
-            pnlDualText.Panel2.Padding = new Padding(3, 0, 0, 0);
-            pnlDualText.Size = new Size(428, 29);
-            pnlDualText.SplitterDistance = 131;
+            pnlDualText.Panel2.Padding = new Padding(6, 0, 0, 0);
+            pnlDualText.Size = new Size(795, 62);
+            pnlDualText.SplitterDistance = 243;
+            pnlDualText.SplitterWidth = 7;
             pnlDualText.TabIndex = 6;
             pnlDualText.TabStop = false;
             pnlDualText.Visible = false;
@@ -219,9 +224,10 @@
             textBox2.Font = new Font("Segoe UI", 9F);
             textBox2.ForeColor = Color.White;
             textBox2.Location = new Point(0, 0);
+            textBox2.Margin = new Padding(6);
             textBox2.Name = "textBox2";
             textBox2.PlaceholderText = "Name";
-            textBox2.Size = new Size(131, 16);
+            textBox2.Size = new Size(243, 32);
             textBox2.TabIndex = 0;
             // 
             // textBox3
@@ -231,19 +237,21 @@
             textBox3.Dock = DockStyle.Fill;
             textBox3.Font = new Font("Segoe UI", 9F);
             textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(3, 0);
+            textBox3.Location = new Point(6, 0);
+            textBox3.Margin = new Padding(6);
             textBox3.Name = "textBox3";
             textBox3.PlaceholderText = "Assignment/Expression";
-            textBox3.Size = new Size(290, 16);
+            textBox3.Size = new Size(539, 32);
             textBox3.TabIndex = 1;
             // 
             // pnlText
             // 
             pnlText.Controls.Add(textBox1);
             pnlText.Dock = DockStyle.Top;
-            pnlText.Location = new Point(4, 1);
+            pnlText.Location = new Point(7, 2);
+            pnlText.Margin = new Padding(6);
             pnlText.Name = "pnlText";
-            pnlText.Size = new Size(428, 30);
+            pnlText.Size = new Size(795, 64);
             pnlText.TabIndex = 7;
             pnlText.Visible = false;
             // 
@@ -251,9 +259,10 @@
             // 
             pnlNumber.Controls.Add(numericTextbox1);
             pnlNumber.Dock = DockStyle.Top;
-            pnlNumber.Location = new Point(4, 83);
+            pnlNumber.Location = new Point(7, 167);
+            pnlNumber.Margin = new Padding(6);
             pnlNumber.Name = "pnlNumber";
-            pnlNumber.Size = new Size(428, 40);
+            pnlNumber.Size = new Size(795, 85);
             pnlNumber.TabIndex = 8;
             pnlNumber.Visible = false;
             // 
@@ -262,9 +271,10 @@
             pnlPoint.Controls.Add(btnGrabPoint);
             pnlPoint.Controls.Add(spPnlPoint);
             pnlPoint.Dock = DockStyle.Top;
-            pnlPoint.Location = new Point(4, 123);
+            pnlPoint.Location = new Point(7, 252);
+            pnlPoint.Margin = new Padding(6);
             pnlPoint.Name = "pnlPoint";
-            pnlPoint.Size = new Size(428, 23);
+            pnlPoint.Size = new Size(795, 49);
             pnlPoint.TabIndex = 9;
             pnlPoint.Visible = false;
             // 
@@ -292,12 +302,13 @@
             btnGrabPoint.Checked = false;
             btnGrabPoint.Dock = DockStyle.Right;
             btnGrabPoint.GroupMaximumChecked = 2;
-            btnGrabPoint.Location = new Point(354, 0);
+            btnGrabPoint.Location = new Point(658, 0);
+            btnGrabPoint.Margin = new Padding(6);
             btnGrabPoint.Name = "btnGrabPoint";
             btnGrabPoint.RadioButtonGroup = "";
             btnGrabPoint.SecondaryFont = new Font("Segoe UI", 9F);
             btnGrabPoint.SecondaryText = "";
-            btnGrabPoint.Size = new Size(74, 23);
+            btnGrabPoint.Size = new Size(137, 49);
             btnGrabPoint.Style = ODModules.ButtonStyle.Square;
             btnGrabPoint.TabIndex = 8;
             btnGrabPoint.Text = "Get Point";
@@ -314,6 +325,7 @@
             spPnlPoint.Dock = DockStyle.Left;
             spPnlPoint.IsSplitterFixed = true;
             spPnlPoint.Location = new Point(0, 0);
+            spPnlPoint.Margin = new Padding(6);
             spPnlPoint.Name = "spPnlPoint";
             // 
             // spPnlPoint.Panel1
@@ -325,9 +337,10 @@
             // 
             spPnlPoint.Panel2.Controls.Add(numericTextbox3);
             spPnlPoint.Panel2.Controls.Add(lblY);
-            spPnlPoint.Panel2.Padding = new Padding(3, 0, 0, 0);
-            spPnlPoint.Size = new Size(132, 23);
-            spPnlPoint.SplitterDistance = 55;
+            spPnlPoint.Panel2.Padding = new Padding(6, 0, 0, 0);
+            spPnlPoint.Size = new Size(245, 49);
+            spPnlPoint.SplitterDistance = 102;
+            spPnlPoint.SplitterWidth = 7;
             spPnlPoint.TabIndex = 7;
             spPnlPoint.TabStop = false;
             // 
@@ -358,7 +371,8 @@
             numericTextbox2.LabelFont = new Font("Segoe UI", 9F);
             numericTextbox2.LabelForeColor = Color.Gray;
             numericTextbox2.LabelText = "";
-            numericTextbox2.Location = new Point(14, 0);
+            numericTextbox2.Location = new Point(28, 0);
+            numericTextbox2.Margin = new Padding(6);
             numericTextbox2.Marked = false;
             numericTextbox2.MarkedBackColor = Color.Empty;
             numericTextbox2.MarkedBorderColor = Color.Beige;
@@ -381,7 +395,7 @@
             numericTextbox2.SelectedBackColor = Color.Empty;
             numericTextbox2.SelectedBorderColor = Color.FromArgb(40, 40, 40);
             numericTextbox2.ShowLabel = true;
-            numericTextbox2.Size = new Size(41, 23);
+            numericTextbox2.Size = new Size(74, 49);
             numericTextbox2.TabIndex = 3;
             numericTextbox2.Unit = "";
             numericTextbox2.UseFixedNumericPadding = false;
@@ -392,8 +406,9 @@
             lblX.AutoSize = true;
             lblX.Dock = DockStyle.Left;
             lblX.Location = new Point(0, 0);
+            lblX.Margin = new Padding(6, 0, 6, 0);
             lblX.Name = "lblX";
-            lblX.Size = new Size(14, 15);
+            lblX.Size = new Size(28, 32);
             lblX.TabIndex = 4;
             lblX.Text = "X";
             // 
@@ -424,7 +439,8 @@
             numericTextbox3.LabelFont = new Font("Segoe UI", 9F);
             numericTextbox3.LabelForeColor = Color.Gray;
             numericTextbox3.LabelText = "";
-            numericTextbox3.Location = new Point(17, 0);
+            numericTextbox3.Location = new Point(33, 0);
+            numericTextbox3.Margin = new Padding(6);
             numericTextbox3.Marked = false;
             numericTextbox3.MarkedBackColor = Color.Empty;
             numericTextbox3.MarkedBorderColor = Color.Beige;
@@ -447,7 +463,7 @@
             numericTextbox3.SelectedBackColor = Color.Empty;
             numericTextbox3.SelectedBorderColor = Color.FromArgb(40, 40, 40);
             numericTextbox3.ShowLabel = true;
-            numericTextbox3.Size = new Size(56, 23);
+            numericTextbox3.Size = new Size(103, 49);
             numericTextbox3.TabIndex = 3;
             numericTextbox3.Unit = "";
             numericTextbox3.UseFixedNumericPadding = false;
@@ -457,16 +473,18 @@
             // 
             lblY.AutoSize = true;
             lblY.Dock = DockStyle.Left;
-            lblY.Location = new Point(3, 0);
+            lblY.Location = new Point(6, 0);
+            lblY.Margin = new Padding(6, 0, 6, 0);
             lblY.Name = "lblY";
-            lblY.Size = new Size(14, 15);
+            lblY.Size = new Size(27, 32);
             lblY.TabIndex = 5;
             lblY.Text = "Y";
             // 
             // pnlWaitUntilReceived
             // 
             pnlWaitUntilReceived.Dock = DockStyle.Top;
-            pnlWaitUntilReceived.Location = new Point(4, 146);
+            pnlWaitUntilReceived.Location = new Point(7, 301);
+            pnlWaitUntilReceived.Margin = new Padding(6);
             pnlWaitUntilReceived.Name = "pnlWaitUntilReceived";
             // 
             // pnlWaitUntilReceived.Panel1
@@ -477,9 +495,10 @@
             // 
             pnlWaitUntilReceived.Panel2.Controls.Add(textBox5);
             pnlWaitUntilReceived.Panel2.Controls.Add(lblWaitFor);
-            pnlWaitUntilReceived.Panel2.Padding = new Padding(3, 0, 0, 0);
-            pnlWaitUntilReceived.Size = new Size(428, 26);
-            pnlWaitUntilReceived.SplitterDistance = 252;
+            pnlWaitUntilReceived.Panel2.Padding = new Padding(6, 0, 0, 0);
+            pnlWaitUntilReceived.Size = new Size(795, 55);
+            pnlWaitUntilReceived.SplitterDistance = 468;
+            pnlWaitUntilReceived.SplitterWidth = 7;
             pnlWaitUntilReceived.TabIndex = 10;
             pnlWaitUntilReceived.TabStop = false;
             pnlWaitUntilReceived.Visible = false;
@@ -488,6 +507,7 @@
             // 
             pnlSubWaitUnitRX.Dock = DockStyle.Fill;
             pnlSubWaitUnitRX.Location = new Point(0, 0);
+            pnlSubWaitUnitRX.Margin = new Padding(6);
             pnlSubWaitUnitRX.Name = "pnlSubWaitUnitRX";
             // 
             // pnlSubWaitUnitRX.Panel1
@@ -499,9 +519,10 @@
             // 
             pnlSubWaitUnitRX.Panel2.Controls.Add(numericTextbox4);
             pnlSubWaitUnitRX.Panel2.Controls.Add(lblTimeOut);
-            pnlSubWaitUnitRX.Panel2.Padding = new Padding(3, 0, 0, 0);
-            pnlSubWaitUnitRX.Size = new Size(252, 26);
-            pnlSubWaitUnitRX.SplitterDistance = 118;
+            pnlSubWaitUnitRX.Panel2.Padding = new Padding(6, 0, 0, 0);
+            pnlSubWaitUnitRX.Size = new Size(468, 55);
+            pnlSubWaitUnitRX.SplitterDistance = 219;
+            pnlSubWaitUnitRX.SplitterWidth = 7;
             pnlSubWaitUnitRX.TabIndex = 11;
             pnlSubWaitUnitRX.TabStop = false;
             // 
@@ -512,10 +533,11 @@
             textBox4.Dock = DockStyle.Fill;
             textBox4.Font = new Font("Segoe UI", 9F);
             textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(51, 0);
+            textBox4.Location = new Point(102, 0);
+            textBox4.Margin = new Padding(6);
             textBox4.Name = "textBox4";
             textBox4.PlaceholderText = "Name";
-            textBox4.Size = new Size(67, 16);
+            textBox4.Size = new Size(117, 32);
             textBox4.TabIndex = 0;
             // 
             // lblChannel
@@ -523,8 +545,9 @@
             lblChannel.AutoSize = true;
             lblChannel.Dock = DockStyle.Left;
             lblChannel.Location = new Point(0, 0);
+            lblChannel.Margin = new Padding(6, 0, 6, 0);
             lblChannel.Name = "lblChannel";
-            lblChannel.Size = new Size(51, 15);
+            lblChannel.Size = new Size(102, 32);
             lblChannel.TabIndex = 5;
             lblChannel.Text = "Channel";
             // 
@@ -555,7 +578,8 @@
             numericTextbox4.LabelFont = new Font("Segoe UI", 9F);
             numericTextbox4.LabelForeColor = Color.Gray;
             numericTextbox4.LabelText = "";
-            numericTextbox4.Location = new Point(59, 0);
+            numericTextbox4.Location = new Point(120, 0);
+            numericTextbox4.Margin = new Padding(6);
             numericTextbox4.Marked = false;
             numericTextbox4.MarkedBackColor = Color.Empty;
             numericTextbox4.MarkedBorderColor = Color.Beige;
@@ -578,7 +602,7 @@
             numericTextbox4.SelectedBackColor = Color.Empty;
             numericTextbox4.SelectedBorderColor = Color.FromArgb(40, 40, 40);
             numericTextbox4.ShowLabel = true;
-            numericTextbox4.Size = new Size(71, 26);
+            numericTextbox4.Size = new Size(122, 55);
             numericTextbox4.TabIndex = 3;
             numericTextbox4.Unit = "";
             numericTextbox4.UseFixedNumericPadding = false;
@@ -588,9 +612,10 @@
             // 
             lblTimeOut.AutoSize = true;
             lblTimeOut.Dock = DockStyle.Left;
-            lblTimeOut.Location = new Point(3, 0);
+            lblTimeOut.Location = new Point(6, 0);
+            lblTimeOut.Margin = new Padding(6, 0, 6, 0);
             lblTimeOut.Name = "lblTimeOut";
-            lblTimeOut.Size = new Size(56, 15);
+            lblTimeOut.Size = new Size(114, 32);
             lblTimeOut.TabIndex = 6;
             lblTimeOut.Text = "Time Out";
             // 
@@ -601,26 +626,29 @@
             textBox5.Dock = DockStyle.Fill;
             textBox5.Font = new Font("Segoe UI", 9F);
             textBox5.ForeColor = Color.White;
-            textBox5.Location = new Point(54, 0);
+            textBox5.Location = new Point(108, 0);
+            textBox5.Margin = new Padding(6);
             textBox5.Name = "textBox5";
             textBox5.PlaceholderText = "Assignment/Expression";
-            textBox5.Size = new Size(118, 16);
+            textBox5.Size = new Size(212, 32);
             textBox5.TabIndex = 1;
             // 
             // lblWaitFor
             // 
             lblWaitFor.AutoSize = true;
             lblWaitFor.Dock = DockStyle.Left;
-            lblWaitFor.Location = new Point(3, 0);
+            lblWaitFor.Location = new Point(6, 0);
+            lblWaitFor.Margin = new Padding(6, 0, 6, 0);
             lblWaitFor.Name = "lblWaitFor";
-            lblWaitFor.Size = new Size(51, 15);
+            lblWaitFor.Size = new Size(102, 32);
             lblWaitFor.TabIndex = 7;
             lblWaitFor.Text = "Wait For";
             // 
             // pnlReplaceText
             // 
             pnlReplaceText.Dock = DockStyle.Top;
-            pnlReplaceText.Location = new Point(4, 172);
+            pnlReplaceText.Location = new Point(7, 356);
+            pnlReplaceText.Margin = new Padding(6);
             pnlReplaceText.Name = "pnlReplaceText";
             // 
             // pnlReplaceText.Panel1
@@ -630,8 +658,9 @@
             // pnlReplaceText.Panel2
             // 
             pnlReplaceText.Panel2.Controls.Add(splitContainer4);
-            pnlReplaceText.Size = new Size(428, 31);
-            pnlReplaceText.SplitterDistance = 188;
+            pnlReplaceText.Size = new Size(795, 66);
+            pnlReplaceText.SplitterDistance = 349;
+            pnlReplaceText.SplitterWidth = 7;
             pnlReplaceText.TabIndex = 11;
             pnlReplaceText.TabStop = false;
             pnlReplaceText.Visible = false;
@@ -640,6 +669,7 @@
             // 
             splitContainer3.Dock = DockStyle.Fill;
             splitContainer3.Location = new Point(0, 0);
+            splitContainer3.Margin = new Padding(6);
             splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
@@ -649,10 +679,11 @@
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(textBox11);
-            splitContainer3.Panel2.Padding = new Padding(3, 0, 0, 0);
+            splitContainer3.Panel2.Padding = new Padding(6, 0, 0, 0);
             splitContainer3.Panel2.Paint += splitContainer3_Panel2_Paint;
-            splitContainer3.Size = new Size(188, 31);
-            splitContainer3.SplitterDistance = 84;
+            splitContainer3.Size = new Size(349, 66);
+            splitContainer3.SplitterDistance = 155;
+            splitContainer3.SplitterWidth = 7;
             splitContainer3.TabIndex = 7;
             splitContainer3.TabStop = false;
             // 
@@ -664,9 +695,10 @@
             textBox10.Font = new Font("Segoe UI", 9F);
             textBox10.ForeColor = Color.White;
             textBox10.Location = new Point(0, 0);
+            textBox10.Margin = new Padding(6);
             textBox10.Name = "textBox10";
             textBox10.PlaceholderText = "Variable Name";
-            textBox10.Size = new Size(84, 16);
+            textBox10.Size = new Size(155, 32);
             textBox10.TabIndex = 0;
             // 
             // textBox11
@@ -676,16 +708,18 @@
             textBox11.Dock = DockStyle.Fill;
             textBox11.Font = new Font("Segoe UI", 9F);
             textBox11.ForeColor = Color.White;
-            textBox11.Location = new Point(3, 0);
+            textBox11.Location = new Point(6, 0);
+            textBox11.Margin = new Padding(6);
             textBox11.Name = "textBox11";
             textBox11.PlaceholderText = "Text/Variable";
-            textBox11.Size = new Size(97, 16);
+            textBox11.Size = new Size(181, 32);
             textBox11.TabIndex = 1;
             // 
             // splitContainer4
             // 
             splitContainer4.Dock = DockStyle.Fill;
             splitContainer4.Location = new Point(0, 0);
+            splitContainer4.Margin = new Padding(6);
             splitContainer4.Name = "splitContainer4";
             // 
             // splitContainer4.Panel1
@@ -698,9 +732,10 @@
             // 
             splitContainer4.Panel2.Controls.Add(textBox13);
             splitContainer4.Panel2.Controls.Add(label4);
-            splitContainer4.Panel2.Padding = new Padding(3, 0, 0, 0);
-            splitContainer4.Size = new Size(236, 31);
-            splitContainer4.SplitterDistance = 106;
+            splitContainer4.Panel2.Padding = new Padding(6, 0, 0, 0);
+            splitContainer4.Size = new Size(439, 66);
+            splitContainer4.SplitterDistance = 197;
+            splitContainer4.SplitterWidth = 7;
             splitContainer4.TabIndex = 8;
             splitContainer4.TabStop = false;
             // 
@@ -711,10 +746,11 @@
             textBox12.Dock = DockStyle.Fill;
             textBox12.Font = new Font("Segoe UI", 9F);
             textBox12.ForeColor = Color.White;
-            textBox12.Location = new Point(48, 0);
+            textBox12.Location = new Point(96, 0);
+            textBox12.Margin = new Padding(6);
             textBox12.Name = "textBox12";
             textBox12.PlaceholderText = "Name";
-            textBox12.Size = new Size(58, 16);
+            textBox12.Size = new Size(101, 32);
             textBox12.TabIndex = 0;
             // 
             // label1
@@ -722,8 +758,9 @@
             label1.AutoSize = true;
             label1.Dock = DockStyle.Left;
             label1.Location = new Point(0, 0);
+            label1.Margin = new Padding(6, 0, 6, 0);
             label1.Name = "label1";
-            label1.Size = new Size(48, 15);
+            label1.Size = new Size(96, 32);
             label1.TabIndex = 7;
             label1.Text = "Replace";
             // 
@@ -734,26 +771,28 @@
             textBox13.Dock = DockStyle.Fill;
             textBox13.Font = new Font("Segoe UI", 9F);
             textBox13.ForeColor = Color.White;
-            textBox13.Location = new Point(35, 0);
+            textBox13.Location = new Point(70, 0);
+            textBox13.Margin = new Padding(6);
             textBox13.Name = "textBox13";
             textBox13.PlaceholderText = "Assignment/Expression";
-            textBox13.Size = new Size(91, 16);
+            textBox13.Size = new Size(165, 32);
             textBox13.TabIndex = 1;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Dock = DockStyle.Left;
-            label4.Location = new Point(3, 0);
+            label4.Location = new Point(6, 0);
+            label4.Margin = new Padding(6, 0, 6, 0);
             label4.Name = "label4";
-            label4.Size = new Size(32, 15);
+            label4.Size = new Size(64, 32);
             label4.TabIndex = 8;
             label4.Text = "With";
             // 
             // splitContainer2
             // 
             splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(51, 0);
+            splitContainer2.Location = new Point(101, 0);
             splitContainer2.Margin = new Padding(6);
             splitContainer2.Name = "splitContainer2";
             // 
@@ -761,8 +800,8 @@
             // 
             splitContainer2.Panel2.Controls.Add(label2);
             splitContainer2.Panel2.Padding = new Padding(6, 0, 0, 0);
-            splitContainer2.Size = new Size(145, 55);
-            splitContainer2.SplitterDistance = 65;
+            splitContainer2.Size = new Size(95, 55);
+            splitContainer2.SplitterDistance = 42;
             splitContainer2.SplitterWidth = 7;
             splitContainer2.TabIndex = 11;
             splitContainer2.TabStop = false;
@@ -774,7 +813,7 @@
             label2.Location = new Point(6, 0);
             label2.Margin = new Padding(6, 0, 6, 0);
             label2.Name = "label2";
-            label2.Size = new Size(15, 15);
+            label2.Size = new Size(30, 32);
             label2.TabIndex = 6;
             label2.Text = "=";
             // 
@@ -807,7 +846,7 @@
             label3.Location = new Point(0, 0);
             label3.Margin = new Padding(6, 0, 6, 0);
             label3.Name = "label3";
-            label3.Size = new Size(51, 15);
+            label3.Size = new Size(101, 32);
             label3.TabIndex = 7;
             label3.Text = ".Replace";
             // 
@@ -818,13 +857,13 @@
             With.Location = new Point(6, 0);
             With.Margin = new Padding(6, 0, 6, 0);
             With.Name = "With";
-            With.Size = new Size(32, 15);
+            With.Size = new Size(64, 32);
             With.TabIndex = 6;
             With.Text = "With";
             // 
             // EditValue
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(pnlReplaceText);
             Controls.Add(pnlWaitUntilReceived);
@@ -834,9 +873,10 @@
             Controls.Add(flatComboBox1);
             Controls.Add(pnlText);
             DoubleBuffered = true;
+            Margin = new Padding(6);
             Name = "EditValue";
-            Padding = new Padding(4, 1, 1, 1);
-            Size = new Size(433, 205);
+            Padding = new Padding(7, 2, 2, 2);
+            Size = new Size(804, 437);
             Load += EditValue_Load;
             KeyPress += EditValue_KeyPress;
             PreviewKeyDown += EditValue_PreviewKeyDown;

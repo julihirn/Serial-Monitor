@@ -346,28 +346,28 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (BeforeIndex >= 0) {
                     Classes.Modbus.ModbusRegister? Itm = GetRegisterFromItem(BeforeIndex, lstMonitor);
                     if (Itm != null) {
-                        lstMonitor.Items[BeforeIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
-                        lstMonitor.Items[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
-                        lstMonitor.Items[BeforeIndex][Indx_Value].Text = Itm.FormattedValue;
-                        lstMonitor.Items[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
-                        lstMonitor.Items[BeforeIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
+                        lstMonitor.CurrentItems[BeforeIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
+                        lstMonitor.CurrentItems[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
+                        lstMonitor.CurrentItems[BeforeIndex][Indx_Value].Text = Itm.FormattedValue;
+                        lstMonitor.CurrentItems[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
+                        lstMonitor.CurrentItems[BeforeIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
                     }
                 }
-                if (AfterIndex < lstMonitor.Items.Count) {
+                if (AfterIndex < lstMonitor.CurrentItems.Count) {
                     Classes.Modbus.ModbusRegister? Itm = GetRegisterFromItem(AfterIndex, lstMonitor);
                     if (Itm != null) {
-                        lstMonitor.Items[AfterIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
-                        lstMonitor.Items[AfterIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
-                        lstMonitor.Items[AfterIndex][Indx_Value].Text = Itm.FormattedValue;
-                        lstMonitor.Items[AfterIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
+                        lstMonitor.CurrentItems[AfterIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
+                        lstMonitor.CurrentItems[AfterIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
+                        lstMonitor.CurrentItems[AfterIndex][Indx_Value].Text = Itm.FormattedValue;
+                        lstMonitor.CurrentItems[AfterIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
                     }
                 }
             }
         }
         public static Classes.Modbus.ModbusRegister? GetRegisterFromItem(int Index, ListControl lstMonitor) {
-            if (Index >= lstMonitor.Items.Count) { return null; }
+            if (Index >= lstMonitor.CurrentItems.Count) { return null; }
             if (Index < 0) { return null; }
-            object? Data = lstMonitor.Items[Index].Tag;
+            object? Data = lstMonitor.CurrentItems[Index].Tag;
             if (Data == null) { return null; }
             if (Data.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
                 return (Classes.Modbus.ModbusRegister)Data;

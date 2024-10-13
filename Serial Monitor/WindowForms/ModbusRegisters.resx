@@ -469,6 +469,54 @@
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
     <value>201, 6</value>
   </data>
+  <data name="zoom100.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoom100.Text" xml:space="preserve">
+    <value>100%</value>
+  </data>
+  <data name="zoom115.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoom115.Text" xml:space="preserve">
+    <value>115%</value>
+  </data>
+  <data name="zoom120.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoom120.Text" xml:space="preserve">
+    <value>120%</value>
+  </data>
+  <data name="zoom150.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoom150.Text" xml:space="preserve">
+    <value>150%</value>
+  </data>
+  <data name="zoom175.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoom175.Text" xml:space="preserve">
+    <value>175%</value>
+  </data>
+  <data name="zoom200.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoom200.Text" xml:space="preserve">
+    <value>200%</value>
+  </data>
+  <data name="zoomToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="zoomToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="zoomToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="toolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 6</value>
+  </data>
   <data name="propertiesToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -5407,6 +5455,54 @@
   </data>
   <data name="&gt;&gt;cntrlExtender.Type" xml:space="preserve">
     <value>ODModules.ControlExtensions.ControlExtender, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;zoomToolStripMenuItem.Name" xml:space="preserve">
+    <value>zoomToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;zoomToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator30.Name" xml:space="preserve">
+    <value>toolStripSeparator30</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator30.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoom100.Name" xml:space="preserve">
+    <value>zoom100</value>
+  </data>
+  <data name="&gt;&gt;zoom100.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoom115.Name" xml:space="preserve">
+    <value>zoom115</value>
+  </data>
+  <data name="&gt;&gt;zoom115.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoom120.Name" xml:space="preserve">
+    <value>zoom120</value>
+  </data>
+  <data name="&gt;&gt;zoom120.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoom150.Name" xml:space="preserve">
+    <value>zoom150</value>
+  </data>
+  <data name="&gt;&gt;zoom150.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoom175.Name" xml:space="preserve">
+    <value>zoom175</value>
+  </data>
+  <data name="&gt;&gt;zoom175.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoom200.Name" xml:space="preserve">
+    <value>zoom200</value>
+  </data>
+  <data name="&gt;&gt;zoom200.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ModbusRegisters</value>

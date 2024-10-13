@@ -172,6 +172,14 @@
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            zoomToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator30 = new ToolStripSeparator();
+            zoom100 = new ToolStripMenuItem();
+            zoom115 = new ToolStripMenuItem();
+            zoom120 = new ToolStripMenuItem();
+            zoom150 = new ToolStripMenuItem();
+            zoom175 = new ToolStripMenuItem();
+            zoom200 = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -616,7 +624,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, propertiesToolStripMenuItem, toolStripSeparator29, btnTopMost, fullScreenToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, propertiesToolStripMenuItem, toolStripSeparator29, btnTopMost, fullScreenToolStripMenuItem });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
@@ -1272,6 +1280,60 @@
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
+            // zoomToolStripMenuItem
+            // 
+            zoomToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { zoom100, zoom115, zoom120, zoom150, zoom175, zoom200 });
+            zoomToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(zoomToolStripMenuItem, "zoomToolStripMenuItem");
+            zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            // 
+            // toolStripSeparator30
+            // 
+            toolStripSeparator30.Name = "toolStripSeparator30";
+            resources.ApplyResources(toolStripSeparator30, "toolStripSeparator30");
+            // 
+            // zoom100
+            // 
+            zoom100.ForeColor = Color.White;
+            zoom100.Name = "zoom100";
+            resources.ApplyResources(zoom100, "zoom100");
+            zoom100.Click += zoom100_Click;
+            // 
+            // zoom115
+            // 
+            zoom115.ForeColor = Color.White;
+            zoom115.Name = "zoom115";
+            resources.ApplyResources(zoom115, "zoom115");
+            zoom115.Click += zoom115_Click;
+            // 
+            // zoom120
+            // 
+            zoom120.ForeColor = Color.White;
+            zoom120.Name = "zoom120";
+            resources.ApplyResources(zoom120, "zoom120");
+            zoom120.Click += zoom120_Click;
+            // 
+            // zoom150
+            // 
+            zoom150.ForeColor = Color.White;
+            zoom150.Name = "zoom150";
+            resources.ApplyResources(zoom150, "zoom150");
+            zoom150.Click += zoom150_Click;
+            // 
+            // zoom175
+            // 
+            zoom175.ForeColor = Color.White;
+            zoom175.Name = "zoom175";
+            resources.ApplyResources(zoom175, "zoom175");
+            zoom175.Click += zoom175_Click;
+            // 
+            // zoom200
+            // 
+            zoom200.ForeColor = Color.White;
+            zoom200.Name = "zoom200";
+            resources.ApplyResources(zoom200, "zoom200");
+            zoom200.Click += zoom200_Click;
+            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
@@ -1453,5 +1515,13 @@
         private ToolStripMenuItem propertiesToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator29;
         private ToolStripMenuItem fullScreenToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator30;
+        private ToolStripMenuItem zoomToolStripMenuItem;
+        private ToolStripMenuItem zoom100;
+        private ToolStripMenuItem zoom115;
+        private ToolStripMenuItem zoom120;
+        private ToolStripMenuItem zoom150;
+        private ToolStripMenuItem zoom175;
+        private ToolStripMenuItem zoom200;
     }
 }

@@ -23,8 +23,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            Handlers.NumericalString numericalString1 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString3 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString4 = new Handlers.NumericalString();
             panel1 = new Panel();
             panel2 = new Panel();
             lblpnlSnapshot = new ODModules.LabelPanel();
@@ -74,21 +74,24 @@
             panel1.Controls.Add(panel2);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(1, 25);
+            panel1.Margin = new Padding(6);
             panel1.Name = "panel1";
-            panel1.Padding = new Padding(3);
-            panel1.Size = new Size(258, 750);
+            panel1.Padding = new Padding(6);
+            panel1.Size = new Size(481, 1629);
             panel1.TabIndex = 0;
             // 
             // panel2
             // 
+            panel2.AutoScroll = true;
             panel2.Controls.Add(lblpnlSnapshot);
             panel2.Controls.Add(lblpnlAppearance);
             panel2.Controls.Add(lblpnlUnits);
             panel2.Controls.Add(lblpnlFormat);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 3);
+            panel2.Location = new Point(6, 6);
+            panel2.Margin = new Padding(6);
             panel2.Name = "panel2";
-            panel2.Size = new Size(252, 744);
+            panel2.Size = new Size(469, 1617);
             panel2.TabIndex = 0;
             // 
             // lblpnlSnapshot
@@ -109,16 +112,17 @@
             lblpnlSnapshot.LabelBackColor = Color.White;
             lblpnlSnapshot.LabelFont = new Font("Segoe UI", 8F);
             lblpnlSnapshot.LabelForeColor = Color.Black;
-            lblpnlSnapshot.Location = new Point(0, 391);
+            lblpnlSnapshot.Location = new Point(0, 740);
+            lblpnlSnapshot.Margin = new Padding(6);
             lblpnlSnapshot.Name = "lblpnlSnapshot";
             lblpnlSnapshot.OverrideCollapseControl = true;
-            lblpnlSnapshot.Padding = new Padding(0, 22, 0, 0);
+            lblpnlSnapshot.Padding = new Padding(0, 41, 0, 0);
             lblpnlSnapshot.PanelCollapsible = true;
             lblpnlSnapshot.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlSnapshot.SeparatorColor = Color.Gray;
             lblpnlSnapshot.ShowCloseButton = false;
             lblpnlSnapshot.ShowSeparator = true;
-            lblpnlSnapshot.Size = new Size(252, 46);
+            lblpnlSnapshot.Size = new Size(469, 92);
             lblpnlSnapshot.TabIndex = 3;
             lblpnlSnapshot.Text = "Snapshot";
             // 
@@ -139,16 +143,17 @@
             lblpnlSnapshotName.LabelBackColor = Color.White;
             lblpnlSnapshotName.LabelFont = new Font("Segoe UI", 8F);
             lblpnlSnapshotName.LabelForeColor = Color.White;
-            lblpnlSnapshotName.Location = new Point(0, 22);
+            lblpnlSnapshotName.Location = new Point(0, 41);
+            lblpnlSnapshotName.Margin = new Padding(6);
             lblpnlSnapshotName.Name = "lblpnlSnapshotName";
             lblpnlSnapshotName.OverrideCollapseControl = false;
-            lblpnlSnapshotName.Padding = new Padding(93, 0, 0, 0);
+            lblpnlSnapshotName.Padding = new Padding(107, 0, 0, 0);
             lblpnlSnapshotName.PanelCollapsible = true;
             lblpnlSnapshotName.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlSnapshotName.SeparatorColor = Color.Gray;
             lblpnlSnapshotName.ShowCloseButton = true;
             lblpnlSnapshotName.ShowSeparator = false;
-            lblpnlSnapshotName.Size = new Size(252, 24);
+            lblpnlSnapshotName.Size = new Size(469, 51);
             lblpnlSnapshotName.TabIndex = 8;
             lblpnlSnapshotName.Text = "Name";
             // 
@@ -162,19 +167,19 @@
             tbSnapshotName.Dock = DockStyle.Fill;
             tbSnapshotName.Font = new Font("Segoe UI", 9F);
             tbSnapshotName.ForeColor = Color.DimGray;
-            tbSnapshotName.Location = new Point(93, 0);
-            tbSnapshotName.Margin = new Padding(4);
+            tbSnapshotName.Location = new Point(107, 0);
+            tbSnapshotName.Margin = new Padding(7, 9, 7, 9);
             tbSnapshotName.MaxLength = 15;
             tbSnapshotName.Multiline = false;
             tbSnapshotName.Name = "tbSnapshotName";
-            tbSnapshotName.Padding = new Padding(3, 4, 2, 4);
+            tbSnapshotName.Padding = new Padding(6, 9, 4, 9);
             tbSnapshotName.PasswordChar = '\0';
             tbSnapshotName.PlaceholderText = "";
             tbSnapshotName.ReadOnly = false;
             tbSnapshotName.SelectedBackColor = Color.LightGray;
             tbSnapshotName.SelectedBorderColor = Color.HotPink;
             tbSnapshotName.ShortcutsEnabled = true;
-            tbSnapshotName.Size = new Size(159, 24);
+            tbSnapshotName.Size = new Size(362, 51);
             tbSnapshotName.TabIndex = 1;
             tbSnapshotName.TextAlign = HorizontalAlignment.Left;
             tbSnapshotName.UnderlinedStyle = false;
@@ -200,16 +205,17 @@
             lblpnlAppearance.LabelBackColor = Color.White;
             lblpnlAppearance.LabelFont = new Font("Segoe UI", 8F);
             lblpnlAppearance.LabelForeColor = Color.Black;
-            lblpnlAppearance.Location = new Point(0, 306);
+            lblpnlAppearance.Location = new Point(0, 559);
+            lblpnlAppearance.Margin = new Padding(6);
             lblpnlAppearance.Name = "lblpnlAppearance";
             lblpnlAppearance.OverrideCollapseControl = true;
-            lblpnlAppearance.Padding = new Padding(0, 22, 0, 0);
+            lblpnlAppearance.Padding = new Padding(0, 41, 0, 0);
             lblpnlAppearance.PanelCollapsible = true;
             lblpnlAppearance.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlAppearance.SeparatorColor = Color.Gray;
             lblpnlAppearance.ShowCloseButton = false;
             lblpnlAppearance.ShowSeparator = true;
-            lblpnlAppearance.Size = new Size(252, 85);
+            lblpnlAppearance.Size = new Size(469, 181);
             lblpnlAppearance.TabIndex = 2;
             lblpnlAppearance.Text = "Appearance";
             // 
@@ -230,16 +236,17 @@
             labelPanel5.LabelBackColor = Color.White;
             labelPanel5.LabelFont = new Font("Segoe UI", 8F);
             labelPanel5.LabelForeColor = Color.White;
-            labelPanel5.Location = new Point(0, 46);
+            labelPanel5.Location = new Point(0, 92);
+            labelPanel5.Margin = new Padding(6);
             labelPanel5.Name = "labelPanel5";
             labelPanel5.OverrideCollapseControl = false;
-            labelPanel5.Padding = new Padding(93, 0, 0, 0);
+            labelPanel5.Padding = new Padding(107, 0, 0, 0);
             labelPanel5.PanelCollapsible = true;
             labelPanel5.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel5.SeparatorColor = Color.Gray;
             labelPanel5.ShowCloseButton = true;
             labelPanel5.ShowSeparator = false;
-            labelPanel5.Size = new Size(252, 24);
+            labelPanel5.Size = new Size(469, 51);
             labelPanel5.TabIndex = 9;
             labelPanel5.Text = "Back Color";
             // 
@@ -267,12 +274,13 @@
             btnBackColor.Checked = false;
             btnBackColor.Dock = DockStyle.Left;
             btnBackColor.GroupMaximumChecked = 2;
-            btnBackColor.Location = new Point(93, 0);
+            btnBackColor.Location = new Point(107, 0);
+            btnBackColor.Margin = new Padding(6);
             btnBackColor.Name = "btnBackColor";
             btnBackColor.RadioButtonGroup = "";
             btnBackColor.SecondaryFont = new Font("Segoe UI", 9F);
             btnBackColor.SecondaryText = "";
-            btnBackColor.Size = new Size(24, 24);
+            btnBackColor.Size = new Size(45, 51);
             btnBackColor.Style = ODModules.ButtonStyle.Square;
             btnBackColor.TabIndex = 1;
             btnBackColor.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -297,16 +305,17 @@
             labelPanel4.LabelBackColor = Color.White;
             labelPanel4.LabelFont = new Font("Segoe UI", 8F);
             labelPanel4.LabelForeColor = Color.White;
-            labelPanel4.Location = new Point(0, 22);
+            labelPanel4.Location = new Point(0, 41);
+            labelPanel4.Margin = new Padding(6);
             labelPanel4.Name = "labelPanel4";
             labelPanel4.OverrideCollapseControl = false;
-            labelPanel4.Padding = new Padding(93, 0, 0, 0);
+            labelPanel4.Padding = new Padding(107, 0, 0, 0);
             labelPanel4.PanelCollapsible = true;
             labelPanel4.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel4.SeparatorColor = Color.Gray;
             labelPanel4.ShowCloseButton = true;
             labelPanel4.ShowSeparator = false;
-            labelPanel4.Size = new Size(252, 24);
+            labelPanel4.Size = new Size(469, 51);
             labelPanel4.TabIndex = 8;
             labelPanel4.Text = "Text Color";
             // 
@@ -334,12 +343,13 @@
             btnTextColor.Checked = false;
             btnTextColor.Dock = DockStyle.Left;
             btnTextColor.GroupMaximumChecked = 2;
-            btnTextColor.Location = new Point(93, 0);
+            btnTextColor.Location = new Point(107, 0);
+            btnTextColor.Margin = new Padding(6);
             btnTextColor.Name = "btnTextColor";
             btnTextColor.RadioButtonGroup = "";
             btnTextColor.SecondaryFont = new Font("Segoe UI", 9F);
             btnTextColor.SecondaryText = "";
-            btnTextColor.Size = new Size(24, 24);
+            btnTextColor.Size = new Size(45, 51);
             btnTextColor.Style = ODModules.ButtonStyle.Square;
             btnTextColor.TabIndex = 0;
             btnTextColor.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -369,16 +379,17 @@
             lblpnlUnits.LabelBackColor = Color.White;
             lblpnlUnits.LabelFont = new Font("Segoe UI", 8F);
             lblpnlUnits.LabelForeColor = Color.Black;
-            lblpnlUnits.Location = new Point(0, 149);
+            lblpnlUnits.Location = new Point(0, 261);
+            lblpnlUnits.Margin = new Padding(6);
             lblpnlUnits.Name = "lblpnlUnits";
             lblpnlUnits.OverrideCollapseControl = true;
-            lblpnlUnits.Padding = new Padding(0, 22, 0, 0);
+            lblpnlUnits.Padding = new Padding(0, 41, 0, 0);
             lblpnlUnits.PanelCollapsible = true;
             lblpnlUnits.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlUnits.SeparatorColor = Color.Gray;
             lblpnlUnits.ShowCloseButton = false;
             lblpnlUnits.ShowSeparator = true;
-            lblpnlUnits.Size = new Size(252, 157);
+            lblpnlUnits.Size = new Size(469, 298);
             lblpnlUnits.TabIndex = 1;
             lblpnlUnits.Text = "Unit of Measure";
             // 
@@ -389,10 +400,11 @@
             pfsMain.HoverColor = Color.FromArgb(255, 255, 192);
             pfsMain.InactiveForecolor = Color.Gray;
             pfsMain.LinkedNumericControl = ntbMain;
-            pfsMain.Location = new Point(0, 97);
-            pfsMain.MinimumSize = new Size(0, 60);
+            pfsMain.Location = new Point(0, 170);
+            pfsMain.Margin = new Padding(6);
+            pfsMain.MinimumSize = new Size(0, 128);
             pfsMain.Name = "pfsMain";
-            pfsMain.Size = new Size(252, 60);
+            pfsMain.Size = new Size(469, 128);
             pfsMain.TabIndex = 0;
             // 
             // ntbMain
@@ -419,16 +431,17 @@
             ntbMain.LabelFont = new Font("Segoe UI", 9F);
             ntbMain.LabelForeColor = Color.Gray;
             ntbMain.LabelText = "";
-            ntbMain.Location = new Point(0, 22);
+            ntbMain.Location = new Point(0, 41);
+            ntbMain.Margin = new Padding(6);
             ntbMain.Marked = false;
             ntbMain.MarkedBackColor = Color.Empty;
             ntbMain.MarkedBorderColor = Color.Beige;
-            numericalString1.DisplayValue = "100";
-            numericalString1.Value = "100";
-            ntbMain.Maximum = numericalString1;
-            numericalString2.DisplayValue = "0";
-            numericalString2.Value = "0";
-            ntbMain.Minimum = numericalString2;
+            numericalString3.DisplayValue = "100";
+            numericalString3.Value = "100";
+            ntbMain.Maximum = numericalString3;
+            numericalString4.DisplayValue = "0";
+            numericalString4.Value = "0";
+            ntbMain.Minimum = numericalString4;
             ntbMain.Name = "ntbMain";
             ntbMain.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             ntbMain.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -442,7 +455,7 @@
             ntbMain.SelectedBackColor = Color.Empty;
             ntbMain.SelectedBorderColor = Color.Beige;
             ntbMain.ShowLabel = true;
-            ntbMain.Size = new Size(252, 27);
+            ntbMain.Size = new Size(469, 27);
             ntbMain.TabIndex = 1;
             ntbMain.Unit = "";
             ntbMain.UseFixedNumericPadding = true;
@@ -466,16 +479,17 @@
             labelPanel3.LabelBackColor = Color.White;
             labelPanel3.LabelFont = new Font("Segoe UI", 8F);
             labelPanel3.LabelForeColor = Color.White;
-            labelPanel3.Location = new Point(0, 73);
+            labelPanel3.Location = new Point(0, 119);
+            labelPanel3.Margin = new Padding(6);
             labelPanel3.Name = "labelPanel3";
             labelPanel3.OverrideCollapseControl = false;
-            labelPanel3.Padding = new Padding(63, 5, 5, 5);
+            labelPanel3.Padding = new Padding(77, 11, 9, 11);
             labelPanel3.PanelCollapsible = true;
             labelPanel3.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel3.SeparatorColor = Color.Gray;
             labelPanel3.ShowCloseButton = true;
             labelPanel3.ShowSeparator = false;
-            labelPanel3.Size = new Size(252, 24);
+            labelPanel3.Size = new Size(469, 51);
             labelPanel3.TabIndex = 3;
             labelPanel3.Text = "Prefix";
             // 
@@ -496,16 +510,17 @@
             labelPanel2.LabelBackColor = Color.White;
             labelPanel2.LabelFont = new Font("Segoe UI", 8F);
             labelPanel2.LabelForeColor = Color.White;
-            labelPanel2.Location = new Point(0, 49);
+            labelPanel2.Location = new Point(0, 68);
+            labelPanel2.Margin = new Padding(6);
             labelPanel2.Name = "labelPanel2";
             labelPanel2.OverrideCollapseControl = false;
-            labelPanel2.Padding = new Padding(93, 0, 0, 0);
+            labelPanel2.Padding = new Padding(107, 0, 0, 0);
             labelPanel2.PanelCollapsible = true;
             labelPanel2.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             labelPanel2.SeparatorColor = Color.Gray;
             labelPanel2.ShowCloseButton = true;
             labelPanel2.ShowSeparator = false;
-            labelPanel2.Size = new Size(252, 24);
+            labelPanel2.Size = new Size(469, 51);
             labelPanel2.TabIndex = 2;
             labelPanel2.Text = "Unit";
             labelPanel2.Paint += labelPanel2_Paint;
@@ -520,19 +535,19 @@
             tbUnit.Dock = DockStyle.Fill;
             tbUnit.Font = new Font("Segoe UI", 9F);
             tbUnit.ForeColor = Color.DimGray;
-            tbUnit.Location = new Point(93, 0);
-            tbUnit.Margin = new Padding(4);
+            tbUnit.Location = new Point(107, 0);
+            tbUnit.Margin = new Padding(7, 9, 7, 9);
             tbUnit.MaxLength = 15;
             tbUnit.Multiline = false;
             tbUnit.Name = "tbUnit";
-            tbUnit.Padding = new Padding(3, 4, 2, 4);
+            tbUnit.Padding = new Padding(6, 9, 4, 9);
             tbUnit.PasswordChar = '\0';
             tbUnit.PlaceholderText = "";
             tbUnit.ReadOnly = false;
             tbUnit.SelectedBackColor = Color.LightGray;
             tbUnit.SelectedBorderColor = Color.HotPink;
             tbUnit.ShortcutsEnabled = true;
-            tbUnit.Size = new Size(159, 24);
+            tbUnit.Size = new Size(362, 51);
             tbUnit.TabIndex = 0;
             tbUnit.TextAlign = HorizontalAlignment.Left;
             tbUnit.UnderlinedStyle = false;
@@ -563,15 +578,16 @@
             lblpnlFormat.LabelFont = new Font("Segoe UI", 8F);
             lblpnlFormat.LabelForeColor = Color.Black;
             lblpnlFormat.Location = new Point(0, 0);
+            lblpnlFormat.Margin = new Padding(6);
             lblpnlFormat.Name = "lblpnlFormat";
             lblpnlFormat.OverrideCollapseControl = true;
-            lblpnlFormat.Padding = new Padding(0, 22, 0, 5);
+            lblpnlFormat.Padding = new Padding(0, 41, 0, 11);
             lblpnlFormat.PanelCollapsible = true;
             lblpnlFormat.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlFormat.SeparatorColor = Color.Gray;
             lblpnlFormat.ShowCloseButton = false;
             lblpnlFormat.ShowSeparator = true;
-            lblpnlFormat.Size = new Size(252, 149);
+            lblpnlFormat.Size = new Size(469, 261);
             lblpnlFormat.TabIndex = 0;
             lblpnlFormat.Text = "Format";
             // 
@@ -592,16 +608,17 @@
             lblpnlDecimalFormat.LabelBackColor = Color.White;
             lblpnlDecimalFormat.LabelFont = new Font("Segoe UI", 8F);
             lblpnlDecimalFormat.LabelForeColor = Color.White;
-            lblpnlDecimalFormat.Location = new Point(0, 120);
+            lblpnlDecimalFormat.Location = new Point(0, 199);
+            lblpnlDecimalFormat.Margin = new Padding(6);
             lblpnlDecimalFormat.Name = "lblpnlDecimalFormat";
             lblpnlDecimalFormat.OverrideCollapseControl = false;
-            lblpnlDecimalFormat.Padding = new Padding(93, 0, 0, 0);
+            lblpnlDecimalFormat.Padding = new Padding(107, 0, 0, 0);
             lblpnlDecimalFormat.PanelCollapsible = true;
             lblpnlDecimalFormat.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlDecimalFormat.SeparatorColor = Color.Gray;
             lblpnlDecimalFormat.ShowCloseButton = true;
             lblpnlDecimalFormat.ShowSeparator = false;
-            lblpnlDecimalFormat.Size = new Size(252, 24);
+            lblpnlDecimalFormat.Size = new Size(469, 51);
             lblpnlDecimalFormat.TabIndex = 4;
             lblpnlDecimalFormat.Text = "Decimal Places";
             // 
@@ -613,13 +630,14 @@
             ddlDecimalPlaces.DrawMode = DrawMode.OwnerDrawFixed;
             ddlDecimalPlaces.FlatStyle = FlatStyle.Flat;
             ddlDecimalPlaces.FormattingEnabled = true;
-            ddlDecimalPlaces.Location = new Point(93, 0);
+            ddlDecimalPlaces.Location = new Point(107, 0);
+            ddlDecimalPlaces.Margin = new Padding(6);
             ddlDecimalPlaces.Name = "ddlDecimalPlaces";
             ddlDecimalPlaces.SelectedBackColor = Color.LightGray;
             ddlDecimalPlaces.SelectedBorderColor = Color.BlueViolet;
             ddlDecimalPlaces.SelectedColor = Color.SteelBlue;
             ddlDecimalPlaces.SelectedForeColor = Color.DimGray;
-            ddlDecimalPlaces.Size = new Size(159, 24);
+            ddlDecimalPlaces.Size = new Size(362, 40);
             ddlDecimalPlaces.TabIndex = 5;
             ddlDecimalPlaces.SelectedIndexChanged += ddlDecimalPlaces_SelectedIndexChanged;
             // 
@@ -640,16 +658,17 @@
             lblpnlEndianess.LabelBackColor = Color.White;
             lblpnlEndianess.LabelFont = new Font("Segoe UI", 8F);
             lblpnlEndianess.LabelForeColor = Color.White;
-            lblpnlEndianess.Location = new Point(0, 95);
+            lblpnlEndianess.Location = new Point(0, 146);
+            lblpnlEndianess.Margin = new Padding(6);
             lblpnlEndianess.Name = "lblpnlEndianess";
             lblpnlEndianess.OverrideCollapseControl = false;
-            lblpnlEndianess.Padding = new Padding(93, 0, 0, 0);
+            lblpnlEndianess.Padding = new Padding(107, 0, 0, 0);
             lblpnlEndianess.PanelCollapsible = true;
             lblpnlEndianess.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlEndianess.SeparatorColor = Color.Gray;
             lblpnlEndianess.ShowCloseButton = true;
             lblpnlEndianess.ShowSeparator = false;
-            lblpnlEndianess.Size = new Size(252, 25);
+            lblpnlEndianess.Size = new Size(469, 53);
             lblpnlEndianess.TabIndex = 2;
             lblpnlEndianess.Text = "Endianness";
             // 
@@ -661,13 +680,14 @@
             ddlEndianness.DrawMode = DrawMode.OwnerDrawFixed;
             ddlEndianness.FlatStyle = FlatStyle.Flat;
             ddlEndianness.FormattingEnabled = true;
-            ddlEndianness.Location = new Point(93, 0);
+            ddlEndianness.Location = new Point(107, 0);
+            ddlEndianness.Margin = new Padding(6);
             ddlEndianness.Name = "ddlEndianness";
             ddlEndianness.SelectedBackColor = Color.LightGray;
             ddlEndianness.SelectedBorderColor = Color.BlueViolet;
             ddlEndianness.SelectedColor = Color.SteelBlue;
             ddlEndianness.SelectedForeColor = Color.DimGray;
-            ddlEndianness.Size = new Size(159, 24);
+            ddlEndianness.Size = new Size(362, 40);
             ddlEndianness.TabIndex = 4;
             ddlEndianness.SelectedIndexChanged += ddlEndianness_SelectedIndexChanged;
             // 
@@ -689,16 +709,17 @@
             lblpnlSize.LabelBackColor = Color.White;
             lblpnlSize.LabelFont = new Font("Segoe UI", 8F);
             lblpnlSize.LabelForeColor = Color.White;
-            lblpnlSize.Location = new Point(0, 70);
+            lblpnlSize.Location = new Point(0, 121);
+            lblpnlSize.Margin = new Padding(6);
             lblpnlSize.Name = "lblpnlSize";
             lblpnlSize.OverrideCollapseControl = false;
-            lblpnlSize.Padding = new Padding(93, 0, 0, 0);
+            lblpnlSize.Padding = new Padding(107, 0, 0, 0);
             lblpnlSize.PanelCollapsible = true;
             lblpnlSize.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlSize.SeparatorColor = Color.Gray;
             lblpnlSize.ShowCloseButton = true;
             lblpnlSize.ShowSeparator = false;
-            lblpnlSize.Size = new Size(252, 25);
+            lblpnlSize.Size = new Size(469, 25);
             lblpnlSize.TabIndex = 1;
             lblpnlSize.Text = "Size";
             // 
@@ -715,17 +736,17 @@
             toolStrip1.ItemSelectedBackColorNorth = Color.White;
             toolStrip1.ItemSelectedBackColorSouth = Color.White;
             toolStrip1.ItemSelectedForeColor = Color.Black;
-            toolStrip1.Location = new Point(93, 0);
+            toolStrip1.Location = new Point(107, 0);
             toolStrip1.MenuBackColorNorth = Color.DodgerBlue;
             toolStrip1.MenuBackColorSouth = Color.DodgerBlue;
             toolStrip1.MenuBorderColor = Color.WhiteSmoke;
             toolStrip1.MenuSeparatorColor = Color.WhiteSmoke;
             toolStrip1.MenuSymbolColor = Color.WhiteSmoke;
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Padding = new Padding(1, 0, 1, 0);
+            toolStrip1.Padding = new Padding(2, 0, 2, 0);
             toolStrip1.RoundedToolStrip = false;
             toolStrip1.ShowBorder = false;
-            toolStrip1.Size = new Size(159, 25);
+            toolStrip1.Size = new Size(362, 25);
             toolStrip1.StripItemSelectedBackColorNorth = Color.White;
             toolStrip1.StripItemSelectedBackColorSouth = Color.White;
             toolStrip1.TabIndex = 0;
@@ -749,16 +770,17 @@
             lblpnlDisplay.LabelBackColor = Color.White;
             lblpnlDisplay.LabelFont = new Font("Segoe UI", 8F);
             lblpnlDisplay.LabelForeColor = Color.White;
-            lblpnlDisplay.Location = new Point(0, 46);
+            lblpnlDisplay.Location = new Point(0, 81);
+            lblpnlDisplay.Margin = new Padding(6);
             lblpnlDisplay.Name = "lblpnlDisplay";
             lblpnlDisplay.OverrideCollapseControl = false;
-            lblpnlDisplay.Padding = new Padding(93, 0, 0, 0);
+            lblpnlDisplay.Padding = new Padding(107, 0, 0, 0);
             lblpnlDisplay.PanelCollapsible = true;
             lblpnlDisplay.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlDisplay.SeparatorColor = Color.Gray;
             lblpnlDisplay.ShowCloseButton = true;
             lblpnlDisplay.ShowSeparator = false;
-            lblpnlDisplay.Size = new Size(252, 24);
+            lblpnlDisplay.Size = new Size(469, 40);
             lblpnlDisplay.TabIndex = 0;
             lblpnlDisplay.Text = "Display";
             // 
@@ -770,13 +792,14 @@
             ddlDisplay.DrawMode = DrawMode.OwnerDrawFixed;
             ddlDisplay.FlatStyle = FlatStyle.Flat;
             ddlDisplay.FormattingEnabled = true;
-            ddlDisplay.Location = new Point(93, 0);
+            ddlDisplay.Location = new Point(107, 0);
+            ddlDisplay.Margin = new Padding(6);
             ddlDisplay.Name = "ddlDisplay";
             ddlDisplay.SelectedBackColor = Color.LightGray;
             ddlDisplay.SelectedBorderColor = Color.BlueViolet;
             ddlDisplay.SelectedColor = Color.SteelBlue;
             ddlDisplay.SelectedForeColor = Color.DimGray;
-            ddlDisplay.Size = new Size(159, 24);
+            ddlDisplay.Size = new Size(362, 40);
             ddlDisplay.TabIndex = 3;
             ddlDisplay.SelectedIndexChanged += ddlDisplay_SelectedIndexChanged;
             // 
@@ -798,16 +821,17 @@
             lblpnlBoolDisplay.LabelBackColor = Color.White;
             lblpnlBoolDisplay.LabelFont = new Font("Segoe UI", 8F);
             lblpnlBoolDisplay.LabelForeColor = Color.White;
-            lblpnlBoolDisplay.Location = new Point(0, 22);
+            lblpnlBoolDisplay.Location = new Point(0, 41);
+            lblpnlBoolDisplay.Margin = new Padding(6);
             lblpnlBoolDisplay.Name = "lblpnlBoolDisplay";
             lblpnlBoolDisplay.OverrideCollapseControl = false;
-            lblpnlBoolDisplay.Padding = new Padding(93, 0, 0, 0);
+            lblpnlBoolDisplay.Padding = new Padding(107, 0, 0, 0);
             lblpnlBoolDisplay.PanelCollapsible = true;
             lblpnlBoolDisplay.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblpnlBoolDisplay.SeparatorColor = Color.Gray;
             lblpnlBoolDisplay.ShowCloseButton = true;
             lblpnlBoolDisplay.ShowSeparator = false;
-            lblpnlBoolDisplay.Size = new Size(252, 24);
+            lblpnlBoolDisplay.Size = new Size(469, 40);
             lblpnlBoolDisplay.TabIndex = 3;
             lblpnlBoolDisplay.Text = "Display";
             // 
@@ -819,25 +843,27 @@
             ddlBooleanDisplay.DrawMode = DrawMode.OwnerDrawFixed;
             ddlBooleanDisplay.FlatStyle = FlatStyle.Flat;
             ddlBooleanDisplay.FormattingEnabled = true;
-            ddlBooleanDisplay.Location = new Point(93, 0);
+            ddlBooleanDisplay.Location = new Point(107, 0);
+            ddlBooleanDisplay.Margin = new Padding(6);
             ddlBooleanDisplay.Name = "ddlBooleanDisplay";
             ddlBooleanDisplay.SelectedBackColor = Color.LightGray;
             ddlBooleanDisplay.SelectedBorderColor = Color.BlueViolet;
             ddlBooleanDisplay.SelectedColor = Color.SteelBlue;
             ddlBooleanDisplay.SelectedForeColor = Color.DimGray;
-            ddlBooleanDisplay.Size = new Size(159, 24);
+            ddlBooleanDisplay.Size = new Size(362, 40);
             ddlBooleanDisplay.TabIndex = 3;
             ddlBooleanDisplay.SelectedIndexChanged += ddlBooleanDisplay_SelectedIndexChanged;
             // 
             // ModbusProperties
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel1);
             DefaultDockArea = ODModules.Docking.DockArea.Right;
             DockText = "Properties";
+            Margin = new Padding(6);
             Name = "ModbusProperties";
-            Size = new Size(260, 776);
+            Size = new Size(483, 1655);
             Load += ModbusProperties_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);

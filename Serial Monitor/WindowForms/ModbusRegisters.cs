@@ -2336,6 +2336,29 @@ namespace Serial_Monitor {
             }
         }
 
+        private void zoom100_Click(object sender, EventArgs e) {
+            SetZoom(100);
+        }
+        private void zoom115_Click(object sender, EventArgs e) {
+            SetZoom(110);
+        }
+        private void zoom120_Click(object sender, EventArgs e) {
+            SetZoom(120);
+        }
+        private void zoom150_Click(object sender, EventArgs e) {
+            SetZoom(150);
+        }
+        private void zoom175_Click(object sender, EventArgs e) {
+            SetZoom(175);
+        }
+        private void zoom200_Click(object sender, EventArgs e) {
+            SetZoom(200);
+        }
+        private void SetZoom(int ZoomPercentage) {
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (CurrentEditor == null) { return; }
+            CurrentEditor.Zoom = ZoomPercentage;
+        }
         internal enum DataEditor {
             MasterView = 0x00,
             SnapshotView = 0x01

@@ -416,8 +416,14 @@ namespace Serial_Monitor.Classes {
                 case StepEnumerations.StepExecutable.Open:
                     ProgramSerialManagement(Function, Arguments);
                     break;
+                case StepEnumerations.StepExecutable.OpenChannel:
+                    ChannelSerialManagement(Function, Arguments);
+                    break;
                 case StepEnumerations.StepExecutable.Close:
                     ProgramSerialManagement(Function, Arguments);
+                    break;
+                case StepEnumerations.StepExecutable.CloseChannel:
+                    ChannelSerialManagement(Function, Arguments);
                     break;
                 case StepEnumerations.StepExecutable.Label:
                     SetLabel(Arguments);
@@ -574,6 +580,26 @@ namespace Serial_Monitor.Classes {
                 if (SystemManager.MainInstance != null) {
                     LastUICommand = DateTime.UtcNow;
                     SystemManager.MainInstance.ProgramSerialManagement(Function, Arguments);
+                }
+            }
+        }
+        private static void ChannelSerialManagement(StepEnumerations.StepExecutable Function, string Arguments) {
+            if (IsExecutionAllowed()) {
+                SerialManager? SelectedChannel = null;
+                try {
+                    foreach (SerialManager Chann in SystemManager.SerialManagers) {
+                        if (Chann.Name == Arguments) {
+                            SelectedChannel = Chann; break;
+                        }
+                    }
+                }
+                catch { }
+                if (SelectedChannel == null) { return; }
+                if (Function == StepExecutable.OpenChannel) {
+                    SelectedChannel.Connect();
+                }
+                else if (Function == StepExecutable.CloseChannel) {
+                    SelectedChannel.Disconnect();
                 }
             }
         }
@@ -1350,6 +1376,10 @@ namespace Serial_Monitor.Classes {
                 case StepEnumerations.StepExecutable.Label:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.SelectChannel:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.OpenChannel:
+                    return DataType.Text;
+                case StepEnumerations.StepExecutable.CloseChannel:
                     return DataType.Text;
                 case StepEnumerations.StepExecutable.Open:
                     return DataType.EnumVal;

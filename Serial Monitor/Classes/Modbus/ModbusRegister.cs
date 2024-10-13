@@ -86,7 +86,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         private static string FormatDecimal(string Input, ModbusEnums.FloatFormat Frmt) {
-            if (Frmt == ModbusEnums.FloatFormat.None) { return  Input; }
+            if (Frmt == ModbusEnums.FloatFormat.None) { return Input; }
             decimal Out = 0.0m;
             decimal.TryParse(Input, out Out);
             return Out.ToString(EnumManager.FloatFormatToString(Frmt).A);
@@ -102,17 +102,32 @@ namespace Serial_Monitor.Classes.Modbus {
         public ModbusEnums.DataFormat Format {
             get { return format; }
             set {
+                //if (value == ModbusEnums.DataFormat.Float) {
+                //    dataSize = ModbusEnums.DataSize.Bits32;
+                //    signed = false;
+                //}
+                //else if (value == ModbusEnums.DataFormat.Double) {
+                //    dataSize = ModbusEnums.DataSize.Bits64;
+                //    signed = false;
+                //}
+                //else if (value == ModbusEnums.DataFormat.Char) {
+                //    dataSize = ModbusEnums.DataSize.Bits16;
+                //    signed = false;
+                //}
                 if (value == ModbusEnums.DataFormat.Float) {
-                    dataSize = ModbusEnums.DataSize.Bits32;
-                    signed = false;
+                    if (dataSize != ModbusEnums.DataSize.Bits32) {
+                        dataSize = ModbusEnums.DataSize.Bits32;
+                    }
                 }
                 else if (value == ModbusEnums.DataFormat.Double) {
-                    dataSize = ModbusEnums.DataSize.Bits64;
-                    signed = false;
+                    if (dataSize != ModbusEnums.DataSize.Bits64) {
+                        dataSize = ModbusEnums.DataSize.Bits64;
+                    }
                 }
                 else if (value == ModbusEnums.DataFormat.Char) {
-                    dataSize = ModbusEnums.DataSize.Bits16;
-                    signed = false;
+                    if (dataSize != ModbusEnums.DataSize.Bits16) {
+                        dataSize = ModbusEnums.DataSize.Bits16;
+                    }
                 }
                 format = value;
                 bool ResetTo16 = CheckAndChangeNeighbouringFormats(Index, parent, dataSize, typeData);
@@ -130,21 +145,38 @@ namespace Serial_Monitor.Classes.Modbus {
         public ModbusEnums.DataSize Size {
             get { return dataSize; }
             set {
-                if (format == ModbusEnums.DataFormat.Float) {
-                    dataSize = ModbusEnums.DataSize.Bits32;
-                    signed = false;
+                //if (format == ModbusEnums.DataFormat.Float) {
+                //    dataSize = ModbusEnums.DataSize.Bits32;
+                //    signed = false;
+                //}
+                //else if (format == ModbusEnums.DataFormat.Double) {
+                //    dataSize = ModbusEnums.DataSize.Bits64;
+                //    signed = false;
+                //}
+                //else if (format == ModbusEnums.DataFormat.Char) {
+                //    dataSize = ModbusEnums.DataSize.Bits16;
+                //    signed = false;
+                //}
+                //else {
+                //    dataSize = value;
+                //}
+                if (value != ModbusEnums.DataSize.Bits32) {
+                    if (format == ModbusEnums.DataFormat.Float) {
+                        format = ModbusEnums.DataFormat.Decimal;
+                    }
                 }
-                else if (format == ModbusEnums.DataFormat.Double) {
-                    dataSize = ModbusEnums.DataSize.Bits64;
-                    signed = false;
+                else if (value != ModbusEnums.DataSize.Bits64) {
+                    if (format == ModbusEnums.DataFormat.Double) {
+                        format = ModbusEnums.DataFormat.Decimal;
+                    }
                 }
-                else if (format == ModbusEnums.DataFormat.Char) {
-                    dataSize = ModbusEnums.DataSize.Bits16;
-                    signed = false;
+                else if (value != ModbusEnums.DataSize.Bits16) {
+                    if (format == ModbusEnums.DataFormat.Char) {
+                        format = ModbusEnums.DataFormat.Decimal;
+                    }
                 }
-                else {
-                    dataSize = value;
-                }
+                dataSize = value;
+
                 bool ResetTo16 = CheckAndChangeNeighbouringFormats(Index, parent, value, typeData);
                 if (ResetTo16) {
                     dataSize = ModbusEnums.DataSize.Bits16;
@@ -271,7 +303,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             else if (dataSize == ModbusEnums.DataSize.Bits64) {
-                if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
+                if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
                     regValue = (short)(0xFFFF & Input);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 1, Input, typeData, parent, AllowTransmit);
@@ -279,7 +311,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         SetData(Index + 3, 3, Input, typeData, parent, AllowTransmit);
                     }
                 }
-                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndian) {
+                else if (wordOrder == ModbusEnums.ByteOrder.BigEndian) {
                     regValue = QuickShiftDataDown(Input, 3);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 2, Input, typeData, parent, AllowTransmit);
@@ -287,7 +319,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         SetData(Index + 3, 0, Input, typeData, parent, AllowTransmit);
                     }
                 }
-                else if (wordOrder == ModbusEnums.ByteOrder.BigEndianByteSwap) {
+                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndianByteSwap) {
                     regValue = (short)SwapBytesAndCombine((ushort)(0xFFFF & Input), true);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 1, Input, typeData, parent, AllowTransmit, true);
@@ -295,7 +327,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         SetData(Index + 3, 3, Input, typeData, parent, AllowTransmit, true);
                     }
                 }
-                else if (wordOrder == ModbusEnums.ByteOrder.LittleEndianByteSwap) {
+                else if (wordOrder == ModbusEnums.ByteOrder.BigEndianByteSwap) {
                     regValue = QuickShiftDataDown(Input, 3, true);
                     if (Index + 3 < ModbusSupport.MaximumRegisters) {
                         SetData(Index + 1, 2, Input, typeData, parent, AllowTransmit, true);
@@ -402,7 +434,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 int NextIndex = Index - i;
                 if (NextIndex >= 0) {
                     ModbusEnums.DataSize NextSize = GetDataSize(NextIndex, parentManager, Selection);
-                    if (IsSizeAndDistanceInScope(NextSize, i) == true) {
+                    if (IsSizeAndDistanceInScope(Size, NextSize, i, true) == true) {
                         ResetFormats(NextIndex, parentManager, Selection);
                     }
                 }
@@ -411,12 +443,22 @@ namespace Serial_Monitor.Classes.Modbus {
                 int NextIndex = Index + i;
                 if (NextIndex < ModbusSupport.MaximumRegisters) {
                     ModbusEnums.DataSize NextSize = GetDataSize(NextIndex, parentManager, Selection);
-                    if (IsSizeAndDistanceInScope(NextSize, i, true) == true) {
+                    if (IsSizeAndDistanceInScope(Size, NextSize, i, false) == true) {
                         ResetFormats(NextIndex, parentManager, Selection);
                     }
                 }
             }
             return false;
+        }
+        internal void DefaultSize() {
+            this.dataSize = ModbusEnums.DataSize.Bits16;
+            ModifyValue();
+            SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
+        }
+        internal void DefaultFormat() {
+            this.format = ModbusEnums.DataFormat.Decimal;
+            ModifyValue();
+            SystemManager.ModbusRegisterPropertyChanged(parent, this, Index, typeData);
         }
         private static void ResetFormats(int Index, ModbusSlave parentManager, DataSelection Selection) {
             ModbusEnums.DataSize CurrentSize = GetDataSize(Index, parentManager, Selection);
@@ -424,15 +466,15 @@ namespace Serial_Monitor.Classes.Modbus {
             if (CurrentSize < ModbusEnums.DataSize.Bits32) { return; }
             if (Selection == DataSelection.ModbusDataInputRegisters) {
                 if ((CurrentFormat == ModbusEnums.DataFormat.Float) || (CurrentFormat == ModbusEnums.DataFormat.Double)) {
-                    parentManager.InputRegisters[Index].Format = ModbusEnums.DataFormat.Decimal;
+                    parentManager.InputRegisters[Index].DefaultFormat();
                 }
-                parentManager.InputRegisters[Index].Size = ModbusEnums.DataSize.Bits16;
+                parentManager.InputRegisters[Index].DefaultSize();
             }
             else if (Selection == DataSelection.ModbusDataHoldingRegisters) {
                 if ((CurrentFormat == ModbusEnums.DataFormat.Float) || (CurrentFormat == ModbusEnums.DataFormat.Double)) {
-                    parentManager.HoldingRegisters[Index].Format = ModbusEnums.DataFormat.Decimal;
+                    parentManager.HoldingRegisters[Index].DefaultFormat();
                 }
-                parentManager.HoldingRegisters[Index].Size = ModbusEnums.DataSize.Bits16;
+                parentManager.HoldingRegisters[Index].DefaultSize();
             }
         }
         private static ModbusEnums.DataFormat GetDataFormat(int Index, ModbusSlave parentManager, DataSelection Selection) {
@@ -453,19 +495,38 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return ModbusEnums.DataSize.Bits16;
         }
-        private static bool IsSizeAndDistanceInScope(ModbusEnums.DataSize Size, int Distance, bool CheckAll = false) {
-            if (Size == ModbusEnums.DataSize.Bits32) {
-                if (CheckAll == false) {
+        private static bool IsSizeAndDistanceInScope(ModbusEnums.DataSize CentreSize, ModbusEnums.DataSize Size, int Distance, bool Above) {
+            if (CentreSize == ModbusEnums.DataSize.Bits32) {
+                if (Size == ModbusEnums.DataSize.Bits32) {
                     if (Distance <= 1) { return true; }
                     return false;
                 }
-                else {
+                else if (Size == ModbusEnums.DataSize.Bits64) {
+                    if (Above) {
+                        if (Distance <= 3) { return true; }
+                    }
+                    else {
+                        if (Distance <= 1) { return true; }
+                    }
+                    return false;
+                    return false;
+                }
+                return false;
+            }
+            else if (CentreSize == ModbusEnums.DataSize.Bits64) {
+                if (Size == ModbusEnums.DataSize.Bits32) {
+                    if (Above) {
+                        if (Distance <= 1) { return true; }
+                    }
+                    else {
+                        if (Distance <= 3) { return true; }
+                    }
+                    return false;
+                }
+                else if (Size == ModbusEnums.DataSize.Bits64) {
                     if (Distance <= 3) { return true; }
                     return false;
                 }
-            }
-            else if (Size == ModbusEnums.DataSize.Bits64) {
-                if (Distance <= 3) { return true; }
                 return false;
             }
             return false;

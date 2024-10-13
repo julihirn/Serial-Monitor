@@ -622,6 +622,12 @@ namespace Serial_Monitor.Classes {
             lastReceivedTime = DateTime.UtcNow;
         }
         private void InitaliseZeroLatencyReceiver() {
+            Thread TrMbRTURx = new Thread(() => ZeroLatencyReceiver());
+            TrMbRTURx.Name = "TrSPRx";
+            TrMbRTURx.IsBackground = true;
+            TrMbRTURx.Start();
+        }
+        private void ZeroLatencyReceiver() {
             byte[] buffer = new byte[2000];
             Action? kickoffRead = null;
             kickoffRead = delegate {
@@ -986,7 +992,7 @@ namespace Serial_Monitor.Classes {
             try {
                 if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + 1000) {
                     RXCurrentByte = 0;
-                   // Debug.Print("Timeout");
+                    Debug.Print("Timeout");
                 }
                 lastReceivedTime = DateTime.UtcNow;
                 bytesReceived += (ulong)InputBuf.Length;
@@ -1001,7 +1007,7 @@ namespace Serial_Monitor.Classes {
                     //ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
                     //ModbusProcessCommand(ref Buffer, Func, Buffer[0]);
                     byte[] BlockBuffer = new byte[RXCurrentByte];
-                    Array.Copy(RXBuffer, 0, BlockBuffer,0, BlockBuffer.Length);
+                    Array.Copy(RXBuffer, 0, BlockBuffer, 0, BlockBuffer.Length);
                     lastReceivedTime = DateTime.UtcNow;
                     RXCurrentByte = 0;
                     Thread TrMbRTURx = new Thread(() => RTUStringProcessor(BlockBuffer));
@@ -1198,7 +1204,7 @@ namespace Serial_Monitor.Classes {
                     default:
                         ModbusMasterExceptionReturn(Buffer, RXCurrentByte); break;
                         //ModbusPostException(Buffer[0], (Modbus.FunctionCode)Buffer[1], ModbusException.IllegalFunction);
-                        
+
                 }
             }
             else {
@@ -1322,8 +1328,8 @@ namespace Serial_Monitor.Classes {
             }
             else if (inputFormat == StreamInputFormat.ModbusASCII) {
                 int Device = ModbusSupport.GetArrayValue(0, ref Input);
-                int FunctionCode = ModbusSupport.GetArrayValue(2, ref Input)& 0x7F;
-                int ExceptionCode = ModbusSupport.GetArrayValue(4, ref Input) ;
+                int FunctionCode = ModbusSupport.GetArrayValue(2, ref Input) & 0x7F;
+                int ExceptionCode = ModbusSupport.GetArrayValue(4, ref Input);
                 try {
                     ModbusSupport.ModbusException Exception = (ModbusSupport.ModbusException)ExceptionCode;
                     ModbusSupport.FunctionCode Function = (ModbusSupport.FunctionCode)FunctionCode;
@@ -1913,7 +1919,7 @@ namespace Serial_Monitor.Classes {
         }
         private void PostExceptionThread(int Unit, Modbus.ModbusSupport.FunctionCode Function, Modbus.ModbusSupport.ModbusException Exception) {
             try {
-                foreach(ModbusSlave Slv in Slave) {
+                foreach (ModbusSlave Slv in Slave) {
                     if (Slv.Address == Unit) {
                         Slv.RaiseException(Function, Exception);
                         break;
@@ -2088,7 +2094,7 @@ namespace Serial_Monitor.Classes {
             Armmed = 0x01,
             Closing = 0x02
         }
-       
+
     }
     public enum DataSelection {
         ModbusDataCoils = 0x00,
