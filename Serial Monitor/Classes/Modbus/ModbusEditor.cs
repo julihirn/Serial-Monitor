@@ -764,7 +764,7 @@ namespace Serial_Monitor.Classes.Modbus {
             if (ListEditor.CurrentItems == null) { return; }
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
                 if (ListEditor.CurrentItems[i].Selected == true) {
-                    if (ListEditor.CurrentItems[i].SubItems.Count == 5) {
+                    if (ListEditor.CurrentItems[i].SubItems.Count >= 5) {
                         object? objCmd = ListEditor.CurrentItems[i].Tag;
                         if (objCmd == null) { continue; }
                         if (objCmd.GetType() == typeof(ModbusRegister)) {
@@ -778,11 +778,11 @@ namespace Serial_Monitor.Classes.Modbus {
                                 Reg.Value = 0;
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeFormat)) {
-                                Reg.Format = DataFormat.Decimal;
+                                Reg.DefaultFormat();
                                 Reg.Signed = false;
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeSize)) {
-                                Reg.Size = DataSize.Bits16;
+                                Reg.DefaultSize();
                             }
                             if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
                                 Reg.UseBackColor = false;

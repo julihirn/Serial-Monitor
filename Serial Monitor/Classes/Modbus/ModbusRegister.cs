@@ -673,7 +673,7 @@ namespace Serial_Monitor.Classes.Modbus {
             Name = "";
             wordOrder = ModbusEnums.ByteOrder.BigEndian;
             format = ModbusEnums.DataFormat.Decimal;
-            dataSize = ModbusEnums.DataSize.Bits8;
+            dataSize = ModbusEnums.DataSize.Bits16;
             formattedValue = "0";
             regValue = 0;
             userChanged = false;
