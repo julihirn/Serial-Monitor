@@ -644,7 +644,7 @@ namespace Serial_Monitor {
             ChangeSigned(FormatEnums.SignedState.Unsigned);
         }
         private void ddbToggleSigned_Click(object sender, EventArgs e) {
-            ChangeSigned(FormatEnums.SignedState.Toogle);
+            ChangeSigned(FormatEnums.SignedState.Toggle);
         }
         private void ChangeSigned(FormatEnums.SignedState State) {
             ListControl? CurrentEditor = GetCurrentListView();

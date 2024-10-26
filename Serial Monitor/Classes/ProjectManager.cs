@@ -164,6 +164,7 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "InType", EnumManager.InputFormatToString(Sm.InputFormat).B);
                     DocumentHandler.Write(Sw, 2, "OutType", EnumManager.OutputFormatToString(Sm.OutputFormat).B);
                     DocumentHandler.Write(Sw, 2, "LineFormat", EnumManager.LineFormattingToString(Sm.LineFormat));
+                    DocumentHandler.Write(Sw, 2, "EscChars", Sm.AllowEscapeCharacters);
                     DocumentHandler.Write(Sw, 2, "ModbusMstr", Sm.IsMaster);
                     DocumentHandler.Write(Sw, 2, "OutputToMstr", Sm.OutputToMasterTerminal);
                     DocumentHandler.Write(Sw, 2, "AutoConnect", Sm.AutoReconnect);
@@ -429,6 +430,10 @@ namespace Serial_Monitor.Classes {
             catch { }
             try {
                 Sm.LineFormat = EnumManager.StringToLineFormatting(DocumentHandler.GetStringVariable(Pstrc, "LineFormat", "frmLineNone"));
+            }
+            catch { }
+            try {
+                Sm.AllowEscapeCharacters = DocumentHandler.GetBooleanVariable(Pstrc, "EscChars", true);
             }
             catch { }
             try {

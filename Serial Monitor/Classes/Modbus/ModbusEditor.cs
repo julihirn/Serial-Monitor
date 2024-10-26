@@ -591,7 +591,7 @@ namespace Serial_Monitor.Classes.Modbus {
                                         Reg.Signed = false; break;
                                     case SignedState.Signed:
                                         Reg.Signed = true; break;
-                                    case SignedState.Toogle:
+                                    case SignedState.Toggle:
                                         Reg.Signed = !Reg.Signed; break;
                                 }
                             }

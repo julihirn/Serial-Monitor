@@ -9,9 +9,11 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes {
     public class SerialManager : IDisposable {
@@ -404,6 +406,16 @@ namespace Serial_Monitor.Classes {
         //public Modbus.ModbusRegister[] HoldingRegisters {
         //    get { return holdingRegisters; }
         //}
+        bool allowEscapeCharacters = true;
+        [Category("Data Formatting")]
+        [DisplayName("Allow Escape Characters")]
+        public bool AllowEscapeCharacters {
+            get { return allowEscapeCharacters; }
+            set {
+                allowEscapeCharacters = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
         StreamInputFormat inputFormat = StreamInputFormat.Text;
         [Category("Data Formatting")]
         [DisplayName("Input Format")]
@@ -517,11 +529,27 @@ namespace Serial_Monitor.Classes {
                     default:
                         break;
                 }
+                if (allowEscapeCharacters) {
+                    return SendEscapedSequence(Data, Appendage, false);
+
+                }
                 return Post(Data + Appendage, false);
             }
             else {
+                if (allowEscapeCharacters) {
+                    return SendEscapedSequence(Data, "", false);
+                }
                 return Post(Data, false);
-
+            }
+        }
+        private bool SendEscapedSequence(string Input, string Appendage = "", bool Writeline = false) {
+            try {
+                string Unescaped = Regex.Unescape(Input) + Appendage;
+                return Post(Unescaped, Writeline);
+            }
+            catch {
+                SystemManager.Print(ErrorType.M_Warning, "POST_INVALID_ESC", "The text: \"" + Input + "\" contains an invalid escape sequence");
+                return false;
             }
         }
         public bool Post(string Data, bool WriteLine = false) {

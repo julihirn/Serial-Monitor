@@ -74,6 +74,7 @@ namespace Serial_Monitor.WindowForms {
             SystemManager.CheckFormatOption(EnumManager.InputFormatToString(manager.InputFormat).B, btnChannelInputFormat);
             SystemManager.CheckFormatOption(EnumManager.OutputFormatToString(manager.OutputFormat).B, btnChannelOutputFormat);
             outputInMasterTerminalToolStripMenuItem.Checked = manager.OutputToMasterTerminal;
+            allowEscapeCharToolStripMenuItem.Checked = manager.AllowEscapeCharacters;
         }
         private void ConnectionStatus() {
             if (manager == null) { return; }
@@ -272,8 +273,8 @@ namespace Serial_Monitor.WindowForms {
         private void Terminal_KeyPress(object sender, KeyPressEventArgs e) {
             Output.Focus();
         }
-        private void SetFormat(object ?Index) {
-            if (Index == null) { return;}
+        private void SetFormat(object? Index) {
+            if (Index == null) { return; }
             int FormatIndex = -1; int.TryParse(Index.ToString(), out FormatIndex);
             foreach (ToolStripItem MItem in ddbDisplayTime.DropDownItems) {
                 if (MItem.Tag != null) {
@@ -709,7 +710,7 @@ namespace Serial_Monitor.WindowForms {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
                 ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
-                if (Tsmi.Tag == null) { return ; }
+                if (Tsmi.Tag == null) { return; }
                 if (manager != null) {
                     manager.BaudRate = int.Parse(Tsmi.Tag.ToString() ?? "9600");
                     SystemManager.CheckFormatOption(manager.BaudRate, btnChannelBaudVals);
@@ -821,7 +822,7 @@ namespace Serial_Monitor.WindowForms {
                 SystemManager.CheckFormatOption(ControlText, btnChannelInputFormat);
             }
         }
-        private void OutputFormatChange(string ?ControlText) {
+        private void OutputFormatChange(string? ControlText) {
             if (ControlText == null) { return; }
             StreamOutputFormat FormatPair = EnumManager.StringToOutputFormat(ControlText);
             StringPair TextualPair = EnumManager.OutputFormatToString(FormatPair, false);
@@ -835,6 +836,11 @@ namespace Serial_Monitor.WindowForms {
         private void outputInMasterTerminalToolStripMenuItem_Click(object sender, EventArgs e) {
             if (manager != null) {
                 manager.OutputToMasterTerminal = !manager.OutputToMasterTerminal;
+            }
+        }
+        private void allowEscapeCharToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (manager != null) {
+                manager.AllowEscapeCharacters = !manager.AllowEscapeCharacters;
             }
         }
     }

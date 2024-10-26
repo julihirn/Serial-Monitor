@@ -73,6 +73,7 @@ namespace Serial_Monitor {
                 ddbPorts.Text = currentManager.PortName;
                 SystemRunning(currentManager.Connected);
                 btnMenuModbusMaster.Checked = currentManager.IsMaster;
+                btnallowEscapeCharacters.Checked = currentManager.AllowEscapeCharacters;
                 SystemManager.CheckFormatOption(EnumManager.HandshakeToString(currentManager.Handshake), btnChannelFlowCtrl);
                 CheckLineFormat();
             }
@@ -184,6 +185,7 @@ namespace Serial_Monitor {
             LocalisationManager.ApplyText(btnMenuOutputMaster, "outputInTerminal");
             LocalisationManager.ApplyText(modbusMasterToolStripMenuItem, "modbusMaster");
             LocalisationManager.ApplyText(btnMenuModbusMaster, "modbusMaster");
+            LocalisationManager.ApplyText(btnallowEscapeCharacters, "allowesc");
             LocalisationManager.ApplyText(btnMenuTextFormat, "textFormatting");
             LocalisationManager.ApplyText(btnMenuOpenNewTerminal, "openInTerminal");
             LocalisationManager.ApplyText(connectToolStripMenuItem, "connect");
@@ -343,6 +345,7 @@ namespace Serial_Monitor {
             btnRenameChannel.Click += renameChannelToolStripMenuItem1_Click;
             btnMenuOutputMaster.Click += outputInTerminalToolStripMenuItem_Click;
             btnMenuModbusMaster.Click += toolStripMenuItem1_Click;
+            btnallowEscapeCharacters.Click += BtnallowEscapeCharacters_Click;
             btnOptFrmLineNone.Click += btnOptFrmLineNone_Click;
             btnOptFrmLineLF.Click += btnOptFrmLineLF_Click;
             btnOptFrmLineCRLF.Click += btnOptFrmLineCRLF_Click;
@@ -422,6 +425,9 @@ namespace Serial_Monitor {
             Load += Form1_Load;
             KeyPress += Form1_KeyPress;
         }
+
+       
+
         public MainWindow() {
             Setup();
         }
@@ -1502,6 +1508,7 @@ namespace Serial_Monitor {
             //SerialManager? SerMan = SystemManager.GetChannel(navigator1.SelectedItem);
             if (currentManager != null) {
                 btnMenuModbusMaster.Checked = currentManager.IsMaster;
+                btnallowEscapeCharacters.Checked = currentManager.AllowEscapeCharacters;
                 btnMenuOutputMaster.Checked = currentManager.OutputToMasterTerminal;
             }
             CheckLineFormat();
@@ -2589,7 +2596,11 @@ namespace Serial_Monitor {
             this.Close();
         }
 
-
+        private void BtnallowEscapeCharacters_Click(object? sender, EventArgs e) {
+            if (CurrentManager != null) {
+                CurrentManager.AllowEscapeCharacters = btnallowEscapeCharacters.Checked;
+            }
+        }
         private void toolStripMenuItem1_Click(object? sender, EventArgs e) {
             if (CurrentManager != null) {
                 CurrentManager.IsMaster = btnMenuModbusMaster.Checked;

@@ -51,7 +51,7 @@ namespace Serial_Monitor.Classes.Enums {
         public enum SignedState {
             Unsigned = 0x00,
             Signed = 0x01,
-            Toogle = 0x02
+            Toggle = 0x02
         }
         public enum PadFrequency {
             None = 0x00,
