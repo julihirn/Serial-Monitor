@@ -23,12 +23,12 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            Handlers.NumericalString numericalString5 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString6 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString7 = new Handlers.NumericalString();
-            Handlers.NumericalString numericalString8 = new Handlers.NumericalString();
-            ODModules.Column column3 = new ODModules.Column();
-            ODModules.Column column4 = new ODModules.Column();
+            Handlers.NumericalString numericalString1 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString2 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString3 = new Handlers.NumericalString();
+            Handlers.NumericalString numericalString4 = new Handlers.NumericalString();
+            ODModules.Column column1 = new ODModules.Column();
+            ODModules.Column column2 = new ODModules.Column();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WriteRegisters));
             panel2 = new Panel();
             btnCancel = new ODModules.Button();
@@ -82,9 +82,10 @@
             panel2.Controls.Add(btnCancel);
             panel2.Controls.Add(btnAccept);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(10, 351);
+            panel2.Location = new Point(19, 749);
+            panel2.Margin = new Padding(6, 6, 6, 6);
             panel2.Name = "panel2";
-            panel2.Size = new Size(264, 40);
+            panel2.Size = new Size(489, 85);
             panel2.TabIndex = 15;
             // 
             // btnCancel
@@ -111,12 +112,13 @@
             btnCancel.BorderRadius = 5;
             btnCancel.Checked = false;
             btnCancel.GroupMaximumChecked = 2;
-            btnCancel.Location = new Point(166, 12);
+            btnCancel.Location = new Point(307, 26);
+            btnCancel.Margin = new Padding(6, 6, 6, 6);
             btnCancel.Name = "btnCancel";
             btnCancel.RadioButtonGroup = "";
             btnCancel.SecondaryFont = new Font("Segoe UI", 9F);
             btnCancel.SecondaryText = "";
-            btnCancel.Size = new Size(93, 28);
+            btnCancel.Size = new Size(173, 60);
             btnCancel.Style = ODModules.ButtonStyle.Square;
             btnCancel.TabIndex = 12;
             btnCancel.Text = "Cancel";
@@ -149,12 +151,13 @@
             btnAccept.BorderRadius = 5;
             btnAccept.Checked = false;
             btnAccept.GroupMaximumChecked = 2;
-            btnAccept.Location = new Point(67, 12);
+            btnAccept.Location = new Point(123, 26);
+            btnAccept.Margin = new Padding(6, 6, 6, 6);
             btnAccept.Name = "btnAccept";
             btnAccept.RadioButtonGroup = "";
             btnAccept.SecondaryFont = new Font("Segoe UI", 9F);
             btnAccept.SecondaryText = "";
-            btnAccept.Size = new Size(93, 28);
+            btnAccept.Size = new Size(173, 60);
             btnAccept.Style = ODModules.ButtonStyle.Square;
             btnAccept.TabIndex = 11;
             btnAccept.Text = "Send";
@@ -184,14 +187,17 @@
             lblpnlRegisters.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlRegisters.LabelFont = new Font("Segoe UI", 8F);
             lblpnlRegisters.LabelForeColor = Color.WhiteSmoke;
-            lblpnlRegisters.Location = new Point(10, 10);
+            lblpnlRegisters.Location = new Point(19, 21);
+            lblpnlRegisters.Margin = new Padding(6, 6, 6, 6);
             lblpnlRegisters.Name = "lblpnlRegisters";
             lblpnlRegisters.OverrideCollapseControl = false;
-            lblpnlRegisters.Padding = new Padding(5, 18, 5, 5);
+            lblpnlRegisters.Padding = new Padding(9, 41, 9, 11);
             lblpnlRegisters.PanelCollapsible = false;
             lblpnlRegisters.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlRegisters.SeparatorColor = Color.Gray;
             lblpnlRegisters.ShowCloseButton = false;
-            lblpnlRegisters.Size = new Size(264, 122);
+            lblpnlRegisters.ShowSeparator = false;
+            lblpnlRegisters.Size = new Size(489, 204);
             lblpnlRegisters.TabIndex = 16;
             lblpnlRegisters.Text = "Register Selection";
             // 
@@ -214,14 +220,17 @@
             lblpnlQuantity.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlQuantity.LabelFont = new Font("Segoe UI", 8F);
             lblpnlQuantity.LabelForeColor = Color.Black;
-            lblpnlQuantity.Location = new Point(5, 84);
+            lblpnlQuantity.Location = new Point(9, 148);
+            lblpnlQuantity.Margin = new Padding(6, 6, 6, 6);
             lblpnlQuantity.Name = "lblpnlQuantity";
             lblpnlQuantity.OverrideCollapseControl = false;
-            lblpnlQuantity.Padding = new Padding(113, 5, 0, 5);
+            lblpnlQuantity.Padding = new Padding(127, 11, 0, 11);
             lblpnlQuantity.PanelCollapsible = false;
             lblpnlQuantity.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlQuantity.SeparatorColor = Color.Gray;
             lblpnlQuantity.ShowCloseButton = false;
-            lblpnlQuantity.Size = new Size(254, 33);
+            lblpnlQuantity.ShowSeparator = false;
+            lblpnlQuantity.Size = new Size(471, 45);
             lblpnlQuantity.TabIndex = 2;
             lblpnlQuantity.Text = "Address";
             // 
@@ -249,16 +258,17 @@
             numtxtAddress.LabelFont = new Font("Segoe UI", 9F);
             numtxtAddress.LabelForeColor = Color.Gray;
             numtxtAddress.LabelText = "";
-            numtxtAddress.Location = new Point(113, 5);
+            numtxtAddress.Location = new Point(127, 11);
+            numtxtAddress.Margin = new Padding(6, 6, 6, 6);
             numtxtAddress.Marked = false;
             numtxtAddress.MarkedBackColor = Color.Empty;
             numtxtAddress.MarkedBorderColor = Color.Beige;
-            numericalString5.DisplayValue = "32767";
-            numericalString5.Value = "32767";
-            numtxtAddress.Maximum = numericalString5;
-            numericalString6.DisplayValue = "0";
-            numericalString6.Value = "0";
-            numtxtAddress.Minimum = numericalString6;
+            numericalString1.DisplayValue = "32767";
+            numericalString1.Value = "32767";
+            numtxtAddress.Maximum = numericalString1;
+            numericalString2.DisplayValue = "0";
+            numericalString2.Value = "0";
+            numtxtAddress.Minimum = numericalString2;
             numtxtAddress.Name = "numtxtAddress";
             numtxtAddress.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             numtxtAddress.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -272,7 +282,7 @@
             numtxtAddress.SelectedBackColor = Color.Empty;
             numtxtAddress.SelectedBorderColor = Color.Beige;
             numtxtAddress.ShowLabel = true;
-            numtxtAddress.Size = new Size(141, 23);
+            numtxtAddress.Size = new Size(344, 23);
             numtxtAddress.TabIndex = 0;
             numtxtAddress.Unit = "";
             numtxtAddress.UseFixedNumericPadding = true;
@@ -298,14 +308,17 @@
             lblpnlAddress.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlAddress.LabelFont = new Font("Segoe UI", 8F);
             lblpnlAddress.LabelForeColor = Color.Black;
-            lblpnlAddress.Location = new Point(5, 51);
+            lblpnlAddress.Location = new Point(9, 103);
+            lblpnlAddress.Margin = new Padding(6, 6, 6, 6);
             lblpnlAddress.Name = "lblpnlAddress";
             lblpnlAddress.OverrideCollapseControl = false;
-            lblpnlAddress.Padding = new Padding(113, 5, 0, 5);
+            lblpnlAddress.Padding = new Padding(127, 11, 0, 11);
             lblpnlAddress.PanelCollapsible = false;
             lblpnlAddress.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlAddress.SeparatorColor = Color.Gray;
             lblpnlAddress.ShowCloseButton = false;
-            lblpnlAddress.Size = new Size(254, 33);
+            lblpnlAddress.ShowSeparator = false;
+            lblpnlAddress.Size = new Size(471, 45);
             lblpnlAddress.TabIndex = 1;
             lblpnlAddress.Text = "Slave";
             // 
@@ -333,16 +346,17 @@
             numtxtUnit.LabelFont = new Font("Segoe UI", 9F);
             numtxtUnit.LabelForeColor = Color.Gray;
             numtxtUnit.LabelText = "";
-            numtxtUnit.Location = new Point(113, 5);
+            numtxtUnit.Location = new Point(127, 11);
+            numtxtUnit.Margin = new Padding(6, 6, 6, 6);
             numtxtUnit.Marked = false;
             numtxtUnit.MarkedBackColor = Color.Empty;
             numtxtUnit.MarkedBorderColor = Color.Beige;
-            numericalString7.DisplayValue = "32767";
-            numericalString7.Value = "32767";
-            numtxtUnit.Maximum = numericalString7;
-            numericalString8.DisplayValue = "0";
-            numericalString8.Value = "0";
-            numtxtUnit.Minimum = numericalString8;
+            numericalString3.DisplayValue = "32767";
+            numericalString3.Value = "32767";
+            numtxtUnit.Maximum = numericalString3;
+            numericalString4.DisplayValue = "0";
+            numericalString4.Value = "0";
+            numtxtUnit.Minimum = numericalString4;
             numtxtUnit.Name = "numtxtUnit";
             numtxtUnit.NumberTextAlign = ODModules.NumericTextbox.TextAlign.Right;
             numtxtUnit.NumericalFormat = ODModules.NumericTextbox.NumberFormat.Decimal;
@@ -356,7 +370,7 @@
             numtxtUnit.SelectedBackColor = Color.Empty;
             numtxtUnit.SelectedBorderColor = Color.Beige;
             numtxtUnit.ShowLabel = true;
-            numtxtUnit.Size = new Size(141, 23);
+            numtxtUnit.Size = new Size(344, 23);
             numtxtUnit.TabIndex = 0;
             numtxtUnit.Unit = "";
             numtxtUnit.UseFixedNumericPadding = true;
@@ -381,14 +395,17 @@
             labelPanel1.LabelBackColor = Color.FromArgb(16, 16, 16);
             labelPanel1.LabelFont = new Font("Segoe UI", 8F);
             labelPanel1.LabelForeColor = Color.Black;
-            labelPanel1.Location = new Point(5, 18);
+            labelPanel1.Location = new Point(9, 41);
+            labelPanel1.Margin = new Padding(6, 6, 6, 6);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = false;
-            labelPanel1.Padding = new Padding(113, 5, 0, 5);
+            labelPanel1.Padding = new Padding(127, 11, 0, 11);
             labelPanel1.PanelCollapsible = false;
             labelPanel1.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel1.SeparatorColor = Color.Gray;
             labelPanel1.ShowCloseButton = false;
-            labelPanel1.Size = new Size(254, 33);
+            labelPanel1.ShowSeparator = false;
+            labelPanel1.Size = new Size(471, 62);
             labelPanel1.TabIndex = 0;
             labelPanel1.Text = "Data Set";
             labelPanel1.Visible = false;
@@ -397,9 +414,10 @@
             // 
             cmbxDataSet.Dock = DockStyle.Top;
             cmbxDataSet.FormattingEnabled = true;
-            cmbxDataSet.Location = new Point(113, 5);
+            cmbxDataSet.Location = new Point(127, 11);
+            cmbxDataSet.Margin = new Padding(6, 6, 6, 6);
             cmbxDataSet.Name = "cmbxDataSet";
-            cmbxDataSet.Size = new Size(141, 23);
+            cmbxDataSet.Size = new Size(344, 40);
             cmbxDataSet.TabIndex = 0;
             // 
             // lblpnlValue
@@ -421,14 +439,17 @@
             lblpnlValue.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlValue.LabelFont = new Font("Segoe UI", 8F);
             lblpnlValue.LabelForeColor = Color.WhiteSmoke;
-            lblpnlValue.Location = new Point(10, 180);
+            lblpnlValue.Location = new Point(19, 319);
+            lblpnlValue.Margin = new Padding(6, 6, 6, 6);
             lblpnlValue.Name = "lblpnlValue";
             lblpnlValue.OverrideCollapseControl = false;
-            lblpnlValue.Padding = new Padding(0, 18, 0, 0);
+            lblpnlValue.Padding = new Padding(0, 41, 0, 0);
             lblpnlValue.PanelCollapsible = false;
             lblpnlValue.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlValue.SeparatorColor = Color.Gray;
             lblpnlValue.ShowCloseButton = false;
-            lblpnlValue.Size = new Size(264, 171);
+            lblpnlValue.ShowSeparator = false;
+            lblpnlValue.Size = new Size(489, 430);
             lblpnlValue.TabIndex = 17;
             lblpnlValue.Text = "Value";
             // 
@@ -441,38 +462,40 @@
             lstRegisters.ColumnColor = Color.LightGray;
             lstRegisters.ColumnForeColor = Color.Black;
             lstRegisters.ColumnLineColor = Color.DimGray;
-            column3.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
-            column3.CountOffset = 0;
-            column3.DataFormat = ODModules.ColumnDataFormat.None;
-            column3.DisplayType = ODModules.ColumnDisplayType.Text;
-            column3.DropDownRight = false;
-            column3.DropDownVisible = true;
-            column3.Exportable = false;
-            column3.ExportName = "";
-            column3.FixedWidth = false;
-            column3.ItemAlignment = ODModules.ItemTextAlignment.Center;
-            column3.Text = "Register";
-            column3.UseItemBackColor = false;
-            column3.UseItemForeColor = false;
-            column3.Visible = true;
-            column3.Width = 80;
-            column4.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column4.CountOffset = 0;
-            column4.DataFormat = ODModules.ColumnDataFormat.None;
-            column4.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column4.DropDownRight = false;
-            column4.DropDownVisible = false;
-            column4.Exportable = false;
-            column4.ExportName = "";
-            column4.FixedWidth = true;
-            column4.ItemAlignment = ODModules.ItemTextAlignment.Right;
-            column4.Text = "Value";
-            column4.UseItemBackColor = false;
-            column4.UseItemForeColor = false;
-            column4.Visible = true;
-            column4.Width = 184;
-            lstRegisters.Columns.Add(column3);
-            lstRegisters.Columns.Add(column4);
+            column1.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column1.CountOffset = 0;
+            column1.DataFormat = ODModules.ColumnDataFormat.None;
+            column1.DisplayType = ODModules.ColumnDisplayType.Text;
+            column1.DropDownRight = false;
+            column1.DropDownVisible = true;
+            column1.Exportable = false;
+            column1.ExportName = "";
+            column1.FixedWidth = false;
+            column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column1.LastDPI = 192F;
+            column1.Text = "Register";
+            column1.UseItemBackColor = false;
+            column1.UseItemForeColor = false;
+            column1.Visible = true;
+            column1.Width = 80;
+            column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column2.CountOffset = 0;
+            column2.DataFormat = ODModules.ColumnDataFormat.None;
+            column2.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column2.DropDownRight = false;
+            column2.DropDownVisible = false;
+            column2.Exportable = false;
+            column2.ExportName = "";
+            column2.FixedWidth = true;
+            column2.ItemAlignment = ODModules.ItemTextAlignment.Right;
+            column2.LastDPI = 192F;
+            column2.Text = "Value";
+            column2.UseItemBackColor = false;
+            column2.UseItemForeColor = false;
+            column2.Visible = true;
+            column2.Width = 409;
+            lstRegisters.Columns.Add(column1);
+            lstRegisters.Columns.Add(column2);
             lstRegisters.Dock = DockStyle.Fill;
             lstRegisters.DropDownMouseDown = Color.DimGray;
             lstRegisters.DropDownMouseOver = Color.LightGray;
@@ -484,7 +507,8 @@
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
-            lstRegisters.Location = new Point(0, 43);
+            lstRegisters.Location = new Point(0, 83);
+            lstRegisters.Margin = new Padding(6, 6, 6, 6);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -501,11 +525,12 @@
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = false;
-            lstRegisters.Size = new Size(264, 128);
+            lstRegisters.Size = new Size(489, 347);
             lstRegisters.SpanColumn = 1;
             lstRegisters.TabIndex = 1;
             lstRegisters.UseLocalList = true;
             lstRegisters.VerScroll = 0;
+            lstRegisters.Zoom = 100;
             lstRegisters.DropDownClicked += lstRegisters_DropDownClicked;
             // 
             // tsMain
@@ -513,6 +538,7 @@
             tsMain.BackColorNorth = Color.DodgerBlue;
             tsMain.BackColorSouth = Color.DodgerBlue;
             tsMain.BorderColor = Color.WhiteSmoke;
+            tsMain.ImageScalingSize = new Size(32, 32);
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemForeColor = Color.Black;
@@ -520,16 +546,17 @@
             tsMain.ItemSelectedBackColorNorth = Color.White;
             tsMain.ItemSelectedBackColorSouth = Color.White;
             tsMain.ItemSelectedForeColor = Color.Black;
-            tsMain.Location = new Point(0, 18);
+            tsMain.Location = new Point(0, 41);
             tsMain.MenuBackColorNorth = Color.DodgerBlue;
             tsMain.MenuBackColorSouth = Color.DodgerBlue;
             tsMain.MenuBorderColor = Color.WhiteSmoke;
             tsMain.MenuSeparatorColor = Color.WhiteSmoke;
             tsMain.MenuSymbolColor = Color.WhiteSmoke;
             tsMain.Name = "tsMain";
+            tsMain.Padding = new Padding(0, 0, 4, 0);
             tsMain.RoundedToolStrip = false;
             tsMain.ShowBorder = false;
-            tsMain.Size = new Size(264, 25);
+            tsMain.Size = new Size(489, 42);
             tsMain.StripItemSelectedBackColorNorth = Color.White;
             tsMain.StripItemSelectedBackColorSouth = Color.White;
             tsMain.TabIndex = 0;
@@ -542,7 +569,7 @@
             btnAdd.ImageScaling = ToolStripItemImageScaling.None;
             btnAdd.ImageTransparentColor = Color.Magenta;
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(23, 22);
+            btnAdd.Size = new Size(46, 36);
             btnAdd.Text = "Add";
             btnAdd.Click += btnAdd_Click;
             // 
@@ -553,14 +580,14 @@
             btnRemove.ImageScaling = ToolStripItemImageScaling.None;
             btnRemove.ImageTransparentColor = Color.Magenta;
             btnRemove.Name = "btnRemove";
-            btnRemove.Size = new Size(23, 22);
+            btnRemove.Size = new Size(46, 36);
             btnRemove.Text = "Remove";
             btnRemove.Click += btnRemove_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 25);
+            toolStripSeparator1.Size = new Size(6, 42);
             // 
             // btnMoveUp
             // 
@@ -568,7 +595,7 @@
             btnMoveUp.Image = (Image)resources.GetObject("btnMoveUp.Image");
             btnMoveUp.ImageTransparentColor = Color.Magenta;
             btnMoveUp.Name = "btnMoveUp";
-            btnMoveUp.Size = new Size(23, 22);
+            btnMoveUp.Size = new Size(46, 36);
             btnMoveUp.Text = "Move Up";
             btnMoveUp.Click += btnMoveUp_Click;
             // 
@@ -578,7 +605,7 @@
             btnMoveDown.Image = (Image)resources.GetObject("btnMoveDown.Image");
             btnMoveDown.ImageTransparentColor = Color.Magenta;
             btnMoveDown.Name = "btnMoveDown";
-            btnMoveDown.Size = new Size(23, 22);
+            btnMoveDown.Size = new Size(46, 36);
             btnMoveDown.Text = "Move Down";
             btnMoveDown.Click += btnMoveDown_Click;
             // 
@@ -588,6 +615,7 @@
             cmMain.BorderColor = Color.Black;
             cmMain.DropShadowEnabled = false;
             cmMain.ForeColor = Color.White;
+            cmMain.ImageScalingSize = new Size(32, 32);
             cmMain.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
             cmMain.Items.AddRange(new ToolStripItem[] { sendToolStripMenuItem, toolStripSeparator2, addToolStripMenuItem, removeToolStripMenuItem, toolStripSeparator3, moveUpToolStripMenuItem, moveDownToolStripMenuItem, toolStripSeparator4, copyToolStripMenuItem, pasteToolStripMenuItem });
             cmMain.MenuBackColorNorth = Color.DodgerBlue;
@@ -597,27 +625,27 @@
             cmMain.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmMain.ShowInsetShadow = false;
             cmMain.ShowItemInsetShadow = false;
-            cmMain.Size = new Size(204, 176);
+            cmMain.Size = new Size(348, 288);
             // 
             // sendToolStripMenuItem
             // 
             sendToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             sendToolStripMenuItem.Name = "sendToolStripMenuItem";
-            sendToolStripMenuItem.Size = new Size(203, 22);
+            sendToolStripMenuItem.Size = new Size(347, 38);
             sendToolStripMenuItem.Text = "Send";
             sendToolStripMenuItem.Click += sendToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(200, 6);
+            toolStripSeparator2.Size = new Size(344, 6);
             // 
             // addToolStripMenuItem
             // 
             addToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             addToolStripMenuItem.Name = "addToolStripMenuItem";
             addToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Q;
-            addToolStripMenuItem.Size = new Size(203, 22);
+            addToolStripMenuItem.Size = new Size(347, 38);
             addToolStripMenuItem.Text = "Add";
             addToolStripMenuItem.Click += addToolStripMenuItem_Click;
             // 
@@ -626,21 +654,21 @@
             removeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             removeToolStripMenuItem.ShortcutKeys = Keys.Delete;
-            removeToolStripMenuItem.Size = new Size(203, 22);
+            removeToolStripMenuItem.Size = new Size(347, 38);
             removeToolStripMenuItem.Text = "Remove";
             removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(200, 6);
+            toolStripSeparator3.Size = new Size(344, 6);
             // 
             // moveUpToolStripMenuItem
             // 
             moveUpToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
             moveUpToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Up;
-            moveUpToolStripMenuItem.Size = new Size(203, 22);
+            moveUpToolStripMenuItem.Size = new Size(347, 38);
             moveUpToolStripMenuItem.Text = "Move Up";
             moveUpToolStripMenuItem.Click += moveUpToolStripMenuItem_Click;
             // 
@@ -649,14 +677,14 @@
             moveDownToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
             moveDownToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Down;
-            moveDownToolStripMenuItem.Size = new Size(203, 22);
+            moveDownToolStripMenuItem.Size = new Size(347, 38);
             moveDownToolStripMenuItem.Text = "Move Down";
             moveDownToolStripMenuItem.Click += moveDownToolStripMenuItem_Click;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(200, 6);
+            toolStripSeparator4.Size = new Size(344, 6);
             toolStripSeparator4.Visible = false;
             // 
             // copyToolStripMenuItem
@@ -664,7 +692,7 @@
             copyToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            copyToolStripMenuItem.Size = new Size(203, 22);
+            copyToolStripMenuItem.Size = new Size(347, 38);
             copyToolStripMenuItem.Text = "Copy";
             copyToolStripMenuItem.Visible = false;
             // 
@@ -673,7 +701,7 @@
             pasteToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
-            pasteToolStripMenuItem.Size = new Size(203, 22);
+            pasteToolStripMenuItem.Size = new Size(347, 38);
             pasteToolStripMenuItem.Text = "Paste";
             pasteToolStripMenuItem.Visible = false;
             // 
@@ -696,14 +724,17 @@
             lblpnlFormat.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlFormat.LabelFont = new Font("Segoe UI", 8F);
             lblpnlFormat.LabelForeColor = Color.WhiteSmoke;
-            lblpnlFormat.Location = new Point(10, 132);
+            lblpnlFormat.Location = new Point(19, 225);
+            lblpnlFormat.Margin = new Padding(6, 6, 6, 6);
             lblpnlFormat.Name = "lblpnlFormat";
             lblpnlFormat.OverrideCollapseControl = false;
-            lblpnlFormat.Padding = new Padding(0, 18, 0, 5);
+            lblpnlFormat.Padding = new Padding(0, 41, 0, 11);
             lblpnlFormat.PanelCollapsible = false;
             lblpnlFormat.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            lblpnlFormat.SeparatorColor = Color.Gray;
             lblpnlFormat.ShowCloseButton = false;
-            lblpnlFormat.Size = new Size(264, 48);
+            lblpnlFormat.ShowSeparator = false;
+            lblpnlFormat.Size = new Size(489, 94);
             lblpnlFormat.TabIndex = 18;
             lblpnlFormat.Text = "Format";
             // 
@@ -713,6 +744,7 @@
             tsFormat.BackColorSouth = Color.DodgerBlue;
             tsFormat.BorderColor = Color.WhiteSmoke;
             tsFormat.GripStyle = ToolStripGripStyle.Hidden;
+            tsFormat.ImageScalingSize = new Size(32, 32);
             tsFormat.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsFormat.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
             tsFormat.ItemForeColor = Color.Black;
@@ -720,16 +752,17 @@
             tsFormat.ItemSelectedBackColorNorth = Color.White;
             tsFormat.ItemSelectedBackColorSouth = Color.White;
             tsFormat.ItemSelectedForeColor = Color.Black;
-            tsFormat.Location = new Point(0, 18);
+            tsFormat.Location = new Point(0, 41);
             tsFormat.MenuBackColorNorth = Color.DodgerBlue;
             tsFormat.MenuBackColorSouth = Color.DodgerBlue;
             tsFormat.MenuBorderColor = Color.WhiteSmoke;
             tsFormat.MenuSeparatorColor = Color.WhiteSmoke;
             tsFormat.MenuSymbolColor = Color.WhiteSmoke;
             tsFormat.Name = "tsFormat";
+            tsFormat.Padding = new Padding(0, 0, 4, 0);
             tsFormat.RoundedToolStrip = false;
             tsFormat.ShowBorder = false;
-            tsFormat.Size = new Size(264, 25);
+            tsFormat.Size = new Size(489, 42);
             tsFormat.StripItemSelectedBackColorNorth = Color.White;
             tsFormat.StripItemSelectedBackColorSouth = Color.White;
             tsFormat.TabIndex = 0;
@@ -742,14 +775,14 @@
             ddbFormat.ImageScaling = ToolStripItemImageScaling.None;
             ddbFormat.ImageTransparentColor = Color.Magenta;
             ddbFormat.Name = "ddbFormat";
-            ddbFormat.Size = new Size(57, 22);
+            ddbFormat.Size = new Size(112, 36);
             ddbFormat.Text = "Integer";
             ddbFormat.ToolTipText = "Format";
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 25);
+            toolStripSeparator5.Size = new Size(6, 42);
             // 
             // ddbSize
             // 
@@ -757,7 +790,7 @@
             ddbSize.Image = (Image)resources.GetObject("ddbSize.Image");
             ddbSize.ImageTransparentColor = Color.Magenta;
             ddbSize.Name = "ddbSize";
-            ddbSize.Size = new Size(54, 22);
+            ddbSize.Size = new Size(107, 36);
             ddbSize.Text = "16 Bits";
             ddbSize.ToolTipText = "Data Size";
             // 
@@ -767,26 +800,27 @@
             btnSign.Image = (Image)resources.GetObject("btnSign.Image");
             btnSign.ImageTransparentColor = Color.Magenta;
             btnSign.Name = "btnSign";
-            btnSign.Size = new Size(61, 22);
+            btnSign.Size = new Size(119, 36);
             btnSign.Text = "Unsigned";
             btnSign.ToolTipText = "Signed";
             btnSign.Click += btnSize_Click;
             // 
             // WriteRegisters
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(284, 401);
+            ClientSize = new Size(527, 855);
             ContextMenuStrip = cmMain;
             Controls.Add(lblpnlValue);
-            Controls.Add(panel2);
             Controls.Add(lblpnlFormat);
             Controls.Add(lblpnlRegisters);
+            Controls.Add(panel2);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(6, 6, 6, 6);
             Name = "WriteRegisters";
-            Padding = new Padding(10);
+            Padding = new Padding(19, 21, 19, 21);
             ShowInTaskbar = false;
             Text = "Write Registers";
             FormClosing += WriteRegisters_FormClosing;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes {
     public static class CommandManager {
@@ -77,6 +78,7 @@ namespace Serial_Monitor.Classes {
         }
         public static bool GetIntegerValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
             string OldValue = Input;
+            bool ParseState = false;
             if (TestKeyword(ref Input, Compare)) {
                 string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
                 List<string> SupportedFunctions = new List<string>();
@@ -85,27 +87,26 @@ namespace Serial_Monitor.Classes {
                 if (TempCheck.StartsWith("\"") && TempCheck.EndsWith("\"")) { Input = OldValue; return false; }
                 if (DelimitOnEquals) {
                     string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
-                    for (int i = 0; i < TempValues.Count; i++) {
-                        short Temp = 0;
-                        bool Success = short.TryParse(TempValues.Value[i], out Temp);
-                        if (Success == false) { return false; }
-                        Values.Add(Temp);
-                    }
+                    ParseState = GetDelimitedShorts(StrAddress, ref Values);
                 }
                 else {
                     string StrAddress = Input.TrimStart(' ');
-                    STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(StrAddress.Trim(' '), ',');
-                    for (int i = 0; i < TempValues.Count; i++) {
-                        short Temp = 0;
-                        bool Success = short.TryParse(TempValues.Value[i], out Temp);
-                        if (Success == false) { return false; }
-                        Values.Add(Temp);
-                    }
+                    ParseState = GetDelimitedShorts(StrAddress, ref Values);
                 }
                 return true;
             }
             return false;
+        }
+        private static bool GetDelimitedShorts(string Input, ref List<short> Values) {
+            List<short> shorts = new List<short>();
+            STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(Input.Trim(' '), ',');
+            for (int i = 0; i < TempValues.Count; i++) {
+                short Temp = 0;
+                bool Success = Formatters.StringToShort(TempValues.Value[i], out Temp);
+                if (Success == false) { return false; }
+                Values.Add(Temp);
+            }
+            return true;
         }
         public static bool GetCharacterValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false, bool TwoBytesPerRegister = false) {
             string OldValue = Input;

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes {
     public static class Formatters {
@@ -459,6 +460,7 @@ namespace Serial_Monitor.Classes {
             return true;
         }
         #endregion
+        #region Data Fromatters
         private static string PadBinary(string Input, DataSize Size, PadFrequency Frequency) {
             if (Frequency == PadFrequency.None) { return Input; }
             int SizeInt = EnumManager.DataSizeToInteger(Size);
@@ -487,6 +489,29 @@ namespace Serial_Monitor.Classes {
             }
             return Sb.ToString();
         }
+        public static bool StringToShort(string Input, out short Output) {
+            if (Regex.Match(Input, "(0x|0X)[0-9a-fA-F]{1,4}").Success == true) {
+                int i = Convert.ToInt32(Input, 16);
+                Output = (short)i;
+                return true;
+            }
+            else if (Regex.Match(Input, "(0b|0B)([0-1]{4}\\s*){1,4}").Success == true) {
+                string Temp = Input.ToLower();
+                Temp = Temp.Replace("0b", "").Replace(" ","");
+                int i = Convert.ToInt32(Temp, 2);
+                Output = (short)i;
+                return true;
+            }
+            //else if (Regex.Match(Input, "(0x[0-1]{1,4})|(0X[0-9a-fA-F]{1,4})").Success == true) {
+            //    int i = Convert.ToInt32(Input, 16);
+            //    Output = (short)i;
+            //    return true;
+            //}
+            else {
+               return short.TryParse(Input, out Output);
+            }
+        }
+        #endregion 
     }
 
 }

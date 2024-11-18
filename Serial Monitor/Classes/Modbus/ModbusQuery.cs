@@ -125,6 +125,9 @@ namespace Serial_Monitor.Classes.Modbus {
             else if (CommandManager.GetValue(ref Temp, "COIL", out Start)) {
                 SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataCoils);
             }
+            else if (CommandManager.GetValue(ref Temp, "DISCRETE", out Start)) {
+                SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataDiscreteInputs);
+            }
             else if (CommandManager.GetValue(ref Temp, "REGISTER", out Start)) {
                 SingleTestReadQuery(Channel, Unit, Start, ref Temp, DataSelection.ModbusDataHoldingRegisters);
             }
