@@ -55,6 +55,7 @@
             column1.ExportName = "address";
             column1.FixedWidth = false;
             column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column1.LastDPI = 192F;
             column1.Text = "";
             column1.UseItemBackColor = false;
             column1.UseItemForeColor = false;
@@ -70,6 +71,7 @@
             column2.ExportName = "";
             column2.FixedWidth = false;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column2.LastDPI = 192F;
             column2.Text = "Name";
             column2.UseItemBackColor = false;
             column2.UseItemForeColor = false;
@@ -85,6 +87,7 @@
             column3.ExportName = "";
             column3.FixedWidth = false;
             column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column3.LastDPI = 192F;
             column3.Text = "Display";
             column3.UseItemBackColor = false;
             column3.UseItemForeColor = false;
@@ -100,6 +103,7 @@
             column4.ExportName = "";
             column4.FixedWidth = true;
             column4.ItemAlignment = ODModules.ItemTextAlignment.Right;
+            column4.LastDPI = 192F;
             column4.Text = "Size";
             column4.UseItemBackColor = false;
             column4.UseItemForeColor = false;
@@ -115,6 +119,7 @@
             column5.ExportName = "";
             column5.FixedWidth = true;
             column5.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column5.LastDPI = 192F;
             column5.Text = "Signed";
             column5.UseItemBackColor = false;
             column5.UseItemForeColor = false;
@@ -130,6 +135,7 @@
             column6.ExportName = "";
             column6.FixedWidth = false;
             column6.ItemAlignment = ODModules.ItemTextAlignment.Right;
+            column6.LastDPI = 192F;
             column6.Text = "Value";
             column6.UseItemBackColor = false;
             column6.UseItemForeColor = false;
@@ -145,6 +151,7 @@
             column7.ExportName = "";
             column7.FixedWidth = false;
             column7.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column7.LastDPI = 192F;
             column7.Text = "Last Updated";
             column7.UseItemBackColor = false;
             column7.UseItemForeColor = false;
@@ -168,7 +175,8 @@
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
-            lstRegisters.Location = new Point(5, 18);
+            lstRegisters.Location = new Point(9, 37);
+            lstRegisters.Margin = new Padding(6, 6, 6, 6);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -185,7 +193,7 @@
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = true;
-            lstRegisters.Size = new Size(310, 227);
+            lstRegisters.Size = new Size(576, 485);
             lstRegisters.SpanColumn = 0;
             lstRegisters.TabIndex = 0;
             lstRegisters.UseLocalList = false;
@@ -236,6 +244,7 @@
             cmCoilFormats.BorderColor = Color.Black;
             cmCoilFormats.DropShadowEnabled = false;
             cmCoilFormats.ForeColor = Color.White;
+            cmCoilFormats.ImageScalingSize = new Size(32, 32);
             cmCoilFormats.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
             cmCoilFormats.MenuBackColorNorth = Color.DodgerBlue;
             cmCoilFormats.MenuBackColorSouth = Color.DodgerBlue;
@@ -244,20 +253,21 @@
             cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmCoilFormats.ShowInsetShadow = false;
             cmCoilFormats.ShowItemInsetShadow = false;
-            cmCoilFormats.Size = new Size(181, 26);
+            cmCoilFormats.Size = new Size(61, 4);
             // 
             // ModbusRegister
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(320, 250);
+            ClientSize = new Size(594, 533);
             CloseButtonCloses = false;
             Controls.Add(lstRegisters);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
-            MinimumSize = new Size(250, 100);
+            Margin = new Padding(6, 6, 6, 6);
+            MinimumSize = new Size(464, 213);
             Name = "ModbusRegister";
-            Padding = new Padding(5, 18, 5, 5);
+            Padding = new Padding(9, 37, 9, 11);
             Text = "Modbus Register";
             CloseButtonClicked += ModbusRegister_CloseButtonClicked;
             Activated += ModbusRegister_Activated;

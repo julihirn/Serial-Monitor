@@ -27,7 +27,7 @@ using static System.Windows.Forms.AxHost;
 using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor {
-    public partial class ModbusRegisters : Form, Interfaces.ITheme {
+    public partial class ModbusRegisters : SkinnedForm, Interfaces.ITheme {
         public Form? Attached = null;
         public event ViewChangedHandler? ViewChanged;
         public delegate void ViewChangedHandler(object? sender);
@@ -36,13 +36,6 @@ namespace Serial_Monitor {
         BitTogglerPopup popToggler = new BitTogglerPopup();
         TemplateContextMenuHost BitTogglerPopupHost;
         private List<DockContent> ToolWindows = new List<DockContent>();
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams handleParam = base.CreateParams;
-                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
-                return handleParam;
-            }
-        }
         public ModbusRegisters() {
             InitializeComponent();
             editorModbus.lstMonitor.ExternalItems = ModbusEditor.MasterRegisterEditor;
@@ -50,9 +43,6 @@ namespace Serial_Monitor {
             BitTogglerPopupHost = new TemplateContextMenuHost(popToggler, this);
             editorModbus.tbDataPages.DebugMode = false;
             editorModbus.ssClient.TileWindows = true;
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
             LoadDockers();
         }
         private void LoadDockers() {
@@ -622,12 +612,14 @@ namespace Serial_Monitor {
                 ModbusEditor.ChangeCoilFormatList(sender, CurrentEditor);
             }
             else if (editorType == FormatEditor.Register) {
-                ModbusEditor.ChangeDisplayFormatListDual(sender, CurrentEditor);
+                bool ShowUnits = GetCurrentShowUnits();
+                ModbusEditor.ChangeDisplayFormatListDual(sender, CurrentEditor, ShowUnits);
             }
         }
         private void CmDisplaySizeList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.ChangeSizeList(sender, CurrentEditor);
+            bool ShowUnits = GetCurrentShowUnits();
+            ModbusEditor.ChangeSizeList(sender, CurrentEditor, ShowUnits);
         }
         private void CmDisplayDecimalPlacesList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
@@ -635,7 +627,8 @@ namespace Serial_Monitor {
         }
         private void CmDisplayWordOrderList_Click(object? sender, EventArgs e) {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.ChangeWordOrderList(sender, CurrentEditor);
+            bool ShowUnits = GetCurrentShowUnits();
+            ModbusEditor.ChangeWordOrderList(sender, CurrentEditor, ShowUnits);
         }
         private void ddbSigned_Click(object sender, EventArgs e) {
             ChangeSigned(FormatEnums.SignedState.Signed);
@@ -648,7 +641,8 @@ namespace Serial_Monitor {
         }
         private void ChangeSigned(FormatEnums.SignedState State) {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.ChangeSignedList(CurrentEditor, State);
+            bool ShowUnits = GetCurrentShowUnits();
+            ModbusEditor.ChangeSignedList(CurrentEditor, State, ShowUnits);
         }
         private void CmCoilFormat_Click(object? sender, EventArgs e) {
             object? ButtonData = ModbusEditor.GetContextMenuItemData(sender);
@@ -687,7 +681,7 @@ namespace Serial_Monitor {
                     Args.ParentItem[Args.Column].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
-                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, editorModbus.lstMonitor);
+                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, editorModbus.lstMonitor, GetCurrentShowUnits());
                     editorModbus.lstMonitor.Invalidate();
                 }
             }
@@ -709,7 +703,7 @@ namespace Serial_Monitor {
                     Args.ParentItem[Args.Column].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
-                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, editorModbus.lstMonitor);
+                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, editorModbus.lstMonitor, GetCurrentShowUnits());
                     editorModbus.lstMonitor.Invalidate();
                 }
             }
@@ -857,6 +851,10 @@ namespace Serial_Monitor {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.thSlaves);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.thDataPagesHeader);
             Classes.Theming.ThemeManager.ThemeControl(msMain);
@@ -1009,6 +1007,21 @@ namespace Serial_Monitor {
         #region Editing and List Support
 
         Point LastPoint = Point.Empty;
+        internal bool GetCurrentShowUnits() {
+            if (currentEditorView == DataEditor.MasterView) {
+                return ProjectManager.ShowUnits;
+            }
+            else {
+                try {
+                    if (SnapshotCurrentIndex < 0) { return false; }
+                    if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        return ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).ShowUnits;
+                    }
+                }
+                catch { }
+            }
+            return false;
+        }
         internal ListControl? GetCurrentListView() {
             if (currentEditorView == DataEditor.MasterView) {
                 return editorModbus.lstMonitor;

@@ -250,8 +250,8 @@ namespace Serial_Monitor.ToolWindows {
         private void ModbusRegister_FormClosing(object sender, FormClosingEventArgs e) {
             if (snapshot != null) {
                 snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
+                snapshot.SnapshotRenamed -= Snapshot_SnapshotRenamed;
             }
-            snapshot.SnapshotRenamed -= Snapshot_SnapshotRenamed;
             SystemManager.ModbusRegisterRenamed -= SystemManager_ModbusRegisterRenamed;
             SystemManager.ModbusAppearanceChanged -= SystemManager_ModbusAppearanceChanged;
             SystemManager.ModbusReceived -= SystemManager_ModbusReceived;
@@ -386,6 +386,7 @@ namespace Serial_Monitor.ToolWindows {
             if (ButtonData == null) { return; }
             if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
             DataFormat Frmt = (DataFormat)ButtonData;
+            
             if (Data.GetType() == typeof(DropDownClickedEventArgs)) {
                 DropDownClickedEventArgs Args = (DropDownClickedEventArgs)Data;
                 if (Args.ParentItem == null) { return; }
@@ -397,7 +398,7 @@ namespace Serial_Monitor.ToolWindows {
                     Args.ParentItem[ModbusEditor.Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
                     Args.ParentItem[ModbusEditor.Indx_LastUpdated].Text = Reg.GetLastUpdatedTime();
-                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstRegisters);
+                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstRegisters, showUnits);
                     lstRegisters.Invalidate();
                 }
             }
@@ -420,7 +421,7 @@ namespace Serial_Monitor.ToolWindows {
                     Args.ParentItem[ModbusEditor.Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                     Args.ParentItem[ModbusEditor.Indx_Value].Text = Reg.FormattedValue;
                     Args.ParentItem[ModbusEditor.Indx_LastUpdated].Text = Reg.GetLastUpdatedTime();
-                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstRegisters);
+                    ModbusEditor.RetroactivelyApplyFormatChanges(Args.Item, lstRegisters, showUnits);
                     lstRegisters.Invalidate();
                 }
             }

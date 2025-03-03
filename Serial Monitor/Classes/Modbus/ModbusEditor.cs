@@ -339,7 +339,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Formatters
-        public static void RetroactivelyApplyFormatChanges(int CentreIndex, ListControl lstMonitor) {
+        public static void RetroactivelyApplyFormatChanges(int CentreIndex, ListControl lstMonitor, bool ShowUnits) {
             for (int i = 1; i <= 3; i++) {
                 int BeforeIndex = CentreIndex - i;
                 int AfterIndex = CentreIndex + i;
@@ -348,7 +348,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (Itm != null) {
                         lstMonitor.CurrentItems[BeforeIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
                         lstMonitor.CurrentItems[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
-                        lstMonitor.CurrentItems[BeforeIndex][Indx_Value].Text = Itm.FormattedValue;
+                        lstMonitor.CurrentItems[BeforeIndex][Indx_Value].Text = ShowUnits == true ? Itm.ValueWithUnit : Itm.FormattedValue;
                         lstMonitor.CurrentItems[BeforeIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
                         lstMonitor.CurrentItems[BeforeIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
                     }
@@ -358,7 +358,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (Itm != null) {
                         lstMonitor.CurrentItems[AfterIndex][Indx_Display].Text = EnumManager.DataFormatToString(Itm.Format).A;
                         lstMonitor.CurrentItems[AfterIndex][Indx_Size].Text = EnumManager.DataSizeToString(Itm.Size);
-                        lstMonitor.CurrentItems[AfterIndex][Indx_Value].Text = Itm.FormattedValue;
+                        lstMonitor.CurrentItems[AfterIndex][Indx_Value].Text = ShowUnits == true ? Itm.ValueWithUnit : Itm.FormattedValue;
                         lstMonitor.CurrentItems[AfterIndex][Indx_LastUpdated].Text = Itm.GetLastUpdatedTime();
                     }
                 }
@@ -403,6 +403,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         if (Li.Tag.GetType() == typeof(ModbusRegister)) {
                             ModbusRegister Reg = (ModbusRegister)Li.Tag;
                             Reg.DecimalFormat = Frmt;
+                            Li[Indx_Value].Text = Reg.ValueWithUnit;
                         }
                         SelectedCount--;
                     }
@@ -437,7 +438,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             Reg.Format = Frmt;
                             Li[Indx_Display].Text = EnumManager.CoilFormatToString(Reg.Format).A;
                             Li[Indx_Value].Text = Reg.ValueWithUnit;
-                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor, false);
                         }
                         SelectedCount--;
                     }
@@ -448,11 +449,11 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeDisplayFormatListDual(object? sender, ListControl? lstMonitor) {
-            ChangeDisplayFormatList(sender, lstMonitor);
-            ChangeDisplayFormatList(sender, lstMonitor);
+        public static void ChangeDisplayFormatListDual(object? sender, ListControl? lstMonitor, bool ShowUnits) {
+            ChangeDisplayFormatList(sender, lstMonitor, ShowUnits);
+            // ChangeDisplayFormatList(sender, lstMonitor, ShowUnits);
         }
-        public static void ChangeDisplayFormatList(object? sender, ListControl? lstMonitor) {
+        public static void ChangeDisplayFormatList(object? sender, ListControl? lstMonitor, bool ShowUnits) {
             if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
@@ -501,7 +502,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             Li[Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                             Li[Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                             Li[Indx_Value].Text = Reg.ValueWithUnit;
-                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor, ShowUnits);
                         }
                         SelectedCount--;
                     }
@@ -512,7 +513,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeSizeList(object? sender, ListControl? lstMonitor) {
+        public static void ChangeSizeList(object? sender, ListControl? lstMonitor, bool ShowUnits) {
             if (lstMonitor == null) { return; }
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
@@ -558,7 +559,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             Li[Indx_Size].Text = EnumManager.DataSizeToString(Reg.Size);
                             Li[Indx_Display].Text = EnumManager.DataFormatToString(Reg.Format).A;
                             Li[Indx_Value].Text = Reg.ValueWithUnit;
-                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor, ShowUnits);
                         }
                         SelectedCount--;
                     }
@@ -569,7 +570,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeSignedList(ListControl? lstMonitor, SignedState State) {
+        public static void ChangeSignedList(ListControl? lstMonitor, SignedState State, bool ShowUnits) {
             if (lstMonitor == null) { return; }
             int SelectedCount = lstMonitor.SelectionCount;
             if (SelectedCount <= 0) { return; }
@@ -597,7 +598,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             }
                             Li[Indx_Signed].Checked = Reg.Signed;
                             Li[Indx_Value].Text = Reg.ValueWithUnit;
-                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor, ShowUnits);
                         }
                         SelectedCount--;
                     }
@@ -608,7 +609,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             lstMonitor.Invalidate();
         }
-        public static void ChangeWordOrderList(object? sender, ListControl? lstMonitor) {
+        public static void ChangeWordOrderList(object? sender, ListControl? lstMonitor, bool ShowUnits) {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
                 if (sender == null) {
@@ -620,6 +621,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
                 }
             }
+            if (ButtonData == null) { return; }
             if (ButtonData.GetType() != typeof(ModbusEnums.ByteOrder)) {
                 if (sender == null) { return; }
                 if (sender.GetType() != typeof(ModbusEnums.ByteOrder)) { return; }
@@ -653,7 +655,7 @@ namespace Serial_Monitor.Classes.Modbus {
                             }
                             Li[Indx_Signed].Checked = Reg.Signed;
                             Li[Indx_Value].Text = Reg.ValueWithUnit;
-                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor);
+                            RetroactivelyApplyFormatChanges(Reg.Address, lstMonitor, ShowUnits);
                         }
                         SelectedCount--;
                     }
@@ -1488,7 +1490,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public Color BackColor;
         public bool UseForeColor;
         public bool UseBackColor;
-        public string Unit;
+        public string Unit ="";
         public ConversionHandler.Prefix Prefix;
         public DataSize Size;
         public DataFormat Format;

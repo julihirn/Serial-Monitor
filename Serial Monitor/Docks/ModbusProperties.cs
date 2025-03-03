@@ -21,10 +21,10 @@ namespace Serial_Monitor.Docks {
     public partial class ModbusProperties : ODModules.Docking.ToolWindow, Interfaces.ITheme {
         ModbusRegisters? EditorInstance = null;
 
-        TemplateContextMenuHost TextColorPopupHost;
+        TemplateContextMenuHost ?TextColorPopupHost;
         ColorPopup popTextColor = new ColorPopup(false);
 
-        TemplateContextMenuHost BackColorPopupHost;
+        TemplateContextMenuHost ?BackColorPopupHost;
         ColorPopup popBackColor = new ColorPopup(true);
         protected override CreateParams CreateParams {
             get {
@@ -220,10 +220,11 @@ namespace Serial_Monitor.Docks {
             //if (Tag == null) { return; }
             //if (sender.GetType() != typeof(Classes.Enums.ModbusEnums.DataSize)) { return; }
             ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            bool ShowUnits = GetCurrentShowUnitsState();
             //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
             //DataSelection? Select = GetDataSelection();
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
-            Classes.Modbus.ModbusEditor.ChangeSizeList(sender, CurrentEditor);
+            Classes.Modbus.ModbusEditor.ChangeSizeList(sender, CurrentEditor, ShowUnits);
         }
         private void EditorInstance_FormClosing(object? sender, FormClosingEventArgs e) {
             if (EditorInstance == null) { return; }
@@ -263,6 +264,10 @@ namespace Serial_Monitor.Docks {
         private ODModules.ListControl? GetCurrentListView() {
             if (EditorInstance == null) { return null; }
             return EditorInstance.GetCurrentListView();
+        }
+        private bool GetCurrentShowUnitsState() {
+            if (EditorInstance == null) { return false; }
+            return EditorInstance.GetCurrentShowUnits();
         }
         private DataSelection? GetDataSelection() {
             if (EditorInstance == null) { return null; }
@@ -310,19 +315,21 @@ namespace Serial_Monitor.Docks {
         private void ddlDisplay_SelectedIndexChanged(object sender, EventArgs e) {
             if (PreventLoad == true) { return; }
             ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            bool ShowUnits = GetCurrentShowUnitsState();
             //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
             //DataSelection? Select = GetDataSelection();
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
-            Classes.Modbus.ModbusEditor.ChangeDisplayFormatListDual(EnumManager.IntegerToDataFormat(ddlDisplay.SelectedIndex), CurrentEditor);
+            Classes.Modbus.ModbusEditor.ChangeDisplayFormatListDual(EnumManager.IntegerToDataFormat(ddlDisplay.SelectedIndex), CurrentEditor, ShowUnits);
         }
 
         private void ddlEndianness_SelectedIndexChanged(object sender, EventArgs e) {
             if (PreventLoad == true) { return; }
             ODModules.ListControl? CurrentEditor = GetCurrentListView();
+            bool ShowUnits = GetCurrentShowUnitsState();
             //Classes.Enums.ModbusEnums.DataSize DataSize = (Classes.Enums.ModbusEnums.DataSize)sender;
             //DataSelection? Select = GetDataSelection();
             //Classes.Modbus.ModbusEditor.ChangeSize(GetCurrentSlave(), Select, sender, CurrentEditor, DataSize);
-            Classes.Modbus.ModbusEditor.ChangeWordOrderList(EnumManager.IntegerToWordOrder(ddlEndianness.SelectedIndex), CurrentEditor);
+            Classes.Modbus.ModbusEditor.ChangeWordOrderList(EnumManager.IntegerToWordOrder(ddlEndianness.SelectedIndex), CurrentEditor, ShowUnits);
         }
 
         private void tbUnit__TextChanged(object sender, EventArgs e) {
@@ -351,10 +358,12 @@ namespace Serial_Monitor.Docks {
         }
 
         private void btnTextColor_ButtonClicked(object sender) {
+            if (TextColorPopupHost == null) { return; }
             TextColorPopupHost.Show((Control)sender, new Rectangle(0, 0, 0, ((Control)sender).Height));
         }
 
         private void btnBackColor_ButtonClicked(object sender) {
+            if (BackColorPopupHost == null) { return; }
             BackColorPopupHost.Show((Control)sender, new Rectangle(0, 0, 0, ((Control)sender).Height));
         }
         private void BackColorPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {

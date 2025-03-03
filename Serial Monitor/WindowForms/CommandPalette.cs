@@ -15,12 +15,9 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Serial_Monitor {
-    public partial class CommandPalette : Form, Interfaces.ITheme {
+    public partial class CommandPalette : Components.SkinnedForm, Interfaces.ITheme {
         public CommandPalette() {
             InitializeComponent();
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
         }
 
         private void CommandPalette_Load(object sender, EventArgs e) {
@@ -86,6 +83,11 @@ namespace Serial_Monitor {
 
             textBox1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             textBox1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e) {

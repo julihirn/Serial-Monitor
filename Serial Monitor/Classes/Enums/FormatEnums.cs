@@ -8,6 +8,8 @@ namespace Serial_Monitor.Classes.Enums {
             Text = 0x0001,
             [Description("Binary Stream")]
             BinaryStream = 0x0002,
+            [Description("Hexadecimal Stream")]
+            HexStream = 0x0003,
             [Description("Command")]
             CCommand = 0x0004,
             [Description("Modbus RTU")]

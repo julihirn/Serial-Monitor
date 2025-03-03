@@ -11,12 +11,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor.WindowForms {
-    public partial class TextComparator : Form, Interfaces.ITheme {
+    public partial class TextComparator : Components.SkinnedForm, Interfaces.ITheme {
         public TextComparator() {
             InitializeComponent();
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
         }
         private void AdjustUserInterface() {
             labelPanel1.InlineWidth = DesignerSetup.ScaleInteger(labelPanel1.InlineWidth);
@@ -80,6 +77,11 @@ namespace Serial_Monitor.WindowForms {
             lstMonitor.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lstMonitor.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
             lstMonitor.ColumnLineColor = Properties.Settings.Default.THM_COL_ColumnSeperatorColor;
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
 
         }
         private void Reevaluate() {

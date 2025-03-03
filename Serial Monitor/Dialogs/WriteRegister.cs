@@ -1,5 +1,6 @@
 ﻿using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Modbus;
+using Serial_Monitor.Components;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor.Dialogs {
-    public partial class WriteRegister : Form, ITheme {
+    public partial class WriteRegister : SkinnedForm, ITheme {
         protected override CreateParams CreateParams {
             get {
                 CreateParams handleParam = base.CreateParams;
@@ -44,6 +45,10 @@ namespace Serial_Monitor.Dialogs {
         private void RecolorAll() {
             this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(lblpnlAddress);
             Classes.Theming.ThemeManager.ThemeControl(lblpnlQuantity);
             Classes.Theming.ThemeManager.ThemeControl(lblpnlRegisters);

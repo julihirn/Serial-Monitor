@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor.WindowForms {
-    public partial class ChannelProperties : Form, ITheme {
+    public partial class ChannelProperties : Components.SkinnedForm, ITheme {
         SerialManager? manager = null;
         public SerialManager? Manager {
             get { return manager; }
@@ -25,10 +25,6 @@ namespace Serial_Monitor.WindowForms {
         public ChannelProperties(SerialManager Manager) {
             InitializeComponent();
             this.Manager = Manager;
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
-
         }
 
         public void ApplyTheme() {
@@ -43,6 +39,11 @@ namespace Serial_Monitor.WindowForms {
             propertyGrid1.BackColor = Properties.Settings.Default.THM_COL_Editor;
             propertyGrid1.CommandsBackColor = Properties.Settings.Default.THM_COL_Editor;
             propertyGrid1.HelpBackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             // propertyGrid1.color = Properties.Settings.Default.THM_COL_Editor;
 
             propertyGrid1.SelectedItemWithFocusBackColor = Properties.Settings.Default.THM_COL_SelectedColor;

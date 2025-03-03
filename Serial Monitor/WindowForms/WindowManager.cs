@@ -9,15 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor.WindowForms {
-    public partial class WindowManager : Form, Interfaces.ITheme, Interfaces.IWindowManager {
+    public partial class WindowManager : Components.SkinnedForm, Interfaces.ITheme, Interfaces.IWindowManager {
         public WindowManager() {
             InitializeComponent();
         }
         private void WindowManager_Load(object sender, EventArgs e) {
             ApplyTheme();
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
         }
         public void ApplyTheme() {
             //panel1.BackColor = Properties.Settings.Default.THM_COL_MenuBackColor;
@@ -26,6 +23,11 @@ namespace Serial_Monitor.WindowForms {
             listView1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
 
             Classes.Theming.ThemeManager.ThemeControl(msMain);
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
         }
         public void UpdateWindows() {
             RefreshWindows();

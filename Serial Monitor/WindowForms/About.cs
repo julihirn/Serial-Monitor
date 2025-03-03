@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor {
-    public partial class About : Form {
+    public partial class About : Components.SkinnedForm {
         public About() {
             InitializeComponent();
         }

@@ -14,11 +14,11 @@
     <Company>Julian Hirniak</Company>
     <PackageIcon>SerialMonitor.ico</PackageIcon>
     <ApplicationIcon>SerialMonitor.ico</ApplicationIcon>
-    <Copyright>Copyright © Julian Hirniak 2023 - 2024</Copyright>
+    <Copyright>Copyright © Julian Hirniak 2023 - 2025</Copyright>
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.15.1023.0</Version>
+    <Version>1.16.1102.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
@@ -53,7 +53,7 @@
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
-    <PackageReference Include="ODModules" Version="2.0.19.11" />
+    <PackageReference Include="ODModules" Version="2.0.19.13" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />

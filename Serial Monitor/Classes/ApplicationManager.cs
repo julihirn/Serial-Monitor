@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Serial_Monitor.WindowForms;
-using System.Threading.Channels;
 
 namespace Serial_Monitor.Classes {
     public class ApplicationManager {

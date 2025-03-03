@@ -19,22 +19,12 @@ using System.Windows.Forms;
 using static System.Windows.Forms.DataFormats;
 
 namespace Serial_Monitor.WindowForms {
-    public partial class QueryEditor : Form, ITheme {
+    public partial class QueryEditor : Components.SkinnedForm, ITheme {
         public QueryEditor() {
             InitializeComponent();
         }
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams handleParam = base.CreateParams;
-                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
-                return handleParam;
-            }
-        }
         private void QueryEditor_Load(object sender, EventArgs e) {
             RecolorAll();
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
             AdjustUserInterface();
             ApplyIcons();
         }
@@ -72,6 +62,10 @@ namespace Serial_Monitor.WindowForms {
         private void RecolorAll() {
             this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
             Classes.Theming.ThemeManager.ThemeControl(fctEditor);

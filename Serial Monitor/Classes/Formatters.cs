@@ -98,28 +98,29 @@ namespace Serial_Monitor.Classes {
             }
         }
         public static string ByteToBinary(byte Input) {
-            string Result = "";
+            StringBuilder Result = new StringBuilder();
             for (int i = 7; i >= 0; i--) {
                 uint Shift = (uint)(0x01 << i);
-
-                Result += (Input & Shift) == Shift ? "1" : "0";
+                Result.Append((Input & Shift) == Shift ? '1' : '0');
             }
-            return Result;
+            return Result.ToString();
         }
         public static string ByteToHex(byte Input, bool AffixStart = true) {
             byte[] bytes = new byte[1];
             bytes[0] = Input;
-            string str = BitConverter.ToString(bytes);
+            string str = BitConverter.ToString(bytes).ToUpper();
+            string Prefix = "0x";
+            StringBuilder Result = new StringBuilder();
             if (str.Length == 1) {
                 if (AffixStart == true) {
-                    str = "0x0" + str.ToUpper();
+                    Result.Append(Prefix); Result.Append('0'); Result.Append(str);
                 }
-                else { str = "0" + str.ToUpper(); }
+                else { Result.Append('0'); Result.Append(str); }
             }
             else {
-                if (AffixStart == true) { str = "0x" + str.ToUpper(); }
+                if (AffixStart == true) { Result.Append(Prefix); Result.Append(str); }
             }
-            return str;
+            return Result.ToString();
         }
         #endregion
         #region Modbus Data Input Formatters
@@ -465,7 +466,7 @@ namespace Serial_Monitor.Classes {
             if (Frequency == PadFrequency.None) { return Input; }
             int SizeInt = EnumManager.DataSizeToInteger(Size);
             StringBuilder Sb = new StringBuilder();
-            string Output = "";
+            //string Output = "";
             int TickFrequency = 0;
             switch (Frequency) {
                 case PadFrequency.EveryFourth:
@@ -489,9 +490,33 @@ namespace Serial_Monitor.Classes {
             }
             return Sb.ToString();
         }
+        public static bool StringToInteger(string Input, out int Output) {
+            if (Regex.Match(Input, "(0x|0X)[0-9a-fA-F]{1,4}").Success == true) {
+                string Temp = Input.Replace("0x", "").Replace("0X", "").Replace(" ", "");
+                int i = Convert.ToInt32(Temp, 16);
+                Output = (int)i;
+                return true;
+            }
+            else if (Regex.Match(Input, "(0b|0B)([0-1]{4}\\s*){1,4}").Success == true) {
+                string Temp = Input.ToLower();
+                Temp = Temp.Replace("0b", "").Replace(" ", "");
+                int i = Convert.ToInt32(Temp, 2);
+                Output = (int)i;
+                return true;
+            }
+            //else if (Regex.Match(Input, "(0x[0-1]{1,4})|(0X[0-9a-fA-F]{1,4})").Success == true) {
+            //    int i = Convert.ToInt32(Input, 16);
+            //    Output = (short)i;
+            //    return true;
+            //}
+            else {
+                return int.TryParse(Input, out Output);
+            }
+        }
         public static bool StringToShort(string Input, out short Output) {
             if (Regex.Match(Input, "(0x|0X)[0-9a-fA-F]{1,4}").Success == true) {
-                int i = Convert.ToInt32(Input, 16);
+                string Temp = Input.Replace("0x", "").Replace("0X", "").Replace(" ","");
+                int i = Convert.ToInt32(Temp, 16);
                 Output = (short)i;
                 return true;
             }

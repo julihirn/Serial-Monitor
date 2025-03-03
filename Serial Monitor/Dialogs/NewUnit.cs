@@ -1,6 +1,7 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Modbus;
+using Serial_Monitor.Components;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor.Dialogs {
-    public partial class NewUnit : Form, Interfaces.ITheme {
+    public partial class NewUnit : SkinnedForm, Interfaces.ITheme {
         SerialManager? manager = null;
         public SerialManager? Manager {
             get { return manager; }
@@ -60,6 +61,10 @@ namespace Serial_Monitor.Dialogs {
         }
         private void RecolorAll() {
             this.SuspendLayout();
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             BackColor = Properties.Settings.Default.THM_COL_Editor;
             Classes.Theming.ThemeManager.ThemeControl(lblpnlUnitAddress);
             Classes.Theming.ThemeManager.ThemeControl(lblpnlDisplayName);

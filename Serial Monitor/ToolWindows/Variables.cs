@@ -5,6 +5,7 @@ using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
+using Serial_Monitor.Components;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,7 @@ using static Serial_Monitor.Classes.Enums.ModbusEnums;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Serial_Monitor.ToolWindows {
-    public partial class Variables : Form, Interfaces.ITheme {
+    public partial class Variables : SkinnedForm, Interfaces.ITheme {
         public Variables() {
             InitializeComponent();
         }
@@ -179,6 +180,10 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void RecolorAll() {
             BackColor = Properties.Settings.Default.THM_COL_Editor;
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(thDataPagesHeader);
             Classes.Theming.ThemeManager.ThemeControl(tbVars);
             Classes.Theming.ThemeManager.ThemeControl(lstArray);

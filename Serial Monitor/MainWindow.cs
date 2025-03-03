@@ -20,19 +20,14 @@ using System.Linq.Expressions;
 using Microsoft.VisualBasic;
 using System.Globalization;
 using System.Text;
+using System.Runtime.InteropServices;
+using Serial_Monitor.Components;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor {
-    public partial class MainWindow : Form, Interfaces.ITheme, IMessageFilter, IMouseHandler {
+    public partial class MainWindow : SkinnedForm, Interfaces.ITheme, IMessageFilter, IMouseHandler {
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object? sender, string Data);
-
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams handleParam = base.CreateParams;
-                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
-                return handleParam;
-            }
-        }
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
             get { return currentManager; }
@@ -95,18 +90,19 @@ namespace Serial_Monitor {
             SystemManager.ChannelAdded += SystemManager_ChannelAdded;
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.ProjectEdited += SystemManager_ProjectEdited;
+            SystemManager.ChannelRequestsHandles += SystemManager_ChannelRequestsHandles;
 
-            SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+            //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+            SystemManager.AddChannel("", SerManager_CommandProcessed);
             currentManager = SystemManager.SerialManagers[0];
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
+          
             ProgramManager.LaunchThread();
             LoadRecentItems();
             ApplyLocalisation();
             DocumentEdited = false;
         }
 
+      
         private void SystemManager_ProjectEdited() {
             MarkDocumentChanged();
         }
@@ -424,10 +420,8 @@ namespace Serial_Monitor {
             Deactivate += Form1_Deactivate;
             Load += Form1_Load;
             KeyPress += Form1_KeyPress;
+            scanPortsToolStripMenuItem.Click += ScanPortsToolStripMenuItem_Click;
         }
-
-       
-
         public MainWindow() {
             Setup();
         }
@@ -456,9 +450,11 @@ namespace Serial_Monitor {
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ErrorInvoked += SystemManager_ErrorInvoked;
+            SystemManager.ChannelDataReceived += SystemManager_ChannelDataReceived;
             SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
             //DetermineTabs();
             DocumentEdited = false;
+
         }
         private void LoadPlugins() {
             SystemManager.PluginsLoaded += SystemManager_PluginsLoaded;
@@ -559,7 +555,10 @@ namespace Serial_Monitor {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             // this.SuspendLayout();
             BackColor = Properties.Settings.Default.THM_COL_Editor;
-
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
             Classes.Theming.ThemeManager.ThemeControl(smMain);
@@ -675,6 +674,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, btnPrgRemoveStepLines, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeSelectedToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.QueryView, modbusQueryEditorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
 
         private void AdjustUserInterface() {
@@ -690,32 +690,45 @@ namespace Serial_Monitor {
         private void Form1_Deactivate(object? sender, EventArgs e) {
             Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
             msMain.BackColorNorthFadeIn = FadeInColor;
-            msMain.UseNorthFadeIn = false;
+            // msMain.UseNorthFadeIn = false;
         }
         private void Form1_Activated(object? sender, EventArgs e) {
             Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
             msMain.BackColorNorthFadeIn = FadeInColor;
-            msMain.UseNorthFadeIn = true;
+            // msMain.UseNorthFadeIn = true;
         }
         #endregion
         #region Receiving Data
-        private void SerMan_DataReceived(object? sender, bool PrintLine, string Data) {
+        private void SystemManager_ChannelDataReceived(SerialManager? sender, DataPacket Payload, bool PrintLine) {
             if (sender == null) { return; }
-            string SourceName = "";
-            bool PostOutput = true;
-            if (sender.GetType() == typeof(SerialManager)) {
-                SerialManager SM = (SerialManager)sender;
-                SourceName = SM.PortName;
-                PostOutput = SM.OutputToMasterTerminal;
-            }
+            string SourceName = sender.PortName;
+            bool PostOutput = sender.OutputToMasterTerminal;
             if (PostOutput == true) {
                 if (PrintLine == true) {
-                    Output.Print(SourceName, Data);
+                    Output.Print(SourceName, Payload.TextPayload);
                 }
                 else {
-                    Output.AttendToLastLine(SourceName, Data, true);
+                    Output.AttendToLastLine(SourceName, Payload.TextPayload, true);
                 }
             }
+        }
+        private void SerMan_DataReceived(object? sender, bool PrintLine, string Data) {
+            //if (sender == null) { return; }
+            //string SourceName = "";
+            //bool PostOutput = true;
+            //if (sender.GetType() == typeof(SerialManager)) {
+            //    SerialManager SM = (SerialManager)sender;
+            //    SourceName = SM.PortName;
+            //    PostOutput = SM.OutputToMasterTerminal;
+            //}
+            //if (PostOutput == true) {
+            //    if (PrintLine == true) {
+            //        Output.Print(SourceName, Data);
+            //    }
+            //    else {
+            //        Output.AttendToLastLine(SourceName, Data, true);
+            //    }
+            //}
         }
         private void SerManager_CommandProcessed(object? sender, string Data) {
             if (sender == null) { return; }
@@ -781,6 +794,9 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Connection Settings
+        private void ScanPortsToolStripMenuItem_Click(object? sender, EventArgs e) {
+            ScanPort(CurrentManager);
+        }
         private void btnMenuConnect_Click(object? sender, EventArgs e) {
             Connect(CurrentManager);
         }
@@ -800,6 +816,10 @@ namespace Serial_Monitor {
             else {
                 SystemRunning(false);
             }
+        }
+        private void ScanPort(SerialManager? SerMan) {
+           if (SerMan == null) { return; }
+            SerMan.ScanAndSetPort();
         }
         private void btnDisconnect_Click(object? sender, EventArgs e) {
             Disconnect(CurrentManager);
@@ -1558,13 +1578,15 @@ namespace Serial_Monitor {
             pnlRenamePanel.Visible = !pnlRenamePanel.Visible;
         }
         private void btnNewChannel_Click(object? sender, EventArgs e) {
-            SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+            //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+            SystemManager.AddChannel("", SerManager_CommandProcessed);
         }
         private void btnRemoveChannel_Click(object? sender, EventArgs e) {
             RemoveChannel(navigator1.SelectedItem);
         }
         private void newChannelToolStripMenuItem_Click(object? sender, EventArgs e) {
-            SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+            SystemManager.AddChannel("", SerManager_CommandProcessed);
+            //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
         }
         private void connectToolStripMenuItem_Click(object? sender, EventArgs e) {
             TabClickedEventArgs? TagData = GetClickedArgs(cmChannels.Tag);
@@ -1598,7 +1620,8 @@ namespace Serial_Monitor {
             return null;
         }
         private void RemoveChannel(int Index) {
-            SystemManager.RemoveChannel(Index, SerManager_CommandProcessed, SerMan_DataReceived);
+            SystemManager.RemoveChannel(Index, SerManager_CommandProcessed);
+            //SystemManager.RemoveChannel(Index, SerManager_CommandProcessed, SerMan_DataReceived);
             navigator1.Invalidate();
             DocumentEdited = true;
         }
@@ -1612,6 +1635,12 @@ namespace Serial_Monitor {
         private void navigator1_SelectedIndexChanged(object? sender, int SelectedIndex) {
             SelectChannel(SelectedIndex);
         }
+        private void SystemManager_ChannelRequestsHandles(SerialManager? SerMan) {
+            if (SerMan == null) { return; }
+            SerMan.CommandProcessed += SerManager_CommandProcessed;
+            //SerMan.DataReceived += SerMan_DataReceived;
+        }
+
         private void SystemManager_ChannelAdded(int RemovedIndex) {
             DocumentEdited = true;
             navigator1.Invalidate();
@@ -2002,6 +2031,11 @@ namespace Serial_Monitor {
                 this.btnRun.Text = Input;
             }));
         }
+        public void MethodPrintingAppend(string Input) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.Output.AttendToLastLine(Input);
+            }));
+        }
         public void MethodPrinting(string Input) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 this.Output.Print(Input);
@@ -2331,7 +2365,8 @@ namespace Serial_Monitor {
                 DocumentEdited = false;
                 CleanProjectData();
                 NewProgram("Main");
-                SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+                //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
+                SystemManager.AddChannel("", SerManager_CommandProcessed);
                 navigator1.SelectedItem = 0;
                 SelectChannel(0);
                 lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
@@ -2690,8 +2725,10 @@ namespace Serial_Monitor {
         private void lstStepProgram_MouseClick(object? sender, EventArgs e) {
             LastEntered = sender;
         }
-
-
+        private void modbusQueryEditorToolStripMenuItem_Click(object sender, EventArgs e) {
+            QueryEditor QueryApp = new QueryEditor();
+            ApplicationManager.OpenInternalApplicationOnce(QueryApp, true);
+        }
     }
 
 

@@ -64,7 +64,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (CommandManager.TestKeyword(ref Temp, "UNIT", true)) {
                     string StrAddress = CommandManager.ReadAndRemove(ref Temp);
 
-                    bool Success = int.TryParse(StrAddress, out Unit);
+                    bool Success = Formatters.StringToInteger(StrAddress, out Unit);
+                    if (Unit > ModbusSupport.MaximumDevices) {
+                        Success = false;
+                    }
                     if (Success == false) { return; }
                     int UnitIndex = ModbusSupport.UnitToIndex(Channel, Unit);
                     if (UnitIndex == -1) {
@@ -320,11 +323,12 @@ namespace Serial_Monitor.Classes.Modbus {
         internal static void InitialTestReadQuery(SerialManager Channel, int Unit, int Start, ref string Temp, DataSelection DataSet) {
             int Count = 0;
             if (CommandManager.GetValue(ref Temp, "QTY", out Count)) {
+                if (StartQtyInRange(Start, Count) == false) { return; }
                 SelectRead(Channel, Unit, (short)Start, (short)Count, DataSet);
             }
             else if (CommandManager.GetValue(ref Temp, "TO", out Count)) {
                 Point StartAndDiff = CommandManager.GetStartAndDifference(Start, Count);
-                if (StartAndDiff.Y <= 0) { return; }
+                if (StartDiffInRange(StartAndDiff) == false) { return; }
                 SelectRead(Channel, Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y, DataSet);
             }
             else { SelectRead(Channel, Unit, (short)Start, (short)1, DataSet); }
@@ -351,7 +355,7 @@ namespace Serial_Monitor.Classes.Modbus {
             if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                 if (CommandManager.GetValue(ref Temp, "TO", out Count)) {
                     Point StartAndDiff = CommandManager.GetStartAndDifference(Start, Count);
-                    if (StartAndDiff.Y <= 0) { return; }
+                    if (StartDiffInRange(StartAndDiff) ==false) { return; }
                     switch (DataSet) {
                         case DataSelection.ModbusDataCoils:
                             Channel.ModbusReadCoils(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y); break;
@@ -365,7 +369,23 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
 
                 }
+                else if (CommandManager.GetValue(ref Temp, "QTY", out Count)) {
+                    if (StartQtyInRange(Start, Count) == false) { return; }
+                    SelectRead(Channel, Unit, (short)Start, (short)Count, DataSet);
+                }
             }
+        }
+        private static bool StartQtyInRange(int Start, int Qty) {
+            if (Qty <= 0) { return false; }
+            if (Start >= ModbusSupport.MaximumRegisters) { return false; }
+            if ((Start + Qty) >= ModbusSupport.MaximumRegisters) { return false; }
+            return true;
+        }
+        private static bool StartDiffInRange(Point StartAndDiff) {
+            if (StartAndDiff.Y <= 0) { return false; }
+            if (StartAndDiff.X >= ModbusSupport.MaximumRegisters) { return false; }
+            if ((StartAndDiff.X + (StartAndDiff.Y - 1)) >= ModbusSupport.MaximumRegisters) { return false; }
+            return true;
         }
         #endregion
     }

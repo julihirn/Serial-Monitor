@@ -19,7 +19,7 @@ using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static System.Windows.Forms.LinkLabel;
 
 namespace Serial_Monitor.WindowForms {
-    public partial class Terminal : Form, Interfaces.ITheme {
+    public partial class Terminal : Components.SkinnedForm, Interfaces.ITheme {
         SerialManager? manager = null;
         private SerialManager? Manager {
             get { return manager; }
@@ -35,9 +35,6 @@ namespace Serial_Monitor.WindowForms {
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
 
             ChangeFormName(manager.StateName, "");
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
             AddIcons();
             foreach (int i in SystemManager.DefaultBauds) {
                 LoadBAUDRate(i);
@@ -245,6 +242,10 @@ namespace Serial_Monitor.WindowForms {
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             BackColor = Properties.Settings.Default.THM_COL_Editor;
             Classes.Theming.ThemeManager.ThemeControl(Output);
             Classes.Theming.ThemeManager.ThemeControl(msMain);

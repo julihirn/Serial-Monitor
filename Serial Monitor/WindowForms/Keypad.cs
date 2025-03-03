@@ -18,12 +18,9 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Serial_Monitor {
-    public partial class Keypad : Form, Interfaces.ITheme, Interfaces.Application.IGenerics {
+    public partial class Keypad : Components.SkinnedForm, Interfaces.ITheme, Interfaces.Application.IGenerics {
         public Keypad() {
             InitializeComponent();
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
         }
 
         private void Keypad_Load(object sender, EventArgs e) {
@@ -147,6 +144,11 @@ namespace Serial_Monitor {
                     }
                 }
             }
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
         }
 
         private void pnlProperties_CloseButtonClicked(object sender, Point HitPoint) {

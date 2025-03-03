@@ -58,35 +58,37 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         string formattedValue = "0";
         public string FormattedValue {
-            get { return formattedValue; }
-            set {
-                formattedValue = value;
-                SystemManager.RegisterValueChanged(parent, this, Index, typeData);
-            }
+            get { return FormatDecimal(formattedValue, decimalFormat, format); }
+            //set {
+            //    formattedValue = value;
+            //    SystemManager.RegisterValueChanged(parent, this, Index, typeData);
+            //}
         }
         public string ValueWithUnit {
             get {
                 if (ProjectManager.ShowUnits == false) {
-                    if (format >= ModbusEnums.DataFormat.Float) {
-                        return FormatDecimal(formattedValue, decimalFormat);
-                    }
-                    else {
-                        return formattedValue;
-                    }
+                    //if (format >= ModbusEnums.DataFormat.Float) {
+                    //    return FormatDecimal(formattedValue, decimalFormat);
+                    //}
+                    //else {
+                    //    return formattedValue;
+                    //}
+                    return FormattedValue;
                 }
                 switch (format) {
                     case ModbusEnums.DataFormat.Decimal:
-                        return formattedValue + GetUnitString();
+                        return FormattedValue + GetUnitString();
                     case ModbusEnums.DataFormat.Float:
-                        return FormatDecimal(formattedValue, decimalFormat) + GetUnitString();
+                        return FormattedValue + GetUnitString(); //FormatDecimal(formattedValue, decimalFormat) + GetUnitString();
                     case ModbusEnums.DataFormat.Double:
-                        return FormatDecimal(formattedValue, decimalFormat) + GetUnitString();
+                        return FormattedValue + GetUnitString(); //FormatDecimal(formattedValue, decimalFormat) + GetUnitString();
                 }
-                return formattedValue;
+                return FormattedValue;
             }
         }
-        private static string FormatDecimal(string Input, ModbusEnums.FloatFormat Frmt) {
+        private static string FormatDecimal(string Input, ModbusEnums.FloatFormat Frmt, ModbusEnums.DataFormat Format) {
             if (Frmt == ModbusEnums.FloatFormat.None) { return Input; }
+            if (Format < ModbusEnums.DataFormat.Float) { return Input; }
             decimal Out = 0.0m;
             decimal.TryParse(Input, out Out);
             return Out.ToString(EnumManager.FloatFormatToString(Frmt).A);
@@ -508,7 +510,6 @@ namespace Serial_Monitor.Classes.Modbus {
                     else {
                         if (Distance <= 1) { return true; }
                     }
-                    return false;
                     return false;
                 }
                 return false;

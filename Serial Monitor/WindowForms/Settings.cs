@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor {
-    public partial class Settings : Form, Interfaces.ITheme {
+    public partial class Settings : Components.SkinnedForm, Interfaces.ITheme {
         public Settings() {
             InitializeComponent();
         }
@@ -173,9 +173,13 @@ namespace Serial_Monitor {
             thSettings.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
 
             thSettings.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-
+            thSettings.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             thSettings.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             thSettings.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
 
 
             this.ResumeLayout();

@@ -16,11 +16,11 @@ using System.Windows.Forms.VisualStyles;
 namespace Serial_Monitor.Components {
     public partial class SnapshotClient : UserControl {
         public delegate void ActivateHandler(object? sender, MdiClientForm child, int Index);
-        public event ActivateHandler OnChildActivated;
+        public event ActivateHandler ?OnChildActivated;
         public delegate void AllClosedHandler(object? sender);
-        public event AllClosedHandler OnNoForms;
+        public event AllClosedHandler ?OnNoForms;
         public delegate void SnapshotsChangedHandler(object? sender);
-        public event SnapshotsChangedHandler SnapshotsChanged;
+        public event SnapshotsChangedHandler ?SnapshotsChanged;
         public SnapshotClient() {
             InitializeComponent();
             pnlClient.ControlAdded += SnapshotClient_ControlAdded;

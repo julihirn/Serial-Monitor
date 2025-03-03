@@ -172,6 +172,9 @@ namespace Serial_Monitor {
         public static bool IsWindows10OrGreater(int build = -1) {
             return Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= build;
         }
+        public static bool IsWindows11OrGreater() {
+            return Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000;
+        }
 
         //Extern methods
         [DllImport("uxtheme.dll", EntryPoint = "#95")]

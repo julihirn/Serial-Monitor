@@ -25,6 +25,7 @@ namespace Serial_Monitor.Classes.Structures {
                     }
                 }
                 else if (Indx_PortDisplay == 1) {
+                    if (Name.Trim().Length == 0) { return PortName; }
                     return Name;
                 }
                 else if (Indx_PortDisplay == 2) {

@@ -93,7 +93,7 @@ namespace Serial_Monitor.Classes {
                     string StrAddress = Input.TrimStart(' ');
                     ParseState = GetDelimitedShorts(StrAddress, ref Values);
                 }
-                return true;
+                return ParseState;
             }
             return false;
         }
@@ -236,12 +236,12 @@ namespace Serial_Monitor.Classes {
 
                 if (DelimitOnEquals) {
                     string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    bool Success = int.TryParse(StrAddress, out Value);
+                    bool Success = Formatters.StringToInteger(StrAddress, out Value);
                     if (Success == false) { Input = OldVal; return false; }
                 }
                 else {
                     string StrAddress = ReadAndRemove(ref Input).TrimStart(' ');
-                    bool Success = int.TryParse(StrAddress, out Value);
+                    bool Success = Formatters.StringToInteger(StrAddress, out Value);
                     if (Success == false) { Input = OldVal; return false; }
                 }
                 return true;

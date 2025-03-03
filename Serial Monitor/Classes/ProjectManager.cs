@@ -5,13 +5,8 @@ using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
-using Serial_Monitor.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -165,9 +160,17 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "OutType", EnumManager.OutputFormatToString(Sm.OutputFormat).B);
                     DocumentHandler.Write(Sw, 2, "LineFormat", EnumManager.LineFormattingToString(Sm.LineFormat));
                     DocumentHandler.Write(Sw, 2, "EscChars", Sm.AllowEscapeCharacters);
+                    DocumentHandler.Write(Sw, 2, "CCmdCheckSum", Sm.UseCheckSums);
                     DocumentHandler.Write(Sw, 2, "ModbusMstr", Sm.IsMaster);
+                    DocumentHandler.Write(Sw, 2, "ModbusUnitAddress", (uint)Sm.UnitAddress);
+                    DocumentHandler.Write(Sw, 2, "ModbusBufferLen", (uint)Sm.BufferSize);
                     DocumentHandler.Write(Sw, 2, "OutputToMstr", Sm.OutputToMasterTerminal);
+                    DocumentHandler.Write(Sw, 2, "OutputModbusFrame", Sm.OutputModbusFrameToTerminal);
                     DocumentHandler.Write(Sw, 2, "AutoConnect", Sm.AutoReconnect);
+                    DocumentHandler.Write(Sw, 2, "ScanIgnorePortFails", Sm.ScanIgnorePortFailures);
+                    DocumentHandler.Write(Sw, 2, "ScanRetryCount", (int)Sm.ScanRetryCount);
+                    DocumentHandler.Write(Sw, 2, "ScanTimeOut", (int)Sm.ScanTimeout);
+                    DocumentHandler.Write(Sw, 2, "ScanString", Sm.ScanWithString);
                     WriteRegisters(Sw, Sm, -1, 0);
                     for (int x = 0; x < Sm.Slave.Count; x++) {
                         int SlaveIndex = ModbusSupport.UnitToIndex(Sm, Sm.Slave[x].Address);
@@ -193,24 +196,25 @@ namespace Serial_Monitor.Classes {
                 }
                 catch { }
             }
+            if (Index < 0) {
+                Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
+            }
+            else {
+                Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers_" + Unit.ToString() + "={"));
+            }
+
+            if (WriteProperties) {
+                Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString("Prop, Name = " + StringHandler.EncapsulateString(Name))));
+            }
             if (WriteRegisters) {
-                if (Index < 0) {
-                    Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
-                }
-                else {
-                    Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers_" + Unit.ToString() + "={"));
-                }
-                if (WriteProperties) {
-                    Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString("Prop, Name = " + StringHandler.EncapsulateString(Name))));
-                }
                 foreach (RegisterRequest Rq in RegistersToWrite) {
                     ValidString Result = Modbus.ModbusSupport.BulidRegisterSerialisedString(Sm, Index, Rq.Index, Rq.Selection);
                     if (Result.IsValid == true) {
                         Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString(Result.Value)));
                     }
                 }
-                Sw.WriteLine(StringHandler.AddTabs(2, "}"));
             }
+            Sw.WriteLine(StringHandler.AddTabs(2, "}"));
         }
         private static void WritePrograms(StreamWriter Sw) {
             if (ProgramManager.Programs.Count > 0) {
@@ -397,7 +401,7 @@ namespace Serial_Monitor.Classes {
             SerialManager Sm = new SerialManager();
             Sm.Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
             try {
-                Sm.PortName = DocumentHandler.GetStringVariable(Pstrc, "Port", "");
+                Sm.PortName = DocumentHandler.GetStringVariable(Pstrc, "Port", "COM1");
             }
             catch { }
             try {
@@ -437,7 +441,19 @@ namespace Serial_Monitor.Classes {
             }
             catch { }
             try {
+                Sm.UseCheckSums = DocumentHandler.GetBooleanVariable(Pstrc, "CCmdCheckSum", true);
+            }
+            catch { }
+            try {
+                Sm.UnitAddress = (uint)DocumentHandler.GetIntegerVariable(Pstrc, "ModbusUnitAddress", 1);
+            }
+            catch { }
+            try {
                 Sm.IsMaster = DocumentHandler.GetBooleanVariable(Pstrc, "ModbusMstr");
+            }
+            catch { }
+            try {
+                Sm.BufferSize = (uint)DocumentHandler.GetIntegerVariable(Pstrc, "ModbusBufferLen", 5);
             }
             catch { }
             try {
@@ -446,6 +462,26 @@ namespace Serial_Monitor.Classes {
             catch { }
             try {
                 Sm.AutoReconnect = DocumentHandler.GetBooleanVariable(Pstrc, "AutoConnect");
+            }
+            catch { }
+            try {
+                Sm.OutputModbusFrameToTerminal = DocumentHandler.GetBooleanVariable(Pstrc, "OutputModbusFrame");
+            }
+            catch { }
+            try {
+                Sm.ScanIgnorePortFailures = DocumentHandler.GetBooleanVariable(Pstrc, "ScanIgnorePortFails");
+            }
+            catch { }
+            try {
+                Sm.ScanRetryCount = (uint)DocumentHandler.GetIntegerVariable(Pstrc, "ScanRetryCount");
+            }
+            catch { }
+            try {
+                Sm.ScanTimeout = (uint)DocumentHandler.GetIntegerVariable(Pstrc, "ScanTimeOut");
+            }
+            catch { }
+            try {
+                Sm.ScanWithString = DocumentHandler.GetStringVariable(Pstrc, "ScanString");
             }
             catch { }
             if (DocumentHandler.IsDefinedInParameter("Registers", Pstrc)) {

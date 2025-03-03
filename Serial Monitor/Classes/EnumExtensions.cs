@@ -8,7 +8,8 @@ namespace Enum.Extensions {
 
     public static class EnumerationExtensions {
 
-        public static bool Has<T>(this System.Enum type, T value) {
+        public static bool Has<T>(this System.Enum type, T? value) {
+            if (value == null) { return false; }
             try {
                 return (((int)(object)type & (int)(object)value) == (int)(object)value);
             }
@@ -16,7 +17,8 @@ namespace Enum.Extensions {
                 return false;
             }
         }
-        public static bool Is<T>(this System.Enum type, T value) {
+        public static bool Is<T>(this System.Enum type, T? value) {
+            if (value == null) { return false; }
             try {
                 return (int)(object)type == (int)(object)value;
             }
@@ -25,7 +27,8 @@ namespace Enum.Extensions {
             }
         }
 
-        public static T Add<T>(this System.Enum type, T value) {
+        public static T? Add<T>(this System.Enum type, T? value) {
+            if (value == null) { return default(T); }
             try {
                 return (T)(object)(((int)(object)type | (int)(object)value));
             }
@@ -37,7 +40,8 @@ namespace Enum.Extensions {
                         ), ex);
             }
         }
-        public static T Remove<T>(this System.Enum type, T value) {
+        public static T? Remove<T>(this System.Enum type, T? value) {
+            if (value == null) { return default(T); }
             try {
                 return (T)(object)(((int)(object)type & ~(int)(object)value));
             }

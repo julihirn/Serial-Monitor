@@ -97,6 +97,14 @@
             btnViewMaster = new ToolStripMenuItem();
             btnViewSnapshot = new ToolStripMenuItem();
             toolStripSeparator10 = new ToolStripSeparator();
+            zoomToolStripMenuItem = new ToolStripMenuItem();
+            zoom100 = new ToolStripMenuItem();
+            zoom115 = new ToolStripMenuItem();
+            zoom120 = new ToolStripMenuItem();
+            zoom150 = new ToolStripMenuItem();
+            zoom175 = new ToolStripMenuItem();
+            zoom200 = new ToolStripMenuItem();
+            toolStripSeparator30 = new ToolStripSeparator();
             propertiesToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator29 = new ToolStripSeparator();
             btnTopMost = new ToolStripMenuItem();
@@ -172,14 +180,6 @@
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
-            zoomToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator30 = new ToolStripSeparator();
-            zoom100 = new ToolStripMenuItem();
-            zoom115 = new ToolStripMenuItem();
-            zoom120 = new ToolStripMenuItem();
-            zoom150 = new ToolStripMenuItem();
-            zoom175 = new ToolStripMenuItem();
-            zoom200 = new ToolStripMenuItem();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
@@ -718,6 +718,60 @@
             // 
             toolStripSeparator10.Name = "toolStripSeparator10";
             resources.ApplyResources(toolStripSeparator10, "toolStripSeparator10");
+            // 
+            // zoomToolStripMenuItem
+            // 
+            zoomToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { zoom100, zoom115, zoom120, zoom150, zoom175, zoom200 });
+            zoomToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(zoomToolStripMenuItem, "zoomToolStripMenuItem");
+            zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            // 
+            // zoom100
+            // 
+            zoom100.ForeColor = Color.White;
+            zoom100.Name = "zoom100";
+            resources.ApplyResources(zoom100, "zoom100");
+            zoom100.Click += zoom100_Click;
+            // 
+            // zoom115
+            // 
+            zoom115.ForeColor = Color.White;
+            zoom115.Name = "zoom115";
+            resources.ApplyResources(zoom115, "zoom115");
+            zoom115.Click += zoom115_Click;
+            // 
+            // zoom120
+            // 
+            zoom120.ForeColor = Color.White;
+            zoom120.Name = "zoom120";
+            resources.ApplyResources(zoom120, "zoom120");
+            zoom120.Click += zoom120_Click;
+            // 
+            // zoom150
+            // 
+            zoom150.ForeColor = Color.White;
+            zoom150.Name = "zoom150";
+            resources.ApplyResources(zoom150, "zoom150");
+            zoom150.Click += zoom150_Click;
+            // 
+            // zoom175
+            // 
+            zoom175.ForeColor = Color.White;
+            zoom175.Name = "zoom175";
+            resources.ApplyResources(zoom175, "zoom175");
+            zoom175.Click += zoom175_Click;
+            // 
+            // zoom200
+            // 
+            zoom200.ForeColor = Color.White;
+            zoom200.Name = "zoom200";
+            resources.ApplyResources(zoom200, "zoom200");
+            zoom200.Click += zoom200_Click;
+            // 
+            // toolStripSeparator30
+            // 
+            toolStripSeparator30.Name = "toolStripSeparator30";
+            resources.ApplyResources(toolStripSeparator30, "toolStripSeparator30");
             // 
             // propertiesToolStripMenuItem
             // 
@@ -1269,6 +1323,7 @@
             cmCoilFormats.BorderColor = Color.Black;
             cmCoilFormats.DropShadowEnabled = false;
             cmCoilFormats.ForeColor = Color.White;
+            cmCoilFormats.ImageScalingSize = new Size(32, 32);
             cmCoilFormats.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
             cmCoilFormats.MenuBackColorNorth = Color.DodgerBlue;
             cmCoilFormats.MenuBackColorSouth = Color.DodgerBlue;
@@ -1279,60 +1334,6 @@
             cmCoilFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
-            // 
-            // zoomToolStripMenuItem
-            // 
-            zoomToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { zoom100, zoom115, zoom120, zoom150, zoom175, zoom200 });
-            zoomToolStripMenuItem.ForeColor = Color.White;
-            resources.ApplyResources(zoomToolStripMenuItem, "zoomToolStripMenuItem");
-            zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            // 
-            // toolStripSeparator30
-            // 
-            toolStripSeparator30.Name = "toolStripSeparator30";
-            resources.ApplyResources(toolStripSeparator30, "toolStripSeparator30");
-            // 
-            // zoom100
-            // 
-            zoom100.ForeColor = Color.White;
-            zoom100.Name = "zoom100";
-            resources.ApplyResources(zoom100, "zoom100");
-            zoom100.Click += zoom100_Click;
-            // 
-            // zoom115
-            // 
-            zoom115.ForeColor = Color.White;
-            zoom115.Name = "zoom115";
-            resources.ApplyResources(zoom115, "zoom115");
-            zoom115.Click += zoom115_Click;
-            // 
-            // zoom120
-            // 
-            zoom120.ForeColor = Color.White;
-            zoom120.Name = "zoom120";
-            resources.ApplyResources(zoom120, "zoom120");
-            zoom120.Click += zoom120_Click;
-            // 
-            // zoom150
-            // 
-            zoom150.ForeColor = Color.White;
-            zoom150.Name = "zoom150";
-            resources.ApplyResources(zoom150, "zoom150");
-            zoom150.Click += zoom150_Click;
-            // 
-            // zoom175
-            // 
-            zoom175.ForeColor = Color.White;
-            zoom175.Name = "zoom175";
-            resources.ApplyResources(zoom175, "zoom175");
-            zoom175.Click += zoom175_Click;
-            // 
-            // zoom200
-            // 
-            zoom200.ForeColor = Color.White;
-            zoom200.Name = "zoom200";
-            resources.ApplyResources(zoom200, "zoom200");
-            zoom200.Click += zoom200_Click;
             // 
             // ModbusRegisters
             // 

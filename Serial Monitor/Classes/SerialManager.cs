@@ -13,10 +13,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes {
     public class SerialManager : IDisposable {
+
+        const int MODBUS_MIN_DEVICE_ADDRESS = 0;
+        const int MODBUS_MAX_DEVICE_ADDRESS = 255;
         //Thread TrFramer;
         //bool FramerRunning = true;
         Thread? HeartbeatThread = null; // new Thread();
@@ -64,23 +66,13 @@ namespace Serial_Monitor.Classes {
         }
         public void CleanUp() {
             RunHeartBeat = false;
-            //Array.Clear(coils, 0, coils.Length);
-            //Array.Clear(discreteInputs, 0, discreteInputs.Length);
-            //Array.Clear(inputRegisters, 0, inputRegisters.Length);
-            //Array.Clear(holdingRegisters, 0, holdingRegisters.Length);
-            //coils = new ModbusCoil[0];
-            //discreteInputs = new ModbusCoil[0];
-            //inputRegisters = new ModbusRegister[0];
-            //holdingRegisters = new ModbusRegister[0];
             if (registers != null) {
                 registers.CleanUp();
             }
             ClearSlaves();
             try {
                 //Port.DataReceived -= Port_DataReceived;
-                if (Port.IsOpen == true) {
-                    Port.Close();
-                }
+                if (Port.IsOpen == true) { Port.Close(); }
             }
             catch { }
             GC.Collect();
@@ -95,9 +87,7 @@ namespace Serial_Monitor.Classes {
                             SystemManager.InvokePortStatusChanged(this);
                             OpenPrevious = Port.IsOpen;
                         }
-                        if (Port.IsOpen == false) {
-                            Port.Open();
-                        }
+                        if (Port.IsOpen == false) { Port.Open(); }
                     }
                 }
                 catch { }
@@ -181,6 +171,16 @@ namespace Serial_Monitor.Classes {
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
+        uint bufferSize = 5;
+        [Category("Modbus")]
+        [DisplayName("Buffer Size")]
+        public uint BufferSize {
+            get { return bufferSize; }
+            set {
+                bufferSize = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
         uint unitAddress = 1;
         [Category("Modbus")]
         [DisplayName("Unit Address")]
@@ -188,6 +188,16 @@ namespace Serial_Monitor.Classes {
             get { return unitAddress; }
             set {
                 unitAddress = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        bool outputModbusFrameToTerminal = false;
+        [Category("Modbus")]
+        [DisplayName("Output Modbus Frame")]
+        public bool OutputModbusFrameToTerminal {
+            get { return outputModbusFrameToTerminal; }
+            set {
+                outputModbusFrameToTerminal = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
@@ -244,7 +254,6 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        long SilenceLength = 29166;
         [Category("Port")]
         [DisplayName("Baud Rate")]
         public int BaudRate {
@@ -365,47 +374,20 @@ namespace Serial_Monitor.Classes {
         protected Stream GetStream() {
             return this.Port.BaseStream;
         }
+        long SilenceLength = 29166;
         private void DeriveSilence() {
             decimal PacketLength = DataBits + 1;
-            if (Parity != Parity.None) {
-                PacketLength++;
-            }
-            if (StopBits == StopBits.One) {
-                PacketLength++;
-            }
-            else if (StopBits == StopBits.OnePointFive) {
-                PacketLength += 1.5m;
-            }
-            else if (StopBits == StopBits.Two) {
-                PacketLength += 2.0m;
-            }
-            //tk = 1/(b/s)  (3.5) =>  (1/1/s) => s, s * 3.5
+            if (Parity != Parity.None) { PacketLength++; }
+            if (StopBits == StopBits.One) { PacketLength++; }
+            else if (StopBits == StopBits.OnePointFive) { PacketLength += 1.5m; }
+            else if (StopBits == StopBits.Two) { PacketLength += 2.0m; }
+
             SilenceLength = (long)((1.0m / (decimal)Port.BaudRate) * 35000000.0m * PacketLength);
             //if (SilenceLength < 10000) {
             //    SilenceLength = 1000000;
             //}
             //SilenceLength = (long)(280000000.0m / (decimal)Port.BaudRate);
         }
-        //private Modbus.ModbusCoil[] coils = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters);//new ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];
-        //[Browsable(false)]
-        //public Modbus.ModbusCoil[] Coils {
-        //    get { return coils; }
-        //}
-        //private Modbus.ModbusCoil[] discreteInputs = new Modbus.ModbusCoil[Modbus.ModbusSupport.MaximumRegisters];//new List<ModbusCoil>(Modbus.ModbusSupport.MaximumRegisters); //new bool[Modbus.ModbusSupport.MaximumRegisters];
-        //[Browsable(false)]
-        //public Modbus.ModbusCoil[] DiscreteInputs {
-        //    get { return discreteInputs; }
-        //}//ModbusRegister
-        //private Modbus.ModbusRegister[] inputRegisters = new Modbus.ModbusRegister[Modbus.ModbusSupport.MaximumRegisters]; //new short[Modbus.ModbusSupport.MaximumRegisters];
-        //[Browsable(false)]
-        //public Modbus.ModbusRegister[] InputRegisters {
-        //    get { return inputRegisters; }
-        //}
-        //private Modbus.ModbusRegister[] holdingRegisters = new Modbus.ModbusRegister[Modbus.ModbusSupport.MaximumRegisters]; //new short[Modbus.ModbusSupport.MaximumRegisters];
-        //[Browsable(false)]
-        //public Modbus.ModbusRegister[] HoldingRegisters {
-        //    get { return holdingRegisters; }
-        //}
         bool allowEscapeCharacters = true;
         [Category("Data Formatting")]
         [DisplayName("Allow Escape Characters")]
@@ -462,6 +444,44 @@ namespace Serial_Monitor.Classes {
             set {
                 lineFormat = value;
                 SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        [Category("Port Scanning")]
+        [DisplayName("Scan String")]
+        public string ScanWithString {
+            get { return Scan_String; }
+            set {
+                if (Scan_InProgress) { return; }
+                Scan_String = value;
+            }
+        }
+        [Category("Port Scanning")]
+        [DisplayName("Retry Attempts")]
+        public uint ScanRetryCount {
+            get { return Scan_RequestedRetryCount; }
+            set {
+                if (Scan_InProgress) { return; }
+                if (value <= 0) { Scan_RequestedRetryCount = 1; }
+                Scan_RequestedRetryCount = value;
+            }
+        }
+        [Category("Port Scanning")]
+        [DisplayName("Timeout")]
+        public uint ScanTimeout {
+            get { return Scan_Timeout; }
+            set {
+                if (Scan_InProgress) { return; }
+                if (value <= 0) { Scan_Timeout = 1; }
+                Scan_Timeout = value;
+            }
+        }
+        [Category("Port Scanning")]
+        [DisplayName("Ignore Port Failures")]
+        public bool ScanIgnorePortFailures {
+            get { return Scan_IgnorePortFailures; }
+            set {
+                if (Scan_InProgress) { return; }
+                Scan_IgnorePortFailures = value;
             }
         }
         #endregion
@@ -614,44 +634,10 @@ namespace Serial_Monitor.Classes {
 
         #endregion
         #region Reception
-        private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
-
-            switch (InputFormat) {
-                case StreamInputFormat.Text:
-                    TextProcessor(sender);
-                    break;
-                case StreamInputFormat.CCommand:
-                    CCommandProcessor(sender);
-                    break;
-                case StreamInputFormat.BinaryStream:
-                    StreamProcessor(sender);
-                    break;
-                case StreamInputFormat.ModbusRTU:
-                    ModbusRTUProcessor(sender);
-                    break;
-                case StreamInputFormat.ModbusASCII:
-                    ModbusASCIIProcessor(sender);
-                    break;
-                case StreamInputFormat.StreamBinary:
-                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Binary);
-                    break;
-                case StreamInputFormat.StreamOctal:
-                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Octal);
-                    break;
-                case StreamInputFormat.StreamDecimal:
-                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Decimal);
-                    break;
-                case StreamInputFormat.StreamHexadecimal:
-                    StreamProcessor(sender, Enums.ModbusEnums.DataFormat.Hexadecimal);
-                    break;
-                default:
-                    break;
-            }
-            lastReceivedTime = DateTime.UtcNow;
-        }
         private void InitaliseZeroLatencyReceiver() {
             Thread TrMbRTURx = new Thread(() => ZeroLatencyReceiver());
             TrMbRTURx.Name = "TrSPRx";
+            TrMbRTURx.Priority = ThreadPriority.Highest;
             TrMbRTURx.IsBackground = true;
             TrMbRTURx.Start();
         }
@@ -662,46 +648,55 @@ namespace Serial_Monitor.Classes {
                 if (Port.IsOpen) {
                     Port.BaseStream.BeginRead(buffer, 0, buffer.Length, delegate (IAsyncResult ar) {
                         try {
+                            //if (!Port.IsOpen) { return; }
                             if (Port.IsOpen) {
-                                int actualLength = Port.BaseStream.EndRead(ar);
-                                byte[] received = new byte[actualLength];
-                                Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
-                                switch (InputFormat) {
-                                    case StreamInputFormat.Text:
-                                        TextProcessor(received);
-                                        break;
-                                    case StreamInputFormat.CCommand:
-                                        CCommandProcessor(received);
-                                        break;
-                                    case StreamInputFormat.BinaryStream:
-                                        StreamProcessor(received);
-                                        break;
-                                    case StreamInputFormat.ModbusRTU:
-                                        ModbusRTUProcessor(received);
-                                        break;
-                                    case StreamInputFormat.ModbusASCII:
-                                        ModbusASCIIProcessor(received);
-                                        break;
-                                    case StreamInputFormat.StreamBinary:
-                                        StreamProcessor(received, Enums.ModbusEnums.DataFormat.Binary);
-                                        break;
-                                    case StreamInputFormat.StreamOctal:
-                                        StreamProcessor(received, Enums.ModbusEnums.DataFormat.Octal);
-                                        break;
-                                    case StreamInputFormat.StreamDecimal:
-                                        StreamProcessor(received, Enums.ModbusEnums.DataFormat.Decimal);
-                                        break;
-                                    case StreamInputFormat.StreamHexadecimal:
-                                        StreamProcessor(received, Enums.ModbusEnums.DataFormat.Hexadecimal);
-                                        break;
-                                    default:
-                                        break;
+                                try {
+                                    int actualLength = Port.BaseStream.EndRead(ar);
+                                    byte[] received = new byte[actualLength];
+                                    Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
+                                    switch (InputFormat) {
+                                        case StreamInputFormat.Text:
+                                            TextProcessor(received);
+                                            break;
+                                        case StreamInputFormat.CCommand:
+                                            CCommandProcessor(received);
+                                            break;
+                                        case StreamInputFormat.BinaryStream:
+                                            StreamProcessor(received);
+                                            break;
+                                        case StreamInputFormat.HexStream:
+                                            HexStreamProcessor(received);
+                                            break;
+                                        case StreamInputFormat.ModbusRTU:
+                                            ModbusRTUProcessor(received);
+                                            break;
+                                        case StreamInputFormat.ModbusASCII:
+                                            ModbusASCIIProcessor(received);
+                                            break;
+                                        case StreamInputFormat.StreamBinary:
+                                            StreamProcessor(received, Enums.ModbusEnums.DataFormat.Binary);
+                                            break;
+                                        case StreamInputFormat.StreamOctal:
+                                            StreamProcessor(received, Enums.ModbusEnums.DataFormat.Octal);
+                                            break;
+                                        case StreamInputFormat.StreamDecimal:
+                                            StreamProcessor(received, Enums.ModbusEnums.DataFormat.Decimal);
+                                            break;
+                                        case StreamInputFormat.StreamHexadecimal:
+                                            StreamProcessor(received, Enums.ModbusEnums.DataFormat.Hexadecimal);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    lastReceivedTime = DateTime.UtcNow;
                                 }
-                                lastReceivedTime = DateTime.UtcNow;
+                                catch (IOException ex) {
+                                    Console.WriteLine("Device disconnected! IOException: " + ex.Message);
+                                }
                             }
                         }
-                        catch (IOException exc) {
-
+                        catch (IOException ex) {
+                            Console.WriteLine("Device disconnected! IOException: " + ex.Message);
                         }
                         if (kickoffRead != null) {
                             if (Port.IsOpen) {
@@ -734,16 +729,29 @@ namespace Serial_Monitor.Classes {
         public string ThirdLastReceivedLine {
             get { return thirdLastReceivedLine; }
         }
+        [Browsable(false)]
+        public string LastReceived {
+            get {
+                if (lastReceivedLine.Length == 0) {
+                    return secondLastReceivedLine;
+                }
+                else { return lastReceivedLine; }
+            }
+        }
         private void TextProcessor(byte[] InputBuf) {
             try {
+                StringBuilder sb = new StringBuilder();
                 bytesReceived += (ulong)InputBuf.Length;
                 for (int j = 0; j < InputBuf.Length; j++) {
                     string Result = ((char)InputBuf[j]).ToString();
                     PushToLast((char)InputBuf[j]);
                     //Output.AttendToLastLine(((char)Buffer[j]).ToString(), true);
-                    DataReceived?.Invoke(this, false, Result);
+                    sb.Append(Result);
+                    //DataReceived?.Invoke(this, false, Result);
                     ProgramManager.ProgramDataReceived(this.ID, Result);
                 }
+                DataReceived?.Invoke(this, false, sb.ToString());
+                SystemManager.InvokeChannelDataReceived(this, InputBuf, InputBuf.Length, sb.ToString(), false);
             }
             catch { }
         }
@@ -784,7 +792,6 @@ namespace Serial_Monitor.Classes {
         }
         private void CCommandProcessor(byte[] InputBuf) {
             try {
-                int i = 0;
                 bytesReceived += (ulong)InputBuf.Length;
                 for (int j = 0; j < InputBuf.Length; j++) {
                     ProcessByte(InputBuf[j]);
@@ -828,15 +835,55 @@ namespace Serial_Monitor.Classes {
         private void StreamProcessor(byte[] InputBuf) {
             try {
                 bytesReceived += (ulong)InputBuf.Length;
+                string Space = "  ";
                 for (int j = 0; j < InputBuf.Length; j++) {
-                    string Result = "";
-                    Result += Classes.Formatters.ByteToBinary(InputBuf[j]) + "  ";
-                    Result += Classes.Formatters.ByteToHex(InputBuf[j]) + "  ";
+                    StringBuilder Result = new StringBuilder();
+                    Result.Append(Classes.Formatters.ByteToBinary(InputBuf[j]));
+                    Result.Append(Space);
+                    Result.Append(Classes.Formatters.ByteToHex(InputBuf[j]));
+                    Result.Append(Space);
                     string Char = ((char)InputBuf[j]).ToString();
-                    Result += Classes.Formatters.ByteToChar(InputBuf[j]);
+                    Result.Append(Classes.Formatters.ByteToChar(InputBuf[j]));
                     //Output.Print(Result);
-                    DataReceived?.Invoke(this, true, Result);
-                    ProgramManager.ProgramDataReceived(this.ID, Result);
+                    DataReceived?.Invoke(this, true, Result.ToString());
+                    SystemManager.InvokeChannelDataReceived(this, InputBuf[j], Result.ToString(), true);
+                    ProgramManager.ProgramDataReceived(this.ID, Result.ToString());
+                }
+            }
+            catch { }
+        }
+        private void HexStreamProcessor(byte[] InputBuf) {
+            try {
+                bytesReceived += (ulong)InputBuf.Length;
+                string Space = " ";
+                const int HexLength = 5;
+                const int MaxLength = 40;
+                int PayloadDisplayLength = 0;
+                StringBuilder HexResult = new StringBuilder();
+                StringBuilder StrResult = new StringBuilder();
+                for (int j = 0; j < InputBuf.Length; j++) {
+                    HexResult.Append(Classes.Formatters.ByteToHex(InputBuf[j]));
+                    StrResult.Append(Classes.Formatters.ByteToChar(InputBuf[j]));
+                    HexResult.Append(Space);
+                    PayloadDisplayLength += HexLength;
+                    if (((j % 8) == 0) || (j == InputBuf.Length - 1)) {
+                        HexResult.Append(Space);
+                        int DiffLength = MaxLength - PayloadDisplayLength;
+                        if (DiffLength > 0) {
+                            for (int k = 0; k < DiffLength; k++) {
+                                HexResult.Append(Space);
+                            }
+                        }
+                        string Char = ((char)InputBuf[j]).ToString();
+                        HexResult.Append(StrResult.ToString());
+                        //Output.Print(Result);
+                        DataReceived?.Invoke(this, true, HexResult.ToString());
+                        SystemManager.InvokeChannelDataReceived(this, InputBuf[j], HexResult.ToString(), true);
+                        ProgramManager.ProgramDataReceived(this.ID, HexResult.ToString());
+                        HexResult.Clear();
+                        StrResult.Clear();
+                        PayloadDisplayLength = 0;
+                    }
                 }
             }
             catch { }
@@ -859,6 +906,7 @@ namespace Serial_Monitor.Classes {
                     }
                     Result += " ";
                 }
+                SystemManager.InvokeChannelDataReceived(this, InputBuf, InputBuf.Length, Result.ToString(), false);
                 DataReceived?.Invoke(this, true, Result);
                 ProgramManager.ProgramDataReceived(this.ID, Result);
             }
@@ -894,134 +942,133 @@ namespace Serial_Monitor.Classes {
 
         byte[] RXBuffer = new byte[short.MaxValue];
         private int RXCurrentByte = 0;
-        private void ModbusRTUVerifier() {
-            try {
-                int LatchedBytesToCheck = RXCurrentByte;
-                bool NothingFound = true;
-                if (LatchedBytesToCheck >= 0) {
-                    // Debug.Print("Read Length: " + Buffer.Length + " " + RXCurrentByte.ToString());
-                    for (int j = 4; j <= LatchedBytesToCheck; j++) {
-                        lastReceivedTime = DateTime.UtcNow;
+        //private void ModbusRTUVerifier() {
+        //    try {
+        //        int LatchedBytesToCheck = RXCurrentByte;
+        //        bool NothingFound = true;
+        //        if (LatchedBytesToCheck >= 0) {
+        //            // Debug.Print("Read Length: " + Buffer.Length + " " + RXCurrentByte.ToString());
+        //            for (int j = 4; j <= LatchedBytesToCheck; j++) {
+        //                lastReceivedTime = DateTime.UtcNow;
 
-                        if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
-                        lastReceivedTime = DateTime.UtcNow;
-                        int NewIndex = j + 1;
-                        int NewLength = (LatchedBytesToCheck - j);
-                        if (NewLength >= 0) {
-                            byte[] Temp = RXBuffer;
-                            byte[] TemoSends = new byte[j];
-                            Array.Copy(RXBuffer, 0, TemoSends, 0, j);
-                            if (NewLength > 0) {
-                                Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
-                            }
-                            RXCurrentByte = NewLength;
-                            Port.DiscardInBuffer();
-                            Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
-                            TrMbRTURx.Name = "TrMbRTURx";
-                            TrMbRTURx.IsBackground = true;
-                            TrMbRTURx.Start();
+        //                if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
+        //                lastReceivedTime = DateTime.UtcNow;
+        //                int NewIndex = j + 1;
+        //                int NewLength = (LatchedBytesToCheck - j);
+        //                if (NewLength >= 0) {
+        //                    byte[] Temp = RXBuffer;
+        //                    byte[] TemoSends = new byte[j];
+        //                    Array.Copy(RXBuffer, 0, TemoSends, 0, j);
+        //                    if (NewLength > 0) {
+        //                        Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
+        //                    }
+        //                    RXCurrentByte = NewLength;
+        //                    Port.DiscardInBuffer();
+        //                    Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
+        //                    TrMbRTURx.Name = "TrMbRTURx";
+        //                    TrMbRTURx.IsBackground = true;
+        //                    TrMbRTURx.Start();
 
-                        }
-                        else {
-                            RXCurrentByte = 0;
-                        }
-                        NothingFound = false;
-                        break;
-                    }
-                }
-                if (NothingFound == true) {
-                }
-                if (RXCurrentByte > 512) {
-                    RXCurrentByte = 0;
-                }
-                lastReceivedTime = DateTime.UtcNow;
-            }
-            catch { }
-        }
-        private void ModbusRTUProcessor(object sender) {
-            try {
-                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + 1000) {
-                    RXCurrentByte = 0;
-                    Debug.Print("Timeout");
-                }
-                lastReceivedTime = DateTime.UtcNow;
-                int i = 0;
-                int BytesToRead = ((SerialPort)sender).BytesToRead;
-                byte[] Buffer = new byte[BytesToRead];
-                bytesReceived += (ulong)BytesToRead;
-                i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
-                Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
-                RXCurrentByte += BytesToRead;
-                //Debug.Print(DateTime.UtcNow.Ticks.ToString() + " Read Length: " + Buffer.Length.ToString() + " " + RXCurrentByte.ToString());
-                Thread TrMbRTUVerfy = new Thread(() => ModbusRTUVerifier());
-                TrMbRTUVerfy.Name = "TrMbRTUVerfy";
-                TrMbRTUVerfy.IsBackground = true;
-                TrMbRTUVerfy.Start();
-                //int LatchedBytesToCheck = RXCurrentByte;
-                //bool NothingFound = true;
-                //if (LatchedBytesToCheck >= 0) {
-                //    Debug.Print("Read Length: " + Buffer.Length + " " + RXCurrentByte.ToString());
-                //    for (int j = 4; j <= LatchedBytesToCheck; j++) {
-                //        lastReceivedTime = DateTime.UtcNow;
+        //                }
+        //                else {
+        //                    RXCurrentByte = 0;
+        //                }
+        //                NothingFound = false;
+        //                break;
+        //            }
+        //        }
+        //        if (NothingFound == true) {
+        //        }
+        //        if (RXCurrentByte > 512) {
+        //            RXCurrentByte = 0;
+        //        }
+        //        lastReceivedTime = DateTime.UtcNow;
+        //    }
+        //    catch { }
+        //}
+        //private void ModbusRTUProcessor(object sender) {
+        //    try {
+        //        if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + 10000) {
+        //            RXCurrentByte = 0;
+        //            //Debug.Print("Timeout");
+        //        }
+        //        lastReceivedTime = DateTime.UtcNow;
+        //        int i = 0;
+        //        int BytesToRead = ((SerialPort)sender).BytesToRead;
+        //        byte[] Buffer = new byte[BytesToRead];
+        //        bytesReceived += (ulong)BytesToRead;
+        //        i = ((SerialPort)sender).Read(Buffer, 0, BytesToRead);
+        //        Array.Copy(Buffer, 0, RXBuffer, RXCurrentByte, BytesToRead);
+        //        RXCurrentByte += BytesToRead;
+        //        //Debug.Print(DateTime.UtcNow.Ticks.ToString() + " Read Length: " + Buffer.Length.ToString() + " " + RXCurrentByte.ToString());
+        //        Thread TrMbRTUVerfy = new Thread(() => ModbusRTUVerifier());
+        //        TrMbRTUVerfy.Name = "TrMbRTUVerfy";
+        //        TrMbRTUVerfy.IsBackground = true;
+        //        TrMbRTUVerfy.Start();
+        //        //int LatchedBytesToCheck = RXCurrentByte;
+        //        //bool NothingFound = true;
+        //        //if (LatchedBytesToCheck >= 0) {
+        //        //    Debug.Print("Read Length: " + Buffer.Length + " " + RXCurrentByte.ToString());
+        //        //    for (int j = 4; j <= LatchedBytesToCheck; j++) {
+        //        //        lastReceivedTime = DateTime.UtcNow;
 
-                //        if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
+        //        //        if (ModbusSupport.IsModbusFrameVaild(RXBuffer, j) == false) { continue; }
 
-                //        lastReceivedTime = DateTime.UtcNow;
-                //        int NewIndex = j + 1;
-                //        int NewLength = (LatchedBytesToCheck - j);
-                //        if (NewLength >= 0) {
-                //            byte[] Temp = RXBuffer;
-                //            byte[] TemoSends = new byte[j];
-                //            Array.Copy(RXBuffer, 0, TemoSends, 0, j);
-                //            if (NewLength > 0) {
-                //                Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
-                //            }
-                //            RXCurrentByte = NewLength;
-                //            Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
-                //            TrMbRTURx.Name = "TrMbRTURx";
-                //            TrMbRTURx.IsBackground = true;
-                //            TrMbRTURx.Start();
+        //        //        lastReceivedTime = DateTime.UtcNow;
+        //        //        int NewIndex = j + 1;
+        //        //        int NewLength = (LatchedBytesToCheck - j);
+        //        //        if (NewLength >= 0) {
+        //        //            byte[] Temp = RXBuffer;
+        //        //            byte[] TemoSends = new byte[j];
+        //        //            Array.Copy(RXBuffer, 0, TemoSends, 0, j);
+        //        //            if (NewLength > 0) {
+        //        //                Array.Copy(Temp, NewIndex, RXBuffer, 0, NewLength);
+        //        //            }
+        //        //            RXCurrentByte = NewLength;
+        //        //            Thread TrMbRTURx = new Thread(() => RTUStringProcessor(TemoSends));
+        //        //            TrMbRTURx.Name = "TrMbRTURx";
+        //        //            TrMbRTURx.IsBackground = true;
+        //        //            TrMbRTURx.Start();
 
-                //        }
-                //        else {
-                //            RXCurrentByte = 0;
-                //        }
-                //        NothingFound = false;
-                //        break;
-                //    }
-                //}
-                //if (NothingFound == true) {
-                //}
-                if (RXCurrentByte > 512) {
-                    RXCurrentByte = 0;
-                }
-                lastReceivedTime = DateTime.UtcNow;
-                //if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
-                //    //string StringBuffer = PrintStream(Buffer);
-                //    //DataReceived?.Invoke(this, true, StringBuffer);
-                //    //ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
-                //    //ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
-                //    //ModbusProcessCommand(ref Buffer, Func, Buffer[0]);
-                //    RXCurrentByte = 0;
-                //    Thread TrMbRTURx = new Thread(() => RTUStringProcessor(Buffer));
-                //    TrMbRTURx.Name = "TrMbRTURx";
-                //    TrMbRTURx.IsBackground = true;
-                //    TrMbRTURx.Start();
-                //}
-                //else {
-                //    string StringBuffer = PrintStream(Buffer);
-                //    Debug.Print("Invalid: " + StringBuffer);
-                //}
-            }
-            catch { }
-            lastReceivedTime = DateTime.UtcNow;
-        }
+        //        //        }
+        //        //        else {
+        //        //            RXCurrentByte = 0;
+        //        //        }
+        //        //        NothingFound = false;
+        //        //        break;
+        //        //    }
+        //        //}
+        //        //if (NothingFound == true) {
+        //        //}
+        //        if (RXCurrentByte > 512) {
+        //            RXCurrentByte = 0;
+        //        }
+        //        lastReceivedTime = DateTime.UtcNow;
+        //        //if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
+        //        //    //string StringBuffer = PrintStream(Buffer);
+        //        //    //DataReceived?.Invoke(this, true, StringBuffer);
+        //        //    //ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
+        //        //    //ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
+        //        //    //ModbusProcessCommand(ref Buffer, Func, Buffer[0]);
+        //        //    RXCurrentByte = 0;
+        //        //    Thread TrMbRTURx = new Thread(() => RTUStringProcessor(Buffer));
+        //        //    TrMbRTURx.Name = "TrMbRTURx";
+        //        //    TrMbRTURx.IsBackground = true;
+        //        //    TrMbRTURx.Start();
+        //        //}
+        //        //else {
+        //        //    string StringBuffer = PrintStream(Buffer);
+        //        //    Debug.Print("Invalid: " + StringBuffer);
+        //        //}
+        //    }
+        //    catch { }
+        //    lastReceivedTime = DateTime.UtcNow;
+        //}
+        bool AwaitingPreviousCommand = false;
         private void ModbusRTUProcessor(byte[] InputBuf) {
             try {
-                if ((DateTime.UtcNow.Ticks - lastReceivedTime.Ticks) >= SilenceLength + 1000) {
-                    RXCurrentByte = 0;
-                    Debug.Print("Timeout");
-                }
+
+                AwaitingPreviousCommand = true;
                 lastReceivedTime = DateTime.UtcNow;
                 bytesReceived += (ulong)InputBuf.Length;
                 Array.Copy(InputBuf, 0, RXBuffer, RXCurrentByte, InputBuf.Length);
@@ -1029,11 +1076,7 @@ namespace Serial_Monitor.Classes {
                 lastReceivedTime = DateTime.UtcNow;
                 //Debug.Print(DateTime.UtcNow.Ticks.ToString() + " Read Length: " + Buffer.Length.ToString() + " " + RXCurrentByte.ToString());
                 if (ModbusSupport.IsModbusFrameVaild(RXBuffer, RXCurrentByte) == true) {
-                    //string StringBuffer = PrintStream(Buffer);
-                    //DataReceived?.Invoke(this, true, StringBuffer);
-                    //ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
-                    //ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)Buffer[1];
-                    //ModbusProcessCommand(ref Buffer, Func, Buffer[0]);
+                    AwaitingPreviousCommand = false;
                     byte[] BlockBuffer = new byte[RXCurrentByte];
                     Array.Copy(RXBuffer, 0, BlockBuffer, 0, BlockBuffer.Length);
                     lastReceivedTime = DateTime.UtcNow;
@@ -1042,6 +1085,12 @@ namespace Serial_Monitor.Classes {
                     TrMbRTURx.Name = "TrMbRTURx";
                     TrMbRTURx.IsBackground = true;
                     TrMbRTURx.Start();
+                }
+                DateTime Now = DateTime.UtcNow;
+                if ((Now.Ticks - lastReceivedTime.Ticks) >= SilenceLength) {// + 10000000
+                    RXCurrentByte = 0;
+                    Debug.Print("Timeout " + ConversionHandler.DateIntervalDifference(Now, lastReceivedTime, ConversionHandler.Interval.Millisecond).ToString());
+                    AwaitingPreviousCommand = false;
                 }
                 if (RXCurrentByte > 512) {
                     RXCurrentByte = 0;
@@ -1053,12 +1102,16 @@ namespace Serial_Monitor.Classes {
         }
 
         private void TestPrint(byte[] InBuffer) {
-            string StringBuffer = PrintStream(InBuffer);
+            string StringBuffer = Support.SerialSupport.PrintStream(InBuffer);
             DataReceived?.Invoke(this, true, StringBuffer);
         }
         private void RTUStringProcessor(byte[] InBuffer) {
-            string StringBuffer = PrintStream(InBuffer);
-            DataReceived?.Invoke(this, true, StringBuffer);
+            string StringBuffer = Support.SerialSupport.PrintStream(InBuffer);
+          
+            if (outputModbusFrameToTerminal) {
+                DataReceived?.Invoke(this, true, StringBuffer);
+                SystemManager.InvokeChannelDataReceived(this, InBuffer, InBuffer.Length, StringBuffer, true);
+            }
             ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
             ModbusSupport.FunctionCode Func = (ModbusSupport.FunctionCode)InBuffer[1];
             ModbusProcessCommand(ref InBuffer, Func, InBuffer[0]);
@@ -1202,8 +1255,9 @@ namespace Serial_Monitor.Classes {
             byte LRC_Calculated = ModbusSupport.CalculateLRC(Buffer, (ushort)DataPacketSize, 0);
             byte LRC_Recieved = ModbusSupport.GetArrayValue(DataPacketSize, ref RXBuffer);
             if (LRC_Calculated != LRC_Recieved) { return; }
-            string StringBuffer = PrintStream(Buffer);
+            string StringBuffer = Support.SerialSupport.PrintStream(Buffer);
             DataReceived?.Invoke(this, true, StringBuffer);
+            SystemManager.InvokeChannelDataReceived(this, Buffer, DataPacketSize, StringBuffer, true);
             ProgramManager.ProgramDataReceived(this.ID, StringBuffer);
             int Slave = ModbusSupport.GetArrayValue(0, ref Buffer);
             int Func = ModbusSupport.GetArrayValue(2, ref Buffer);
@@ -1267,51 +1321,62 @@ namespace Serial_Monitor.Classes {
         private ushort LastRequestedAddress = 0;
         private void ModbusPostException(int Address, ModbusSupport.FunctionCode Function, ModbusSupport.ModbusException Code) {
             //Adr Fun Cde
-            byte[] Output = new byte[5];
-            byte[] Temp = new byte[3];
-            Temp[0] = (byte)Address;//Adr
-            Temp[1] = (byte)((byte)Function + (byte)0x80);//Fun
-            Temp[2] = (byte)Code;//Len
+            byte[] Temp = ModbusSupport.BulidExceptionPacket(outputFormat, Address, Function, Code);
+            //
+            //byte[] Temp = new byte[3];
+            //Temp[0] = (byte)Address;//Adr
+            //Temp[1] = (byte)((byte)Function + (byte)0x80);//Fun
+            //Temp[2] = (byte)Code;//Len
+            if (outputFormat == StreamOutputFormat.ModbusRTU) {
+                byte[] Output = new byte[5];
+                Array.Copy(Temp, 0, Output, 0, 3);
+                ushort CRC = ModbusSupport.CalculateCRC(Temp, (ushort)(3), 0);
 
-            Array.Copy(Temp, 0, Output, 0, 3);
-            ushort CRC = ModbusSupport.CalculateCRC(Temp, (ushort)(3), 0);
-
-            Output[4] = (byte)(CRC & 0xFF);
-            Output[5] = (byte)(CRC >> 8);
-            Port.Write(Output, 0, 5);
-            bytesSent += (ulong)5;
-            DataReceived?.Invoke(this, true, PrintStream(Output));
+                Output[4] = (byte)(CRC & 0xFF);
+                Output[5] = (byte)(CRC >> 8);
+                Port.Write(Output, 0, 5);
+                bytesSent += (ulong)5;
+                string strPayload = Support.SerialSupport.PrintStream(Output);
+                DataReceived?.Invoke(this, true, strPayload);
+                SystemManager.InvokeChannelDataReceived(this, Output, Output.Length, strPayload, true);
+            }
+            else if (outputFormat == StreamOutputFormat.ModbusASCII) {
+                TransmitASCIIFrame(Temp);
+            }
         }
         private void ModbusSlaveReadCoils(byte[] Input, int Length, bool IsDiscrete = true) {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port == null) { return; }
             if (!Port.IsOpen) { return; }
-            if (InputFormat == StreamInputFormat.ModbusRTU) {
-                int Slave = Input[0];
-                int Func = Input[1];
-                int StartAddress = (int)((Input[2] << 8) | Input[3]);
-                short CoilCount = (short)((Input[4] << 8) | Input[5]);
-                if ((CoilCount < 0x01) || (CoilCount > 0x07D0)) {
-                    ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
+            try {
+                if (InputFormat == StreamInputFormat.ModbusRTU) {
+                    int Slave = Input[0];
+                    int Func = Input[1];
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    short CoilCount = (short)((Input[4] << 8) | Input[5]);
+                    if ((CoilCount < 0x01) || (CoilCount > 0x07D0)) {
+                        ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    ////int Bytes = (CoilCount + 7) / 8;
+                    //int ArrayLength = 3 + Bytes;
+                    byte[] Temp = ModbusSupport.BulidReadCoils(this, true, IsDiscrete, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, CoilCount);
+                    TransmitFrame(Temp);
                 }
-                ////int Bytes = (CoilCount + 7) / 8;
-                //int ArrayLength = 3 + Bytes;
-                byte[] Temp = ModbusSupport.BulidReadCoils(this, true, IsDiscrete, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, CoilCount);
-                TransmitFrame(Temp);
-            }
-            else if (InputFormat == StreamInputFormat.ModbusASCII) {
-                int Slave = ModbusSupport.GetArrayValue(0, ref Input);
-                int Func = ModbusSupport.GetArrayValue(2, ref Input);
-                int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
-                short CoilCount = (short)ModbusSupport.GetArrayValueRead4(8, ref Input);
-                if ((CoilCount < 0x01) || (CoilCount > 0x07D0)) {
-                    ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
+                else if (InputFormat == StreamInputFormat.ModbusASCII) {
+                    int Slave = ModbusSupport.GetArrayValue(0, ref Input);
+                    int Func = ModbusSupport.GetArrayValue(2, ref Input);
+                    int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                    short CoilCount = (short)ModbusSupport.GetArrayValueRead4(8, ref Input);
+                    if ((CoilCount < 0x01) || (CoilCount > 0x07D0)) {
+                        ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    byte[] Temp = ModbusSupport.BulidReadCoils(this, true, IsDiscrete, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, CoilCount);
+                    TransmitFrame(Temp);
                 }
-                byte[] Temp = ModbusSupport.BulidReadCoils(this, true, IsDiscrete, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, CoilCount);
-                TransmitFrame(Temp);
             }
+            catch { }
         }
         private void ModbusMasterDiagnosticsReturn(byte[] Input, int Length) {
             //ADR FUN ST1 STR2 LN1 LN2
@@ -1390,157 +1455,151 @@ namespace Serial_Monitor.Classes {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port == null) { return; }
             if (!Port.IsOpen) { return; }
-            if (inputFormat == StreamInputFormat.ModbusRTU) {
-                int StartAddress = (int)((Input[2] << 8) | Input[3]);
-                int Val = (int)((Input[4] << 8) | Input[5]);
-                //coils[StartAddress].Value = Val == 0xFF00 ? true : false;
-                ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress, Val == 0xFF00 ? true : false);
-                byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Input[1], Input[0], (short)StartAddress, Input[4], Input[5]);
-                //byte[] Temp = new byte[6];
-                //Temp[0] = Input[0];//Adr
-                //Temp[1] = Input[1];//Fun
-                //Temp[2] = Input[2];//Str1
-                //Temp[3] = Input[3];//Str1
-                //Temp[4] = Input[4];//Val1
-                //Temp[5] = Input[5];//Val2
-                TransmitFrame(Temp);
+            try {
+                if (inputFormat == StreamInputFormat.ModbusRTU) {
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    int Val = (int)((Input[4] << 8) | Input[5]);
+                    //coils[StartAddress].Value = Val == 0xFF00 ? true : false;
+                    ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress, Val == 0xFF00 ? true : false);
+                    byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Input[1], Input[0], (short)StartAddress, Input[4], Input[5]);
+                    TransmitFrame(Temp);
+                }
+                else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                    int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                    int Val = ModbusSupport.GetArrayValueRead4(8, ref Input);
+                    //coils[StartAddress].Value = Val == 0xFF00 ? true : false;
+                    ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress, Val == 0xFF00 ? true : false);
+                    int Func = ModbusSupport.GetArrayValue(2, ref Input);
+                    int Slave = ModbusSupport.GetArrayValue(0, ref Input);
+                    byte Val_High = (byte)(Val >> 8);
+                    byte Val_Low = (byte)(Val & 0XFF);
+                    byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, Val_High, Val_Low);
+                    TransmitFrame(Temp);
+                }
             }
-            else if (inputFormat == StreamInputFormat.ModbusASCII) {
-                int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
-                int Val = ModbusSupport.GetArrayValueRead4(8, ref Input);
-                //coils[StartAddress].Value = Val == 0xFF00 ? true : false;
-                ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress, Val == 0xFF00 ? true : false);
-                int Func = ModbusSupport.GetArrayValue(2, ref Input);
-                int Slave = ModbusSupport.GetArrayValue(0, ref Input);
-                byte Val_High = (byte)(Val >> 8);
-                byte Val_Low = (byte)(Val & 0XFF);
-                byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, Val_High, Val_Low);
-                TransmitFrame(Temp);
-            }
+            catch { }
         }
         private void ModbusSlaveWriteCoils(byte[] Input, int Length) {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port == null) { return; }
             if (!Port.IsOpen) { return; }
-            if (inputFormat == StreamInputFormat.ModbusRTU) {
-                int Slave = Input[0];
-                int StartAddress = (int)((Input[2] << 8) | Input[3]);
-                int Count = (int)((Input[4] << 8) | Input[5]);
-                if (Count > 0x007B) {
-                    ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
-                }
-                int Bytes = Input[6];
-                int CoilCount = 0;
-                for (int i = 0; i < Bytes; i++) {
-                    int Val = Input[7 + i];
-                    for (int j = 0; j < 8; j++) {
-                        bool TempBool = false;
-                        if (((Val >> j) & 0x01) == 0x01) { TempBool = true; }
-                        //coils[StartAddress + CoilCount].Value = TempBool;
-                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress + CoilCount, TempBool);
-                        CoilCount++;
-                        if (CoilCount == Count) {
-                            break;
+            try {
+                if (inputFormat == StreamInputFormat.ModbusRTU) {
+                    int Slave = Input[0];
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    int Count = (int)((Input[4] << 8) | Input[5]);
+                    if (Count > 0x007B) {
+                        ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    int Bytes = Input[6];
+                    int CoilCount = 0;
+                    for (int i = 0; i < Bytes; i++) {
+                        int Val = Input[7 + i];
+                        for (int j = 0; j < 8; j++) {
+                            bool TempBool = false;
+                            if (((Val >> j) & 0x01) == 0x01) { TempBool = true; }
+                            //coils[StartAddress + CoilCount].Value = TempBool;
+                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress + CoilCount, TempBool);
+                            CoilCount++;
+                            if (CoilCount == Count) { break; }
                         }
                     }
+                    byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, ModbusSupport.FunctionCode.WriteMultipleCoils, Slave, (short)StartAddress, (short)Count);
+                    TransmitFrame(Temp);
                 }
-                byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, ModbusSupport.FunctionCode.WriteMultipleCoils, Slave, (short)StartAddress, (short)Count);
-                TransmitFrame(Temp);
-            }
-            else if (inputFormat == StreamInputFormat.ModbusASCII) {
-                int Slave = ModbusSupport.GetArrayValue(0, ref Input);
-                int Func = ModbusSupport.GetArrayValue(2, ref Input);
-                int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
-                int Count = ModbusSupport.GetArrayValueRead4(8, ref Input);
-                if (Count > 0x007B) {
-                    ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
-                }
-                int Bytes = ModbusSupport.GetArrayValue(12, ref Input);
-                int k = 0;
-                int CoilCount = 0;
-                for (int i = 0; i < Bytes; i++) {
-                    int Val = ModbusSupport.GetArrayValue(14 + k, ref Input); k += 2;
-                    for (int j = 0; j < 8; j++) {
-                        bool TempBool = false;
-                        if (((Val >> j) & 0x01) == 0x01) { TempBool = true; }
-                        //coils[StartAddress + CoilCount].Value = TempBool;
-                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress + CoilCount, TempBool);
-                        CoilCount++;
-                        if (CoilCount == Count) {
-                            break;
+                else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                    int Slave = ModbusSupport.GetArrayValue(0, ref Input);
+                    int Func = ModbusSupport.GetArrayValue(2, ref Input);
+                    int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                    int Count = ModbusSupport.GetArrayValueRead4(8, ref Input);
+                    if (Count > 0x007B) {
+                        ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    int Bytes = ModbusSupport.GetArrayValue(12, ref Input);
+                    int k = 0;
+                    int CoilCount = 0;
+                    for (int i = 0; i < Bytes; i++) {
+                        int Val = ModbusSupport.GetArrayValue(14 + k, ref Input); k += 2;
+                        for (int j = 0; j < 8; j++) {
+                            bool TempBool = false;
+                            if (((Val >> j) & 0x01) == 0x01) { TempBool = true; }
+                            //coils[StartAddress + CoilCount].Value = TempBool;
+                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, StartAddress + CoilCount, TempBool);
+                            CoilCount++;
+                            if (CoilCount == Count) { break; }
                         }
                     }
+                    byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, (short)Count);
+                    TransmitFrame(Temp);
                 }
-                byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, (short)Count);
-                TransmitFrame(Temp);
             }
+            catch { }
         }
         private void ModbusSlaveReadRegisters(byte[] Input, int Length, bool IsHolding = true) {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port == null) { return; }
             if (!Port.IsOpen) { return; }
-            if (inputFormat == StreamInputFormat.ModbusRTU) {
-                int Slave = Input[0];
-                int Func = Input[1];
-                int StartAddress = (int)((Input[2] << 8) | Input[3]);
-                short RegisterCount = (short)((Input[4] << 8) | Input[5]);
-                if ((RegisterCount < 0x01) || (RegisterCount > 0x7D)) {
-                    ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
+            try {
+                if (inputFormat == StreamInputFormat.ModbusRTU) {
+                    int Slave = Input[0];
+                    int Func = Input[1];
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    short RegisterCount = (short)((Input[4] << 8) | Input[5]);
+                    if ((RegisterCount < 0x01) || (RegisterCount > 0x7D)) {
+                        ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    int ArrayLength = 3 + (RegisterCount * 2);
+                    byte[] Temp = ModbusSupport.BulidReadRegisters(this, true, IsHolding, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, RegisterCount);
+                    //DataReceived?.Invoke(this, true, PrintStream(Output));
+                    TransmitFrame(Temp);
                 }
-                int ArrayLength = 3 + (RegisterCount * 2);
-                byte[] Temp = ModbusSupport.BulidReadRegisters(this, true, IsHolding, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, RegisterCount);
-                //DataReceived?.Invoke(this, true, PrintStream(Output));
-                TransmitFrame(Temp);
-            }
-            else if (inputFormat == StreamInputFormat.ModbusASCII) {
-                int Slave = ModbusSupport.GetArrayValue(0, ref Input);
-                int Func = ModbusSupport.GetArrayValue(2, ref Input);
-                int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
-                short RegisterCount = (short)ModbusSupport.GetArrayValueRead4(8, ref Input);
-                if ((RegisterCount < 0x01) || (RegisterCount > 0x7D)) {
-                    ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
-                }
-                byte[] Temp = ModbusSupport.BulidReadRegisters(this, true, IsHolding, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, RegisterCount);
-                //DataReceived?.Invoke(this, true, PrintStream(Output));
-                TransmitFrame(Temp);
+                else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                    int Slave = ModbusSupport.GetArrayValue(0, ref Input);
+                    int Func = ModbusSupport.GetArrayValue(2, ref Input);
+                    int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                    short RegisterCount = (short)ModbusSupport.GetArrayValueRead4(8, ref Input);
+                    if ((RegisterCount < 0x01) || (RegisterCount > 0x7D)) {
+                        ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    byte[] Temp = ModbusSupport.BulidReadRegisters(this, true, IsHolding, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, RegisterCount);
+                    //DataReceived?.Invoke(this, true, PrintStream(Output));
+                    TransmitFrame(Temp);
 
+                }
             }
+            catch { }
         }
         private void ModbusSlaveWriteRegister(byte[] Input, int Length) {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port == null) { return; }
             if (!Port.IsOpen) { return; }
-            if (inputFormat == StreamInputFormat.ModbusRTU) {
-                int StartAddress = (int)((Input[2] << 8) | Input[3]);
-                int Val = (int)((Input[4] << 8) | Input[5]);
-                ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress, (short)Val);
-                //holdingRegisters[StartAddress].Value = (short)Val;
-                byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Input[1], Input[0], (short)StartAddress, Input[4], Input[5]);
-                //byte[] Temp = new byte[6];
-                //Temp[0] = Input[0];//Adr
-                //Temp[1] = Input[1];//Fun
-                //Temp[2] = Input[2];//Str1
-                //Temp[3] = Input[3];//Str1
-                //Temp[4] = Input[4];//Val1
-                //Temp[5] = Input[5];//Val2
-                TransmitFrame(Temp);
+            try {
+                if (inputFormat == StreamInputFormat.ModbusRTU) {
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    int Val = (int)((Input[4] << 8) | Input[5]);
+                    ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress, (short)Val);
+                    //holdingRegisters[StartAddress].Value = (short)Val;
+                    byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Input[1], Input[0], (short)StartAddress, Input[4], Input[5]);
+                    TransmitFrame(Temp);
+                }
+                else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                    int Slave = ModbusSupport.GetArrayValue(0, ref Input);
+                    int Func = ModbusSupport.GetArrayValue(2, ref Input);
+                    int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                    int Val = ModbusSupport.GetArrayValueRead4(8, ref Input);
+                    //holdingRegisters[StartAddress].Value = (short)Val;
+                    ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress, (short)Val);
+                    byte Val_High = (byte)(Val >> 8);
+                    byte Val_Low = (byte)(Val & 0XFF);
+                    byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, Val_High, Val_Low);
+                    TransmitFrame(Temp);
+                }
             }
-            else if (inputFormat == StreamInputFormat.ModbusASCII) {
-                int Slave = ModbusSupport.GetArrayValue(0, ref Input);
-                int Func = ModbusSupport.GetArrayValue(2, ref Input);
-                int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
-                int Val = ModbusSupport.GetArrayValueRead4(8, ref Input);
-                //holdingRegisters[StartAddress].Value = (short)Val;
-                ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress, (short)Val);
-                byte Val_High = (byte)(Val >> 8);
-                byte Val_Low = (byte)(Val & 0XFF);
-                byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, Val_High, Val_Low);
-                TransmitFrame(Temp);
-            }
+            catch { }
         }
         private void ModbusMasterWriteRegisterReturn(byte[] Input, int Length) {
             //ADR FUN ST1 STR2 LN1 LN2
@@ -1584,49 +1643,51 @@ namespace Serial_Monitor.Classes {
             //ADR FUN ST1 STR2 LN1 LN2
             if (Port == null) { return; }
             if (!Port.IsOpen) { return; }
-            if (inputFormat == StreamInputFormat.ModbusRTU) {
-                int Slave = Input[0];
-                int StartAddress = (int)((Input[2] << 8) | Input[3]);
-                int Count = (int)((Input[4] << 8) | Input[5]);
-                if (Count > 0x007B) {
-                    ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
+            try {
+                if (inputFormat == StreamInputFormat.ModbusRTU) {
+                    int Slave = Input[0];
+                    int StartAddress = (int)((Input[2] << 8) | Input[3]);
+                    int Count = (int)((Input[4] << 8) | Input[5]);
+                    if (Count > 0x007B) {
+                        ModbusPostException(Input[0], (ModbusSupport.FunctionCode)Input[1], ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    int Bytes = Input[6];
+                    int j = 0;
+                    for (int i = 0; i < Count; i++) {
+                        int Val = (int)((Input[7 + j] << 8) | Input[8 + j]);
+                        j += 2;
+                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress + i, (short)Val);
+                    }
+                    byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, ModbusSupport.FunctionCode.WriteMultipleHoldingRegisters, Slave, (short)StartAddress, (short)Count);
+                    TransmitFrame(Temp);
                 }
-                int Bytes = Input[6];
-                int j = 0;
-                for (int i = 0; i < Count; i++) {
-                    int Val = (int)((Input[7 + j] << 8) | Input[8 + j]);
-                    j += 2;
-
-                    //holdingRegisters[StartAddress + i].Value = (short)Val;
-                    ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress + i, (short)Val);
+                else if (inputFormat == StreamInputFormat.ModbusASCII) {
+                    int Slave = ModbusSupport.GetArrayValue(0, ref Input);
+                    int Func = ModbusSupport.GetArrayValue(2, ref Input);
+                    int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
+                    int Count = ModbusSupport.GetArrayValueRead4(8, ref Input);
+                    if (Count > 0x007B) {
+                        ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
+                        return;
+                    }
+                    int Bytes = ModbusSupport.GetArrayValue(12, ref Input);
+                    int j = 0;
+                    for (int i = 0; i < Count; i++) {
+                        int Val = ModbusSupport.GetArrayValueRead4(14 + j, ref Input);
+                        j += 4;
+                        //holdingRegisters[StartAddress + i].Value = (short)Val;
+                        ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress + i, (short)Val);
+                    }
+                    byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, (short)Count);
+                    TransmitFrame(Temp);
                 }
-
-                byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, ModbusSupport.FunctionCode.WriteMultipleHoldingRegisters, Slave, (short)StartAddress, (short)Count);
-                TransmitFrame(Temp);
             }
-            else if (inputFormat == StreamInputFormat.ModbusASCII) {
-                int Slave = ModbusSupport.GetArrayValue(0, ref Input);
-                int Func = ModbusSupport.GetArrayValue(2, ref Input);
-                int StartAddress = ModbusSupport.GetArrayValueRead4(4, ref Input);
-                int Count = ModbusSupport.GetArrayValueRead4(8, ref Input);
-                if (Count > 0x007B) {
-                    ModbusPostException(Slave, (ModbusSupport.FunctionCode)Func, ModbusSupport.ModbusException.IllegalDataValue);
-                    return;
-                }
-                int Bytes = ModbusSupport.GetArrayValue(12, ref Input);
-                int j = 0;
-                for (int i = 0; i < Count; i++) {
-                    int Val = ModbusSupport.GetArrayValueRead4(14 + j, ref Input);
-                    j += 4;
-                    //holdingRegisters[StartAddress + i].Value = (short)Val;
-                    ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, StartAddress + i, (short)Val);
-                }
-                byte[] Temp = ModbusSupport.BulidReadPacket(outputFormat, (ModbusSupport.FunctionCode)Func, Slave, (short)StartAddress, (short)Count);
-                TransmitFrame(Temp);
-            }
+            catch { }
         }
         private void ModbusMasterReadCoils(byte[] Input, int Length, bool IsDiscrete = true) {
+            DataSelection DataSelect = DataSelection.ModbusDataCoils;
+            if (IsDiscrete == true) { DataSelect = DataSelection.ModbusDataDiscreteInputs; }
             if (inputFormat == StreamInputFormat.ModbusRTU) {
                 int Device = Input[0];
                 int Bytes = Input[2];
@@ -1635,14 +1696,7 @@ namespace Serial_Monitor.Classes {
                     for (int j = 0; j < 8; j++) {
                         int Temp = Input[3 + i];
                         bool TempBool = ((Temp >> j) & 0x01) == 0x01 ? true : false;
-                        if (IsDiscrete == true) {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataDiscreteInputs, Device, LastRequestedAddress + k, TempBool);
-                            //discreteInputs[LastRequestedAddress + k].Value = TempBool;
-                        }
-                        else {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, Device, LastRequestedAddress + k, TempBool);
-                            //coils[LastRequestedAddress + k].Value = TempBool;
-                        }
+                        ModbusSupport.SetRegister(this, DataSelect, Device, LastRequestedAddress + k, TempBool);
                         k++;
                     }
                 }
@@ -1655,20 +1709,15 @@ namespace Serial_Monitor.Classes {
                     int Temp = ModbusSupport.GetArrayValue(6 + (i * 2), ref Input);
                     for (int j = 0; j < 8; j++) {
                         bool TempBool = ((Temp >> j) & 0x01) == 0x01 ? true : false;
-                        if (IsDiscrete == true) {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataDiscreteInputs, Device, LastRequestedAddress + i, TempBool);
-                            //discreteInputs[LastRequestedAddress + k].Value = TempBool;
-                        }
-                        else {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataCoils, Device, LastRequestedAddress + i, TempBool);
-                            //coils[LastRequestedAddress + k].Value = TempBool;
-                        }
+                        ModbusSupport.SetRegister(this, DataSelect, Device, LastRequestedAddress + i, TempBool);
                         k++;
                     }
                 }
             }
         }
         private void ModbusMasterReadRegisters(byte[] Input, int Length, bool IsHolding = true) {
+            DataSelection DataSelect = DataSelection.ModbusDataInputRegisters;
+            if (IsHolding == true) { DataSelect = DataSelection.ModbusDataHoldingRegisters; }
             try {
                 if (inputFormat == StreamInputFormat.ModbusRTU) {
                     int Device = Input[0];
@@ -1676,14 +1725,7 @@ namespace Serial_Monitor.Classes {
                     int k = 0;
                     for (int i = 0; i < Count; i++) {
                         short Temp = (short)(((int)Input[3 + k] << 8) | (int)Input[4 + k]);
-                        if (IsHolding == true) {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, Device, LastRequestedAddress + i, Temp);
-                            //holdingRegisters[LastRequestedAddress + i].Value = Temp;
-                        }
-                        else {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataInputRegisters, Device, LastRequestedAddress + i, Temp);
-                            //inputRegisters[LastRequestedAddress + i].Value = Temp;
-                        }
+                        ModbusSupport.SetRegister(this, DataSelect, Device, LastRequestedAddress + i, Temp);
                         k += 2;
                     }
                 }
@@ -1693,34 +1735,20 @@ namespace Serial_Monitor.Classes {
                     int k = 0;
                     for (int i = 0; i < Count; i++) {
                         short Temp = (short)ModbusSupport.GetArrayValueRead4(6 + k, ref Input);
-                        if (IsHolding == true) {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataHoldingRegisters, Device, LastRequestedAddress + i, Temp);
-                            //holdingRegisters[LastRequestedAddress + i].Value = Temp;
-                        }
-                        else {
-                            ModbusSupport.SetRegister(this, DataSelection.ModbusDataInputRegisters, Device, LastRequestedAddress + i, Temp);
-                            //inputRegisters[LastRequestedAddress + i].Value = Temp;
-                        }
+                        ModbusSupport.SetRegister(this, DataSelect, Device, LastRequestedAddress + i, Temp);
                         k += 4;
                     }
                 }
             }
             catch { }
         }
-        private string PrintStream(byte[] Data) {
-            string Temp = "";
-            for (int i = 0; i < Data.Length; i++) {
-                Temp += Classes.Formatters.ByteToHex(Data[i]) + " ";
-            }
-            return Temp;
-        }
+
         #endregion
         #region Modbus Functions
         List<ModbusReturnResult> AwaitingResults = new List<ModbusReturnResult>();
         public void ModbusReadDeviceIdentification(int Device, ModbusSupport.DiagnosticDeviceIdentification ReadSection, short ObjectId) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             if ((ObjectId < 0) || (ObjectId > 255)) {
                 return;
             }
@@ -1729,25 +1757,22 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusDiagnostics(int Device, ModbusSupport.DiagnosticSubFunction SubFunction, short Request) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             byte[] Temp = ModbusSupport.BulidDiagnosticsPacket(outputFormat, Device, SubFunction, Request);
             //LastRequestedAddress = (ushort)Address;
             TransmitFrame(Temp);
         }
         public void ModbusWriteMaskRegister(int Device, short Address, short AndMask, short OrMask) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             byte[] Temp = ModbusSupport.BulidMaskWritePacket(outputFormat, Device, Address, AndMask, OrMask);
             //LastRequestedAddress = (ushort)Address;
             TransmitFrame(Temp);
         }
         public void ModbusReadCoils(int Device, short Address, short Count) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             if ((Device < 1) || (Count > 0x07D0)) {
                 return;
             }
@@ -1756,9 +1781,8 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusReadDiscreteInputs(int Device, short Address, short Count) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             if ((Device < 1) || (Count > 0x07D0)) {
                 return;
             }
@@ -1767,9 +1791,8 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusReadInputRegisters(int Device, short Address, short Count) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             if ((Device < 1) || (Count > 0x7D)) {
                 return;
             }
@@ -1778,9 +1801,8 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusReadHoldingRegisters(int Device, short Address, short Count) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             if ((Device < 1) || (Count > 0x7D)) {
                 return;
             }
@@ -1789,9 +1811,8 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusWriteCoil(int Device, short Address, bool Value) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             byte ValueTemp = 0x00;
             if (Value == true) {
                 ValueTemp = (byte)0xFF;
@@ -1804,9 +1825,8 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusWriteRegister(int Device, short Address, short Value) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             byte Value0 = (byte)(Value >> 8);
             byte Value1 = (byte)(Value & 0xFF);
             byte[] Temp = ModbusSupport.BulidWriteSinglePacket(outputFormat, ModbusSupport.FunctionCode.WriteSingleHoldingRegister, Device, Address, Value0, Value1);
@@ -1814,18 +1834,17 @@ namespace Serial_Monitor.Classes {
             TransmitFrame(Temp);
         }
         public void ModbusWriteMultipleCoils(int Device, short Address, List<bool> Values) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             byte[] Temp = ModbusSupport.BulidWriteMultiplePacket(outputFormat, ModbusSupport.FunctionCode.WriteMultipleCoils, Device, Address, Values);
             //AwaitingResults.Add(new ModbusReturnResult(ModbusSupport.FunctionCode.WriteMultipleCoils, Device, Address, Values));
             LastRequestedAddress = (ushort)Address;
             TransmitFrame(Temp);
         }
         public void ModbusWriteMultipleRegisters(int Device, short Address, List<short> Values) {
-            if ((Device < 0) || (Device > 255)) {
-                return;
-            }
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if (AwaitingPreviousCommand == true) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
             byte[] Temp = ModbusSupport.BulidWriteMultiplePacket(outputFormat, ModbusSupport.FunctionCode.WriteMultipleHoldingRegisters, Device, Address, Values);
             //AwaitingResults.Add(new ModbusReturnResult(ModbusSupport.FunctionCode.WriteMultipleCoils, Device, Address, Values));
             LastRequestedAddress = (ushort)Address;
@@ -1838,7 +1857,6 @@ namespace Serial_Monitor.Classes {
                 SystemManager.InvokeSlaveAdded(this);
             }
         }
-
 
 
         #endregion
@@ -1885,7 +1903,7 @@ namespace Serial_Monitor.Classes {
                 TransmitASCIIFrame(Data);
             }
         }
-        private void TransmitRTUFrame(byte[] Data) {
+        private byte[] TransmitRTUFrame(byte[] Data) {
             byte[] Output = new byte[Data.Length + 2];
             ushort CRC = ModbusSupport.CalculateCRC(Data, (ushort)Data.Length, 0);
             Array.Copy(Data, 0, Output, 0, Data.Length);
@@ -1895,9 +1913,14 @@ namespace Serial_Monitor.Classes {
             Port.Write(Output, 0, Output.Length);
             lastTransmittedTime = DateTime.UtcNow;
             bytesSent += (ulong)Output.Length;
-            DataReceived?.Invoke(this, true, PrintStream(Output));
+            if (outputModbusFrameToTerminal) {
+                string strPayload = Support.SerialSupport.PrintStream(Output);
+                DataReceived?.Invoke(this, true, strPayload);
+                SystemManager.InvokeChannelDataReceived(this, Output, Output.Length, strPayload, true);
+            }
+            return Output;
         }
-        private void TransmitASCIIFrame(byte[] Data) {
+        private byte[] TransmitASCIIFrame(byte[] Data) {
             byte[] Output = new byte[Data.Length + 5];
             byte LRC = ModbusSupport.CalculateLRC(Data, (ushort)Data.Length, 0);
             Array.Copy(Data, 0, Output, 1, Data.Length);
@@ -1906,10 +1929,15 @@ namespace Serial_Monitor.Classes {
             Output[Output.Length - 2] = (byte)'\r';
             Output[Output.Length - 1] = (byte)'\n';
             lastTransmittedTime = DateTime.UtcNow;
-            DataReceived?.Invoke(this, true, PrintStream(Output));
+            if (outputModbusFrameToTerminal) {
+                string strPayload = Support.SerialSupport.PrintStream(Output);
+                DataReceived?.Invoke(this, true, strPayload);
+                SystemManager.InvokeChannelDataReceived(this, Output, Output.Length, strPayload, true);
+            }
             Port.Write(Output, 0, Output.Length);
             lastTransmittedTime = DateTime.UtcNow;
             bytesSent += (ulong)Output.Length;
+            return Output;
         }
         #endregion
         #region Modbus Slaves
@@ -1958,12 +1986,33 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Data Formatting
+        public bool Transmit(byte Data) {
+            try {
+                if (Port.IsOpen == true) {
+                    byte[] data = { Data };
+                    Port.Write(data, 0, data.Length);
+                }
+                bytesSent += (ulong)1;
+                return true;
+            }
+            catch { return false; }
+        }
         public bool Transmit(byte[] Data) {
             try {
                 if (Port.IsOpen == true) {
                     Port.Write(Data, 0, Data.Length);
                 }
                 bytesSent += (ulong)Data.Length;
+                return true;
+            }
+            catch { return false; }
+        }
+        public bool Transmit(byte[] Data, int Start, int Length) {
+            try {
+                if (Port.IsOpen == true) {
+                    Port.Write(Data, Start, Length);
+                }
+                bytesSent += (ulong)Length;
                 return true;
             }
             catch { return false; }
@@ -2106,6 +2155,160 @@ namespace Serial_Monitor.Classes {
             return false;
         }
         #endregion
+        #region Port Scanner
+        private bool Scan_InProgress = false;
+        [Browsable(false)]
+        public bool ScanInProgress {
+            get { return Scan_InProgress; }
+        }
+        public bool ScanCompleted {
+            get { return Scan_Completed; }
+        }
+        List<Port>? ScanPorts = null;
+        System.Windows.Forms.Timer Tmr_Scanner = new System.Windows.Forms.Timer();
+        int ScanPortIndx = 0;
+        DateTime LastScan = DateTime.MinValue;
+        ScanState Scan_Progress = ScanState.Open;
+        uint Scan_Timeout = 1000;
+        uint Scan_RetryCount = 0;
+        uint Scan_RequestedRetryCount = 5;
+        string Scan_String = "";
+        string Scan_OldPort = "";
+        ulong Scan_BytesCountStart = 0;
+        bool Scan_HasTransmitted = false;
+        bool Scan_IgnorePortFailures = false;
+        bool Scan_Handl_Assigned = false;
+        bool Scan_Completed = false;
+        public void ScanAndSetPort(string ScanWith, uint RetryCount = 3, uint TimeOut = 1000, bool IgnorePortFailures = true) {
+            if (Scan_InProgress) { return; }
+            Scan_String = ScanWith;
+            Scan_RequestedRetryCount = RetryCount;
+            Scan_Timeout = TimeOut;
+            Scan_IgnorePortFailures = IgnorePortFailures;
+            ScanAndSetPort();
+        }
+        public void StopScan() {
+            EndScan(true);
+        }
+        public void ScanAndSetPort() {
+            Scan_Completed = false;
+            Tmr_Scanner.Enabled = false;
+            Scan_OldPort = PortName;
+            ScanPortIndx = 0;
+            Scan_RetryCount = 0;
+            Scan_Progress = ScanState.Initialise;
+            Scan_HasTransmitted = false;
+            if (Scan_Handl_Assigned) {
+                Tmr_Scanner.Tick -= Tmr_Scanner_Tick;
+                Scan_Handl_Assigned = false;
+            }
+            ScanPorts = SystemManager.GetSerialPortLegacyListing().OrderBy(x => x.PortName.Length).ThenBy(x => x.PortName).ToList();
+            Tmr_Scanner.Interval = 10;
+            Tmr_Scanner.Tick += Tmr_Scanner_Tick;
+            Scan_Handl_Assigned = true;
+            Tmr_Scanner.Enabled = true;
+        }
+        private void Tmr_Scanner_Tick(object? sender, EventArgs e) {
+            if (ScanPorts == null) { EndScan(); return; }
+            if (ScanPortIndx < ScanPorts.Count) {
+                string SelectPort = ScanPorts[ScanPortIndx].PortName;
+                //Debug.Print(SelectPort);
+                switch (Scan_Progress) {
+                    case ScanState.Initialise:
+                        //Debug.Print("Init");
+                        Disconnect();
+                        Scan_Progress = ScanState.Open;
+                        Scan_RetryCount = 0;
+                        return;
+                    case ScanState.Open:
+                        //Debug.Print("Open");
+                        PortName = SelectPort;
+                        Scan_BytesCountStart = bytesReceived;
+                        Connect();
+                        Scan_BytesCountStart = bytesReceived;
+                        Scan_Progress = ScanState.Await;
+
+                        return;
+                    case ScanState.Await:
+
+                        if ((bytesReceived - Scan_BytesCountStart) > 0) {
+                            if (Scan_HasTransmitted) {
+                                //Debug.Print("Recv");
+                                Scan_Progress = ScanState.Close; return;
+                            }
+                        }
+                        if (ConversionHandler.DateIntervalDifference(LastScan, DateTime.UtcNow, ConversionHandler.Interval.Millisecond) < Scan_Timeout) {
+                            return;
+                        }
+                        if (Scan_RequestedRetryCount == 0) { EndScan(); return; }
+                        if (Connected == false) {
+                            //Debug.Print("Await: NC");
+                            if (Scan_IgnorePortFailures) {
+                                Scan_Progress = ScanState.MoveToNext; return;
+                            }
+                            else {
+                                if (Scan_RetryCount < Scan_RequestedRetryCount) {
+                                    Scan_Progress = ScanState.Open;
+                                    Scan_RetryCount++;
+                                }
+                                else { Scan_Progress = ScanState.MoveToNext; return; }
+                            }
+                        }
+                        else {
+                            //Debug.Print("Await: C");
+                            if (Scan_RetryCount < Scan_RequestedRetryCount) {
+                                Post(Scan_String); Scan_HasTransmitted = true;
+                                Scan_RetryCount++;
+                            }
+                            else { Scan_Progress = ScanState.MoveToNext; return; }
+                        }
+                        LastScan = DateTime.UtcNow;
+                        break;
+                    case ScanState.Close:
+                        //Debug.Print("Close");
+                        EndScan(false); break;
+                    case ScanState.MoveToNext:
+                        //Debug.Print("Next");
+                        Scan_HasTransmitted = false;
+                        Disconnect();
+                        Scan_RetryCount = 0;
+                        ScanPortIndx++;
+                        Scan_Progress = ScanState.Open;
+                        break;
+                    default: break;
+                }
+
+            }
+            else {
+                EndScan();
+            }
+        }
+        private void EndScan(bool Restore = true) {
+            Tmr_Scanner.Enabled = false;
+            ScanPortIndx = 0;
+            Scan_RetryCount = 0;
+            ScanPorts = null;
+            Scan_InProgress = false;
+            Tmr_Scanner.Tick -= Tmr_Scanner_Tick;
+            Scan_Handl_Assigned = false;
+            Disconnect();
+            if (Restore) {
+                SystemManager.InvokeChannelScanComplete(this, Scan_OldPort, PortName, false);
+                PortName = Scan_OldPort;
+            }
+            else {
+                SystemManager.InvokeChannelScanComplete(this, Scan_OldPort, PortName, true);
+            }
+            Scan_Completed = true;
+        }
+        #endregion
+        private enum ScanState {
+            Initialise = 0x00,
+            Open = 0x01,
+            Await = 0x02,
+            Close = 0x03,
+            MoveToNext = 0x04
+        }
         private enum MessageState {
             Ready = 0x00,
             Armed = 0x01,

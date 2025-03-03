@@ -18,6 +18,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public delegate void SnapshotClosedHandler();
 
         public const int MaximumRegisters = ushort.MaxValue;
+        public const int MaximumDevices = 247;
 
         static bool applyOnChange = true;
         public static bool SendOnChange {
@@ -675,6 +676,24 @@ namespace Serial_Monitor.Classes.Modbus {
                 Buffer[Offset] = (byte)HexValue[0];
                 Buffer[Offset + 1] = (byte)HexValue[1];
                 Offset = Offset + 2;
+            }
+        }
+        public static byte[] BulidExceptionPacket(StreamOutputFormat Format, int Device, FunctionCode Function, ModbusSupport.ModbusException Code) {
+            int FunctionTemp = (byte)Function + 0x80;
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[3];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)FunctionTemp;//Fun
+                Temp[2] = (byte)Code;
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[6];
+                int RunningAddress = 0;
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)FunctionTemp, ref Temp);
+                ModbusSupport.SetArrayValue(ref RunningAddress, (byte)Code, ref Temp);
+                return Temp;
             }
         }
         public static byte[] BulidMaskWritePacket(StreamOutputFormat Format, int Device, int Address, int AndMask, int OrMask) {

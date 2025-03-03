@@ -136,7 +136,7 @@ namespace Serial_Monitor.Classes {
             ProgramManager.ProgramStep = 0;
             ProgramManager.ProgramState = StepEnumerations.StepState.Running;
         }
-        public static void RunFromStart(string ProgramName, bool UseProgramCommand = false) {
+        public static bool RunFromStart(string ProgramName, bool UseProgramCommand = false) {
             bool ProgramFound = false;
             if (ProgramName.Length > 0) {
                 bool Resulted = false;
@@ -177,6 +177,7 @@ namespace Serial_Monitor.Classes {
                 ProgramStep = 0;
                 ProgramState = StepEnumerations.StepState.Running;
             }
+            return ProgramFound;
         }
         #endregion
         #region Program Initalisation
@@ -291,15 +292,15 @@ namespace Serial_Monitor.Classes {
                                 CleanAll = true;
                                 if (ProgramStep < CurrentProgram.Program.Count) {
                                     if (CurrentProgram.Program[ProgramStep].SubItems.Count == 3) {
-                                        if (CurrentProgram.Program[ProgramStep].SubItems[0].Checked == true) {
-                                            StepEnumerations.StepExecutable Function = StepEnumerations.StepExecutable.NoOperation;
-                                            object? objFunction = CurrentProgram.Program[ProgramStep].SubItems[1].Tag;
-                                            string objData = CurrentProgram.Program[ProgramStep].SubItems[2].Text;
-                                            if (objFunction != null) {
-                                                if (objFunction.GetType() == typeof(StepEnumerations.StepExecutable)) {
-                                                    Function = (StepEnumerations.StepExecutable)objFunction;
-                                                }
-                                            }
+                                        if (CurrentProgram.GetCommandLineEnabled(ProgramStep)){//.Program[ProgramStep].SubItems[0].Checked == true) {
+                                            StepEnumerations.StepExecutable Function = CurrentProgram.GetCommandLineCommand(ProgramStep);//StepEnumerations.StepExecutable.NoOperation;
+                                            //object? objFunction = CurrentProgram.Program[ProgramStep].SubItems[1].Tag;
+                                            string objData = CurrentProgram.GetCommandLineArguments(ProgramStep);//CurrentProgram.Program[ProgramStep].SubItems[2].Text;
+                                            //if (objFunction != null) {
+                                            //    if (objFunction.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                                            //        Function = (StepEnumerations.StepExecutable)objFunction;
+                                            //    }
+                                            //}
                                             CurrentFunction = Function;
                                             ExecuteLine(Function, objData);
                                             LastFunction = Function;
@@ -1472,24 +1473,105 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Program Editing
+        public static (bool Status, List<string> Data) GetProgramArray(string ProgramName) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            if (SelectedProgram == null) { return (false, new List<string>()); }
+            return (true, SelectedProgram.Array);
+        }
+        public static (bool Status, List<string> Data) GetProgramArray(ProgramObject? Program) {
+            if (Program == null) { return (false, new List<string>()); }
+            return (true, Program.Array);
+        }
+        public static ProgramObject? GetProgramFromName(string Name) {
+            string NameCleaned = Name.TrimStart().TrimEnd();
+            foreach (ProgramObject PrgObj in Programs) {
+                if (PrgObj.Name == NameCleaned) {
+                    return PrgObj;
+                }
+            }
+            return null;
+        }
+        public static ProgramObject? GetProgramFromCommand(string Command) {
+            string CommandCleaned = Command.TrimStart().TrimEnd();
+            foreach (ProgramObject PrgObj in Programs) {
+                if (PrgObj.Command == CommandCleaned) {
+                    return PrgObj;
+                }
+            }
+            return null;
+        }
         public static void AddCommandLine(StepEnumerations.StepExecutable StepChange) {
             if (CurrentEditingProgram == null) { return; }
-            ListItem Lip = new ListItem();
-            ListSubItem LiE = new ListSubItem(true);
-            ListSubItem LiC = new ListSubItem();
-            LiC.Tag = StepChange;
-            LiC.Text = StepExecutableToString(StepChange);
+            CurrentEditingProgram.AddCommandLine(StepChange, CommandDefaultValue(StepChange));
+            //ListItem Lip = new ListItem();
+            //ListSubItem LiE = new ListSubItem(true);
+            //ListSubItem LiC = new ListSubItem();
+            //LiC.Tag = StepChange;
+            //LiC.Text = StepExecutableToString(StepChange);
 
-            ListSubItem LiA = new ListSubItem();
-            LiA.Text = CommandDefaultValue(StepChange);
-            Lip.SubItems.Add(LiE);
-            Lip.SubItems.Add(LiC);
-            Lip.SubItems.Add(LiA);
-            CurrentEditingProgram.Program.Add(Lip);
+            //ListSubItem LiA = new ListSubItem();
+            //LiA.Text = CommandDefaultValue(StepChange);
+            //Lip.SubItems.Add(LiE);
+            //Lip.SubItems.Add(LiC);
+            //Lip.SubItems.Add(LiA);
+            //CurrentEditingProgram.Program.Add(Lip);
             ProgramListingChanged?.Invoke();
 
         }
-        public static void CommandLine(StepEnumerations.StepExecutable StepChange) {
+        public static bool AddCommandLine(string ProgramName, StepExecutable Command, string Arguments) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            if (SelectedProgram == null) { return false; }
+            return AddOrInsertCommand(SelectedProgram, Command, Arguments);
+        }
+        public static bool AddCommandLine(ProgramObject? Program, StepExecutable Command, string Arguments) {
+            if (Program == null) { return false; }
+            return AddOrInsertCommand(Program, Command, Arguments);
+        }
+        public static bool InsertCommandLine(string ProgramName, StepExecutable Command, string Arguments, int Index) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            if (SelectedProgram == null) { return false; }
+            return AddOrInsertCommand(SelectedProgram, Command, Arguments, Index);
+        }
+        public static bool InsertCommandLine(ProgramObject? Program, StepExecutable Command, string Arguments, int Index) {
+            if (Program == null) { return false; }
+            return AddOrInsertCommand(Program, Command, Arguments, Index);
+        }
+        public static bool ChangeCommandLineArguments(string ProgramName, int Index, string Arguments) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            if (SelectedProgram == null) { return false; }
+            bool Status = SelectedProgram.SetCommandLineArguments(Index, Arguments);
+            if (CurrentEditingProgram != null) {
+                if (CurrentEditingProgram.ID == SelectedProgram.ID) {
+                    ReapplyDisplayFormatting();
+                    ProgramListingChanged?.Invoke();
+                }
+            }
+            return Status;
+        }
+        public static bool ChangeCommandLineArguments(ProgramObject? Program, int Index, string Arguments) {
+            if (Program == null) { return false; }
+            bool Status = Program.SetCommandLineArguments(Index, Arguments);
+            if (CurrentEditingProgram != null) {
+                if (CurrentEditingProgram.ID == Program.ID) {
+                    ReapplyDisplayFormatting();
+                    ProgramListingChanged?.Invoke();
+                }
+            }
+            return Status;
+        }
+        private static bool AddOrInsertCommand(ProgramObject? SelectedProgram, StepExecutable Command, string Arguments, int AppendLine = -1) {
+            bool AcceptsArgumentsStatus = AcceptsArguments(Command);
+            if (SelectedProgram == null) { return false; }
+            bool Status = SelectedProgram.AddOrInsertCommandLine(Command, Arguments, AppendLine);
+            if (CurrentEditingProgram != null) {
+                if (CurrentEditingProgram.ID == SelectedProgram.ID) {
+                    ReapplyDisplayFormatting();
+                    ProgramListingChanged?.Invoke();
+                }
+            }
+            return Status;
+        }
+        internal static void CommandLine(StepEnumerations.StepExecutable StepChange) {
             if (CurrentEditingProgram == null) { return; }
             if (CurrentEditingProgram.Program.Count > 0) {
                 if (CurrentEditingProgram.SelectedCount() > 0) {
@@ -1502,11 +1584,13 @@ namespace Serial_Monitor.Classes {
             else {
                 AddCommandLine(StepChange);
             }
+            ReapplyDisplayFormatting();
+        }
+        private static void ReapplyDisplayFormatting() {
             if (SystemManager.MainInstance != null) {
                 ApplySyntaxColouring(SystemManager.MainInstance.lstStepProgram, -1, true);
                 ApplyIndentation(SystemManager.MainInstance.lstStepProgram);
             }
-
         }
         internal static void ArrangeProgramOrderings(TabHeader thPrograms) {
             int Index = 0;

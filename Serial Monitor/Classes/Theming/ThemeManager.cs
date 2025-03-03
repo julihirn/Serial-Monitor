@@ -11,6 +11,18 @@ using System.Threading.Tasks;
 namespace Serial_Monitor.Classes.Theming {
     public static class ThemeManager {
         public static List<Theme> Themes = new List<Theme>();
+        public static bool IsDark {
+            get { return Properties.Settings.Default.THM_SET_IsDark; }
+        }
+        public static Color BackColor {
+            get { return Properties.Settings.Default.THM_COL_Editor; }
+        }
+        public static Color PaneBackColor {
+            get { return Properties.Settings.Default.THM_COL_SeconaryBackColor; }
+        }
+        public static Color ForeColor {
+            get { return Properties.Settings.Default.THM_COL_ForeColor; }
+        }
         #region Control Theming
         public static void ThemeControl(object ControlObject, bool UseAlternative = false) {
             if (ControlObject.GetType() == typeof(ODModules.ToolStrip)) {

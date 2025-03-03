@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor {
-    public partial class ProgramProperties : Form, ITheme {
+    public partial class ProgramProperties : Components.SkinnedForm, ITheme {
         public ProgramProperties() {
             InitializeComponent();
         }
@@ -31,9 +31,6 @@ namespace Serial_Monitor {
             }
         }
         private void ProgramProperties_Load(object sender, EventArgs e) {
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
             RecolorAll();
         }
 
@@ -88,6 +85,11 @@ namespace Serial_Monitor {
             textBox2.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             textBox2.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
         }
     }
 }

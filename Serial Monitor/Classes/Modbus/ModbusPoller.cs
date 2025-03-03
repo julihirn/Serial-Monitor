@@ -118,7 +118,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             BulidQuery();
         }
-        public void Invalidate() {
+        internal void Invalidate() {
             if (enabled == false) { return; }
             long TimeDifference = (long)Math.Floor((decimal)(DateTime.UtcNow.Ticks - lastActivatedTime.Ticks) / 10000.0m);
             if (TimeDifference >= frequency) {

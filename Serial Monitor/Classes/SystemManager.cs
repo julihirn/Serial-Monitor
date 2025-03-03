@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO.Ports;
-using System.Linq;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +13,10 @@ using static Serial_Monitor.Classes.SerialManager;
 using System.Reflection;
 using Serial_Monitor.Classes.Modbus;
 using ODModules;
-using System.Threading.Channels;
 using System.Text.RegularExpressions;
 using System.IO;
+using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -27,6 +27,9 @@ namespace Serial_Monitor.Classes {
 
         public static event ChannelAddedHandler? ChannelAdded;
         public delegate void ChannelAddedHandler(int RemovedIndex);
+        public static event ChannelRequestsHandlesHandler? ChannelRequestsHandles;
+        public delegate void ChannelRequestsHandlesHandler(SerialManager SerMan);
+
         public static event ChannelRemovedHandler? ChannelRemoved;
         public delegate void ChannelRemovedHandler(int RemovedIndex);
         public static event ChannelRenamedHandler? ChannelRenamed;
@@ -43,6 +46,12 @@ namespace Serial_Monitor.Classes {
 
         public static event ChannelPropertyChangedHandler? ChannelPropertyChanged;
         public delegate void ChannelPropertyChangedHandler(SerialManager sender);
+
+        public static event ChannelScanCompleteHandler? ChannelScanComplete;
+        public delegate void ChannelScanCompleteHandler(SerialManager ?sender, string OldPort, string NewPort, bool PortFound);
+
+        public static event ChannelDataReceivedHandler? ChannelDataReceived;
+        public delegate void ChannelDataReceivedHandler(SerialManager? sender, DataPacket Payload, bool PrintLine);
 
         public static event PortStatusChangedHandler? PortStatusChanged;
         public delegate void PortStatusChangedHandler(SerialManager sender);
@@ -89,6 +98,13 @@ namespace Serial_Monitor.Classes {
         public static void InvokePortStatusChanged(SerialManager sender) {
             PortStatusChanged?.Invoke(sender);
         }
+        internal static void InvokeChannelDataReceived(SerialManager sender, byte[] bPayload, int Length, string sPayload, bool PrintLine) {
+            ChannelDataReceived?.Invoke(sender, new DataPacket(bPayload, Length, sPayload), PrintLine);
+        }
+        internal static void InvokeChannelDataReceived(SerialManager sender, byte bPayload, string sPayload, bool PrintLine) {
+            byte[] nByte = new byte[1]; nByte[0] = bPayload;
+            ChannelDataReceived?.Invoke(sender, new DataPacket(nByte, 1, sPayload), PrintLine);
+        }
         public static void InvokeChannelRename(SerialManager sender) {
             ChannelRenamed?.Invoke(sender);
         }
@@ -97,6 +113,10 @@ namespace Serial_Monitor.Classes {
         }
         public static void InvokeChannelSelectedChanged(SerialManager? sender) {
             ChannelSelectedChanged?.Invoke(sender);
+        }
+        internal static void InvokeChannelScanComplete(SerialManager ? sender, string OldPort, string NewPort, bool PortFound) {
+            if (sender == null) { return; }
+            ChannelScanComplete?.Invoke(sender, OldPort, NewPort, PortFound);
         }
         public static void ModbusExceptionReturn(SerialManager? SerMan, int Slave, ModbusSupport.FunctionCode Function, ModbusSupport.ModbusException Exception) {
             if (SerMan == null) { return; }
@@ -223,7 +243,7 @@ namespace Serial_Monitor.Classes {
         private static void SendTextAsync(SerialManager? Channel, List<string> Lines) {
             if (Channel == null) { return; }
             if (Channel.Connected == false) { return; }
-            foreach(string l in Lines) {
+            foreach (string l in Lines) {
                 Channel.Post(l);
                 Thread.Sleep(1);
             }
@@ -254,7 +274,30 @@ namespace Serial_Monitor.Classes {
         }
 
         #region Channel Handling
-        public static void AddChannel(string ManagerName, CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+        public static void AddChannel(string ManagerName, bool CheckExisting = false) {
+            if (CheckExisting) {
+                if (GetChannel(ManagerName) != null) { return; }
+            }
+            SerialManager SerMan = new SerialManager();
+            SystemManager.SerialManagers.Add(SerMan);
+            SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
+            try {
+                SerMan.DataBits = Properties.Settings.Default.DEF_INT_DataBits;
+            }
+            catch {
+                SerMan.DataBits = 8;
+            }
+            SerMan.Parity = EnumManager.StringToParity(Properties.Settings.Default.DEF_STR_ParityBit);
+            SerMan.StopBits = EnumManager.StringToStopBits(Properties.Settings.Default.DEF_STR_StopBits);
+            SerMan.InputFormat = EnumManager.StringToInputFormat(Properties.Settings.Default.DEF_STR_InputFormat);
+            SerMan.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
+            SerMan.Name = ManagerName;
+
+            SerMan.Slave.Add(new ModbusSlave(SerMan, 1));
+            ChannelRequestsHandles?.Invoke(SerMan);
+            ChannelAdded?.Invoke(SerialManagers.Count - 1);
+        }
+        public static void AddChannel(string ManagerName, CommandProcessedHandler SerManager_CommandProcessed) {
             SerialManager SerMan = new SerialManager();
             SystemManager.SerialManagers.Add(SerMan);
             SerMan.BaudRate = Properties.Settings.Default.DEF_INT_BaudRate;
@@ -270,15 +313,15 @@ namespace Serial_Monitor.Classes {
             SerMan.OutputFormat = EnumManager.StringToOutputFormat(Properties.Settings.Default.DEF_STR_OutputFormat);
             SerMan.Name = ManagerName;
             SerMan.CommandProcessed += SerManager_CommandProcessed;
-            SerMan.DataReceived += SerMan_DataReceived;
+            //SerMan.DataReceived += SerMan_DataReceived;
             SerMan.Slave.Add(new ModbusSlave(SerMan, 1));
             ChannelAdded?.Invoke(SerialManagers.Count - 1);
         }
-        public static void RemoveChannel(int ChannelIndex, CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+        public static void RemoveChannel(int ChannelIndex, CommandProcessedHandler SerManager_CommandProcessed) {
             if (SerialManagers.Count > 1) {
                 if ((ChannelIndex < SerialManagers.Count) && (ChannelIndex != -1)) {
                     SerialManagers[ChannelIndex].CommandProcessed -= SerManager_CommandProcessed;
-                    SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
+                    //SerialManagers[ChannelIndex].DataReceived -= SerMan_DataReceived;
                     ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
                     ApplicationManager.CloseInternalApplication("PROP_" + SerialManagers[ChannelIndex].ID);
                     ModbusSupport.CloseSnapshot(SerialManagers[ChannelIndex]);
@@ -345,24 +388,18 @@ namespace Serial_Monitor.Classes {
             return Results.OrderBy(x => x.PortName.Length).ThenBy(x => x.PortName).ToList();
         }
         private static List<Port> GetSerialPort() {
-            //var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
             List<Port> Results = new List<Port>();
-            //foreach (ManagementObject result in searcher.Get()) {
-            //    StringPair Sp = new StringPair(result["DeviceID"].ToString() ?? "COM1", result["Name"].ToString() ?? "");
-            //    Results.Add(Sp);
-            //}
-            //return Results;
             try {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2","SELECT * FROM Win32_PnPEntity");
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity");
                 ManagementObjectCollection moc = searcher.Get();
                 foreach (ManagementObject queryObj in moc) {
                     if (queryObj["Caption"] == null) { continue; }
                     string Name = queryObj["Caption"].ToString() ?? "";
                     Regex Pattern = new Regex(@"(?<Port>\(COM\d+\))");
                     Match Match = Pattern.Match(Name);
-                    if (Match.Success){
+                    if (Match.Success) {
                         string PortBracketed = Match.Groups["Port"].Value;
-                        string Port = PortBracketed.Replace("(","").Replace(")","");
+                        string Port = PortBracketed.Replace("(", "").Replace(")", "");
                         string CleanName = Name.Replace(PortBracketed, "");
                         string DeviceID = queryObj["DeviceID"].ToString() ?? "COM1";
                         Port Sp = new Port(Port, CleanName, queryObj["Caption"].ToString() ?? "");
@@ -370,12 +407,18 @@ namespace Serial_Monitor.Classes {
                     }
 
                 }
+                List<Port> TempNonListed = GetSerialPortLegacyListing();
+                foreach (Port PortLegacy in TempNonListed) {
+                    if (!Results.Any(x => x.PortName == PortLegacy.PortName)) {
+                        Results.Add(new Port(PortLegacy.PortName, "", PortLegacy.PortName));
+                    }
+                }
             }
             catch (ManagementException e) {
             }
             return Results;
         }
-        private static List<Port> GetSerialPortLegacyListing() {
+        public static List<Port> GetSerialPortLegacyListing() {
             List<Port> Results = new List<Port>();
             string[] TempPorts = SerialPort.GetPortNames();
             foreach (string Str in TempPorts) {
@@ -405,13 +448,16 @@ namespace Serial_Monitor.Classes {
             get { return plugins; }
         }
         public static void LoadPlugins() {
-            string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) ?? "";//GetExecutionFolder();
-            try {
-                LoadPlugins(path);
+            string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + @"\Plugins" ?? "";//GetExecutionFolder();
+            if (Path.Exists(path)) {
+                try {
+                    LoadPlugins(path);
+                }
+                catch { }
             }
-            catch { }
         }
         public static void LoadPlugins(string folder) {
+            Debug.Print("Loading Plugins...");
             plugins.Clear();
             // Get files in folder
             string[] files = Directory.GetFiles(folder, "*.dll");
@@ -419,18 +465,30 @@ namespace Serial_Monitor.Classes {
                 try {
                     Assembly assembly = Assembly.LoadFile(file);
                     var types = assembly.GetExportedTypes();
-
-                    foreach (Type type in types) {
-                        try {
-                            if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
-                                object? instance = Activator.CreateInstance(type);
-                                if (instance != null) {
-                                    //plugins.Add((IWindowPlugin)instance);
-                                    plugins.Add(new PlugIn(file));
-                                }
-                            }
-                        }
-                        catch { }
+                    bool PlugInLoaded = false;
+                    Type? pluginType = assembly.GetTypes().FirstOrDefault(t => typeof(IWindowPlugin).IsAssignableFrom(t) && !t.IsInterface);
+                    if (pluginType == null) { continue; }
+                    plugins.Add(new PlugIn(file));
+                    //                PlugInLoaded = true;
+                    //foreach (Type type in types) {
+                    //    try {
+                    //        if (type.GetInterfaces().Contains(typeof(IWindowPlugin))) {
+                    //            object? instance = Activator.CreateInstance(type);
+                    //            if (instance != null) {
+                    //                //plugins.Add((IWindowPlugin)instance);
+                    //                plugins.Add(new PlugIn(file));
+                    //                PlugInLoaded = true;
+                    //                break;
+                    //            }
+                    //        }
+                    //    }
+                    //    catch { }
+                    //    if (PlugInLoaded) {
+                    //        break;
+                    //    }
+                    //}
+                    if (!PlugInLoaded) {
+                        // assembly.
                     }
 
                 }
@@ -439,6 +497,7 @@ namespace Serial_Monitor.Classes {
             PluginsLoaded?.Invoke();
         }
         public static void ApplyPlugins(object ExtensionList, EventHandler ExtensionClicked) {
+            Debug.Print("Applying...");
             string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) ?? "";//GetExecutionFolder();
             try {
                 if (Plugins.Count > 0) {
@@ -474,6 +533,13 @@ namespace Serial_Monitor.Classes {
             else if (Severity == ErrorType.M_Notification) {
                 MainInstance.MethodPrinting(Msg);
             }
+        }
+        public static void PrintAppend(string Msg) {
+            if (MainInstance == null) { return; }
+            try {
+                MainInstance.MethodPrintingAppend(Msg);
+            }
+            catch { }
         }
         #endregion
         #region Editor Selectors
@@ -550,6 +616,11 @@ namespace Serial_Monitor.Classes {
                 }
             }
             return null;
+        }
+        public static void Open(string FilePath) {
+            if (MainInstance == null) { return; }
+            if (!File.Exists(FilePath)){ return; }
+            MainInstance.Open(FilePath);
         }
     }
 }

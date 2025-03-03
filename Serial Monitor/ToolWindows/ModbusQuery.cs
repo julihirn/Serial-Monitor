@@ -24,6 +24,7 @@ namespace Serial_Monitor.ToolWindows {
             this.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             this.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
             this.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+
             //Classes.Theming.ThemeManager.ThemeControl(lstRegisters);
             //Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             //Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);

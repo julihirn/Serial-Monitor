@@ -16,7 +16,7 @@ using System.DirectoryServices.ActiveDirectory;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Serial_Monitor {
-    public partial class Monitor : Form, Interfaces.ITheme {
+    public partial class Monitor : Components.SkinnedForm, Interfaces.ITheme {
         public Form? Attached = null;
         public Monitor() {
             InitializeComponent();
@@ -30,9 +30,6 @@ namespace Serial_Monitor {
                 if (Attached.GetType() == typeof(MainWindow)) {
                     ((MainWindow)Attached).CommandProcessed += Monitor_CommandProcessed;
                 }
-            }
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
             AdjustUserInterface();
         }
@@ -111,6 +108,11 @@ namespace Serial_Monitor {
 
             Classes.Theming.ThemeManager.ThemeControl(lstMonitor);
             pnlMonitor.BackColor = Properties.Settings.Default.THM_COL_Editor;
+
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
 
             this.ResumeLayout();
         }

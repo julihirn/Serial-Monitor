@@ -474,6 +474,9 @@ namespace Serial_Monitor.Classes {
             else if (Input == "frmStream") {
                 return Enums.FormatEnums.StreamInputFormat.BinaryStream;
             }
+            else if (Input == "frmHexStream") {
+                return Enums.FormatEnums.StreamInputFormat.HexStream;
+            }
             else if (Input == "frmCCommand") {
                 return Enums.FormatEnums.StreamInputFormat.CCommand;
             }
@@ -507,6 +510,14 @@ namespace Serial_Monitor.Classes {
                 }
                 else {
                     return new StringPair("Stream", "frmStream");
+                }
+            }
+            else if (Input == Enums.FormatEnums.StreamInputFormat.HexStream) {
+                if (UseLongName == true) {
+                    return new StringPair("Hexadecimal &Stream", "frmHexStream");
+                }
+                else {
+                    return new StringPair("Stream", "frmHexStream");
                 }
             }
             else if (Input == Enums.FormatEnums.StreamInputFormat.CCommand) {
@@ -785,7 +796,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void LoadCoilFormats(object DropDownList, CoilFormat SelectedFormat) {
             CoilFormat[] Formats = (CoilFormat[])CoilFormat.GetValues(typeof(Enums.ModbusEnums.CoilFormat));
-            bool CheckFirst = true;
+            //bool CheckFirst = true;
             foreach (ModbusEnums.CoilFormat Frmt in Formats) {
                 StringPair Data = CoilFormatToString(Frmt);
                 if (DropDownList.GetType() == typeof(DropDownBox)) {
@@ -834,7 +845,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void LoadDataFormats(object DropDownList, DataFormat SelectedFormat) {
             DataFormat[] Formats = (DataFormat[])DataFormat.GetValues(typeof(Enums.ModbusEnums.DataFormat));
-            bool CheckFirst = true;
+            //bool CheckFirst = true;
             foreach (ModbusEnums.DataFormat Frmt in Formats) {
                 StringPair Data = DataFormatToString(Frmt);
                 if (DropDownList.GetType() == typeof(DropDownBox)) {
@@ -920,7 +931,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void LoadWordOrders(object DropDownList, ByteOrder SelectedFormat) {
             ByteOrder[] Formats = (ByteOrder[])ByteOrder.GetValues(typeof(Enums.ModbusEnums.ByteOrder));
-            bool CheckFirst = true;
+            //bool CheckFirst = true;
             foreach (ModbusEnums.ByteOrder Frmt in Formats) {
                 StringPair Data =WordOrderToString(Frmt);
                 if (DropDownList.GetType() == typeof(DropDownBox)) {
@@ -969,7 +980,7 @@ namespace Serial_Monitor.Classes {
         }
         public static void LoadFloatFormats(object DropDownList, FloatFormat SelectedFormat) {
             FloatFormat[] Formats = (FloatFormat[])FloatFormat.GetValues(typeof(Enums.ModbusEnums.FloatFormat));
-            bool CheckFirst = true;
+            //bool CheckFirst = true;
             foreach (ModbusEnums.FloatFormat Frmt in Formats) {
                 StringPair Data = FloatFormatToString(Frmt);
                 if (DropDownList.GetType() == typeof(DropDownBox)) {

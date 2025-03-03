@@ -1,5 +1,6 @@
 ﻿using ODModules;
 using Serial_Monitor.Classes.Modbus;
+using Serial_Monitor.Components;
 using Serial_Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Serial_Monitor.Dialogs {
-    public partial class GoTo : Form, ITheme {
+    public partial class GoTo : SkinnedForm, ITheme {
         public GoTo() {
             InitializeComponent();
         }
@@ -70,7 +71,10 @@ namespace Serial_Monitor.Dialogs {
             this.Close();
         }
         private void RecolorAll() {
-
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             lblpnlAddress.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblpnlAddress.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
             lblpnlAddress.BackColor = Properties.Settings.Default.THM_COL_Editor;
