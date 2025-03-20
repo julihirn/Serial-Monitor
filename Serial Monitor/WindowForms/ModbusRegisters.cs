@@ -82,6 +82,7 @@ namespace Serial_Monitor {
             EnumManager.LoadDataSizes(ddpDataSize, CmDisplaySizeList_Click);
             EnumManager.LoadWordOrders(ddbWordOrder, CmDisplayWordOrderList_Click);
             EnumManager.LoadFloatFormats(ddpDecimalPlaces, CmDisplayDecimalPlacesList_Click);
+            EnumManager.LoadAddressFormats(ddbAddressFormatSelect, CmApplyAddessFormat);
             RecolorAll();
             AddIcons();
             LoadEvents();
@@ -287,6 +288,7 @@ namespace Serial_Monitor {
                 ClearEditors();
                 ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
                 ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
+                ModbusEditor.ApplyAddressChanges(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 CheckModbusDataSelection();
                 ViewChanged?.Invoke(this);
             }
@@ -306,6 +308,8 @@ namespace Serial_Monitor {
                     showUnitsToolStripMenuItem.Checked = ProjectManager.ShowUnits;
                     showUnitsToolStripMenuItem.Enabled = true;
                     goToToolStripMenuItem.Enabled = true;
+                    goToRegisterToolStripMenuItem.Enabled = true;
+                    goToToolStripMenuItem1.Enabled = true;
                     if (CurrentManager != null) {
                         btnMenuModbusMaster.Checked = CurrentManager.IsMaster;
                         modbusMasterToolStripMenuItem.Checked = CurrentManager.IsMaster;
@@ -328,7 +332,13 @@ namespace Serial_Monitor {
                     EnableDisableDialogEditors();
                 }
                 else {
-                    goToToolStripMenuItem.Enabled = false;
+                    if (GetCurrentListView() != null) {
+                        goToRegisterToolStripMenuItem.Enabled = false;
+                        goToToolStripMenuItem1.Enabled = false;
+                    }
+                    else {
+                        goToToolStripMenuItem.Enabled = false;
+                    }
                     btnViewMaster.Checked = false;
                     btnViewSnapshot.Checked = true;
                     ChangeModbusActions(false);
@@ -414,6 +424,7 @@ namespace Serial_Monitor {
                 }
                 ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 ModbusEditor.ClearControls(editorModbus.lstMonitor);
+                ModbusEditor.ApplyAddressChanges(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 ViewChanged?.Invoke(this);
             }
         }
@@ -1077,6 +1088,20 @@ namespace Serial_Monitor {
             }
             return null;
         }
+        internal ModbusSnapshot? GetModbusSnapshot() {
+            if (currentEditorView == DataEditor.MasterView) {
+                return null;
+            }
+            else if (currentEditorView == DataEditor.SnapshotView) {
+                try {
+                    if (editorModbus.ssClient.ChildForms[SnapshotCurrentIndex].GetType() == typeof(ToolWindows.ModbusRegister)) {
+                        return ((ToolWindows.ModbusRegister)editorModbus.ssClient.ChildForms[SnapshotCurrentIndex]).Snapshot;
+                    }
+                }
+                catch { }
+            }
+            return null;
+        }
         private void EdVal_ArrowKeyPress(ArrowKey Direction) {
             if (Direction == ArrowKey.Down) {
                 editorModbus.lstMonitor.SelectNextDropDown();
@@ -1454,6 +1479,30 @@ namespace Serial_Monitor {
                 CurrentEditorView = DataEditor.SnapshotView;
             }
         }
+        private void CmApplyAddessFormat(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            ToolStripMenuItem Item = (ToolStripMenuItem)sender;
+            if (Item.Tag == null) { return; }
+            if (Item.Tag.GetType() != typeof(AddressSystem)) { return; }
+            AddressSystem AddSys = (AddressSystem)Item.Tag;
+            ApplyAddressFormat(AddSys);
+        }
+        private void ApplyAddressFormat(AddressSystem AddressType) {
+            ListControl? CurrentView = GetCurrentListView();
+            if (CurrentView == null) { return; }
+            if (CurrentEditorView == DataEditor.MasterView) {
+                ModbusSlave? SlaveTemp = GetCurrentSlave();
+                if (SlaveTemp == null) { return; }
+                SlaveTemp.AddressFormat = AddressType;
+                ModbusEditor.ApplyAddressChanges(CurrentView, CurrentManager, dataSet, slaveindex);
+            }
+            else {
+                ModbusSnapshot? Snapshot = GetModbusSnapshot();
+                if (Snapshot == null) { return; }
+                Snapshot.AddressFormat = AddressType;
+            }
+        }
         #endregion 
         #region Main Instance Project Handling
         private void openToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1618,6 +1667,18 @@ namespace Serial_Monitor {
                     editorModbus.lstMonitor.VerScroll = Marked;
                 }
             }
+        }
+        private void goToSelectionToolStripMenuItem_Click(object sender, EventArgs e) {
+            //if (currentEditorView == DataEditor.MasterView) {
+
+
+            //}
+            //else {
+
+            //}
+            ListControl? ListCtrl = GetCurrentListView();
+            if (ListCtrl == null) { return; }
+            ListCtrl.VerScroll = ListCtrl.SelectedIndex;
         }
         #endregion
         #region Modbus Functions
@@ -2372,6 +2433,11 @@ namespace Serial_Monitor {
             if (CurrentEditor == null) { return; }
             CurrentEditor.Zoom = ZoomPercentage;
         }
+
+        private void goToRegisterToolStripMenuItem_DoubleClick(object sender, EventArgs e) {
+
+        }
+
         internal enum DataEditor {
             MasterView = 0x00,
             SnapshotView = 0x01

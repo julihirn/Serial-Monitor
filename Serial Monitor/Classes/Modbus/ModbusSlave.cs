@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSlave {
@@ -25,6 +26,11 @@ namespace Serial_Monitor.Classes.Modbus {
         public string Name {
             get { return name; }
             set { name = value; }
+        }
+        private AddressSystem addressFormat = AddressSystem.ZeroBasedDecimal;
+        public AddressSystem AddressFormat {
+            get { return addressFormat; }
+            set { addressFormat = value; }
         }
         string iD = "";
         [Browsable(false)]

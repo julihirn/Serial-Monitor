@@ -320,6 +320,44 @@ namespace Serial_Monitor.Classes {
             else { return Formats[Input]; }
         }
         #endregion
+        #region Modbus Addressing
+        public static AddressSystem StringToAddressingSystem(string Input) {
+            if (Input == "mbAdrDecZero") {
+                return AddressSystem.ZeroBasedDecimal;
+            }
+            else if (Input == "mbAdrDecOne") {
+                return AddressSystem.OneBasedDecimal;
+            }
+            else if (Input == "mbAdrHexOne") {
+                return AddressSystem.OneBasedHexadecimal;
+            }
+            else if (Input == "mbAdrHexZero") {
+                return AddressSystem.ZeroBasedHexadecimal;
+            }
+            else if (Input == "mbAdrPLC") {
+                return AddressSystem.PLCAddress;
+            }
+            return AddressSystem.ZeroBasedDecimal;
+        }
+        public static StringPair AddressingSystemToString(AddressSystem Input) {
+            if (Input == AddressSystem.ZeroBasedDecimal) {
+                return new StringPair("Zero-Based", "mbAdrDecZero");
+            }
+            else if (Input == AddressSystem.OneBasedDecimal) {
+                return new StringPair("One-Based", "mbAdrDecOne");
+            }
+            else if (Input == AddressSystem.ZeroBasedHexadecimal) {
+                return new StringPair("Zero-Based Hexadecimal", "mbAdrHexZero");
+            }
+            else if (Input == AddressSystem.OneBasedHexadecimal) {
+                return new StringPair("One-Based Hexadecimal", "mbAdrHexOne");
+            }
+            else if (Input == AddressSystem.PLCAddress) {
+                return new StringPair("PLC Address", "mbAdrPLC");
+            }
+            return new StringPair("Zero-Based", "mbAdrDecZero");
+        }
+        #endregion
         #region Modbus Data Selection
         public static DataSelection ModbusStringToDataSelection(string Input) {
             if (Input == "mbTypeCoils") {
@@ -990,6 +1028,41 @@ namespace Serial_Monitor.Classes {
                         Btn.SelectedIndex = Btn.Items.Count - 1;
                     }
                 }
+            }
+        }
+        public static void LoadAddressFormats(object DropDownList, EventHandler FormatClick) {
+            Enums.ModbusEnums.AddressSystem[] Formats = (AddressSystem[])AddressSystem.GetValues(typeof(Enums.ModbusEnums.AddressSystem));
+            bool CheckFirst = true;
+            foreach (ModbusEnums.AddressSystem Frmt in Formats) {
+                string Data = AddressingSystemToString(Frmt).A;
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                //else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                //    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                //    if (ApplyChecked == false) { Tsi.Checked = false; }
+                //    else {
+                //        if (Tsi.Checked) {
+                //            Btn.Text = Data;
+                //        }
+                //    }
+                //    Btn.DropDownItems.Add(Tsi);
+                //}
             }
         }
         public static NumericTextbox.MetricPrefix GetPrefix(ModbusRegister? Register) {

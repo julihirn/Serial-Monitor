@@ -387,7 +387,7 @@ namespace Serial_Monitor {
                 string Assignment = "";
                 if (Data.Contains("=")) {
                     Name = Data.Split('=')[0];
-                    Assignment = Data.Split('=')[1];
+                    Assignment = StringHandler.SpiltAndCombineAfter(Data, '=', 1).Value[1];
                 }
                 else {
                     Name = Data;

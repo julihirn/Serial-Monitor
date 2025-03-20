@@ -549,7 +549,7 @@
     <value>Ctrl+G</value>
   </data>
   <data name="goToToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>383, 44</value>
+    <value>436, 44</value>
   </data>
   <data name="goToToolStripMenuItem1.Text" xml:space="preserve">
     <value>Go To &amp;Address</value>
@@ -561,10 +561,22 @@
     <value>Ctrl+T</value>
   </data>
   <data name="goToRegisterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>383, 44</value>
+    <value>436, 44</value>
   </data>
   <data name="goToRegisterToolStripMenuItem.Text" xml:space="preserve">
     <value>Go To &amp;Register</value>
+  </data>
+  <data name="goToSelectionToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="goToSelectionToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+Space</value>
+  </data>
+  <data name="goToSelectionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 44</value>
+  </data>
+  <data name="goToSelectionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Go To &amp;Selection</value>
   </data>
   <data name="goToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>431, 44</value>
@@ -890,6 +902,15 @@
   </data>
   <data name="showLastUpdatedTimeToolStripMenuItem.Text" xml:space="preserve">
     <value>Show &amp;Last Updated Time</value>
+  </data>
+  <data name="ddbAddressFormatSelect.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="ddbAddressFormatSelect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>411, 44</value>
+  </data>
+  <data name="ddbAddressFormatSelect.Text" xml:space="preserve">
+    <value>Address Format</value>
   </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 6</value>
@@ -4851,6 +4872,12 @@
   <data name="&gt;&gt;goToRegisterToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;goToSelectionToolStripMenuItem.Name" xml:space="preserve">
+    <value>goToSelectionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;goToSelectionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator15.Name" xml:space="preserve">
     <value>toolStripSeparator15</value>
   </data>
@@ -5029,6 +5056,12 @@
     <value>showLastUpdatedTimeToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;showLastUpdatedTimeToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ddbAddressFormatSelect.Name" xml:space="preserve">
+    <value>ddbAddressFormatSelect</value>
+  </data>
+  <data name="&gt;&gt;ddbAddressFormatSelect.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator9.Name" xml:space="preserve">

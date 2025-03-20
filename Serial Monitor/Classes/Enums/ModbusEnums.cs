@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Enums {
     public static class ModbusEnums {
+        public enum AddressSystem {
+            ZeroBasedDecimal = 0x000,
+            OneBasedDecimal = 0x001,
+            ZeroBasedHexadecimal = 0x100,
+            OneBasedHexadecimal = 0x102,
+            PLCAddress = 0x108
+        }
         public enum DataFormat {
             Binary = 0x00,
             Octal = 0x01,

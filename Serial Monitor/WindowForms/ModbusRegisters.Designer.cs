@@ -63,6 +63,7 @@
             goToToolStripMenuItem = new ToolStripMenuItem();
             goToToolStripMenuItem1 = new ToolStripMenuItem();
             goToRegisterToolStripMenuItem = new ToolStripMenuItem();
+            goToSelectionToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator15 = new ToolStripSeparator();
             cutToolStripMenuItem = new ToolStripMenuItem();
             copyToolStripMenuItem = new ToolStripMenuItem();
@@ -93,6 +94,7 @@
             showUnitsToolStripMenuItem = new ToolStripMenuItem();
             showFormatsToolStripMenuItem = new ToolStripMenuItem();
             showLastUpdatedTimeToolStripMenuItem = new ToolStripMenuItem();
+            ddbAddressFormatSelect = new ToolStripMenuItem();
             toolStripSeparator9 = new ToolStripSeparator();
             btnViewMaster = new ToolStripMenuItem();
             btnViewSnapshot = new ToolStripMenuItem();
@@ -463,7 +465,7 @@
             // 
             // goToToolStripMenuItem
             // 
-            goToToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { goToToolStripMenuItem1, goToRegisterToolStripMenuItem });
+            goToToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { goToToolStripMenuItem1, goToRegisterToolStripMenuItem, goToSelectionToolStripMenuItem });
             goToToolStripMenuItem.ForeColor = Color.White;
             goToToolStripMenuItem.Name = "goToToolStripMenuItem";
             resources.ApplyResources(goToToolStripMenuItem, "goToToolStripMenuItem");
@@ -481,6 +483,14 @@
             resources.ApplyResources(goToRegisterToolStripMenuItem, "goToRegisterToolStripMenuItem");
             goToRegisterToolStripMenuItem.Name = "goToRegisterToolStripMenuItem";
             goToRegisterToolStripMenuItem.Click += goToRegisterToolStripMenuItem_Click;
+            goToRegisterToolStripMenuItem.DoubleClick += goToRegisterToolStripMenuItem_DoubleClick;
+            // 
+            // goToSelectionToolStripMenuItem
+            // 
+            goToSelectionToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(goToSelectionToolStripMenuItem, "goToSelectionToolStripMenuItem");
+            goToSelectionToolStripMenuItem.Name = "goToSelectionToolStripMenuItem";
+            goToSelectionToolStripMenuItem.Click += goToSelectionToolStripMenuItem_Click;
             // 
             // toolStripSeparator15
             // 
@@ -624,7 +634,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, propertiesToolStripMenuItem, toolStripSeparator29, btnTopMost, fullScreenToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, ddbAddressFormatSelect, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, propertiesToolStripMenuItem, toolStripSeparator29, btnTopMost, fullScreenToolStripMenuItem });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
@@ -692,6 +702,12 @@
             resources.ApplyResources(showLastUpdatedTimeToolStripMenuItem, "showLastUpdatedTimeToolStripMenuItem");
             showLastUpdatedTimeToolStripMenuItem.Name = "showLastUpdatedTimeToolStripMenuItem";
             showLastUpdatedTimeToolStripMenuItem.Click += showLastUpdatedTimeToolStripMenuItem_Click;
+            // 
+            // ddbAddressFormatSelect
+            // 
+            ddbAddressFormatSelect.ForeColor = Color.White;
+            resources.ApplyResources(ddbAddressFormatSelect, "ddbAddressFormatSelect");
+            ddbAddressFormatSelect.Name = "ddbAddressFormatSelect";
             // 
             // toolStripSeparator9
             // 
@@ -1524,5 +1540,7 @@
         private ToolStripMenuItem zoom150;
         private ToolStripMenuItem zoom175;
         private ToolStripMenuItem zoom200;
+        private ToolStripMenuItem ddbAddressFormatSelect;
+        private ToolStripMenuItem goToSelectionToolStripMenuItem;
     }
 }

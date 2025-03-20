@@ -320,6 +320,61 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
+        public static void ApplyAddressChanges(ListControl? lstMonitor, SerialManager? Channel, DataSelection Selection, int Slave) {
+            if (lstMonitor == null) { return; }
+            if (Channel == null) { return; }
+            if (lstMonitor.Columns.Count < 1) { return; }
+            ModbusSlave? Unit = null;
+            if (Slave < 0) { Unit = Channel.Registers; }
+            else {
+                if (Slave >= Channel.Slave.Count) { return;  }
+                else { Unit = Channel.Slave[Slave]; }
+            }
+            if (Unit == null) { return; }
+            AddressSystem AddressFormat = Unit.AddressFormat;
+            int Offset = 0;
+            switch (AddressFormat) {
+                case AddressSystem.ZeroBasedDecimal:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.LineCount;
+                    lstMonitor.Columns[0].CountOffset = 0;
+                    break;
+                case AddressSystem.OneBasedDecimal:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.LineCount;
+                    lstMonitor.Columns[0].CountOffset = 1;
+                    break;
+                case AddressSystem.ZeroBasedHexadecimal:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
+                    Offset = 0;
+                    break;
+                case AddressSystem.OneBasedHexadecimal:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
+                    Offset = 1;
+                    break;
+                case AddressSystem.PLCAddress:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
+                    Offset = 1;
+                    break;
+                default:
+                    break;
+            }
+            if (((int)AddressFormat & 0x100) == 0x100) {
+                int i = Offset;
+                if ((AddressFormat == AddressSystem.ZeroBasedHexadecimal)|| (AddressFormat == AddressSystem.OneBasedHexadecimal)) {
+                    foreach (ListItem Li in lstMonitor.CurrentItems) {
+                        Li[0].Text = Formatters.Integer16ToHex(i);
+                        i++;
+                    }
+                }
+                else if (AddressFormat == AddressSystem.PLCAddress) {
+                    foreach (ListItem Li in lstMonitor.CurrentItems) {
+                        Li[0].Text = Formatters.PLCAddress(i, Selection);
+                        i++;
+                    }
+                }
+            }
+            lstMonitor.Invalidate();
+        }
+     
         #endregion
         #region Context Menu Handling
         public static object? GetContextMenuData(object? sender) {
@@ -826,7 +881,7 @@ namespace Serial_Monitor.Classes.Modbus {
             if (ListEditor.CurrentItems == null) { return; }
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
                 if (ListEditor.CurrentItems[i].Selected == true) {
-                    if (ListEditor.CurrentItems[i].SubItems.Count == 5) {
+                    if (ListEditor.CurrentItems[i].SubItems.Count == 6) {
                         object? objCmd = ListEditor.CurrentItems[i].Tag;
                         if (objCmd == null) { continue; }
                         if (objCmd.GetType() == typeof(ModbusRegister)) {
@@ -1490,7 +1545,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public Color BackColor;
         public bool UseForeColor;
         public bool UseBackColor;
-        public string Unit ="";
+        public string Unit = "";
         public ConversionHandler.Prefix Prefix;
         public DataSize Size;
         public DataFormat Format;

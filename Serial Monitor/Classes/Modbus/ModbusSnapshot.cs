@@ -4,9 +4,11 @@ using ODModules;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Serial_Monitor.Classes.Enums.ModbusEnums;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSnapshot {
@@ -17,6 +19,9 @@ namespace Serial_Monitor.Classes.Modbus {
 
         public event SnapshotRemovedHandler? SnapshotRemoved;
         public delegate void SnapshotRemovedHandler(object sender);
+
+        public event SnapshotAddressSystemChangedHandler? SnapshotAddressSystemChanged;
+        public delegate void SnapshotAddressSystemChangedHandler(object sender);
 
         #region Properties
         Classes.Enums.ModbusEnums.SnapshotSelectionType selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
@@ -40,6 +45,15 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (value > 0) {
                     count = value;
                 }
+            }
+        }
+        private AddressSystem addressFormat = AddressSystem.ZeroBasedDecimal;
+        public AddressSystem AddressFormat {
+            get { return addressFormat; }
+            set {
+                addressFormat = value;
+                ApplyAddressFormat();
+                SnapshotAddressSystemChanged?.Invoke(this);
             }
         }
         string name = "";
@@ -76,7 +90,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     }
                 }
             }
-            set { 
+            set {
                 name = value;
                 SnapshotRenamed?.Invoke(this);
             }
@@ -221,6 +235,28 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
+        private void ApplyAddressFormat() {
+            if (manager == null) { return; }
+            if (listings.Count <= 0) { return; }
+
+            for (int i = 0; i < listings.Count; i++) {
+                int LocalIndex = listings[i][0].Value;
+                switch (addressFormat) {
+                    case AddressSystem.ZeroBasedDecimal:
+                        listings[i][0].Text = LocalIndex.ToString(); break;
+                    case AddressSystem.OneBasedDecimal:
+                        listings[i][0].Text = (LocalIndex + 1).ToString(); break;
+                    case AddressSystem.ZeroBasedHexadecimal:
+                        listings[i][0].Text = Formatters.Integer16ToHex(LocalIndex); break;
+                    case AddressSystem.OneBasedHexadecimal:
+                        listings[i][0].Text = Formatters.Integer16ToHex((LocalIndex + 1)); break;
+                    case AddressSystem.PLCAddress:
+                        listings[i][0].Text = Formatters.PLCAddress(LocalIndex, selection); break;
+                    default:
+                        break;
+                }
+            }
+        }
         public void UpdateRowAppearance(int Index) {
             if (manager == null) { return; }
             if (listings.Count <= 0) { return; }
@@ -335,9 +371,9 @@ namespace Serial_Monitor.Classes.Modbus {
             if (manager == null) { return; }
             ListItem PLi = new ListItem();
             PLi.Value = Index;
-            if (selectType == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
-                PLi.Text = Index.ToString();
-            }
+            // if (selectType == Enums.ModbusEnums.SnapshotSelectionType.Custom) {
+            PLi.Text = Index.ToString();
+            // }
             ModbusObject ModbusData = GetModbusObject(Index, selection, manager);
             bool UseBackColor = ModbusData.UseBackColor;
             bool UseForeColor = ModbusData.UseForeColor;
