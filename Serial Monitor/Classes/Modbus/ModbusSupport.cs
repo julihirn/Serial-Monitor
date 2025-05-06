@@ -241,7 +241,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return Output;
         }
-        public static void DecodeFileRegsisterCommand(string SerialisedString, int Unit, SerialManager? CurrentManager) {
+        public static void DecodeFileRegisterCommand(string SerialisedString, int Unit, SerialManager? CurrentManager) {
             if (CurrentManager == null) { return; }
             if (CurrentManager.Registers == null) { return; }
             if (!SerialisedString.Contains(',')) { return; }
@@ -256,6 +256,12 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (DataPair.A.ToLower() == "name") {
                         try {
                             CurrentManager.Slave[SlaveIndex].Name = DataPair.B;
+                        }
+                        catch { }
+                    }
+                    else if (DataPair.A.ToLower() == "addressformat") {
+                        try {
+                            CurrentManager.Slave[SlaveIndex].AddressFormat = EnumManager.StringToAddressingSystem(DataPair.B);
                         }
                         catch { }
                     }

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serial Monitor", "Serial Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serial Monitor Plugin", "Serial Monitor Plugin\Serial Monitor Plugin.csproj", "{526CA10C-1608-446A-9116-2BB1E4D10CFC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WTE Program Generator", "..\HydroTerra\WTE Program Generator\WTE Program Generator\WTE Program Generator\WTE Program Generator.csproj", "{772FB800-6DC3-45C7-970A-0DA48C316DE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|ARM32.Build.0 = Release|Any CPU
 		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|x86.Build.0 = Release|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Debug|x86.Build.0 = Debug|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Release|ARM32.Build.0 = Release|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Release|x86.ActiveCfg = Release|Any CPU
+		{772FB800-6DC3-45C7-970A-0DA48C316DE3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

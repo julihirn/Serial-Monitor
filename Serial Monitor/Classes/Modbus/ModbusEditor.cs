@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor.Classes.Modbus {
@@ -52,22 +53,22 @@ namespace Serial_Monitor.Classes.Modbus {
                 int i = 0;
                 if (DataSet == DataSelection.ModbusDataCoils) {
                     foreach (ModbusCoil Coil in CurrentManager.Registers.Coils) {
-                        AddMonitorItem(Coil, i); i++;
+                        AddMonitorItem(Coil, i, CurrentManager.Registers.AddressFormat, DataSet); i++;
                     }
                 }
                 else if (DataSet == DataSelection.ModbusDataDiscreteInputs) {
                     foreach (ModbusCoil Coil in CurrentManager.Registers.DiscreteInputs) {
-                        AddMonitorItem(Coil, i); i++;
+                        AddMonitorItem(Coil, i, CurrentManager.Registers.AddressFormat, DataSet); i++;
                     }
                 }
                 else if (DataSet == DataSelection.ModbusDataInputRegisters) {
                     foreach (ModbusRegister Coil in CurrentManager.Registers.InputRegisters) {
-                        AddMonitorItem(Coil, i); i++;
+                        AddMonitorItem(Coil, i, CurrentManager.Registers.AddressFormat, DataSet); i++;
                     }
                 }
                 else if (DataSet == DataSelection.ModbusDataHoldingRegisters) {
                     foreach (ModbusRegister Coil in CurrentManager.Registers.HoldingRegisters) {
-                        AddMonitorItem(Coil, i); i++;
+                        AddMonitorItem(Coil, i, CurrentManager.Registers.AddressFormat, DataSet); i++;
                     }
                 }
             }
@@ -75,25 +76,25 @@ namespace Serial_Monitor.Classes.Modbus {
                 int i = 0;
                 if (DataSet == DataSelection.ModbusDataCoils) {
                     foreach (ModbusCoil Coil in CurrentManager.Slave[SlaveIndex].Coils) {
-                        AddMonitorItem(Coil, i);
+                        AddMonitorItem(Coil, i, CurrentManager.Slave[SlaveIndex].AddressFormat, DataSet);
                         i++;
                     }
                 }
                 else if (DataSet == DataSelection.ModbusDataDiscreteInputs) {
                     foreach (ModbusCoil Coil in CurrentManager.Slave[SlaveIndex].DiscreteInputs) {
-                        AddMonitorItem(Coil, i);
+                        AddMonitorItem(Coil, i, CurrentManager.Slave[SlaveIndex].AddressFormat, DataSet);
                         i++;
                     }
                 }
                 else if (DataSet == DataSelection.ModbusDataInputRegisters) {
                     foreach (ModbusRegister Coil in CurrentManager.Slave[SlaveIndex].InputRegisters) {
-                        AddMonitorItem(Coil, i);
+                        AddMonitorItem(Coil, i, CurrentManager.Slave[SlaveIndex].AddressFormat, DataSet);
                         i++;
                     }
                 }
                 else if (DataSet == DataSelection.ModbusDataHoldingRegisters) {
                     foreach (ModbusRegister Coil in CurrentManager.Slave[SlaveIndex].HoldingRegisters) {
-                        AddMonitorItem(Coil, i);
+                        AddMonitorItem(Coil, i, CurrentManager.Slave[SlaveIndex].AddressFormat, DataSet);
                         i++;
                     }
                 }
@@ -108,7 +109,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ViewUpdate(ListControl LstControl) {
             ViewUpdated?.Invoke(LstControl);
         }
-        private static void AddMonitorItem(ModbusCoil Coil, int Index) {
+        private static void AddMonitorItem(ModbusCoil Coil, int Index, AddressSystem AddressFormat, DataSelection DataSet) {
             if (IsFirstLoad) {
                 ListItem PLi = new ListItem();
                 PLi.Tag = Coil;
@@ -117,6 +118,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 PLi.UseLineForeColor = Coil.UseForeColor;
                 PLi.LineBackColor = Coil.BackColor;
                 PLi.LineForeColor = Coil.ForeColor;
+                ApplyAddressSystemToItem(PLi, Index, AddressFormat, DataSet);
                 ListSubItem CLi1 = new ListSubItem(Coil.Name);
                 ListSubItem CLi2 = new ListSubItem(EnumManager.CoilFormatToString(Coil.Format).A);
                 ListSubItem CLi3 = new ListSubItem();
@@ -138,6 +140,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index].UseLineForeColor = Coil.UseForeColor;
                 MasterRegisterEditor[Index].LineBackColor = Coil.BackColor;
                 MasterRegisterEditor[Index].LineForeColor = Coil.ForeColor;
+                ApplyAddressSystemToItem(MasterRegisterEditor[Index], Index, AddressFormat, DataSet);
                 MasterRegisterEditor[Index][Indx_Name].Text = Coil.Name;
                 MasterRegisterEditor[Index][Indx_Display].Text = EnumManager.CoilFormatToString(Coil.Format).A;
                 MasterRegisterEditor[Index][Indx_Size].Text = "";
@@ -146,7 +149,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index][Indx_LastUpdated].Text = Coil.GetLastUpdatedTime();
             }
         }
-        private static void AddMonitorItem(ModbusRegister Register, int Index) {
+        private static void AddMonitorItem(ModbusRegister Register, int Index, AddressSystem AddressFormat, DataSelection DataSet) {
             if (IsFirstLoad) {
                 ListItem PLi = new ListItem();
                 PLi.Tag = Register;
@@ -155,6 +158,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 PLi.UseLineForeColor = Register.UseForeColor;
                 PLi.LineBackColor = Register.BackColor;
                 PLi.LineForeColor = Register.ForeColor;
+                ApplyAddressSystemToItem(PLi, Index, AddressFormat, DataSet);
                 ListSubItem CLi1 = new ListSubItem(Register.Name);
                 ListSubItem CLi2 = new ListSubItem(EnumManager.DataFormatToString(Register.Format).A);
                 ListSubItem CLi3 = new ListSubItem(EnumManager.DataSizeToString(Register.Size));
@@ -176,12 +180,44 @@ namespace Serial_Monitor.Classes.Modbus {
                 MasterRegisterEditor[Index].UseLineForeColor = Register.UseForeColor;
                 MasterRegisterEditor[Index].LineBackColor = Register.BackColor;
                 MasterRegisterEditor[Index].LineForeColor = Register.ForeColor;
+                ApplyAddressSystemToItem(MasterRegisterEditor[Index], Index, AddressFormat, DataSet);
                 MasterRegisterEditor[Index][Indx_Name].Text = Register.Name;
                 MasterRegisterEditor[Index][Indx_Display].Text = EnumManager.DataFormatToString(Register.Format).A;
                 MasterRegisterEditor[Index][Indx_Size].Text = EnumManager.DataSizeToString(Register.Size);
                 MasterRegisterEditor[Index][Indx_Signed].Checked = Register.Signed;
                 MasterRegisterEditor[Index][Indx_Value].Text = Register.ValueWithUnit;
                 MasterRegisterEditor[Index][Indx_LastUpdated].Text = Register.GetLastUpdatedTime();
+            }
+        }
+        private static void ApplyAddressSystemToItem(ListItem Li, int Address, AddressSystem AddressFormat, DataSelection Selection) {
+            int Offset = 0;
+            switch (AddressFormat) {
+                case AddressSystem.ZeroBasedDecimal:
+                    Li.Text = Address.ToString();
+                    return;
+                case AddressSystem.OneBasedDecimal:
+                    Li.Text = (Address+1).ToString();
+                    return;
+                case AddressSystem.ZeroBasedHexadecimal:
+                    Offset = 0;
+                    break;
+                case AddressSystem.OneBasedHexadecimal:
+                    Offset = 1;
+                    break;
+                case AddressSystem.PLCAddress:
+                    Offset = 1;
+                    break;
+                default:
+                    break;
+            }
+            if (((int)AddressFormat & 0x100) == 0x100) {
+                int i = Offset + Address;
+                if ((AddressFormat == AddressSystem.ZeroBasedHexadecimal) || (AddressFormat == AddressSystem.OneBasedHexadecimal)) {
+                    Li.Text = Formatters.Integer16ToHex(i);
+                }
+                else if (AddressFormat == AddressSystem.PLCAddress) {
+                    Li.Text = Formatters.PLCAddress(i, Selection);
+                }
             }
         }
         public static void RemoveReferences() {
@@ -247,6 +283,170 @@ namespace Serial_Monitor.Classes.Modbus {
                 EdVal.Focus();
                 EdVal.Show();
             }
+        }
+        public static void AddNumericEditBox(ListItem? LstItem, int Column, DataSelection ModbusType, ODModules.ListControl LstCtrl, bool UseItemIndex = false) {
+            RemoveAllControls(LstCtrl);
+            if (LstItem == null) { return; }
+            if (LstItem.SubItems == null) { return; }
+            //LastPoint = new Point(e.Column, e.Item);
+
+            object? DataTag = LstItem.Tag;
+            if (DataTag == null) { return; }
+            if (DataTag.GetType() == typeof(ModbusRegister)) {
+                ModbusRegister Reg = (ModbusRegister)DataTag;
+                ODModules.NumericTextbox Tb = new ODModules.NumericTextbox();
+                Tb.BackColor = LstCtrl.BackColor;
+                Tb.Font = LstCtrl.Font;
+                Tb.AutoSize = false;
+                Tb.ShowLabel = false;
+                Tb.ForeColor = LstCtrl.ForeColor; 
+                Tb.FixedNumericPadding = 12;
+                Tb.UseFixedNumericPadding = false;
+                Tb.SelectedBorderColor = LstCtrl.CellSelectionBorderColor;
+                //Tb.Value = Reg.FormattedValue;
+                Tb.ArrowKeysControlNumber = false;
+                Tb.Tag = new ModbusEdit(Reg, Column, LstItem, ModbusType);
+                Tb.NumericalFormat = NumericTextbox.NumberFormat.Decimal;
+                string InputValue  = Reg.FormattedValue;
+                if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Binary) {
+                    Tb.Base = NumericTextbox.NumberBase.Base2;
+                    DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                    Tb.Minimum = DualNum.A;
+                    Tb.Maximum = DualNum.B;
+                    InputValue = InputValue.TrimStart('0').Replace(" ", "");
+                }
+                else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Octal) {
+                    Tb.Base = NumericTextbox.NumberBase.Base8;
+                    DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                    Tb.Minimum = DualNum.A;
+                    Tb.Maximum = DualNum.B;
+                    InputValue = InputValue.TrimStart('0');
+                }
+                else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Decimal) {
+                    Tb.Base = NumericTextbox.NumberBase.Base10;
+                    Tb.AllowFractionals = false;
+                    Tb.AllowNegatives = Reg.Signed;
+                    DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                    Tb.Minimum = DualNum.A;
+                    Tb.Maximum = DualNum.B;
+                    Tb.Unit = Reg.Unit;
+                    Tb.Prefix = EnumManager.GetPrefix(Reg);
+                }
+                else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Hexadecimal) {
+                    Tb.Base = NumericTextbox.NumberBase.Base16;
+                    DualNumericalString DualNum = Formatters.GetBounds(Reg.Size, Reg.Signed);
+                    Tb.Minimum = DualNum.A;
+                    Tb.Maximum = DualNum.B;
+                    InputValue = InputValue.TrimStart('0');
+                }
+                else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Double) {
+                    Tb.AllowFractionals = true;
+                    Tb.AllowNegatives = true;
+                    Tb.Minimum = MathHandler.EvaluateExpression("-1.7976931348623157*(10^(308))", null);
+                    Tb.Maximum = MathHandler.EvaluateExpression("1.7976931348623157*(10^(308))", null);
+                    Tb.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                    Tb.Unit = Reg.Unit;
+                    Tb.Prefix = EnumManager.GetPrefix(Reg);
+
+                    if (InputValue.ToLower() == "nan") {
+                        InputValue = "0";
+                    }
+                    else if (InputValue.ToLower() == "infinity") {
+                        InputValue = double.MaxValue.ToString();
+                    }
+                    else if (InputValue.ToLower() == "-infinity") {
+                        InputValue = double.MinValue.ToString();
+                    }
+                    if (InputValue.Contains('E')) {
+                        InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
+                    }
+                }
+                else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Float) {
+                    Tb.AllowFractionals = true;
+                    Tb.AllowNegatives = true;
+                    Tb.Minimum = MathHandler.EvaluateExpression("-3.4028235*(10^(38))", null);
+                    Tb.Maximum = MathHandler.EvaluateExpression("3.4028235*(10^(38))", null);
+                    Tb.NumericalFormat = NumericTextbox.NumberFormat.Scientific;
+                    if (InputValue.ToLower() == "nan") {
+                        InputValue = "0";
+                    }
+                    else if (InputValue.ToLower() == "infinity") {
+                        InputValue = float.MaxValue.ToString();
+                    }
+                    else if (InputValue.ToLower() == "-infinity") {
+                        InputValue = float.MinValue.ToString();
+                    }
+                    if (InputValue.Contains('E')) {
+                        InputValue = MathHandler.EvaluateExpression(InputValue.Replace("E", "*(10^(") + "))", null).ToString();
+                    }
+                    Tb.Unit = Reg.Unit;
+                    Tb.Prefix = EnumManager.GetPrefix(Reg);
+
+                }
+                else if (Reg.Format == Classes.Enums.ModbusEnums.DataFormat.Char) {
+
+                }
+                Tb.Value = InputValue;
+
+                //Components.EditValue EdVal = new Components.EditValue(Pm.Name, LstCtrl, e.ParentItem, Indx_Name, ItemIndex, null, coil, Rect, ParRect, DataSet);
+                LstCtrl.AddControlToCell(Tb);
+
+                Tb.Focus();
+                //EdVal.ArrowKeyPress += arrowKeyPressed;
+                Tb.Leave += Tb_LostFocus;
+                Tb.KeyPress += Tb_KeyPress;
+                Tb.EnterPressed += Tb_EnterPressed;
+                Tb.ValueChanged += Tb_ValueChanged;
+            }
+        }
+        private static void Tb_ValueChanged(object sender, ValueChangedEventArgs e) {
+            if (sender.GetType() != typeof(NumericTextbox)) { return; }
+            NumericTextbox Ttb = (NumericTextbox)sender;
+            object? Tag = Ttb.Tag;
+            if (Tag == null) { return; }
+            if (Tag.GetType() != typeof(ModbusEdit)) { return; }
+            ModbusEdit pd = (ModbusEdit)Tag;
+            if (pd == null) { return; }
+            if (pd.Register == null) { return; }
+            EnumManager.PushPrefix(pd.Register, Ttb.Prefix);
+            pd.Register.PushValue(Formatters.StringToLong(Ttb.Value.ToString() ?? "0", pd.Register.Format, pd.Register.Size, pd.Register.Signed), true);
+            //pd.Register.PushValue()
+            SystemManager.RegisterValueChanged(pd.Register.Parent, pd.Register.FormattedValue, pd.Register.Address, pd.Selection);
+            pd.Item[pd.Column].Text = pd.Register.ValueWithUnit;
+        }
+        public static void RemoveAllControls(ODModules.ListControl LstCtrl) {
+            for (int i = LstCtrl.Controls.Count - 1; i >= 0; i--) {
+                RemoveControl(LstCtrl.Controls[i]);
+            }
+        }
+        private static void Tb_EnterPressed(NumericTextbox sender) {
+            RemoveControl(sender);
+        }
+
+        private static void Tb_KeyPress(object? sender, KeyPressEventArgs e) {
+            if (e.KeyChar == ' ') {
+                RemoveControl(sender);
+            }
+        }
+        private static void RemoveControl(object? sender) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ODModules.TextBox)) {
+                ODModules.TextBox OdTb = (ODModules.TextBox)sender;
+                OdTb.LostFocus -= Tb_LostFocus;
+                if (OdTb.Parent == null) { return; }
+                OdTb.Parent.Controls.Remove(OdTb);
+            }
+            else if (sender.GetType() == typeof(ODModules.NumericTextbox)) {
+                ODModules.NumericTextbox OdTb = (ODModules.NumericTextbox)sender;
+                OdTb.LostFocus -= Tb_LostFocus;
+                //OdTb.EnterPressed -= Tb_EnterPressed;
+                OdTb.ValueChanged -= Tb_ValueChanged;
+                if (OdTb.Parent == null) { return; }
+                OdTb.Parent.Controls.Remove(OdTb);
+            }
+        }
+        private static void Tb_LostFocus(object? sender, EventArgs e) {
+            RemoveControl(sender);
         }
         public static void ClearControls(ListControl LstCtrl) {
             LstCtrl.Controls.Clear();

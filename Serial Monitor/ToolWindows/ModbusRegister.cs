@@ -150,7 +150,7 @@ namespace Serial_Monitor.ToolWindows {
         private void AdjustUserInterface() {
             cmDataSize.Padding = DesignerSetup.ScalePadding(cmDataSize.Padding);
             cmDisplayFormats.Padding = DesignerSetup.ScalePadding(cmDisplayFormats.Padding);
-            lstRegisters.ScaleColumnWidths();
+            //lstRegisters.ScaleColumnWidths();
         }
         private void SystemManager_ModbusPropertyChanged(ModbusSlave parentManager, object Data, int Index, DataSelection DataType) {
             // lstRegisters.ExternalItems[Index]

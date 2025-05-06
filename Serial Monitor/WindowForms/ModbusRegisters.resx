@@ -134,6 +134,9 @@
   <data name="copyToolStripMenuItem1.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
+  <data name="copyToolStripMenuItem1.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+C</value>
+  </data>
   <data name="copyToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>292, 38</value>
   </data>
@@ -142,6 +145,9 @@
   </data>
   <data name="pasteToolStripMenuItem1.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
+  </data>
+  <data name="pasteToolStripMenuItem1.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+V</value>
   </data>
   <data name="pasteToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>292, 38</value>
@@ -153,7 +159,7 @@
     <value>293, 124</value>
   </data>
   <metadata name="cntrlExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 53</value>
+    <value>17, 164</value>
   </metadata>
   <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
     <value>cmMonitor</value>
@@ -1498,7 +1504,7 @@
     <value>10</value>
   </data>
   <metadata name="cmDisplayFormats.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>109, 9</value>
+    <value>13, 62</value>
   </metadata>
   <data name="cmDisplayFormats.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -1510,7 +1516,7 @@
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="cmDataSize.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>244, 11</value>
+    <value>179, 6</value>
   </metadata>
   <data name="cmDataSize.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -1706,10 +1712,10 @@
     <value>7</value>
   </data>
   <metadata name="tmrRefresh.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>763, 16</value>
+    <value>507, 80</value>
   </metadata>
   <metadata name="contextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>109, 9</value>
+    <value>256, 78</value>
   </metadata>
   <data name="contextMenu1.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -1736,7 +1742,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>94</value>
+    <value>235</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>13, 32</value>

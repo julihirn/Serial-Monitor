@@ -14,6 +14,8 @@ using System.Diagnostics;
 using Serial_Monitor.Classes;
 using System.DirectoryServices.ActiveDirectory;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO.Ports;
+using Serial_Monitor.Classes.Structures;
 
 namespace Serial_Monitor {
     public partial class Monitor : Components.SkinnedForm, Interfaces.ITheme {
@@ -31,13 +33,46 @@ namespace Serial_Monitor {
                     ((MainWindow)Attached).CommandProcessed += Monitor_CommandProcessed;
                 }
             }
+            SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             AdjustUserInterface();
         }
+
+        private void SystemManager_ChannelRenamed(SerialManager sender) {
+            try {
+                foreach (ListItem Item in lstSelector.Items) {
+                    if (Item.Tag != null) {
+                        if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = ((MonitorObject)Item.Tag);
+                            if (Dobj.ChannelId == sender.ID) {
+                                Dobj.ChannelName = sender.Name;
+                                Item[1].Text  = sender.StateName;
+                            }
+                        }
+                    }
+                }
+                foreach (ListItem Item in lstMonitor.Items) {
+                    if (Item.Tag != null) {
+                        if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = ((MonitorObject)Item.Tag);
+                            if (Dobj.ChannelId == sender.ID) {
+                                Dobj.ChannelName = sender.Name;
+                                Item[1].Text = sender.StateName;
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
+            lstSelector.Invalidate();
+            lstMonitor.Invalidate();
+        }
+
+
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
-            lstMonitor.ScaleColumnWidths();
-            lstSelector.ScaleColumnWidths();
+            //lstMonitor.ScaleColumnWidths();
+            //lstSelector.ScaleColumnWidths();
            
             //pnlMonitor.Panel1.Width = DesignerSetup.ScaleInteger(pnlMonitor.Panel1.Width);
         }
@@ -47,6 +82,7 @@ namespace Serial_Monitor {
                     ((MainWindow)Attached).CommandProcessed -= Monitor_CommandProcessed;
                 }
             }
+            SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;
             lstMonitor.LineRemoveAll();
             lstSelector.LineRemoveAll();
             GC.Collect();
@@ -348,8 +384,8 @@ namespace Serial_Monitor {
             try {
                 foreach (ListItem Lvi in lstMonitor.Items) {
                     if (Lvi.Tag != null) {
-                        if (Lvi.Tag.GetType() == typeof(DataObject)) {
-                            DataObject Dobj = (DataObject)Lvi.Tag;
+                        if (Lvi.Tag.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = (MonitorObject)Lvi.Tag;
                             if (Dobj.Type != MonitorDataType.Actor) {
 
                             }
@@ -382,7 +418,7 @@ namespace Serial_Monitor {
             if (sender == null) { return; } 
             if (sender.GetType() == typeof(Classes.SerialManager)) {
                 SerialManager SerMan = (Classes.SerialManager)sender;
-                string Port = SerMan.PortName;
+                string Port = SerMan.StateName;
                 string Name = "";
                 string Assignment = "";
                 if (Data.Contains("=")) {
@@ -392,19 +428,19 @@ namespace Serial_Monitor {
                 else {
                     Name = Data;
                 }
-                AssignActor(Port, Name, Assignment);
+                AssignActor(SerMan.ID, Port, Name, Assignment);
             }
         }
         #region Adding and Removing Monitor
         bool ActorAdded = false;
-        private void AssignActor(string Port, string Name, string Assignment) {
+        private void AssignActor(string ChannelId, string Port, string Name, string Assignment) {
             bool ItemExists = false;
             try {
                 foreach (ListItem Item in lstSelector.Items) {
                     if (Item.Tag != null) {
-                        if (Item.Tag.GetType() == typeof(DataObject)) {
-                            DataObject Dobj = ((DataObject)Item.Tag);
-                            if ((Dobj.Name == Name) && (Dobj.Port == Port)) {
+                        if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = ((MonitorObject)Item.Tag);
+                            if ((Dobj.Name == Name) && (Dobj.ChannelId == ChannelId)) {
                                 Dobj.Assignment = Assignment;
                                 ItemExists = true;
                                 break;
@@ -419,7 +455,7 @@ namespace Serial_Monitor {
                 LstItem.SubItems.Add(new ListSubItem(Port));
                 LstItem.SubItems.Add(new ListSubItem(Name));
                 LstItem.SubItems.Add(new ListSubItem("Actor"));
-                LstItem.Tag = new DataObject(Port, Name, Assignment);
+                LstItem.Tag = new MonitorObject(ChannelId, Port, Name, Assignment);
                 lstSelector.Items.Add(LstItem);
                 ActorAdded = true;
             }
@@ -427,8 +463,8 @@ namespace Serial_Monitor {
         private void lstSelector_MouseClick(object sender, MouseEventArgs e) {
             foreach (ListItem Item in lstSelector.Items) {
                 if (Item.Tag != null) {
-                    if (Item.Tag.GetType() == typeof(DataObject)) {
-                        DataObject Dobj = ((DataObject)Item.Tag);
+                    if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                        MonitorObject Dobj = ((MonitorObject)Item.Tag);
                         if (Item.CheckedChanged == true) {
                             Item.ResetChangedChanged();
                             if (Item.Checked == true) {
@@ -442,12 +478,12 @@ namespace Serial_Monitor {
                 }
             }
         }
-        private void AddActorToMonitor(DataObject Din) {
+        private void AddActorToMonitor(MonitorObject Din) {
             bool ExistsInList = false;
             foreach (ListItem Item in lstMonitor.Items) {
                 if (Item.Tag != null) {
-                    if (Item.Tag.GetType() == typeof(DataObject)) {
-                        DataObject Dobj = ((DataObject)Item.Tag);
+                    if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                        MonitorObject Dobj = ((MonitorObject)Item.Tag);
                         if (Din.Equals(Dobj)) {
                             ExistsInList = true;
                             break;
@@ -457,7 +493,7 @@ namespace Serial_Monitor {
             }
             if (ExistsInList == false) {
                 ListItem lstItemRegName = new ListItem(Din.Name);
-                ListSubItem lstSubItemPort = new ListSubItem(Din.Port);
+                ListSubItem lstSubItemPort = new ListSubItem(Din.ChannelName);
                 ListSubItem lstSubItemData = new ListSubItem(Din.Assignment);
                 lstSubItemData.Tag = Din.Assignment;
                 ListSubItem lstSubItemDate = new ListSubItem(Din.LastUpdated.ToString("HH:mm:ss"));
@@ -468,14 +504,14 @@ namespace Serial_Monitor {
                 lstMonitor.Items.Add(lstItemRegName);
             }
         }
-        private void DeleteActorToMonitor(DataObject Din) {
+        private void DeleteActorToMonitor(MonitorObject Din) {
             int RemoveIndex = -1;
             for (int i = lstMonitor.Items.Count - 1; i >= 0; i--) {
                 if (lstMonitor.Items[i].Tag != null) {
                     object? Tg = lstMonitor.Items[i].Tag;
                     if (Tg != null) {
-                        if (Tg.GetType() == typeof(DataObject)) {
-                            DataObject Dobj = ((DataObject)Tg);
+                        if (Tg.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = ((MonitorObject)Tg);
                             if (Din.Equals(Dobj)) {
                                 RemoveIndex = i;
                                 lstMonitor.Items.RemoveAt(RemoveIndex);
@@ -492,8 +528,8 @@ namespace Serial_Monitor {
             foreach (ListItem Item in lstSelector.Items) {
                 if (Item.Selected == true) {
                     if (Item.Tag != null) {
-                        if (Item.Tag.GetType() == typeof(DataObject)) {
-                            DataObject Dobj = ((DataObject)Item.Tag);
+                        if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = ((MonitorObject)Item.Tag);
                             Item.Checked = true;
                             if (Item.CheckedChanged == true) {
                                 Item.ResetChangedChanged();
@@ -508,8 +544,8 @@ namespace Serial_Monitor {
             foreach (ListItem Item in lstSelector.Items) {
                 if (Item.Selected == true) {
                     if (Item.Tag != null) {
-                        if (Item.Tag.GetType() == typeof(DataObject)) {
-                            DataObject Dobj = ((DataObject)Item.Tag);
+                        if (Item.Tag.GetType() == typeof(MonitorObject)) {
+                            MonitorObject Dobj = ((MonitorObject)Item.Tag);
                             Item.Checked = false;
                             if (Item.CheckedChanged == true) {
                                 Item.ResetChangedChanged();
@@ -595,63 +631,5 @@ namespace Serial_Monitor {
         ModbusInputRegister = 0x04,
         ModbusHoldingReegister = 0x05
     }
-    public class DataObject {
-        public DataObject(string Port, string Name, string Assignment) {
-            this.port = Port;
-            this.name = Name;
-            this.assignment = Assignment;
-        }
-        public DataObject(string Port, string Name) {
-            this.port = Port;
-            this.name = Name;
-        }
-        MonitorDataType type = MonitorDataType.Actor;
-        public MonitorDataType Type {
-            get { return type; }
-        }
-        string port = "";
-        public string Port {
-            get { return port; }
-            set { port = value; }
-        }
-        string name = "";
-        public string Name {
-            get { return name; }
-            set { name = value; }
-        }
-        DateTime lastUpdated = DateTime.Now;
-        public DateTime LastUpdated {
-            get { return lastUpdated; }
-        }
-        DateTime lastChanged = DateTime.Now;
-        public DateTime LastChanged {
-            get { return lastChanged; }
-        }
-        string assignmentPrevious = "";
-        string assignment = "";
-        public string AssignmentPrevious {
-            get { return assignmentPrevious; }
-        }
-        public void MatchPreviousAssignment() {
-            assignmentPrevious = assignment;
-        }
-        public string Assignment {
-            get { return assignment; }
-            set {
-                assignmentPrevious = assignment;
-                assignment = value;
-                if (assignmentPrevious != value) {
-                    lastChanged = DateTime.Now;
-                }
-                lastUpdated = DateTime.Now;
-            }
-        }
-        public bool Equals(DataObject? Dobj) {
-            if (Dobj == null) { return false; }
-            if ((Dobj.Name == this.name) && (Dobj.Port == this.port)) {
-                return true;
-            }
-            return false;
-        }
-    }
+   
 }

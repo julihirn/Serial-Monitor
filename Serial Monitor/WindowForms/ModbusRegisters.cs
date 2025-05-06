@@ -148,9 +148,7 @@ namespace Serial_Monitor {
 
             editorModbus.lstMonitor.SelectionChanged += LstMonitor_SelectionChanged;
         }
-        private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
-        }
+       
         private void ModbusEditor_ViewUpdated(ListControl LstControl) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 LstControl.Invalidate();
@@ -161,6 +159,7 @@ namespace Serial_Monitor {
             editorModbus.navigator1.SelectedIndexChanged += navigator1_SelectedIndexChanged;
             editorModbus.navigator1.TabRightClicked += navigator1_TabRightClicked;
             editorModbus.lstMonitor.DropDownClicked += lstMonitor_DropDownClicked;
+            editorModbus.lstMonitor.CellSelected += LstMonitor_CellSelected;
             editorModbus.lstMonitor.ItemCheckedChanged += lstMonitor_ItemCheckedChanged;
             editorModbus.lstMonitor.ItemClicked += lstMonitor_ItemClicked;
             editorModbus.lstMonitor.ValueChanged += lstMonitor_ValueChanged;
@@ -175,7 +174,7 @@ namespace Serial_Monitor {
             editorModbus.lstMonitor.ContextMenuStrip = cmMonitor;
         }
 
-
+       
         private void LoadForms() {
             editorModbus.ssClient.CloseAllForms();
             foreach (ModbusSnapshot Snap in ModbusSupport.Snapshots) {
@@ -221,7 +220,7 @@ namespace Serial_Monitor {
             cmDataSize.Padding = DesignerSetup.ScalePadding(cmDataSize.Padding);
             cmDisplayFormats.Padding = DesignerSetup.ScalePadding(cmDisplayFormats.Padding);
             cmMonitor.Padding = DesignerSetup.ScalePadding(cmMonitor.Padding);
-            editorModbus.lstMonitor.ScaleColumnWidths();
+            //editorModbus.lstMonitor.ScaleColumnWidths();
             //modbusEditor1.navigator1.Width = DesignerSetup.ScaleInteger(modbusEditor1.navigator1.Width);
         }
         #endregion 
@@ -924,6 +923,10 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Binary, bitTogglerToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -1135,6 +1138,10 @@ namespace Serial_Monitor {
                 }
             }
         }
+        private void LstMonitor_CellSelected(object sender, CellSelectedEventArgs e) {
+           
+        }
+
         private void lstMonitor_DropDownClicked(object sender, DropDownClickedEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
@@ -1334,9 +1341,9 @@ namespace Serial_Monitor {
         }
         private void AddSelectionToSnapshot() {
             if (CurrentManager == null) { return; }
-            if (editorModbus.lstMonitor.SelectedItems() >= 1) {
+            if (editorModbus.lstMonitor.SelectionCount >= 1) {
                 int Address = editorModbus.lstMonitor.SelectedIndex;
-                int Count = editorModbus.lstMonitor.SelectedItems();
+                int Count = editorModbus.lstMonitor.SelectionCount;
                 bool IsConcurrent = true;
                 int ItemCount = 0;
                 bool LastSelectionStatus = true;
@@ -2295,6 +2302,9 @@ namespace Serial_Monitor {
 
         private void lstMonitor_ItemClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
+        }
+        private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
+            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
         }
         private void lstMonitor_ValueChanged() {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();

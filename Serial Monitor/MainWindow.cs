@@ -453,7 +453,6 @@ namespace Serial_Monitor {
             SystemManager.ChannelDataReceived += SystemManager_ChannelDataReceived;
             SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
             //DetermineTabs();
-            DocumentEdited = false;
 
         }
         private void LoadPlugins() {
@@ -684,7 +683,7 @@ namespace Serial_Monitor {
             cmPrograms.Padding = DesignerSetup.ScalePadding(cmPrograms.Padding);
             cmStepEditor.Padding = DesignerSetup.ScalePadding(cmStepEditor.Padding);
             cmStepPrg.Padding = DesignerSetup.ScalePadding(cmStepPrg.Padding);
-            lstStepProgram.ScaleColumnWidths();
+            //lstStepProgram.ScaleColumnWidths();
             //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
         }
         private void Form1_Deactivate(object? sender, EventArgs e) {

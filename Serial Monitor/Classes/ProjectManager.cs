@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static Serial_Monitor.Classes.Enums.ModbusEnums;
 using DataType = Handlers.DataType;
 
 namespace Serial_Monitor.Classes {
@@ -185,12 +187,15 @@ namespace Serial_Monitor.Classes {
             List<RegisterRequest> RegistersToWrite = Modbus.ModbusSupport.GetModifiedRegisters(Sm, Index);
             bool WriteRegisters = RegistersToWrite.Count > 0;
             bool WriteProperties = false;
-            string Name = "";
+            //string Name = "";
+            List<(string, string)> Properties = new List<(string, string)>();
             if (Index >= 0) {
                 try {
                     if (Sm.Slave.Count > Index) {
                         WriteRegisters = Sm.Slave[Index].Name.Trim().Length > 0;
-                        Name = Sm.Slave[Index].Name;
+                        //Name = Sm.Slave[Index].Name;
+                        Properties.Add(new("Name", Sm.Slave[Index].Name));
+                        Properties.Add(new("AddressFormat", EnumManager.AddressingSystemToString(Sm.Slave[Index].AddressFormat).B));
                         WriteProperties = true;
                     }
                 }
@@ -204,7 +209,8 @@ namespace Serial_Monitor.Classes {
             }
 
             if (WriteProperties) {
-                Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString("Prop, Name = " + StringHandler.EncapsulateString(Name))));
+                WriteRegisterProperties(Sw, 3, Properties);
+                //Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString("Prop, Name = " + StringHandler.EncapsulateString(Name))));
             }
             if (WriteRegisters) {
                 foreach (RegisterRequest Rq in RegistersToWrite) {
@@ -215,6 +221,22 @@ namespace Serial_Monitor.Classes {
                 }
             }
             Sw.WriteLine(StringHandler.AddTabs(2, "}"));
+        }
+        private static void WriteRegisterProperties(StreamWriter Sw, int Tabs, List<(string, string)> Properties) {
+            StringBuilder Sb = new StringBuilder();
+            Sb.Append("Prop, ");
+            int i = 0;
+            foreach((string, string) T in Properties) {
+                Sb.Append(T.Item1);
+                Sb.Append(" = ");
+                Sb.Append(StringHandler.EncapsulateString(T.Item2));
+                if (i != Properties.Count - 1) {
+                    Sb.Append(",");
+                }
+                i++;
+            }
+            Sw.WriteLine(StringHandler.AddTabs(Tabs, StringHandler.EncapsulateString(Sb.ToString())));
+            //Sw.WriteLine(StringHandler.AddTabs(3, StringHandler.EncapsulateString("Prop, Name = " + StringHandler.EncapsulateString(Name))));
         }
         private static void WritePrograms(StreamWriter Sw) {
             if (ProgramManager.Programs.Count > 0) {
@@ -291,6 +313,7 @@ namespace Serial_Monitor.Classes {
                         DocumentHandler.Write(Sw, 2, "Unit", Mss.Manager.Address);
                         DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mss.Selection).B);
                         DocumentHandler.Write(Sw, 2, "ShowUnits", Mss.ShowUnits);
+                        DocumentHandler.Write(Sw, 2, "AddressFormat", EnumManager.AddressingSystemToString(Mss.AddressFormat).B);
 
                         if (Mss.SelectionType == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {
                             DocumentHandler.Write(Sw, 2, "Address", Mss.StartIndex);
@@ -487,7 +510,7 @@ namespace Serial_Monitor.Classes {
             if (DocumentHandler.IsDefinedInParameter("Registers", Pstrc)) {
                 List<string> Data = GetList(Pstrc.GetVariable("Registers", false, DataType.STR));
                 for (int j = 0; j < Data.Count; j++) {
-                    ModbusSupport.DecodeFileRegsisterCommand(Data[j], -1, Sm);
+                    ModbusSupport.DecodeFileRegisterCommand(Data[j], -1, Sm);
                 }
             }
             List<string> RegisterSets = GetListOfVarName("Registers_", Pstrc);
@@ -499,7 +522,7 @@ namespace Serial_Monitor.Classes {
                     Sm.NewSlave(Unit);
                     List<string> Data = GetList(Pstrc.GetVariable(RegList, false, DataType.STR));
                     for (int j = 0; j < Data.Count; j++) {
-                        ModbusSupport.DecodeFileRegsisterCommand(Data[j], Unit, Sm);
+                        ModbusSupport.DecodeFileRegisterCommand(Data[j], Unit, Sm);
                     }
                 }
             }
@@ -560,6 +583,7 @@ namespace Serial_Monitor.Classes {
             SerialManager? Snapshot_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(Pstrc, "Channel", -1));
             int Unit = DocumentHandler.GetIntegerVariable(Pstrc, "Unit", -1);
             bool ShowUnits = DocumentHandler.GetBooleanVariable(Pstrc, "ShowUnits", true);
+            AddressSystem AdrSys = EnumManager.StringToAddressingSystem(DocumentHandler.GetStringVariable("AddressFormat", ""));
             if (Snapshot_Channel != null) {
                 Enums.ModbusEnums.SnapshotSelectionType Snapshot_Selection = EnumManager.ModbusStringToSnapshotType(DocumentHandler.GetStringVariable(Pstrc, "SnapshotType", ""));
                 if (Snapshot_Selection == Enums.ModbusEnums.SnapshotSelectionType.Concurrent) {

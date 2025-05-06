@@ -860,7 +860,6 @@
             column1.ExportName = "";
             column1.FixedWidth = false;
             column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
-            column1.LastDPI = 192F;
             column1.Text = "Step";
             column1.UseItemBackColor = false;
             column1.UseItemForeColor = false;
@@ -876,7 +875,6 @@
             column2.ExportName = "";
             column2.FixedWidth = true;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column2.LastDPI = 192F;
             column2.Text = "";
             column2.UseItemBackColor = false;
             column2.UseItemForeColor = false;
@@ -892,7 +890,6 @@
             column3.ExportName = "";
             column3.FixedWidth = false;
             column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column3.LastDPI = 192F;
             column3.Text = "Command";
             column3.UseItemBackColor = false;
             column3.UseItemForeColor = false;
@@ -908,7 +905,6 @@
             column4.ExportName = "";
             column4.FixedWidth = false;
             column4.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column4.LastDPI = 192F;
             column4.Text = "Arguments";
             column4.UseItemBackColor = false;
             column4.UseItemForeColor = false;
