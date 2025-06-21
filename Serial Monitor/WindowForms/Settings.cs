@@ -35,6 +35,7 @@ namespace Serial_Monitor {
             btngrThemes.IconInline = false;
             hiddenTabControl1.DebugMode = false;
             ScaleLabelPanels(tabPage3);
+            ScaleLabelPanels(tabPage4);
         }
         private void ScaleLabelPanels(object Ctrl) {
             if (Ctrl.GetType() == typeof(TabPage)) {
@@ -364,6 +365,10 @@ namespace Serial_Monitor {
             if (PreventWriting) { return; }
             Properties.Settings.Default.CHAN_OPT_PortDisplay = comboBox2.SelectedIndex;
             Properties.Settings.Default.Save();
+        }
+
+        private void labelPanel8_Paint(object sender, PaintEventArgs e) {
+
         }
     }
 }

@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serial Monitor", "Serial Monitor\Serial Monitor.csproj", "{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serial Monitor Plugin", "Serial Monitor Plugin\Serial Monitor Plugin.csproj", "{526CA10C-1608-446A-9116-2BB1E4D10CFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM32 = Debug|ARM32
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM32 = Release|ARM32
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Debug|x86.Build.0 = Debug|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|ARM32.Build.0 = Release|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|x86.ActiveCfg = Release|Any CPU
+		{61E5EB3A-D2B4-47AD-9CE8-7B31C4500825}.Release|x86.Build.0 = Release|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|ARM32.Build.0 = Release|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{526CA10C-1608-446A-9116-2BB1E4D10CFC}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {917A29D2-31C9-4549-AAB2-632576E09E31}
+	EndGlobalSection
+EndGlobal

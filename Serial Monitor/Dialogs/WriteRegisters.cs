@@ -55,7 +55,7 @@ namespace Serial_Monitor.Dialogs {
         private void AdjustUserInterface() {
             tsFormat.Padding = DesignerSetup.ScalePadding(tsFormat.Padding);
             tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
-            lstRegisters.ScaleColumnWidths();
+            //lstRegisters.ScaleColumnWidths();
         }
         public void ApplyTheme() {
             RecolorAll();

@@ -6,20 +6,8 @@ using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
 using Serial_Monitor.Components;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.DirectoryServices.ActiveDirectory;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static Serial_Monitor.Classes.Enums.ModbusEnums;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor.ToolWindows {
     public partial class Variables : SkinnedForm, Interfaces.ITheme {
@@ -93,10 +81,10 @@ namespace Serial_Monitor.ToolWindows {
             AddIcons();
             ProgramManager.ProgramRemoved += ProgramManager_ProgramRemoved;
             ProgramManager.ArrayChanged += ProgramManager_ArrayChanged;
+            ProgramManager.ArrayModified += ProgramManager_ArrayModified;
             ProgramManager.ProgramEditorChanged += ProgramManager_ProgramEditorChanged;
             ProgramManager.ProgramVariableChanged += ProgramManager_ProgramVariableChanged;
         }
-
         private void ProgramManager_ProgramVariableChanged(ProgramObject? ProgramObj, bool IsGlobal, int Index) {
             if (ProgramObj == null) { return; }
             if (ConversionHandler.DateIntervalDifference(LastUpdate, DateTime.UtcNow, ConversionHandler.Interval.Microsecond) < 1000) { return; }
@@ -159,10 +147,24 @@ namespace Serial_Monitor.ToolWindows {
                     this.BeginInvoke(new MethodInvoker(delegate {
                         this.lstArray.Items.RemoveAt(Index);
                         this.lstArray.Invalidate();
+                        this.ClearControls(lstArray);
                     }));
                 }
-
             }
+        }
+        private void ProgramManager_ArrayModified() {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.ListArray();
+                this.ClearControls(lstArray);
+            }));
+        }
+        private void ClearControls(ListControl LstCtrl) {
+            try {
+                if (LstCtrl.Controls.Count > 0) {
+                    LstCtrl.Controls.Clear();
+                }
+            }
+            catch { }
         }
 
         public void ApplyTheme() {
@@ -171,9 +173,9 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void AdjustUserInterface() {
             tbVars.DebugMode = false;
-            lstArray.ScaleColumnWidths();
-            lstGlobals.ScaleColumnWidths();
-            lstVars.ScaleColumnWidths();
+            //lstArray.ScaleColumnWidths();
+            //lstGlobals.ScaleColumnWidths();
+            //lstVars.ScaleColumnWidths();
 
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
             //navigator1.Width = DesignerSetup.ScaleInteger(navigator1.Width);
@@ -210,6 +212,7 @@ namespace Serial_Monitor.ToolWindows {
         private void Variables_FormClosing(object sender, FormClosingEventArgs e) {
             ProgramManager.ProgramRemoved -= ProgramManager_ProgramRemoved;
             ProgramManager.ArrayChanged -= ProgramManager_ArrayChanged;
+            ProgramManager.ArrayChanged -= ProgramManager_ArrayChanged;
             ProgramManager.ProgramEditorChanged -= ProgramManager_ProgramEditorChanged;
             ProgramManager.ProgramVariableChanged -= ProgramManager_ProgramVariableChanged;
         }
@@ -227,7 +230,7 @@ namespace Serial_Monitor.ToolWindows {
             foreach (ListItem li in List.Items) {
                 if (li.SubItems.Count <= 0) { continue; }
                 if (li.Selected) {
-                    if (i < lstArray.SelectedItems()) {
+                    if (i < lstArray.SelectionCount) {
                         Output += li[2].Text + Constants.NewLineEnv;
                     }
                     else {
@@ -249,7 +252,7 @@ namespace Serial_Monitor.ToolWindows {
             foreach (ListItem li in lstArray.Items) {
                 if (li.SubItems.Count <= 0) { continue; }
                 if (li.Selected) {
-                    if (i < lstArray.SelectedItems()) {
+                    if (i < lstArray.SelectionCount) {
                         Output += li[1].Text + Constants.NewLineEnv;
                     }
                     else {
@@ -298,7 +301,7 @@ namespace Serial_Monitor.ToolWindows {
             if (TempList.Length == 0) { return; }
             TempList = TempList.Replace("\r\n", "\n");
             STR_MVSSF Values = StringHandler.SpiltStringMutipleValues(TempList, '\n');
-            int SelectedCount = lstArray.SelectedItems();
+            int SelectedCount = lstArray.SelectionCount;
             if (SelectedCount == 0) {
                 for (int i = 0; i < Values.Value.Count; i++) {
                     selectedProgram.Array.Add(Values.Value[i]);
@@ -335,7 +338,7 @@ namespace Serial_Monitor.ToolWindows {
             if (TempList.Length == 0) { return; }
             TempList = TempList.Replace("\r\n", "\n");
             STR_MVSSF Values = StringHandler.SpiltStringMutipleValues(TempList, '\n');
-            int SelectedCount = List.SelectedItems();
+            int SelectedCount = List.SelectionCount;
             if (SelectedCount == 0) {
                 for (int i = 0; i < Values.Value.Count; i++) {
                     selectedProgram.Array.Add(Values.Value[i]);
@@ -502,9 +505,6 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void EdVal_ArrowKeyPress(ControlEnums.ArrowKey IsUp) {
           
-        }
-        public void ClearControls(ODModules.ListControl LstCtrl) {
-            LstCtrl.Controls.Clear();
         }
         private void thDataPagesHeader_SelectedIndexChanged(object sender, int CurrentIndex, int PreviousIndex) {
             ClearControls(lstVars);

@@ -2161,6 +2161,7 @@ namespace Serial_Monitor.Classes {
         public bool ScanInProgress {
             get { return Scan_InProgress; }
         }
+        [Browsable(false)]
         public bool ScanCompleted {
             get { return Scan_Completed; }
         }

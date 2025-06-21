@@ -45,7 +45,7 @@
             thSlaves = new ODModules.TabHeader();
             navigator1 = new ODModules.Navigator();
             tpRegisterFiltering = new TabPage();
-            ssClient = new Components.SnapshotClient();
+            ssClient = new Serial_Monitor.Components.SnapshotClient();
             tbDataPages.SuspendLayout();
             tpRegisters.SuspendLayout();
             tpRegisterFiltering.SuspendLayout();
@@ -70,14 +70,15 @@
             thDataPagesHeader.HeaderForeColor = Color.Black;
             thDataPagesHeader.HeaderHoverForeColor = Color.Blue;
             thDataPagesHeader.Location = new Point(0, 0);
+            thDataPagesHeader.Margin = new Padding(6);
             thDataPagesHeader.Name = "thDataPagesHeader";
-            thDataPagesHeader.Padding = new Padding(5, 0, 0, 0);
+            thDataPagesHeader.Padding = new Padding(9, 0, 0, 0);
             thDataPagesHeader.SelectedIndex = 0;
             thDataPagesHeader.ShowAddButton = false;
             thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
             thDataPagesHeader.ShowTabs = true;
-            thDataPagesHeader.Size = new Size(473, 27);
+            thDataPagesHeader.Size = new Size(878, 58);
             thDataPagesHeader.TabBackColor = Color.Transparent;
             thDataPagesHeader.TabBorderColor = Color.Transparent;
             thDataPagesHeader.TabClickedBackColor = Color.DarkGray;
@@ -107,12 +108,12 @@
             tbDataPages.DrawMode = TabDrawMode.OwnerDrawFixed;
             tbDataPages.ForeColor = Color.White;
             tbDataPages.ItemSize = new Size(20, 20);
-            tbDataPages.Location = new Point(0, 27);
+            tbDataPages.Location = new Point(0, 58);
             tbDataPages.Margin = new Padding(0);
             tbDataPages.Multiline = true;
             tbDataPages.Name = "tbDataPages";
             tbDataPages.SelectedIndex = 0;
-            tbDataPages.Size = new Size(473, 352);
+            tbDataPages.Size = new Size(878, 751);
             tbDataPages.TabIndex = 8;
             // 
             // tpRegisters
@@ -122,19 +123,24 @@
             tpRegisters.Controls.Add(navigator1);
             tpRegisters.Font = new Font("Segoe UI", 9F);
             tpRegisters.Location = new Point(4, 24);
+            tpRegisters.Margin = new Padding(6);
             tpRegisters.Name = "tpRegisters";
-            tpRegisters.Size = new Size(465, 324);
+            tpRegisters.Size = new Size(870, 723);
             tpRegisters.TabIndex = 0;
             tpRegisters.Text = "Master View";
             tpRegisters.UseVisualStyleBackColor = true;
             // 
             // lstMonitor
             // 
+            lstMonitor.AllowArrowKeyCellSelect = true;
             lstMonitor.AllowColumnSpanning = false;
             lstMonitor.AllowMouseWheel = true;
             lstMonitor.BackColor = Color.FromArgb(20, 20, 20);
             lstMonitor.BorderColor = Color.Gray;
             lstMonitor.Borders = ODModules.Borders.BottomAndRight;
+            lstMonitor.CellPixelFit = true;
+            lstMonitor.CellSelectEditableOnly = true;
+            lstMonitor.CellSelectionBorderColor = Color.Blue;
             lstMonitor.ColumnColor = Color.FromArgb(30, 30, 30);
             lstMonitor.ColumnForeColor = Color.WhiteSmoke;
             lstMonitor.ColumnLineColor = Color.FromArgb(64, 64, 64);
@@ -256,6 +262,7 @@
             lstMonitor.ExternalItems = null;
             lstMonitor.Filter = null;
             lstMonitor.FilterColumn = 0;
+            lstMonitor.FilterSearchType = ODModules.ListControl.FilterSearch.Contains;
             lstMonitor.ForeColor = Color.White;
             lstMonitor.GridlineColor = Color.FromArgb(30, 30, 30);
             lstMonitor.HighlightStrength = 128;
@@ -312,10 +319,12 @@
             listItem1.Value = 0;
             lstMonitor.Items.Add(listItem1);
             lstMonitor.LineMarkerIndex = 0;
-            lstMonitor.Location = new Point(81, 27);
+            lstMonitor.Location = new Point(150, 58);
+            lstMonitor.Margin = new Padding(6);
             lstMonitor.MarkerBorderColor = Color.LimeGreen;
             lstMonitor.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstMonitor.MarkerStyle = ODModules.MarkerStyleType.Highlight;
+            lstMonitor.MoveControlOnCellChange = true;
             lstMonitor.Name = "lstMonitor";
             lstMonitor.RowColor = Color.FromArgb(23, 23, 23);
             lstMonitor.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
@@ -325,11 +334,12 @@
             lstMonitor.SelectedColor = Color.SteelBlue;
             lstMonitor.SelectionColor = Color.Gray;
             lstMonitor.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lstMonitor.ShowCellSelection = true;
             lstMonitor.ShowGrid = true;
             lstMonitor.ShowItemIndentation = false;
             lstMonitor.ShowMarker = false;
             lstMonitor.ShowRowColors = true;
-            lstMonitor.Size = new Size(384, 297);
+            lstMonitor.Size = new Size(720, 665);
             lstMonitor.SpanColumn = -1;
             lstMonitor.TabIndex = 3;
             lstMonitor.UseLocalList = false;
@@ -354,15 +364,16 @@
             thSlaves.HeaderDownForeColor = Color.Gray;
             thSlaves.HeaderForeColor = Color.Black;
             thSlaves.HeaderHoverForeColor = Color.Blue;
-            thSlaves.Location = new Point(81, 0);
+            thSlaves.Location = new Point(150, 0);
+            thSlaves.Margin = new Padding(6);
             thSlaves.Name = "thSlaves";
-            thSlaves.Padding = new Padding(5, 0, 0, 0);
+            thSlaves.Padding = new Padding(9, 0, 0, 0);
             thSlaves.SelectedIndex = 0;
             thSlaves.ShowAddButton = false;
             thSlaves.ShowHeader = true;
             thSlaves.ShowTabDividers = true;
             thSlaves.ShowTabs = true;
-            thSlaves.Size = new Size(384, 27);
+            thSlaves.Size = new Size(720, 58);
             thSlaves.TabBackColor = Color.Transparent;
             thSlaves.TabBorderColor = Color.Transparent;
             thSlaves.TabClickedBackColor = Color.DarkGray;
@@ -395,6 +406,7 @@
             navigator1.ForeColor = Color.White;
             navigator1.LinkedList = null;
             navigator1.Location = new Point(0, 0);
+            navigator1.Margin = new Padding(6);
             navigator1.MidColor = Color.FromArgb(20, 20, 20);
             navigator1.Name = "navigator1";
             navigator1.SelectedColor = Color.FromArgb(60, 0, 0, 0);
@@ -404,7 +416,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(81, 324);
+            navigator1.Size = new Size(150, 723);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -416,8 +428,9 @@
             tpRegisterFiltering.Controls.Add(ssClient);
             tpRegisterFiltering.Font = new Font("Segoe UI", 9F);
             tpRegisterFiltering.Location = new Point(4, 24);
+            tpRegisterFiltering.Margin = new Padding(6);
             tpRegisterFiltering.Name = "tpRegisterFiltering";
-            tpRegisterFiltering.Size = new Size(465, 324);
+            tpRegisterFiltering.Size = new Size(870, 723);
             tpRegisterFiltering.TabIndex = 1;
             tpRegisterFiltering.Text = "Snapshot View";
             tpRegisterFiltering.UseVisualStyleBackColor = true;
@@ -427,24 +440,26 @@
             ssClient.BorderColor = Color.Gray;
             ssClient.Dock = DockStyle.Fill;
             ssClient.Location = new Point(0, 0);
+            ssClient.Margin = new Padding(11, 13, 11, 13);
             ssClient.Name = "ssClient";
-            ssClient.Padding = new Padding(1);
+            ssClient.Padding = new Padding(2);
             ssClient.SelectorCollection = null;
-            ssClient.Size = new Size(465, 324);
+            ssClient.Size = new Size(870, 723);
             ssClient.TabIndex = 1;
             ssClient.TileWindows = false;
             // 
             // ModbusEditor
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tbDataPages);
             Controls.Add(thDataPagesHeader);
             DockText = "Modbus Editor";
             DoubleBuffered = true;
+            Margin = new Padding(6);
             Name = "ModbusEditor";
             SerializationKey = "mbEditor";
-            Size = new Size(473, 379);
+            Size = new Size(878, 809);
             Load += ModbusEditor_Load;
             tbDataPages.ResumeLayout(false);
             tpRegisters.ResumeLayout(false);

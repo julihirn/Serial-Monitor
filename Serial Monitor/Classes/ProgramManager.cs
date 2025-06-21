@@ -25,6 +25,9 @@ namespace Serial_Monitor.Classes {
     public static class ProgramManager {
         public static Thread? ThreadStepExecutable;
 
+        public static event ProgramArrayModifiedHandler? ArrayModified;
+        public delegate void ProgramArrayModifiedHandler();
+
         public static event ProgramArrayChangedHandler? ArrayChanged;
         public delegate void ProgramArrayChangedHandler(int Index, bool ItemRemoved);
 
@@ -292,7 +295,7 @@ namespace Serial_Monitor.Classes {
                                 CleanAll = true;
                                 if (ProgramStep < CurrentProgram.Program.Count) {
                                     if (CurrentProgram.Program[ProgramStep].SubItems.Count == 3) {
-                                        if (CurrentProgram.GetCommandLineEnabled(ProgramStep)){//.Program[ProgramStep].SubItems[0].Checked == true) {
+                                        if (CurrentProgram.GetCommandLineEnabled(ProgramStep)) {//.Program[ProgramStep].SubItems[0].Checked == true) {
                                             StepEnumerations.StepExecutable Function = CurrentProgram.GetCommandLineCommand(ProgramStep);//StepEnumerations.StepExecutable.NoOperation;
                                             //object? objFunction = CurrentProgram.Program[ProgramStep].SubItems[1].Tag;
                                             string objData = CurrentProgram.GetCommandLineArguments(ProgramStep);//CurrentProgram.Program[ProgramStep].SubItems[2].Text;
@@ -1482,6 +1485,46 @@ namespace Serial_Monitor.Classes {
             if (Program == null) { return (false, new List<string>()); }
             return (true, Program.Array);
         }
+        public static string? GetProgramArrayElement(string ProgramName, int Index) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return GetProgramArrayElement(ProgramName, Index);
+        }
+        public static string? GetProgramArrayElement(ProgramObject? Program, int Index) {
+            if (Program == null) { return null; }
+            if (Program.Array.Count < Index) { return null; }
+            if (Index < 0) { return null; }
+            return Program.Array[Index];
+        }
+        public static int GetProgramArrayElementCount(string ProgramName) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return GetProgramArrayElementCount(SelectedProgram);
+        }
+        public static int GetProgramArrayElementCount(ProgramObject? Program) {
+            if (Program == null) { return -1; }
+            return Program.Array.Count;
+        }
+        public static bool SetProgramArrayElement(string ProgramName, int Index, string Value) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return SetProgramArrayElement(SelectedProgram, Index, Value);
+        }
+        public static bool SetProgramArrayElement(ProgramObject? Program, int Index, string Value) {
+            if (Program == null) { return false; }
+            if (Program.Array.Count < Index) { return false; }
+            if (Index < 0) { return false; }
+            Program.Array[Index] = Value;
+            ArrayModified?.Invoke();
+            return true;
+        }
+        public static bool AddProgramArrayElement(string ProgramName, int Index, string Value) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return SetProgramArrayElement(SelectedProgram, Index, Value);
+        }
+        public static bool AddProgramArrayElement(ProgramObject? Program, string Value) {
+            if (Program == null) { return false; }
+            Program.Array.Add(Value);
+            ArrayModified?.Invoke();
+            return true;
+        }
         public static ProgramObject? GetProgramFromName(string Name) {
             string NameCleaned = Name.TrimStart().TrimEnd();
             foreach (ProgramObject PrgObj in Programs) {
@@ -1517,6 +1560,16 @@ namespace Serial_Monitor.Classes {
             //CurrentEditingProgram.Program.Add(Lip);
             ProgramListingChanged?.Invoke();
 
+        }
+        public static (bool, StepExecutable, string) GetProgramCommandLineData(string ProgramName, int Index) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return GetProgramCommandLineData(SelectedProgram, Index);
+        }
+        public static (bool, StepExecutable, string) GetProgramCommandLineData(ProgramObject? Program, int Index) {
+            if (Program == null) { return (false, StepExecutable.NoOperation, ""); }
+            if (Program.Program.Count < Index) { return (false, StepExecutable.NoOperation, ""); }
+            if (Index < 0) { return (false, StepExecutable.NoOperation, ""); }
+            return (Program.GetCommandLineEnabled(Index), Program.GetCommandLineCommand(Index), Program.GetCommandLineArguments(Index));
         }
         public static bool AddCommandLine(string ProgramName, StepExecutable Command, string Arguments) {
             ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
@@ -1558,6 +1611,70 @@ namespace Serial_Monitor.Classes {
                 }
             }
             return Status;
+        }
+        public static void ClearProgram(ProgramObject? Program) {
+            if (Program == null) { return; }
+            Program.Program.Clear();
+            if (CurrentEditingProgram != null) {
+                if (CurrentEditingProgram.ID == Program.ID) {
+                    ReapplyDisplayFormatting();
+                    ProgramListingChanged?.Invoke();
+                }
+            }
+        }
+        public static void ClearProgram(string ProgramName) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            if (SelectedProgram == null) { return; }
+            SelectedProgram.Program.Clear();
+            if (CurrentEditingProgram != null) {
+                if (CurrentEditingProgram.ID == SelectedProgram.ID) {
+                    ReapplyDisplayFormatting();
+                    ProgramListingChanged?.Invoke();
+                }
+            }
+        }
+     
+        public static List<StepExecutable> GetProgramCommands(string ProgramName, bool IgnoreDisabled = true) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return GetProgramCommands(SelectedProgram, IgnoreDisabled);
+        }
+        public static List<StepExecutable> GetProgramCommands(ProgramObject? Program, bool IgnoreDisabled = true) {
+            if (Program == null) { return new List<StepExecutable>(); }
+            List <StepExecutable> Output = new List<StepExecutable>();
+            for (int i=0;i< Program.Program.Count; i++) {
+                bool Enabled = Program.GetCommandLineEnabled(i);
+                if (IgnoreDisabled) { if (!Enabled) { continue; } }
+                Output.Add(Program.GetCommandLineCommand(i));
+            }
+            return Output;
+        }
+        public static int GetProgramCommandCount(string ProgramName) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return GetProgramCommandCount(SelectedProgram);
+        }
+        public static bool IsProgramCommandEqual(string ProgramName, int Index, StepExecutable Command) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return IsProgramCommandEqual(SelectedProgram, Index, Command);
+        }
+        public static bool IsProgramCommandEqual(ProgramObject? Program, int Index, StepExecutable Command) {
+            if (Program == null) { return false; }
+            if (Program.Program.Count < Index) { return false; }
+            if (Index < 0) { return false; }
+            return Command == Program.GetCommandLineCommand(Index);
+        }
+        public static bool IsProgramCommandEnabled(string ProgramName, int Index) {
+            ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
+            return IsProgramCommandEnabled(SelectedProgram, Index);
+        }
+        public static bool IsProgramCommandEnabled(ProgramObject? Program, int Index) {
+            if (Program == null) { return false; }
+            if (Program.Program.Count < Index) { return false; }
+            if (Index < 0) { return false; }
+            return Program.GetCommandLineEnabled(Index);
+        }
+        public static int GetProgramCommandCount(ProgramObject? Program) {
+            if (Program == null) { return -1; }
+            return Program.Program.Count;
         }
         private static bool AddOrInsertCommand(ProgramObject? SelectedProgram, StepExecutable Command, string Arguments, int AppendLine = -1) {
             bool AcceptsArgumentsStatus = AcceptsArguments(Command);

@@ -1,4 +1,5 @@
-﻿using ODModules;
+﻿using Handlers;
+using ODModules;
 using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Modbus;
@@ -92,7 +93,7 @@ namespace Serial_Monitor.ToolWindows {
             snapshot = snapShot;
             snapshot.SnapshotRenamed += Snapshot_SnapshotRenamed;
             snapshot.SnapshotAddressSystemChanged += Snapshot_SnapshotAddressSystemChanged;
-           
+
             if (lstRegisters.Columns.Count > 0) {
                 lstRegisters.Columns[0].DisplayType = ColumnDisplayType.Text;
                 //    if (snapshot.SelectionType == Classes.Enums.ModbusEnums.SnapshotSelectionType.Custom) {
@@ -150,7 +151,7 @@ namespace Serial_Monitor.ToolWindows {
         private void AdjustUserInterface() {
             cmDataSize.Padding = DesignerSetup.ScalePadding(cmDataSize.Padding);
             cmDisplayFormats.Padding = DesignerSetup.ScalePadding(cmDisplayFormats.Padding);
-            lstRegisters.ScaleColumnWidths();
+            //lstRegisters.ScaleColumnWidths();
         }
         private void SystemManager_ModbusPropertyChanged(ModbusSlave parentManager, object Data, int Index, DataSelection DataType) {
             // lstRegisters.ExternalItems[Index]
@@ -289,22 +290,32 @@ namespace Serial_Monitor.ToolWindows {
                 }
             }
             else if (e.Column == ModbusEditor.Indx_Display) {
-                if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
-                    ModbusEditor.CheckItem(cmDisplayFormats, ((Classes.Modbus.ModbusRegister)DataTag).Format);
-                    cmDisplayFormats.Tag = e;
-                    cmDisplayFormats.Show(ModbusEditor.AddPoint(e));
+                if ((e.Data == null) || (e.Data == "")) {
+                    if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
+                        ModbusEditor.CheckItem(cmDisplayFormats, ((Classes.Modbus.ModbusRegister)DataTag).Format);
+                        cmDisplayFormats.Tag = e;
+                        cmDisplayFormats.Show(ModbusEditor.AddPoint(e));
+                    }
+                    else if (DataTag.GetType() == typeof(ModbusCoil)) {
+                        ModbusEditor.CheckItem(cmCoilFormats, ((ModbusCoil)DataTag).Format);
+                        cmCoilFormats.Tag = e;
+                        cmCoilFormats.Show(ModbusEditor.AddPoint(e));
+                    }
                 }
-                else if (DataTag.GetType() == typeof(ModbusCoil)) {
-                    ModbusEditor.CheckItem(cmCoilFormats, ((ModbusCoil)DataTag).Format);
-                    cmCoilFormats.Tag = e;
-                    cmCoilFormats.Show(ModbusEditor.AddPoint(e));
+                else {
+                    ModbusEditor.ChangeDataFormat(e, lstRegisters, DropDownSearchString, showUnits);
                 }
             }
             else if (e.Column == ModbusEditor.Indx_Size) {
                 if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
-                    ModbusEditor.CheckItem(cmDataSize, ((Classes.Modbus.ModbusRegister)DataTag).Size);
-                    cmDataSize.Tag = e;
-                    cmDataSize.Show(ModbusEditor.AddPoint(e));
+                    if ((e.Data == null) || (e.Data == "")) {
+                        ModbusEditor.CheckItem(cmDataSize, ((Classes.Modbus.ModbusRegister)DataTag).Size);
+                        cmDataSize.Tag = e;
+                        cmDataSize.Show(ModbusEditor.AddPoint(e));
+                    }
+                    else {
+                        ModbusEditor.ChangeDataSize(e, lstRegisters, DropDownSearchString, showUnits);
+                    }
                 }
             }
             else if (e.Column == ModbusEditor.Indx_Value) {
@@ -325,7 +336,7 @@ namespace Serial_Monitor.ToolWindows {
                 else if (DataTag.GetType() == typeof(Classes.Modbus.ModbusRegister)) {
                     if (snapshot != null) {
                         if (ModbusEditor.CanChangeValue(snapshot.Manager.Channel, ((Classes.Modbus.ModbusRegister)DataTag).ComponentType) == false) { return; }
-                        ModbusEditor.AddValueBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
+                        ModbusEditor.AddValueBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, e.Data, true);
                     }
                 }
             }
@@ -394,7 +405,7 @@ namespace Serial_Monitor.ToolWindows {
             if (ButtonData == null) { return; }
             if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
             DataFormat Frmt = (DataFormat)ButtonData;
-            
+
             if (Data.GetType() == typeof(DropDownClickedEventArgs)) {
                 DropDownClickedEventArgs Args = (DropDownClickedEventArgs)Data;
                 if (Args.ParentItem == null) { return; }
@@ -472,6 +483,39 @@ namespace Serial_Monitor.ToolWindows {
 
         private void lstRegisters_SelectionChanged(object sender, SelectedItemsEventArgs e) {
             ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
+        }
+
+        private void lstRegisters_CellSelected(object sender, CellSelectedEventArgs e) {
+            ListItem? LstItem = e.ParentItem;
+            if (LstItem == null) { return; }
+            object? DataTag = LstItem.Tag;
+            if (DataTag == null) { return; }
+            // if (LstItem.SubItems.Count < 8) { return; }
+            ModbusEditor.RemoveAllControls(lstRegisters);
+        }
+        DateTime LastKeyDown = DateTime.MinValue;
+        string DropDownSearchString = "";
+        int LastSelectedCell = -1;
+        int LastSelectedRow = -1;
+        private void lstRegisters_KeyPress(object sender, KeyPressEventArgs e) {
+            if ((e.KeyChar == ' ') || (e.KeyChar == '\r')) {
+                lstRegisters.SelectDropForward(0, 0, true);
+            }
+            if (Char.IsLetterOrDigit(e.KeyChar)) {
+                if ((lstRegisters.SelectedCell.X == ModbusEditor.Indx_Size) || (lstRegisters.SelectedCell.X == ModbusEditor.Indx_Display)) {
+                    if (ConversionHandler.DateIntervalDifference(LastKeyDown, DateTime.UtcNow, ConversionHandler.Interval.Second) > 1) {
+                        DropDownSearchString = "";
+                    }
+                    if ((LastSelectedCell != lstRegisters.SelectedCell.X) || (LastSelectedRow != lstRegisters.SelectedCell.Y)) {
+                        DropDownSearchString = "";
+                    }
+                    LastSelectedCell = lstRegisters.SelectedCell.X;
+                    LastSelectedRow = lstRegisters.SelectedCell.Y;
+                    DropDownSearchString += e.KeyChar;
+                    LastKeyDown = DateTime.UtcNow;
+                }
+                lstRegisters.SelectDropForward(0, 0, true, e.KeyChar.ToString());
+            }
         }
     }
 }

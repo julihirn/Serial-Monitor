@@ -147,10 +147,11 @@ namespace Serial_Monitor {
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
 
             editorModbus.lstMonitor.SelectionChanged += LstMonitor_SelectionChanged;
+            editorModbus.lstMonitor.CellSelected += LstMonitor_CellSelected;
+            editorModbus.lstMonitor.KeyPress += LstMonitor_KeyPress;
         }
-        private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
-        }
+
+
         private void ModbusEditor_ViewUpdated(ListControl LstControl) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 LstControl.Invalidate();
@@ -161,6 +162,7 @@ namespace Serial_Monitor {
             editorModbus.navigator1.SelectedIndexChanged += navigator1_SelectedIndexChanged;
             editorModbus.navigator1.TabRightClicked += navigator1_TabRightClicked;
             editorModbus.lstMonitor.DropDownClicked += lstMonitor_DropDownClicked;
+            editorModbus.lstMonitor.CellSelected += LstMonitor_CellSelected;
             editorModbus.lstMonitor.ItemCheckedChanged += lstMonitor_ItemCheckedChanged;
             editorModbus.lstMonitor.ItemClicked += lstMonitor_ItemClicked;
             editorModbus.lstMonitor.ValueChanged += lstMonitor_ValueChanged;
@@ -221,7 +223,7 @@ namespace Serial_Monitor {
             cmDataSize.Padding = DesignerSetup.ScalePadding(cmDataSize.Padding);
             cmDisplayFormats.Padding = DesignerSetup.ScalePadding(cmDisplayFormats.Padding);
             cmMonitor.Padding = DesignerSetup.ScalePadding(cmMonitor.Padding);
-            editorModbus.lstMonitor.ScaleColumnWidths();
+            //editorModbus.lstMonitor.ScaleColumnWidths();
             //modbusEditor1.navigator1.Width = DesignerSetup.ScaleInteger(modbusEditor1.navigator1.Width);
         }
         #endregion 
@@ -287,6 +289,7 @@ namespace Serial_Monitor {
                 SetEditors();
                 ClearEditors();
                 ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
+
                 ModbusEditor.LoadRegisters(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 ModbusEditor.ApplyAddressChanges(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
                 CheckModbusDataSelection();
@@ -726,7 +729,8 @@ namespace Serial_Monitor {
             if (CurrentManager == null) { return; }
             if (parentManager.Channel == null) { return; }
             if (CurrentManager.ID != parentManager.Channel.ID) { return; }
-            if (Slave != parentManager.Address) { return; };
+            if (Slave != parentManager.Address) { return; }
+            ;
             try {
                 if (editorModbus.lstMonitor.CurrentItems[Index].SubItems.Count <= ModbusEditor.Indx_LastUpdated) {
                     switch (dataSet) {
@@ -923,6 +927,10 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Binary, bitTogglerToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -1135,6 +1143,39 @@ namespace Serial_Monitor {
                 }
             }
         }
+        DateTime LastKeyDown = DateTime.MinValue;
+        string DropDownSearchString = "";
+        int LastSelectedCell = -1;
+        int LastSelectedRow = -1;
+        private void LstMonitor_KeyPress(object? sender, KeyPressEventArgs e) {
+            if ((e.KeyChar == ' ') || (e.KeyChar == '\r')) {
+                editorModbus.lstMonitor.SelectDropForward(0, 0, true);
+            }
+            if (Char.IsLetterOrDigit(e.KeyChar)) {
+                if ((editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Size)||(editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Display)) {
+                    if (ConversionHandler.DateIntervalDifference(LastKeyDown, DateTime.UtcNow, ConversionHandler.Interval.Second) > 1) {
+                        DropDownSearchString = "";
+                    }
+                    if ((LastSelectedCell!= editorModbus.lstMonitor.SelectedCell.X)||(LastSelectedRow != editorModbus.lstMonitor.SelectedCell.Y)) {
+                        DropDownSearchString = "";
+                    }
+                    LastSelectedCell = editorModbus.lstMonitor.SelectedCell.X;
+                    LastSelectedRow = editorModbus.lstMonitor.SelectedCell.Y;
+                    DropDownSearchString += e.KeyChar;
+                    LastKeyDown = DateTime.UtcNow;
+                }
+                editorModbus.lstMonitor.SelectDropForward(0, 0, true, e.KeyChar.ToString());
+            }
+        }
+
+        private void LstMonitor_CellSelected(object sender, CellSelectedEventArgs e) {
+            ListItem? LstItem = e.ParentItem;
+            if (LstItem == null) { return; }
+            object? DataTag = LstItem.Tag;
+            if (DataTag == null) { return; }
+            // if (LstItem.SubItems.Count < 8) { return; }
+            ModbusEditor.RemoveAllControls(editorModbus.lstMonitor);
+        }
         private void lstMonitor_DropDownClicked(object sender, DropDownClickedEventArgs e) {
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
@@ -1146,22 +1187,35 @@ namespace Serial_Monitor {
                 ModbusEditor.AddRenameBox(e, editorModbus.lstMonitor, DataSet, EdVal_ArrowKeyPress);
             }
             else if (e.Column == ModbusEditor.Indx_Display) {
-                if (DataTag.GetType() == typeof(ModbusRegister)) {
-                    ModbusEditor.CheckItem(cmDisplayFormats, ((ModbusRegister)DataTag).Format);
-                    cmDisplayFormats.Tag = e;
-                    cmDisplayFormats.Show(ModbusEditor.AddPoint(e));
+                if ((e.Data == null)||(e.Data == "")) {
+                    if (DataTag.GetType() == typeof(ModbusRegister)) {
+                        ModbusEditor.CheckItem(cmDisplayFormats, ((ModbusRegister)DataTag).Format);
+                        cmDisplayFormats.Tag = e;
+                        cmDisplayFormats.Show(ModbusEditor.AddPoint(e));
+                    }
+                    else if (DataTag.GetType() == typeof(ModbusCoil)) {
+                        ModbusEditor.CheckItem(cmCoilFormats, ((ModbusCoil)DataTag).Format);
+                        cmCoilFormats.Tag = e;
+                        cmCoilFormats.Show(ModbusEditor.AddPoint(e));
+                    }
                 }
-                else if (DataTag.GetType() == typeof(ModbusCoil)) {
-                    ModbusEditor.CheckItem(cmCoilFormats, ((ModbusCoil)DataTag).Format);
-                    cmCoilFormats.Tag = e;
-                    cmCoilFormats.Show(ModbusEditor.AddPoint(e));
+                else {
+                    ModbusEditor.ChangeDataFormat(e, editorModbus.lstMonitor, DropDownSearchString, GetCurrentShowUnits());
                 }
+            }
+            else if (e.Column == ModbusEditor.Indx_Signed) {
+
             }
             else if (e.Column == ModbusEditor.Indx_Size) {
                 if (DataTag.GetType() == typeof(ModbusRegister)) {
-                    ModbusEditor.CheckItem(cmDataSize, ((ModbusRegister)DataTag).Size);
-                    cmDataSize.Tag = e;
-                    cmDataSize.Show(ModbusEditor.AddPoint(e));
+                    if ((e.Data == null) || (e.Data == "")) {
+                        ModbusEditor.CheckItem(cmDataSize, ((ModbusRegister)DataTag).Size);
+                        cmDataSize.Tag = e;
+                        cmDataSize.Show(ModbusEditor.AddPoint(e));
+                    }
+                    else {
+                        ModbusEditor.ChangeDataSize(e, editorModbus.lstMonitor, DropDownSearchString, GetCurrentShowUnits());
+                    }
                 }
             }
             else if (e.Column == ModbusEditor.Indx_Value) {
@@ -1180,7 +1234,7 @@ namespace Serial_Monitor {
                 }
                 else if (DataTag.GetType() == typeof(ModbusRegister)) {
                     if (ModbusEditor.CanChangeValue(CurrentManager, ((ModbusRegister)DataTag).ComponentType) == false) { return; }
-                    ModbusEditor.AddValueBox(e, editorModbus.lstMonitor, DataSet, EdVal_ArrowKeyPress);
+                    ModbusEditor.AddValueBox(e, editorModbus.lstMonitor, DataSet, EdVal_ArrowKeyPress, e.Data);
                 }
             }
             editorModbus.lstMonitor.Invalidate();
@@ -1334,9 +1388,9 @@ namespace Serial_Monitor {
         }
         private void AddSelectionToSnapshot() {
             if (CurrentManager == null) { return; }
-            if (editorModbus.lstMonitor.SelectedItems() >= 1) {
+            if (editorModbus.lstMonitor.SelectionCount >= 1) {
                 int Address = editorModbus.lstMonitor.SelectedIndex;
-                int Count = editorModbus.lstMonitor.SelectedItems();
+                int Count = editorModbus.lstMonitor.SelectionCount;
                 bool IsConcurrent = true;
                 int ItemCount = 0;
                 bool LastSelectionStatus = true;
@@ -2295,6 +2349,9 @@ namespace Serial_Monitor {
 
         private void lstMonitor_ItemClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
+        }
+        private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
+            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
         }
         private void lstMonitor_ValueChanged() {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();

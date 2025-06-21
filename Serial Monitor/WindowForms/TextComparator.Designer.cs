@@ -216,7 +216,6 @@
             column1.ExportName = "";
             column1.FixedWidth = false;
             column1.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column1.LastDPI = 192F;
             column1.Text = "Property";
             column1.UseItemBackColor = false;
             column1.UseItemForeColor = false;
@@ -232,7 +231,6 @@
             column2.ExportName = "";
             column2.FixedWidth = false;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Right;
-            column2.LastDPI = 192F;
             column2.Text = "Value";
             column2.UseItemBackColor = false;
             column2.UseItemForeColor = false;

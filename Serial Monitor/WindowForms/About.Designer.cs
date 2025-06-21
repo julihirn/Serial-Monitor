@@ -183,6 +183,7 @@
             Controls.Add(panel1);
             Controls.Add(aboutBanner1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Location = new Point(0, 0);
             Margin = new Padding(6);
             Name = "About";
             Text = "About";

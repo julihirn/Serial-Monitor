@@ -125,7 +125,7 @@ namespace Serial_Monitor.Classes.Theming {
                 LstCtrl.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
                 LstCtrl.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
                 LstCtrl.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-
+                LstCtrl.CellSelectionBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
                 LstCtrl.DropDownMouseDown = Properties.Settings.Default.THM_COL_MouseDownForeColor;
                 LstCtrl.DropDownMouseOver = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }
