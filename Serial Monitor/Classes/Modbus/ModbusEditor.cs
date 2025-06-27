@@ -524,6 +524,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             lstMonitor.ResetCellSelection();
+            lstMonitor.Invalidate();
         }
         public static void ApplyAddressChanges(ListControl? lstMonitor, SerialManager? Channel, DataSelection Selection, int Slave) {
             if (lstMonitor == null) { return; }

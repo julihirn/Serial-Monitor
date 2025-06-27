@@ -176,7 +176,7 @@
             newUnitToolStripMenuItem = new ToolStripMenuItem();
             removeUnitToolStripMenuItem = new ToolStripMenuItem();
             renameUnitToolStripMenuItem = new ToolStripMenuItem();
-            editorModbus = new Docks.ModbusEditor();
+            editorModbus = new Serial_Monitor.Docks.ModbusEditor();
             pnlDocker = new ODModules.Docking.DockPanel();
             tmrRefresh = new System.Windows.Forms.Timer(components);
             contextMenu1 = new ODModules.ContextMenu();
