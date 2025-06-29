@@ -41,7 +41,7 @@
             // 
             // aboutBanner1
             // 
-            aboutBanner1.BackColor = Color.FromArgb(16, 16, 16);
+            aboutBanner1.BackColor = Color.FromArgb(30, 30, 30);
             aboutBanner1.BrandFont = new Font("Segoe UI Semilight", 15.75F);
             aboutBanner1.BrandSecondaryFont = new Font("Segoe UI", 9F);
             aboutBanner1.BrandSecondaryText = "";
@@ -177,11 +177,13 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(224, 224, 224);
+            BackColor = Color.Black;
             ClientSize = new Size(676, 727);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(aboutBanner1);
+            DoubleBuffered = true;
+            ForeColor = Color.FromArgb(224, 224, 224);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Location = new Point(0, 0);
             Margin = new Padding(6);

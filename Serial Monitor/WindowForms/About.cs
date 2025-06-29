@@ -1,8 +1,12 @@
-﻿using System;
+﻿using ODModules;
+using Serial_Monitor.Classes.Button_Commands;
+using Serial_Monitor.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Serial_Monitor {
-    public partial class About : Components.SkinnedForm {
+    public partial class About : Components.SkinnedForm, Interfaces.ITheme, Interfaces.Application.IGenerics {
         public About() {
             InitializeComponent();
         }
@@ -21,8 +25,9 @@ namespace Serial_Monitor {
             lblCompany.Text = Application.CompanyName;
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-
+      
             GetLoadedAssemblies();
+            RecolorAll();
             lblVersion.Text = "Version " + fvi.ProductMajorPart + "." + fvi.ProductMinorPart.ToString() + " (Build " + fvi.ProductBuildPart.ToString() + ")";
             lblCopyright.Text = fvi.LegalCopyright + AllRightsReserved;
         }
@@ -67,6 +72,36 @@ namespace Serial_Monitor {
         }
         private void About_FormClosed(object sender, FormClosedEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
+        }
+
+        public void ApplyTheme() {
+
+            RecolorAll();
+        }
+        private void RecolorAll() {
+            BackColor = Properties.Settings.Default.THM_COL_Editor;
+            aboutBanner1.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            aboutBanner1.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
+            ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
+            foreach(Control Ctrl in panel1.Controls) {
+                if (Ctrl.GetType() == typeof(Label)) {
+                    ((Label)Ctrl).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+            }
+            foreach (Control Ctrl in pnlLoadedAssemblies.Controls) {
+                if (Ctrl.GetType() == typeof(Label)) {
+                    ((Label)Ctrl).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                }
+            }
+        }
+        bool TopMostState = false;
+        public void SetTopMost(bool State) {
+            TopMostState = State;
+            //topMostToolStripMenuItem.Checked = TopMostState;
+            this.TopMost = State;
         }
     }
 }
