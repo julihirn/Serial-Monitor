@@ -28,7 +28,7 @@ namespace Serial_Monitor {
             int PadRight = (int)((decimal)Input.Right * Scaling);
             int PadTop = (int)((decimal)Input.Top * Scaling);
             int PadBottom = (int)((decimal)Input.Bottom * Scaling);
-            return new Padding(PadLeft, PadTop,PadRight,PadBottom);
+            return new Padding(PadLeft, PadTop, PadRight, PadBottom);
         }
         public static Size GetSize(IconSize IconSz) {
             if (IconSz == IconSize.Small) {
@@ -148,7 +148,7 @@ namespace Serial_Monitor {
             Large = 0x02,
             VeryLarge = 0x03
         }
-        
+
         [DllImport("dwmapi.dll")]
         private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
 
@@ -199,6 +199,80 @@ namespace Serial_Monitor {
             //byte alphaColor = (byte)((0xFF000000 & colorSetEx) >> 24);
             return Color.FromArgb(redColor, greenColor, blueColor);
         }
+
+        static Color RotateHue180(Color c) {
+            // Convert to HSL
+            float hue = c.GetHue();       // 0-360
+            float sat = c.GetSaturation(); // 0-1
+            float bri = c.GetBrightness(); // 0-1
+
+            // Rotate hue
+            hue = (hue + 180f) % 360f;
+
+            // Convert back using Color.GetHue()/FromAhsb helper
+            return FromAhsb(c.A, hue, sat, bri);
+        }
+
+        static Color InvertColor(Color c) {
+            return Color.FromArgb(c.A, 255 - c.R, 255 - c.G, 255 - c.B);
+        }
+        public static Color InvertAndRotate180(Color c) {
+            Color inverted = InvertColor(c);
+            return RotateHue180(inverted);
+        }
+        public static Color FromAhsb(int a, float h, float s, float b) {
+            if (0 > h || 360 < h) throw new ArgumentOutOfRangeException(nameof(h));
+            if (0 > s || 1 < s) throw new ArgumentOutOfRangeException(nameof(s));
+            if (0 > b || 1 < b) throw new ArgumentOutOfRangeException(nameof(b));
+
+            if (0 == s) {
+                int v = (int)(b * 255);
+                return Color.FromArgb(a, v, v, v);
+            }
+
+            float fMax, fMid, fMin;
+            int iSextant, iMax, iMid, iMin;
+
+            if (0.5 < b) {
+                fMax = b - (b * s) + s;
+                fMin = b + (b * s) - s;
+            }
+            else {
+                fMax = b + (b * s);
+                fMin = b - (b * s);
+            }
+
+            iSextant = (int)Math.Floor(h / 60f);
+            if (300f <= h) h -= 360f;
+            h /= 60f;
+            h -= 2f * (float)Math.Floor(((iSextant + 1f) % 6f) / 2f);
+            if (0 == iSextant % 2) {
+                fMid = h * (fMax - fMin) + fMin;
+            }
+            else {
+                fMid = fMin - h * (fMax - fMin);
+            }
+
+            iMax = (int)(fMax * 255);
+            iMid = (int)(fMid * 255);
+            iMin = (int)(fMin * 255);
+
+            switch (iSextant) {
+                case 1:
+                    return Color.FromArgb(a, iMid, iMax, iMin);
+                case 2:
+                    return Color.FromArgb(a, iMin, iMax, iMid);
+                case 3:
+                    return Color.FromArgb(a, iMin, iMid, iMax);
+                case 4:
+                    return Color.FromArgb(a, iMid, iMin, iMax);
+                case 5:
+                    return Color.FromArgb(a, iMax, iMin, iMid);
+                default:
+                    return Color.FromArgb(a, iMax, iMid, iMin);
+            }
+        }
+
 
     }
 }

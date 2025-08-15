@@ -130,13 +130,13 @@ namespace Serial_Monitor.Classes.Modbus {
                     Values.Add(TagData("Name", Current.Name));
                 }
                 if (Current.UseBackColor) {
-                    Values.Add(TagData("BackColor", Current.BackColor.ToArgb()));
+                    Values.Add(TagData("BackColor", Current.GetThemeIndependantBackColor().ToArgb()));
                 }
                 if (Current.Format != Enums.ModbusEnums.CoilFormat.Boolean) {
                     Values.Add(TagData("Format", EnumManager.CoilFormatToString(Current.Format).B));
                 }
                 if (Current.UseForeColor) {
-                    Values.Add(TagData("ForeColor", Current.ForeColor.ToArgb()));
+                    Values.Add(TagData("ForeColor", Current.GetThemeIndependantForeColor().ToArgb()));
                 }
                 Values.Add(TagData("Value", Current.Value));
 
@@ -171,10 +171,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 Values.Add(TagData("Signed", Current.Signed));
                 Values.Add(TagData("Value", Current.Value));
                 if (Current.UseBackColor) {
-                    Values.Add(TagData("BackColor", Current.BackColor.ToArgb()));
+                    Values.Add(TagData("BackColor", Current.GetThemeIndependantBackColor().ToArgb()));
                 }
                 if (Current.UseForeColor) {
-                    Values.Add(TagData("ForeColor", Current.ForeColor.ToArgb()));
+                    Values.Add(TagData("ForeColor", Current.GetThemeIndependantForeColor().ToArgb()));
                 }
                 Output = GenerateCommaSeperatedValues(Values);
             }

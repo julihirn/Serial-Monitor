@@ -83,7 +83,7 @@
             panel2.Controls.Add(btnAccept);
             panel2.Dock = DockStyle.Bottom;
             panel2.Location = new Point(19, 749);
-            panel2.Margin = new Padding(6, 6, 6, 6);
+            panel2.Margin = new Padding(6);
             panel2.Name = "panel2";
             panel2.Size = new Size(489, 85);
             panel2.TabIndex = 15;
@@ -112,8 +112,8 @@
             btnCancel.BorderRadius = 5;
             btnCancel.Checked = false;
             btnCancel.GroupMaximumChecked = 2;
-            btnCancel.Location = new Point(307, 26);
-            btnCancel.Margin = new Padding(6, 6, 6, 6);
+            btnCancel.Location = new Point(307, 11);
+            btnCancel.Margin = new Padding(6);
             btnCancel.Name = "btnCancel";
             btnCancel.RadioButtonGroup = "";
             btnCancel.SecondaryFont = new Font("Segoe UI", 9F);
@@ -151,8 +151,8 @@
             btnAccept.BorderRadius = 5;
             btnAccept.Checked = false;
             btnAccept.GroupMaximumChecked = 2;
-            btnAccept.Location = new Point(123, 26);
-            btnAccept.Margin = new Padding(6, 6, 6, 6);
+            btnAccept.Location = new Point(123, 11);
+            btnAccept.Margin = new Padding(6);
             btnAccept.Name = "btnAccept";
             btnAccept.RadioButtonGroup = "";
             btnAccept.SecondaryFont = new Font("Segoe UI", 9F);
@@ -188,7 +188,7 @@
             lblpnlRegisters.LabelFont = new Font("Segoe UI", 8F);
             lblpnlRegisters.LabelForeColor = Color.WhiteSmoke;
             lblpnlRegisters.Location = new Point(19, 21);
-            lblpnlRegisters.Margin = new Padding(6, 6, 6, 6);
+            lblpnlRegisters.Margin = new Padding(6);
             lblpnlRegisters.Name = "lblpnlRegisters";
             lblpnlRegisters.OverrideCollapseControl = false;
             lblpnlRegisters.Padding = new Padding(9, 41, 9, 11);
@@ -221,7 +221,7 @@
             lblpnlQuantity.LabelFont = new Font("Segoe UI", 8F);
             lblpnlQuantity.LabelForeColor = Color.Black;
             lblpnlQuantity.Location = new Point(9, 148);
-            lblpnlQuantity.Margin = new Padding(6, 6, 6, 6);
+            lblpnlQuantity.Margin = new Padding(6);
             lblpnlQuantity.Name = "lblpnlQuantity";
             lblpnlQuantity.OverrideCollapseControl = false;
             lblpnlQuantity.Padding = new Padding(127, 11, 0, 11);
@@ -259,7 +259,7 @@
             numtxtAddress.LabelForeColor = Color.Gray;
             numtxtAddress.LabelText = "";
             numtxtAddress.Location = new Point(127, 11);
-            numtxtAddress.Margin = new Padding(6, 6, 6, 6);
+            numtxtAddress.Margin = new Padding(6);
             numtxtAddress.Marked = false;
             numtxtAddress.MarkedBackColor = Color.Empty;
             numtxtAddress.MarkedBorderColor = Color.Beige;
@@ -309,7 +309,7 @@
             lblpnlAddress.LabelFont = new Font("Segoe UI", 8F);
             lblpnlAddress.LabelForeColor = Color.Black;
             lblpnlAddress.Location = new Point(9, 103);
-            lblpnlAddress.Margin = new Padding(6, 6, 6, 6);
+            lblpnlAddress.Margin = new Padding(6);
             lblpnlAddress.Name = "lblpnlAddress";
             lblpnlAddress.OverrideCollapseControl = false;
             lblpnlAddress.Padding = new Padding(127, 11, 0, 11);
@@ -347,7 +347,7 @@
             numtxtUnit.LabelForeColor = Color.Gray;
             numtxtUnit.LabelText = "";
             numtxtUnit.Location = new Point(127, 11);
-            numtxtUnit.Margin = new Padding(6, 6, 6, 6);
+            numtxtUnit.Margin = new Padding(6);
             numtxtUnit.Marked = false;
             numtxtUnit.MarkedBackColor = Color.Empty;
             numtxtUnit.MarkedBorderColor = Color.Beige;
@@ -396,7 +396,7 @@
             labelPanel1.LabelFont = new Font("Segoe UI", 8F);
             labelPanel1.LabelForeColor = Color.Black;
             labelPanel1.Location = new Point(9, 41);
-            labelPanel1.Margin = new Padding(6, 6, 6, 6);
+            labelPanel1.Margin = new Padding(6);
             labelPanel1.Name = "labelPanel1";
             labelPanel1.OverrideCollapseControl = false;
             labelPanel1.Padding = new Padding(127, 11, 0, 11);
@@ -415,7 +415,7 @@
             cmbxDataSet.Dock = DockStyle.Top;
             cmbxDataSet.FormattingEnabled = true;
             cmbxDataSet.Location = new Point(127, 11);
-            cmbxDataSet.Margin = new Padding(6, 6, 6, 6);
+            cmbxDataSet.Margin = new Padding(6);
             cmbxDataSet.Name = "cmbxDataSet";
             cmbxDataSet.Size = new Size(344, 40);
             cmbxDataSet.TabIndex = 0;
@@ -440,7 +440,7 @@
             lblpnlValue.LabelFont = new Font("Segoe UI", 8F);
             lblpnlValue.LabelForeColor = Color.WhiteSmoke;
             lblpnlValue.Location = new Point(19, 319);
-            lblpnlValue.Margin = new Padding(6, 6, 6, 6);
+            lblpnlValue.Margin = new Padding(6);
             lblpnlValue.Name = "lblpnlValue";
             lblpnlValue.OverrideCollapseControl = false;
             lblpnlValue.Padding = new Padding(0, 41, 0, 0);
@@ -455,10 +455,16 @@
             // 
             // lstRegisters
             // 
+            lstRegisters.AllowArrowKeyCellSelect = true;
             lstRegisters.AllowColumnSpanning = true;
             lstRegisters.AllowMouseWheel = true;
             lstRegisters.BorderColor = Color.Gray;
             lstRegisters.Borders = ODModules.Borders.None;
+            lstRegisters.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            lstRegisters.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
+            lstRegisters.CellPixelFit = true;
+            lstRegisters.CellSelectEditableOnly = true;
+            lstRegisters.CellSelectionBorderColor = Color.Blue;
             lstRegisters.ColumnColor = Color.LightGray;
             lstRegisters.ColumnForeColor = Color.Black;
             lstRegisters.ColumnLineColor = Color.DimGray;
@@ -491,7 +497,7 @@
             column2.UseItemBackColor = false;
             column2.UseItemForeColor = false;
             column2.Visible = true;
-            column2.Width = 409;
+            column2.Width = 164;
             lstRegisters.Columns.Add(column1);
             lstRegisters.Columns.Add(column2);
             lstRegisters.Dock = DockStyle.Fill;
@@ -500,16 +506,18 @@
             lstRegisters.ExternalItems = null;
             lstRegisters.Filter = null;
             lstRegisters.FilterColumn = 0;
+            lstRegisters.FilterSearchType = ODModules.ListControl.FilterSearch.Contains;
             lstRegisters.GridlineColor = Color.LightGray;
             lstRegisters.HighlightStrength = 128;
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
             lstRegisters.Location = new Point(0, 83);
-            lstRegisters.Margin = new Padding(6, 6, 6, 6);
+            lstRegisters.Margin = new Padding(6);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstRegisters.MarkerStyle = ODModules.MarkerStyleType.Highlight;
+            lstRegisters.MoveControlOnCellChange = true;
             lstRegisters.Name = "lstRegisters";
             lstRegisters.RowColor = Color.LightGray;
             lstRegisters.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
@@ -519,7 +527,8 @@
             lstRegisters.SelectedColor = Color.SkyBlue;
             lstRegisters.SelectionColor = Color.Gray;
             lstRegisters.ShadowColor = Color.FromArgb(128, 0, 0, 0);
-            lstRegisters.ShowGrid = false;
+            lstRegisters.ShowCellSelection = true;
+            lstRegisters.ShowGrid = true;
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = false;
@@ -530,6 +539,11 @@
             lstRegisters.VerScroll = 0;
             lstRegisters.Zoom = 100;
             lstRegisters.DropDownClicked += lstRegisters_DropDownClicked;
+            lstRegisters.ItemClicked += lstRegisters_ItemClicked;
+            lstRegisters.SelectionChanged += lstRegisters_SelectionChanged;
+            lstRegisters.CellSelected += lstRegisters_CellSelected;
+            lstRegisters.ValueChanged += lstRegisters_ValueChanged;
+            lstRegisters.KeyPress += lstRegisters_KeyPress;
             // 
             // tsMain
             // 
@@ -723,7 +737,7 @@
             lblpnlFormat.LabelFont = new Font("Segoe UI", 8F);
             lblpnlFormat.LabelForeColor = Color.WhiteSmoke;
             lblpnlFormat.Location = new Point(19, 225);
-            lblpnlFormat.Margin = new Padding(6, 6, 6, 6);
+            lblpnlFormat.Margin = new Padding(6);
             lblpnlFormat.Name = "lblpnlFormat";
             lblpnlFormat.OverrideCollapseControl = false;
             lblpnlFormat.Padding = new Padding(0, 41, 0, 11);
@@ -813,10 +827,10 @@
             Controls.Add(lblpnlFormat);
             Controls.Add(lblpnlRegisters);
             Controls.Add(panel2);
-            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(6, 6, 6, 6);
+            Location = new Point(0, 0);
+            Margin = new Padding(6);
             Name = "WriteRegisters";
             Padding = new Padding(19, 21, 19, 21);
             ShowInTaskbar = false;

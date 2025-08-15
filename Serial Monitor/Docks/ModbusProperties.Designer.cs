@@ -185,7 +185,7 @@
             tbSnapshotName.UnderlinedStyle = false;
             tbSnapshotName.UseSystemPasswordChar = false;
             tbSnapshotName.WordWrap = true;
-            tbSnapshotName._TextChanged += tbSnapshotName__TextChanged;
+            tbSnapshotName.TextChanged += tbSnapshotName__TextChanged;
             // 
             // lblpnlAppearance
             // 
@@ -553,7 +553,7 @@
             tbUnit.UnderlinedStyle = false;
             tbUnit.UseSystemPasswordChar = false;
             tbUnit.WordWrap = true;
-            tbUnit._TextChanged += tbUnit__TextChanged;
+            tbUnit.TextChanged += tbUnit__TextChanged;
             // 
             // lblpnlFormat
             // 

@@ -11,12 +11,22 @@ using System.Windows.Forms;
 
 namespace Serial_Monitor.Components {
     public partial class SkinnedForm : Form {
+        private System.Windows.Forms.Timer _resizeRedrawTimer;
         public SkinnedForm() {
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint |
+              ControlStyles.UserPaint |
+              ControlStyles.OptimizedDoubleBuffer, true);
+            this.UpdateStyles();
             InitializeComponent();
             HandleFocusEvents();
             if (DesignerSetup.IsWindows10OrGreater() == true) {
                 DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
             }
+            this.Deactivate += (s, e) => _isDeactivating = true;
+            this.Activated += (s, e) => _isDeactivating = false;
+            _resizeRedrawTimer = new System.Windows.Forms.Timer();
+            _resizeRedrawTimer.Interval = 50; // ~20 FPS
+            _resizeRedrawTimer.Tick += (s, e) => this.Invalidate(true);
         }
         protected override CreateParams CreateParams {
             get {
@@ -130,5 +140,54 @@ namespace Serial_Monitor.Components {
             isActive = true;
             RepaintBorder();
         }
+        protected override void OnPaintBackground(PaintEventArgs e) {
+            e.Graphics.Clear(this.BackColor);
+        }
+
+        private bool _isRestoring = false;
+        private bool _isDeactivating = false;
+        private bool _isResizing = false;
+        public bool IsAppDeactivating => _isDeactivating;
+        protected override void WndProc(ref Message m) {
+            const int WM_ERASEBKGND = 0x0014;
+            const int WM_SYSCOMMAND = 0x0112;
+            const int SC_RESTORE = 0xF120;
+            const int WM_ENTERSIZEMOVE = 0x0231;
+            const int WM_EXITSIZEMOVE = 0x0232;
+
+            // Prevent white flash on load by skipping background erase
+            if (m.Msg == WM_ERASEBKGND) {
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            // Throttled redraw during live resize
+            if (m.Msg == WM_ENTERSIZEMOVE) {
+                _isResizing = true;
+                _resizeRedrawTimer.Start();
+            }
+            else if (m.Msg == WM_EXITSIZEMOVE) {
+                _isResizing = false;
+                _resizeRedrawTimer.Stop();
+                this.Invalidate(true); // Final clean repaint
+            }
+
+            // Detect when window is about to restore from minimized
+            if (m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt32() & 0xFFF0) == SC_RESTORE) {
+                _isRestoring = true;
+                this.SuspendLayout();
+            }
+
+            base.WndProc(ref m);
+
+            // After restoring, resume layout and repaint border once
+            if (_isRestoring && m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt32() & 0xFFF0) == SC_RESTORE) {
+                _isRestoring = false;
+                this.ResumeLayout(true);
+                RepaintBorder();
+            }
+        }
+        
+
     }
 }

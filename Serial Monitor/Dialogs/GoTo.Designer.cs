@@ -96,7 +96,7 @@
             textBox1.UnderlinedStyle = false;
             textBox1.UseSystemPasswordChar = false;
             textBox1.WordWrap = true;
-            textBox1._TextChanged += textBox2_TextChanged;
+            textBox1.TextChanged += textBox2_TextChanged;
             // 
             // lblpnlAddress
             // 

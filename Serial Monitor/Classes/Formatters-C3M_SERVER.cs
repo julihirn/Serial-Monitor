@@ -1,5 +1,4 @@
 ﻿using Handlers;
-using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,36 +121,6 @@ namespace Serial_Monitor.Classes {
                 if (AffixStart == true) { Result.Append(Prefix); Result.Append(str); }
             }
             return Result.ToString();
-        }
-        public static string Integer16ToHex(int Input, bool AffixStart = true) {
-            byte[] bytes = new byte[2];
-            bytes[0] = (byte)(Input >> 8);
-            bytes[1] = (byte)(Input & 0xFF);
-            string str = BitConverter.ToString(bytes).ToUpper().Replace("-","");
-            string Prefix = "0x";
-            StringBuilder Result = new StringBuilder();
-            if (AffixStart == true) {
-                Result.Append(Prefix);
-            }
-            for (int i = 0; i < 4 - str.Length; i++) {
-                Result.Append('0');
-            }
-            Result.Append(str);
-            return Result.ToString();
-        }
-        public static string PLCAddress(int Address, DataSelection Selection) {
-            switch (Selection) {
-                case DataSelection.ModbusDataCoils:
-                    return "0" + Address.ToString("0000");
-                case DataSelection.ModbusDataDiscreteInputs:
-                    return "1" + Address.ToString("0000");
-                case DataSelection.ModbusDataInputRegisters:
-                    return "3" + Address.ToString("0000");
-                case DataSelection.ModbusDataHoldingRegisters:
-                    return "4" + Address.ToString("0000");
-                default:
-                    return Address.ToString("0000");
-            }
         }
         #endregion
         #region Modbus Data Input Formatters
@@ -292,10 +261,6 @@ namespace Serial_Monitor.Classes {
         }
         #endregion
         #region Modbus Data Output Formatters
-        public static string StringFormattedToStringFormatted(string Input, ModbusFormat InputFormat, ModbusFormat OutputFormat) {
-            long Temp = StringToLong(Input, InputFormat.Format, InputFormat.Size, InputFormat.Signed);
-            return LongToString(Temp, OutputFormat.Format, OutputFormat.Size, OutputFormat.Signed);
-        }
         public static long StringToLong(string Input, DataFormat Format, DataSize Size, bool IsSigned) {
             long Output = 0;
             if (Format == DataFormat.Binary) {
@@ -513,7 +478,7 @@ namespace Serial_Monitor.Classes {
             }
             for (int i = 0; i < Input.Length; i++) {
                 int x = Input.Length - 1 - i;
-
+              
                 Sb.Append(Input[i]);
                 if ((x != SizeInt - 1) && (x != 0)) {
                     if ((x % TickFrequency) == 0) {
@@ -550,14 +515,14 @@ namespace Serial_Monitor.Classes {
         }
         public static bool StringToShort(string Input, out short Output) {
             if (Regex.Match(Input, "(0x|0X)[0-9a-fA-F]{1,4}").Success == true) {
-                string Temp = Input.Replace("0x", "").Replace("0X", "").Replace(" ", "");
+                string Temp = Input.Replace("0x", "").Replace("0X", "").Replace(" ","");
                 int i = Convert.ToInt32(Temp, 16);
                 Output = (short)i;
                 return true;
             }
             else if (Regex.Match(Input, "(0b|0B)([0-1]{4}\\s*){1,4}").Success == true) {
                 string Temp = Input.ToLower();
-                Temp = Temp.Replace("0b", "").Replace(" ", "");
+                Temp = Temp.Replace("0b", "").Replace(" ","");
                 int i = Convert.ToInt32(Temp, 2);
                 Output = (short)i;
                 return true;
@@ -568,30 +533,8 @@ namespace Serial_Monitor.Classes {
             //    return true;
             //}
             else {
-                return short.TryParse(Input, out Output);
+               return short.TryParse(Input, out Output);
             }
-        }
-        public static bool StringToShortArray(string Input, ref List<short> ?SArray, bool Compact = true) {
-            if (SArray == null) { return false; }
-            short Temp = 0;
-            for (int i = 0; i < Input.Length; i++) {
-                if (Compact) {
-                    if (i % 2 == 0) {
-                        Temp = (short)((short)(0xFF & Input[i]) << 0x08);
-                        if (i == Input.Length - 1) {
-                            SArray.Add(Temp);
-                        }
-                    }
-                    else {
-                        Temp |= (short)((short)Input[i] & 0xFF);
-                        SArray.Add(Temp);
-                    }
-                }
-                else {
-                    SArray.Add((short)Input[i]);
-                }
-            }
-            return true;
         }
         #endregion 
     }

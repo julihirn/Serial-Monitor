@@ -107,39 +107,6 @@ namespace Serial_Monitor.Classes {
             else { return Formats[Input]; }
         }
         #endregion
-        #region Modbus Format Flags
-        public static bool DataFormatSupportsSign(DataFormat Format) {
-            switch (Format) {
-                case DataFormat.Binary:
-                    return true;
-                case DataFormat.Octal:
-                    return true;
-                case DataFormat.Decimal:
-                    return true;
-                case DataFormat.Hexadecimal:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-        public static bool DataFormatSupportsSize(DataFormat Format) {
-            switch (Format) {
-                case DataFormat.Binary:
-                    return true;
-                case DataFormat.Octal:
-                    return true;
-                case DataFormat.Decimal:
-                    return true;
-                case DataFormat.Hexadecimal:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-        #endregion 
-        public static string SignedToString(bool Signed) {
-            return Signed == true ? "Signed" : "Unsigned";
-        }
         #region Modbus Data Size
         public static DataSize IntegerToDataSize(int Input) {
             if (Input == 8) {
@@ -302,26 +269,6 @@ namespace Serial_Monitor.Classes {
             }
             return new StringPair("Integer", "mbDataFrmtDecimal");
         }
-        public static string DataFormatSizeToString(DataFormat Input, DataSize Size, bool IsSigned) {
-            string FormatText = DataFormatToString(Input).A;
-            bool SupportsSize = DataFormatSupportsSize(Input);
-            bool SupportsSigned = DataFormatSupportsSign(Input);
-            StringBuilder Sb = new StringBuilder();
-            Sb.Append(FormatText);
-            if ((SupportsSize) || (SupportsSigned)) {
-                Sb.Append(" (");
-                if (SupportsSize) { Sb.Append(DataSizeToString(Size)); }
-                if ((SupportsSize) && (SupportsSigned)) {
-                    Sb.Append(", ");
-                    if (SupportsSigned) {
-                        if (SupportsSize) { Sb.Append(SignedToString(IsSigned)); }
-                    }
-
-                }
-                Sb.Append(')');
-            }
-            return Sb.ToString();
-        }
         public static DataFormat IntegerToDataFormat(int Input) {
             DataFormat[] Formats = (DataFormat[])DataFormat.GetValues(typeof(Enums.ModbusEnums.DataFormat));
             if (Input < 0) { return Formats[0]; }
@@ -371,44 +318,6 @@ namespace Serial_Monitor.Classes {
             if (Input < 0) { return Formats[0]; }
             else if (Input >= Formats.Length) { return Formats[Formats.Length - 1]; }
             else { return Formats[Input]; }
-        }
-        #endregion
-        #region Modbus Addressing
-        public static AddressSystem StringToAddressingSystem(string Input) {
-            if (Input == "mbAdrDecZero") {
-                return AddressSystem.ZeroBasedDecimal;
-            }
-            else if (Input == "mbAdrDecOne") {
-                return AddressSystem.OneBasedDecimal;
-            }
-            else if (Input == "mbAdrHexOne") {
-                return AddressSystem.OneBasedHexadecimal;
-            }
-            else if (Input == "mbAdrHexZero") {
-                return AddressSystem.ZeroBasedHexadecimal;
-            }
-            else if (Input == "mbAdrPLC") {
-                return AddressSystem.PLCAddress;
-            }
-            return AddressSystem.ZeroBasedDecimal;
-        }
-        public static StringPair AddressingSystemToString(AddressSystem Input) {
-            if (Input == AddressSystem.ZeroBasedDecimal) {
-                return new StringPair("Zero-Based", "mbAdrDecZero");
-            }
-            else if (Input == AddressSystem.OneBasedDecimal) {
-                return new StringPair("One-Based", "mbAdrDecOne");
-            }
-            else if (Input == AddressSystem.ZeroBasedHexadecimal) {
-                return new StringPair("Zero-Based Hexadecimal", "mbAdrHexZero");
-            }
-            else if (Input == AddressSystem.OneBasedHexadecimal) {
-                return new StringPair("One-Based Hexadecimal", "mbAdrHexOne");
-            }
-            else if (Input == AddressSystem.PLCAddress) {
-                return new StringPair("PLC Address", "mbAdrPLC");
-            }
-            return new StringPair("Zero-Based", "mbAdrDecZero");
         }
         #endregion
         #region Modbus Data Selection
@@ -1024,7 +933,7 @@ namespace Serial_Monitor.Classes {
             ByteOrder[] Formats = (ByteOrder[])ByteOrder.GetValues(typeof(Enums.ModbusEnums.ByteOrder));
             //bool CheckFirst = true;
             foreach (ModbusEnums.ByteOrder Frmt in Formats) {
-                StringPair Data = WordOrderToString(Frmt);
+                StringPair Data =WordOrderToString(Frmt);
                 if (DropDownList.GetType() == typeof(DropDownBox)) {
                     DropDownBox Btn = (DropDownBox)DropDownList;
                     Btn.Items.Add(Data.A);
@@ -1081,41 +990,6 @@ namespace Serial_Monitor.Classes {
                         Btn.SelectedIndex = Btn.Items.Count - 1;
                     }
                 }
-            }
-        }
-        public static void LoadAddressFormats(object DropDownList, EventHandler FormatClick) {
-            Enums.ModbusEnums.AddressSystem[] Formats = (AddressSystem[])AddressSystem.GetValues(typeof(Enums.ModbusEnums.AddressSystem));
-            bool CheckFirst = true;
-            foreach (ModbusEnums.AddressSystem Frmt in Formats) {
-                string Data = AddressingSystemToString(Frmt).A;
-                ToolStripMenuItem Tsi = new ToolStripMenuItem();
-                Tsi.Text = Data;
-                Tsi.ImageScaling = ToolStripItemImageScaling.None;
-                Tsi.Tag = Frmt;
-                Tsi.Click += FormatClick;
-                if (CheckFirst) {
-                    Tsi.Checked = true;
-                    CheckFirst = false;
-                }
-                if (DropDownList.GetType() == typeof(ContextMenu)) {
-                    ContextMenu Btn = (ContextMenu)DropDownList;
-                    Btn.Items.Add(Tsi);
-                }
-                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
-                    Tsi.Checked = false;
-                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
-                    Btn.DropDownItems.Add(Tsi);
-                }
-                //else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
-                //    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
-                //    if (ApplyChecked == false) { Tsi.Checked = false; }
-                //    else {
-                //        if (Tsi.Checked) {
-                //            Btn.Text = Data;
-                //        }
-                //    }
-                //    Btn.DropDownItems.Add(Tsi);
-                //}
             }
         }
         public static NumericTextbox.MetricPrefix GetPrefix(ModbusRegister? Register) {

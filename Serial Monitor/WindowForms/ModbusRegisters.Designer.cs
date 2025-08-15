@@ -148,6 +148,7 @@
             changeAppearanceToolStripMenuItem = new ToolStripMenuItem();
             resetAppearanceToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
+            quickConverterToolStripMenuItem = new ToolStripMenuItem();
             checksumCalculatorToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator26 = new ToolStripSeparator();
             customizeToolStripMenuItem = new ToolStripMenuItem();
@@ -1051,10 +1052,17 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { checksumCalculatorToolStripMenuItem, toolStripSeparator26, customizeToolStripMenuItem, optionsToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { quickConverterToolStripMenuItem, checksumCalculatorToolStripMenuItem, toolStripSeparator26, customizeToolStripMenuItem, optionsToolStripMenuItem });
             toolsToolStripMenuItem.ForeColor = Color.White;
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            // 
+            // quickConverterToolStripMenuItem
+            // 
+            quickConverterToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(quickConverterToolStripMenuItem, "quickConverterToolStripMenuItem");
+            quickConverterToolStripMenuItem.Name = "quickConverterToolStripMenuItem";
+            quickConverterToolStripMenuItem.Click += quickConverterToolStripMenuItem_Click;
             // 
             // checksumCalculatorToolStripMenuItem
             // 
@@ -1542,5 +1550,6 @@
         private ToolStripMenuItem zoom200;
         private ToolStripMenuItem ddbAddressFormatSelect;
         private ToolStripMenuItem goToSelectionToolStripMenuItem;
+        private ToolStripMenuItem quickConverterToolStripMenuItem;
     }
 }

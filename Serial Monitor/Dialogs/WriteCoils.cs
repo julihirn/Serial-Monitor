@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
@@ -101,7 +102,7 @@ namespace Serial_Monitor.Dialogs {
             ListSubItem CheckBoxItem = new ListSubItem();
             itemBasis.SubItems.Add(CheckBoxItem);
             lstCoils.Items.Add(itemBasis);
-            lstCoils.Invalidate();
+            CheckOutofBounds();
         }
         private void Send() {
             if (manager == null) { return; }
@@ -133,15 +134,30 @@ namespace Serial_Monitor.Dialogs {
         private void numtxtAddress_ValueChanged(object sender, ValueChangedEventArgs e) {
             int TempAdr = 0; int.TryParse(numtxtAddress.Value.ToString(), out TempAdr);
             lstCoils.Columns[0].CountOffset = TempAdr;
+            CheckOutofBounds();
+        }
+        private void CheckOutofBounds() {
+            int Count = 0; int.TryParse(numtxtAddress.Value.ToString(), out Count);
+            foreach (ListItem Li in lstCoils.Items) {
+                Li.Text = Count.ToString();
+                if (Count < ushort.MaxValue) {
+                    Li.UseLineBackColor = false;
+                }
+                else {
+                    Li.UseLineBackColor = true;
+                    Li.LineBackColor = Properties.Settings.Default.THM_COL_Mismatched;
+                }
+                Count++;
+            }
             lstCoils.Invalidate();
         }
-
         private void WriteCoils_FormClosing(object sender, FormClosingEventArgs e) {
             lstCoils.LineRemoveAll();
             manager = null;
         }
         private void btnRemove_Click(object sender, EventArgs e) {
             lstCoils.LineRemoveSelected();
+            CheckOutofBounds();
         }
 
         private void btnAccept_ButtonClicked(object sender) {
@@ -170,9 +186,11 @@ namespace Serial_Monitor.Dialogs {
 
         private void btnMoveUp_Click(object sender, EventArgs e) {
             lstCoils.LineMove(false);
+            CheckOutofBounds();
         }
         private void btnMoveDown_Click(object sender, EventArgs e) {
             lstCoils.LineMove(true);
+            CheckOutofBounds();
         }
         private void sendToolStripMenuItem_Click(object sender, EventArgs e) {
             Send();
@@ -182,12 +200,15 @@ namespace Serial_Monitor.Dialogs {
         }
         private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
             lstCoils.LineRemoveSelected();
+            CheckOutofBounds();
         }
         private void moveUpToolStripMenuItem_Click(object sender, EventArgs e) {
             lstCoils.LineMove(false);
+            CheckOutofBounds();
         }
         private void moveDownToolStripMenuItem_Click(object sender, EventArgs e) {
             lstCoils.LineMove(true);
+            CheckOutofBounds();
         }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             Copy();
@@ -225,7 +246,7 @@ namespace Serial_Monitor.Dialogs {
                         lstCoils.Items.Add(itemBasis);
                     }
                 }
-                lstCoils.Invalidate();
+                CheckOutofBounds();
                 return;
             }
             for (int j = lstCoils.Items.Count - 1; j >= 0; j--) {
@@ -240,7 +261,7 @@ namespace Serial_Monitor.Dialogs {
                     }
                 }
             }
-            lstCoils.Invalidate();
+            CheckOutofBounds();
         }
         private bool GetCheckedState(string Value) {
             string Val = Value.Replace(" ", "").Replace("\t", "").ToLower();

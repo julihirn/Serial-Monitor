@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
-    internal class ModbusEdit {
-        public ModbusRegister? Register = null;
+    internal class ModbusCoilEdit {
+        public ModbusCoil? Coil = null;
         public int Column = -1;
         public ListItem Item;
         public DataSelection Selection;
-        public ModbusEdit(ModbusRegister? reg, int column, ListItem Li) {
-            Register = reg;
+        public ModbusCoilEdit(ModbusCoil? coil, int column, ListItem Li) {
+            Coil = coil;
             Column = column;
             this.Item = Li;
         }

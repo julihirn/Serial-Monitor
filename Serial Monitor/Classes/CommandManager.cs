@@ -1,4 +1,5 @@
 ﻿using Handlers;
+using Serial_Monitor.Classes.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,14 +98,31 @@ namespace Serial_Monitor.Classes {
             }
             return false;
         }
-        private static bool GetDelimitedShorts(string Input, ref List<short> Values) {
-            List<short> shorts = new List<short>();
-            STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(Input.Trim(' '), ',');
+        private static bool GetDelimitedShorts(string Input, ref List<short> ?Values) {
+            if (Values == null) { return false ; }
+            //STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(Input.Trim(' '), ',');
+            List<string> TempValues = Interpreter.ExpressionInterpreter.GetArguments(Input);
             for (int i = 0; i < TempValues.Count; i++) {
+                TokenType TType = ExpressionInterpreter.DetermineTokenType(TempValues[i]);
                 short Temp = 0;
-                bool Success = Formatters.StringToShort(TempValues.Value[i], out Temp);
+                bool Success = false;
+                bool AddResult = false;
+                string TempString = TempValues[i].Trim();
+                switch (TType) {
+                    case TokenType.Number:
+                        Success = Formatters.StringToShort(TempString, out Temp);
+                        AddResult = true;
+                        break;
+                    case TokenType.String:
+                        Success = Formatters.StringToShortArray(TempString.Remove(TempString.Length - 1, 1).Remove(0, 1), ref Values, false);
+                        AddResult = false;
+                        break;
+                    default:
+                        break;
+
+                }
                 if (Success == false) { return false; }
-                Values.Add(Temp);
+                if (AddResult && Values != null) { Values.Add(Temp); }
             }
             return true;
         }

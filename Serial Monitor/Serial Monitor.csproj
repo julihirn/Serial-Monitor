@@ -33,18 +33,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\EnumManager-C3M_SERVER.cs" />
+    <Compile Remove="Classes\Formatters-C3M_SERVER.cs" />
     <Compile Remove="Classes\Modbus\ModbusData.cs" />
+    <Compile Remove="Classes\Modbus\ModbusEditor-C3M_SERVER.cs" />
     <Compile Remove="Classes\Modbus\ModbusSupport-C3M_SURFACE5.cs" />
     <Compile Remove="Classes\ProgramData.cs" />
+    <Compile Remove="Classes\ProjectManager-C3M_SERVER.cs" />
     <Compile Remove="Classes\ProjectManager-C3M_SURFACE5.cs" />
+    <Compile Remove="Classes\SerialManager-C3M_SERVER.cs" />
     <Compile Remove="Classes\SerialManager-C3M_SURFACE5.cs" />
     <Compile Remove="Components\EditValue-C3M_MEDIA2.cs" />
     <Compile Remove="Components\MDIClientPanel.cs" />
+    <Compile Remove="ToolWindows\ModbusRegister-C3M_SERVER.cs" />
+    <Compile Remove="ToolWindows\ModbusRegister.Designer-C3M_SERVER.cs" />
+    <Compile Remove="WindowForms\ModbusRegisters-C3M_SERVER.cs" />
     <Compile Remove="WindowForms\ModbusRegisters-C3M_SURFACE5.cs" />
+    <Compile Remove="WindowForms\ModbusRegisters.Designer-C3M_SERVER.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Components\EditValue-C3M_MEDIA2.resx" />
+    <EmbeddedResource Remove="Components\EditValue-C3M_SERVER.resx" />
+    <EmbeddedResource Remove="WindowForms\ModbusRegisters-C3M_SERVER.resx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,9 +65,9 @@
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
-    <PackageReference Include="ODModules" Version="2.0.19.30" />
-    <PackageReference Include="System.IO.Ports" Version="9.0.6" />
-    <PackageReference Include="System.Management" Version="9.0.6" />
+    <PackageReference Include="ODModules" Version="2.0.19.32" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.8" />
+    <PackageReference Include="System.Management" Version="9.0.8" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.1" />
   </ItemGroup>

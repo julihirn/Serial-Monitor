@@ -182,7 +182,6 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(aboutBanner1);
-            DoubleBuffered = true;
             ForeColor = Color.FromArgb(224, 224, 224);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Location = new Point(0, 0);

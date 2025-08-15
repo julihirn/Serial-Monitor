@@ -276,6 +276,27 @@ namespace Serial_Monitor.Classes.Modbus {
                 listings[LocalIndex].LineForeColor = ModbusData.ForeColor;
             }
         }
+        public void UpdateAppearance() {
+            if (manager == null) { return; }
+            if (listings.Count <= 0) { return; }
+            for (int i = 0; i < listings.Count; i++) {
+                object? TagData = listings[i].Tag;
+                if (TagData == null) { continue; }
+                if (TagData.GetType() != typeof(ModbusCoil) && TagData.GetType() != typeof(ModbusRegister)) { continue; }
+                ModbusObject MBO = (ModbusObject)TagData;
+                bool UseBackColor = MBO.UseBackColor;
+                bool UseForeColor = MBO.UseForeColor;
+
+                listings[i].UseLineBackColor = UseBackColor;
+                listings[i].UseLineForeColor = UseForeColor;
+                if (UseBackColor) {
+                    listings[i].LineBackColor = MBO.BackColor;
+                }
+                if (UseForeColor) {
+                    listings[i].LineForeColor = MBO.ForeColor;
+                }
+            }
+        }
         private static ModbusObject GetModbusObject(int Index, DataSelection Selection, ModbusSlave Slave) {
             switch (Selection) {
                 case DataSelection.ModbusDataCoils:

@@ -253,8 +253,12 @@ namespace Serial_Monitor.ToolWindows {
             Classes.Theming.ThemeManager.ThemeControl(cmDataSize);
             Classes.Theming.ThemeManager.ThemeControl(cmDisplayFormats);
             Classes.Theming.ThemeManager.ThemeControl(cmCoilFormats);
+            UpdateAppearance();        }
+        private void UpdateAppearance() {
+            if (snapshot == null) { return; }
+            snapshot.UpdateAppearance();
+            lstRegisters.Invalidate();
         }
-
         private void ModbusRegister_FormClosing(object sender, FormClosingEventArgs e) {
             if (snapshot != null) {
                 snapshot.SnapshotRemoved -= Snapshot_SnapshotRemoved;
@@ -286,7 +290,7 @@ namespace Serial_Monitor.ToolWindows {
             if (snapshot == null) { return; }
             if (e.Column == ModbusEditor.Indx_Name) {
                 if (snapshot != null) {
-                    ModbusEditor.AddRenameBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, true);
+                    ModbusEditor.AddTextBox(e, lstRegisters, snapshot.Selection, EdVal_ArrowKeyPress, e.Data, true);
                 }
             }
             else if (e.Column == ModbusEditor.Indx_Display) {
@@ -482,7 +486,7 @@ namespace Serial_Monitor.ToolWindows {
         }
 
         private void lstRegisters_SelectionChanged(object sender, SelectedItemsEventArgs e) {
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
+            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender, TimeSpan.FromMilliseconds(300));
         }
 
         private void lstRegisters_CellSelected(object sender, CellSelectedEventArgs e) {

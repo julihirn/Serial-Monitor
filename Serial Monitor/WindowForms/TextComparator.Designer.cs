@@ -132,7 +132,7 @@
             textBox1.UnderlinedStyle = false;
             textBox1.UseSystemPasswordChar = false;
             textBox1.WordWrap = true;
-            textBox1._TextChanged += textBox1_TextChanged;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // labelPanel2
             // 
@@ -195,7 +195,7 @@
             textBox2.UnderlinedStyle = false;
             textBox2.UseSystemPasswordChar = false;
             textBox2.WordWrap = true;
-            textBox2._TextChanged += textBox2_TextChanged;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // lstMonitor
             // 

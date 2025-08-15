@@ -414,7 +414,7 @@
             tbUnit.UnderlinedStyle = false;
             tbUnit.UseSystemPasswordChar = false;
             tbUnit.WordWrap = true;
-            tbUnit._TextChanged += textBox1__TextChanged;
+            tbUnit.TextChanged += textBox1__TextChanged;
             // 
             // AppearancePopup
             // 

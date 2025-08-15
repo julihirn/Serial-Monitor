@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Handlers;
+using Serial_Monitor.Classes.Theming;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +14,59 @@ namespace Serial_Monitor.Classes.Modbus {
             set { name = value; }
         }
         Color backColor = Color.White;
+        Color backColorDark = Color.Black;
         public Color BackColor {
-            get { return backColor; }
-            set { backColor = value; }
+            get {
+                if (ThemeManager.IsDark) {
+                    return backColorDark;
+                }
+                return backColor;
+            }
+            set {
+                if (ThemeManager.IsDark) {
+                    backColorDark = value;
+                    backColor = DesignerSetup.InvertAndRotate180(value);
+                }
+                else {
+                    backColor = value;
+                    backColorDark = DesignerSetup.InvertAndRotate180(value);
+                }
+            }
         }
         Color foreColor = Color.Black;
+        Color foreColorDark = Color.White;
         public Color ForeColor {
-            get { return foreColor; }
-            set { foreColor = value; }
+            get {
+                if (ThemeManager.IsDark) {
+                    return foreColorDark;
+                }
+                return foreColor;
+            }
+            set {
+                if (ThemeManager.IsDark) {
+                    foreColorDark = value;
+                    foreColor = DesignerSetup.InvertAndRotate180(value); ;
+                }
+                else {
+                    foreColor = value;
+                    foreColorDark = DesignerSetup.InvertAndRotate180(value);
+                }
+            }
+        }
+        public Color GetThemeIndependantBackColor() {
+            return backColor;
+        }
+        public Color GetThemeIndependantForeColor() {
+            return foreColor;
+        }
+        public void SetThemeIndependantBackColor(Color Input) {
+            backColor = Input;
+            backColorDark = DesignerSetup.InvertAndRotate180(Input);
+        }
+        public void SetThemeIndependantForeColor(Color Input) {
+            foreColor = Input;
+            foreColorDark = DesignerSetup.InvertAndRotate180(Input);
+
         }
         bool useBackColor = false;
         public bool UseBackColor {

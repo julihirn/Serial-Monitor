@@ -38,6 +38,9 @@ namespace Serial_Monitor {
         private List<DockContent> ToolWindows = new List<DockContent>();
         public ModbusRegisters() {
             InitializeComponent();
+            if (currentEditorView == DataEditor.MasterView) {
+                showLastUpdated = ProjectManager.ShowLastUpdated;
+            }
             editorModbus.lstMonitor.ExternalItems = ModbusEditor.MasterRegisterEditor;
             AppearancePopupHost = new TemplateContextMenuHost(popAppearance, this);
             BitTogglerPopupHost = new TemplateContextMenuHost(popToggler, this);
@@ -146,9 +149,6 @@ namespace Serial_Monitor {
             AppearancePopupHost.Closing += AppearancePopupHost_Closing;
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
 
-            editorModbus.lstMonitor.SelectionChanged += LstMonitor_SelectionChanged;
-            editorModbus.lstMonitor.CellSelected += LstMonitor_CellSelected;
-            editorModbus.lstMonitor.KeyPress += LstMonitor_KeyPress;
         }
 
 
@@ -159,7 +159,9 @@ namespace Serial_Monitor {
         }
 
         private void LinkModbusEditorEvents() {
+            editorModbus.lstMonitor.SelectionChanged += LstMonitor_SelectionChanged;
             editorModbus.navigator1.SelectedIndexChanged += navigator1_SelectedIndexChanged;
+            editorModbus.lstMonitor.KeyPress += LstMonitor_KeyPress;
             editorModbus.navigator1.TabRightClicked += navigator1_TabRightClicked;
             editorModbus.lstMonitor.DropDownClicked += lstMonitor_DropDownClicked;
             editorModbus.lstMonitor.CellSelected += LstMonitor_CellSelected;
@@ -896,7 +898,9 @@ namespace Serial_Monitor {
                 }
             }
             editorModbus.ssClient.BackColor = Properties.Settings.Default.THM_COL_Editor;
+            UpdateAppearance();
             this.ResumeLayout();
+
         }
         #endregion
         #region Icons
@@ -994,9 +998,9 @@ namespace Serial_Monitor {
             }
         }
         private void navigator1_SelectedIndexChanged(object sender, int SelectedIndex) {
-            SetSlave(SelectedIndex);
+            SetChannel(SelectedIndex);
         }
-        private void SetSlave(int InputSlave) {
+        private void SetChannel(int InputSlave) {
             if (SystemManager.SerialManagers.Count > 0) {
                 if ((InputSlave >= 0) && (InputSlave < SystemManager.SerialManagers.Count)) {
                     CurrentManager = null;
@@ -1152,11 +1156,11 @@ namespace Serial_Monitor {
                 editorModbus.lstMonitor.SelectDropForward(0, 0, true);
             }
             if (Char.IsLetterOrDigit(e.KeyChar)) {
-                if ((editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Size)||(editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Display)) {
+                if ((editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Size) || (editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Display)) {
                     if (ConversionHandler.DateIntervalDifference(LastKeyDown, DateTime.UtcNow, ConversionHandler.Interval.Second) > 1) {
                         DropDownSearchString = "";
                     }
-                    if ((LastSelectedCell!= editorModbus.lstMonitor.SelectedCell.X)||(LastSelectedRow != editorModbus.lstMonitor.SelectedCell.Y)) {
+                    if ((LastSelectedCell != editorModbus.lstMonitor.SelectedCell.X) || (LastSelectedRow != editorModbus.lstMonitor.SelectedCell.Y)) {
                         DropDownSearchString = "";
                     }
                     LastSelectedCell = editorModbus.lstMonitor.SelectedCell.X;
@@ -1184,10 +1188,10 @@ namespace Serial_Monitor {
             if (LstItem.SubItems.Count < 5) { return; }
             if (e.Column == ModbusEditor.Indx_Name) {
                 //AddRenameBox(e, modbusEditor1.lstMonitor);
-                ModbusEditor.AddRenameBox(e, editorModbus.lstMonitor, DataSet, EdVal_ArrowKeyPress);
+                ModbusEditor.AddTextBox(e, editorModbus.lstMonitor, DataSet, EdVal_ArrowKeyPress, e.Data);
             }
             else if (e.Column == ModbusEditor.Indx_Display) {
-                if ((e.Data == null)||(e.Data == "")) {
+                if ((e.Data == null) || (e.Data == "")) {
                     if (DataTag.GetType() == typeof(ModbusRegister)) {
                         ModbusEditor.CheckItem(cmDisplayFormats, ((ModbusRegister)DataTag).Format);
                         cmDisplayFormats.Tag = e;
@@ -1611,12 +1615,18 @@ namespace Serial_Monitor {
             ModbusEditor.SelectMatching(CurrentEditor, Flags);
         }
         private void Copy() {
-            ModbusClipboardFlags Flags = ModbusClipboardFlags.IncludeNothing;
-            Flags |= ModbusClipboardFlags.IncludeName;
-            Flags |= ModbusClipboardFlags.IncludeFormat;
-            Flags |= ModbusClipboardFlags.IncludeSize;
-            Flags |= ModbusClipboardFlags.IncludeValue;
-            CopyWithFlags(Flags);
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.CopyTextFromEditRegion(CurrentEditor);
+            }
+            else {
+                ModbusClipboardFlags Flags = ModbusClipboardFlags.IncludeNothing;
+                Flags |= ModbusClipboardFlags.IncludeName;
+                Flags |= ModbusClipboardFlags.IncludeFormat;
+                Flags |= ModbusClipboardFlags.IncludeSize;
+                Flags |= ModbusClipboardFlags.IncludeValue;
+                CopyWithFlags(Flags);
+            }
         }
         private void CopyWithFlags(ModbusClipboardFlags Flags) {
             ListControl? CurrentEditor = GetCurrentListView();
@@ -1624,11 +1634,21 @@ namespace Serial_Monitor {
         }
         private void Paste() {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.PasteRegisters(CurrentEditor);
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.PasteTextIntoEditRegion("", CurrentEditor);
+            }
+            else {
+                ModbusEditor.PasteRegisters(CurrentEditor);
+            }
         }
         private void CopyAsText() {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.CopyRegistersAsText(CurrentEditor);
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.CopyTextFromEditRegion(CurrentEditor);
+            }
+            else {
+                ModbusEditor.CopyRegistersAsText(CurrentEditor);
+            }
         }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             Copy();
@@ -1818,7 +1838,7 @@ namespace Serial_Monitor {
                 }
             }
             catch { }
-            SetSlave(editorModbus.thDataPagesHeader.SelectedIndex);
+            SetChannel(editorModbus.navigator1.SelectedItem);//editorModbus.thDataPagesHeader.SelectedIndex
         }
         private void btnMenuModbusMaster_Click(object sender, EventArgs e) {
             SetModbusMaster();
@@ -1930,6 +1950,26 @@ namespace Serial_Monitor {
                     editorModbus.lstMonitor.CurrentItems[i].LineBackColor = MBObject.BackColor;
                     editorModbus.lstMonitor.CurrentItems[i].UseLineForeColor = MBObject.UseForeColor;
                     editorModbus.lstMonitor.CurrentItems[i].LineForeColor = MBObject.ForeColor;
+                }
+            }
+            editorModbus.lstMonitor.Invalidate();
+        }
+        private void UpdateAppearance() {
+            for (int i = 0; i < editorModbus.lstMonitor.CurrentItems.Count; i++) {
+                object? TagData = editorModbus.lstMonitor.CurrentItems[i].Tag;
+                if (TagData == null) { continue; }
+                if (TagData.GetType() != typeof(ModbusCoil) && TagData.GetType() != typeof(ModbusRegister)) { continue; }
+                ModbusObject MBO = (ModbusObject)TagData;
+                bool UseBackColor = MBO.UseBackColor;
+                bool UseForeColor = MBO.UseForeColor;
+
+                editorModbus.lstMonitor.CurrentItems[i].UseLineBackColor = UseBackColor;
+                editorModbus.lstMonitor.CurrentItems[i].UseLineForeColor = UseForeColor;
+                if (UseBackColor) {
+                    editorModbus.lstMonitor.CurrentItems[i].LineBackColor = MBO.BackColor;
+                }
+                if (UseForeColor) {
+                    editorModbus.lstMonitor.CurrentItems[i].LineForeColor = MBO.ForeColor;
                 }
             }
             editorModbus.lstMonitor.Invalidate();
@@ -2351,7 +2391,7 @@ namespace Serial_Monitor {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
         private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender);
+            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender, TimeSpan.FromMilliseconds(300));
         }
         private void lstMonitor_ValueChanged() {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
@@ -2493,6 +2533,11 @@ namespace Serial_Monitor {
 
         private void goToRegisterToolStripMenuItem_DoubleClick(object sender, EventArgs e) {
 
+        }
+
+        private void quickConverterToolStripMenuItem_Click(object sender, EventArgs e) {
+            QuickConvert CQuickConvertApp = new QuickConvert();
+            ApplicationManager.OpenInternalApplicationOnce(CQuickConvertApp, false);
         }
 
         internal enum DataEditor {
