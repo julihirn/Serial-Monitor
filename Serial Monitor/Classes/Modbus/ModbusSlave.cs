@@ -181,5 +181,12 @@ namespace Serial_Monitor.Classes.Modbus {
         public ulong GatewayTargetDeviceFailedToRespond {
             get { return exceptionCountFailedToRespond; }
         }
+        bool isBusy = false;
+        [Browsable(false)]
+        public bool IsBusy {
+            get { return isBusy; }
+        }
+        internal void MarkBusy() { isBusy = true; }
+        internal void MarkFree() { isBusy = false; }
     }
 }

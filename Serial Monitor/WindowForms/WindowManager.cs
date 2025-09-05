@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serial_Monitor.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,10 @@ namespace Serial_Monitor.WindowForms {
             ApplyTheme();
         }
         public void ApplyTheme() {
+            Recolor();
+            AddIcons();
+        }
+        public void Recolor() {
             //panel1.BackColor = Properties.Settings.Default.THM_COL_MenuBackColor;
             BackColor = Properties.Settings.Default.THM_COL_Editor;
             listView1.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -28,6 +33,11 @@ namespace Serial_Monitor.WindowForms {
             TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;
             ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
+        }
+        public void AddIcons() {
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Close, btnWinClose, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.CloseAll, btnWinCloseAll, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Refresh, btnWinRefresh, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         public void UpdateWindows() {
             RefreshWindows();
@@ -131,6 +141,9 @@ namespace Serial_Monitor.WindowForms {
                             object? TagData = listView1.SelectedItems[0].Tag;
                             if (TagData == null) { return null; }
                             if (TagData.GetType().BaseType == typeof(Form)) {
+                                return listView1.SelectedItems[0].Tag;
+                            }
+                            else if (TagData.GetType().BaseType == typeof(SkinnedForm)) {
                                 return listView1.SelectedItems[0].Tag;
                             }
                         }

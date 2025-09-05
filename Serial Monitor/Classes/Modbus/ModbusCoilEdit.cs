@@ -11,10 +11,11 @@ namespace Serial_Monitor.Classes.Modbus {
         public int Column = -1;
         public ListItem Item;
         public DataSelection Selection;
-        public ModbusCoilEdit(ModbusCoil? coil, int column, ListItem Li) {
+        public ModbusCoilEdit(ModbusCoil? coil, int column, ListItem Li, DataSelection dataSet) {
             Coil = coil;
             Column = column;
             this.Item = Li;
+            this.Selection = dataSet;
         }
     }
 }

@@ -41,15 +41,6 @@ namespace Serial_Monitor.Classes {
 
             registers = new ModbusSlave(this, -1);
             DeriveSilence();
-            //TrFramer = new Thread(Framer);
-            //TrFramer.IsBackground = true;
-            //TrFramer.Start();
-            //for (int i = 0; i < Modbus.ModbusSupport.MaximumRegisters; i++) {
-            //    coils[i] = new ModbusCoil(i, DataSelection.ModbusDataCoils, this);
-            //    discreteInputs[i] = new ModbusCoil(i, DataSelection.ModbusDataDiscreteInputs, this);
-            //    inputRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataInputRegisters, this);
-            //    holdingRegisters[i] = new ModbusRegister(i, DataSelection.ModbusDataHoldingRegisters, this);
-            //}
         }
         public void Dispose() {
             GC.SuppressFinalize(this);
@@ -83,11 +74,11 @@ namespace Serial_Monitor.Classes {
             while (RunHeartBeat) {
                 try {
                     if (autoReconnect == true) {
-                        if (OpenPrevious != Port.IsOpen) {
+                        if (OpenPrevious != Connected) {
                             SystemManager.InvokePortStatusChanged(this);
-                            OpenPrevious = Port.IsOpen;
+                            OpenPrevious = Connected;
                         }
-                        if (Port.IsOpen == false) { Port.Open(); }
+                        Connect();
                     }
                 }
                 catch { }
@@ -98,6 +89,7 @@ namespace Serial_Monitor.Classes {
             try {
                 if (!Connected) {
                     DeriveSilence();
+                    //Serial.DeviceHandler.SetLowLatency(PortName);
                     this.Port.Open();
                     InitaliseZeroLatencyReceiver();
                 }
@@ -1745,7 +1737,27 @@ namespace Serial_Monitor.Classes {
 
         #endregion
         #region Modbus Functions
-        List<ModbusReturnResult> AwaitingResults = new List<ModbusReturnResult>();
+        private bool SetSlaveAsBusy(int Device) {
+            if (!isMaster) { return false; }
+            foreach(ModbusSlave slave in Slave) {
+                if (slave.Address == Device) {
+                    slave.MarkBusy();
+                    return true; 
+                }
+            }
+            return false;
+        }
+        private bool SetSlaveAsFree(int Device) {
+            if (!isMaster) { return false; }
+            foreach (ModbusSlave slave in Slave) {
+                if (slave.Address == Device) {
+                    slave.MarkFree();
+                    return true;
+                }
+            }
+            return false;
+        }
+        List<ModbusRequest> AwaitingResults = new List<ModbusRequest>();
         public void ModbusReadDeviceIdentification(int Device, ModbusSupport.DiagnosticDeviceIdentification ReadSection, short ObjectId) {
             if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
             if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }

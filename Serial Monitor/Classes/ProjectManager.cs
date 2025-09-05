@@ -111,6 +111,7 @@ namespace Serial_Monitor.Classes {
         public static void InvokeButtonPropertyChanged(KeypadButton sender) {
             ButtonPropertyChanged?.Invoke(sender);
         }
+        #region Project File Writing
         public static void WriteFile(string FileAddress) {
             using (StreamWriter Sw = new StreamWriter(FileAddress)) {
                 Sw.WriteLine("--------------------------");
@@ -226,7 +227,7 @@ namespace Serial_Monitor.Classes {
             StringBuilder Sb = new StringBuilder();
             Sb.Append("Prop, ");
             int i = 0;
-            foreach((string, string) T in Properties) {
+            foreach ((string, string) T in Properties) {
                 Sb.Append(T.Item1);
                 Sb.Append(" = ");
                 Sb.Append(StringHandler.EncapsulateString(T.Item2));
@@ -356,37 +357,10 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        private static string RectangleToString(Rectangle Rect) {
-            return Rect.X.ToString() + "," + Rect.Y.ToString() + "," + Rect.Width.ToString() + "," + Rect.Height.ToString();
-        }
-        private static Rectangle StringToRectangle(string Rect) {
-            STR_MVSSF Spilt = StringHandler.SpiltStringMutipleValues(Rect, ',');
-            if (Spilt.Count != 4) { return Rectangle.Empty; }
-            int x = 0; int.TryParse(Spilt.Value[0], out x);
-            int y = 0; int.TryParse(Spilt.Value[1], out y);
-            int w = 0; int.TryParse(Spilt.Value[2], out w);
-            int h = 0; int.TryParse(Spilt.Value[3], out h);
-            return new Rectangle(x, y, w, h);
-        }
-        private static List<string> GetList(object Input) {
-            if (Input == null) {
-                return new List<string>();
-            }
-            if (Input.GetType() == typeof(List<string>)) {
-                return (List<string>)Input;
-            }
-            return new List<string>();
-        }
-        private static List<int> GetIntegerList(object Input) {
-            if (Input == null) {
-                return new List<int>();
-            }
-            if (Input.GetType() == typeof(List<int>)) {
-                return (List<int>)Input;
-            }
-            return new List<int>();
-        }
-        public static void ReadSMPFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+        #endregion
+        //, SerialManager.DataProcessedHandler DataProc
+        #region SMP Project Reading
+        public static void ReadSMPFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc) {
             showUnits = DocumentHandler.GetBooleanVariable("ShowUnits");
             showLastUpdated = DocumentHandler.GetBooleanVariable("ShowLastUpdated");
             ProgramManager.Programs.Add(new ProgramObject());
@@ -395,7 +369,7 @@ namespace Serial_Monitor.Classes {
                 string ParameterName = DocumentHandler.PARM[i].Name;
                 ParameterStructure Pstrc = DocumentHandler.PARM[i];
                 if (ParameterName.StartsWith("CHAN")) {
-                    LoadChannel(Pstrc, CmdProc, DataProc);
+                    LoadChannel(Pstrc, CmdProc);
                 }
                 else if (ParameterName.StartsWith("KBTN")) {
                     LoadKeypadButton(Pstrc);
@@ -420,7 +394,8 @@ namespace Serial_Monitor.Classes {
             GC.Collect();
             projectName = Path.GetFileNameWithoutExtension(FileAddress);
         }
-        private static void LoadChannel(ParameterStructure Pstrc, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+        //, SerialManager.DataProcessedHandler DataProc
+        private static void LoadChannel(ParameterStructure Pstrc, SerialManager.CommandProcessedHandler CmdProc) {
             SerialManager Sm = new SerialManager();
             Sm.Name = DocumentHandler.GetStringVariable(Pstrc, "Name", "");
             try {
@@ -527,21 +502,15 @@ namespace Serial_Monitor.Classes {
                 }
             }
             Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
-            Sm.DataReceived += DataProc;// SerMan_DataReceived;
+            //Sm.DataReceived += DataProc;// SerMan_DataReceived;
             if (Sm.Slave.Count == 0) {
                 Sm.Slave.Add(new ModbusSlave(Sm, 1));
             }
             SystemManager.SerialManagers.Add(Sm);
         }
-        private static List<string> GetListOfVarName(string Input, ParameterStructure Pstrc) {
-            List<string> VarNames = new List<string>();
-            foreach (Variable Var in Pstrc.VALUES) {
-                if (Var.Name.StartsWith(Input)) {
-                    VarNames.Add(Var.Name);
-                }
-            }
-            return VarNames;
-        }
+        #endregion
+
+        #region SMP Feature Loaders
         private static void LoadKeypadButton(ParameterStructure Pstrc) {
             if (Pstrc.Name.Split('_').Length == 2) {
                 string IndexStr = Pstrc.Name.Split('_')[1];
@@ -636,10 +605,13 @@ namespace Serial_Monitor.Classes {
                 ModbusSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start, End);
             }
         }
-        public static void ReadCMSLFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc, SerialManager.DataProcessedHandler DataProc) {
+        //, SerialManager.DataProcessedHandler DataProc
+        #endregion
+        #region CMSL File Reader and Loader
+        public static void ReadCMSLFile(string FileAddress, SerialManager.CommandProcessedHandler CmdProc) {
             SerialManager Sm = new SerialManager();
             Sm.CommandProcessed += CmdProc;// SerManager_CommandProcessed;
-            Sm.DataReceived += DataProc;// SerMan_DataReceived;
+            //Sm.DataReceived += DataProc;// SerMan_DataReceived;
             SystemManager.SerialManagers.Add(Sm);
             ProgramManager.Programs.Add(new ProgramObject("Legacy Program"));
             try {
@@ -668,8 +640,118 @@ namespace Serial_Monitor.Classes {
             else if (Input == "SWS") { return StepEnumerations.StepExecutable.SwitchSender; }
             else { return StepEnumerations.StepExecutable.NoOperation; }
         }
+        #endregion
+        #region Parser Support
+        private static string RectangleToString(Rectangle Rect) {
+            return Rect.X.ToString() + "," + Rect.Y.ToString() + "," + Rect.Width.ToString() + "," + Rect.Height.ToString();
+        }
+        private static Rectangle StringToRectangle(string Rect) {
+            STR_MVSSF Spilt = StringHandler.SpiltStringMutipleValues(Rect, ',');
+            if (Spilt.Count != 4) { return Rectangle.Empty; }
+            int x = 0; int.TryParse(Spilt.Value[0], out x);
+            int y = 0; int.TryParse(Spilt.Value[1], out y);
+            int w = 0; int.TryParse(Spilt.Value[2], out w);
+            int h = 0; int.TryParse(Spilt.Value[3], out h);
+            return new Rectangle(x, y, w, h);
+        }
+        private static List<string> GetList(object Input) {
+            if (Input == null) {
+                return new List<string>();
+            }
+            if (Input.GetType() == typeof(List<string>)) {
+                return (List<string>)Input;
+            }
+            return new List<string>();
+        }
+        private static List<int> GetIntegerList(object Input) {
+            if (Input == null) {
+                return new List<int>();
+            }
+            if (Input.GetType() == typeof(List<int>)) {
+                return (List<int>)Input;
+            }
+            return new List<int>();
+        }
+        private static List<string> GetListOfVarName(string Input, ParameterStructure Pstrc) {
+            List<string> VarNames = new List<string>();
+            foreach (Variable Var in Pstrc.VALUES) {
+                if (Var.Name.StartsWith(Input)) {
+                    VarNames.Add(Var.Name);
+                }
+            }
+            return VarNames;
+        }
+        #endregion
         internal static void InvokeProjectLoaded() {
             DocumentLoaded?.Invoke();
         }
+
+        #region UI Handlers
+        internal static void LoadRecentItems(ToolStripMenuItem btnRecentProjects) {
+            for (int i = btnRecentProjects.DropDownItems.Count - 1; i >= 0; i--) {
+                if (btnRecentProjects.DropDownItems[i].Tag != null) {
+                    btnRecentProjects.DropDownItems[i].Click -= BtnRecentItem_Click;
+                    btnRecentProjects.DropDownItems.RemoveAt(i);
+                }
+            }
+            if (Properties.Settings.Default.DOC_PRJ_RecentFiles != null) {
+                int j = 1;
+                for (int i = Properties.Settings.Default.DOC_PRJ_RecentFiles.Count - 1; i >= 0; i--) {
+                    string? FileName = Properties.Settings.Default.DOC_PRJ_RecentFiles[i];
+                    if ((FileName != null) && (j <= 10)) {
+                        if (FileName != "") {
+                            ToolStripMenuItem btnRecentItem = new ToolStripMenuItem();
+                            btnRecentItem.Text = j.ToString() + "  " + Path.GetFileNameWithoutExtension(FileName);
+                            btnRecentItem.Tag = FileName;
+                            btnRecentItem.Click += BtnRecentItem_Click;
+                            btnRecentProjects.DropDownItems.Add(btnRecentItem);
+                            j++;
+                        }
+                    }
+                }
+                if (j > 1) {
+                    btnRecentProjects.Enabled = true;
+                }
+                else {
+                    btnRecentProjects.Enabled = false;
+                }
+            }
+            else {
+                btnRecentProjects.Enabled = false;
+            }
+        }
+        internal static void AddFiletoRecentFiles(string FileName) {
+            if (Properties.Settings.Default.DOC_PRJ_RecentFiles == null) {
+                Properties.Settings.Default.DOC_PRJ_RecentFiles = new System.Collections.Specialized.StringCollection();
+            }
+            int ContainsRecentFile = -1;
+            for (int i = 0; i < Properties.Settings.Default.DOC_PRJ_RecentFiles.Count; i++) {
+                if (Properties.Settings.Default.DOC_PRJ_RecentFiles[i] != null) {
+                    if (FileName == Properties.Settings.Default.DOC_PRJ_RecentFiles[i]) {
+                        ContainsRecentFile = i;
+                        break;
+                    }
+                }
+            }
+            if (ContainsRecentFile >= 0) {
+                Properties.Settings.Default.DOC_PRJ_RecentFiles.RemoveAt(ContainsRecentFile);
+            }
+            Properties.Settings.Default.DOC_PRJ_RecentFiles.Add(FileName);
+            Properties.Settings.Default.Save();
+        }
+        private static void BtnRecentItem_Click(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                if (item.Tag == null) { return; }
+                string FileName = item.Tag.ToString() ?? "";
+                if (FileName == "") { return; }
+                if (SystemManager.MainInstance == null) { return; }
+                SystemManager.CloseAll();
+                SystemManager.MainInstance.Open(FileName);
+                AddFiletoRecentFiles(FileName);
+            }
+        }
+        #endregion 
     }
 }

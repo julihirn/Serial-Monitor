@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public delegate void ViewUpdatedHandler(ListControl LstControl);
 
         public static event EditorPropertiesEqualHandler? EditorPropertiesEqual;
-        public delegate void EditorPropertiesEqualHandler(ListControl ?LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected);
+        public delegate void EditorPropertiesEqualHandler(ListControl? LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected);
 
         public static Size MinimumSize = new Size(464, 213);
         #region Loaders
@@ -286,26 +287,32 @@ namespace Serial_Monitor.Classes.Modbus {
             if (DataTag.GetType() == typeof(ModbusRegister)) {
                 ModbusRegister reg = (ModbusRegister)DataTag;
                 Tb.Text = reg.Name;
-                Tb.Tag = new ModbusRegisterEdit(reg, Indx_Name, LstItem);
+                Tb.Tag = new ModbusRegisterEdit(reg, Indx_Name, LstItem, DataSet);
             }
             else if (DataTag.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil reg = (ModbusCoil)DataTag;
                 Tb.Text = reg.Name;
-                Tb.Tag = new ModbusCoilEdit(reg, Indx_Name, LstItem);
+                Tb.Tag = new ModbusCoilEdit(reg, Indx_Name, LstItem, DataSet);
             }
             LstCtrl.AddControlToCell(Tb);
             Tb.Focus();
             //EdVal.ArrowKeyPress += arrowKeyPressed;
             Tb.Leave += Tb_LostFocus;
             //Tb.KeyPress += Tb_KeyPress;
+            SystemManager.InvokeModbusEditorChanged();
             Tb.EnterPressed += Tb_EnterPressed;
-            Tb.TextChanged += Tb_TextChanged; ;
+            Tb.TextChanged += Tb_TextChanged;
             if (DataToPush != null) {
-                Tb.AppendText(DataToPush);
+                if ((DataToPush.Length == 1) && (DataToPush[0] == '\b')) {
+                    Tb.RemoveLastCharacter();
+                }
+                else { 
+                    Tb.AppendText(DataToPush);
+                }
             }
         }
 
-       
+
         private static void Tb_EnterPressed(SingleLineTextBox sender) {
             RemoveControl(sender);
         }
@@ -345,7 +352,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 Tb.RangeLimited = true;
                 SetNumericTextBox(Tb, reg);
                 Tb.ArrowKeysControlNumber = false;
-                Tb.Tag = new ModbusRegisterEdit(reg, Indx_Value, LstItem);
+                Tb.Tag = new ModbusRegisterEdit(reg, Indx_Value, LstItem, DataSet);
 
                 //Components.EditValue EdVal = new Components.EditValue(Pm.Name, LstCtrl, e.ParentItem, Indx_Name, ItemIndex, null, coil, Rect, ParRect, DataSet);
                 LstCtrl.AddControlToCell(Tb);
@@ -356,6 +363,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 Tb.KeyPress += Tb_KeyPress;
                 Tb.EnterPressed += Nb_EnterPressed;
                 Tb.ValueChanged += Tb_ValueChanged;
+                SystemManager.InvokeModbusEditorChanged();
                 if (DataToPush != null) {
                     for (int i = 0; i < DataToPush.Length; i++) {
                         Tb.PushCharacter(DataToPush[i]);
@@ -555,7 +563,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (pd.Register == null) { return; }
                 pd.Register.Name = Ttb.Text ?? "";
                 //pd.Register.PushValue()
-                SystemManager.RegisterNameChanged(pd.Register.Parent, pd.Register.Name, pd.Register.Address, pd.Selection);
+                SystemManager.RegisterNameChanged(pd.Register.Parent, pd.Register, pd.Register.Address, pd.Selection);
                 pd.Item[pd.Column].Text = pd.Register.Name;
             }
         }
@@ -576,8 +584,9 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         public static void RemoveAllControls(ODModules.ListControl LstCtrl) {
             for (int i = LstCtrl.Controls.Count - 1; i >= 0; i--) {
-                RemoveControl(LstCtrl.Controls[i]);
+                RemoveControl(LstCtrl.Controls[i], false);
             }
+            SystemManager.InvokeModbusEditorChanged();
         }
         private static void Nb_EnterPressed(NumericTextbox sender) {
             RemoveControl(sender);
@@ -588,7 +597,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 RemoveControl(sender);
             }
         }
-        private static void RemoveControl(object? sender) {
+        private static void RemoveControl(object? sender, bool InvokeEvent = true) {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ODModules.TextBox)) {
                 ODModules.TextBox OdTb = (ODModules.TextBox)sender;
@@ -612,6 +621,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (OdTb.Parent == null) { return; }
                 OdTb.Parent.Controls.Remove(OdTb);
             }
+            if (InvokeEvent) { SystemManager.InvokeModbusEditorChanged(); }
         }
         private static void Tb_LostFocus(object? sender, EventArgs e) {
             RemoveControl(sender);
@@ -652,17 +662,23 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         #endregion
         #region Appearance/View
+        private static void InvalidateColumns(ListControl lsMonitor) {
+            foreach (Column col in lsMonitor.Columns) {
+                int TWidth = col.Width;
+                col.Width = TWidth;
+            }
+        }
         public static void ShowHideColumns(bool showFormats, bool showLastUpdate, DataSelection DataSet, ListControl lstMonitor) {
             lstMonitor.Columns[Indx_LastUpdated].Visible = showLastUpdate;
-            if (showLastUpdate == true) {
-                int TWidth = lstMonitor.Columns[Indx_LastUpdated].Width;
-                lstMonitor.Columns[Indx_LastUpdated].Width = TWidth;
-            }
+            //if (showLastUpdate == true) {
+                //int TWidth = lstMonitor.Columns[Indx_LastUpdated].Width;
+                //lstMonitor.Columns[Indx_LastUpdated].Width = TWidth;
+            //}
             if (showFormats == false) {
                 lstMonitor.Columns[Indx_Size].Visible = false;
                 lstMonitor.Columns[Indx_Signed].Visible = false;
                 lstMonitor.Columns[Indx_Display].Visible = false;
-                return;
+                //return;
             }
             else {
                 lstMonitor.Columns[Indx_Display].Visible = true;
@@ -691,6 +707,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     lstMonitor.Columns[Indx_Signed].Visible = true;
                 }
             }
+            InvalidateColumns(lstMonitor);
             lstMonitor.ResetCellSelection();
             lstMonitor.Invalidate();
         }
@@ -848,12 +865,10 @@ namespace Serial_Monitor.Classes.Modbus {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
                 if (sender == null) { return; }
-                if (sender.GetType()! != typeof(ModbusEnums.CoilFormat)) { return; }
+                if (sender.GetType() != typeof(ModbusEnums.CoilFormat)) { return; }
                 ButtonData = sender;
             }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.CoilFormat)) {
-                return;
-            }
+            if (ButtonData.GetType() != typeof(ModbusEnums.CoilFormat)) { return; }
             CoilFormat Frmt = (CoilFormat)ButtonData;
 
             int SelectedCount = lstMonitor.SelectionCount;
@@ -887,12 +902,10 @@ namespace Serial_Monitor.Classes.Modbus {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
                 if (sender == null) { return; }
-                if (sender.GetType()! != typeof(ModbusEnums.DataFormat)) { return; }
+                if (sender.GetType() != typeof(ModbusEnums.DataFormat)) { return; }
                 ButtonData = sender;
             }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.DataFormat)) {
-                return;
-            }
+            if (ButtonData.GetType() != typeof(ModbusEnums.DataFormat)) { return; }
             DataFormat Frmt = (DataFormat)ButtonData;
 
             int SelectedCount = lstMonitor.SelectionCount;
@@ -947,10 +960,10 @@ namespace Serial_Monitor.Classes.Modbus {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
                 if (sender == null) { return; }
-                if (sender.GetType()! != typeof(ModbusEnums.DataSize)) { return; }
+                if (sender.GetType() != typeof(ModbusEnums.DataSize)) { return; }
                 ButtonData = sender;
             }
-            if (ButtonData.GetType()! != typeof(ModbusEnums.DataSize)) { return; }
+            if (ButtonData.GetType() != typeof(ModbusEnums.DataSize)) { return; }
             DataSize Frmt = (DataSize)ButtonData;
 
             int SelectedCount = lstMonitor.SelectionCount;
@@ -1112,9 +1125,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ChangeWordOrderList(object? sender, ListControl? lstMonitor, bool ShowUnits) {
             object? ButtonData = GetContextMenuItemData(sender);
             if (ButtonData == null) {
-                if (sender == null) {
-                    return;
-                }
+                if (sender == null) { return; }
                 else {
                     if (sender.GetType() == typeof(ModbusEnums.ByteOrder)) {
                         ButtonData = sender;
@@ -1644,7 +1655,8 @@ namespace Serial_Monitor.Classes.Modbus {
             if (LstCtrl.Controls.Count <= 0) { return false; }
             if (LstCtrl.Controls.Count >= 2) { return false; }
             object? Ctrl = LstCtrl.Controls[0];
-            if (Ctrl.GetType() == typeof(NumericTextbox)){ return true; }
+            if (Ctrl.GetType() == typeof(NumericTextbox)) { return true; }
+            else if (Ctrl.GetType() == typeof(SingleLineTextBox)) { return true; }
             return false;
         }
         public static void PasteTextIntoEditRegion(string Input, ListControl? LstCtrl) {
@@ -1654,6 +1666,9 @@ namespace Serial_Monitor.Classes.Modbus {
             if (Ctrl.GetType() == typeof(NumericTextbox)) {
                 ((NumericTextbox)Ctrl).Paste();
             }
+            else if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)Ctrl).Paste();
+            }
         }
         public static void CopyTextFromEditRegion(ListControl? LstCtrl) {
             if (LstCtrl == null) { return; }
@@ -1661,6 +1676,33 @@ namespace Serial_Monitor.Classes.Modbus {
             object? Ctrl = LstCtrl.Controls[0];
             if (Ctrl.GetType() == typeof(NumericTextbox)) {
                 ((NumericTextbox)Ctrl).Copy();
+            }
+            else if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)Ctrl).Copy();
+            }
+        }
+        public static void CutTextFromEditRegion(ListControl? LstCtrl) {
+            if (LstCtrl == null) { return; }
+            if (!ContainsEditable(LstCtrl)) { return; }
+            object? Ctrl = LstCtrl.Controls[0];
+            if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)Ctrl).Cut();
+            }
+        }
+        public static void DeleteTextFromEditRegion(ListControl? LstCtrl) {
+            if (LstCtrl == null) { return; }
+            if (!ContainsEditable(LstCtrl)) { return; }
+            object? Ctrl = LstCtrl.Controls[0];
+            if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)Ctrl).Delete();
+            }
+        }
+        public static void SelectAllTextbox(ListControl? LstCtrl) {
+            if (LstCtrl == null) { return; }
+            if (!ContainsEditable(LstCtrl)) { return; }
+            object? Ctrl = LstCtrl.Controls[0];
+            if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)Ctrl).SelectAll();
             }
         }
         private static bool FlagSet(ModbusDataObject DataObj, ModbusClipboardFlags Flag) {

@@ -24,180 +24,173 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowManager));
-            this.msMain = new ODModules.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnFileRun = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnFileExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnWinRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnWinMinimise = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnWinHide = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnWinClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnWinCloseAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.msMain.SuspendLayout();
-            this.SuspendLayout();
+            msMain = new ODModules.MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            btnFileRun = new ToolStripMenuItem();
+            btnFileExit = new ToolStripMenuItem();
+            windowToolStripMenuItem = new ToolStripMenuItem();
+            btnWinRefresh = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
+            btnWinMinimise = new ToolStripMenuItem();
+            btnWinHide = new ToolStripMenuItem();
+            btnWinClose = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            btnWinCloseAll = new ToolStripMenuItem();
+            listView1 = new ListView();
+            msMain.SuspendLayout();
+            SuspendLayout();
             // 
             // msMain
             // 
-            this.msMain.BackColorNorth = System.Drawing.Color.DodgerBlue;
-            this.msMain.BackColorNorthFadeIn = System.Drawing.Color.DodgerBlue;
-            this.msMain.BackColorSouth = System.Drawing.Color.DodgerBlue;
-            this.msMain.ItemForeColor = System.Drawing.Color.Black;
-            this.msMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.windowToolStripMenuItem});
-            this.msMain.ItemSelectedBackColorNorth = System.Drawing.Color.White;
-            this.msMain.ItemSelectedBackColorSouth = System.Drawing.Color.White;
-            this.msMain.ItemSelectedForeColor = System.Drawing.Color.Black;
-            this.msMain.Location = new System.Drawing.Point(0, 0);
-            this.msMain.MenuBackColorNorth = System.Drawing.Color.DodgerBlue;
-            this.msMain.MenuBackColorSouth = System.Drawing.Color.DodgerBlue;
-            this.msMain.MenuBorderColor = System.Drawing.Color.WhiteSmoke;
-            this.msMain.MenuSeparatorColor = System.Drawing.Color.WhiteSmoke;
-            this.msMain.MenuSymbolColor = System.Drawing.Color.WhiteSmoke;
-            this.msMain.Name = "msMain";
-            this.msMain.Size = new System.Drawing.Size(360, 24);
-            this.msMain.StripItemSelectedBackColorNorth = System.Drawing.Color.White;
-            this.msMain.StripItemSelectedBackColorSouth = System.Drawing.Color.White;
-            this.msMain.TabIndex = 2;
-            this.msMain.Text = "menuStrip1";
-            this.msMain.UseNorthFadeIn = false;
+            msMain.BackColorNorth = Color.DodgerBlue;
+            msMain.BackColorNorthFadeIn = Color.DodgerBlue;
+            msMain.BackColorSouth = Color.DodgerBlue;
+            msMain.Fade = true;
+            msMain.ImageScalingSize = new Size(32, 32);
+            msMain.ItemForeColor = Color.Black;
+            msMain.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, windowToolStripMenuItem });
+            msMain.ItemSelectedBackColorNorth = Color.White;
+            msMain.ItemSelectedBackColorSouth = Color.White;
+            msMain.ItemSelectedForeColor = Color.Black;
+            msMain.Location = new Point(0, 0);
+            msMain.MenuBackColorNorth = Color.DodgerBlue;
+            msMain.MenuBackColorSouth = Color.DodgerBlue;
+            msMain.MenuBorderColor = Color.WhiteSmoke;
+            msMain.MenuSeparatorColor = Color.WhiteSmoke;
+            msMain.MenuSymbolColor = Color.WhiteSmoke;
+            msMain.Name = "msMain";
+            msMain.Padding = new Padding(11, 4, 0, 4);
+            msMain.Size = new Size(669, 46);
+            msMain.StripItemSelectedBackColorNorth = Color.White;
+            msMain.StripItemSelectedBackColorSouth = Color.White;
+            msMain.TabIndex = 2;
+            msMain.Text = "menuStrip1";
+            msMain.UseNorthFadeIn = false;
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnFileRun,
-            this.btnFileExit});
-            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnFileRun, btnFileExit });
+            fileToolStripMenuItem.ForeColor = Color.Black;
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(71, 38);
+            fileToolStripMenuItem.Text = "File";
             // 
             // btnFileRun
             // 
-            this.btnFileRun.ForeColor = System.Drawing.Color.Black;
-            this.btnFileRun.Name = "btnFileRun";
-            this.btnFileRun.Size = new System.Drawing.Size(180, 22);
-            this.btnFileRun.Text = "Run";
+            btnFileRun.ForeColor = Color.Black;
+            btnFileRun.Name = "btnFileRun";
+            btnFileRun.Size = new Size(268, 44);
+            btnFileRun.Text = "Run";
             // 
             // btnFileExit
             // 
-            this.btnFileExit.ForeColor = System.Drawing.Color.Black;
-            this.btnFileExit.Name = "btnFileExit";
-            this.btnFileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.btnFileExit.Size = new System.Drawing.Size(180, 22);
-            this.btnFileExit.Text = "Exit";
-            this.btnFileExit.Click += new System.EventHandler(this.btnFileExit_Click);
+            btnFileExit.ForeColor = Color.Black;
+            btnFileExit.Name = "btnFileExit";
+            btnFileExit.ShortcutKeys = Keys.Alt | Keys.F4;
+            btnFileExit.Size = new Size(268, 44);
+            btnFileExit.Text = "Exit";
+            btnFileExit.Click += btnFileExit_Click;
             // 
             // windowToolStripMenuItem
             // 
-            this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnWinRefresh,
-            this.toolStripSeparator2,
-            this.btnWinMinimise,
-            this.btnWinHide,
-            this.btnWinClose,
-            this.toolStripSeparator1,
-            this.btnWinCloseAll});
-            this.windowToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.windowToolStripMenuItem.Text = "Window";
+            windowToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnWinRefresh, toolStripSeparator2, btnWinMinimise, btnWinHide, btnWinClose, toolStripSeparator1, btnWinCloseAll });
+            windowToolStripMenuItem.ForeColor = Color.Black;
+            windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+            windowToolStripMenuItem.Size = new Size(121, 38);
+            windowToolStripMenuItem.Text = "Window";
             // 
             // btnWinRefresh
             // 
-            this.btnWinRefresh.ForeColor = System.Drawing.Color.Black;
-            this.btnWinRefresh.Name = "btnWinRefresh";
-            this.btnWinRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.btnWinRefresh.Size = new System.Drawing.Size(196, 22);
-            this.btnWinRefresh.Text = "Refresh";
-            this.btnWinRefresh.Click += new System.EventHandler(this.btnWinRefresh_Click);
+            btnWinRefresh.ForeColor = Color.Black;
+            btnWinRefresh.Name = "btnWinRefresh";
+            btnWinRefresh.ShortcutKeys = Keys.F5;
+            btnWinRefresh.Size = new Size(391, 44);
+            btnWinRefresh.Text = "Refresh";
+            btnWinRefresh.Click += btnWinRefresh_Click;
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(193, 6);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(388, 6);
             // 
             // btnWinMinimise
             // 
-            this.btnWinMinimise.Enabled = false;
-            this.btnWinMinimise.ForeColor = System.Drawing.Color.Black;
-            this.btnWinMinimise.Name = "btnWinMinimise";
-            this.btnWinMinimise.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.btnWinMinimise.Size = new System.Drawing.Size(196, 22);
-            this.btnWinMinimise.Text = "Minimise";
-            this.btnWinMinimise.Click += new System.EventHandler(this.btnWinMinimise_Click);
+            btnWinMinimise.Enabled = false;
+            btnWinMinimise.ForeColor = Color.Black;
+            btnWinMinimise.Name = "btnWinMinimise";
+            btnWinMinimise.ShortcutKeys = Keys.Control | Keys.Down;
+            btnWinMinimise.Size = new Size(391, 44);
+            btnWinMinimise.Text = "Minimise";
+            btnWinMinimise.Click += btnWinMinimise_Click;
             // 
             // btnWinHide
             // 
-            this.btnWinHide.Enabled = false;
-            this.btnWinHide.ForeColor = System.Drawing.Color.Black;
-            this.btnWinHide.Name = "btnWinHide";
-            this.btnWinHide.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Down)));
-            this.btnWinHide.Size = new System.Drawing.Size(196, 22);
-            this.btnWinHide.Text = "Hide";
-            this.btnWinHide.Click += new System.EventHandler(this.btnWinHide_Click);
+            btnWinHide.Enabled = false;
+            btnWinHide.ForeColor = Color.Black;
+            btnWinHide.Name = "btnWinHide";
+            btnWinHide.ShortcutKeys = Keys.Control | Keys.Shift | Keys.Down;
+            btnWinHide.Size = new Size(391, 44);
+            btnWinHide.Text = "Hide";
+            btnWinHide.Click += btnWinHide_Click;
             // 
             // btnWinClose
             // 
-            this.btnWinClose.Enabled = false;
-            this.btnWinClose.ForeColor = System.Drawing.Color.Black;
-            this.btnWinClose.Name = "btnWinClose";
-            this.btnWinClose.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.btnWinClose.Size = new System.Drawing.Size(196, 22);
-            this.btnWinClose.Text = "Close";
-            this.btnWinClose.Click += new System.EventHandler(this.btnWinClose_Click);
+            btnWinClose.Enabled = false;
+            btnWinClose.ForeColor = Color.Black;
+            btnWinClose.Name = "btnWinClose";
+            btnWinClose.ShortcutKeys = Keys.Delete;
+            btnWinClose.Size = new Size(391, 44);
+            btnWinClose.Text = "Close";
+            btnWinClose.Click += btnWinClose_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(388, 6);
             // 
             // btnWinCloseAll
             // 
-            this.btnWinCloseAll.ForeColor = System.Drawing.Color.Black;
-            this.btnWinCloseAll.Name = "btnWinCloseAll";
-            this.btnWinCloseAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.btnWinCloseAll.Size = new System.Drawing.Size(196, 22);
-            this.btnWinCloseAll.Text = "Close All";
-            this.btnWinCloseAll.Click += new System.EventHandler(this.btnWinCloseAll_Click);
+            btnWinCloseAll.ForeColor = Color.Black;
+            btnWinCloseAll.Name = "btnWinCloseAll";
+            btnWinCloseAll.ShortcutKeys = Keys.Control | Keys.Delete;
+            btnWinCloseAll.Size = new Size(391, 44);
+            btnWinCloseAll.Text = "Close All";
+            btnWinCloseAll.Click += btnWinCloseAll_Click;
             // 
             // listView1
             // 
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 24);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(360, 255);
-            this.listView1.TabIndex = 3;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Tile;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
+            listView1.BorderStyle = BorderStyle.None;
+            listView1.Dock = DockStyle.Fill;
+            listView1.Location = new Point(0, 46);
+            listView1.Margin = new Padding(6);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(669, 549);
+            listView1.TabIndex = 3;
+            listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = View.Tile;
+            listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
+            listView1.MouseDoubleClick += listView1_MouseDoubleClick;
             // 
             // WindowManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 279);
-            this.Controls.Add(this.listView1);
-            this.Controls.Add(this.msMain);
-            this.DoubleBuffered = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "WindowManager";
-            this.Text = "Window Manager";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WindowManager_FormClosed);
-            this.Load += new System.EventHandler(this.WindowManager_Load);
-            this.SizeChanged += new System.EventHandler(this.WindowManager_SizeChanged);
-            this.VisibleChanged += new System.EventHandler(this.WindowManager_VisibleChanged);
-            this.msMain.ResumeLayout(false);
-            this.msMain.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(669, 595);
+            Controls.Add(listView1);
+            Controls.Add(msMain);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Location = new Point(0, 0);
+            Margin = new Padding(6);
+            Name = "WindowManager";
+            Text = "Window Manager";
+            FormClosed += WindowManager_FormClosed;
+            Load += WindowManager_Load;
+            SizeChanged += WindowManager_SizeChanged;
+            VisibleChanged += WindowManager_VisibleChanged;
+            msMain.ResumeLayout(false);
+            msMain.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

@@ -169,6 +169,7 @@
             toolStripSeparator38 = new ToolStripSeparator();
             btnMenuOpenNewTerminal = new ToolStripMenuItem();
             toolStripSeparator23 = new ToolStripSeparator();
+            scanPortsToolStripMenuItem = new ToolStripMenuItem();
             btnMenuConnect = new ToolStripMenuItem();
             btnMenuDisconnect = new ToolStripMenuItem();
             toolStripSeparator34 = new ToolStripSeparator();
@@ -279,7 +280,6 @@
             toolStripSeparator30 = new ToolStripSeparator();
             cmbtnNewProgram = new ToolStripMenuItem();
             cmCloseProgram = new ToolStripMenuItem();
-            scanPortsToolStripMenuItem = new ToolStripMenuItem();
             tsMain.SuspendLayout();
             pnlRenamePanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -842,11 +842,17 @@
             // 
             // lstStepProgram
             // 
+            lstStepProgram.AllowArrowKeyCellSelect = false;
             lstStepProgram.AllowColumnSpanning = true;
             lstStepProgram.AllowMouseWheel = true;
             lstStepProgram.BackColor = Color.FromArgb(16, 16, 16);
             lstStepProgram.BorderColor = Color.Gray;
             lstStepProgram.Borders = ODModules.Borders.None;
+            lstStepProgram.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            lstStepProgram.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
+            lstStepProgram.CellPixelFit = true;
+            lstStepProgram.CellSelectEditableOnly = true;
+            lstStepProgram.CellSelectionBorderColor = Color.Blue;
             lstStepProgram.ColumnColor = Color.FromArgb(31, 31, 31);
             lstStepProgram.ColumnForeColor = Color.WhiteSmoke;
             lstStepProgram.ColumnLineColor = Color.FromArgb(64, 64, 64);
@@ -909,7 +915,7 @@
             column4.UseItemBackColor = false;
             column4.UseItemForeColor = false;
             column4.Visible = true;
-            column4.Width = 987;
+            column4.Width = 398;
             lstStepProgram.Columns.Add(column1);
             lstStepProgram.Columns.Add(column2);
             lstStepProgram.Columns.Add(column3);
@@ -921,6 +927,7 @@
             lstStepProgram.ExternalItems = null;
             lstStepProgram.Filter = null;
             lstStepProgram.FilterColumn = 0;
+            lstStepProgram.FilterSearchType = ODModules.ListControl.FilterSearch.Contains;
             lstStepProgram.ForeColor = Color.White;
             lstStepProgram.GridlineColor = Color.FromArgb(30, 30, 30);
             lstStepProgram.HighlightStrength = 128;
@@ -932,12 +939,16 @@
             listItem1.Indentation = 0U;
             listItem1.LineBackColor = Color.Transparent;
             listItem1.LineForeColor = Color.Black;
+            listItem1.MaximumValue = 0;
+            listItem1.MinimumValue = 0;
             listItem1.Name = "";
             listItem1.Selected = false;
             listSubItem1.BackColor = Color.Transparent;
             listSubItem1.Checked = true;
             listSubItem1.ForeColor = Color.Black;
             listSubItem1.Indentation = 0U;
+            listSubItem1.MaximumValue = 0;
+            listSubItem1.MinimumValue = 0;
             listSubItem1.Name = "";
             listSubItem1.Tag = null;
             listSubItem1.Text = "";
@@ -946,6 +957,8 @@
             listSubItem2.Checked = false;
             listSubItem2.ForeColor = Color.Black;
             listSubItem2.Indentation = 0U;
+            listSubItem2.MaximumValue = 0;
+            listSubItem2.MinimumValue = 0;
             listSubItem2.Name = "";
             listSubItem2.Tag = null;
             listSubItem2.Text = "No Operation";
@@ -954,6 +967,8 @@
             listSubItem3.Checked = false;
             listSubItem3.ForeColor = Color.Black;
             listSubItem3.Indentation = 0U;
+            listSubItem3.MaximumValue = 0;
+            listSubItem3.MinimumValue = 0;
             listSubItem3.Name = "";
             listSubItem3.Tag = null;
             listSubItem3.Text = "";
@@ -973,6 +988,7 @@
             lstStepProgram.MarkerBorderColor = Color.LimeGreen;
             lstStepProgram.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstStepProgram.MarkerStyle = ODModules.MarkerStyleType.PointerWithBox;
+            lstStepProgram.MoveControlOnCellChange = true;
             lstStepProgram.Name = "lstStepProgram";
             lstStepProgram.RowColor = Color.FromArgb(23, 23, 23);
             lstStepProgram.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
@@ -982,6 +998,7 @@
             lstStepProgram.SelectedColor = Color.SteelBlue;
             lstStepProgram.SelectionColor = Color.Gray;
             lstStepProgram.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lstStepProgram.ShowCellSelection = false;
             lstStepProgram.ShowGrid = true;
             lstStepProgram.ShowItemIndentation = true;
             lstStepProgram.ShowMarker = true;
@@ -1677,6 +1694,14 @@
             // 
             toolStripSeparator23.Name = "toolStripSeparator23";
             toolStripSeparator23.Size = new Size(474, 6);
+            // 
+            // scanPortsToolStripMenuItem
+            // 
+            scanPortsToolStripMenuItem.ForeColor = Color.White;
+            scanPortsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            scanPortsToolStripMenuItem.Name = "scanPortsToolStripMenuItem";
+            scanPortsToolStripMenuItem.Size = new Size(477, 44);
+            scanPortsToolStripMenuItem.Text = "Scan Ports";
             // 
             // btnMenuConnect
             // 
@@ -2480,6 +2505,8 @@
             Output.AllowMouseSelection = false;
             Output.AllowMouseWheelZoom = false;
             Output.BufferLength = 10000;
+            Output.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            Output.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
             Output.CursorFlashSpeed = 0.5F;
             Output.Dock = DockStyle.Fill;
             Output.ExtraLineAfterCommandEntered = false;
@@ -2676,14 +2703,6 @@
             cmCloseProgram.Size = new Size(320, 38);
             cmCloseProgram.Text = "Close Program";
             // 
-            // scanPortsToolStripMenuItem
-            // 
-            scanPortsToolStripMenuItem.ForeColor = Color.White;
-            scanPortsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
-            scanPortsToolStripMenuItem.Name = "scanPortsToolStripMenuItem";
-            scanPortsToolStripMenuItem.Size = new Size(477, 44);
-            scanPortsToolStripMenuItem.Text = "Scan Ports";
-            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -2695,7 +2714,6 @@
             Controls.Add(tsMain);
             Controls.Add(msMain);
             Controls.Add(smMain);
-            DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Location = new Point(0, 0);

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
-    public class ModbusReturnResult {
+    public class ModbusRequest {
         ModbusSupport.FunctionCode function;
         public ModbusSupport.FunctionCode Function {
             get { return Function; }
@@ -26,7 +26,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     return ShortValues;
                 }
                 else {
-                    return ShortValues;
+                    return BoolValues;
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         List<bool> BoolValues = new List<bool>();
         List<short> ShortValues = new List<short>();
-        public ModbusReturnResult(ModbusSupport.FunctionCode function, int device, int address, List<bool> Values) {
+        public ModbusRequest(ModbusSupport.FunctionCode function, int device, int address, List<bool> Values) {
             this.function = function;
             this.device = device;
             this.address = address;
@@ -46,13 +46,23 @@ namespace Serial_Monitor.Classes.Modbus {
             this.BoolValues = Values;
             creationTime = DateTime.UtcNow;
         }
-        public ModbusReturnResult(ModbusSupport.FunctionCode function, int device, int address, List<short> Values) {
+        public ModbusRequest(ModbusSupport.FunctionCode function, int device, int address, List<short> Values) {
             this.function = function;
             this.device = device;
             this.address = address;
             IsInteger = false;
             this.ShortValues = Values;
             creationTime = DateTime.UtcNow;
+        }
+    }
+    public class Container<T> {
+        private T _data;
+        public Container(T value) {
+            _data = value;
+        }
+        public T Data {
+            get { return _data; }
+            set { _data = value; }
         }
     }
 }

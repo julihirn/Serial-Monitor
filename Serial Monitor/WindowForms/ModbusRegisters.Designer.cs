@@ -28,8 +28,11 @@
             cmMonitor = new ODModules.ContextMenu();
             btnCmSelectionToSnapshot = new ToolStripMenuItem();
             toolStripSeparator14 = new ToolStripSeparator();
+            cutToolStripMenuItem1 = new ToolStripMenuItem();
             copyToolStripMenuItem1 = new ToolStripMenuItem();
             pasteToolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripSeparator31 = new ToolStripSeparator();
+            selectAllToolStripMenuItem1 = new ToolStripMenuItem();
             tsMain = new ODModules.ToolStrip();
             btnCoils = new ToolStripButton();
             btnDiscrete = new ToolStripButton();
@@ -74,6 +77,7 @@
             copyAppearanceToolStripMenuItem = new ToolStripMenuItem();
             copyAsTextToolStripMenuItem = new ToolStripMenuItem();
             pasteToolStripMenuItem = new ToolStripMenuItem();
+            deleteToolStripMenuItem = new ToolStripMenuItem();
             resetToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator5 = new ToolStripSeparator();
             selectAllToolStripMenuItem = new ToolStripMenuItem();
@@ -198,7 +202,7 @@
             cmMonitor.ForeColor = Color.White;
             cmMonitor.ImageScalingSize = new Size(32, 32);
             cmMonitor.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
-            cmMonitor.Items.AddRange(new ToolStripItem[] { btnCmSelectionToSnapshot, toolStripSeparator14, copyToolStripMenuItem1, pasteToolStripMenuItem1 });
+            cmMonitor.Items.AddRange(new ToolStripItem[] { btnCmSelectionToSnapshot, toolStripSeparator14, cutToolStripMenuItem1, copyToolStripMenuItem1, pasteToolStripMenuItem1, toolStripSeparator31, selectAllToolStripMenuItem1 });
             cmMonitor.MenuBackColorNorth = Color.DodgerBlue;
             cmMonitor.MenuBackColorSouth = Color.DodgerBlue;
             cmMonitor.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
@@ -220,6 +224,12 @@
             toolStripSeparator14.Name = "toolStripSeparator14";
             resources.ApplyResources(toolStripSeparator14, "toolStripSeparator14");
             // 
+            // cutToolStripMenuItem1
+            // 
+            resources.ApplyResources(cutToolStripMenuItem1, "cutToolStripMenuItem1");
+            cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
+            cutToolStripMenuItem1.Click += cutToolStripMenuItem1_Click;
+            // 
             // copyToolStripMenuItem1
             // 
             resources.ApplyResources(copyToolStripMenuItem1, "copyToolStripMenuItem1");
@@ -231,6 +241,17 @@
             resources.ApplyResources(pasteToolStripMenuItem1, "pasteToolStripMenuItem1");
             pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
             pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
+            // 
+            // toolStripSeparator31
+            // 
+            toolStripSeparator31.Name = "toolStripSeparator31";
+            resources.ApplyResources(toolStripSeparator31, "toolStripSeparator31");
+            // 
+            // selectAllToolStripMenuItem1
+            // 
+            resources.ApplyResources(selectAllToolStripMenuItem1, "selectAllToolStripMenuItem1");
+            selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
+            selectAllToolStripMenuItem1.Click += selectAllToolStripMenuItem1_Click;
             // 
             // tsMain
             // 
@@ -441,7 +462,7 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem, toolStripSeparator4, goToToolStripMenuItem, toolStripSeparator15, cutToolStripMenuItem, copyToolStripMenuItem, copySpecialToolStripMenuItem, copyAsTextToolStripMenuItem, pasteToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator5, selectAllToolStripMenuItem, selectInvertToolStripMenuItem, selectSpecialToolStripMenuItem, clearSelectionToolStripMenuItem, toolStripSeparator22, bitTogglerToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem, toolStripSeparator4, goToToolStripMenuItem, toolStripSeparator15, cutToolStripMenuItem, copyToolStripMenuItem, copySpecialToolStripMenuItem, copyAsTextToolStripMenuItem, pasteToolStripMenuItem, deleteToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator5, selectAllToolStripMenuItem, selectInvertToolStripMenuItem, selectSpecialToolStripMenuItem, clearSelectionToolStripMenuItem, toolStripSeparator22, bitTogglerToolStripMenuItem });
             editToolStripMenuItem.ForeColor = Color.White;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
@@ -503,6 +524,7 @@
             cutToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(cutToolStripMenuItem, "cutToolStripMenuItem");
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
             // 
             // copyToolStripMenuItem
             // 
@@ -559,6 +581,13 @@
             resources.ApplyResources(pasteToolStripMenuItem, "pasteToolStripMenuItem");
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
+            // 
+            // deleteToolStripMenuItem
+            // 
+            resources.ApplyResources(deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            deleteToolStripMenuItem.ForeColor = Color.White;
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
             // 
@@ -1368,7 +1397,6 @@
             Controls.Add(editorModbus);
             Controls.Add(tsMain);
             Controls.Add(msMain);
-            DoubleBuffered = true;
             KeyPreview = true;
             MainMenuStrip = msMain;
             Name = "ModbusRegisters";
@@ -1551,5 +1579,9 @@
         private ToolStripMenuItem ddbAddressFormatSelect;
         private ToolStripMenuItem goToSelectionToolStripMenuItem;
         private ToolStripMenuItem quickConverterToolStripMenuItem;
+        private ToolStripMenuItem cutToolStripMenuItem1;
+        private ToolStripSeparator toolStripSeparator31;
+        private ToolStripMenuItem selectAllToolStripMenuItem1;
+        private ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

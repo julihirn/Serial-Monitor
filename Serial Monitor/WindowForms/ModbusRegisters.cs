@@ -11,6 +11,7 @@ using Serial_Monitor.Interfaces;
 using Serial_Monitor.WindowForms;
 using Svg;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -133,6 +134,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             SystemManager.ModbusReceived += SystemManager_ModbusReceived;
             SystemManager.ModbusRegisterRenamed += SystemManager_ModbusRegisterRenamed;
+            SystemManager.ModbusEditorChanged += SystemManager_ModbusEditorChanged;
             ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
             SystemManager.ModbusPropertyChanged += SystemManager_ModbusPropertyChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
@@ -150,8 +152,16 @@ namespace Serial_Monitor {
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
 
         }
-
-
+        private void SystemManager_ModbusEditorChanged() {
+            EditorEditableRegionActions();
+        }
+        private void EditorEditableRegionActions() {
+            ListControl? CurrentEditor = GetCurrentListView();
+            bool EnableCut = ModbusEditor.ContainsEditable(CurrentEditor);
+            cutToolStripMenuItem.Enabled = EnableCut;
+            cutToolStripMenuItem1.Enabled = EnableCut;
+            deleteToolStripMenuItem.Enabled = EnableCut;
+        }
         private void ModbusEditor_ViewUpdated(ListControl LstControl) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 LstControl.Invalidate();
@@ -547,6 +557,7 @@ namespace Serial_Monitor {
                     SetFormatters(false);
                 }
             }
+            EditorEditableRegionActions();
         }
         private enum FormatEditor {
             None = 0x00,
@@ -929,18 +940,25 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ColorPalette, changeAppearanceToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Zoom, zoomToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.OrderedList, ddbAddressFormatSelect, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Binary, bitTogglerToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, selectAllToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, selectAllToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectRows, btnSelectionToSnapshot, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -1114,6 +1132,12 @@ namespace Serial_Monitor {
             }
             return null;
         }
+        internal object? GetCurrentEditableControl() {
+            ListControl? LstCtrl = GetCurrentListView();
+            if (LstCtrl == null) { return null; }
+            if (LstCtrl.Controls.Count != 1) { return null; }
+            return LstCtrl.Controls[0];
+        }
         private void EdVal_ArrowKeyPress(ArrowKey Direction) {
             if (Direction == ArrowKey.Down) {
                 editorModbus.lstMonitor.SelectNextDropDown();
@@ -1155,7 +1179,7 @@ namespace Serial_Monitor {
             if ((e.KeyChar == ' ') || (e.KeyChar == '\r')) {
                 editorModbus.lstMonitor.SelectDropForward(0, 0, true);
             }
-            if (Char.IsLetterOrDigit(e.KeyChar)) {
+            if (Char.IsLetterOrDigit(e.KeyChar) || (e.KeyChar == '\b')) {
                 if ((editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Size) || (editorModbus.lstMonitor.SelectedCell.X == ModbusEditor.Indx_Display)) {
                     if (ConversionHandler.DateIntervalDifference(LastKeyDown, DateTime.UtcNow, ConversionHandler.Interval.Second) > 1) {
                         DropDownSearchString = "";
@@ -1165,7 +1189,10 @@ namespace Serial_Monitor {
                     }
                     LastSelectedCell = editorModbus.lstMonitor.SelectedCell.X;
                     LastSelectedRow = editorModbus.lstMonitor.SelectedCell.Y;
-                    DropDownSearchString += e.KeyChar;
+                    if (e.KeyChar != '\b') {
+                        DropDownSearchString += e.KeyChar;
+                    }
+
                     LastKeyDown = DateTime.UtcNow;
                 }
                 editorModbus.lstMonitor.SelectDropForward(0, 0, true, e.KeyChar.ToString());
@@ -1604,7 +1631,12 @@ namespace Serial_Monitor {
         }
         private void SelectAll() {
             ListControl? CurrentEditor = GetCurrentListView();
-            ModbusEditor.SelectAll(CurrentEditor);
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.SelectAllTextbox(CurrentEditor);
+            }
+            else {
+                ModbusEditor.SelectAll(CurrentEditor);
+            }
         }
         private void SelectAllInvert() {
             ListControl? CurrentEditor = GetCurrentListView();
@@ -1632,15 +1664,6 @@ namespace Serial_Monitor {
             ListControl? CurrentEditor = GetCurrentListView();
             ModbusEditor.CopyRegisters(CurrentEditor, Flags);
         }
-        private void Paste() {
-            ListControl? CurrentEditor = GetCurrentListView();
-            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
-                ModbusEditor.PasteTextIntoEditRegion("", CurrentEditor);
-            }
-            else {
-                ModbusEditor.PasteRegisters(CurrentEditor);
-            }
-        }
         private void CopyAsText() {
             ListControl? CurrentEditor = GetCurrentListView();
             if (ModbusEditor.ContainsEditable(CurrentEditor)) {
@@ -1650,6 +1673,16 @@ namespace Serial_Monitor {
                 ModbusEditor.CopyRegistersAsText(CurrentEditor);
             }
         }
+        private void Paste() {
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.PasteTextIntoEditRegion("", CurrentEditor);
+            }
+            else {
+                ModbusEditor.PasteRegisters(CurrentEditor);
+            }
+        }
+
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             Copy();
         }
@@ -1689,6 +1722,9 @@ namespace Serial_Monitor {
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e) {
             SelectAll();
         }
+        private void selectAllToolStripMenuItem1_Click(object sender, EventArgs e) {
+            SelectAll();
+        }
         private void selectInvertToolStripMenuItem_Click(object sender, EventArgs e) {
             SelectAllInvert();
         }
@@ -1703,6 +1739,27 @@ namespace Serial_Monitor {
         private void selectMatchingFormatsToolStripMenuItem_Click(object sender, EventArgs e) {
             ModbusClipboardFlags Flags = ModbusClipboardFlags.IncludeFormat | ModbusClipboardFlags.IncludeSize;
             SelectMatching(Flags);
+        }
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e) {
+            Cut();
+        }
+        private void cutToolStripMenuItem1_Click(object sender, EventArgs e) {
+            Cut();
+        }
+        internal void Cut() {
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.CutTextFromEditRegion(CurrentEditor);
+            }
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            Delete();
+        }
+        internal void Delete() {
+            ListControl? CurrentEditor = GetCurrentListView();
+            if (ModbusEditor.ContainsEditable(CurrentEditor)) {
+                ModbusEditor.DeleteTextFromEditRegion(CurrentEditor);
+            }
         }
         #endregion
         #region GoTo
@@ -2539,6 +2596,8 @@ namespace Serial_Monitor {
             QuickConvert CQuickConvertApp = new QuickConvert();
             ApplicationManager.OpenInternalApplicationOnce(CQuickConvertApp, false);
         }
+
+     
 
         internal enum DataEditor {
             MasterView = 0x00,

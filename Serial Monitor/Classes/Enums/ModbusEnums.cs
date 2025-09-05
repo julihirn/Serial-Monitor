@@ -75,5 +75,12 @@ namespace Serial_Monitor.Classes.Enums {
             FixedPlaces12 = 0x0C
 
         }
+        public enum DataType{ 
+            Void = 0x00,
+            Coil = 0x01,
+            Register = 0x02,
+            CoilArray = 0x04,
+            RegisterArray = 0x08
+        }
     }
 }

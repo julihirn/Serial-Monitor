@@ -78,7 +78,7 @@ namespace Serial_Monitor {
             LoadEventHandlers();
             SystemManager.MainInstance = this;
             thPrograms.Tabs.Clear();
-            NewProgram("Main");
+            ProgramEditing.NewProgram(thPrograms, "Main");
             lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
             lstStepProgram.Tag = ProgramManager.Programs[0];
             ProgramManager.CurrentEditingProgram = ProgramManager.Programs[0];
@@ -95,14 +95,14 @@ namespace Serial_Monitor {
             //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
             SystemManager.AddChannel("", SerManager_CommandProcessed);
             currentManager = SystemManager.SerialManagers[0];
-          
+
             ProgramManager.LaunchThread();
-            LoadRecentItems();
+            ProjectManager.LoadRecentItems(btnRecentProjects);
             ApplyLocalisation();
             DocumentEdited = false;
         }
 
-      
+
         private void SystemManager_ProjectEdited() {
             MarkDocumentChanged();
         }
@@ -449,20 +449,20 @@ namespace Serial_Monitor {
             ProgramManager.ProgramListingChanged += ProgramManager_ProgramListingChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
-            SystemManager.ErrorInvoked += SystemManager_ErrorInvoked;
             SystemManager.ChannelDataReceived += SystemManager_ChannelDataReceived;
             SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
             //DetermineTabs();
 
         }
+
+        #region Extensions 
         private void LoadPlugins() {
-            SystemManager.PluginsLoaded += SystemManager_PluginsLoaded;
+        SystemManager.PluginsLoaded += SystemManager_PluginsLoaded;
             //Thread PlugInLoaderThread = new Thread(SystemManager.LoadPlugins);
             //PlugInLoaderThread.IsBackground = true;
             //PlugInLoaderThread.Start();
             SystemManager.LoadPlugins();
         }
-
         private void SystemManager_PluginsLoaded() {
             this.BeginInvoke(new MethodInvoker(delegate {
                 SystemManager.ApplyPlugins(extensionsToolStripMenuItem, ExtensionClicked);
@@ -482,17 +482,11 @@ namespace Serial_Monitor {
             }
             catch { }
         }
-
-        private void SystemManager_ErrorInvoked(ErrorType Type, string Sender, string Message) {
-            this.BeginInvoke(new MethodInvoker(delegate {
-                this.Print(ErrorType.M_Error, "COM_PSTART", "Could not open the port");
-            }));
-        }
+        #endregion 
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             if (currentManager == null) { return; }
             if (sender.ID == currentManager.ID) {
                 InvokePropertyChange();
-
             }
             navigator1.Invalidate();
         }
@@ -711,24 +705,6 @@ namespace Serial_Monitor {
                 }
             }
         }
-        private void SerMan_DataReceived(object? sender, bool PrintLine, string Data) {
-            //if (sender == null) { return; }
-            //string SourceName = "";
-            //bool PostOutput = true;
-            //if (sender.GetType() == typeof(SerialManager)) {
-            //    SerialManager SM = (SerialManager)sender;
-            //    SourceName = SM.PortName;
-            //    PostOutput = SM.OutputToMasterTerminal;
-            //}
-            //if (PostOutput == true) {
-            //    if (PrintLine == true) {
-            //        Output.Print(SourceName, Data);
-            //    }
-            //    else {
-            //        Output.AttendToLastLine(SourceName, Data, true);
-            //    }
-            //}
-        }
         private void SerManager_CommandProcessed(object? sender, string Data) {
             if (sender == null) { return; }
             string SourceName = "";
@@ -783,7 +759,8 @@ namespace Serial_Monitor {
             if (sender == null) { return; }
             if (sender.GetType() == typeof(ToolStripMenuItem)) {
                 ToolStripMenuItem MenuItem = (ToolStripMenuItem)sender;
-                if (MenuItem.Tag == null) { return; };
+                if (MenuItem.Tag == null) { return; }
+                ;
                 if (CurrentManager != null) {
                     int Temp = (int)MenuItem.Tag;
                     navigator1.SelectedItem = Temp;
@@ -817,7 +794,7 @@ namespace Serial_Monitor {
             }
         }
         private void ScanPort(SerialManager? SerMan) {
-           if (SerMan == null) { return; }
+            if (SerMan == null) { return; }
             SerMan.ScanAndSetPort();
         }
         private void btnDisconnect_Click(object? sender, EventArgs e) {
@@ -1689,60 +1666,8 @@ namespace Serial_Monitor {
         }
         #endregion
         #region Program UI
-        private void LoadRecentItems() {
-            for (int i = btnRecentProjects.DropDownItems.Count - 1; i >= 0; i--) {
-                if (btnRecentProjects.DropDownItems[i].Tag != null) {
-                    btnRecentProjects.DropDownItems[i].Click -= BtnRecentItem_Click;
-                    btnRecentProjects.DropDownItems.RemoveAt(i);
-                }
-            }
-            if (Properties.Settings.Default.DOC_PRJ_RecentFiles != null) {
-                int j = 1;
-                for (int i = Properties.Settings.Default.DOC_PRJ_RecentFiles.Count - 1; i >= 0; i--) {
-                    string? FileName = Properties.Settings.Default.DOC_PRJ_RecentFiles[i];
-                    if ((FileName != null) && (j <= 10)) {
-                        if (FileName != "") {
-                            ToolStripMenuItem btnRecentItem = new ToolStripMenuItem();
-                            btnRecentItem.Text = j.ToString() + "  " + Path.GetFileNameWithoutExtension(FileName);
-                            btnRecentItem.Tag = FileName;
-                            btnRecentItem.Click += BtnRecentItem_Click;
-                            btnRecentProjects.DropDownItems.Add(btnRecentItem);
-                            j++;
-                        }
-                    }
-                }
-                if (j > 1) {
-                    btnRecentProjects.Enabled = true;
-                }
-                else {
-                    btnRecentProjects.Enabled = false;
-                }
-            }
-            else {
-                btnRecentProjects.Enabled = false;
-            }
-        }
         private void btnRecentProjects_DropDownOpening(object? sender, EventArgs e) {
-            LoadRecentItems();
-        }
-        private void AddFiletoRecentFiles(string FileName) {
-            if (Properties.Settings.Default.DOC_PRJ_RecentFiles == null) {
-                Properties.Settings.Default.DOC_PRJ_RecentFiles = new System.Collections.Specialized.StringCollection();
-            }
-            int ContainsRecentFile = -1;
-            for (int i = 0; i < Properties.Settings.Default.DOC_PRJ_RecentFiles.Count; i++) {
-                if (Properties.Settings.Default.DOC_PRJ_RecentFiles[i] != null) {
-                    if (FileName == Properties.Settings.Default.DOC_PRJ_RecentFiles[i]) {
-                        ContainsRecentFile = i;
-                        break;
-                    }
-                }
-            }
-            if (ContainsRecentFile >= 0) {
-                Properties.Settings.Default.DOC_PRJ_RecentFiles.RemoveAt(ContainsRecentFile);
-            }
-            Properties.Settings.Default.DOC_PRJ_RecentFiles.Add(FileName);
-            Properties.Settings.Default.Save();
+            ProjectManager.LoadRecentItems(btnRecentProjects);
         }
         private void BtnRecentItem_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
@@ -1753,7 +1678,7 @@ namespace Serial_Monitor {
                 if (FileName == "") { return; }
                 SystemManager.CloseAll();
                 Open(FileName);
-                AddFiletoRecentFiles(FileName);
+                ProjectManager.AddFiletoRecentFiles(FileName);
             }
         }
         private void channelsToolStripMenuItem_Click(object? sender, EventArgs e) {
@@ -1846,13 +1771,9 @@ namespace Serial_Monitor {
                 if (LastEntered.GetType() == typeof(ODModules.ListControl)) {
                     ProgramEditing.RemoveSelected(lstStepProgram);
                 }
-                else {
-                    Output.ClearEntered();
-                }
+                else { Output.ClearEntered(); }
             }
-            else {
-                Output.ClearEntered();
-            }
+            else { Output.ClearEntered(); }
         }
         private void addCommandToolStripMenuItem1_Click(object? sender, EventArgs e) {
             ProgramEditing.NewLine(lstStepProgram);
@@ -2108,21 +2029,7 @@ namespace Serial_Monitor {
         #endregion
         #region MultiProgram Editing
         private void tabHeader1_SelectedIndexChanged(object? sender, int CurrentIndex, int PreviousIndex) {
-            if (thPrograms.Tabs.Count > 0) {
-                if (CurrentIndex < thPrograms.Tabs.Count) {
-                    object? TagData = thPrograms.Tabs[CurrentIndex].Tag;
-                    if (TagData != null) {
-                        if (TagData.GetType() == typeof(ProgramObject)) {
-                            lstStepProgram.Tag = TagData;
-                            ProgramManager.CurrentEditingProgram = (ProgramObject)TagData;
-                            lstStepProgram.ExternalItems = ((ProgramObject)TagData).Program;
-                            lstStepProgram.LineMarkerIndex = ((ProgramObject)TagData).ProgramMarker;
-                            ProgramManager.ApplyIndentation(lstStepProgram, false);
-                            ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
-                        }
-                    }
-                }
-            }
+            ProgramEditing.ProgramEditorChange(thPrograms, lstStepProgram, CurrentIndex);
         }
         private void commandPalletToolStripMenuItem_Click(object? sender, EventArgs e) {
             CommandPalette CmdPalette = new CommandPalette();
@@ -2144,7 +2051,7 @@ namespace Serial_Monitor {
         private void cmCloseProgram_Click(object? sender, EventArgs e) {
             if (cmPrograms.Tag == null) { return; }
             if (cmPrograms.Tag.GetType() == typeof(TabClickedEventArgs)) {
-                RemoveProgram(((TabClickedEventArgs)cmPrograms.Tag).Index);
+                ProgramEditing.RemoveProgram(thPrograms, lstStepProgram, btnRun, ((TabClickedEventArgs)cmPrograms.Tag).Index);
             }
         }
         private void cmbtnSetAsActive_Click(object? sender, EventArgs e) {
@@ -2162,19 +2069,19 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationAsDialog(PrgProp, this);
         }
         private void tabHeader1_AddButtonClicked(object? sender) {
-            NewProgram();
+            ProgramEditing.NewProgram(thPrograms);
         }
         private void tabHeader1_CloseButtonClicked(object? sender, int Index) {
-            RemoveProgram(Index);
+            ProgramEditing.RemoveProgram(thPrograms, lstStepProgram, btnRun, Index);
         }
         private void removeProgramToolStripMenuItem_Click(object? sender, EventArgs e) {
-            RemoveProgram(thPrograms.SelectedIndex);
+            ProgramEditing.RemoveProgram(thPrograms, lstStepProgram, btnRun, thPrograms.SelectedIndex);
         }
         private void newProgramToolStripMenuItem_Click(object? sender, EventArgs e) {
-            NewProgram();
+            ProgramEditing.NewProgram(thPrograms);
         }
         private void cmbtnNewProgram_Click(object? sender, EventArgs e) {
-            NewProgram();
+            ProgramEditing.NewProgram(thPrograms);
         }
         private string GetTextFromTab(TabClickedEventArgs? Args) {
             //if (cmPrograms.Tag == null) { return ""; }
@@ -2363,7 +2270,7 @@ namespace Serial_Monitor {
             if (ProceedNew == true) {
                 DocumentEdited = false;
                 CleanProjectData();
-                NewProgram("Main");
+                ProgramEditing.NewProgram(thPrograms, "Main");
                 //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
                 SystemManager.AddChannel("", SerManager_CommandProcessed);
                 navigator1.SelectedItem = 0;
@@ -2417,7 +2324,7 @@ namespace Serial_Monitor {
             if (OpenDia.ShowDialog() == DialogResult.OK) {
                 if (File.Exists(OpenDia.FileName)) {
                     Open(OpenDia.FileName);
-                    AddFiletoRecentFiles(OpenDia.FileName);
+                    ProjectManager.AddFiletoRecentFiles(OpenDia.FileName);
                 }
             }
         }
@@ -2451,7 +2358,7 @@ namespace Serial_Monitor {
             else {
                 btnOpenLocation.Enabled = true;
             }
-            AddFiletoRecentFiles(CurrentDocument);
+            ProjectManager.AddFiletoRecentFiles(CurrentDocument);
         }
         private void SetTitle(string DocumentName) {
             if (documentEdited == true) {
@@ -2470,7 +2377,7 @@ namespace Serial_Monitor {
         private void CleanProjectData() {
             SystemManager.CloseAll();
             ProjectManager.ClearKeypadButtons();
-            SystemManager.ClearChannels(SerManager_CommandProcessed, SerMan_DataReceived);
+            SystemManager.ClearChannels(SerManager_CommandProcessed);
             ClearPrograms();
             lstStepProgram.LineRemoveAll();
             GC.Collect();
@@ -2485,10 +2392,10 @@ namespace Serial_Monitor {
             CleanProjectData();
             //
             if (Extension == ".smp") {
-                ProjectManager.ReadSMPFile(FileAddress, SerManager_CommandProcessed, SerMan_DataReceived);
+                ProjectManager.ReadSMPFile(FileAddress, SerManager_CommandProcessed);
             }
             else if (Extension == ".cms") {
-                ProjectManager.ReadCMSLFile(FileAddress, SerManager_CommandProcessed, SerMan_DataReceived);
+                ProjectManager.ReadCMSLFile(FileAddress, SerManager_CommandProcessed);
             }
             if (ProgramManager.Programs.Count == 0) {
                 ProgramManager.Programs.Add(new ProgramObject());
@@ -2518,63 +2425,6 @@ namespace Serial_Monitor {
             ProgramManager.ApplyIndentation(lstStepProgram, false);
             ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
             DocumentEdited = false;
-        }
-        private void NewProgram(string Name = "") {
-            ProgramObject PrgObj = new ProgramObject(Name);
-            ProgramManager.Programs.Add(PrgObj);
-            Tab Tb = new Tab();
-            Tb.Text = Name;
-            Tb.Tag = PrgObj;
-            thPrograms.Tabs.Add(Tb);
-            ProgramManager.UpdateProgramNames(thPrograms);
-            thPrograms.Invalidate();
-            DocumentEdited = true;
-        }
-        private void RemoveProgram(int Index) {
-            bool ChangeActiveProgram = false;
-            bool ChangeEditingProgram = false;
-            if (Index >= thPrograms.Tabs.Count) { return; }
-            object? DataTag = thPrograms.Tabs[Index].Tag;
-            if (DataTag == null) { return; }
-            if (DataTag.GetType() == typeof(ProgramObject)) {
-                ProgramObject PrgObj = (ProgramObject)DataTag;
-
-                if (PrgObj == ProgramManager.CurrentProgram) {
-                    ProgramManager.CurrentProgram = null;
-                    ChangeActiveProgram = true;
-                }
-                if (lstStepProgram.Tag == PrgObj) {
-                    lstStepProgram.Tag = null;
-                    ChangeEditingProgram = true;
-                }
-                try {
-                    thPrograms.Tabs.RemoveAt(Index);
-                    ProgramManager.RemoveProgram(PrgObj);
-                }
-                catch { }
-            }
-            if (ProgramManager.Programs.Count == 0) {
-                NewProgram();
-                lstStepProgram.Tag = ProgramManager.Programs[0];
-                lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
-                ProgramManager.CurrentProgram = ProgramManager.Programs[0];
-                thPrograms.SelectedIndex = 0;
-                btnRun.Text = thPrograms.Tabs[0].Text;
-            }
-            else {
-                if (ChangeActiveProgram == true) {
-                    ProgramManager.CurrentProgram = ProgramManager.Programs[0];
-                    btnRun.Text = thPrograms.Tabs[0].Text;
-                }
-                if (ChangeEditingProgram == true) {
-                    thPrograms.SelectedIndex = ProgramManager.Programs.Count - 1;
-                    lstStepProgram.Tag = ProgramManager.Programs[ProgramManager.Programs.Count - 1];
-                    lstStepProgram.ExternalItems = ProgramManager.Programs[ProgramManager.Programs.Count - 1].Program;
-                }
-            }
-            thPrograms.Invalidate();
-            DocumentEdited = true;
-            ProgramManager.DetermineName(thPrograms, btnRun);
         }
         #endregion
         #region Window Management
@@ -2624,7 +2474,7 @@ namespace Serial_Monitor {
             lstStepProgram.LineSelectAll();
         }
         private void fileToolStripMenuItem_Click(object? sender, EventArgs e) {
-            LoadRecentItems();
+            ProjectManager.LoadRecentItems(btnRecentProjects);
         }
         private void btnMenuExit_Click(object? sender, EventArgs e) {
             this.Close();

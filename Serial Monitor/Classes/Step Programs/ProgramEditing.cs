@@ -1,4 +1,5 @@
 ﻿using ODModules;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Serial_Monitor.Classes.ProgramManager;
+using static Serial_Monitor.Classes.Step_Programs.StepEnumerations;
 
 namespace Serial_Monitor.Classes.Step_Programs {
     internal static class ProgramEditing {
+        const int PROG_DATA_SIZE = 3;
+        const int PROG_DATA_INDX_LINENUM = 0;
+        const int PROG_DATA_INDX_ENABLE = 1;
+        const int PROG_DATA_INDX_COMMAND = 2;
+        const int PROG_DATA_INDX_ARGUMENTS = 3;
+
         internal static void ChangeEnable(ODModules.ListControl? ProgramEditor, EnableChanged TypeOfChange) {
             if (ProgramEditor == null) { return; }
             if (ProgramEditor.CurrentItems == null) { return; }
@@ -38,11 +46,84 @@ namespace Serial_Monitor.Classes.Step_Programs {
             }
             ProgramEditor.Invalidate();
         }
-
+        #region Navigation
+        internal static void ProgramEditorChange(TabHeader thPrograms, ODModules.ListControl lstStepProgram, int CurrentIndex) {
+            if (thPrograms.Tabs.Count <= 0) { return; }
+            if (CurrentIndex >= thPrograms.Tabs.Count) { return; }
+            object? TagData = thPrograms.Tabs[CurrentIndex].Tag;
+            if (TagData == null) { return; }
+            if (TagData.GetType() == typeof(ProgramObject)) {
+                lstStepProgram.Tag = TagData;
+                ProgramManager.CurrentEditingProgram = (ProgramObject)TagData;
+                lstStepProgram.ExternalItems = ((ProgramObject)TagData).Program;
+                lstStepProgram.LineMarkerIndex = ((ProgramObject)TagData).ProgramMarker;
+                ProgramManager.ApplyIndentation(lstStepProgram, false);
+                ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
+            }
+        }
+        #endregion
+        #region Programs
+        internal static void NewProgram(TabHeader thPrograms, string Name = "") {
+            ProgramObject PrgObj = new ProgramObject(Name);
+            ProgramManager.Programs.Add(PrgObj);
+            Tab Tb = new Tab();
+            Tb.Text = Name;
+            Tb.Tag = PrgObj;
+            thPrograms.Tabs.Add(Tb);
+            ProgramManager.UpdateProgramNames(thPrograms);
+            thPrograms.Invalidate();
+            SystemManager.InvokeProjectEdited();
+        }
+        internal static void RemoveProgram(TabHeader thPrograms, ODModules.ListControl lstStepProgram, ToolStripSplitButton btnRun, int Index) {
+            bool ChangeActiveProgram = false;
+            bool ChangeEditingProgram = false;
+            if (Index >= thPrograms.Tabs.Count) { return; }
+            object? DataTag = thPrograms.Tabs[Index].Tag;
+            if (DataTag == null) { return; }
+            if (DataTag.GetType() == typeof(ProgramObject)) {
+                ProgramObject PrgObj = (ProgramObject)DataTag;
+                if (PrgObj == ProgramManager.CurrentProgram) {
+                    ProgramManager.CurrentProgram = null;
+                    ChangeActiveProgram = true;
+                }
+                if (lstStepProgram.Tag == PrgObj) {
+                    lstStepProgram.Tag = null;
+                    ChangeEditingProgram = true;
+                }
+                try {
+                    thPrograms.Tabs.RemoveAt(Index);
+                    ProgramManager.RemoveProgram(PrgObj);
+                }
+                catch { }
+            }
+            if (ProgramManager.Programs.Count == 0) {
+                ProgramEditing.NewProgram(thPrograms);
+                lstStepProgram.Tag = ProgramManager.Programs[0];
+                lstStepProgram.ExternalItems = ProgramManager.Programs[0].Program;
+                ProgramManager.CurrentProgram = ProgramManager.Programs[0];
+                thPrograms.SelectedIndex = 0;
+                btnRun.Text = thPrograms.Tabs[0].Text;
+            }
+            else {
+                if (ChangeActiveProgram == true) {
+                    ProgramManager.CurrentProgram = ProgramManager.Programs[0];
+                    btnRun.Text = thPrograms.Tabs[0].Text;
+                }
+                if (ChangeEditingProgram == true) {
+                    thPrograms.SelectedIndex = ProgramManager.Programs.Count - 1;
+                    lstStepProgram.Tag = ProgramManager.Programs[ProgramManager.Programs.Count - 1];
+                    lstStepProgram.ExternalItems = ProgramManager.Programs[ProgramManager.Programs.Count - 1].Program;
+                }
+            }
+            thPrograms.Invalidate();
+            SystemManager.InvokeProjectEdited();
+            ProgramManager.DetermineName(thPrograms, btnRun);
+        }
+        #endregion
         #region Clipboard
         internal const string Clipboard_ProgramDataType = "SERMAN:PRG_EVEDAT";
         internal static void CopyStepProgram(ODModules.ListControl? ProgramEditor, bool DeleteCopy = false, bool ClearSelection = true) {
-            if (ProgramEditor == null ) { return; }
+            if (ProgramEditor == null) { return; }
             if (ProgramEditor.ExternalItems == null) { return; }
             List<ProgramDataObject> list = new List<ProgramDataObject>();
             for (int i = ProgramEditor.ExternalItems.Count - 1; i >= 0; i--) {
@@ -141,7 +222,7 @@ namespace Serial_Monitor.Classes.Step_Programs {
         }
         #endregion
         #region DropDown Editors
-        internal static void ChangeStepCommand(ODModules.ListControl? ProgramEditor, ODModules.ContextMenu? StepDropDown,object? sender) {
+        internal static void ChangeStepCommand(ODModules.ListControl? ProgramEditor, ODModules.ContextMenu? StepDropDown, object? sender) {
             if (ProgramEditor == null) { return; }
             if (StepDropDown == null) { return; }
             if (sender == null) { return; }
@@ -371,6 +452,99 @@ namespace Serial_Monitor.Classes.Step_Programs {
                     menu.DropDownItems.Add(TsMi);
                 }
             }
+        }
+        #endregion
+        #region Editors
+        private static ProgramEdit? GetEditArguments(ListItem? Input, int LineIndex) {
+            if (Input == null) { return null; }
+            if (Input.SubItems == null) { return null; }
+            if (Input.SubItems.Count != PROG_DATA_SIZE) { return null; }
+            string Arguments = Input[PROG_DATA_INDX_ARGUMENTS].Text;
+            object? objFunction = Input[PROG_DATA_INDX_COMMAND].Tag;
+            StepExecutable Function = StepExecutable.NoOperation;
+            if (objFunction != null) {
+                if (objFunction.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                    Function = (StepEnumerations.StepExecutable)objFunction;
+                }
+            }
+            bool Enabled = Input[PROG_DATA_INDX_ENABLE].Checked;
+            return new ProgramEdit(LineIndex, Function, Arguments, Enabled, Input);
+        }
+        public static void AddTextBox(DropDownClickedEventArgs e, ODModules.ListControl LstCtrl, DataSelection DataSet, Components.EditValue.ArrowKeyPressedHandler arrowKeyPressed, string? DataToPush) {
+            ProgramEdit? Data = GetEditArguments(e.ParentItem, e.Item);
+            if (Data == null) { return; }
+            ODModules.SingleLineTextBox Tb = new ODModules.SingleLineTextBox();
+            Tb.BackColor = LstCtrl.BackColor;
+            Tb.SelectedBackColor = LstCtrl.BackColor;
+            Tb.Font = LstCtrl.Font;
+            Tb.AutoSize = false;
+            Tb.ForeColor = LstCtrl.ForeColor;
+            Tb.CaretColor = LstCtrl.ForeColor;
+            Tb.SelectionColor = LstCtrl.SelectedColor;
+            Tb.Padding = new Padding(10, 0, 0, 0);
+            Tb.SelectedBorderColor = LstCtrl.CellSelectionBorderColor;
+            Tb.Text = Data.Arguments;
+            Tb.Tag = Data;
+            LstCtrl.AddControlToCell(Tb);
+            Tb.Focus();
+            //EdVal.ArrowKeyPress += arrowKeyPressed;
+            Tb.Leave += Tb_LostFocus;
+            //Tb.KeyPress += Tb_KeyPress;
+            SystemManager.InvokeModbusEditorChanged();
+            Tb.EnterPressed += Tb_EnterPressed;
+            Tb.TextChanged += Tb_TextChanged;
+            if (DataToPush != null) {
+                Tb.AppendText(DataToPush);
+            }
+        }
+
+
+        #endregion
+        #region Editor Event Handlers
+        private static void Tb_EnterPressed(SingleLineTextBox sender) {
+            RemoveControl(sender);
+        }
+        private static void Tb_TextChanged(object? sender, EventArgs e) {
+            if (sender == null) { return; }
+            if (sender.GetType() != typeof(SingleLineTextBox)) { return; }
+            SingleLineTextBox Ttb = (SingleLineTextBox)sender;
+            object? Tag = Ttb.Tag;
+            if (Tag == null) { return; }
+            if (Tag.GetType() == typeof(ProgramEdit)) {
+                ProgramEdit pd = (ProgramEdit)Tag;
+                if (pd == null) { return; }
+                if (pd.Parent.SubItems.Count != PROG_DATA_SIZE) { return; }
+                pd.Parent[PROG_DATA_INDX_ARGUMENTS].Text = Ttb.Text ?? "";
+            }
+        }
+        private static void Tb_LostFocus(object? sender, EventArgs e) {
+            RemoveControl(sender);
+        }
+        public static void RemoveAllControls(ODModules.ListControl LstCtrl) {
+            for (int i = LstCtrl.Controls.Count - 1; i >= 0; i--) {
+                RemoveControl(LstCtrl.Controls[i], false);
+            }
+            //SystemManager.InvokeModbusEditorChanged();
+        }
+        private static void RemoveControl(object? sender, bool InvokeEvent = true) {
+            if (sender == null) { return; }
+            if (sender.GetType() == typeof(ODModules.NumericTextbox)) {
+                //ODModules.NumericTextbox OdTb = (ODModules.NumericTextbox)sender;
+                //OdTb.LostFocus -= Tb_LostFocus;
+                //OdTb.EnterPressed -= Nb_EnterPressed;
+                //OdTb.ValueChanged -= Tb_ValueChanged;
+                //if (OdTb.Parent == null) { return; }
+                //OdTb.Parent.Controls.Remove(OdTb);
+            }
+            else if (sender.GetType() == typeof(ODModules.SingleLineTextBox)) {
+                ODModules.SingleLineTextBox OdTb = (ODModules.SingleLineTextBox)sender;
+                OdTb.LostFocus -= Tb_LostFocus;
+                OdTb.EnterPressed -= Tb_EnterPressed;
+                OdTb.TextChanged -= Tb_TextChanged;
+                if (OdTb.Parent == null) { return; }
+                OdTb.Parent.Controls.Remove(OdTb);
+            }
+            //if (InvokeEvent) { SystemManager.InvokeModbusEditorChanged(); }
         }
         #endregion
     }

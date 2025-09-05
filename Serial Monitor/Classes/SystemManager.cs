@@ -24,7 +24,7 @@ namespace Serial_Monitor.Classes {
 
         public static List<int> DefaultBauds = new List<int>();
         public static List<SerialManager> SerialManagers = new List<SerialManager>();
-
+        #region Channel Global Events
         public static event ChannelAddedHandler? ChannelAdded;
         public delegate void ChannelAddedHandler(int RemovedIndex);
         public static event ChannelRequestsHandlesHandler? ChannelRequestsHandles;
@@ -55,10 +55,15 @@ namespace Serial_Monitor.Classes {
 
         public static event PortStatusChangedHandler? PortStatusChanged;
         public delegate void PortStatusChangedHandler(SerialManager sender);
+        #endregion
+        #region System Global Events
+        public static event PluginsLoadedHandler? PluginsLoaded;
+        public delegate void PluginsLoadedHandler();
 
         public static event ErrorMessageHandler? ErrorInvoked;
         public delegate void ErrorMessageHandler(ErrorType Type, string Sender, string Message);
-
+        #endregion 
+        #region Modbus Global Events
         public static event ModbusPropertyChangedHandler? ModbusPropertyChanged;
         public delegate void ModbusPropertyChangedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
         public static event ModbusRegisterRenamedHandler? ModbusRegisterRenamed;
@@ -76,12 +81,13 @@ namespace Serial_Monitor.Classes {
         public static event ModbusDiagnosticsReceivedHandler? ModbusDiagnosticsReceived;
         public delegate void ModbusDiagnosticsReceivedHandler(SerialManager sender, int Slave, ModbusSupport.DiagnosticSubFunction SubFunction, int Data);
 
-        public static event PluginsLoadedHandler? PluginsLoaded;
-        public delegate void PluginsLoadedHandler();
-
+        public static event ModbusEditorControlChanged? ModbusEditorChanged;
+        public delegate void ModbusEditorControlChanged();
+        #endregion
+        #region Project Global Events
         public static event ProjectEditedHandler? ProjectEdited;
         public delegate void ProjectEditedHandler();
-
+        #endregion 
         public static void InvokeProjectEdited() {
             ProjectEdited?.Invoke();
         }
@@ -93,6 +99,7 @@ namespace Serial_Monitor.Classes {
             SlaveChanged?.Invoke(sender);
         }
         public static void InvokeErrorMessage(ErrorType Type, string Sender, string Message) {
+            Print(Type, Sender, Message);
             ErrorInvoked?.Invoke(Type, Sender, Message);
         }
         public static void InvokePortStatusChanged(SerialManager sender) {
@@ -152,6 +159,9 @@ namespace Serial_Monitor.Classes {
             if (Sender == null) { return; }
             if (Sender.Channel == null) { return; }
             ModbusReceived?.Invoke(Sender, Data, Index, DataType);
+        }
+        internal static void InvokeModbusEditorChanged() {
+            ModbusEditorChanged?.Invoke();
         }
         public static void SendModbusCommand(SerialManager? CurrentManager, DataSelection DataSet, string Command) {
             if (CurrentManager == null) { return; }
@@ -332,13 +342,14 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
-        public static void ClearChannels(CommandProcessedHandler SerManager_CommandProcessed, DataProcessedHandler SerMan_DataReceived) {
+        //, DataProcessedHandler SerMan_DataReceived
+        public static void ClearChannels(CommandProcessedHandler SerManager_CommandProcessed) {
             Modbus.ModbusSupport.ClearSnapshots();
             ModbusSupport.ClearPollers();
             for (int i = SerialManagers.Count - 1; i >= 0; i--) {
                 SerialManagers[i].CleanUp();
                 SerialManagers[i].CommandProcessed -= SerManager_CommandProcessed;
-                SerialManagers[i].DataReceived -= SerMan_DataReceived;
+                //SerialManagers[i].DataReceived -= SerMan_DataReceived;
                 SerialManagers.RemoveAt(i);
             }
         }

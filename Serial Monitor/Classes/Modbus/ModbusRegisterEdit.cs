@@ -11,10 +11,11 @@ namespace Serial_Monitor.Classes.Modbus {
         public int Column = -1;
         public ListItem Item;
         public DataSelection Selection;
-        public ModbusRegisterEdit(ModbusRegister? reg, int column, ListItem Li) {
+        public ModbusRegisterEdit(ModbusRegister? reg, int column, ListItem Li, DataSelection dataSelect) {
             Register = reg;
             Column = column;
             this.Item = Li;
+            this.Selection = dataSelect;
         }
     }
 }

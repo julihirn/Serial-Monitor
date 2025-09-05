@@ -505,7 +505,7 @@ namespace Serial_Monitor.ToolWindows {
             if ((e.KeyChar == ' ') || (e.KeyChar == '\r')) {
                 lstRegisters.SelectDropForward(0, 0, true);
             }
-            if (Char.IsLetterOrDigit(e.KeyChar)) {
+            if (Char.IsLetterOrDigit(e.KeyChar) || (e.KeyChar == '\b')) {
                 if ((lstRegisters.SelectedCell.X == ModbusEditor.Indx_Size) || (lstRegisters.SelectedCell.X == ModbusEditor.Indx_Display)) {
                     if (ConversionHandler.DateIntervalDifference(LastKeyDown, DateTime.UtcNow, ConversionHandler.Interval.Second) > 1) {
                         DropDownSearchString = "";
