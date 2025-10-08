@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /Serial Monitor/Components/EditValue-C3M_MEDIA2.resx
 /Serial Monitor/Components/EditValue-C3M_MEDIA2.cs
+/Serial Monitor/digitalMatteroldFunction.js
