@@ -2040,6 +2040,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 i++;
             }
             EditorPropertiesEqual?.Invoke(lstMonitor, Flags, PreviousProperty, true);
+            GC.Collect();
             return;
         }
     }

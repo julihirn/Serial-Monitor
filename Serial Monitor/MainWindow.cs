@@ -421,7 +421,17 @@ namespace Serial_Monitor {
             Load += Form1_Load;
             KeyPress += Form1_KeyPress;
             scanPortsToolStripMenuItem.Click += ScanPortsToolStripMenuItem_Click;
+
+            copyToolStripMenuItem2.Click += CopyToolStripMenuItem2_Click;
+            pasteToolStripMenuItem2.Click += PasteToolStripMenuItem2_Click;
+            deleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
+            clearTerminalToolStripMenuItem.Click += ClearTerminalToolStripMenuItem_Click;
         }
+
+        private void ClearTerminalToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Output.Clear();
+        }
+
         public MainWindow() {
             Setup();
         }
@@ -457,7 +467,7 @@ namespace Serial_Monitor {
 
         #region Extensions 
         private void LoadPlugins() {
-        SystemManager.PluginsLoaded += SystemManager_PluginsLoaded;
+            SystemManager.PluginsLoaded += SystemManager_PluginsLoaded;
             //Thread PlugInLoaderThread = new Thread(SystemManager.LoadPlugins);
             //PlugInLoaderThread.IsBackground = true;
             //PlugInLoaderThread.Start();
@@ -570,6 +580,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmStepPrg);
             Classes.Theming.ThemeManager.ThemeControl(cmPrograms);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
+            Classes.Theming.ThemeManager.ThemeControl(cmTerminal);
 
             lblRxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblTxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -584,6 +595,7 @@ namespace Serial_Monitor {
             toolStripStatusLabel3.ForeColor = Properties.Settings.Default.THM_COL_SecondaryForeColor;
             //this.ResumeLayout();
             ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
+            navigator1.MidColor = btnOptViewSource.Checked == true ? Output.OriginBackColor : Output.BackColor;
         }
         private void AddIcons() {
             DesignerSetup.SetImageSizes(RenderHandler.DPI());
@@ -624,7 +636,11 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
-            //DesignerSetup.LinkSVGtoControl(Properties.Resources.de, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem2, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem2, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, runProgramToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.RunStart_16x, btnRunPrg, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -634,7 +650,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, btnStopPrg, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Pause_16x, pauseToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, stopToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
-
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, clearTerminalToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, btnClearTerminal, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.BringForward, btnTopMost, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -1318,9 +1334,11 @@ namespace Serial_Monitor {
         #endregion
         #region View Settings
         private void toolStripButton1_Click(object? sender, EventArgs e) {
+            Output.ClearSelection();
             Output.Clear();
         }
         private void btnMenuClearTerminal_Click(object? sender, EventArgs e) {
+            Output.ClearSelection();
             Output.Clear();
         }
         private void TopMostSetting() {
@@ -1641,8 +1659,37 @@ namespace Serial_Monitor {
         #endregion
         #region Clipboard
         object? LastEntered = null;
+        private void DeleteToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Output.ClearEntered();
+        }
+        private void PasteToolStripMenuItem2_Click(object? sender, EventArgs e) {
+            Output.Paste();
+        }
+        private void CopyToolStripMenuItem2_Click(object? sender, EventArgs e) {
+            string OutputSelection = Output.CopyOutput();
+            Output.ClearSelection();
+            Output.Invalidate();
+            if (OutputSelection != string.Empty) {
+                Clipboard.SetText(OutputSelection);
+            }
+        }
+
         private void copyToolStripMenuItem_Click(object? sender, EventArgs e) {
-            ProgramEditing.CopyStepProgram(lstStepProgram);
+            if (lstStepProgram.SelectionCount > 0) {
+                ProgramEditing.CopyStepProgram(lstStepProgram);
+            }
+            else {
+                try {
+                    string OutputSelection = Output.CopyOutput();
+                    Output.ClearSelection();
+                    Output.Invalidate();
+                    if (OutputSelection != string.Empty) {
+                        Clipboard.SetText(OutputSelection);
+                    }
+
+                }
+                catch { }
+            }
         }
         private void pasteToolStripMenuItem_Click(object? sender, EventArgs e) {
             if (Clipboard.ContainsData(ProgramEditing.Clipboard_ProgramDataType)) {
@@ -1973,6 +2020,7 @@ namespace Serial_Monitor {
         }
         public void MethodClearing() {
             this.BeginInvoke(new MethodInvoker(delegate {
+                this.Output.ClearSelection();
                 this.Output.Clear();
             }));
         }
@@ -2458,6 +2506,7 @@ namespace Serial_Monitor {
         }
         private void btnOptViewSource_Click(object? sender, EventArgs e) {
             Output.ShowOrigin = btnOptViewSource.Checked;
+            navigator1.MidColor = btnOptViewSource.Checked == true ? Output.OriginBackColor : Output.BackColor;
         }
         private void Output_Click(object? sender, EventArgs e) {
             LastEntered = sender;

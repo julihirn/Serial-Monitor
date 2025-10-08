@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -71,6 +72,24 @@ namespace Serial_Monitor.Components {
                 titleForeColor = value; RepaintBorder();
             }
         }
+        bool enableMica = false;
+        [Category("Appearance")]
+        public bool EnableTransparency {
+            get {
+                return enableMica;
+            }
+            set {
+                enableMica = value; RepaintBorder();
+            }
+        }
+        private bool CanBeTransparent {
+            get {
+                if (enableMica) {
+                    return DesignerSetup.IsWindows11OrGreater();
+                }
+                return false;
+            }
+        }
         bool isActive = false;
         public bool IsActive {
             get {
@@ -80,6 +99,14 @@ namespace Serial_Monitor.Components {
         private void SkinnedForm_Load(object sender, EventArgs e) {
 
         }
+        private const int DWMWA_SYSTEMBACKDROP_TYPE = 38; // Introduced in Windows 11 build 22000
+        private enum DwmSystemBackdropType {
+            Auto = 0,
+            None = 1,
+            Mica = 2,
+            Acrylic = 3,
+            Tabbed = 4
+        }
         private string ToBgr(Color c) => $"{c.B:X2}{c.G:X2}{c.R:X2}";
 
         [DllImport("DwmApi")]
@@ -88,26 +115,45 @@ namespace Serial_Monitor.Components {
         const int DWWMA_CAPTION_COLOR = 35;
         const int DWWMA_BORDER_COLOR = 34;
         const int DWMWA_TEXT_COLOR = 36;
+        private void EnableMica(IntPtr hWnd) {
+            try {
+                if (CanBeTransparent) {
+                    int micaValue = (int)DwmSystemBackdropType.Mica;
+                    DwmSetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, new int[] { micaValue }, sizeof(int));
+                }
+                else {
+                    int noneValue = (int)DwmSystemBackdropType.None;
+                    DwmSetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, new int[] { noneValue }, sizeof(int));
+                }
+            }
+            catch {
+            }
+        }
         public void CustomWindow(Color captionColor, Color fontColor, Color borderColor, IntPtr handle) {
             IntPtr hWnd = handle;
-            //Change caption color
+            EnableMica(this.Handle);
+            if (DesignerSetup.IsWindows11OrGreater() == false) { return; }
             try {
-                if (DesignerSetup.IsWindows11OrGreater() == true) {
+                if (CanBeTransparent) {
+                    int micaValue = (int)DwmSystemBackdropType.Mica;
+                    DwmSetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, new int[] { micaValue }, sizeof(int));
+                }
+                else {
                     int[] caption = new int[] { int.Parse(ToBgr(captionColor), System.Globalization.NumberStyles.HexNumber) };
                     DwmSetWindowAttribute(hWnd, DWWMA_CAPTION_COLOR, caption, 4);
-                    //Change font color
-                    int[] font = new int[] { int.Parse(ToBgr(fontColor), System.Globalization.NumberStyles.HexNumber) };
-                    DwmSetWindowAttribute(hWnd, DWMWA_TEXT_COLOR, font, 4);
-                    //Change border color
-                    int[] border = new int[] { int.Parse(ToBgr(borderColor), System.Globalization.NumberStyles.HexNumber) };
-                    DwmSetWindowAttribute(hWnd, DWWMA_BORDER_COLOR, border, 4);
                 }
+                int[] font = new int[] { int.Parse(ToBgr(fontColor), System.Globalization.NumberStyles.HexNumber) };
+                DwmSetWindowAttribute(hWnd, DWMWA_TEXT_COLOR, font, 4);
+                //Change border color
+                int[] border = new int[] { int.Parse(ToBgr(borderColor), System.Globalization.NumberStyles.HexNumber) };
+                DwmSetWindowAttribute(hWnd, DWWMA_BORDER_COLOR, border, 4);
 
             }
             catch { }
 
         }
         private void RepaintBorder() {
+            EnableMica(this.Handle);
             if (isActive) {
                 CustomWindow(titleBackColor, titleForeColor, activeBorderColor, this.Handle);
             }
@@ -141,7 +187,14 @@ namespace Serial_Monitor.Components {
             RepaintBorder();
         }
         protected override void OnPaintBackground(PaintEventArgs e) {
-            e.Graphics.Clear(this.BackColor);
+            if (enableMica) {
+                using (SolidBrush brush = new SolidBrush(Color.FromArgb(80, titleBackColor))) {
+                    e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                }
+            }
+            else {
+                e.Graphics.Clear(this.BackColor);
+            }
         }
 
         private bool _isRestoring = false;
@@ -187,7 +240,9 @@ namespace Serial_Monitor.Components {
                 RepaintBorder();
             }
         }
-        
-
+        protected override void OnHandleCreated(EventArgs e) {
+            base.OnHandleCreated(e);
+            EnableMica(this.Handle);
+        }
     }
 }

@@ -238,6 +238,14 @@ namespace Serial_Monitor.WindowForms {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, btnChannelInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, btnChannelOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, clearTerminalToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
@@ -250,6 +258,7 @@ namespace Serial_Monitor.WindowForms {
             Classes.Theming.ThemeManager.ThemeControl(Output);
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(cmTerminal);
 
             this.ResumeLayout();
         }
@@ -843,6 +852,40 @@ namespace Serial_Monitor.WindowForms {
             if (manager != null) {
                 manager.AllowEscapeCharacters = !manager.AllowEscapeCharacters;
             }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
+            string OutputSelection = Output.CopyOutput();
+            Output.ClearSelection();
+            Output.Invalidate();
+            if (OutputSelection != string.Empty) {
+                Clipboard.SetText(OutputSelection);
+            }
+        }
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e) {
+            Output.Paste();
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            Output.ClearEntered();
+        }
+
+        private void clearTerminalToolStripMenuItem_Click(object sender, EventArgs e) {
+            Output.Clear();
+        }
+        private void copyToolStripMenuItem1_Click(object sender, EventArgs e) {
+            string OutputSelection = Output.CopyOutput();
+            Output.ClearSelection();
+            Output.Invalidate();
+            if (OutputSelection != string.Empty) {
+                Clipboard.SetText(OutputSelection);
+            }
+        }
+        private void pasteToolStripMenuItem1_Click(object sender, EventArgs e) {
+            Output.Paste();
+        }
+
+        private void deleteToolStripMenuItem1_Click(object sender, EventArgs e) {
+            Output.ClearEntered();
         }
     }
 }

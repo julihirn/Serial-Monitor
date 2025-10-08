@@ -164,6 +164,17 @@ namespace Serial_Monitor.Classes.Theming {
             set { syntaxxHighlightFunctions = value; }
         }
 
+        private Color consoleSourceBackColor = Color.FromArgb(20, 20, 20);
+        public Color ConsoleSourceBackColor {
+            get { return consoleSourceBackColor; }
+            set { consoleSourceBackColor = value; }
+        }
+        private Color consoleSourceSeperatorColor = Color.FromArgb(60, 60, 50);
+        public Color ConsoleSourceSeperatorColor {
+            get { return consoleSourceSeperatorColor; }
+            set { consoleSourceSeperatorColor = value; }
+        }
+
         private bool isDarkTheme = true;
         public bool IsDarkTheme {
             get { return isDarkTheme; }
@@ -215,7 +226,10 @@ namespace Serial_Monitor.Classes.Theming {
 
             Properties.Settings.Default.THM_COL_ItemInactiveForeColor = itemInactiveColor;
 
-          Properties.Settings.Default.THM_SET_IsDark = isDarkTheme;
+            Properties.Settings.Default.THM_COL_Source = consoleSourceBackColor;
+            Properties.Settings.Default.THM_COL_SourceSep = consoleSourceSeperatorColor;
+
+            Properties.Settings.Default.THM_SET_IsDark = isDarkTheme;
             Classes.ApplicationManager.ReapplyThemeToAll();
             Properties.Settings.Default.Save();
         }

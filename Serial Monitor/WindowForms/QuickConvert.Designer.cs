@@ -94,7 +94,7 @@
             lstConverter.HorizontalScrollStep = 3;
             lstConverter.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstConverter.LineMarkerIndex = 0;
-            lstConverter.Location = new Point(0, 42);
+            lstConverter.Location = new Point(0, 0);
             lstConverter.MarkerBorderColor = Color.LimeGreen;
             lstConverter.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstConverter.MarkerStyle = ODModules.MarkerStyleType.Highlight;
@@ -113,7 +113,7 @@
             lstConverter.ShowItemIndentation = false;
             lstConverter.ShowMarker = false;
             lstConverter.ShowRowColors = false;
-            lstConverter.Size = new Size(716, 723);
+            lstConverter.Size = new Size(716, 411);
             lstConverter.SpanColumn = 1;
             lstConverter.TabIndex = 1;
             lstConverter.UseLocalList = true;
@@ -149,6 +149,7 @@
             msMain.TabIndex = 2;
             msMain.Text = "menuStrip1";
             msMain.UseNorthFadeIn = false;
+            msMain.Visible = false;
             // 
             // editToolStripMenuItem
             // 
@@ -163,7 +164,7 @@
             copyToolStripMenuItem.ForeColor = Color.Black;
             copyToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            copyToolStripMenuItem.Size = new Size(359, 44);
+            copyToolStripMenuItem.Size = new Size(202, 44);
             copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -171,7 +172,7 @@
             pasteToolStripMenuItem.ForeColor = Color.Black;
             pasteToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            pasteToolStripMenuItem.Size = new Size(359, 44);
+            pasteToolStripMenuItem.Size = new Size(202, 44);
             pasteToolStripMenuItem.Text = "&Paste";
             // 
             // formatToolStripMenuItem
@@ -185,10 +186,9 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(716, 765);
+            ClientSize = new Size(716, 411);
             Controls.Add(lstConverter);
             Controls.Add(msMain);
-            DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Location = new Point(0, 0);
             MainMenuStrip = msMain;

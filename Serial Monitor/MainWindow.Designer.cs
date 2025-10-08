@@ -261,6 +261,11 @@
             thPrograms = new ODModules.TabHeader();
             pnlMainConsole = new Panel();
             Output = new ODModules.ConsoleInterface();
+            cmTerminal = new ODModules.ContextMenu();
+            clearTerminalToolStripMenuItem = new ToolStripMenuItem();
+            copyToolStripMenuItem2 = new ToolStripMenuItem();
+            pasteToolStripMenuItem2 = new ToolStripMenuItem();
+            deleteToolStripMenuItem1 = new ToolStripMenuItem();
             smMain = new ODModules.StatusMenu();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             lblTxBytes = new ToolStripStatusLabel();
@@ -280,6 +285,7 @@
             toolStripSeparator30 = new ToolStripSeparator();
             cmbtnNewProgram = new ToolStripMenuItem();
             cmCloseProgram = new ToolStripMenuItem();
+            toolStripSeparator44 = new ToolStripSeparator();
             tsMain.SuspendLayout();
             pnlRenamePanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -288,6 +294,7 @@
             msMain.SuspendLayout();
             pnlStepProgram.SuspendLayout();
             pnlMainConsole.SuspendLayout();
+            cmTerminal.SuspendLayout();
             smMain.SuspendLayout();
             cmPrograms.SuspendLayout();
             SuspendLayout();
@@ -776,14 +783,14 @@
             newChannelToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             newChannelToolStripMenuItem.Name = "newChannelToolStripMenuItem";
             newChannelToolStripMenuItem.Size = new Size(289, 40);
-            newChannelToolStripMenuItem.Text = "New Channel";
+            newChannelToolStripMenuItem.Text = "&New Channel";
             // 
             // removeChannelToolStripMenuItem
             // 
             removeChannelToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             removeChannelToolStripMenuItem.Name = "removeChannelToolStripMenuItem";
             removeChannelToolStripMenuItem.Size = new Size(289, 40);
-            removeChannelToolStripMenuItem.Text = "Remove Channel";
+            removeChannelToolStripMenuItem.Text = "&Remove Channel";
             // 
             // toolStripSeparator35
             // 
@@ -795,7 +802,7 @@
             renameChannelToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             renameChannelToolStripMenuItem.Name = "renameChannelToolStripMenuItem";
             renameChannelToolStripMenuItem.Size = new Size(289, 40);
-            renameChannelToolStripMenuItem.Text = "Rename Channel";
+            renameChannelToolStripMenuItem.Text = "R&ename Channel";
             // 
             // toolStripSeparator36
             // 
@@ -818,7 +825,7 @@
             modbusMasterToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             modbusMasterToolStripMenuItem.Name = "modbusMasterToolStripMenuItem";
             modbusMasterToolStripMenuItem.Size = new Size(289, 40);
-            modbusMasterToolStripMenuItem.Text = "Modbus Master";
+            modbusMasterToolStripMenuItem.Text = "&Modbus Master";
             // 
             // toolStripSeparator37
             // 
@@ -830,7 +837,7 @@
             connectToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
             connectToolStripMenuItem.Size = new Size(289, 40);
-            connectToolStripMenuItem.Text = "Connect";
+            connectToolStripMenuItem.Text = "&Connect";
             // 
             // disconnectToolStripMenuItem
             // 
@@ -838,7 +845,7 @@
             disconnectToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
             disconnectToolStripMenuItem.Size = new Size(289, 40);
-            disconnectToolStripMenuItem.Text = "Disconnect";
+            disconnectToolStripMenuItem.Text = "&Disconnect";
             // 
             // lstStepProgram
             // 
@@ -1052,21 +1059,21 @@
             cutToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
             cutToolStripMenuItem1.Size = new Size(272, 38);
-            cutToolStripMenuItem1.Text = "Cut";
+            cutToolStripMenuItem1.Text = "Cu&t";
             // 
             // copyToolStripMenuItem1
             // 
             copyToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
             copyToolStripMenuItem1.Size = new Size(272, 38);
-            copyToolStripMenuItem1.Text = "Copy";
+            copyToolStripMenuItem1.Text = "&Copy";
             // 
             // pasteToolStripMenuItem1
             // 
             pasteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
             pasteToolStripMenuItem1.Size = new Size(272, 38);
-            pasteToolStripMenuItem1.Text = "Paste";
+            pasteToolStripMenuItem1.Text = "&Paste";
             // 
             // toolStripSeparator33
             // 
@@ -1097,7 +1104,7 @@
             runToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             runToolStripMenuItem.Name = "runToolStripMenuItem";
             runToolStripMenuItem.Size = new Size(272, 38);
-            runToolStripMenuItem.Text = "Run";
+            runToolStripMenuItem.Text = "&Run";
             // 
             // pauseToolStripMenuItem
             // 
@@ -1105,7 +1112,7 @@
             pauseToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             pauseToolStripMenuItem.Size = new Size(272, 38);
-            pauseToolStripMenuItem.Text = "Pause";
+            pauseToolStripMenuItem.Text = "P&ause";
             // 
             // stopToolStripMenuItem
             // 
@@ -1113,7 +1120,7 @@
             stopToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             stopToolStripMenuItem.Name = "stopToolStripMenuItem";
             stopToolStripMenuItem.Size = new Size(272, 38);
-            stopToolStripMenuItem.Text = "Stop";
+            stopToolStripMenuItem.Text = "&Stop";
             // 
             // msMain
             // 
@@ -2501,12 +2508,14 @@
             // 
             // Output
             // 
+            Output.AlignEntryWithOutput = true;
             Output.AllowCommandEntry = true;
-            Output.AllowMouseSelection = false;
+            Output.AllowMouseSelection = true;
             Output.AllowMouseWheelZoom = false;
             Output.BufferLength = 10000;
             Output.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
             Output.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
+            Output.ContextMenuStrip = cmTerminal;
             Output.CursorFlashSpeed = 0.5F;
             Output.Dock = DockStyle.Fill;
             Output.ExtraLineAfterCommandEntered = false;
@@ -2519,8 +2528,12 @@
             Output.Margin = new Padding(6);
             Output.MaximumLength = 100;
             Output.Name = "Output";
+            Output.OriginBackColor = Color.FromArgb(20, 20, 20);
             Output.OriginForeColor = Color.Silver;
+            Output.OriginLength = 5;
+            Output.OriginLineColor = Color.FromArgb(64, 64, 64);
             Output.Padding = new Padding(9, 11, 0, 0);
+            Output.PegEntryToBottom = true;
             Output.PrintOnEntry = true;
             Output.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
             Output.ScrollBarNorth = Color.FromArgb(64, 64, 64);
@@ -2534,6 +2547,50 @@
             Output.TimeStamps = ODModules.ConsoleInterface.TimeStampFormat.NoTimeStamps;
             Output.VerScroll = 0;
             Output.Zoom = 100;
+            // 
+            // cmTerminal
+            // 
+            cmTerminal.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmTerminal.BorderColor = Color.Black;
+            cmTerminal.DropShadowEnabled = false;
+            cmTerminal.ForeColor = Color.White;
+            cmTerminal.ImageScalingSize = new Size(32, 32);
+            cmTerminal.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmTerminal.Items.AddRange(new ToolStripItem[] { clearTerminalToolStripMenuItem, toolStripSeparator44, copyToolStripMenuItem2, pasteToolStripMenuItem2, deleteToolStripMenuItem1 });
+            cmTerminal.MenuBackColorNorth = Color.DodgerBlue;
+            cmTerminal.MenuBackColorSouth = Color.DodgerBlue;
+            cmTerminal.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmTerminal.Name = "cmTerminal";
+            cmTerminal.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmTerminal.ShowInsetShadow = false;
+            cmTerminal.ShowItemInsetShadow = false;
+            cmTerminal.Size = new Size(301, 206);
+            // 
+            // clearTerminalToolStripMenuItem
+            // 
+            clearTerminalToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            clearTerminalToolStripMenuItem.Name = "clearTerminalToolStripMenuItem";
+            clearTerminalToolStripMenuItem.Size = new Size(300, 38);
+            clearTerminalToolStripMenuItem.Text = "C&lear Terminal";
+            // 
+            // copyToolStripMenuItem2
+            // 
+            copyToolStripMenuItem2.Name = "copyToolStripMenuItem2";
+            copyToolStripMenuItem2.Size = new Size(300, 38);
+            copyToolStripMenuItem2.Text = "&Copy";
+            // 
+            // pasteToolStripMenuItem2
+            // 
+            pasteToolStripMenuItem2.Name = "pasteToolStripMenuItem2";
+            pasteToolStripMenuItem2.Size = new Size(300, 38);
+            pasteToolStripMenuItem2.Text = "&Paste";
+            // 
+            // deleteToolStripMenuItem1
+            // 
+            deleteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
+            deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
+            deleteToolStripMenuItem1.Size = new Size(300, 38);
+            deleteToolStripMenuItem1.Text = "&Delete";
             // 
             // smMain
             // 
@@ -2656,14 +2713,14 @@
             cmRunProgram.ImageScaling = ToolStripItemImageScaling.None;
             cmRunProgram.Name = "cmRunProgram";
             cmRunProgram.Size = new Size(320, 38);
-            cmRunProgram.Text = "Run Program";
+            cmRunProgram.Text = "&Run Program";
             // 
             // cmbtnSetAsActive
             // 
             cmbtnSetAsActive.ImageScaling = ToolStripItemImageScaling.None;
             cmbtnSetAsActive.Name = "cmbtnSetAsActive";
             cmbtnSetAsActive.Size = new Size(320, 38);
-            cmbtnSetAsActive.Text = "Set as Active Program";
+            cmbtnSetAsActive.Text = "Set as &Active Program";
             // 
             // toolStripSeparator29
             // 
@@ -2675,14 +2732,14 @@
             renameToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             renameToolStripMenuItem.Name = "renameToolStripMenuItem";
             renameToolStripMenuItem.Size = new Size(320, 38);
-            renameToolStripMenuItem.Text = "Rename";
+            renameToolStripMenuItem.Text = "R&ename";
             // 
             // cmbtnProperties
             // 
             cmbtnProperties.ImageScaling = ToolStripItemImageScaling.None;
             cmbtnProperties.Name = "cmbtnProperties";
             cmbtnProperties.Size = new Size(320, 38);
-            cmbtnProperties.Text = "Properties";
+            cmbtnProperties.Text = "&Properties";
             // 
             // toolStripSeparator30
             // 
@@ -2694,14 +2751,19 @@
             cmbtnNewProgram.ImageScaling = ToolStripItemImageScaling.None;
             cmbtnNewProgram.Name = "cmbtnNewProgram";
             cmbtnNewProgram.Size = new Size(320, 38);
-            cmbtnNewProgram.Text = "New Program";
+            cmbtnNewProgram.Text = "&New Program";
             // 
             // cmCloseProgram
             // 
             cmCloseProgram.ImageScaling = ToolStripItemImageScaling.None;
             cmCloseProgram.Name = "cmCloseProgram";
             cmCloseProgram.Size = new Size(320, 38);
-            cmCloseProgram.Text = "Close Program";
+            cmCloseProgram.Text = "&Close Program";
+            // 
+            // toolStripSeparator44
+            // 
+            toolStripSeparator44.Name = "toolStripSeparator44";
+            toolStripSeparator44.Size = new Size(297, 6);
             // 
             // MainWindow
             // 
@@ -2733,6 +2795,7 @@
             pnlStepProgram.ResumeLayout(false);
             pnlMainConsole.ResumeLayout(false);
             pnlMainConsole.PerformLayout();
+            cmTerminal.ResumeLayout(false);
             smMain.ResumeLayout(false);
             smMain.PerformLayout();
             cmPrograms.ResumeLayout(false);
@@ -2990,5 +3053,11 @@
         private ToolStripMenuItem btnallowEscapeCharacters;
         private ToolStripMenuItem modbusQueryEditorToolStripMenuItem;
         private ToolStripMenuItem scanPortsToolStripMenuItem;
+        private ODModules.ContextMenu cmTerminal;
+        private ToolStripMenuItem copyToolStripMenuItem2;
+        private ToolStripMenuItem pasteToolStripMenuItem2;
+        private ToolStripMenuItem deleteToolStripMenuItem1;
+        private ToolStripMenuItem clearTerminalToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator44;
     }
 }

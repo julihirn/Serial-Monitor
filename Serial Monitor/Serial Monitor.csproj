@@ -18,10 +18,11 @@
     <Title>Serial Monitor</Title>
     <Product>Serial Monitor</Product>
     <AnalysisLevel>latest</AnalysisLevel>
-    <Version>1.16.1102.0</Version>
+    <Version>1.18.1241.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -59,15 +60,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="digitalMatteroldFunction.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="SerialMonitor.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FastColoredTextBox.Net5" Version="2.16.26" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
-    <PackageReference Include="ODModules" Version="2.0.19.33" />
-    <PackageReference Include="System.IO.Ports" Version="9.0.8" />
-    <PackageReference Include="System.Management" Version="9.0.8" />
+    <PackageReference Include="ODModules" Version="2.0.19.35" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.9" />
+    <PackageReference Include="System.Management" Version="9.0.9" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.1" />
   </ItemGroup>

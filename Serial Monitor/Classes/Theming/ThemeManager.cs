@@ -230,6 +230,10 @@ namespace Serial_Monitor.Classes.Theming {
                 Cons.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
                 Cons.ForeColor = Properties.Settings.Default.THM_COL_TerminalForeColor;
                 Cons.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                //Cons.OriginBackColor = 
+                Cons.SelectionColor = Properties.Settings.Default.THM_COL_SelectedColor;
+                Cons.OriginBackColor = Properties.Settings.Default.THM_COL_Source;
+                Cons.OriginLineColor = Properties.Settings.Default.THM_COL_SourceSep;
             }
             else if (ControlObject.GetType() == typeof(ODModules.HiddenTabControl)) {
                 ODModules.HiddenTabControl tCtrl = (ODModules.HiddenTabControl)ControlObject;
@@ -244,7 +248,7 @@ namespace Serial_Monitor.Classes.Theming {
                 lblPnl.LabelForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 lblPnl.LabelBackColor = Properties.Settings.Default.THM_COL_Editor;
                 lblPnl.BackColor = Properties.Settings.Default.THM_COL_Editor;
-                lblPnl.SeparatorColor  = Properties.Settings.Default.THM_COL_SeperatorColor;
+                lblPnl.SeparatorColor = Properties.Settings.Default.THM_COL_SeperatorColor;
             }
             else if (ControlObject.GetType() == typeof(ODModules.ButtonGrid)) {
                 ODModules.ButtonGrid btnGrid = (ODModules.ButtonGrid)ControlObject;
@@ -298,7 +302,7 @@ namespace Serial_Monitor.Classes.Theming {
                 btn.BorderColorDownNorth = Properties.Settings.Default.THM_COL_BorderColor;
                 btn.BorderColorDownSouth = Properties.Settings.Default.THM_COL_BorderColor;
             }
-            else if(ControlObject.GetType() == typeof(ODModules.FlatComboBox)) {
+            else if (ControlObject.GetType() == typeof(ODModules.FlatComboBox)) {
                 ODModules.FlatComboBox cmbxTemp = (ODModules.FlatComboBox)ControlObject;
                 cmbxTemp.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 cmbxTemp.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -455,6 +459,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark1.SyntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
             Thm_Dark1.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
 
+            Thm_Dark1.ConsoleSourceBackColor = Color.FromArgb(20, 20, 20);
+            Thm_Dark1.ConsoleSourceSeperatorColor = Color.FromArgb(60, 60, 60);
+
             Thm_Dark1.IsDarkTheme = true;
             return Thm_Dark1;
         }
@@ -499,6 +506,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light1.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
             Thm_Light1.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
             Thm_Light1.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
+
+            Thm_Light1.ConsoleSourceBackColor = Color.FromArgb(230, 230, 230);
+            Thm_Light1.ConsoleSourceSeperatorColor = Color.FromArgb(200, 200, 200);
 
             Thm_Light1.IsDarkTheme = false;
             return Thm_Light1;
@@ -545,6 +555,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
             Thm_Light2.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
 
+            Thm_Light2.ConsoleSourceBackColor = Color.FromArgb(237, 241, 255);
+            Thm_Light2.ConsoleSourceSeperatorColor = Color.FromArgb(232, 234, 239);
+
             Thm_Light2.IsDarkTheme = false;
             return Thm_Light2;
         }
@@ -589,6 +602,9 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
             Thm_Light2.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
             Thm_Light2.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
+
+            Thm_Light2.ConsoleSourceBackColor = Color.FromArgb(252, 234, 255);
+            Thm_Light2.ConsoleSourceSeperatorColor = Color.FromArgb(236, 220, 239);
 
             Thm_Light2.IsDarkTheme = false;
             return Thm_Light2;
@@ -635,6 +651,10 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.SyntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
             Thm_Dark2.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
 
+            Thm_Dark2.ConsoleSourceBackColor = Color.FromArgb(15, 19, 28);
+            Thm_Dark2.ConsoleSourceSeperatorColor = Color.FromArgb(30, 33, 35);
+
+
             Thm_Dark2.IsDarkTheme = true;
             return Thm_Dark2;
         }
@@ -680,6 +700,8 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.SyntaxHighlightDeclarations = Color.Cyan;
             Thm_Dark2.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
 
+            Thm_Dark2.ConsoleSourceBackColor = Color.FromArgb(20, 20, 20);
+            Thm_Dark2.ConsoleSourceSeperatorColor = Color.FromArgb(60, 60, 60);
             Thm_Dark2.IsDarkTheme = true;
             return Thm_Dark2;
         }

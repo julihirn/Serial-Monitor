@@ -37,11 +37,15 @@ namespace Serial_Monitor {
         BitTogglerPopup popToggler = new BitTogglerPopup();
         TemplateContextMenuHost BitTogglerPopupHost;
         private List<DockContent> ToolWindows = new List<DockContent>();
+        System.Windows.Forms.Timer PropertyChecker = new System.Windows.Forms.Timer();
         public ModbusRegisters() {
             InitializeComponent();
             if (currentEditorView == DataEditor.MasterView) {
                 showLastUpdated = ProjectManager.ShowLastUpdated;
             }
+            PropertyChecker.Interval = 100;
+            PropertyChecker.Enabled = false;
+            PropertyChecker.Tick += PropertyChecker_Tick;
             editorModbus.lstMonitor.ExternalItems = ModbusEditor.MasterRegisterEditor;
             AppearancePopupHost = new TemplateContextMenuHost(popAppearance, this);
             BitTogglerPopupHost = new TemplateContextMenuHost(popToggler, this);
@@ -2447,8 +2451,25 @@ namespace Serial_Monitor {
         private void lstMonitor_ItemClicked(object sender, ListItem Item, int Index, Rectangle ItemBounds) {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
         }
+        bool OnFirstSelect = true;
         private void LstMonitor_SelectionChanged(object sender, SelectedItemsEventArgs e) {
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender, TimeSpan.FromMilliseconds(300));
+            if (OnFirstSelect) {
+                ModbusEditor.RemoveAllControls(editorModbus.lstMonitor);
+                OnFirstSelect = false;
+            }
+            LastPropertyCheck = DateTime.UtcNow;
+            PropertyChecker.Enabled = true;
+        }
+        DateTime LastPropertyCheck = DateTime.MinValue;
+        private void PropertyChecker_Tick(object? sender, EventArgs e) {
+            TimeSpan EvalTime = DateTime.UtcNow - LastPropertyCheck;
+            if (EvalTime.TotalMilliseconds > 400) {
+                LastPropertyCheck = DateTime.UtcNow;
+                PropertyChecker.Enabled = false;
+                ModbusEditor.CheckSelectedPropertiesAreEqualAsync(editorModbus.lstMonitor);
+                PropertyChecker.Enabled = false;
+                OnFirstSelect = true;
+            }
         }
         private void lstMonitor_ValueChanged() {
             bitTogglerToolStripMenuItem.Enabled = BitToggleEnabled();
@@ -2597,7 +2618,7 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(CQuickConvertApp, false);
         }
 
-     
+
 
         internal enum DataEditor {
             MasterView = 0x00,

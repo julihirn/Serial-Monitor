@@ -21,7 +21,7 @@ using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor.ToolWindows {
     public partial class ModbusRegister : Components.MdiClientForm, ITheme {
-
+        System.Windows.Forms.Timer PropertyChecker = new System.Windows.Forms.Timer();
 
         Classes.Modbus.ModbusSnapshot? snapshot;
         public Classes.Modbus.ModbusSnapshot? Snapshot {
@@ -89,6 +89,9 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void Intialise(Classes.Modbus.ModbusSnapshot? snapShot) {
             InitializeComponent();
+            PropertyChecker.Interval = 100;
+            PropertyChecker.Enabled = false;
+            PropertyChecker.Tick += PropertyChecker_Tick;
             if (snapShot == null) { return; }
             snapshot = snapShot;
             snapshot.SnapshotRenamed += Snapshot_SnapshotRenamed;
@@ -484,9 +487,25 @@ namespace Serial_Monitor.ToolWindows {
             //return null;
             return Frm;
         }
-
+        bool OnFirstSelect = true;
         private void lstRegisters_SelectionChanged(object sender, SelectedItemsEventArgs e) {
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(sender, TimeSpan.FromMilliseconds(300));
+            if (OnFirstSelect) {
+                ModbusEditor.RemoveAllControls(lstRegisters);
+                OnFirstSelect = false;
+            }
+            LastPropertyCheck = DateTime.UtcNow;
+            PropertyChecker.Enabled = true;
+        }
+        DateTime LastPropertyCheck = DateTime.MinValue;
+        private void PropertyChecker_Tick(object? sender, EventArgs e) {
+            TimeSpan EvalTime = DateTime.UtcNow - LastPropertyCheck;
+            if (EvalTime.TotalMilliseconds > 400) {
+                LastPropertyCheck = DateTime.UtcNow;
+                PropertyChecker.Enabled = false;
+                ModbusEditor.CheckSelectedPropertiesAreEqualAsync(lstRegisters);
+                PropertyChecker.Enabled = false;
+                OnFirstSelect = true;
+            }
         }
 
         private void lstRegisters_CellSelected(object sender, CellSelectedEventArgs e) {
