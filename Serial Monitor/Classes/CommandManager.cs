@@ -83,22 +83,23 @@ namespace Serial_Monitor.Classes {
             if (TestKeyword(ref Input, Compare)) {
                 string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
                 List<string> SupportedFunctions = new List<string>();
+                SupportedFunctions.Add("TIME.NOW");
                 string Function = "";
                  if (TestSupportFunctions(ref TempCheck, SupportedFunctions, out Function) == false) { Input = OldValue; return false; }
                 if (TempCheck.StartsWith("\"") && TempCheck.EndsWith("\"")) { Input = OldValue; return false; }
                 if (DelimitOnEquals) {
                     string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    ParseState = GetDelimitedShorts(StrAddress, ref Values);
+                    ParseState = GetDelimitedShorts(StrAddress, ref Values, SupportedFunctions);
                 }
                 else {
                     string StrAddress = Input.TrimStart(' ');
-                    ParseState = GetDelimitedShorts(StrAddress, ref Values);
+                    ParseState = GetDelimitedShorts(StrAddress, ref Values, SupportedFunctions);
                 }
                 return ParseState;
             }
             return false;
         }
-        private static bool GetDelimitedShorts(string Input, ref List<short> ?Values) {
+        private static bool GetDelimitedShorts(string Input, ref List<short> ?Values, List<string> SupportedFunctions) {
             if (Values == null) { return false ; }
             //STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(Input.Trim(' '), ',');
             List<string> TempValues = Interpreter.ExpressionInterpreter.GetArguments(Input);
@@ -114,6 +115,10 @@ namespace Serial_Monitor.Classes {
                         AddResult = true;
                         break;
                     case TokenType.String:
+                        Success = Formatters.StringToShortArray(TempString.Remove(TempString.Length - 1, 1).Remove(0, 1), ref Values, false);
+                        AddResult = false;
+                        break;
+                    case TokenType.Expression:
                         Success = Formatters.StringToShortArray(TempString.Remove(TempString.Length - 1, 1).Remove(0, 1), ref Values, false);
                         AddResult = false;
                         break;

@@ -131,8 +131,8 @@
             // 
             Output.AlignEntryWithOutput = true;
             Output.AllowCommandEntry = true;
-            Output.AllowMouseSelection = false;
-            Output.AllowMouseWheelZoom = false;
+            Output.AllowMouseSelection = true;
+            Output.AllowMouseWheelZoom = true;
             Output.BufferLength = 10000;
             Output.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
             Output.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
@@ -186,26 +186,26 @@
             cmTerminal.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmTerminal.ShowInsetShadow = false;
             cmTerminal.ShowItemInsetShadow = true;
-            cmTerminal.Size = new Size(301, 206);
+            cmTerminal.Size = new Size(241, 162);
             // 
             // clearTerminalToolStripMenuItem
             // 
             clearTerminalToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             clearTerminalToolStripMenuItem.Name = "clearTerminalToolStripMenuItem";
-            clearTerminalToolStripMenuItem.Size = new Size(300, 38);
+            clearTerminalToolStripMenuItem.Size = new Size(240, 38);
             clearTerminalToolStripMenuItem.Text = "C&lear Terminal";
             clearTerminalToolStripMenuItem.Click += clearTerminalToolStripMenuItem_Click;
             // 
             // toolStripSeparator11
             // 
             toolStripSeparator11.Name = "toolStripSeparator11";
-            toolStripSeparator11.Size = new Size(297, 6);
+            toolStripSeparator11.Size = new Size(237, 6);
             // 
             // copyToolStripMenuItem1
             // 
             copyToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
-            copyToolStripMenuItem1.Size = new Size(300, 38);
+            copyToolStripMenuItem1.Size = new Size(240, 38);
             copyToolStripMenuItem1.Text = "&Copy";
             copyToolStripMenuItem1.Click += copyToolStripMenuItem1_Click;
             // 
@@ -213,7 +213,7 @@
             // 
             pasteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
-            pasteToolStripMenuItem1.Size = new Size(300, 38);
+            pasteToolStripMenuItem1.Size = new Size(240, 38);
             pasteToolStripMenuItem1.Text = "&Paste";
             pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
             // 
@@ -221,7 +221,7 @@
             // 
             deleteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            deleteToolStripMenuItem1.Size = new Size(300, 38);
+            deleteToolStripMenuItem1.Size = new Size(240, 38);
             deleteToolStripMenuItem1.Text = "&Delete";
             deleteToolStripMenuItem1.Click += deleteToolStripMenuItem1_Click;
             // 

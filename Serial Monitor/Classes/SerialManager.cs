@@ -1862,6 +1862,14 @@ namespace Serial_Monitor.Classes {
             LastRequestedAddress = (ushort)Address;
             TransmitFrame(Temp);
         }
+        public void ModbusSendGenericFunction(int Device, int Function, List<short> Values) {
+            if ((Device < MODBUS_MIN_DEVICE_ADDRESS) || (Device > MODBUS_MAX_DEVICE_ADDRESS)) { return; }
+            if ((Function < 0) || (Function > 0xFF)) { return; }
+            if (AwaitingPreviousCommand == true) { return; }
+            if (!Support.SerialSupport.IsModbusFormat(outputFormat)) { return; }
+            byte[] Temp = ModbusSupport.BulidCustomFunctionPacket(outputFormat, Function, Device, Values);
+            TransmitFrame(Temp);
+        }
         public void NewSlave(int Unit) {
             int UnitIndex = ModbusSupport.UnitToIndex(this, Unit);
             if (UnitIndex == -1) {

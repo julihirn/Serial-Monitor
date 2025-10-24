@@ -1,8 +1,10 @@
-﻿using Serial_Monitor.Classes.Structures;
+﻿using Handlers;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
@@ -60,6 +62,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (Channel.IsMaster == false) { return; }
                 string Temp = Input.TrimStart(' ').TrimStart('\t');
                 int Unit = 1;
+                int GenericFunction = -1;
                 //int Count = 1;
                 if (CommandManager.TestKeyword(ref Temp, "UNIT", true)) {
                     string StrAddress = CommandManager.ReadAndRemove(ref Temp);
@@ -82,6 +85,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 else if (CommandManager.TestKeyword(ref Temp, "DIAGNOSTICS")) {
                     PerformDiagnosticFunctions(Channel, Unit, ref Temp);
+                }
+                else if (CommandManager.GetValue(ref Temp, "FUNCTION", out GenericFunction)) {
+                    PerformGenericFunction(Channel, Unit, GenericFunction, ref Temp);
                 }
             }
             catch { }
@@ -300,6 +306,17 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
+
+        private static void PerformGenericFunction(SerialManager Channel, int Unit, int GenericFunction, ref string Temp) {
+            if (GenericFunction < 0) { return; }
+            List<short> Values = new List<short>();
+            if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                Channel.ModbusSendGenericFunction(Unit, GenericFunction, Values);
+            }
+            else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+                Channel.ModbusSendGenericFunction(Unit, GenericFunction, Values);
+            }
+        }
         #endregion
         private static void ReadDeviceIdentification(SerialManager Channel, int Unit, ModbusSupport.DiagnosticDeviceIdentification ReadRequest, ref string Temp) {
             int Start = 0;
@@ -355,7 +372,7 @@ namespace Serial_Monitor.Classes.Modbus {
             if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                 if (CommandManager.GetValue(ref Temp, "TO", out Count)) {
                     Point StartAndDiff = CommandManager.GetStartAndDifference(Start, Count);
-                    if (StartDiffInRange(StartAndDiff) ==false) { return; }
+                    if (StartDiffInRange(StartAndDiff) == false) { return; }
                     switch (DataSet) {
                         case DataSelection.ModbusDataCoils:
                             Channel.ModbusReadCoils(Unit, (short)StartAndDiff.X, (short)StartAndDiff.Y); break;

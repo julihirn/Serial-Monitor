@@ -684,6 +684,31 @@ namespace Serial_Monitor.Classes.Modbus {
                 Offset = Offset + 2;
             }
         }
+        public static byte[] BulidCustomFunctionPacket(StreamOutputFormat Format, int Function, int Device, List<short> Values) {
+            if (Format == StreamOutputFormat.ModbusRTU) {
+                byte[] Temp = new byte[2 + (Values.Count * 2)];
+                Temp[0] = (byte)Device;//Adr
+                Temp[1] = (byte)Function;//Fun
+                int j = 0;
+                for (int i = 0; i < Values.Count; i++) {
+                    Temp[3 + j] = (byte)(Values[i] >> 8);
+                    Temp[3 + j] = (byte)(Values[i] & 0xFF);
+                    j += 2;
+                }
+                return Temp;
+            }
+            else {
+                byte[] Temp = new byte[4 + (Values.Count * 4)];
+                int RunningAddress = 0;
+                SetArrayValue(ref RunningAddress, (byte)Device, ref Temp);
+                SetArrayValue(ref RunningAddress, (byte)Function, ref Temp);
+                for (int i = 0; i < Values.Count; i++) {
+                    SetArrayValue(ref RunningAddress, (byte)(Values[i] >> 8), ref Temp);
+                    SetArrayValue(ref RunningAddress, (byte)(Values[i] & 0xFF), ref Temp);
+                }
+                return Temp;
+            }
+        }
         public static byte[] BulidExceptionPacket(StreamOutputFormat Format, int Device, FunctionCode Function, ModbusSupport.ModbusException Code) {
             int FunctionTemp = (byte)Function + 0x80;
             if (Format == StreamOutputFormat.ModbusRTU) {

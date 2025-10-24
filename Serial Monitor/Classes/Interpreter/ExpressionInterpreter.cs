@@ -11,10 +11,10 @@ namespace Serial_Monitor.Classes.Interpreter {
         public static bool IsExpression(string Input, bool AllowFunctions) {
             string Pattern = "";
             if (AllowFunctions) {
-                Pattern = "\"^\\s*((\\(*\\s*(?:\\d+(?:\\.\\d+)?|[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\\(.*\\))\\s*\\)*)(\\s*[-+*\\/]\\s*\\(*\\s*(?:\\d+(?:\\.\\d+)?|[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\\(.*\\))\\s*\\)*)*)\\s*$\"g";
+                Pattern = @"^\s*((\(*\s*(?:\d+(?:\.\d+)?|[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\(.*\))\s*\)*)(\s*[-+*\/]\s*\(*\s*(?:\d+(?:\.\d+)?|[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\(.*\))\s*\)*)*)\s*$";
             }
             else {
-                Pattern = "\"^\\s*((\\(*\\s*(?:\\d+(?:\\.\\d+)?|[a-zA-Z_][a-zA-Z0-9_]*)\\s*\\)*)(\\s*[-+*/]\\s*\\(*\\s*(?:\\d+(?:\\.\\d+)?|[a-zA-Z_][a-zA-Z0-9_]*)\\s*\\)*)*)\\s*$\"g";
+                Pattern = @"^\\s*((\(*\s*(?:\d+(?:\.\d+)?|[a-zA-Z_][a-zA-Z0-9_]*)\s*\)*)(\s*[-+*/]\s*\(*\s*(?:\d+(?:\.\d+)?|[a-zA-Z_][a-zA-Z0-9_]*)\s*\)*)*)\s*$";
             }
             return Regex.IsMatch(Input, Pattern);
         }
@@ -27,6 +27,9 @@ namespace Serial_Monitor.Classes.Interpreter {
             string[] parts = Regex.Split(Input, @",(?=(?:[^""]*""[^""]*"")*[^""]*$)(?=(?:[^()]*\([^()]*\))*[^()]*$)");
             return new List<string>(parts);
         }
+
+
+
     }
     public enum TokenType {
         Number = 0x00,
