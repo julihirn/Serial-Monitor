@@ -222,6 +222,40 @@ namespace Serial_Monitor.Classes.Step_Programs {
         }
         #endregion
         #region DropDown Editors
+        internal static void ChangeStepCommand(ODModules.ListControl? ProgramEditor, DropDownClickedEventArgs? DropDownArgs, StepEnumerations.StepExecutable StepNew) {
+            if (ProgramEditor == null) { return; }
+            if (DropDownArgs == null) { return; }
+            if (DropDownArgs.ParentItem == null) { return; }
+            if (DropDownArgs.ParentItem.SubItems == null) { return; }
+            try {
+                ListItem? LstItem = DropDownArgs.ParentItem;
+                if (LstItem == null) { return; }
+                int Column = DropDownArgs.Column;
+                int Item = DropDownArgs.Item;
+                StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
+                object? objExe = LstItem.SubItems[1].Tag;
+                if (objExe != null) {
+                    if (objExe.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                        StepExe = (StepEnumerations.StepExecutable)objExe;
+                    }
+                }
+                if (StepExe == StepNew) { return; }
+                if (Column == 0) {
+                    LstItem.Tag = StepNew;
+                    LstItem.Text = ProgramManager.StepExecutableToString(StepNew) ?? "";
+                }
+                else {
+                    LstItem.SubItems[Column - 1].Tag = StepNew;
+                    LstItem.SubItems[Column - 1].Text = ProgramManager.StepExecutableToString(StepNew) ?? "";
+                }
+                SetDefault(LstItem, StepNew);
+                ProgramManager.ApplyIndentation(ProgramEditor, false);
+                ProgramManager.ApplySyntaxColouring(ProgramEditor, Item);
+                ProgramEditor.Invalidate();
+                SystemManager.InvokeProjectEdited();
+            }
+            catch { }
+        }
         internal static void ChangeStepCommand(ODModules.ListControl? ProgramEditor, ODModules.ContextMenu? StepDropDown, object? sender) {
             if (ProgramEditor == null) { return; }
             if (StepDropDown == null) { return; }
@@ -274,14 +308,15 @@ namespace Serial_Monitor.Classes.Step_Programs {
             //}
             Li.SubItems[2].Text = DefaultText;
         }
-        internal static void DropDownClicked(ODModules.ListControl? ProgramEditor, ODModules.ContextMenu? StepDropDown, DropDownClickedEventArgs e, ref bool InEditingMode) {
+        internal static void DropDownClicked(ODModules.ListControl? ProgramEditor, ODModules.ContextMenu? StepDropDown, TemplateContextMenuHost popupHost, DropDownClickedEventArgs e, ref bool InEditingMode) {
             if (ProgramEditor == null) { return; }
             if (StepDropDown == null) { return; }
             ListItem? LstItem = e.ParentItem;
             if (LstItem == null) { return; }
             if (e.Column == 2) {
                 StepDropDown.Tag = e;
-                StepDropDown.Show(e.ScreenLocation);
+                //StepDropDown.Show(e.ScreenLocation);
+                popupHost.Show(e.ScreenLocation);
             }
             else if (e.Column == 3) {
                 if (e.ParentItem == null) { return; }
@@ -371,7 +406,21 @@ namespace Serial_Monitor.Classes.Step_Programs {
         }
         #endregion
         #region Editing Loaders
-        internal static void LoadProgramOperations(ODModules.ContextMenu? ContextEditor, EventHandler ClickHandle) {
+        internal static void LoadProgramOperations(ODModules.ListControl? ContextEditor) {
+            if (ContextEditor == null) { return; }
+            StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));
+            int Index = 0;
+            long LastValue = 0;
+            foreach (StepEnumerations.StepExecutable StepEx in Steps) {
+                long Value = (long)StepEx & 0x00FF0000;
+                bool CommandInvisable = ((long)StepEx & 0xF0000000) >= 0x10000000 ? true : false;
+                if (CommandInvisable == true) { continue; }
+                LoadProgramOperation(ContextEditor, StepEx);
+                Index++;
+                LastValue = Value;
+            }
+        }
+        internal static void LoadProgramOperations(ODModules.ContextMenu? ContextEditor, EventHandler? ClickHandle) {
             if (ContextEditor == null) { return; }
             StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));
             int Index = 0;
@@ -390,15 +439,24 @@ namespace Serial_Monitor.Classes.Step_Programs {
                 LastValue = Value;
             }
         }
-        private static void LoadProgramOperation(ODModules.ContextMenu? ContextEditor, EventHandler ClickHandle, StepEnumerations.StepExecutable StepEx) {
+        private static void LoadProgramOperation(ODModules.ContextMenu? ContextEditor, EventHandler? ClickHandle, StepEnumerations.StepExecutable StepEx) {
             if (ContextEditor == null) { return; }
             ToolStripMenuItem StepOperationBtn = new ToolStripMenuItem();
             StepOperationBtn.Text = ProgramManager.StepExecutableToString(StepEx); //StepEx.ToString();
             StepOperationBtn.Tag = StepEx;
             StepOperationBtn.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             StepOperationBtn.ImageScaling = ToolStripItemImageScaling.None;
-            StepOperationBtn.Click += ClickHandle;
+            if (ClickHandle != null) {
+                StepOperationBtn.Click += ClickHandle;
+            }
             ContextEditor.Items.Add(StepOperationBtn);
+        }
+        private static void LoadProgramOperation(ODModules.ListControl? ListCtrl, StepEnumerations.StepExecutable StepEx) {
+            if (ListCtrl == null) { return; }
+            ListItem StepOperationBtn = new ListItem();
+            StepOperationBtn.Text = ProgramManager.StepExecutableToString(StepEx); //StepEx.ToString();
+            StepOperationBtn.Tag = StepEx;
+            ListCtrl.Items.Add(StepOperationBtn);
         }
         internal static void ListPrograms(object? MenuList, EventHandler ClickHandler) {
             if (MenuList == null) { return; }

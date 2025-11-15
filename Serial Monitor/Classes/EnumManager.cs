@@ -387,6 +387,12 @@ namespace Serial_Monitor.Classes {
             else if (Input == "mbAdrHexZero") {
                 return AddressSystem.ZeroBasedHexadecimal;
             }
+            else if (Input == "mbAdrOctOne") {
+                return AddressSystem.OneBasedOctal;
+            }
+            else if (Input == "mbAdrOctZero") {
+                return AddressSystem.ZeroBasedOctal;
+            }
             else if (Input == "mbAdrPLC") {
                 return AddressSystem.PLCAddress;
             }
@@ -404,6 +410,12 @@ namespace Serial_Monitor.Classes {
             }
             else if (Input == AddressSystem.OneBasedHexadecimal) {
                 return new StringPair("One-Based Hexadecimal", "mbAdrHexOne");
+            }
+            else if (Input == AddressSystem.ZeroBasedOctal) {
+                return new StringPair("Zero-Based Octal", "mbAdrOctZero");
+            }
+            else if (Input == AddressSystem.OneBasedOctal) {
+                return new StringPair("One-Based Octal", "mbAdrOctOne");
             }
             else if (Input == AddressSystem.PLCAddress) {
                 return new StringPair("PLC Address", "mbAdrPLC");

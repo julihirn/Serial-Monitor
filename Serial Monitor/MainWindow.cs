@@ -22,12 +22,13 @@ using System.Globalization;
 using System.Text;
 using System.Runtime.InteropServices;
 using Serial_Monitor.Components;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor {
     public partial class MainWindow : SkinnedForm, Interfaces.ITheme, IMessageFilter, IMouseHandler {
         public event CCommandProcessedHandler? CommandProcessed;
         public delegate void CCommandProcessedHandler(object? sender, string Data);
+        TemplateContextMenuHost StepCommandPopupHost;
+        StepCommandPopup stepCommandPopup = new StepCommandPopup();
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
             get { return currentManager; }
@@ -99,10 +100,12 @@ namespace Serial_Monitor {
             ProgramManager.LaunchThread();
             ProjectManager.LoadRecentItems(btnRecentProjects);
             ApplyLocalisation();
+            StepCommandPopupHost = new TemplateContextMenuHost(stepCommandPopup, this);
+            stepCommandPopup.Host = StepCommandPopupHost;
+            StepCommandPopupHost.Opening += StepCommandPopupHost_Opening;
+            StepCommandPopupHost.Closing += StepCommandPopupHost_Closing;
             DocumentEdited = false;
         }
-
-
         private void SystemManager_ProjectEdited() {
             MarkDocumentChanged();
         }
@@ -1778,8 +1781,32 @@ namespace Serial_Monitor {
             get { return inEditingMode; }
             set { inEditingMode = value; }
         }
+        DropDownClickedEventArgs? ClickedDropDownArgs = null;
         private void lstStepProgram_DropDownClicked(object? sender, DropDownClickedEventArgs e) {
-            ProgramEditing.DropDownClicked(lstStepProgram, cmStepPrg, e, ref inEditingMode);
+            ListItem? LstItem = e.ParentItem;
+            if (LstItem == null) { return; }
+            if (e.Column == 2) {
+                ClickedDropDownArgs = e;
+            }
+            ProgramEditing.DropDownClicked(lstStepProgram, cmStepPrg, StepCommandPopupHost, e, ref inEditingMode);
+        }
+        private void StepCommandPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            ProgramEditing.ChangeStepCommand(lstStepProgram, ClickedDropDownArgs, stepCommandPopup.Command);
+        }
+        private void StepCommandPopupHost_Opening(object? sender, CancelEventArgs e) {
+            if (ClickedDropDownArgs == null) { return; }
+            if (ClickedDropDownArgs.ParentItem == null) { return; }
+            if (ClickedDropDownArgs.ParentItem.SubItems == null) { return; }
+            object? objTag = ClickedDropDownArgs.ParentItem.SubItems[1].Tag;
+            StepEnumerations.StepExecutable StepExe = StepEnumerations.StepExecutable.NoOperation;
+            if (objTag != null) {
+                if (objTag.GetType() == typeof(StepEnumerations.StepExecutable)) {
+                    StepExe = (StepEnumerations.StepExecutable)objTag;
+                    stepCommandPopup.Command = StepExe;
+                    stepCommandPopup.sltbSearch.Text = "";
+                    stepCommandPopup.sltbSearch.Size = new Size(stepCommandPopup.sltbSearch.Width, ClickedDropDownArgs.ItemSize.Height);
+                }
+            }
         }
         private const int WM_LBUTTONDOWN = 0x0201;
         public event EventHandler<MouseDownEventArgs>? MouseEvent;

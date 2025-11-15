@@ -139,6 +139,19 @@ namespace Serial_Monitor.Classes {
             Result.Append(str);
             return Result.ToString();
         }
+        public static string Integer16ToOct(int Input, bool AffixStart = true) {
+            string str = Convert.ToString(Input, 8);
+            string Prefix = "0o";
+            StringBuilder Result = new StringBuilder();
+            if (AffixStart == true) {
+                Result.Append(Prefix);
+            }
+            for (int i = 0; i < 4 - str.Length; i++) {
+                Result.Append('0');
+            }
+            Result.Append(str);
+            return Result.ToString();
+        }
         public static string PLCAddress(int Address, DataSelection Selection) {
             switch (Selection) {
                 case DataSelection.ModbusDataCoils:

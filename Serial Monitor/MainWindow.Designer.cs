@@ -263,6 +263,7 @@
             Output = new ODModules.ConsoleInterface();
             cmTerminal = new ODModules.ContextMenu();
             clearTerminalToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator44 = new ToolStripSeparator();
             copyToolStripMenuItem2 = new ToolStripMenuItem();
             pasteToolStripMenuItem2 = new ToolStripMenuItem();
             deleteToolStripMenuItem1 = new ToolStripMenuItem();
@@ -285,7 +286,6 @@
             toolStripSeparator30 = new ToolStripSeparator();
             cmbtnNewProgram = new ToolStripMenuItem();
             cmCloseProgram = new ToolStripMenuItem();
-            toolStripSeparator44 = new ToolStripSeparator();
             tsMain.SuspendLayout();
             pnlRenamePanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -1282,7 +1282,7 @@
             undoToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             undoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Z;
-            undoToolStripMenuItem.Size = new Size(327, 44);
+            undoToolStripMenuItem.Size = new Size(359, 44);
             undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
@@ -1292,13 +1292,13 @@
             redoToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             redoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Y;
-            redoToolStripMenuItem.Size = new Size(327, 44);
+            redoToolStripMenuItem.Size = new Size(359, 44);
             redoToolStripMenuItem.Text = "&Redo";
             // 
             // toolStripSeparator15
             // 
             toolStripSeparator15.Name = "toolStripSeparator15";
-            toolStripSeparator15.Size = new Size(324, 6);
+            toolStripSeparator15.Size = new Size(356, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -1308,7 +1308,7 @@
             cutToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             cutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.X;
-            cutToolStripMenuItem.Size = new Size(327, 44);
+            cutToolStripMenuItem.Size = new Size(359, 44);
             cutToolStripMenuItem.Text = "Cu&t";
             // 
             // copyToolStripMenuItem
@@ -1319,7 +1319,7 @@
             copyToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            copyToolStripMenuItem.Size = new Size(327, 44);
+            copyToolStripMenuItem.Size = new Size(359, 44);
             copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -1330,21 +1330,22 @@
             pasteToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
-            pasteToolStripMenuItem.Size = new Size(327, 44);
+            pasteToolStripMenuItem.Size = new Size(359, 44);
             pasteToolStripMenuItem.Text = "&Paste";
             // 
             // deleteToolStripMenuItem
             // 
             deleteToolStripMenuItem.ForeColor = Color.White;
+            deleteToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             deleteToolStripMenuItem.ShortcutKeys = Keys.Delete;
-            deleteToolStripMenuItem.Size = new Size(327, 44);
+            deleteToolStripMenuItem.Size = new Size(359, 44);
             deleteToolStripMenuItem.Text = "Delete";
             // 
             // toolStripSeparator9
             // 
             toolStripSeparator9.Name = "toolStripSeparator9";
-            toolStripSeparator9.Size = new Size(324, 6);
+            toolStripSeparator9.Size = new Size(356, 6);
             // 
             // selectAllToolStripMenuItem
             // 
@@ -1352,7 +1353,7 @@
             selectAllToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             selectAllToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
-            selectAllToolStripMenuItem.Size = new Size(327, 44);
+            selectAllToolStripMenuItem.Size = new Size(359, 44);
             selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // viewToolStripMenuItem
@@ -2573,14 +2574,21 @@
             clearTerminalToolStripMenuItem.Size = new Size(300, 38);
             clearTerminalToolStripMenuItem.Text = "C&lear Terminal";
             // 
+            // toolStripSeparator44
+            // 
+            toolStripSeparator44.Name = "toolStripSeparator44";
+            toolStripSeparator44.Size = new Size(297, 6);
+            // 
             // copyToolStripMenuItem2
             // 
+            copyToolStripMenuItem2.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem2.Name = "copyToolStripMenuItem2";
             copyToolStripMenuItem2.Size = new Size(300, 38);
             copyToolStripMenuItem2.Text = "&Copy";
             // 
             // pasteToolStripMenuItem2
             // 
+            pasteToolStripMenuItem2.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem2.Name = "pasteToolStripMenuItem2";
             pasteToolStripMenuItem2.Size = new Size(300, 38);
             pasteToolStripMenuItem2.Text = "&Paste";
@@ -2760,11 +2768,6 @@
             cmCloseProgram.Size = new Size(320, 38);
             cmCloseProgram.Text = "&Close Program";
             // 
-            // toolStripSeparator44
-            // 
-            toolStripSeparator44.Name = "toolStripSeparator44";
-            toolStripSeparator44.Size = new Size(297, 6);
-            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -2778,7 +2781,6 @@
             Controls.Add(smMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
-            Location = new Point(0, 0);
             MainMenuStrip = msMain;
             Margin = new Padding(6);
             Name = "MainWindow";

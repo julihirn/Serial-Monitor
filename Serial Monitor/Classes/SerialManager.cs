@@ -641,7 +641,7 @@ namespace Serial_Monitor.Classes {
                     Port.BaseStream.BeginRead(buffer, 0, buffer.Length, delegate (IAsyncResult ar) {
                         try {
                             //if (!Port.IsOpen) { return; }
-                            if (Port.IsOpen) {
+                            if (Port.IsOpen && Port.BaseStream.CanRead) {
                                 try {
                                     int actualLength = Port.BaseStream.EndRead(ar);
                                     byte[] received = new byte[actualLength];

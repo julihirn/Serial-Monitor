@@ -133,6 +133,7 @@
             btnMenuModbusMaster = new ToolStripMenuItem();
             changeAddressToolStripMenuItem1 = new ToolStripMenuItem();
             toolStripSeparator25 = new ToolStripSeparator();
+            slaveManagerToolStripMenuItem = new ToolStripMenuItem();
             newUnitToolStripMenuItem1 = new ToolStripMenuItem();
             renameUnitToolStripMenuItem1 = new ToolStripMenuItem();
             removeUnitToolStripMenuItem1 = new ToolStripMenuItem();
@@ -847,7 +848,7 @@
             // 
             // modbusToolStripMenuItem
             // 
-            modbusToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { writeCoilToolStripMenuItem, writeMultipleCoilsToolStripMenuItem, writeRegisterToolStripMenuItem, writeMultipleRegistersToolStripMenuItem, writeRegisterMaskToolStripMenuItem, toolStripSeparator23, querySenderToolStripMenuItem, toolStripSeparator2, btnModbusApplyonClick, btnModbusLockEditors, toolStripSeparator16, setIOFormatsToModbusRTUToolStripMenuItem, setIOFormatsToModbusASCIIToolStripMenuItem, toolStripSeparator24, btnMenuModbusMaster, changeAddressToolStripMenuItem1, toolStripSeparator25, newUnitToolStripMenuItem1, renameUnitToolStripMenuItem1, removeUnitToolStripMenuItem1, toolStripSeparator8, btnSelectionToSnapshot });
+            modbusToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { writeCoilToolStripMenuItem, writeMultipleCoilsToolStripMenuItem, writeRegisterToolStripMenuItem, writeMultipleRegistersToolStripMenuItem, writeRegisterMaskToolStripMenuItem, toolStripSeparator23, querySenderToolStripMenuItem, toolStripSeparator2, btnModbusApplyonClick, btnModbusLockEditors, toolStripSeparator16, setIOFormatsToModbusRTUToolStripMenuItem, setIOFormatsToModbusASCIIToolStripMenuItem, toolStripSeparator24, btnMenuModbusMaster, changeAddressToolStripMenuItem1, toolStripSeparator25, slaveManagerToolStripMenuItem, newUnitToolStripMenuItem1, renameUnitToolStripMenuItem1, removeUnitToolStripMenuItem1, toolStripSeparator8, btnSelectionToSnapshot });
             modbusToolStripMenuItem.ForeColor = Color.White;
             modbusToolStripMenuItem.Name = "modbusToolStripMenuItem";
             resources.ApplyResources(modbusToolStripMenuItem, "modbusToolStripMenuItem");
@@ -961,6 +962,13 @@
             // 
             toolStripSeparator25.Name = "toolStripSeparator25";
             resources.ApplyResources(toolStripSeparator25, "toolStripSeparator25");
+            // 
+            // slaveManagerToolStripMenuItem
+            // 
+            resources.ApplyResources(slaveManagerToolStripMenuItem, "slaveManagerToolStripMenuItem");
+            slaveManagerToolStripMenuItem.ForeColor = Color.White;
+            slaveManagerToolStripMenuItem.Name = "slaveManagerToolStripMenuItem";
+            slaveManagerToolStripMenuItem.Click += slaveManagerToolStripMenuItem_Click;
             // 
             // newUnitToolStripMenuItem1
             // 
@@ -1583,5 +1591,6 @@
         private ToolStripSeparator toolStripSeparator31;
         private ToolStripMenuItem selectAllToolStripMenuItem1;
         private ToolStripMenuItem deleteToolStripMenuItem;
+        private ToolStripMenuItem slaveManagerToolStripMenuItem;
     }
 }

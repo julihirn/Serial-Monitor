@@ -288,6 +288,17 @@ namespace Serial_Monitor.Classes.Theming {
                 numTxt.SelectedBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
                 numTxt.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             }
+            else if (ControlObject.GetType() == typeof(ODModules.SingleLineTextBox)) {
+                ODModules.SingleLineTextBox numTxt = (ODModules.SingleLineTextBox)ControlObject;
+                numTxt.BackColor = Properties.Settings.Default.THM_COL_Editor;
+                numTxt.SelectedBackColor = Properties.Settings.Default.THM_COL_Editor;
+                numTxt.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                numTxt.SelectedBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                numTxt.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                numTxt.SelectionColor = Properties.Settings.Default.THM_COL_SelectedColor;
+                numTxt.CaretColor = Properties.Settings.Default.THM_COL_ForeColor;
+
+            }
             else if (ControlObject.GetType() == typeof(ODModules.Button)) {
                 ODModules.Button btn = (ODModules.Button)ControlObject;
                 btn.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;

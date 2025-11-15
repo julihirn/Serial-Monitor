@@ -59,7 +59,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (Current.Value != 0) { return true; }
                 }
                 if (Current.UseForeColor == true) { return true; }
-                if (Current.UseForeColor == true) { return true; }
+                if (Current.UseBackColor == true) { return true; }
                 if (Current.DecimalFormat != Enums.ModbusEnums.FloatFormat.None) { return true; }
             }
             return false;
@@ -247,23 +247,41 @@ namespace Serial_Monitor.Classes.Modbus {
             if (!SerialisedString.Contains(',')) { return; }
             string TempStrSelection = SerialisedString.Split(',')[0];
             if (TempStrSelection.ToLower().StartsWith("prop")) {
-                if (Unit < 0) { return; }
                 SerialisedString = StringHandler.SpiltAndCombineAfter(SerialisedString, ',', 1).Value[1];
                 List<StringPair> Props = GetTaggedData(SerialisedString);
-                int SlaveIndex = ModbusSupport.UnitToIndex(CurrentManager, Unit);
-                if (SlaveIndex < 0) { return; }
-                foreach (StringPair DataPair in Props) {
-                    if (DataPair.A.ToLower() == "name") {
-                        try {
-                            CurrentManager.Slave[SlaveIndex].Name = DataPair.B;
+                if (Unit < 0) {
+                    foreach (StringPair DataPair in Props) {
+                        if (DataPair.A.ToLower() == "name") {
+                            try {
+                                CurrentManager.Registers.Name = DataPair.B;
+                            }
+                            catch { }
                         }
-                        catch { }
+                        else if (DataPair.A.ToLower() == "addressformat") {
+                            try {
+                                CurrentManager.Registers.AddressFormat = EnumManager.StringToAddressingSystem(DataPair.B);
+                            }
+                            catch { }
+                        }
                     }
-                    else if (DataPair.A.ToLower() == "addressformat") {
-                        try {
-                            CurrentManager.Slave[SlaveIndex].AddressFormat = EnumManager.StringToAddressingSystem(DataPair.B);
+                }
+                else {
+                    int SlaveIndex = ModbusSupport.UnitToIndex(CurrentManager, Unit);
+
+                    if (SlaveIndex < 0) { return; }
+                    foreach (StringPair DataPair in Props) {
+                        if (DataPair.A.ToLower() == "name") {
+                            try {
+                                CurrentManager.Slave[SlaveIndex].Name = DataPair.B;
+                            }
+                            catch { }
                         }
-                        catch { }
+                        else if (DataPair.A.ToLower() == "addressformat") {
+                            try {
+                                CurrentManager.Slave[SlaveIndex].AddressFormat = EnumManager.StringToAddressingSystem(DataPair.B);
+                            }
+                            catch { }
+                        }
                     }
                 }
                 return;

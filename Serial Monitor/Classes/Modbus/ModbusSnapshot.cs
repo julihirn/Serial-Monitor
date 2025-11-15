@@ -250,6 +250,10 @@ namespace Serial_Monitor.Classes.Modbus {
                         listings[i][0].Text = Formatters.Integer16ToHex(LocalIndex); break;
                     case AddressSystem.OneBasedHexadecimal:
                         listings[i][0].Text = Formatters.Integer16ToHex((LocalIndex + 1)); break;
+                    case AddressSystem.ZeroBasedOctal:
+                        listings[i][0].Text = Formatters.Integer16ToOct(LocalIndex); break;
+                    case AddressSystem.OneBasedOctal:
+                        listings[i][0].Text = Formatters.Integer16ToOct((LocalIndex + 1)); break;
                     case AddressSystem.PLCAddress:
                         listings[i][0].Text = Formatters.PLCAddress(LocalIndex, selection); break;
                     default:

@@ -204,6 +204,14 @@ namespace Serial_Monitor.Classes {
             }
             if (Index < 0) {
                 Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers={"));
+                try {
+                    if (Sm.Registers != null) {
+                        Properties.Add(new("Name", Sm.Registers.Name));
+                        Properties.Add(new("AddressFormat", EnumManager.AddressingSystemToString(Sm.Registers.AddressFormat).B));
+                    }
+                }
+                catch { }
+                WriteProperties = true;
             }
             else {
                 Sw.WriteLine(StringHandler.AddTabs(2, "def,a(str):Registers_" + Unit.ToString() + "={"));

@@ -11,7 +11,9 @@ namespace Serial_Monitor.Classes.Enums {
             OneBasedDecimal = 0x001,
             ZeroBasedHexadecimal = 0x100,
             OneBasedHexadecimal = 0x102,
-            PLCAddress = 0x108
+            ZeroBasedOctal = 0x103,
+            OneBasedOctal = 0x104,
+            PLCAddress = 0x1F8
         }
         public enum DataFormat {
             Binary = 0x00,

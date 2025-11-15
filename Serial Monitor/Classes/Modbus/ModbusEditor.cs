@@ -111,44 +111,47 @@ namespace Serial_Monitor.Classes.Modbus {
             ViewUpdated?.Invoke(LstControl);
         }
         private static void AddMonitorItem(ModbusCoil Coil, int Index, AddressSystem AddressFormat, DataSelection DataSet) {
-            if (IsFirstLoad) {
-                ListItem PLi = new ListItem();
-                PLi.Tag = Coil;
-                PLi.Value = Index;
-                PLi.UseLineBackColor = Coil.UseBackColor;
-                PLi.UseLineForeColor = Coil.UseForeColor;
-                PLi.LineBackColor = Coil.BackColor;
-                PLi.LineForeColor = Coil.ForeColor;
-                ApplyAddressSystemToItem(PLi, Index, AddressFormat, DataSet);
-                ListSubItem CLi1 = new ListSubItem(Coil.Name);
-                ListSubItem CLi2 = new ListSubItem(EnumManager.CoilFormatToString(Coil.Format).A);
-                ListSubItem CLi3 = new ListSubItem();
-                ListSubItem CLi4 = new ListSubItem();
-                ListSubItem CLi5 = new ListSubItem(Coil.ValueWithUnit);
-                ListSubItem CLi6 = new ListSubItem(Coil.GetLastUpdatedTime());
-                PLi.SubItems.Add(CLi1);
-                PLi.SubItems.Add(CLi2);
-                PLi.SubItems.Add(CLi3);
-                PLi.SubItems.Add(CLi4);
-                PLi.SubItems.Add(CLi5);
-                PLi.SubItems.Add(CLi6);
-                MasterRegisterEditor.Add(PLi);
+            try {
+                if (IsFirstLoad) {
+                    ListItem PLi = new ListItem();
+                    PLi.Tag = Coil;
+                    PLi.Value = Index;
+                    PLi.UseLineBackColor = Coil.UseBackColor;
+                    PLi.UseLineForeColor = Coil.UseForeColor;
+                    PLi.LineBackColor = Coil.BackColor;
+                    PLi.LineForeColor = Coil.ForeColor;
+                    ApplyAddressSystemToItem(PLi, Index, AddressFormat, DataSet);
+                    ListSubItem CLi1 = new ListSubItem(Coil.Name);
+                    ListSubItem CLi2 = new ListSubItem(EnumManager.CoilFormatToString(Coil.Format).A);
+                    ListSubItem CLi3 = new ListSubItem();
+                    ListSubItem CLi4 = new ListSubItem();
+                    ListSubItem CLi5 = new ListSubItem(Coil.ValueWithUnit);
+                    ListSubItem CLi6 = new ListSubItem(Coil.GetLastUpdatedTime());
+                    PLi.SubItems.Add(CLi1);
+                    PLi.SubItems.Add(CLi2);
+                    PLi.SubItems.Add(CLi3);
+                    PLi.SubItems.Add(CLi4);
+                    PLi.SubItems.Add(CLi5);
+                    PLi.SubItems.Add(CLi6);
+                    MasterRegisterEditor.Add(PLi);
+                }
+                else {
+                    MasterRegisterEditor[Index].Tag = null;
+                    MasterRegisterEditor[Index].Tag = Coil;
+                    MasterRegisterEditor[Index].UseLineBackColor = Coil.UseBackColor;
+                    MasterRegisterEditor[Index].UseLineForeColor = Coil.UseForeColor;
+                    MasterRegisterEditor[Index].LineBackColor = Coil.BackColor;
+                    MasterRegisterEditor[Index].LineForeColor = Coil.ForeColor;
+                    ApplyAddressSystemToItem(MasterRegisterEditor[Index], Index, AddressFormat, DataSet);
+                    MasterRegisterEditor[Index][Indx_Name].Text = Coil.Name;
+                    MasterRegisterEditor[Index][Indx_Display].Text = EnumManager.CoilFormatToString(Coil.Format).A;
+                    MasterRegisterEditor[Index][Indx_Size].Text = "";
+                    MasterRegisterEditor[Index][Indx_Signed].Text = "";
+                    MasterRegisterEditor[Index][Indx_Value].Text = Coil.ValueWithUnit;
+                    MasterRegisterEditor[Index][Indx_LastUpdated].Text = Coil.GetLastUpdatedTime();
+                }
             }
-            else {
-                MasterRegisterEditor[Index].Tag = null;
-                MasterRegisterEditor[Index].Tag = Coil;
-                MasterRegisterEditor[Index].UseLineBackColor = Coil.UseBackColor;
-                MasterRegisterEditor[Index].UseLineForeColor = Coil.UseForeColor;
-                MasterRegisterEditor[Index].LineBackColor = Coil.BackColor;
-                MasterRegisterEditor[Index].LineForeColor = Coil.ForeColor;
-                ApplyAddressSystemToItem(MasterRegisterEditor[Index], Index, AddressFormat, DataSet);
-                MasterRegisterEditor[Index][Indx_Name].Text = Coil.Name;
-                MasterRegisterEditor[Index][Indx_Display].Text = EnumManager.CoilFormatToString(Coil.Format).A;
-                MasterRegisterEditor[Index][Indx_Size].Text = "";
-                MasterRegisterEditor[Index][Indx_Signed].Text = "";
-                MasterRegisterEditor[Index][Indx_Value].Text = Coil.ValueWithUnit;
-                MasterRegisterEditor[Index][Indx_LastUpdated].Text = Coil.GetLastUpdatedTime();
-            }
+            catch { }
         }
         private static void AddMonitorItem(ModbusRegister Register, int Index, AddressSystem AddressFormat, DataSelection DataSet) {
             if (IsFirstLoad) {
@@ -205,6 +208,12 @@ namespace Serial_Monitor.Classes.Modbus {
                 case AddressSystem.OneBasedHexadecimal:
                     Offset = 1;
                     break;
+                case AddressSystem.ZeroBasedOctal:
+                    Offset = 0;
+                    break;
+                case AddressSystem.OneBasedOctal:
+                    Offset = 1;
+                    break;
                 case AddressSystem.PLCAddress:
                     Offset = 1;
                     break;
@@ -215,6 +224,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 int i = Offset + Address;
                 if ((AddressFormat == AddressSystem.ZeroBasedHexadecimal) || (AddressFormat == AddressSystem.OneBasedHexadecimal)) {
                     Li.Text = Formatters.Integer16ToHex(i);
+                }
+                else if ((AddressFormat == AddressSystem.ZeroBasedOctal) || (AddressFormat == AddressSystem.OneBasedOctal)) {
+                    Li.Text = Formatters.Integer16ToOct(i);
                 }
                 else if (AddressFormat == AddressSystem.PLCAddress) {
                     Li.Text = Formatters.PLCAddress(i, Selection);
@@ -554,7 +566,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if (pd.Coil == null) { return; }
                 pd.Coil.Name = Ttb.Text ?? "";
                 //pd.Register.PushValue()
-                SystemManager.RegisterNameChanged(pd.Coil.Parent, pd.Coil.Name, pd.Coil.Address, pd.Selection);
+                SystemManager.RegisterNameChanged(pd.Coil.Parent, pd.Coil, pd.Coil.Address, pd.Selection);
                 pd.Item[pd.Column].Text = pd.Coil.Name;
             }
             else if (Tag.GetType() == typeof(ModbusRegisterEdit)) {
@@ -741,6 +753,14 @@ namespace Serial_Monitor.Classes.Modbus {
                     lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
                     Offset = 1;
                     break;
+                case AddressSystem.ZeroBasedOctal:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
+                    Offset = 0;
+                    break;
+                case AddressSystem.OneBasedOctal:
+                    lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
+                    Offset = 1;
+                    break;
                 case AddressSystem.PLCAddress:
                     lstMonitor.Columns[0].DisplayType = ColumnDisplayType.Text;
                     Offset = 1;
@@ -753,6 +773,12 @@ namespace Serial_Monitor.Classes.Modbus {
                 if ((AddressFormat == AddressSystem.ZeroBasedHexadecimal) || (AddressFormat == AddressSystem.OneBasedHexadecimal)) {
                     foreach (ListItem Li in lstMonitor.CurrentItems) {
                         Li[0].Text = Formatters.Integer16ToHex(i);
+                        i++;
+                    }
+                }
+                else if ((AddressFormat == AddressSystem.ZeroBasedOctal) || (AddressFormat == AddressSystem.OneBasedOctal)) {
+                    foreach (ListItem Li in lstMonitor.CurrentItems) {
+                        Li[0].Text = Formatters.Integer16ToOct(i);
                         i++;
                     }
                 }

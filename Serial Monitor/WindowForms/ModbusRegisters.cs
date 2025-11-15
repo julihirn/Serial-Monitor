@@ -852,6 +852,7 @@ namespace Serial_Monitor {
         private void ProjectManager_DocumentLoaded() {
             LoadChannels();
             LoadForms();
+            ModbusEditor.ApplyAddressChanges(editorModbus.lstMonitor, CurrentManager, dataSet, slaveindex);
         }
         private void SystemManager_ChannelAdded(int RemovedIndex) {
             editorModbus.navigator1.Invalidate();
@@ -2618,7 +2619,10 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(CQuickConvertApp, false);
         }
 
-
+        private void slaveManagerToolStripMenuItem_Click(object sender, EventArgs e) {
+            SlaveManager SlaveMngrApp = new SlaveManager();
+            ApplicationManager.OpenInternalApplicationOnce(SlaveMngrApp, false);
+        }
 
         internal enum DataEditor {
             MasterView = 0x00,

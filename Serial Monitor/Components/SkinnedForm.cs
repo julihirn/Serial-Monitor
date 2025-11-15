@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
@@ -20,9 +21,7 @@ namespace Serial_Monitor.Components {
             this.UpdateStyles();
             InitializeComponent();
             HandleFocusEvents();
-            if (DesignerSetup.IsWindows10OrGreater() == true) {
-                DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
-            }
+           
             this.Deactivate += (s, e) => _isDeactivating = true;
             this.Activated += (s, e) => _isDeactivating = false;
             _resizeRedrawTimer = new System.Windows.Forms.Timer();
@@ -84,7 +83,7 @@ namespace Serial_Monitor.Components {
         }
         private bool CanBeTransparent {
             get {
-                if (enableMica) {
+                if (EnableTransparency) {
                     return DesignerSetup.IsWindows11OrGreater();
                 }
                 return false;
@@ -111,6 +110,13 @@ namespace Serial_Monitor.Components {
 
         [DllImport("DwmApi")]
         private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, int[] attrValue, int attrSize);
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MARGINS { public int cxLeftWidth, cxRightWidth, cyTopHeight, cyBottomHeight; }
+
+        MARGINS margins = new MARGINS { cxLeftWidth = 1, cxRightWidth = 1, cyTopHeight = 1, cyBottomHeight = 1 };
 
         const int DWWMA_CAPTION_COLOR = 35;
         const int DWWMA_BORDER_COLOR = 34;
@@ -118,7 +124,7 @@ namespace Serial_Monitor.Components {
         private void EnableMica(IntPtr hWnd) {
             try {
                 if (CanBeTransparent) {
-                    int micaValue = (int)DwmSystemBackdropType.Mica;
+                    int micaValue = (int)DwmSystemBackdropType.Acrylic;
                     DwmSetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, new int[] { micaValue }, sizeof(int));
                 }
                 else {
@@ -132,7 +138,7 @@ namespace Serial_Monitor.Components {
         public void CustomWindow(Color captionColor, Color fontColor, Color borderColor, IntPtr handle) {
             IntPtr hWnd = handle;
             EnableMica(this.Handle);
-            if (DesignerSetup.IsWindows11OrGreater() == false) { return; }
+            if (!DesignerSetup.IsWindows11OrGreater()) { return; }
             try {
                 if (CanBeTransparent) {
                     int micaValue = (int)DwmSystemBackdropType.Mica;
@@ -152,6 +158,23 @@ namespace Serial_Monitor.Components {
             catch { }
 
         }
+        //public void CustomWindow(Color captionColor, Color fontColor, Color borderColor, IntPtr handle) {
+        //    IntPtr hWnd = handle;
+        //    if (!DesignerSetup.IsWindows11OrGreater()){
+        //        return;
+        //    }
+        //    try {
+        //        int micaValue = (int)(CanBeTransparent ? DwmSystemBackdropType.Mica : DwmSystemBackdropType.None);
+        //        DwmSetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, new[] { micaValue }, sizeof(int));
+        //        DwmSetWindowAttribute(hWnd, DWWMA_CAPTION_COLOR, new[] { captionColor.ToArgb() }, 4);
+        //        DwmSetWindowAttribute(hWnd, DWMWA_TEXT_COLOR, new[] { fontColor.ToArgb() }, 4);
+        //        Color semi = Color.FromArgb(128, borderColor); 
+        //        DwmSetWindowAttribute(hWnd, DWWMA_BORDER_COLOR, new[] { semi.ToArgb() }, 4);
+        //    }
+        //    catch {
+        //        // Safe fail
+        //    }
+        //}
         private void RepaintBorder() {
             EnableMica(this.Handle);
             if (isActive) {
@@ -243,6 +266,37 @@ namespace Serial_Monitor.Components {
         protected override void OnHandleCreated(EventArgs e) {
             base.OnHandleCreated(e);
             EnableMica(this.Handle);
+            RepaintBorder();
+            if (DesignerSetup.IsWindows10OrGreater() == true) {
+                if (!DesignerSetup.IsWindows11OrGreater()) {
+                    DesignerSetup.UseImmersiveDarkMode(this.Handle, true);
+                }
+            }
+        }
+        //protected override void OnShown(EventArgs e) {
+        //    base.OnShown(e);
+        //    EnableMica(this.Handle);
+        //    RepaintBorder();
+         
+        //}
+        //protected override void OnLoad(EventArgs e) {
+        //    base.OnLoad(e);
+
+        //    // Apply mica after the system finishes sizing & positioning
+        //    this.BeginInvoke(new Action(() =>
+        //    {
+        //        EnableMica(this.Handle);
+        //        RepaintBorder();
+        //    }));
+        //}
+
+        protected override void OnLoad(EventArgs e) {
+            base.OnLoad(e);
+            Debug.WriteLine($"OnLoad: StartPosition={StartPosition}, Location={Location}");
+        }
+        protected override void OnShown(EventArgs e) {
+            base.OnShown(e);
+            Debug.WriteLine($"OnShown: StartPosition={StartPosition}, Location={Location}");
         }
     }
 }

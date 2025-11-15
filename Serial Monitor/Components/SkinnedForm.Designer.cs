@@ -31,7 +31,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Name = "SkinnedForm";
-            StartPosition = FormStartPosition.CenterScreen;
             Text = "SkinnedForm";
             Load += SkinnedForm_Load;
             ResumeLayout(false);
