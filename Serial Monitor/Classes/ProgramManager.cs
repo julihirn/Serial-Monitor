@@ -823,9 +823,9 @@ namespace Serial_Monitor.Classes {
             return Assignment + "=" + Input + ".Replace(" + StringHandler.EncapsulateString(ReplaceCue) + "," + StringHandler.EncapsulateString(ReplaceWith) + ")";
         }
         public static void CopyVariableValue(string Argument) {
-            if (SystemManager.MainInstance != null) {
-                SystemManager.MainInstance.MethodCopying(GetVariable(Argument, false));
-            }
+           if (SystemManager.MainInstance != null) {
+               SystemManager.MainInstance.MethodCopying(GetVariable(Argument, false));
+           }
         }
         public static void CopyText(string Argument) {
             if (SystemManager.MainInstance != null) {

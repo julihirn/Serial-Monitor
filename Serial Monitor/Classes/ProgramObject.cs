@@ -256,8 +256,8 @@ namespace Serial_Monitor.Classes {
                 i++;
             }
             foreach (VariableLinkage Var in Variables) {
-                if (Name == Var.Name) {
-                    return new VariableResult(Var.Name, Var.Value, VariableScope.Local, j);
+                if (Name.TrimEnd() == Var.Name.TrimEnd()) {
+                    return new VariableResult(Var.Name.TrimEnd(), Var.Value, VariableScope.Local, j);
                 }
                 j++;
             }

@@ -2014,11 +2014,28 @@ namespace Serial_Monitor {
 
         #endregion
         #region Program
+        private DateTime _lastClipboardSet = DateTime.MinValue;
+        private readonly int _cooldownMs = 150;
         public void MethodCopying(string Input) {
-            if (Input.Length <= 0) { return; }
-            this.BeginInvoke(new MethodInvoker(delegate {
-                Clipboard.SetText(Input);
-            }));
+            if ((DateTime.Now - _lastClipboardSet).TotalMilliseconds < _cooldownMs) {
+                SystemManager.Print(ErrorType.M_Warning, "MCPY_SET_TEXT_MANY_RQ", "'" + Input + "' could not be copied because there was too many requests");
+                return;
+            }
+            _lastClipboardSet = DateTime.Now;
+            try {
+                if (Input.Length <= 0) { return; }
+                this.BeginInvoke(new MethodInvoker(delegate {
+                    try {
+                        Clipboard.SetText(Input);
+                    }
+                    catch {
+                        SystemManager.Print(ErrorType.M_Warning, "MCPY_SET_TEXT", "'" + Input + "' could not be copied");
+                    }
+                }));
+            }
+            catch {
+                SystemManager.Print(ErrorType.M_Warning, "MCPY_SET_TEXT", "'" + Input + "' could not be copied");
+            }
         }
         public void MethodSetRunText(string Input) {
             this.BeginInvoke(new MethodInvoker(delegate {
@@ -2052,8 +2069,14 @@ namespace Serial_Monitor {
             }));
         }
         public void MethodSendKeys(string Input) {
+
             this.BeginInvoke(new MethodInvoker(delegate {
-                SendKeys.Send(Input);
+                try {
+                    SendKeys.Send(Input);
+                }
+                catch {
+                    Print(ErrorType.M_Error, "SEND_KEYS", "'" + Input + "' featured an invalid keyword or command");
+                }
             }));
         }
         public void ProgramSerialManagement(StepEnumerations.StepExecutable StepEx, string Arguments) {
