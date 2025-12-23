@@ -23,6 +23,21 @@ namespace Serial_Monitor.Classes.Theming {
         public static Color ForeColor {
             get { return Properties.Settings.Default.THM_COL_ForeColor; }
         }
+        public static VisualStyles VisualStyle {
+            get {
+                try {
+                    return (VisualStyles)Properties.Settings.Default.THM_VIS_Style;
+                }
+                catch { return VisualStyles.Classic; }
+            }
+            set {
+                try {
+                    Properties.Settings.Default.THM_VIS_Style = (int)value;
+                    Properties.Settings.Default.Save();
+                }
+                catch { }
+            }
+        }
         #region Control Theming
         public static void ThemeControl(object ControlObject, bool UseAlternative = false) {
             if (ControlObject.GetType() == typeof(ODModules.ToolStrip)) {
@@ -51,6 +66,8 @@ namespace Serial_Monitor.Classes.Theming {
                 Ts.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 Ts.ItemForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 Ts.ItemSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                Ts.BorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                Ts.GripColor = Properties.Settings.Default.THM_COL_BorderColor;
                 foreach (object obj in Ts.Items) {
                     if (obj.GetType() == typeof(ToolStripSplitButton)) {
                         ((ToolStripSplitButton)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -65,6 +82,13 @@ namespace Serial_Monitor.Classes.Theming {
                         ((ToolStripLabel)obj).ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                     }
                 }
+                if (ApplicationManager.IsDark == true) {
+                    Ts.ShadowColor = Color.FromArgb(255, 0, 0, 0);
+                }
+                else {
+                    Ts.ShadowColor = Color.FromArgb(125, 0, 0, 0);
+                }
+
             }
             else if (ControlObject.GetType() == typeof(ODModules.MenuStrip)) {
                 ODModules.MenuStrip Ms = (ODModules.MenuStrip)ControlObject;
@@ -167,7 +191,8 @@ namespace Serial_Monitor.Classes.Theming {
             }
             else if (ControlObject.GetType() == typeof(ODModules.TabHeader)) {
                 ODModules.TabHeader TbHdr = (ODModules.TabHeader)ControlObject;
-                if (TbHdr.TabStyle == TabHeader.TabStyles.Normal) {
+                TbHdr.TabStyle = TabHeader.TabStyles.Rounded;
+                if (TbHdr.TabStyle == TabHeader.TabStyles.Normal){
                     TbHdr.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
                     TbHdr.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
                     TbHdr.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -176,6 +201,27 @@ namespace Serial_Monitor.Classes.Theming {
                     TbHdr.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
                     TbHdr.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
                     TbHdr.TabSelectedBackColor = Properties.Settings.Default.THM_COL_TabSelectedColor;
+                    if (ApplicationManager.IsDark == true) {
+                        TbHdr.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
+                    }
+                    else {
+                        TbHdr.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
+                    }
+
+                    TbHdr.HeaderDownForeColor = Properties.Settings.Default.THM_COL_MouseDownForeColor;
+                    TbHdr.HeaderHoverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
+                }
+                else if (TbHdr.TabStyle == TabHeader.TabStyles.Rounded) {
+                    TbHdr.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
+                    TbHdr.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+                    TbHdr.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
+                    TbHdr.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                    TbHdr.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+                    TbHdr.TabInactiveForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                    TbHdr.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                    TbHdr.TabSelectedBorderColor = Properties.Settings.Default.THM_COL_TabSelectedBorderColor;
+                    TbHdr.TabSelectedBackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                    TbHdr.TabSelectedBackColorNorth = Properties.Settings.Default.THM_COL_TabSelectedColor;
                     if (ApplicationManager.IsDark == true) {
                         TbHdr.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
                     }
@@ -242,6 +288,13 @@ namespace Serial_Monitor.Classes.Theming {
                     tab.BackColor = Properties.Settings.Default.THM_COL_Editor;
                     tab.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 }
+            }
+            else if (ControlObject.GetType() == typeof(ToolStripContainer)) {
+                ToolStripContainer tCtrl = (ToolStripContainer)ControlObject;
+                tCtrl.BottomToolStripPanel.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                tCtrl.TopToolStripPanel.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                tCtrl.LeftToolStripPanel.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+                tCtrl.RightToolStripPanel.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
             }
             else if (ControlObject.GetType() == typeof(ODModules.LabelPanel)) {
                 ODModules.LabelPanel lblPnl = (ODModules.LabelPanel)ControlObject;
@@ -503,7 +556,8 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light1.ColumnSeperatorColor = Color.FromArgb(180, 180, 180);
 
             Thm_Light1.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
-            Thm_Light1.TabSelectedColor = Color.FromArgb(100, 128, 128, 128);
+           // Thm_Light1.TabSelectedColor = Color.FromArgb(100, 128, 128, 128);
+            Thm_Light1.TabSelectedColor = Color.FromArgb(100, 200, 200, 200);
             Thm_Light1.TabSelectedForeColor = Color.Black;
 
             Thm_Light1.RowColor = Color.FromArgb(232, 232, 232);
@@ -551,7 +605,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.ColumnSeperatorColor = Color.FromArgb(204, 206, 219);
 
             Thm_Light2.TabSelectedBorderColor = Color.FromArgb(142, 155, 188);
-            Thm_Light2.TabSelectedColor = Color.FromArgb(77, 96, 130);
+            Thm_Light2.TabSelectedColor = Color.FromArgb(202,209,232);//Color.FromArgb(77, 96, 130);
             Thm_Light2.TabSelectedForeColor = Color.White;
 
             Thm_Light2.RowColor = Color.FromArgb(228, 232, 247);
@@ -599,7 +653,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.ColumnSeperatorColor = Color.FromArgb(219, 204, 219);
 
             Thm_Light2.TabSelectedBorderColor = Color.FromArgb(185, 142, 188);
-            Thm_Light2.TabSelectedColor = Color.FromArgb(122, 77, 130);
+            Thm_Light2.TabSelectedColor = Color.FromArgb(228, 201, 230);//Color.FromArgb(122, 77, 130);
             Thm_Light2.TabSelectedForeColor = Color.White;
 
             Thm_Light2.RowColor = Color.FromArgb(247, 228, 247);
@@ -650,7 +704,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Dark2.GridLineColor = Color.FromArgb(30, 30, 30);
 
             Thm_Dark2.TabSelectedBorderColor = Color.FromArgb(67, 80, 113);
-            Thm_Dark2.TabSelectedColor = Color.FromArgb(125, 144, 178);
+            Thm_Dark2.TabSelectedColor = Color.FromArgb(49, 56, 85);//Color.FromArgb(125, 144, 178);
             Thm_Dark2.TabSelectedForeColor = Color.White;
 
             Thm_Dark2.MatchColor = Color.FromArgb(0, 64, 0);

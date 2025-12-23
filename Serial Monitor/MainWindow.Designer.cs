@@ -267,6 +267,7 @@
             copyToolStripMenuItem2 = new ToolStripMenuItem();
             pasteToolStripMenuItem2 = new ToolStripMenuItem();
             deleteToolStripMenuItem1 = new ToolStripMenuItem();
+            tscMain = new ToolStripContainer();
             smMain = new ODModules.StatusMenu();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             lblTxBytes = new ToolStripStatusLabel();
@@ -295,6 +296,9 @@
             pnlStepProgram.SuspendLayout();
             pnlMainConsole.SuspendLayout();
             cmTerminal.SuspendLayout();
+            tscMain.ContentPanel.SuspendLayout();
+            tscMain.TopToolStripPanel.SuspendLayout();
+            tscMain.SuspendLayout();
             smMain.SuspendLayout();
             cmPrograms.SuspendLayout();
             SuspendLayout();
@@ -304,6 +308,8 @@
             tsMain.BackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.BackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.BorderColor = Color.WhiteSmoke;
+            tsMain.Dock = DockStyle.None;
+            tsMain.GripColor = Color.WhiteSmoke;
             tsMain.ImageScalingSize = new Size(32, 32);
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
@@ -312,7 +318,7 @@
             tsMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedForeColor = Color.WhiteSmoke;
-            tsMain.Location = new Point(0, 40);
+            tsMain.Location = new Point(6, 0);
             tsMain.MenuBackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBorderColor = Color.DimGray;
@@ -320,9 +326,11 @@
             tsMain.MenuSymbolColor = Color.LightGray;
             tsMain.Name = "tsMain";
             tsMain.Padding = new Padding(0, 0, 4, 0);
-            tsMain.RoundedToolStrip = false;
-            tsMain.ShowBorder = false;
-            tsMain.Size = new Size(1177, 42);
+            tsMain.RoundedToolStrip = true;
+            tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsMain.ShowBorder = true;
+            tsMain.ShowShadow = true;
+            tsMain.Size = new Size(1151, 54);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 0;
@@ -648,7 +656,7 @@
             btnTopMost.ImageScaling = ToolStripItemImageScaling.None;
             btnTopMost.ImageTransparentColor = Color.Magenta;
             btnTopMost.Name = "btnTopMost";
-            btnTopMost.Size = new Size(46, 36);
+            btnTopMost.Size = new Size(46, 20);
             btnTopMost.Text = "Window Top Most";
             // 
             // pnlRenamePanel
@@ -661,7 +669,7 @@
             pnlRenamePanel.Margin = new Padding(4, 2, 4, 2);
             pnlRenamePanel.Name = "pnlRenamePanel";
             pnlRenamePanel.Padding = new Padding(2);
-            pnlRenamePanel.Size = new Size(1027, 40);
+            pnlRenamePanel.Size = new Size(1007, 40);
             pnlRenamePanel.TabIndex = 3;
             pnlRenamePanel.Visible = false;
             // 
@@ -677,14 +685,14 @@
             textBox1.MaxLength = 20;
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Rename Channel";
-            textBox1.Size = new Size(847, 36);
+            textBox1.Size = new Size(827, 36);
             textBox1.TabIndex = 2;
             // 
             // panel2
             // 
             panel2.Controls.Add(button1);
             panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(849, 2);
+            panel2.Location = new Point(829, 2);
             panel2.Margin = new Padding(6);
             panel2.Name = "panel2";
             panel2.Size = new Size(176, 36);
@@ -753,7 +761,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(150, 416);
+            navigator1.Size = new Size(150, 404);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -922,7 +930,7 @@
             column4.UseItemBackColor = false;
             column4.UseItemForeColor = false;
             column4.Visible = true;
-            column4.Width = 398;
+            column4.Width = 388;
             lstStepProgram.Columns.Add(column1);
             lstStepProgram.Columns.Add(column2);
             lstStepProgram.Columns.Add(column3);
@@ -1007,10 +1015,11 @@
             lstStepProgram.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstStepProgram.ShowCellSelection = false;
             lstStepProgram.ShowGrid = true;
+            lstStepProgram.ShowHeader = true;
             lstStepProgram.ShowItemIndentation = true;
             lstStepProgram.ShowMarker = true;
             lstStepProgram.ShowRowColors = true;
-            lstStepProgram.Size = new Size(1177, 238);
+            lstStepProgram.Size = new Size(1157, 238);
             lstStepProgram.SpanColumn = 3;
             lstStepProgram.TabIndex = 0;
             lstStepProgram.UseLocalList = false;
@@ -1142,7 +1151,7 @@
             msMain.MenuSeparatorColor = Color.FromArgb(55, 55, 55);
             msMain.MenuSymbolColor = Color.White;
             msMain.Name = "msMain";
-            msMain.Size = new Size(1177, 40);
+            msMain.Size = new Size(1157, 40);
             msMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             msMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             msMain.TabIndex = 2;
@@ -1282,7 +1291,7 @@
             undoToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             undoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Z;
-            undoToolStripMenuItem.Size = new Size(359, 44);
+            undoToolStripMenuItem.Size = new Size(327, 44);
             undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
@@ -1292,13 +1301,13 @@
             redoToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             redoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Y;
-            redoToolStripMenuItem.Size = new Size(359, 44);
+            redoToolStripMenuItem.Size = new Size(327, 44);
             redoToolStripMenuItem.Text = "&Redo";
             // 
             // toolStripSeparator15
             // 
             toolStripSeparator15.Name = "toolStripSeparator15";
-            toolStripSeparator15.Size = new Size(356, 6);
+            toolStripSeparator15.Size = new Size(324, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -1308,7 +1317,7 @@
             cutToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             cutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.X;
-            cutToolStripMenuItem.Size = new Size(359, 44);
+            cutToolStripMenuItem.Size = new Size(327, 44);
             cutToolStripMenuItem.Text = "Cu&t";
             // 
             // copyToolStripMenuItem
@@ -1319,7 +1328,7 @@
             copyToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            copyToolStripMenuItem.Size = new Size(359, 44);
+            copyToolStripMenuItem.Size = new Size(327, 44);
             copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -1330,7 +1339,7 @@
             pasteToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
-            pasteToolStripMenuItem.Size = new Size(359, 44);
+            pasteToolStripMenuItem.Size = new Size(327, 44);
             pasteToolStripMenuItem.Text = "&Paste";
             // 
             // deleteToolStripMenuItem
@@ -1339,13 +1348,13 @@
             deleteToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             deleteToolStripMenuItem.ShortcutKeys = Keys.Delete;
-            deleteToolStripMenuItem.Size = new Size(359, 44);
+            deleteToolStripMenuItem.Size = new Size(327, 44);
             deleteToolStripMenuItem.Text = "Delete";
             // 
             // toolStripSeparator9
             // 
             toolStripSeparator9.Name = "toolStripSeparator9";
-            toolStripSeparator9.Size = new Size(356, 6);
+            toolStripSeparator9.Size = new Size(324, 6);
             // 
             // selectAllToolStripMenuItem
             // 
@@ -1353,7 +1362,7 @@
             selectAllToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             selectAllToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
-            selectAllToolStripMenuItem.Size = new Size(359, 44);
+            selectAllToolStripMenuItem.Size = new Size(327, 44);
             selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // viewToolStripMenuItem
@@ -2435,7 +2444,7 @@
             pnlStepProgram.LabelBackColor = Color.FromArgb(31, 31, 31);
             pnlStepProgram.LabelFont = new Font("Segoe UI", 8F);
             pnlStepProgram.LabelForeColor = Color.WhiteSmoke;
-            pnlStepProgram.Location = new Point(0, 498);
+            pnlStepProgram.Location = new Point(0, 404);
             pnlStepProgram.Margin = new Padding(6);
             pnlStepProgram.Name = "pnlStepProgram";
             pnlStepProgram.OverrideCollapseControl = true;
@@ -2445,7 +2454,7 @@
             pnlStepProgram.SeparatorColor = Color.Gray;
             pnlStepProgram.ShowCloseButton = true;
             pnlStepProgram.ShowSeparator = false;
-            pnlStepProgram.Size = new Size(1177, 337);
+            pnlStepProgram.Size = new Size(1157, 337);
             pnlStepProgram.TabIndex = 3;
             pnlStepProgram.Text = "Step Program";
             // 
@@ -2472,16 +2481,18 @@
             thPrograms.Name = "thPrograms";
             thPrograms.Padding = new Padding(9, 0, 0, 0);
             thPrograms.SelectedIndex = 0;
+            thPrograms.SelectedTabGradient = true;
             thPrograms.ShowAddButton = true;
             thPrograms.ShowHeader = false;
             thPrograms.ShowTabDividers = true;
             thPrograms.ShowTabs = true;
-            thPrograms.Size = new Size(1177, 58);
+            thPrograms.Size = new Size(1157, 58);
             thPrograms.TabBackColor = Color.Transparent;
             thPrograms.TabBorderColor = Color.Transparent;
             thPrograms.TabClickedBackColor = Color.DarkGray;
             thPrograms.TabDividerColor = Color.White;
             thPrograms.TabHoverBackColor = Color.LightGray;
+            thPrograms.TabInactiveForeColor = Color.DarkGray;
             thPrograms.TabIndex = 2;
             thPrograms.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
             tab1.Selected = true;
@@ -2489,10 +2500,12 @@
             tab1.Text = "Main";
             thPrograms.Tabs.Add(tab1);
             thPrograms.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
+            thPrograms.TabSelectedBackColorNorth = Color.Gray;
             thPrograms.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thPrograms.TabSelectedForeColor = Color.WhiteSmoke;
             thPrograms.TabSelectedShadowColor = Color.Black;
             thPrograms.TabStyle = ODModules.TabHeader.TabStyles.Normal;
+            thPrograms.TabToolTips = null;
             thPrograms.UseBindingTabControl = false;
             // 
             // pnlMainConsole
@@ -2501,10 +2514,10 @@
             pnlMainConsole.Controls.Add(pnlRenamePanel);
             pnlMainConsole.Controls.Add(navigator1);
             pnlMainConsole.Dock = DockStyle.Fill;
-            pnlMainConsole.Location = new Point(0, 82);
+            pnlMainConsole.Location = new Point(0, 0);
             pnlMainConsole.Margin = new Padding(6);
             pnlMainConsole.Name = "pnlMainConsole";
-            pnlMainConsole.Size = new Size(1177, 416);
+            pnlMainConsole.Size = new Size(1157, 404);
             pnlMainConsole.TabIndex = 3;
             // 
             // Output
@@ -2542,7 +2555,7 @@
             Output.SecondaryFont = new Font("Segoe UI", 9F);
             Output.SelectionColor = Color.FromArgb(47, 47, 74);
             Output.ShowOrigin = true;
-            Output.Size = new Size(1027, 376);
+            Output.Size = new Size(1007, 364);
             Output.TabIndex = 0;
             Output.TimeStampForeColor = Color.Gray;
             Output.TimeStamps = ODModules.ConsoleInterface.TimeStampFormat.NoTimeStamps;
@@ -2565,40 +2578,63 @@
             cmTerminal.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmTerminal.ShowInsetShadow = false;
             cmTerminal.ShowItemInsetShadow = false;
-            cmTerminal.Size = new Size(301, 206);
+            cmTerminal.Size = new Size(241, 162);
             // 
             // clearTerminalToolStripMenuItem
             // 
             clearTerminalToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             clearTerminalToolStripMenuItem.Name = "clearTerminalToolStripMenuItem";
-            clearTerminalToolStripMenuItem.Size = new Size(300, 38);
+            clearTerminalToolStripMenuItem.Size = new Size(240, 38);
             clearTerminalToolStripMenuItem.Text = "C&lear Terminal";
             // 
             // toolStripSeparator44
             // 
             toolStripSeparator44.Name = "toolStripSeparator44";
-            toolStripSeparator44.Size = new Size(297, 6);
+            toolStripSeparator44.Size = new Size(237, 6);
             // 
             // copyToolStripMenuItem2
             // 
             copyToolStripMenuItem2.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem2.Name = "copyToolStripMenuItem2";
-            copyToolStripMenuItem2.Size = new Size(300, 38);
+            copyToolStripMenuItem2.Size = new Size(240, 38);
             copyToolStripMenuItem2.Text = "&Copy";
             // 
             // pasteToolStripMenuItem2
             // 
             pasteToolStripMenuItem2.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem2.Name = "pasteToolStripMenuItem2";
-            pasteToolStripMenuItem2.Size = new Size(300, 38);
+            pasteToolStripMenuItem2.Size = new Size(240, 38);
             pasteToolStripMenuItem2.Text = "&Paste";
             // 
             // deleteToolStripMenuItem1
             // 
             deleteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            deleteToolStripMenuItem1.Size = new Size(300, 38);
+            deleteToolStripMenuItem1.Size = new Size(240, 38);
             deleteToolStripMenuItem1.Text = "&Delete";
+            // 
+            // tscMain
+            // 
+            tscMain.BottomToolStripPanelVisible = false;
+            // 
+            // tscMain.ContentPanel
+            // 
+            tscMain.ContentPanel.Controls.Add(pnlMainConsole);
+            tscMain.ContentPanel.Controls.Add(pnlStepProgram);
+            tscMain.ContentPanel.Size = new Size(1157, 741);
+            tscMain.Dock = DockStyle.Fill;
+            tscMain.LeftToolStripPanelVisible = false;
+            tscMain.Location = new Point(0, 40);
+            tscMain.Margin = new Padding(0);
+            tscMain.Name = "tscMain";
+            tscMain.RightToolStripPanelVisible = false;
+            tscMain.Size = new Size(1157, 795);
+            tscMain.TabIndex = 5;
+            tscMain.Text = "toolStripContainer1";
+            // 
+            // tscMain.TopToolStripPanel
+            // 
+            tscMain.TopToolStripPanel.Controls.Add(tsMain);
             // 
             // smMain
             // 
@@ -2620,7 +2656,7 @@
             smMain.MenuSymbolColor = Color.WhiteSmoke;
             smMain.Name = "smMain";
             smMain.Padding = new Padding(2, 0, 26, 0);
-            smMain.Size = new Size(1177, 42);
+            smMain.Size = new Size(1157, 42);
             smMain.SizingGrip = false;
             smMain.StripItemSelectedBackColorNorth = Color.White;
             smMain.StripItemSelectedBackColorSouth = Color.White;
@@ -2773,10 +2809,8 @@
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
-            ClientSize = new Size(1177, 877);
-            Controls.Add(pnlMainConsole);
-            Controls.Add(pnlStepProgram);
-            Controls.Add(tsMain);
+            ClientSize = new Size(1157, 877);
+            Controls.Add(tscMain);
             Controls.Add(msMain);
             Controls.Add(smMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -2798,6 +2832,11 @@
             pnlMainConsole.ResumeLayout(false);
             pnlMainConsole.PerformLayout();
             cmTerminal.ResumeLayout(false);
+            tscMain.ContentPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.PerformLayout();
+            tscMain.ResumeLayout(false);
+            tscMain.PerformLayout();
             smMain.ResumeLayout(false);
             smMain.PerformLayout();
             cmPrograms.ResumeLayout(false);
@@ -3061,5 +3100,6 @@
         private ToolStripMenuItem deleteToolStripMenuItem1;
         private ToolStripMenuItem clearTerminalToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator44;
+        private ToolStripContainer tscMain;
     }
 }

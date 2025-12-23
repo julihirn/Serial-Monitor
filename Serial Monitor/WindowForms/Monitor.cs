@@ -139,6 +139,7 @@ namespace Serial_Monitor {
 
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(tscMain);
 
             Classes.Theming.ThemeManager.ThemeControl(lstSelector);
 

@@ -512,7 +512,7 @@
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
-            lstRegisters.Location = new Point(0, 83);
+            lstRegisters.Location = new Point(0, 79);
             lstRegisters.Margin = new Padding(6);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
@@ -529,10 +529,11 @@
             lstRegisters.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstRegisters.ShowCellSelection = true;
             lstRegisters.ShowGrid = true;
+            lstRegisters.ShowHeader = true;
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = false;
-            lstRegisters.Size = new Size(489, 347);
+            lstRegisters.Size = new Size(489, 351);
             lstRegisters.SpanColumn = 1;
             lstRegisters.TabIndex = 1;
             lstRegisters.UseLocalList = true;
@@ -568,7 +569,7 @@
             tsMain.Padding = new Padding(0, 0, 4, 0);
             tsMain.RoundedToolStrip = false;
             tsMain.ShowBorder = false;
-            tsMain.Size = new Size(489, 42);
+            tsMain.Size = new Size(489, 38);
             tsMain.StripItemSelectedBackColorNorth = Color.White;
             tsMain.StripItemSelectedBackColorSouth = Color.White;
             tsMain.TabIndex = 0;
@@ -581,7 +582,7 @@
             btnAdd.ImageScaling = ToolStripItemImageScaling.None;
             btnAdd.ImageTransparentColor = Color.Magenta;
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(46, 36);
+            btnAdd.Size = new Size(46, 32);
             btnAdd.Text = "Add";
             btnAdd.Click += btnAdd_Click;
             // 
@@ -592,22 +593,23 @@
             btnRemove.ImageScaling = ToolStripItemImageScaling.None;
             btnRemove.ImageTransparentColor = Color.Magenta;
             btnRemove.Name = "btnRemove";
-            btnRemove.Size = new Size(46, 36);
+            btnRemove.Size = new Size(46, 32);
             btnRemove.Text = "Remove";
             btnRemove.Click += btnRemove_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 42);
+            toolStripSeparator1.Size = new Size(6, 38);
             // 
             // btnMoveUp
             // 
             btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnMoveUp.Image = (Image)resources.GetObject("btnMoveUp.Image");
+            btnMoveUp.ImageScaling = ToolStripItemImageScaling.None;
             btnMoveUp.ImageTransparentColor = Color.Magenta;
             btnMoveUp.Name = "btnMoveUp";
-            btnMoveUp.Size = new Size(46, 36);
+            btnMoveUp.Size = new Size(46, 32);
             btnMoveUp.Text = "Move Up";
             btnMoveUp.Click += btnMoveUp_Click;
             // 
@@ -615,9 +617,10 @@
             // 
             btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnMoveDown.Image = (Image)resources.GetObject("btnMoveDown.Image");
+            btnMoveDown.ImageScaling = ToolStripItemImageScaling.None;
             btnMoveDown.ImageTransparentColor = Color.Magenta;
             btnMoveDown.Name = "btnMoveDown";
-            btnMoveDown.Size = new Size(46, 36);
+            btnMoveDown.Size = new Size(46, 32);
             btnMoveDown.Text = "Move Down";
             btnMoveDown.Click += btnMoveDown_Click;
             // 
@@ -829,7 +832,6 @@
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Location = new Point(0, 0);
             Margin = new Padding(6);
             Name = "WriteRegisters";
             Padding = new Padding(19, 21, 19, 21);

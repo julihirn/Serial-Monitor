@@ -2323,32 +2323,32 @@ namespace Serial_Monitor.Classes {
             Scan_Completed = true;
         }
         #endregion
-        private enum ScanState {
+        private enum ScanState : byte {
             Initialise = 0x00,
             Open = 0x01,
             Await = 0x02,
             Close = 0x03,
             MoveToNext = 0x04
         }
-        private enum MessageState {
+        private enum MessageState : byte {
             Ready = 0x00,
             Armed = 0x01,
             InCommand = 0x02,
             Complete = 0x04
         }
-        private enum ModbusASCIIState {
+        private enum ModbusASCIIState : byte {
             Ready = 0x00,
             Armmed = 0x01,
             Closing = 0x02
         }
-        private enum SDI12State {
+        private enum SDI12State : byte {
             Ready = 0x00,
             Armmed = 0x01,
             Closing = 0x02
         }
 
     }
-    public enum DataSelection {
+    public enum DataSelection : byte {
         ModbusDataCoils = 0x00,
         ModbusDataDiscreteInputs = 0x01,
         ModbusDataInputRegisters = 0x02,

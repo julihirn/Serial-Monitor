@@ -896,6 +896,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.tbDataPages);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.navigator1);
             Classes.Theming.ThemeManager.ThemeControl(pnlDocker);
+            Classes.Theming.ThemeManager.ThemeControl(tscMain);
             // editorModbus.BorderColor = Color.FromArgb(100, 128, 128, 128);
             editorModbus.navigator1.BorderColor = Color.FromArgb(100, 128, 128, 128);
             editorModbus.lstMonitor.BorderColor = Color.FromArgb(100, 128, 128, 128);

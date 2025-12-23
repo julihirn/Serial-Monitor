@@ -415,7 +415,7 @@
             lstCoils.HorizontalScrollStep = 3;
             lstCoils.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstCoils.LineMarkerIndex = 0;
-            lstCoils.Location = new Point(0, 83);
+            lstCoils.Location = new Point(0, 79);
             lstCoils.Margin = new Padding(6);
             lstCoils.MarkerBorderColor = Color.LimeGreen;
             lstCoils.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
@@ -432,10 +432,11 @@
             lstCoils.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstCoils.ShowCellSelection = false;
             lstCoils.ShowGrid = true;
+            lstCoils.ShowHeader = true;
             lstCoils.ShowItemIndentation = false;
             lstCoils.ShowMarker = false;
             lstCoils.ShowRowColors = false;
-            lstCoils.Size = new Size(489, 441);
+            lstCoils.Size = new Size(489, 445);
             lstCoils.SpanColumn = 1;
             lstCoils.TabIndex = 1;
             lstCoils.UseLocalList = true;
@@ -466,7 +467,7 @@
             tsMain.Padding = new Padding(0, 0, 4, 0);
             tsMain.RoundedToolStrip = false;
             tsMain.ShowBorder = false;
-            tsMain.Size = new Size(489, 42);
+            tsMain.Size = new Size(489, 38);
             tsMain.StripItemSelectedBackColorNorth = Color.White;
             tsMain.StripItemSelectedBackColorSouth = Color.White;
             tsMain.TabIndex = 0;
@@ -479,7 +480,7 @@
             btnAdd.ImageScaling = ToolStripItemImageScaling.None;
             btnAdd.ImageTransparentColor = Color.Magenta;
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(46, 36);
+            btnAdd.Size = new Size(46, 32);
             btnAdd.Text = "Add";
             btnAdd.Click += toolStripButton1_Click;
             // 
@@ -490,22 +491,23 @@
             btnRemove.ImageScaling = ToolStripItemImageScaling.None;
             btnRemove.ImageTransparentColor = Color.Magenta;
             btnRemove.Name = "btnRemove";
-            btnRemove.Size = new Size(46, 36);
+            btnRemove.Size = new Size(46, 32);
             btnRemove.Text = "Remove";
             btnRemove.Click += btnRemove_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 42);
+            toolStripSeparator1.Size = new Size(6, 38);
             // 
             // btnMoveUp
             // 
             btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnMoveUp.Image = (Image)resources.GetObject("btnMoveUp.Image");
+            btnMoveUp.ImageScaling = ToolStripItemImageScaling.None;
             btnMoveUp.ImageTransparentColor = Color.Magenta;
             btnMoveUp.Name = "btnMoveUp";
-            btnMoveUp.Size = new Size(46, 36);
+            btnMoveUp.Size = new Size(46, 32);
             btnMoveUp.Text = "Move Up";
             btnMoveUp.Click += btnMoveUp_Click;
             // 
@@ -513,9 +515,10 @@
             // 
             btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnMoveDown.Image = (Image)resources.GetObject("btnMoveDown.Image");
+            btnMoveDown.ImageScaling = ToolStripItemImageScaling.None;
             btnMoveDown.ImageTransparentColor = Color.Magenta;
             btnMoveDown.Name = "btnMoveDown";
-            btnMoveDown.Size = new Size(46, 36);
+            btnMoveDown.Size = new Size(46, 32);
             btnMoveDown.Text = "Move Down";
             btnMoveDown.Click += btnMoveDown_Click;
             // 
@@ -713,7 +716,6 @@
             Controls.Add(lblpnlRegisters);
             Controls.Add(panel2);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Location = new Point(0, 0);
             Margin = new Padding(6);
             Name = "WriteCoils";
             Padding = new Padding(19, 21, 19, 21);

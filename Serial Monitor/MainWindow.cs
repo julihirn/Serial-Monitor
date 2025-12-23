@@ -584,6 +584,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmPrograms);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             Classes.Theming.ThemeManager.ThemeControl(cmTerminal);
+            Classes.Theming.ThemeManager.ThemeControl(tscMain);
 
             lblRxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblTxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;

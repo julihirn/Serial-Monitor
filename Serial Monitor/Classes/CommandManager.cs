@@ -84,6 +84,10 @@ namespace Serial_Monitor.Classes {
                 string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
                 List<string> SupportedFunctions = new List<string>();
                 SupportedFunctions.Add("TIME.NOW");
+                SupportedFunctions.Add("INT16");
+                SupportedFunctions.Add("INT32");
+                SupportedFunctions.Add("INT64");
+                SupportedFunctions.Add("FLOAT");
                 string Function = "";
                  if (TestSupportFunctions(ref TempCheck, SupportedFunctions, out Function) == false) { Input = OldValue; return false; }
                 if (TempCheck.StartsWith("\"") && TempCheck.EndsWith("\"")) { Input = OldValue; return false; }

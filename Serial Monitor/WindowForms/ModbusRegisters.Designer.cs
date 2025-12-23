@@ -188,11 +188,15 @@
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            tscMain = new ToolStripContainer();
             cmMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
             cmChannels.SuspendLayout();
             cmMBChannel.SuspendLayout();
+            tscMain.ContentPanel.SuspendLayout();
+            tscMain.TopToolStripPanel.SuspendLayout();
+            tscMain.SuspendLayout();
             SuspendLayout();
             // 
             // cmMonitor
@@ -256,9 +260,12 @@
             // 
             // tsMain
             // 
+            tsMain.BackColor = Color.Transparent;
             tsMain.BackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.BackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.BorderColor = Color.WhiteSmoke;
+            resources.ApplyResources(tsMain, "tsMain");
+            tsMain.GripColor = Color.WhiteSmoke;
             tsMain.ImageScalingSize = new Size(32, 32);
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
@@ -267,15 +274,16 @@
             tsMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedForeColor = Color.WhiteSmoke;
-            resources.ApplyResources(tsMain, "tsMain");
             tsMain.MenuBackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBorderColor = Color.DimGray;
             tsMain.MenuSeparatorColor = Color.FromArgb(55, 55, 55);
             tsMain.MenuSymbolColor = Color.FromArgb(64, 64, 64);
             tsMain.Name = "tsMain";
-            tsMain.RoundedToolStrip = false;
-            tsMain.ShowBorder = false;
+            tsMain.RoundedToolStrip = true;
+            tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsMain.ShowBorder = true;
+            tsMain.ShowShadow = true;
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             cntrlExtender.SetTranslationReference(tsMain, "");
@@ -1396,14 +1404,44 @@
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
+            // tscMain
+            // 
+            // 
+            // tscMain.BottomToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.BottomToolStripPanel, "");
+            // 
+            // tscMain.ContentPanel
+            // 
+            tscMain.ContentPanel.Controls.Add(pnlDocker);
+            tscMain.ContentPanel.Controls.Add(editorModbus);
+            resources.ApplyResources(tscMain.ContentPanel, "tscMain.ContentPanel");
+            cntrlExtender.SetTranslationReference(tscMain.ContentPanel, "");
+            resources.ApplyResources(tscMain, "tscMain");
+            // 
+            // tscMain.LeftToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.LeftToolStripPanel, "");
+            tscMain.LeftToolStripPanelVisible = false;
+            tscMain.Name = "tscMain";
+            // 
+            // tscMain.RightToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.RightToolStripPanel, "");
+            tscMain.RightToolStripPanelVisible = false;
+            // 
+            // tscMain.TopToolStripPanel
+            // 
+            tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
+            cntrlExtender.SetTranslationReference(tscMain, "");
+            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
-            Controls.Add(pnlDocker);
-            Controls.Add(editorModbus);
-            Controls.Add(tsMain);
+            Controls.Add(tscMain);
             Controls.Add(msMain);
             KeyPreview = true;
             MainMenuStrip = msMain;
@@ -1424,6 +1462,11 @@
             msMain.PerformLayout();
             cmChannels.ResumeLayout(false);
             cmMBChannel.ResumeLayout(false);
+            tscMain.ContentPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.PerformLayout();
+            tscMain.ResumeLayout(false);
+            tscMain.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1592,5 +1635,6 @@
         private ToolStripMenuItem selectAllToolStripMenuItem1;
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem slaveManagerToolStripMenuItem;
+        private ToolStripContainer tscMain;
     }
 }

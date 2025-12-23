@@ -609,5 +609,17 @@ namespace Serial_Monitor.Properties {
                 this["THM_COL_SourceSep"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int THM_VIS_Style {
+            get {
+                return ((int)(this["THM_VIS_Style"]));
+            }
+            set {
+                this["THM_VIS_Style"] = value;
+            }
+        }
     }
 }

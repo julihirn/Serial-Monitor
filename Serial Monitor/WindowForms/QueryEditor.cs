@@ -68,6 +68,7 @@ namespace Serial_Monitor.WindowForms {
             ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(tscMain);
             Classes.Theming.ThemeManager.ThemeControl(fctEditor);
             Classes.Theming.ThemeManager.ThemeControl(dmpScroll);
             SetBrush(Comment, Properties.Settings.Default.THM_COL_CommentColor);

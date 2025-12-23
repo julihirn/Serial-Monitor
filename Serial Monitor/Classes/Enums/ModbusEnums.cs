@@ -15,7 +15,7 @@ namespace Serial_Monitor.Classes.Enums {
             OneBasedOctal = 0x104,
             PLCAddress = 0x1F8
         }
-        public enum DataFormat {
+        public enum DataFormat : byte {
             Binary = 0x00,
             Octal = 0x01,
             Decimal = 0x02,
@@ -24,7 +24,7 @@ namespace Serial_Monitor.Classes.Enums {
             Float = 0x05,
             Double = 0x06
         }
-        public enum CoilFormat {
+        public enum CoilFormat : byte {
             Bit = 0x00,
             Boolean = 0x01,
             PowerState = 0x02,
@@ -32,24 +32,24 @@ namespace Serial_Monitor.Classes.Enums {
             EnabledState = 0x04,
             ActivationState = 0x05
         }
-        public enum DataSize {
+        public enum DataSize : byte {
             Bits8 = 0x00,
             Bits16 = 0x01,
             Bits32 = 0x02,
             Bits64 = 0x04
         }
-        public enum SnapshotSelectionType {
+        public enum SnapshotSelectionType : byte {
             Concurrent = 0x00,
             Custom = 0x01
         }
-        public enum ByteOrder {
+        public enum ByteOrder : byte {
             LittleEndian = 0x01,
             LittleEndianByteSwap = 0x02,
             //LittleEndian16 = 0x02,
             BigEndian = 0x03,
             BigEndianByteSwap = 0x04
         }
-        public enum FloatFormat {
+        public enum FloatFormat : byte {
             None = 0x00,
             //0.0
             FixedPlaces1 = 0x01,
@@ -77,7 +77,7 @@ namespace Serial_Monitor.Classes.Enums {
             FixedPlaces12 = 0x0C
 
         }
-        public enum DataType{ 
+        public enum DataType : byte { 
             Void = 0x00,
             Coil = 0x01,
             Register = 0x02,

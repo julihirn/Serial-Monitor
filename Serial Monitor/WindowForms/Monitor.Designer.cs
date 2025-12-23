@@ -93,21 +93,31 @@
             searchToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator8 = new ToolStripSeparator();
             aboutToolStripMenuItem = new ToolStripMenuItem();
+            tscMain = new ToolStripContainer();
             ((System.ComponentModel.ISupportInitialize)pnlMonitor).BeginInit();
             pnlMonitor.Panel1.SuspendLayout();
             pnlMonitor.Panel2.SuspendLayout();
             pnlMonitor.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
+            tscMain.ContentPanel.SuspendLayout();
+            tscMain.TopToolStripPanel.SuspendLayout();
+            tscMain.SuspendLayout();
             SuspendLayout();
             // 
             // lstMonitor
             // 
+            lstMonitor.AllowArrowKeyCellSelect = false;
             lstMonitor.AllowColumnSpanning = false;
             lstMonitor.AllowMouseWheel = true;
             lstMonitor.BackColor = Color.FromArgb(20, 20, 20);
             lstMonitor.BorderColor = Color.Gray;
             lstMonitor.Borders = ODModules.Borders.None;
+            lstMonitor.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            lstMonitor.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
+            lstMonitor.CellPixelFit = true;
+            lstMonitor.CellSelectEditableOnly = true;
+            lstMonitor.CellSelectionBorderColor = Color.Blue;
             lstMonitor.ColumnColor = Color.FromArgb(30, 30, 30);
             lstMonitor.ColumnForeColor = Color.WhiteSmoke;
             lstMonitor.ColumnLineColor = Color.FromArgb(64, 64, 64);
@@ -181,6 +191,7 @@
             lstMonitor.ExternalItems = null;
             lstMonitor.Filter = null;
             lstMonitor.FilterColumn = 0;
+            lstMonitor.FilterSearchType = ODModules.ListControl.FilterSearch.Contains;
             lstMonitor.ForeColor = Color.White;
             lstMonitor.GridlineColor = Color.FromArgb(30, 30, 30);
             lstMonitor.HighlightStrength = 128;
@@ -192,12 +203,16 @@
             listItem1.Indentation = 0U;
             listItem1.LineBackColor = Color.Transparent;
             listItem1.LineForeColor = Color.Black;
+            listItem1.MaximumValue = 0;
+            listItem1.MinimumValue = 0;
             listItem1.Name = "";
             listItem1.Selected = false;
             listSubItem1.BackColor = Color.Transparent;
             listSubItem1.Checked = false;
             listSubItem1.ForeColor = Color.Black;
             listSubItem1.Indentation = 0U;
+            listSubItem1.MaximumValue = 0;
+            listSubItem1.MinimumValue = 0;
             listSubItem1.Name = "";
             listSubItem1.Tag = null;
             listSubItem1.Text = "";
@@ -206,6 +221,8 @@
             listSubItem2.Checked = false;
             listSubItem2.ForeColor = Color.Black;
             listSubItem2.Indentation = 0U;
+            listSubItem2.MaximumValue = 0;
+            listSubItem2.MinimumValue = 0;
             listSubItem2.Name = "";
             listSubItem2.Tag = null;
             listSubItem2.Text = "";
@@ -214,6 +231,8 @@
             listSubItem3.Checked = false;
             listSubItem3.ForeColor = Color.Black;
             listSubItem3.Indentation = 0U;
+            listSubItem3.MaximumValue = 0;
+            listSubItem3.MinimumValue = 0;
             listSubItem3.Name = "";
             listSubItem3.Tag = null;
             listSubItem3.Text = "";
@@ -229,10 +248,11 @@
             lstMonitor.Items.Add(listItem1);
             lstMonitor.LineMarkerIndex = 0;
             lstMonitor.Location = new Point(0, 0);
-            lstMonitor.Margin = new Padding(6, 6, 6, 6);
+            lstMonitor.Margin = new Padding(6);
             lstMonitor.MarkerBorderColor = Color.LimeGreen;
             lstMonitor.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstMonitor.MarkerStyle = ODModules.MarkerStyleType.Highlight;
+            lstMonitor.MoveControlOnCellChange = true;
             lstMonitor.Name = "lstMonitor";
             lstMonitor.RowColor = Color.FromArgb(23, 23, 23);
             lstMonitor.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
@@ -242,11 +262,13 @@
             lstMonitor.SelectedColor = Color.SteelBlue;
             lstMonitor.SelectionColor = Color.Gray;
             lstMonitor.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lstMonitor.ShowCellSelection = false;
             lstMonitor.ShowGrid = true;
+            lstMonitor.ShowHeader = true;
             lstMonitor.ShowItemIndentation = false;
             lstMonitor.ShowMarker = false;
             lstMonitor.ShowRowColors = true;
-            lstMonitor.Size = new Size(702, 826);
+            lstMonitor.Size = new Size(702, 814);
             lstMonitor.SpanColumn = -1;
             lstMonitor.TabIndex = 1;
             lstMonitor.UseLocalList = true;
@@ -257,8 +279,8 @@
             // 
             pnlMonitor.Dock = DockStyle.Fill;
             pnlMonitor.FixedPanel = FixedPanel.Panel1;
-            pnlMonitor.Location = new Point(0, 70);
-            pnlMonitor.Margin = new Padding(6, 6, 6, 6);
+            pnlMonitor.Location = new Point(0, 0);
+            pnlMonitor.Margin = new Padding(6);
             pnlMonitor.Name = "pnlMonitor";
             // 
             // pnlMonitor.Panel1
@@ -269,18 +291,24 @@
             // pnlMonitor.Panel2
             // 
             pnlMonitor.Panel2.Controls.Add(lstMonitor);
-            pnlMonitor.Size = new Size(1090, 826);
+            pnlMonitor.Size = new Size(1090, 814);
             pnlMonitor.SplitterDistance = 381;
             pnlMonitor.SplitterWidth = 7;
             pnlMonitor.TabIndex = 2;
             // 
             // lstSelector
             // 
+            lstSelector.AllowArrowKeyCellSelect = false;
             lstSelector.AllowColumnSpanning = false;
             lstSelector.AllowMouseWheel = true;
             lstSelector.BackColor = Color.FromArgb(20, 20, 20);
             lstSelector.BorderColor = Color.Gray;
             lstSelector.Borders = ODModules.Borders.None;
+            lstSelector.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            lstSelector.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
+            lstSelector.CellPixelFit = true;
+            lstSelector.CellSelectEditableOnly = true;
+            lstSelector.CellSelectionBorderColor = Color.Blue;
             lstSelector.ColumnColor = Color.FromArgb(30, 30, 30);
             lstSelector.ColumnForeColor = Color.WhiteSmoke;
             lstSelector.ColumnLineColor = Color.FromArgb(64, 64, 64);
@@ -354,6 +382,7 @@
             lstSelector.ExternalItems = null;
             lstSelector.Filter = null;
             lstSelector.FilterColumn = 2;
+            lstSelector.FilterSearchType = ODModules.ListControl.FilterSearch.Contains;
             lstSelector.ForeColor = Color.White;
             lstSelector.GridlineColor = Color.FromArgb(30, 30, 30);
             lstSelector.HighlightStrength = 128;
@@ -361,10 +390,11 @@
             lstSelector.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstSelector.LineMarkerIndex = 0;
             lstSelector.Location = new Point(0, 32);
-            lstSelector.Margin = new Padding(6, 6, 6, 6);
+            lstSelector.Margin = new Padding(6);
             lstSelector.MarkerBorderColor = Color.LimeGreen;
             lstSelector.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
             lstSelector.MarkerStyle = ODModules.MarkerStyleType.Highlight;
+            lstSelector.MoveControlOnCellChange = true;
             lstSelector.Name = "lstSelector";
             lstSelector.RowColor = Color.FromArgb(23, 23, 23);
             lstSelector.ScrollBarMouseDown = Color.FromArgb(64, 0, 0, 0);
@@ -374,11 +404,13 @@
             lstSelector.SelectedColor = Color.SteelBlue;
             lstSelector.SelectionColor = Color.Gray;
             lstSelector.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            lstSelector.ShowCellSelection = false;
             lstSelector.ShowGrid = true;
+            lstSelector.ShowHeader = true;
             lstSelector.ShowItemIndentation = false;
             lstSelector.ShowMarker = false;
             lstSelector.ShowRowColors = true;
-            lstSelector.Size = new Size(381, 794);
+            lstSelector.Size = new Size(381, 782);
             lstSelector.SpanColumn = 2;
             lstSelector.TabIndex = 2;
             lstSelector.UseLocalList = true;
@@ -393,7 +425,7 @@
             txtbxSearch.Dock = DockStyle.Top;
             txtbxSearch.ForeColor = Color.White;
             txtbxSearch.Location = new Point(0, 0);
-            txtbxSearch.Margin = new Padding(6, 6, 6, 6);
+            txtbxSearch.Margin = new Padding(6);
             txtbxSearch.Name = "txtbxSearch";
             txtbxSearch.PlaceholderText = "Search Registers";
             txtbxSearch.Size = new Size(381, 32);
@@ -405,9 +437,12 @@
             // 
             // tsMain
             // 
+            tsMain.BackColor = Color.Transparent;
             tsMain.BackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.BackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.BorderColor = Color.WhiteSmoke;
+            tsMain.Dock = DockStyle.None;
+            tsMain.GripColor = Color.WhiteSmoke;
             tsMain.ImageScalingSize = new Size(32, 32);
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
@@ -416,7 +451,7 @@
             tsMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedForeColor = Color.WhiteSmoke;
-            tsMain.Location = new Point(0, 44);
+            tsMain.Location = new Point(7, 0);
             tsMain.MenuBackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBorderColor = Color.DimGray;
@@ -424,9 +459,11 @@
             tsMain.MenuSymbolColor = Color.FromArgb(64, 64, 64);
             tsMain.Name = "tsMain";
             tsMain.Padding = new Padding(0, 0, 4, 0);
-            tsMain.RoundedToolStrip = false;
-            tsMain.ShowBorder = false;
-            tsMain.Size = new Size(1090, 26);
+            tsMain.RoundedToolStrip = true;
+            tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsMain.ShowBorder = true;
+            tsMain.ShowShadow = true;
+            tsMain.Size = new Size(422, 38);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 3;
@@ -880,20 +917,37 @@
             aboutToolStripMenuItem.Size = new Size(243, 44);
             aboutToolStripMenuItem.Text = "&About...";
             // 
+            // tscMain
+            // 
+            // 
+            // tscMain.ContentPanel
+            // 
+            tscMain.ContentPanel.Controls.Add(pnlMonitor);
+            tscMain.ContentPanel.Size = new Size(1090, 814);
+            tscMain.Dock = DockStyle.Fill;
+            tscMain.LeftToolStripPanelVisible = false;
+            tscMain.Location = new Point(0, 44);
+            tscMain.Name = "tscMain";
+            tscMain.RightToolStripPanelVisible = false;
+            tscMain.Size = new Size(1090, 852);
+            tscMain.TabIndex = 6;
+            tscMain.Text = "toolStripContainer1";
+            // 
+            // tscMain.TopToolStripPanel
+            // 
+            tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            // 
             // Monitor
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
             ClientSize = new Size(1090, 896);
-            Controls.Add(pnlMonitor);
-            Controls.Add(tsMain);
+            Controls.Add(tscMain);
             Controls.Add(msMain);
-            DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Location = new Point(0, 0);
             MainMenuStrip = msMain;
-            Margin = new Padding(6, 6, 6, 6);
+            Margin = new Padding(6);
             Name = "Monitor";
             Text = "Monitor";
             FormClosing += Monitor_FormClosing;
@@ -910,6 +964,11 @@
             tsMain.PerformLayout();
             msMain.ResumeLayout(false);
             msMain.PerformLayout();
+            tscMain.ContentPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.PerformLayout();
+            tscMain.ResumeLayout(false);
+            tscMain.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -973,5 +1032,6 @@
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem addToMonitorToolStripMenuItem;
         private ToolStripMenuItem removeFromMonitorToolStripMenuItem;
+        private ToolStripContainer tscMain;
     }
 }
