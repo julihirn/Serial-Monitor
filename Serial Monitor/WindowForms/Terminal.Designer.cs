@@ -122,9 +122,13 @@
             windowToolStripMenuItem = new ToolStripMenuItem();
             windowManagerToolStripMenuItem = new ToolStripMenuItem();
             LogUpdater = new System.Windows.Forms.Timer(components);
+            tscMain = new ToolStripContainer();
             cmTerminal.SuspendLayout();
             tsMain.SuspendLayout();
             msMain.SuspendLayout();
+            tscMain.ContentPanel.SuspendLayout();
+            tscMain.TopToolStripPanel.SuspendLayout();
+            tscMain.SuspendLayout();
             SuspendLayout();
             // 
             // Output
@@ -145,7 +149,7 @@
             Output.ForeColor = Color.FromArgb(255, 255, 192);
             Output.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             Output.LineFormatting = true;
-            Output.Location = new Point(0, 86);
+            Output.Location = new Point(0, 0);
             Output.Margin = new Padding(6);
             Output.MaximumLength = 100;
             Output.Name = "Output";
@@ -162,7 +166,7 @@
             Output.SecondaryFont = new Font("Segoe UI", 9F);
             Output.SelectionColor = Color.FromArgb(47, 47, 74);
             Output.ShowOrigin = false;
-            Output.Size = new Size(799, 605);
+            Output.Size = new Size(799, 593);
             Output.TabIndex = 1;
             Output.TimeStampForeColor = Color.Gray;
             Output.TimeStamps = ODModules.ConsoleInterface.TimeStampFormat.NoTimeStamps;
@@ -227,9 +231,12 @@
             // 
             // tsMain
             // 
+            tsMain.BackColor = Color.Transparent;
             tsMain.BackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.BackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.BorderColor = Color.WhiteSmoke;
+            tsMain.Dock = DockStyle.None;
+            tsMain.GripColor = Color.WhiteSmoke;
             tsMain.ImageScalingSize = new Size(32, 32);
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
@@ -238,7 +245,7 @@
             tsMain.ItemSelectedBackColorNorth = Color.White;
             tsMain.ItemSelectedBackColorSouth = Color.White;
             tsMain.ItemSelectedForeColor = Color.Black;
-            tsMain.Location = new Point(0, 44);
+            tsMain.Location = new Point(10, 0);
             tsMain.MenuBackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBorderColor = Color.WhiteSmoke;
@@ -246,9 +253,11 @@
             tsMain.MenuSymbolColor = Color.WhiteSmoke;
             tsMain.Name = "tsMain";
             tsMain.Padding = new Padding(0, 0, 4, 0);
-            tsMain.RoundedToolStrip = false;
-            tsMain.ShowBorder = false;
-            tsMain.Size = new Size(799, 42);
+            tsMain.RoundedToolStrip = true;
+            tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsMain.ShowBorder = true;
+            tsMain.ShowShadow = true;
+            tsMain.Size = new Size(374, 54);
             tsMain.StripItemSelectedBackColorNorth = Color.White;
             tsMain.StripItemSelectedBackColorSouth = Color.White;
             tsMain.TabIndex = 2;
@@ -275,7 +284,7 @@
             dataOnlyToolStripMenuItem.ForeColor = Color.White;
             dataOnlyToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             dataOnlyToolStripMenuItem.Name = "dataOnlyToolStripMenuItem";
-            dataOnlyToolStripMenuItem.Size = new Size(343, 44);
+            dataOnlyToolStripMenuItem.Size = new Size(359, 44);
             dataOnlyToolStripMenuItem.Tag = "0";
             dataOnlyToolStripMenuItem.Text = "Data Only";
             dataOnlyToolStripMenuItem.Click += dataOnlyToolStripMenuItem_Click;
@@ -286,7 +295,7 @@
             timeStampsToolStripMenuItem.ForeColor = Color.White;
             timeStampsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             timeStampsToolStripMenuItem.Name = "timeStampsToolStripMenuItem";
-            timeStampsToolStripMenuItem.Size = new Size(343, 44);
+            timeStampsToolStripMenuItem.Size = new Size(359, 44);
             timeStampsToolStripMenuItem.Tag = "1";
             timeStampsToolStripMenuItem.Text = "Time Stamps";
             timeStampsToolStripMenuItem.Click += timeStampsToolStripMenuItem_Click;
@@ -297,7 +306,7 @@
             dateStampsToolStripMenuItem.ForeColor = Color.White;
             dateStampsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             dateStampsToolStripMenuItem.Name = "dateStampsToolStripMenuItem";
-            dateStampsToolStripMenuItem.Size = new Size(343, 44);
+            dateStampsToolStripMenuItem.Size = new Size(359, 44);
             dateStampsToolStripMenuItem.Tag = "3";
             dateStampsToolStripMenuItem.Text = "Date Stamps";
             dateStampsToolStripMenuItem.Click += dateStampsToolStripMenuItem_Click;
@@ -308,7 +317,7 @@
             dateTimeStampsToolStripMenuItem.ForeColor = Color.White;
             dateTimeStampsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             dateTimeStampsToolStripMenuItem.Name = "dateTimeStampsToolStripMenuItem";
-            dateTimeStampsToolStripMenuItem.Size = new Size(343, 44);
+            dateTimeStampsToolStripMenuItem.Size = new Size(359, 44);
             dateTimeStampsToolStripMenuItem.Tag = "4";
             dateTimeStampsToolStripMenuItem.Text = "Date/Time Stamps";
             dateTimeStampsToolStripMenuItem.Click += dateTimeStampsToolStripMenuItem_Click;
@@ -1097,18 +1106,34 @@
             LogUpdater.Interval = 1000;
             LogUpdater.Tick += LogUpdater_Tick;
             // 
+            // tscMain
+            // 
+            // 
+            // tscMain.ContentPanel
+            // 
+            tscMain.ContentPanel.Controls.Add(Output);
+            tscMain.ContentPanel.Size = new Size(799, 593);
+            tscMain.Dock = DockStyle.Fill;
+            tscMain.Location = new Point(0, 44);
+            tscMain.Name = "tscMain";
+            tscMain.Size = new Size(799, 647);
+            tscMain.TabIndex = 4;
+            tscMain.Text = "toolStripContainer1";
+            // 
+            // tscMain.TopToolStripPanel
+            // 
+            tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            // 
             // Terminal
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(16, 16, 16);
             ClientSize = new Size(799, 691);
-            Controls.Add(Output);
-            Controls.Add(tsMain);
+            Controls.Add(tscMain);
             Controls.Add(msMain);
             ForeColor = Color.White;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Location = new Point(0, 0);
             MainMenuStrip = msMain;
             Margin = new Padding(6);
             Name = "Terminal";
@@ -1124,6 +1149,11 @@
             tsMain.PerformLayout();
             msMain.ResumeLayout(false);
             msMain.PerformLayout();
+            tscMain.ContentPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.ResumeLayout(false);
+            tscMain.TopToolStripPanel.PerformLayout();
+            tscMain.ResumeLayout(false);
+            tscMain.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1227,5 +1257,6 @@
         private ToolStripMenuItem copyToolStripMenuItem1;
         private ToolStripMenuItem pasteToolStripMenuItem1;
         private ToolStripMenuItem deleteToolStripMenuItem1;
+        private ToolStripContainer tscMain;
     }
 }

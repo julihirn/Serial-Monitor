@@ -621,5 +621,16 @@ namespace Serial_Monitor.Properties {
                 this["THM_VIS_Style"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection PRG_UI_ToolStripLayout {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["PRG_UI_ToolStripLayout"]));
+            }
+            set {
+                this["PRG_UI_ToolStripLayout"] = value;
+            }
+        }
     }
 }

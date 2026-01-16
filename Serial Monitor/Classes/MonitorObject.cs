@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes {
     public class MonitorObject {
-        public MonitorObject(string ChannelId, string ChannelName, string Name, string Assignment) {
+        public MonitorObject(Guid ChannelId, string ChannelName, string Name, string Assignment) {
             this.channelId = ChannelId;
             this.channelName = ChannelName;
             this.name = Name;
             this.assignment = Assignment;
         }
-        public MonitorObject(string ChannelId, string ChannelName, string Name) {
+        public MonitorObject(Guid ChannelId, string ChannelName, string Name) {
             this.channelId = ChannelId;
             this.channelName = ChannelName;
             this.name = Name;
@@ -31,8 +31,8 @@ namespace Serial_Monitor.Classes {
             get { return name; }
             set { name = value; }
         }
-        string channelId = "";
-        public string ChannelId {
+        Guid channelId;
+        public Guid ChannelId {
             get { return channelId; }
         }
         DateTime lastUpdated = DateTime.Now;

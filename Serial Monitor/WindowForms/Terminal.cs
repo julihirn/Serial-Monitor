@@ -26,7 +26,12 @@ namespace Serial_Monitor.WindowForms {
         }
         public Terminal(SerialManager Manager) {
             this.manager = Manager;
+            ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
             InitializeComponent();
+            if (manager != null) {
+                Output.AddTerminalColor(manager.ID,  manager.StateName, manager.ForeColor, !manager.UseDefaultForeColor);
+                Output.SetTerminalColor(manager.ID, !manager.UseDefaultForeColor, true);
+            }
 
             Manager.CommandProcessed += Manager_CommandProcessed;
             Manager.DataReceived += Manager_DataReceived;
@@ -45,6 +50,11 @@ namespace Serial_Monitor.WindowForms {
             SystemManager.CheckFormatOption(Properties.Settings.Default.DEF_INT_BaudRate, btnChannelBaudVals);
             SetProperties();
             ConnectionStatus();
+           
+        }
+
+        private void ProjectManager_DocumentLoaded() {
+            this.Close();
         }
 
         private void SystemManager_PortStatusChanged(SerialManager sender) {
@@ -72,6 +82,9 @@ namespace Serial_Monitor.WindowForms {
             SystemManager.CheckFormatOption(EnumManager.OutputFormatToString(manager.OutputFormat).B, btnChannelOutputFormat);
             outputInMasterTerminalToolStripMenuItem.Checked = manager.OutputToMasterTerminal;
             allowEscapeCharToolStripMenuItem.Checked = manager.AllowEscapeCharacters;
+            if (manager != null) {
+                Output.SetTerminalColor(manager.ID, manager.ForeColor, manager.StateName, !manager.UseDefaultForeColor, true);
+            }
         }
         private void ConnectionStatus() {
             if (manager == null) { return; }
@@ -100,7 +113,8 @@ namespace Serial_Monitor.WindowForms {
         }
         private void Manager_NameChanged(object sender, string Data) {
             if (manager == null) { return; }
-            ChangeFormName(manager.StateName, LogFile);
+            ChangeFormName(manager.StateName, LogFile); 
+            Output.SetTerminalColor(manager.ID, manager.StateName);
         }
         private void ChangeFormName(string Item, string File) {
 
@@ -121,19 +135,16 @@ namespace Serial_Monitor.WindowForms {
 
         }
         private void Manager_DataReceived(object sender, bool PrintLine, string Data) {
-            string SourceName = "";
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
-                SourceName = SM.PortName;
-            }
-
-            if (PrintLine == true) {
-                PushToBuffer(Data);
-                Output.Print(SourceName, Data);
-            }
-            else {
-                AppendToLastLine(Data, true);
-                Output.AttendToLastLine(SourceName, Data, true);
+                if (PrintLine == true) {
+                    PushToBuffer(Data);
+                    Output.Print(Data, SM.ID);
+                }
+                else {
+                    AppendToLastLine(Data, true);
+                    Output.AttendToLastLine(SM.ID, Data);//, true);
+                }
             }
         }
         public void PushLineBuffer(string Text) {
@@ -160,10 +171,10 @@ namespace Serial_Monitor.WindowForms {
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
                 SourceName = SM.PortName;
-            }
-            PushToBuffer(Data);
-            Output.Print(SourceName, Data);
 
+                PushToBuffer(Data);
+                Output.Print(SourceName, SM.ID);
+            }
         }
         private void PushToBuffer(string Data) {
             string Output = ""; DateTime Now = DateTime.Now;
@@ -212,7 +223,9 @@ namespace Serial_Monitor.WindowForms {
             RecolorAll();
         }
         public void ApplyTheme() {
-
+            if (manager != null) {
+                Output.SetTerminalColor(manager.ID, manager.ForeColor, manager.StateName, !manager.UseDefaultForeColor, true);
+            }
             RecolorAll();
             AddIcons();
         }
@@ -258,6 +271,7 @@ namespace Serial_Monitor.WindowForms {
             Classes.Theming.ThemeManager.ThemeControl(Output);
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(tscMain);
             Classes.Theming.ThemeManager.ThemeControl(cmTerminal);
 
             this.ResumeLayout();

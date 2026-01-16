@@ -540,7 +540,7 @@ namespace Serial_Monitor.Classes {
 
                 foreach (SerialManager SerMan in SystemManager.SerialManagers) {
                     if (SerMan.StateName == Channel) {
-                        WaitUntilRx_Channel = SerMan.ID;
+                        WaitUntilRx_Channel = SerMan.ID.ToString();
                         ResultedInChannel = true;
                         break;
                     }
@@ -988,9 +988,9 @@ namespace Serial_Monitor.Classes {
             Waiting = 0x01,
             Finished = 0x02
         }
-        public static void ProgramDataReceived(string ChannelID, string Value) {
+        public static void ProgramDataReceived(Guid ChannelID, string Value) {
             if (WaitUntil_State != WaitUntilState.Waiting) { return; }
-            AttendToLastLine(ChannelID, Value);
+            AttendToLastLine(ChannelID.ToString(), Value);
             if (Lines.Count == 0) { return; }
             try {
                 if (WaitUntilRx_Channel == "") {
@@ -1022,7 +1022,7 @@ namespace Serial_Monitor.Classes {
                     }
                 }
                 else {
-                    if (ChannelID == WaitUntilRx_Channel) {
+                    if (ChannelID.ToString() == WaitUntilRx_Channel) {
                         for (int i = Lines.Count - 1; i >= 0; i--) {
                             if (WaitUntil_Contains) {
                                 if (Lines[i].B.Contains(WaitUntilRx_Condition)) {
@@ -1083,7 +1083,7 @@ namespace Serial_Monitor.Classes {
 
                 foreach (SerialManager SerMan in SystemManager.SerialManagers) {
                     if (SerMan.StateName == Channel) {
-                        WaitUntilRx_Channel = SerMan.ID;
+                        WaitUntilRx_Channel = SerMan.ID.ToString();
                         ResultedInChannel = true;
                         break;
                     }

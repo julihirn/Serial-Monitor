@@ -25,14 +25,17 @@
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModbusRegisters));
-            cmMonitor = new ODModules.ContextMenu();
-            btnCmSelectionToSnapshot = new ToolStripMenuItem();
-            toolStripSeparator14 = new ToolStripSeparator();
-            cutToolStripMenuItem1 = new ToolStripMenuItem();
-            copyToolStripMenuItem1 = new ToolStripMenuItem();
-            pasteToolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripSeparator31 = new ToolStripSeparator();
-            selectAllToolStripMenuItem1 = new ToolStripMenuItem();
+            tscMain = new ToolStripContainer();
+            pnlDocker = new ODModules.Docking.DockPanel();
+            editorModbus = new Serial_Monitor.Docks.ModbusEditor();
+            tsFile = new ODModules.ToolStrip();
+            newToolStripButton = new ToolStripButton();
+            openToolStripButton = new ToolStripButton();
+            saveToolStripButton = new ToolStripButton();
+            toolStripSeparator = new ToolStripSeparator();
+            cutToolStripButton = new ToolStripButton();
+            copyToolStripButton = new ToolStripButton();
+            pasteToolStripButton = new ToolStripButton();
             tsMain = new ODModules.ToolStrip();
             btnCoils = new ToolStripButton();
             btnDiscrete = new ToolStripButton();
@@ -44,6 +47,14 @@
             btnLockEditor = new ToolStripButton();
             toolStripSeparator6 = new ToolStripSeparator();
             btnMenuTopMost = new ToolStripButton();
+            cmMonitor = new ODModules.ContextMenu();
+            btnCmSelectionToSnapshot = new ToolStripMenuItem();
+            toolStripSeparator14 = new ToolStripSeparator();
+            cutToolStripMenuItem1 = new ToolStripMenuItem();
+            copyToolStripMenuItem1 = new ToolStripMenuItem();
+            pasteToolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripSeparator31 = new ToolStripSeparator();
+            selectAllToolStripMenuItem1 = new ToolStripMenuItem();
             msMain = new ODModules.MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newToolStripMenuItem = new ToolStripMenuItem();
@@ -182,81 +193,166 @@
             newUnitToolStripMenuItem = new ToolStripMenuItem();
             removeUnitToolStripMenuItem = new ToolStripMenuItem();
             renameUnitToolStripMenuItem = new ToolStripMenuItem();
-            editorModbus = new Serial_Monitor.Docks.ModbusEditor();
-            pnlDocker = new ODModules.Docking.DockPanel();
             tmrRefresh = new System.Windows.Forms.Timer(components);
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
-            tscMain = new ToolStripContainer();
-            cmMonitor.SuspendLayout();
-            tsMain.SuspendLayout();
-            msMain.SuspendLayout();
-            cmChannels.SuspendLayout();
-            cmMBChannel.SuspendLayout();
             tscMain.ContentPanel.SuspendLayout();
             tscMain.TopToolStripPanel.SuspendLayout();
             tscMain.SuspendLayout();
+            tsFile.SuspendLayout();
+            tsMain.SuspendLayout();
+            cmMonitor.SuspendLayout();
+            msMain.SuspendLayout();
+            cmChannels.SuspendLayout();
+            cmMBChannel.SuspendLayout();
             SuspendLayout();
             // 
-            // cmMonitor
+            // tscMain
             // 
-            cmMonitor.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
-            cmMonitor.BorderColor = Color.Black;
-            cmMonitor.DropShadowEnabled = false;
-            cmMonitor.ForeColor = Color.White;
-            cmMonitor.ImageScalingSize = new Size(32, 32);
-            cmMonitor.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
-            cmMonitor.Items.AddRange(new ToolStripItem[] { btnCmSelectionToSnapshot, toolStripSeparator14, cutToolStripMenuItem1, copyToolStripMenuItem1, pasteToolStripMenuItem1, toolStripSeparator31, selectAllToolStripMenuItem1 });
-            cmMonitor.MenuBackColorNorth = Color.DodgerBlue;
-            cmMonitor.MenuBackColorSouth = Color.DodgerBlue;
-            cmMonitor.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
-            cmMonitor.Name = "cmMonitor";
-            cmMonitor.SeparatorColor = Color.FromArgb(200, 200, 200);
-            cmMonitor.ShowInsetShadow = false;
-            cmMonitor.ShowItemInsetShadow = false;
-            resources.ApplyResources(cmMonitor, "cmMonitor");
-            cntrlExtender.SetTranslationReference(cmMonitor, "");
             // 
-            // btnCmSelectionToSnapshot
+            // tscMain.BottomToolStripPanel
             // 
-            btnCmSelectionToSnapshot.Name = "btnCmSelectionToSnapshot";
-            resources.ApplyResources(btnCmSelectionToSnapshot, "btnCmSelectionToSnapshot");
-            btnCmSelectionToSnapshot.Click += snapshotSelectionToolStripMenuItem_Click;
+            cntrlExtender.SetTranslationReference(tscMain.BottomToolStripPanel, "");
             // 
-            // toolStripSeparator14
+            // tscMain.ContentPanel
             // 
-            toolStripSeparator14.Name = "toolStripSeparator14";
-            resources.ApplyResources(toolStripSeparator14, "toolStripSeparator14");
+            tscMain.ContentPanel.Controls.Add(pnlDocker);
+            tscMain.ContentPanel.Controls.Add(editorModbus);
+            resources.ApplyResources(tscMain.ContentPanel, "tscMain.ContentPanel");
+            cntrlExtender.SetTranslationReference(tscMain.ContentPanel, "");
+            resources.ApplyResources(tscMain, "tscMain");
             // 
-            // cutToolStripMenuItem1
+            // tscMain.LeftToolStripPanel
             // 
-            resources.ApplyResources(cutToolStripMenuItem1, "cutToolStripMenuItem1");
-            cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
-            cutToolStripMenuItem1.Click += cutToolStripMenuItem1_Click;
+            cntrlExtender.SetTranslationReference(tscMain.LeftToolStripPanel, "");
+            tscMain.LeftToolStripPanelVisible = false;
+            tscMain.Name = "tscMain";
             // 
-            // copyToolStripMenuItem1
+            // tscMain.RightToolStripPanel
             // 
-            resources.ApplyResources(copyToolStripMenuItem1, "copyToolStripMenuItem1");
-            copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
-            copyToolStripMenuItem1.Click += copyToolStripMenuItem1_Click;
+            cntrlExtender.SetTranslationReference(tscMain.RightToolStripPanel, "");
+            tscMain.RightToolStripPanelVisible = false;
             // 
-            // pasteToolStripMenuItem1
+            // tscMain.TopToolStripPanel
             // 
-            resources.ApplyResources(pasteToolStripMenuItem1, "pasteToolStripMenuItem1");
-            pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
-            pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
+            tscMain.TopToolStripPanel.Controls.Add(tsFile);
+            tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
+            cntrlExtender.SetTranslationReference(tscMain, "");
             // 
-            // toolStripSeparator31
+            // pnlDocker
             // 
-            toolStripSeparator31.Name = "toolStripSeparator31";
-            resources.ApplyResources(toolStripSeparator31, "toolStripSeparator31");
+            pnlDocker.ActiveTitleBackColor = Color.SlateGray;
+            pnlDocker.ActiveTitleForeColor = Color.White;
+            pnlDocker.BorderColor = Color.DimGray;
+            pnlDocker.CloseHoverColor = Color.Red;
+            resources.ApplyResources(pnlDocker, "pnlDocker");
+            pnlDocker.InactiveTitleBackColor = Color.DimGray;
+            pnlDocker.InactiveTitleForeColor = Color.Gray;
+            pnlDocker.Name = "pnlDocker";
+            pnlDocker.SelectedBorderColor = Color.Gray;
+            pnlDocker.ShowBorder = false;
+            pnlDocker.TabBackColor = Color.Gray;
+            pnlDocker.TabBorderColor = Color.DimGray;
+            pnlDocker.TabClickedBackColor = Color.DarkGray;
+            pnlDocker.TabDividerColor = Color.Gray;
+            pnlDocker.TabHoverBackColor = Color.LightGray;
+            pnlDocker.TabRuleColor = Color.LightGray;
+            pnlDocker.TabSelectedBackColor = Color.LightGray;
+            pnlDocker.TabSelectedBorderColor = Color.DimGray;
+            pnlDocker.TabSelectedForeColor = Color.Black;
+            pnlDocker.TabSelectedShadowColor = Color.Black;
+            pnlDocker.TabStyle = ODModules.Docking.DockPanel.TabStyles.Normal;
+            cntrlExtender.SetTranslationReference(pnlDocker, "");
+            pnlDocker.WindowBackColor = Color.Black;
+            pnlDocker.WindowBorderColor = Color.DimGray;
             // 
-            // selectAllToolStripMenuItem1
+            // editorModbus
             // 
-            resources.ApplyResources(selectAllToolStripMenuItem1, "selectAllToolStripMenuItem1");
-            selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
-            selectAllToolStripMenuItem1.Click += selectAllToolStripMenuItem1_Click;
+            resources.ApplyResources(editorModbus, "editorModbus");
+            editorModbus.DockText = "Modbus Editor";
+            editorModbus.Icon = null;
+            editorModbus.Name = "editorModbus";
+            editorModbus.SerializationKey = "mbEditor";
+            cntrlExtender.SetTranslationReference(editorModbus, "");
+            // 
+            // tsFile
+            // 
+            tsFile.BackColor = Color.Transparent;
+            tsFile.BackColorNorth = Color.DodgerBlue;
+            tsFile.BackColorSouth = Color.DodgerBlue;
+            tsFile.BorderColor = Color.WhiteSmoke;
+            resources.ApplyResources(tsFile, "tsFile");
+            tsFile.GripColor = Color.WhiteSmoke;
+            tsFile.ImageScalingSize = new Size(32, 32);
+            tsFile.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsFile.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsFile.ItemForeColor = Color.Black;
+            tsFile.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, saveToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton });
+            tsFile.ItemSelectedBackColorNorth = Color.White;
+            tsFile.ItemSelectedBackColorSouth = Color.White;
+            tsFile.ItemSelectedForeColor = Color.Black;
+            tsFile.MenuBackColorNorth = Color.DodgerBlue;
+            tsFile.MenuBackColorSouth = Color.DodgerBlue;
+            tsFile.MenuBorderColor = Color.WhiteSmoke;
+            tsFile.MenuSeparatorColor = Color.WhiteSmoke;
+            tsFile.MenuSymbolColor = Color.WhiteSmoke;
+            tsFile.Name = "tsFile";
+            tsFile.RoundedToolStrip = true;
+            tsFile.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsFile.ShowBorder = true;
+            tsFile.ShowShadow = true;
+            tsFile.StripItemSelectedBackColorNorth = Color.White;
+            tsFile.StripItemSelectedBackColorSouth = Color.White;
+            cntrlExtender.SetTranslationReference(tsFile, "");
+            // 
+            // newToolStripButton
+            // 
+            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(newToolStripButton, "newToolStripButton");
+            newToolStripButton.Name = "newToolStripButton";
+            newToolStripButton.Click += newToolStripButton_Click;
+            // 
+            // openToolStripButton
+            // 
+            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(openToolStripButton, "openToolStripButton");
+            openToolStripButton.Name = "openToolStripButton";
+            openToolStripButton.Click += openToolStripButton_Click;
+            // 
+            // saveToolStripButton
+            // 
+            saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(saveToolStripButton, "saveToolStripButton");
+            saveToolStripButton.Name = "saveToolStripButton";
+            saveToolStripButton.Click += saveToolStripButton_Click;
+            // 
+            // toolStripSeparator
+            // 
+            toolStripSeparator.Name = "toolStripSeparator";
+            resources.ApplyResources(toolStripSeparator, "toolStripSeparator");
+            // 
+            // cutToolStripButton
+            // 
+            cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(cutToolStripButton, "cutToolStripButton");
+            cutToolStripButton.Name = "cutToolStripButton";
+            cutToolStripButton.Click += cutToolStripButton_Click;
+            // 
+            // copyToolStripButton
+            // 
+            copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(copyToolStripButton, "copyToolStripButton");
+            copyToolStripButton.Name = "copyToolStripButton";
+            copyToolStripButton.Click += copyToolStripButton_Click;
+            // 
+            // pasteToolStripButton
+            // 
+            pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(pasteToolStripButton, "pasteToolStripButton");
+            pasteToolStripButton.Name = "pasteToolStripButton";
+            pasteToolStripButton.Click += pasteToolStripButton_Click;
             // 
             // tsMain
             // 
@@ -356,6 +452,65 @@
             resources.ApplyResources(btnMenuTopMost, "btnMenuTopMost");
             btnMenuTopMost.Name = "btnMenuTopMost";
             btnMenuTopMost.Click += btnMenuTopMost_Click;
+            // 
+            // cmMonitor
+            // 
+            cmMonitor.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmMonitor.BorderColor = Color.Black;
+            cmMonitor.DropShadowEnabled = false;
+            cmMonitor.ForeColor = Color.White;
+            cmMonitor.ImageScalingSize = new Size(32, 32);
+            cmMonitor.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmMonitor.Items.AddRange(new ToolStripItem[] { btnCmSelectionToSnapshot, toolStripSeparator14, cutToolStripMenuItem1, copyToolStripMenuItem1, pasteToolStripMenuItem1, toolStripSeparator31, selectAllToolStripMenuItem1 });
+            cmMonitor.MenuBackColorNorth = Color.DodgerBlue;
+            cmMonitor.MenuBackColorSouth = Color.DodgerBlue;
+            cmMonitor.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmMonitor.Name = "cmMonitor";
+            cmMonitor.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmMonitor.ShowInsetShadow = false;
+            cmMonitor.ShowItemInsetShadow = false;
+            resources.ApplyResources(cmMonitor, "cmMonitor");
+            cntrlExtender.SetTranslationReference(cmMonitor, "");
+            // 
+            // btnCmSelectionToSnapshot
+            // 
+            btnCmSelectionToSnapshot.Name = "btnCmSelectionToSnapshot";
+            resources.ApplyResources(btnCmSelectionToSnapshot, "btnCmSelectionToSnapshot");
+            btnCmSelectionToSnapshot.Click += snapshotSelectionToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator14
+            // 
+            toolStripSeparator14.Name = "toolStripSeparator14";
+            resources.ApplyResources(toolStripSeparator14, "toolStripSeparator14");
+            // 
+            // cutToolStripMenuItem1
+            // 
+            resources.ApplyResources(cutToolStripMenuItem1, "cutToolStripMenuItem1");
+            cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
+            cutToolStripMenuItem1.Click += cutToolStripMenuItem1_Click;
+            // 
+            // copyToolStripMenuItem1
+            // 
+            resources.ApplyResources(copyToolStripMenuItem1, "copyToolStripMenuItem1");
+            copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
+            copyToolStripMenuItem1.Click += copyToolStripMenuItem1_Click;
+            // 
+            // pasteToolStripMenuItem1
+            // 
+            resources.ApplyResources(pasteToolStripMenuItem1, "pasteToolStripMenuItem1");
+            pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
+            pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
+            // 
+            // toolStripSeparator31
+            // 
+            toolStripSeparator31.Name = "toolStripSeparator31";
+            resources.ApplyResources(toolStripSeparator31, "toolStripSeparator31");
+            // 
+            // selectAllToolStripMenuItem1
+            // 
+            resources.ApplyResources(selectAllToolStripMenuItem1, "selectAllToolStripMenuItem1");
+            selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
+            selectAllToolStripMenuItem1.Click += selectAllToolStripMenuItem1_Click;
             // 
             // msMain
             // 
@@ -1328,42 +1483,6 @@
             renameUnitToolStripMenuItem.Name = "renameUnitToolStripMenuItem";
             renameUnitToolStripMenuItem.Click += renameUnitToolStripMenuItem_Click;
             // 
-            // editorModbus
-            // 
-            resources.ApplyResources(editorModbus, "editorModbus");
-            editorModbus.DockText = "Modbus Editor";
-            editorModbus.Icon = null;
-            editorModbus.Name = "editorModbus";
-            editorModbus.SerializationKey = "mbEditor";
-            cntrlExtender.SetTranslationReference(editorModbus, "");
-            // 
-            // pnlDocker
-            // 
-            pnlDocker.ActiveTitleBackColor = Color.SlateGray;
-            pnlDocker.ActiveTitleForeColor = Color.White;
-            pnlDocker.BorderColor = Color.DimGray;
-            pnlDocker.CloseHoverColor = Color.Red;
-            resources.ApplyResources(pnlDocker, "pnlDocker");
-            pnlDocker.InactiveTitleBackColor = Color.DimGray;
-            pnlDocker.InactiveTitleForeColor = Color.Gray;
-            pnlDocker.Name = "pnlDocker";
-            pnlDocker.SelectedBorderColor = Color.Gray;
-            pnlDocker.ShowBorder = false;
-            pnlDocker.TabBackColor = Color.Gray;
-            pnlDocker.TabBorderColor = Color.DimGray;
-            pnlDocker.TabClickedBackColor = Color.DarkGray;
-            pnlDocker.TabDividerColor = Color.Gray;
-            pnlDocker.TabHoverBackColor = Color.LightGray;
-            pnlDocker.TabRuleColor = Color.LightGray;
-            pnlDocker.TabSelectedBackColor = Color.LightGray;
-            pnlDocker.TabSelectedBorderColor = Color.DimGray;
-            pnlDocker.TabSelectedForeColor = Color.Black;
-            pnlDocker.TabSelectedShadowColor = Color.Black;
-            pnlDocker.TabStyle = ODModules.Docking.DockPanel.TabStyles.Normal;
-            cntrlExtender.SetTranslationReference(pnlDocker, "");
-            pnlDocker.WindowBackColor = Color.Black;
-            pnlDocker.WindowBorderColor = Color.DimGray;
-            // 
             // tmrRefresh
             // 
             tmrRefresh.Tick += tmrRefresh_Tick;
@@ -1404,38 +1523,6 @@
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
-            // tscMain
-            // 
-            // 
-            // tscMain.BottomToolStripPanel
-            // 
-            cntrlExtender.SetTranslationReference(tscMain.BottomToolStripPanel, "");
-            // 
-            // tscMain.ContentPanel
-            // 
-            tscMain.ContentPanel.Controls.Add(pnlDocker);
-            tscMain.ContentPanel.Controls.Add(editorModbus);
-            resources.ApplyResources(tscMain.ContentPanel, "tscMain.ContentPanel");
-            cntrlExtender.SetTranslationReference(tscMain.ContentPanel, "");
-            resources.ApplyResources(tscMain, "tscMain");
-            // 
-            // tscMain.LeftToolStripPanel
-            // 
-            cntrlExtender.SetTranslationReference(tscMain.LeftToolStripPanel, "");
-            tscMain.LeftToolStripPanelVisible = false;
-            tscMain.Name = "tscMain";
-            // 
-            // tscMain.RightToolStripPanel
-            // 
-            cntrlExtender.SetTranslationReference(tscMain.RightToolStripPanel, "");
-            tscMain.RightToolStripPanelVisible = false;
-            // 
-            // tscMain.TopToolStripPanel
-            // 
-            tscMain.TopToolStripPanel.Controls.Add(tsMain);
-            cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
-            cntrlExtender.SetTranslationReference(tscMain, "");
-            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
@@ -1455,18 +1542,20 @@
             KeyDown += ModbusRegisters_KeyDown;
             KeyPress += ModbusRegisters_KeyPress;
             PreviewKeyDown += ModbusRegisters_PreviewKeyDown;
-            cmMonitor.ResumeLayout(false);
-            tsMain.ResumeLayout(false);
-            tsMain.PerformLayout();
-            msMain.ResumeLayout(false);
-            msMain.PerformLayout();
-            cmChannels.ResumeLayout(false);
-            cmMBChannel.ResumeLayout(false);
             tscMain.ContentPanel.ResumeLayout(false);
             tscMain.TopToolStripPanel.ResumeLayout(false);
             tscMain.TopToolStripPanel.PerformLayout();
             tscMain.ResumeLayout(false);
             tscMain.PerformLayout();
+            tsFile.ResumeLayout(false);
+            tsFile.PerformLayout();
+            tsMain.ResumeLayout(false);
+            tsMain.PerformLayout();
+            cmMonitor.ResumeLayout(false);
+            msMain.ResumeLayout(false);
+            msMain.PerformLayout();
+            cmChannels.ResumeLayout(false);
+            cmMBChannel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1636,5 +1725,13 @@
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem slaveManagerToolStripMenuItem;
         private ToolStripContainer tscMain;
+        private ODModules.ToolStrip tsFile;
+        private ToolStripButton newToolStripButton;
+        private ToolStripButton openToolStripButton;
+        private ToolStripButton saveToolStripButton;
+        private ToolStripSeparator toolStripSeparator;
+        private ToolStripButton cutToolStripButton;
+        private ToolStripButton copyToolStripButton;
+        private ToolStripButton pasteToolStripButton;
     }
 }

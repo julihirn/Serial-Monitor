@@ -61,15 +61,15 @@
             ddbInputFormat = new ToolStripDropDownButton();
             ddbOutputFormat = new ToolStripDropDownButton();
             toolStripSeparator4 = new ToolStripSeparator();
+            toolStripSeparator5 = new ToolStripSeparator();
+            btnClearTerminal = new ToolStripButton();
+            btnTopMost = new ToolStripButton();
             btnRun = new ToolStripSplitButton();
             runFromStartToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator25 = new ToolStripSeparator();
             btnRunCursor = new ToolStripButton();
             btnPause = new ToolStripButton();
             btnStop = new ToolStripButton();
-            toolStripSeparator5 = new ToolStripSeparator();
-            btnClearTerminal = new ToolStripButton();
-            btnTopMost = new ToolStripButton();
             pnlRenamePanel = new Panel();
             textBox1 = new TextBox();
             panel2 = new Panel();
@@ -268,6 +268,15 @@
             pasteToolStripMenuItem2 = new ToolStripMenuItem();
             deleteToolStripMenuItem1 = new ToolStripMenuItem();
             tscMain = new ToolStripContainer();
+            tsProgramTransport = new ODModules.ToolStrip();
+            tsFile = new ODModules.ToolStrip();
+            newToolStripButton = new ToolStripButton();
+            openToolStripButton = new ToolStripButton();
+            saveToolStripButton = new ToolStripButton();
+            toolStripSeparator45 = new ToolStripSeparator();
+            cutToolStripButton = new ToolStripButton();
+            copyToolStripButton = new ToolStripButton();
+            pasteToolStripButton = new ToolStripButton();
             smMain = new ODModules.StatusMenu();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             lblTxBytes = new ToolStripStatusLabel();
@@ -299,12 +308,15 @@
             tscMain.ContentPanel.SuspendLayout();
             tscMain.TopToolStripPanel.SuspendLayout();
             tscMain.SuspendLayout();
+            tsProgramTransport.SuspendLayout();
+            tsFile.SuspendLayout();
             smMain.SuspendLayout();
             cmPrograms.SuspendLayout();
             SuspendLayout();
             // 
             // tsMain
             // 
+            tsMain.BackColor = Color.Transparent;
             tsMain.BackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.BackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.BorderColor = Color.WhiteSmoke;
@@ -314,7 +326,7 @@
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemForeColor = Color.WhiteSmoke;
-            tsMain.Items.AddRange(new ToolStripItem[] { ddbPorts, toolStripSeparator1, ddbBAUDRate, ddbBits, ddbParity, ddbStopBits, toolStripSeparator2, btnConnect, btnDisconnect, toolStripSeparator3, ddbInputFormat, ddbOutputFormat, toolStripSeparator4, btnRun, btnRunCursor, btnPause, btnStop, toolStripSeparator5, btnClearTerminal, btnTopMost });
+            tsMain.Items.AddRange(new ToolStripItem[] { ddbPorts, toolStripSeparator1, ddbBAUDRate, ddbBits, ddbParity, ddbStopBits, toolStripSeparator2, btnConnect, btnDisconnect, toolStripSeparator3, ddbInputFormat, ddbOutputFormat, toolStripSeparator4, toolStripSeparator5, btnClearTerminal, btnTopMost });
             tsMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedForeColor = Color.WhiteSmoke;
@@ -330,7 +342,7 @@
             tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsMain.ShowBorder = true;
             tsMain.ShowShadow = true;
-            tsMain.Size = new Size(1151, 54);
+            tsMain.Size = new Size(890, 54);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 0;
@@ -578,6 +590,32 @@
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
             toolStripSeparator4.Size = new Size(6, 42);
+            toolStripSeparator4.Visible = false;
+            // 
+            // toolStripSeparator5
+            // 
+            toolStripSeparator5.Name = "toolStripSeparator5";
+            toolStripSeparator5.Size = new Size(6, 42);
+            // 
+            // btnClearTerminal
+            // 
+            btnClearTerminal.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnClearTerminal.Image = (Image)resources.GetObject("btnClearTerminal.Image");
+            btnClearTerminal.ImageScaling = ToolStripItemImageScaling.None;
+            btnClearTerminal.ImageTransparentColor = Color.Magenta;
+            btnClearTerminal.Name = "btnClearTerminal";
+            btnClearTerminal.Size = new Size(46, 36);
+            btnClearTerminal.Text = "Clear Terminal";
+            // 
+            // btnTopMost
+            // 
+            btnTopMost.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnTopMost.Image = (Image)resources.GetObject("btnTopMost.Image");
+            btnTopMost.ImageScaling = ToolStripItemImageScaling.None;
+            btnTopMost.ImageTransparentColor = Color.Magenta;
+            btnTopMost.Name = "btnTopMost";
+            btnTopMost.Size = new Size(46, 36);
+            btnTopMost.Text = "Window Top Most";
             // 
             // btnRun
             // 
@@ -592,7 +630,7 @@
             // 
             // runFromStartToolStripMenuItem
             // 
-            runFromStartToolStripMenuItem.ForeColor = Color.WhiteSmoke;
+            runFromStartToolStripMenuItem.ForeColor = Color.Black;
             runFromStartToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             runFromStartToolStripMenuItem.Name = "runFromStartToolStripMenuItem";
             runFromStartToolStripMenuItem.Size = new Size(302, 44);
@@ -633,31 +671,6 @@
             btnStop.Name = "btnStop";
             btnStop.Size = new Size(46, 36);
             btnStop.Text = "Stop";
-            // 
-            // toolStripSeparator5
-            // 
-            toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 42);
-            // 
-            // btnClearTerminal
-            // 
-            btnClearTerminal.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnClearTerminal.Image = (Image)resources.GetObject("btnClearTerminal.Image");
-            btnClearTerminal.ImageScaling = ToolStripItemImageScaling.None;
-            btnClearTerminal.ImageTransparentColor = Color.Magenta;
-            btnClearTerminal.Name = "btnClearTerminal";
-            btnClearTerminal.Size = new Size(46, 36);
-            btnClearTerminal.Text = "Clear Terminal";
-            // 
-            // btnTopMost
-            // 
-            btnTopMost.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnTopMost.Image = (Image)resources.GetObject("btnTopMost.Image");
-            btnTopMost.ImageScaling = ToolStripItemImageScaling.None;
-            btnTopMost.ImageTransparentColor = Color.Magenta;
-            btnTopMost.Name = "btnTopMost";
-            btnTopMost.Size = new Size(46, 20);
-            btnTopMost.Text = "Window Top Most";
             // 
             // pnlRenamePanel
             // 
@@ -1580,6 +1593,7 @@
             btnNewChannel.ShortcutKeys = Keys.Control | Keys.Shift | Keys.G;
             btnNewChannel.Size = new Size(477, 44);
             btnNewChannel.Text = "&New Channel";
+            btnNewChannel.Click += btnNewChannel_Click_1;
             // 
             // btnRemoveChannel
             // 
@@ -2615,7 +2629,6 @@
             // 
             // tscMain
             // 
-            tscMain.BottomToolStripPanelVisible = false;
             // 
             // tscMain.ContentPanel
             // 
@@ -2634,7 +2647,142 @@
             // 
             // tscMain.TopToolStripPanel
             // 
+            tscMain.TopToolStripPanel.Controls.Add(tsFile);
             tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            tscMain.TopToolStripPanel.Controls.Add(tsProgramTransport);
+            // 
+            // tsProgramTransport
+            // 
+            tsProgramTransport.BackColor = Color.Transparent;
+            tsProgramTransport.BackColorNorth = Color.DodgerBlue;
+            tsProgramTransport.BackColorSouth = Color.DodgerBlue;
+            tsProgramTransport.BorderColor = Color.WhiteSmoke;
+            tsProgramTransport.Dock = DockStyle.None;
+            tsProgramTransport.GripColor = Color.WhiteSmoke;
+            tsProgramTransport.ImageScalingSize = new Size(32, 32);
+            tsProgramTransport.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsProgramTransport.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsProgramTransport.ItemForeColor = Color.Black;
+            tsProgramTransport.Items.AddRange(new ToolStripItem[] { btnRun, btnRunCursor, btnPause, btnStop });
+            tsProgramTransport.ItemSelectedBackColorNorth = Color.White;
+            tsProgramTransport.ItemSelectedBackColorSouth = Color.White;
+            tsProgramTransport.ItemSelectedForeColor = Color.Black;
+            tsProgramTransport.Location = new Point(900, 0);
+            tsProgramTransport.MenuBackColorNorth = Color.DodgerBlue;
+            tsProgramTransport.MenuBackColorSouth = Color.DodgerBlue;
+            tsProgramTransport.MenuBorderColor = Color.WhiteSmoke;
+            tsProgramTransport.MenuSeparatorColor = Color.WhiteSmoke;
+            tsProgramTransport.MenuSymbolColor = Color.WhiteSmoke;
+            tsProgramTransport.Name = "tsProgramTransport";
+            tsProgramTransport.Padding = new Padding(0);
+            tsProgramTransport.RoundedToolStrip = true;
+            tsProgramTransport.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsProgramTransport.ShowBorder = true;
+            tsProgramTransport.ShowShadow = true;
+            tsProgramTransport.Size = new Size(261, 54);
+            tsProgramTransport.StripItemSelectedBackColorNorth = Color.White;
+            tsProgramTransport.StripItemSelectedBackColorSouth = Color.White;
+            tsProgramTransport.TabIndex = 1;
+            tsProgramTransport.ItemClicked += tsProgramTransport_ItemClicked;
+            // 
+            // tsFile
+            // 
+            tsFile.BackColor = Color.Transparent;
+            tsFile.BackColorNorth = Color.DodgerBlue;
+            tsFile.BackColorSouth = Color.DodgerBlue;
+            tsFile.BorderColor = Color.WhiteSmoke;
+            tsFile.Dock = DockStyle.None;
+            tsFile.GripColor = Color.WhiteSmoke;
+            tsFile.ImageScalingSize = new Size(32, 32);
+            tsFile.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsFile.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsFile.ItemForeColor = Color.Black;
+            tsFile.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, saveToolStripButton, toolStripSeparator45, cutToolStripButton, copyToolStripButton, pasteToolStripButton });
+            tsFile.ItemSelectedBackColorNorth = Color.White;
+            tsFile.ItemSelectedBackColorSouth = Color.White;
+            tsFile.ItemSelectedForeColor = Color.Black;
+            tsFile.Location = new Point(6, 0);
+            tsFile.MenuBackColorNorth = Color.DodgerBlue;
+            tsFile.MenuBackColorSouth = Color.DodgerBlue;
+            tsFile.MenuBorderColor = Color.WhiteSmoke;
+            tsFile.MenuSeparatorColor = Color.WhiteSmoke;
+            tsFile.MenuSymbolColor = Color.WhiteSmoke;
+            tsFile.Name = "tsFile";
+            tsFile.Padding = new Padding(0);
+            tsFile.RoundedToolStrip = true;
+            tsFile.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsFile.ShowBorder = true;
+            tsFile.ShowShadow = true;
+            tsFile.Size = new Size(314, 54);
+            tsFile.StripItemSelectedBackColorNorth = Color.White;
+            tsFile.StripItemSelectedBackColorSouth = Color.White;
+            tsFile.TabIndex = 2;
+            tsFile.Visible = false;
+            // 
+            // newToolStripButton
+            // 
+            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            newToolStripButton.Image = (Image)resources.GetObject("newToolStripButton.Image");
+            newToolStripButton.ImageScaling = ToolStripItemImageScaling.None;
+            newToolStripButton.ImageTransparentColor = Color.Magenta;
+            newToolStripButton.Name = "newToolStripButton";
+            newToolStripButton.Size = new Size(46, 36);
+            newToolStripButton.Text = "&New";
+            // 
+            // openToolStripButton
+            // 
+            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            openToolStripButton.Image = (Image)resources.GetObject("openToolStripButton.Image");
+            openToolStripButton.ImageScaling = ToolStripItemImageScaling.None;
+            openToolStripButton.ImageTransparentColor = Color.Magenta;
+            openToolStripButton.Name = "openToolStripButton";
+            openToolStripButton.Size = new Size(46, 36);
+            openToolStripButton.Text = "&Open";
+            // 
+            // saveToolStripButton
+            // 
+            saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            saveToolStripButton.Image = (Image)resources.GetObject("saveToolStripButton.Image");
+            saveToolStripButton.ImageScaling = ToolStripItemImageScaling.None;
+            saveToolStripButton.ImageTransparentColor = Color.Magenta;
+            saveToolStripButton.Name = "saveToolStripButton";
+            saveToolStripButton.Size = new Size(46, 36);
+            saveToolStripButton.Text = "&Save";
+            // 
+            // toolStripSeparator45
+            // 
+            toolStripSeparator45.Name = "toolStripSeparator45";
+            toolStripSeparator45.Size = new Size(6, 42);
+            // 
+            // cutToolStripButton
+            // 
+            cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            cutToolStripButton.Image = (Image)resources.GetObject("cutToolStripButton.Image");
+            cutToolStripButton.ImageScaling = ToolStripItemImageScaling.None;
+            cutToolStripButton.ImageTransparentColor = Color.Magenta;
+            cutToolStripButton.Name = "cutToolStripButton";
+            cutToolStripButton.Size = new Size(46, 36);
+            cutToolStripButton.Text = "C&ut";
+            // 
+            // copyToolStripButton
+            // 
+            copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            copyToolStripButton.Image = (Image)resources.GetObject("copyToolStripButton.Image");
+            copyToolStripButton.ImageScaling = ToolStripItemImageScaling.None;
+            copyToolStripButton.ImageTransparentColor = Color.Magenta;
+            copyToolStripButton.Name = "copyToolStripButton";
+            copyToolStripButton.Size = new Size(46, 36);
+            copyToolStripButton.Text = "&Copy";
+            // 
+            // pasteToolStripButton
+            // 
+            pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            pasteToolStripButton.Image = (Image)resources.GetObject("pasteToolStripButton.Image");
+            pasteToolStripButton.ImageScaling = ToolStripItemImageScaling.None;
+            pasteToolStripButton.ImageTransparentColor = Color.Magenta;
+            pasteToolStripButton.Name = "pasteToolStripButton";
+            pasteToolStripButton.Size = new Size(46, 36);
+            pasteToolStripButton.Text = "&Paste";
             // 
             // smMain
             // 
@@ -2837,6 +2985,10 @@
             tscMain.TopToolStripPanel.PerformLayout();
             tscMain.ResumeLayout(false);
             tscMain.PerformLayout();
+            tsProgramTransport.ResumeLayout(false);
+            tsProgramTransport.PerformLayout();
+            tsFile.ResumeLayout(false);
+            tsFile.PerformLayout();
             smMain.ResumeLayout(false);
             smMain.PerformLayout();
             cmPrograms.ResumeLayout(false);
@@ -3101,5 +3253,14 @@
         private ToolStripMenuItem clearTerminalToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator44;
         private ToolStripContainer tscMain;
+        private ODModules.ToolStrip tsProgramTransport;
+        private ODModules.ToolStrip tsFile;
+        private ToolStripButton newToolStripButton;
+        private ToolStripButton openToolStripButton;
+        private ToolStripButton saveToolStripButton;
+        private ToolStripSeparator toolStripSeparator45;
+        private ToolStripButton cutToolStripButton;
+        private ToolStripButton copyToolStripButton;
+        private ToolStripButton pasteToolStripButton;
     }
 }

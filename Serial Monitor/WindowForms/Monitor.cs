@@ -434,7 +434,7 @@ namespace Serial_Monitor {
         }
         #region Adding and Removing Monitor
         bool ActorAdded = false;
-        private void AssignActor(string ChannelId, string Port, string Name, string Assignment) {
+        private void AssignActor(Guid ChannelId, string Port, string Name, string Assignment) {
             bool ItemExists = false;
             try {
                 foreach (ListItem Item in lstSelector.Items) {

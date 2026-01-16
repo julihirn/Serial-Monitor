@@ -52,7 +52,16 @@ namespace Serial_Monitor {
             editorModbus.tbDataPages.DebugMode = false;
             editorModbus.ssClient.TileWindows = true;
             LoadDockers();
+            LoadToolStrips();
         }
+        private void LoadToolStrips() {
+
+            UserInterfaceManager.HookToolStrips(tscMain, Ts_LocationChanged);
+        }
+        private void Ts_LocationChanged(object? sender, EventArgs e) {
+           
+        }
+
         private void LoadDockers() {
             Application.AddMessageFilter(new ControlScrollFilter());
             Application.AddMessageFilter(pnlDocker.DockContentDragFilter);
@@ -163,6 +172,7 @@ namespace Serial_Monitor {
             ListControl? CurrentEditor = GetCurrentListView();
             bool EnableCut = ModbusEditor.ContainsEditable(CurrentEditor);
             cutToolStripMenuItem.Enabled = EnableCut;
+            cutToolStripButton.Enabled = EnableCut;
             cutToolStripMenuItem1.Enabled = EnableCut;
             deleteToolStripMenuItem.Enabled = EnableCut;
         }
@@ -892,6 +902,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.thDataPagesHeader);
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(tsFile);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.lstMonitor);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.tbDataPages);
             Classes.Theming.ThemeManager.ThemeControl(editorModbus.navigator1);
@@ -929,6 +940,7 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.BringForward, btnMenuTopMost, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewItem, newToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Settings_16x, optionsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -946,10 +958,13 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ColorPalette, changeAppearanceToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -972,6 +987,8 @@ namespace Serial_Monitor {
             //DesignerSetup.LinkSVGtoControl(Properties.Resources.SaveAs_16x, saveAsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, saveToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, openToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, saveToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, openToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ApplyCodeChanges, btnApplyOnClick, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -1594,24 +1611,28 @@ namespace Serial_Monitor {
                 Snapshot.AddressFormat = AddressType;
             }
         }
-        #endregion 
+        #endregion
         #region Main Instance Project Handling
+        private void openToolStripButton_Click(object sender, EventArgs e) {
+            SystemManager.OpenViaFileDialog();
+        }
+        private void newToolStripButton_Click(object sender, EventArgs e) {
+            SystemManager.New();
+        }
+        private void saveToolStripButton_Click(object sender, EventArgs e) {
+            SystemManager.Save();
+        }
         private void openToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (SystemManager.MainInstance == null) { return; }
-            SystemManager.MainInstance.OpenFileViaDialog();
+            SystemManager.OpenViaFileDialog();
         }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (SystemManager.MainInstance == null) { return; }
-            SystemManager.MainInstance.Save();
+            SystemManager.Save();
         }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (SystemManager.MainInstance == null) { return; }
-            SystemManager.MainInstance.Save(true);
+            SystemManager.Save(true);
         }
-
         private void newToolStripMenuItem1_Click(object sender, EventArgs e) {
-            if (SystemManager.MainInstance == null) { return; }
-            SystemManager.MainInstance.New();
+            SystemManager.New();
         }
         #endregion 
         #region Clipboard
@@ -1689,6 +1710,15 @@ namespace Serial_Monitor {
             }
         }
 
+        private void cutToolStripButton_Click(object sender, EventArgs e) {
+            Cut();
+        }
+        private void copyToolStripButton_Click(object sender, EventArgs e) {
+            Copy();
+        }
+        private void pasteToolStripButton_Click(object sender, EventArgs e) {
+            Paste();
+        }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             Copy();
         }
@@ -2624,6 +2654,8 @@ namespace Serial_Monitor {
             SlaveManager SlaveMngrApp = new SlaveManager();
             ApplicationManager.OpenInternalApplicationOnce(SlaveMngrApp, false);
         }
+
+ 
 
         internal enum DataEditor {
             MasterView = 0x00,

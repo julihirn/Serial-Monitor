@@ -92,6 +92,7 @@ namespace Serial_Monitor {
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.ProjectEdited += SystemManager_ProjectEdited;
             SystemManager.ChannelRequestsHandles += SystemManager_ChannelRequestsHandles;
+            ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
 
             //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
             SystemManager.AddChannel("", SerManager_CommandProcessed);
@@ -106,6 +107,14 @@ namespace Serial_Monitor {
             StepCommandPopupHost.Closing += StepCommandPopupHost_Closing;
             DocumentEdited = false;
         }
+
+        private void ProjectManager_DocumentLoaded() {
+            foreach(SerialManager Sm in SystemManager.SerialManagers) {
+                Output.AddTerminalColor(Sm.ID, Sm.StateName, Sm.ForeColor);
+                Output.SetTerminalColor(Sm.ID, !Sm.UseDefaultForeColor, false);
+            }
+        }
+
         private void SystemManager_ProjectEdited() {
             MarkDocumentChanged();
         }
@@ -306,14 +315,18 @@ namespace Serial_Monitor {
             stopToolStripMenuItem.Click += stopToolStripMenuItem_Click;
             fileToolStripMenuItem.Click += fileToolStripMenuItem_Click;
             btnNewStep.Click += btnNewStep_Click;
+            newToolStripButton.Click += btnNewStep_Click;
             btnOpenStep.Click += btnOpenStep_Click;
+            openToolStripButton.Click += btnOpenStep_Click;
             btnOpenLocation.Click += btnOpenLocation_Click;
             btnSaveStep.Click += btnSaveStep_Click;
+            saveToolStripButton.Click += btnSaveStep_Click;
             btnSaveAsStep.Click += btnSaveAsStep_Click;
             btnRecentProjects.DropDownOpening += btnRecentProjects_DropDownOpening;
             btnMenuExit.Click += btnMenuExit_Click;
             editToolStripMenuItem.Click += editToolStripMenuItem_Click;
             cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
+            cutToolStripButton.Click += cutToolStripMenuItem_Click;
             copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
             deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
@@ -426,7 +439,9 @@ namespace Serial_Monitor {
             scanPortsToolStripMenuItem.Click += ScanPortsToolStripMenuItem_Click;
 
             copyToolStripMenuItem2.Click += CopyToolStripMenuItem2_Click;
+            copyToolStripButton.Click += CopyToolStripMenuItem2_Click;
             pasteToolStripMenuItem2.Click += PasteToolStripMenuItem2_Click;
+            pasteToolStripButton.Click += PasteToolStripMenuItem2_Click;
             deleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             clearTerminalToolStripMenuItem.Click += ClearTerminalToolStripMenuItem_Click;
         }
@@ -501,6 +516,7 @@ namespace Serial_Monitor {
             if (sender.ID == currentManager.ID) {
                 InvokePropertyChange();
             }
+            Output.SetTerminalColor(sender.ID, sender.StateName);
             navigator1.Invalidate();
         }
         private void SystemManager_ChannelPropertyChanged(SerialManager sender) {
@@ -508,6 +524,7 @@ namespace Serial_Monitor {
             if (sender.ID == currentManager.ID) {
                 InvokePropertyChange();
             }
+            Output.SetTerminalColor(sender.ID, sender.ForeColor, sender.StateName, !sender.UseDefaultForeColor, true);
             DocumentEdited = true;
         }
 
@@ -567,6 +584,8 @@ namespace Serial_Monitor {
             ActiveBorderColor = Properties.Settings.Default.THM_COL_SelectedColor;
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
+            Classes.Theming.ThemeManager.ThemeControl(tsFile);
+            Classes.Theming.ThemeManager.ThemeControl(tsProgramTransport);
             Classes.Theming.ThemeManager.ThemeControl(smMain);
             Classes.Theming.ThemeManager.ThemeControl(lstStepProgram);
             Classes.Theming.ThemeManager.ThemeControl(thPrograms);
@@ -600,6 +619,13 @@ namespace Serial_Monitor {
             //this.ResumeLayout();
             ProgramManager.ApplySyntaxColouring(lstStepProgram, -1, true);
             navigator1.MidColor = btnOptViewSource.Checked == true ? Output.OriginBackColor : Output.BackColor;
+            SetAllChannelTerminalColors();
+        }
+        private void SetAllChannelTerminalColors() {
+            foreach(SerialManager Sm in SystemManager.SerialManagers) {
+                Output.SetTerminalColor(Sm.ID, Sm.ForeColor, Sm.StateName, !Sm.UseDefaultForeColor);
+            }
+            Output.Invalidate();
         }
         private void AddIcons() {
             DesignerSetup.SetImageSizes(RenderHandler.DPI());
@@ -637,6 +663,9 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -664,6 +693,9 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, btnOpenStep, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, btnSaveStep, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenFile_16x, openToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, saveToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewDeploymentPackage_16x, newToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, btnMenuClearTerminal, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.FullScreen, btnMenuFullScreen, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -714,14 +746,13 @@ namespace Serial_Monitor {
         #region Receiving Data
         private void SystemManager_ChannelDataReceived(SerialManager? sender, DataPacket Payload, bool PrintLine) {
             if (sender == null) { return; }
-            string SourceName = sender.PortName;
             bool PostOutput = sender.OutputToMasterTerminal;
             if (PostOutput == true) {
                 if (PrintLine == true) {
-                    Output.Print(SourceName, Payload.TextPayload);
+                    Output.Print(Payload.TextPayload, sender.ID);
                 }
                 else {
-                    Output.AttendToLastLine(SourceName, Payload.TextPayload, true);
+                    Output.AttendToLastLine(sender.ID, Payload.TextPayload);//, true);
                 }
             }
         }
@@ -729,14 +760,16 @@ namespace Serial_Monitor {
             if (sender == null) { return; }
             string SourceName = "";
             bool PostOutput = true;
+            Guid id = Guid.Empty;
             if (sender.GetType() == typeof(SerialManager)) {
                 SerialManager SM = (SerialManager)sender;
                 SourceName = SM.PortName;
                 PostOutput = SM.OutputToMasterTerminal;
+                id = SM.ID;
             }
             CommandProcessed?.Invoke(sender, Data);
             if (PostOutput == true) {
-                Output.Print(SourceName, Data);
+                if (id != Guid.Empty) { Output.Print(Data, id); }
             }
         }
         #endregion
@@ -840,13 +873,13 @@ namespace Serial_Monitor {
         }
         private void Print(ErrorType Severity, string ErrorCode, string Msg) {
             if (Severity == ErrorType.M_Error) {
-                Output.Print("ERROR: " + ErrorCode + " " + Msg, 1);
+                Output.Print("ERROR: " + ErrorCode + " " + Msg, Severity);
             }
             else if (Severity == ErrorType.M_CriticalError) {
-                Output.Print("STOP: " + ErrorCode + " " + Msg, 1);
+                Output.Print("STOP: " + ErrorCode + " " + Msg, Severity);
             }
             else if (Severity == ErrorType.M_Warning) {
-                Output.Print("WARNING: " + ErrorCode + " " + Msg, 0);
+                Output.Print("WARNING: " + ErrorCode + " " + Msg, Severity);
             }
             else if (Severity == ErrorType.M_Notification) {
                 Output.Print(Msg);
@@ -1639,7 +1672,10 @@ namespace Serial_Monitor {
             //SerMan.DataReceived += SerMan_DataReceived;
         }
 
-        private void SystemManager_ChannelAdded(int RemovedIndex) {
+        private void SystemManager_ChannelAdded(int AddedIndex) {
+            SerialManager Sm = SystemManager.SerialManagers[AddedIndex];
+            Output.AddTerminalColor(Sm.ID, Sm.StateName, Sm.ForeColor);
+            Output.SetTerminalColor(Sm.ID, !Sm.UseDefaultForeColor, true);
             DocumentEdited = true;
             navigator1.Invalidate();
             ChannelEditingContexts();
@@ -2053,14 +2089,9 @@ namespace Serial_Monitor {
                 this.Output.Print(Input);
             }));
         }
-        public void MethodPrinting(string Input, Color DisplayColor) {
+        public void MethodPrinting(string Input, ErrorType Severity) {
             this.BeginInvoke(new MethodInvoker(delegate {
-                this.Output.Print(Input, DisplayColor);
-            }));
-        }
-        public void MethodPrinting(string Input, int DisplayColorIndex) {
-            this.BeginInvoke(new MethodInvoker(delegate {
-                this.Output.Print(Input, DisplayColorIndex);
+                this.Output.Print(Input, Severity);
             }));
         }
         public void MethodClearing() {
@@ -2677,6 +2708,14 @@ namespace Serial_Monitor {
         private void modbusQueryEditorToolStripMenuItem_Click(object sender, EventArgs e) {
             QueryEditor QueryApp = new QueryEditor();
             ApplicationManager.OpenInternalApplicationOnce(QueryApp, true);
+        }
+
+        private void btnNewChannel_Click_1(object sender, EventArgs e) {
+
+        }
+
+        private void tsProgramTransport_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+
         }
     }
 

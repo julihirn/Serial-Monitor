@@ -174,6 +174,8 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "ScanRetryCount", (int)Sm.ScanRetryCount);
                     DocumentHandler.Write(Sw, 2, "ScanTimeOut", (int)Sm.ScanTimeout);
                     DocumentHandler.Write(Sw, 2, "ScanString", Sm.ScanWithString);
+                    DocumentHandler.Write(Sw, 2, "ForeColor", (int)Sm.GetThemeIndependantForeColor().ToArgb());
+                    DocumentHandler.Write(Sw, 2, "UseTerminalColor", Sm.UseDefaultForeColor);
                     WriteRegisters(Sw, Sm, -1, 0);
                     for (int x = 0; x < Sm.Slave.Count; x++) {
                         int SlaveIndex = ModbusSupport.UnitToIndex(Sm, Sm.Slave[x].Address);
@@ -488,6 +490,14 @@ namespace Serial_Monitor.Classes {
             catch { }
             try {
                 Sm.ScanWithString = DocumentHandler.GetStringVariable(Pstrc, "ScanString");
+            }
+            catch { }
+            try {
+                Sm.SetThemeIndependantForeColor(Color.FromArgb(DocumentHandler.GetIntegerVariable(Pstrc, "ForeColor")));
+            }
+            catch { }
+            try {
+                Sm.UseDefaultForeColor = DocumentHandler.GetBooleanVariable(Pstrc, "UseTerminalColor");
             }
             catch { }
             if (DocumentHandler.IsDefinedInParameter("Registers", Pstrc)) {

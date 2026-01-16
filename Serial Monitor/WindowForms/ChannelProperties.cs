@@ -48,6 +48,9 @@ namespace Serial_Monitor.WindowForms {
 
             propertyGrid1.SelectedItemWithFocusBackColor = Properties.Settings.Default.THM_COL_SelectedColor;
             propertyGrid1.SelectedItemWithFocusForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            if (manager != null) {
+                propertyGrid1.SelectedObject = Manager;
+            }
         }
 
         private void ChannelProperties_Load(object sender, EventArgs e) {

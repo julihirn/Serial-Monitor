@@ -48,7 +48,7 @@ namespace Serial_Monitor.Classes {
         public delegate void ChannelPropertyChangedHandler(SerialManager sender);
 
         public static event ChannelScanCompleteHandler? ChannelScanComplete;
-        public delegate void ChannelScanCompleteHandler(SerialManager ?sender, string OldPort, string NewPort, bool PortFound);
+        public delegate void ChannelScanCompleteHandler(SerialManager? sender, string OldPort, string NewPort, bool PortFound);
 
         public static event ChannelDataReceivedHandler? ChannelDataReceived;
         public delegate void ChannelDataReceivedHandler(SerialManager? sender, DataPacket Payload, bool PrintLine);
@@ -121,7 +121,7 @@ namespace Serial_Monitor.Classes {
         public static void InvokeChannelSelectedChanged(SerialManager? sender) {
             ChannelSelectedChanged?.Invoke(sender);
         }
-        internal static void InvokeChannelScanComplete(SerialManager ? sender, string OldPort, string NewPort, bool PortFound) {
+        internal static void InvokeChannelScanComplete(SerialManager? sender, string OldPort, string NewPort, bool PortFound) {
             if (sender == null) { return; }
             ChannelScanComplete?.Invoke(sender, OldPort, NewPort, PortFound);
         }
@@ -533,13 +533,13 @@ namespace Serial_Monitor.Classes {
         public static void Print(ErrorType Severity, string ErrorCode, string Msg) {
             if (MainInstance == null) { return; }
             if (Severity == ErrorType.M_Error) {
-                MainInstance.MethodPrinting("ERROR: " + ErrorCode + " " + Msg, 1);
+                MainInstance.MethodPrinting("ERROR: " + ErrorCode + " " + Msg, ErrorType.M_Error);
             }
             else if (Severity == ErrorType.M_CriticalError) {
-                MainInstance.MethodPrinting("STOP: " + ErrorCode + " " + Msg, 1);
+                MainInstance.MethodPrinting("STOP: " + ErrorCode + " " + Msg, ErrorType.M_CriticalError);
             }
             else if (Severity == ErrorType.M_Warning) {
-                MainInstance.MethodPrinting("WARNING: " + ErrorCode + " " + Msg, 0);
+                MainInstance.MethodPrinting("WARNING: " + ErrorCode + " " + Msg, ErrorType.M_Warning);
             }
             else if (Severity == ErrorType.M_Notification) {
                 MainInstance.MethodPrinting(Msg);
@@ -628,10 +628,24 @@ namespace Serial_Monitor.Classes {
             }
             return null;
         }
+        #region Global File and Project Handling
         public static void Open(string FilePath) {
             if (MainInstance == null) { return; }
-            if (!File.Exists(FilePath)){ return; }
+            if (!File.Exists(FilePath)) { return; }
             MainInstance.Open(FilePath);
         }
+        public static void Save(bool SaveAs = false) {
+            if (MainInstance == null) { return; }
+            MainInstance.Save(SaveAs);
+        }
+        public static void OpenViaFileDialog() {
+            if (MainInstance == null) { return; }
+            MainInstance.OpenFileViaDialog();
+        }
+        public static void New() {
+            if (MainInstance == null) { return; }
+            MainInstance.New();
+        }
+        #endregion 
     }
 }

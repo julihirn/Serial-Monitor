@@ -2,6 +2,7 @@
 using ODModules;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Structures;
+using Serial_Monitor.Classes.Theming;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace Serial_Monitor.Classes {
         Thread? HeartbeatThread = null; // new Thread();
         Thread? ModbusRTUFramerThread = null;
         public SerialManager() {
-            iD = Guid.NewGuid().ToString();
+            //iD = Guid.NewGuid().ToString();
             // Port.DataReceived += Port_DataReceived;
             //Port.
             Port.WriteTimeout = 1000;
@@ -132,9 +133,9 @@ namespace Serial_Monitor.Classes {
             }
         }
         #region Properties
-        string iD = "";
+        Guid iD = Guid.NewGuid();
         [Browsable(false)]
-        public string ID {
+        public Guid ID {
             get { return iD; }
         }
         bool selected = false;
@@ -143,6 +144,47 @@ namespace Serial_Monitor.Classes {
             get { return selected; }
             set { selected = value; }
         }
+        bool useDefaultForeColor = true;
+        [Category("Appearance")]
+        [DisplayName("Use Default Color")]
+        public bool UseDefaultForeColor {
+            get { return useDefaultForeColor; }
+            set {
+                useDefaultForeColor = value;
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        public Color GetThemeIndependantForeColor() {
+            return foreColor;
+        }
+        public void SetThemeIndependantForeColor(Color Input) {
+            foreColor = Input;
+            foreColorDark = DesignerSetup.InvertAndRotate180(Input);
+        }
+        Color foreColor = Color.Black;
+        Color foreColorDark = Color.White;
+        [Category("Appearance")]
+        [DisplayName("Text Color")]
+        public Color ForeColor {
+            get {
+                if (ThemeManager.IsDark) {
+                    return foreColorDark;
+                }
+                return foreColor;
+            }
+            set {
+                if (ThemeManager.IsDark) {
+                    foreColorDark = value;
+                    foreColor = DesignerSetup.InvertAndRotate180(value);
+                }
+                else {
+                    foreColor = value;
+                    foreColorDark = DesignerSetup.InvertAndRotate180(value);
+                }
+                SystemManager.InvokeChannelPropertiesChanged(this);
+            }
+        }
+        
         bool outputToMasterTerminal = true;
         [Category("General")]
         [DisplayName("Output to Terminal")]
@@ -640,7 +682,6 @@ namespace Serial_Monitor.Classes {
                 if (Port.IsOpen) {
                     Port.BaseStream.BeginRead(buffer, 0, buffer.Length, delegate (IAsyncResult ar) {
                         try {
-                            //if (!Port.IsOpen) { return; }
                             if (Port.IsOpen && Port.BaseStream.CanRead) {
                                 try {
                                     int actualLength = Port.BaseStream.EndRead(ar);
