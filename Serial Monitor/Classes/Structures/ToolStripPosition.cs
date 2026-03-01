@@ -14,6 +14,7 @@ namespace Serial_Monitor.Classes.Structures {
         public Classes.Enums.ToolStripPosition Position { get; set; } = Classes.Enums.ToolStripPosition.Left;
         public decimal Location { get; set; } = 0.0m;
         public sbyte Line { get; set; } = 0;
+        public sbyte Order { get; set; } = 0;
         public bool Visible { get; set; } = true;
         public (string, string) GetSerialised() {
             string Locator = "";
@@ -30,12 +31,14 @@ namespace Serial_Monitor.Classes.Structures {
             sb.Append(',');
             sb.Append(Line);
             sb.Append(',');
-            sb.Append(Location);
+            sb.Append(Order);
+            sb.Append(',');
+            sb.Append(Location.ToString("0.00000"));
             SettingsLine = sb.ToString();
             return (Locator, SettingsLine);
         }
         public bool Deserialise(string Input) {
-            Match RegMatch = Regex.Match(Input, @"(\w+):(\w+),(\w+),(\w+),(\w+),(\d+(?:\.\d+)?)");
+            Match RegMatch = Regex.Match(Input, @"(\w+):(\w+),(\w+),(\w+),(\w+),(\w+),(\d+(?:\.\d+)?)");
             if (RegMatch.Success == false) { return false; }
             try {
                 FormObject = RegMatch.Groups[1].Value;
@@ -46,12 +49,35 @@ namespace Serial_Monitor.Classes.Structures {
                 byte.TryParse(RegMatch.Groups[4].Value, out pos);
                 if (pos >= 0x00 && pos< 0x03) { Position = (Classes.Enums.ToolStripPosition)pos; }
                 sbyte lne = 0x00;
+                sbyte ord = 0x00;
                 sbyte.TryParse(RegMatch.Groups[5].Value, out lne);
+                sbyte.TryParse(RegMatch.Groups[6].Value, out ord);
                 decimal dec = 0.0m;
-                decimal.TryParse(RegMatch.Groups[6].Value, out dec);
+                decimal.TryParse(RegMatch.Groups[7].Value, out dec);
+                Line = lne;
+                Order = ord;
+                Location = dec;
                 return true;
             }
             catch { return false; }
+        }
+
+        public override string? ToString() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(FormObject);
+            sb.Append(':');
+            sb.Append(ToolStripObject);
+            sb.Append(", Visible=");
+            sb.Append(Visible);
+            sb.Append(", Panel=");
+            sb.Append((byte)Position);
+            sb.Append(", Line=");
+            sb.Append(Line);
+            sb.Append(", Order=");
+            sb.Append(Order);
+            sb.Append(", Location=");
+            sb.Append(Location.ToString("0.00000"));
+            return sb.ToString();
         }
     }
 }

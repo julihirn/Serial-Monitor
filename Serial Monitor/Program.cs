@@ -13,6 +13,7 @@ namespace Serial_Monitor {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            //UserInterfaceManager();
             // SystemManager.Initialize();
             if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
             ThemeManager.LoadDefaultThemes();

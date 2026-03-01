@@ -55,13 +55,9 @@ namespace Serial_Monitor {
             LoadToolStrips();
         }
         private void LoadToolStrips() {
-
-            UserInterfaceManager.HookToolStrips(tscMain, Ts_LocationChanged);
+            UserInterfaceManager.ApplyLayout(this, tscMain);
+            UserInterfaceManager.HookToolStrips(tscMain);
         }
-        private void Ts_LocationChanged(object? sender, EventArgs e) {
-           
-        }
-
         private void LoadDockers() {
             Application.AddMessageFilter(new ControlScrollFilter());
             Application.AddMessageFilter(pnlDocker.DockContentDragFilter);
@@ -1392,6 +1388,7 @@ namespace Serial_Monitor {
             //    Li.Tag = null;
             //}
             ModbusEditor.RemoveReferences();
+            UserInterfaceManager.UnhookToolStrips(tscMain);
             //modbusEditor1.lstMonitor.LineRemoveAll();
             GC.Collect();
         }

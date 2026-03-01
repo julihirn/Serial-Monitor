@@ -23,8 +23,10 @@ namespace Serial_Monitor.Components {
         }
         public StepCommandPopup() {
             InitializeComponent();
-            ProgramEditing.LoadProgramOperations(lstCommands);
+            ProgramEditing.LoadProgramOperationsAlphabetically(lstCommands);
             ApplyTheme();
+
+
         }
         public void ApplyTheme() {
             ThemeManager.ThemeControl(lstCommands);
@@ -52,6 +54,9 @@ namespace Serial_Monitor.Components {
             if (Host != null) {
                 Host.Close();
             }
+        }
+        public void FocusTextEntry() {
+            lstCommands.Focus();
         }
         DateTime LastKeyDown = DateTime.MinValue;
         string DropDownSearchString = "";
@@ -105,6 +110,21 @@ namespace Serial_Monitor.Components {
 
         private void lstCommands_Load(object sender, EventArgs e) {
 
+        }
+
+        private void StepCommandPopup_KeyPress(object sender, KeyPressEventArgs e) {
+
+        }
+
+        private void sltbSearch_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Down) {
+                lstCommands.Focus();
+            }
+            else {
+                lstCommands.LineClearSelection();
+                lstCommands.ResetCellSelectionComplete();
+                lstCommands.ResetScroll(true);
+            }
         }
     }
 }

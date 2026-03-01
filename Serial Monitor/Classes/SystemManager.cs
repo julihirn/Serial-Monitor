@@ -545,10 +545,31 @@ namespace Serial_Monitor.Classes {
                 MainInstance.MethodPrinting(Msg);
             }
         }
+        public static void Print(Guid Id, string Msg) {
+            if (MainInstance == null) { return; }
+            try {
+                MainInstance.MethodPrinting(Id, Msg);
+            }
+            catch { }
+        }
+        public static void PrintAppend(Guid Id, string Msg) {
+            if (MainInstance == null) { return; }
+            try {
+                MainInstance.MethodPrintingAppend(Id, Msg);
+            }
+            catch { }
+        }
         public static void PrintAppend(string Msg) {
             if (MainInstance == null) { return; }
             try {
                 MainInstance.MethodPrintingAppend(Msg);
+            }
+            catch { }
+        }
+        public static void AddTerminalColor(Guid Id, bool Enable, Color TextColor, string SourceName) {
+            if (MainInstance == null) { return; }
+            try {
+                MainInstance.MethodAddTerminalColor(Id, Enable, TextColor, SourceName);
             }
             catch { }
         }

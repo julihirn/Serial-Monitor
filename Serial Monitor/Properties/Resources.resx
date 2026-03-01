@@ -289,6 +289,9 @@
   <data name="OpenFile_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OpenFile_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="OpenTopic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenTopic.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="OrderedList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OrderedList.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -333,6 +336,9 @@
   </data>
   <data name="Return" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Return.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RunOutline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RunOutline.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RunStart_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RunStart_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -381,6 +387,12 @@
   </data>
   <data name="StepOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StepOver.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StopLogging" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StopLogging.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StopOutline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StopOutline.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Stop_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Stop_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

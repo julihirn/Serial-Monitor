@@ -86,7 +86,7 @@ namespace Serial_Monitor.Classes.Theming {
                     Ts.ShadowColor = Color.FromArgb(255, 0, 0, 0);
                 }
                 else {
-                    Ts.ShadowColor = Color.FromArgb(125, 0, 0, 0);
+                    Ts.ShadowColor = Color.FromArgb(40, 0, 0, 0);
                 }
 
             }
@@ -159,7 +159,10 @@ namespace Serial_Monitor.Classes.Theming {
                 Nav.BackColor = Properties.Settings.Default.THM_COL_SeconaryBackColor;
                 Nav.MidColor = Properties.Settings.Default.THM_COL_Editor;
                 Nav.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                Nav.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
+                //Nav.ArrowColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                Nav.InactiveForeColor = Properties.Settings.Default.THM_COL_ItemInactiveForeColor;
+                Nav.HoverForeColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
+                Nav.ArrowMouseOverColor = Properties.Settings.Default.THM_COL_MouseOverForeColor;
                 if (ApplicationManager.IsDark == true) {
                     Color Temp = Properties.Settings.Default.THM_COL_SelectedShadowColor;
                     Nav.ShadowColor = Color.FromArgb(40, Temp.R, Temp.G, Temp.B);

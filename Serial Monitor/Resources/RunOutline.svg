@@ -1,0 +1,9 @@
+<svg id="level-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-green-10{fill: #1f801f; opacity: 0.1;}.light-green{fill: #1f801f; opacity: 1;}</style>
+  </defs>
+  <title>RunOutline</title>
+  <path class="canvas" d="M16,16H0V0H16Z" />
+  <path class="light-green-10" d="M12.5,7.471l-9,6v-12Z" />
+  <path class="light-green" d="M3.777,1.084,3,1.5v12l.777.416,9-6V7.084ZM4,12.565V2.435L11.6,7.5Z" />
+</svg>

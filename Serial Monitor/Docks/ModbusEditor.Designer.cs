@@ -74,6 +74,7 @@
             thDataPagesHeader.Name = "thDataPagesHeader";
             thDataPagesHeader.Padding = new Padding(9, 0, 0, 0);
             thDataPagesHeader.SelectedIndex = 0;
+            thDataPagesHeader.SelectedTabGradient = true;
             thDataPagesHeader.ShowAddButton = false;
             thDataPagesHeader.ShowHeader = false;
             thDataPagesHeader.ShowTabDividers = true;
@@ -84,6 +85,7 @@
             thDataPagesHeader.TabClickedBackColor = Color.DarkGray;
             thDataPagesHeader.TabDividerColor = Color.White;
             thDataPagesHeader.TabHoverBackColor = Color.LightGray;
+            thDataPagesHeader.TabInactiveForeColor = Color.DarkGray;
             thDataPagesHeader.TabIndex = 7;
             thDataPagesHeader.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
             tab2.Selected = true;
@@ -91,10 +93,12 @@
             tab2.Text = "";
             thDataPagesHeader.Tabs.Add(tab2);
             thDataPagesHeader.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
+            thDataPagesHeader.TabSelectedBackColorNorth = Color.Gray;
             thDataPagesHeader.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thDataPagesHeader.TabSelectedForeColor = Color.WhiteSmoke;
             thDataPagesHeader.TabSelectedShadowColor = Color.Black;
             thDataPagesHeader.TabStyle = ODModules.TabHeader.TabStyles.Normal;
+            thDataPagesHeader.TabToolTips = null;
             thDataPagesHeader.UseBindingTabControl = true;
             thDataPagesHeader.Load += thDataPagesHeader_Load;
             // 
@@ -138,6 +142,8 @@
             lstMonitor.BackColor = Color.FromArgb(20, 20, 20);
             lstMonitor.BorderColor = Color.Gray;
             lstMonitor.Borders = ODModules.Borders.BottomAndRight;
+            lstMonitor.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            lstMonitor.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
             lstMonitor.CellPixelFit = true;
             lstMonitor.CellSelectEditableOnly = true;
             lstMonitor.CellSelectionBorderColor = Color.Blue;
@@ -274,12 +280,16 @@
             listItem1.Indentation = 0U;
             listItem1.LineBackColor = Color.Transparent;
             listItem1.LineForeColor = Color.Black;
+            listItem1.MaximumValue = 0;
+            listItem1.MinimumValue = 0;
             listItem1.Name = "";
             listItem1.Selected = false;
             listSubItem1.BackColor = Color.Transparent;
             listSubItem1.Checked = false;
             listSubItem1.ForeColor = Color.Black;
             listSubItem1.Indentation = 0U;
+            listSubItem1.MaximumValue = 0;
+            listSubItem1.MinimumValue = 0;
             listSubItem1.Name = "";
             listSubItem1.Tag = null;
             listSubItem1.Text = "";
@@ -288,6 +298,8 @@
             listSubItem2.Checked = false;
             listSubItem2.ForeColor = Color.Black;
             listSubItem2.Indentation = 0U;
+            listSubItem2.MaximumValue = 0;
+            listSubItem2.MinimumValue = 0;
             listSubItem2.Name = "";
             listSubItem2.Tag = null;
             listSubItem2.Text = "";
@@ -296,6 +308,8 @@
             listSubItem3.Checked = false;
             listSubItem3.ForeColor = Color.Black;
             listSubItem3.Indentation = 0U;
+            listSubItem3.MaximumValue = 0;
+            listSubItem3.MinimumValue = 0;
             listSubItem3.Name = "";
             listSubItem3.Tag = null;
             listSubItem3.Text = "";
@@ -304,6 +318,8 @@
             listSubItem4.Checked = false;
             listSubItem4.ForeColor = Color.Black;
             listSubItem4.Indentation = 0U;
+            listSubItem4.MaximumValue = 0;
+            listSubItem4.MinimumValue = 0;
             listSubItem4.Name = "";
             listSubItem4.Tag = null;
             listSubItem4.Text = "";
@@ -319,7 +335,7 @@
             listItem1.Value = 0;
             lstMonitor.Items.Add(listItem1);
             lstMonitor.LineMarkerIndex = 0;
-            lstMonitor.Location = new Point(150, 58);
+            lstMonitor.Location = new Point(180, 58);
             lstMonitor.Margin = new Padding(6);
             lstMonitor.MarkerBorderColor = Color.LimeGreen;
             lstMonitor.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
@@ -336,10 +352,11 @@
             lstMonitor.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstMonitor.ShowCellSelection = true;
             lstMonitor.ShowGrid = true;
+            lstMonitor.ShowHeader = true;
             lstMonitor.ShowItemIndentation = false;
             lstMonitor.ShowMarker = false;
             lstMonitor.ShowRowColors = true;
-            lstMonitor.Size = new Size(720, 665);
+            lstMonitor.Size = new Size(690, 665);
             lstMonitor.SpanColumn = -1;
             lstMonitor.TabIndex = 3;
             lstMonitor.UseLocalList = false;
@@ -364,21 +381,23 @@
             thSlaves.HeaderDownForeColor = Color.Gray;
             thSlaves.HeaderForeColor = Color.Black;
             thSlaves.HeaderHoverForeColor = Color.Blue;
-            thSlaves.Location = new Point(150, 0);
+            thSlaves.Location = new Point(180, 0);
             thSlaves.Margin = new Padding(6);
             thSlaves.Name = "thSlaves";
             thSlaves.Padding = new Padding(9, 0, 0, 0);
             thSlaves.SelectedIndex = 0;
+            thSlaves.SelectedTabGradient = true;
             thSlaves.ShowAddButton = false;
             thSlaves.ShowHeader = true;
             thSlaves.ShowTabDividers = true;
             thSlaves.ShowTabs = true;
-            thSlaves.Size = new Size(720, 58);
+            thSlaves.Size = new Size(690, 58);
             thSlaves.TabBackColor = Color.Transparent;
             thSlaves.TabBorderColor = Color.Transparent;
             thSlaves.TabClickedBackColor = Color.DarkGray;
             thSlaves.TabDividerColor = Color.White;
             thSlaves.TabHoverBackColor = Color.LightGray;
+            thSlaves.TabInactiveForeColor = Color.DarkGray;
             thSlaves.TabIndex = 7;
             thSlaves.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
             tab1.Selected = true;
@@ -386,10 +405,12 @@
             tab1.Text = "Main";
             thSlaves.Tabs.Add(tab1);
             thSlaves.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
+            thSlaves.TabSelectedBackColorNorth = Color.Gray;
             thSlaves.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thSlaves.TabSelectedForeColor = Color.WhiteSmoke;
             thSlaves.TabSelectedShadowColor = Color.Black;
             thSlaves.TabStyle = ODModules.TabHeader.TabStyles.Normal;
+            thSlaves.TabToolTips = null;
             thSlaves.UseBindingTabControl = false;
             // 
             // navigator1
@@ -404,6 +425,8 @@
             navigator1.DividerBorderColor = Color.FromArgb(0, 0, 0);
             navigator1.Dock = DockStyle.Left;
             navigator1.ForeColor = Color.White;
+            navigator1.HoverForeColor = Color.SkyBlue;
+            navigator1.InactiveForeColor = Color.Gray;
             navigator1.LinkedList = null;
             navigator1.Location = new Point(0, 0);
             navigator1.Margin = new Padding(6);
@@ -416,11 +439,13 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = false;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(150, 723);
+            navigator1.Size = new Size(180, 723);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
+            navigator1.StatusBorderColor = Color.FromArgb(100, 0, 0, 0);
             navigator1.StatusData = "Status";
+            navigator1.StatusDataIsColor = false;
             navigator1.TabIndex = 2;
             // 
             // tpRegisterFiltering

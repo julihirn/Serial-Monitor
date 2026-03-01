@@ -92,7 +92,7 @@ namespace Serial_Monitor.Classes {
                     DeriveSilence();
                     //Serial.DeviceHandler.SetLowLatency(PortName);
                     this.Port.Open();
-                    InitaliseZeroLatencyReceiver();
+                    InitialiseZeroLatencyReceiver();
                 }
             }
             catch {
@@ -144,6 +144,17 @@ namespace Serial_Monitor.Classes {
             get { return selected; }
             set { selected = value; }
         }
+        [Browsable(false)]
+        public Color TerminalColor {
+            get {
+                if (useDefaultForeColor) {
+                    return Properties.Settings.Default.THM_COL_TerminalForeColor;
+                }
+                else {
+                    return ForeColor;
+                }
+            }
+        }
         bool useDefaultForeColor = true;
         [Category("Appearance")]
         [DisplayName("Use Default Color")]
@@ -154,10 +165,10 @@ namespace Serial_Monitor.Classes {
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
-        public Color GetThemeIndependantForeColor() {
+        public Color GetThemeIndependentForeColor() {
             return foreColor;
         }
-        public void SetThemeIndependantForeColor(Color Input) {
+        public void SetThemeIndependentForeColor(Color Input) {
             foreColor = Input;
             foreColorDark = DesignerSetup.InvertAndRotate180(Input);
         }
@@ -668,7 +679,7 @@ namespace Serial_Monitor.Classes {
 
         #endregion
         #region Reception
-        private void InitaliseZeroLatencyReceiver() {
+        private void InitialiseZeroLatencyReceiver() {
             Thread TrMbRTURx = new Thread(() => ZeroLatencyReceiver());
             TrMbRTURx.Name = "TrSPRx";
             TrMbRTURx.Priority = ThreadPriority.Highest;
@@ -1286,8 +1297,8 @@ namespace Serial_Monitor.Classes {
 
             Array.Copy(RXBuffer, 0, Buffer, 0, DataPacketSize);
             byte LRC_Calculated = ModbusSupport.CalculateLRC(Buffer, (ushort)DataPacketSize, 0);
-            byte LRC_Recieved = ModbusSupport.GetArrayValue(DataPacketSize, ref RXBuffer);
-            if (LRC_Calculated != LRC_Recieved) { return; }
+            byte LRC_Received = ModbusSupport.GetArrayValue(DataPacketSize, ref RXBuffer);
+            if (LRC_Calculated != LRC_Received) { return; }
             string StringBuffer = Support.SerialSupport.PrintStream(Buffer);
             DataReceived?.Invoke(this, true, StringBuffer);
             SystemManager.InvokeChannelDataReceived(this, Buffer, DataPacketSize, StringBuffer, true);

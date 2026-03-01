@@ -53,7 +53,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
-        public Color GetThemeIndependantBackColor() {
+        public Color GetThemeIndependentBackColor() {
             return backColor;
         }
         public Color GetThemeIndependantForeColor() {

@@ -633,6 +633,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] OpenTopic {
+            get {
+                object obj = ResourceManager.GetObject("OpenTopic", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] OrderedList {
             get {
                 object obj = ResourceManager.GetObject("OrderedList", resourceCulture);
@@ -793,6 +803,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] RunOutline {
+            get {
+                object obj = ResourceManager.GetObject("RunOutline", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] RunStart_16x {
             get {
                 object obj = ResourceManager.GetObject("RunStart_16x", resourceCulture);
@@ -946,6 +966,26 @@ namespace Serial_Monitor.Properties {
         internal static byte[] Stop_16x {
             get {
                 object obj = ResourceManager.GetObject("Stop_16x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StopLogging {
+            get {
+                object obj = ResourceManager.GetObject("StopLogging", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StopOutline {
+            get {
+                object obj = ResourceManager.GetObject("StopOutline", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-teal-10{fill: #006758; opacity: 0.1;}.light-teal{fill: #006758; opacity: 1;}.light-red{fill: #c50b17; opacity: 1;}.white{fill: #ffffff; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>StopLogging</title>
+  <g id="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M8.32,1.5a3.4,3.4,0,0,1,.26.5A4.861,4.861,0,0,1,8.9,3a4.591,4.591,0,0,1,.1.98V4h3V5H8.9a4.861,4.861,0,0,1-.32,1A5,5,0,0,1,4.02,9H5v1H3.5v2H5v1H3.5v1.5h11V1.5ZM3.5,8.97V9H4A4.07,4.07,0,0,1,3.5,8.97Z" />
+    <path class="light-defaultgrey" d="M14.5,1H7.99a3.325,3.325,0,0,1,.33.5,3.4,3.4,0,0,1,.26.5H14V14H4V13H3v1.5l.5.5h11l.5-.5V1.5ZM3.5,8.97A4.293,4.293,0,0,1,3,8.9V9H4A4.07,4.07,0,0,1,3.5,8.97ZM3,10v2H4V10Z" />
+    <g class="cls-1">
+      <path class="light-defaultgrey" d="M2,12v1H5V12ZM2,9v1H5V9Z" />
+    </g>
+    <path class="light-teal-10" d="M9,4a4.712,4.712,0,0,1-.1,1H12V4Z" />
+    <path class="light-teal" d="M12.5,3H8.9a4.591,4.591,0,0,1,.1.98V4h3V5H8.9a4.861,4.861,0,0,1-.32,1H12.5l.5-.5v-2Z" />
+    <path class="light-red" d="M4.018,8A4,4,0,1,1,8,3.982,4,4,0,0,1,4.018,8Z" />
+    <path class="white" d="M5.5,5.5h-3v-3h3Z" />
+  </g>
+</svg>

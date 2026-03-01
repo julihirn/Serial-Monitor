@@ -420,6 +420,28 @@ namespace Serial_Monitor.Classes.Step_Programs {
                 LastValue = Value;
             }
         }
+        internal static void LoadProgramOperationsAlphabetically(ODModules.ListControl? ContextEditor) {
+            if (ContextEditor == null) { return; }
+
+            StepEnumerations.StepExecutable[] Steps = StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable))
+                            .Cast<StepEnumerations.StepExecutable>()
+                            .OrderBy(step => step.ToString())   // Alphabetical sort
+                            .ToArray();
+
+            int Index = 0;
+            long LastValue = 0;
+
+            foreach (StepEnumerations.StepExecutable StepEx in Steps) {
+                long Value = (long)StepEx & 0x00FF0000;
+                bool CommandInvisable = ((long)StepEx & 0xF0000000) >= 0x10000000;
+                if (CommandInvisable){
+                    continue;
+                }
+                LoadProgramOperation(ContextEditor, StepEx);
+                Index++;
+                LastValue = Value;
+            }
+        }
         internal static void LoadProgramOperations(ODModules.ContextMenu? ContextEditor, EventHandler? ClickHandle) {
             if (ContextEditor == null) { return; }
             StepEnumerations.StepExecutable[] Steps = (StepEnumerations.StepExecutable[])StepEnumerations.StepExecutable.GetValues(typeof(StepEnumerations.StepExecutable));

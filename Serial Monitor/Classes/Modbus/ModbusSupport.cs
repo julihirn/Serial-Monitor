@@ -130,7 +130,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Values.Add(TagData("Name", Current.Name));
                 }
                 if (Current.UseBackColor) {
-                    Values.Add(TagData("BackColor", Current.GetThemeIndependantBackColor().ToArgb()));
+                    Values.Add(TagData("BackColor", Current.GetThemeIndependentBackColor().ToArgb()));
                 }
                 if (Current.Format != Enums.ModbusEnums.CoilFormat.Boolean) {
                     Values.Add(TagData("Format", EnumManager.CoilFormatToString(Current.Format).B));
@@ -171,7 +171,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 Values.Add(TagData("Signed", Current.Signed));
                 Values.Add(TagData("Value", Current.Value));
                 if (Current.UseBackColor) {
-                    Values.Add(TagData("BackColor", Current.GetThemeIndependantBackColor().ToArgb()));
+                    Values.Add(TagData("BackColor", Current.GetThemeIndependentBackColor().ToArgb()));
                 }
                 if (Current.UseForeColor) {
                     Values.Add(TagData("ForeColor", Current.GetThemeIndependantForeColor().ToArgb()));

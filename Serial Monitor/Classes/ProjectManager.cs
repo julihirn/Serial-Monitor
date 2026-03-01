@@ -174,7 +174,7 @@ namespace Serial_Monitor.Classes {
                     DocumentHandler.Write(Sw, 2, "ScanRetryCount", (int)Sm.ScanRetryCount);
                     DocumentHandler.Write(Sw, 2, "ScanTimeOut", (int)Sm.ScanTimeout);
                     DocumentHandler.Write(Sw, 2, "ScanString", Sm.ScanWithString);
-                    DocumentHandler.Write(Sw, 2, "ForeColor", (int)Sm.GetThemeIndependantForeColor().ToArgb());
+                    DocumentHandler.Write(Sw, 2, "ForeColor", (int)Sm.GetThemeIndependentForeColor().ToArgb());
                     DocumentHandler.Write(Sw, 2, "UseTerminalColor", Sm.UseDefaultForeColor);
                     WriteRegisters(Sw, Sm, -1, 0);
                     for (int x = 0; x < Sm.Slave.Count; x++) {
@@ -493,11 +493,22 @@ namespace Serial_Monitor.Classes {
             }
             catch { }
             try {
-                Sm.SetThemeIndependantForeColor(Color.FromArgb(DocumentHandler.GetIntegerVariable(Pstrc, "ForeColor")));
+                if (DocumentHandler.IsDefinedInParameter("ForeColor", Pstrc)) {
+                    Sm.SetThemeIndependentForeColor(Color.FromArgb(DocumentHandler.GetIntegerVariable(Pstrc, "ForeColor")));
+                }
+                else {
+                    Sm.UseDefaultForeColor = true;
+                    Sm.SetThemeIndependentForeColor(Color.Black);
+                }
             }
             catch { }
             try {
-                Sm.UseDefaultForeColor = DocumentHandler.GetBooleanVariable(Pstrc, "UseTerminalColor");
+                if (DocumentHandler.IsDefinedInParameter("UseTerminalColor", Pstrc)) {
+                    Sm.UseDefaultForeColor = DocumentHandler.GetBooleanVariable(Pstrc, "UseTerminalColor");
+                }
+                else {
+                    Sm.UseDefaultForeColor = true;
+                }
             }
             catch { }
             if (DocumentHandler.IsDefinedInParameter("Registers", Pstrc)) {

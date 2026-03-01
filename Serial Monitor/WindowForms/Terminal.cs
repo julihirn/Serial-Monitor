@@ -479,7 +479,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void OpenLog() {
             OpenFileDialog OpenDialog = new OpenFileDialog();
-            OpenDialog.Filter = "Comma Seperated Values Document| *.csv";
+            OpenDialog.Filter = "CSV Document| *.csv";
             OpenDialog.Title = "Open Log";
             if (OpenDialog.ShowDialog() == DialogResult.OK) {
                 try {
@@ -519,7 +519,7 @@ namespace Serial_Monitor.WindowForms {
         }
         private void SaveLog() {
             SaveFileDialog SaveDialog = new SaveFileDialog();
-            SaveDialog.Filter = "Comma Seperated Values Document| *.csv";
+            SaveDialog.Filter = "CSV Document| *.csv";
             SaveDialog.Title = "Save Log";
             if (SaveDialog.ShowDialog() == DialogResult.OK) {
                 try {

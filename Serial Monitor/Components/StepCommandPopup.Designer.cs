@@ -24,7 +24,6 @@
         /// </summary>
         private void InitializeComponent() {
             ODModules.Column column1 = new ODModules.Column();
-            ODModules.Column column2 = new ODModules.Column();
             sltbSearch = new ODModules.SingleLineTextBox();
             lstCommands = new ODModules.ListControl();
             SuspendLayout();
@@ -51,6 +50,7 @@
             sltbSearch.TabIndex = 0;
             sltbSearch.TextAlign = HorizontalAlignment.Left;
             sltbSearch.TextChanged += sltbSearch_TextChanged;
+            sltbSearch.KeyDown += sltbSearch_KeyDown;
             sltbSearch.KeyPress += sltbSearch_KeyPress;
             // 
             // lstCommands
@@ -83,30 +83,14 @@
             column1.UseItemForeColor = false;
             column1.Visible = true;
             column1.Width = 173;
-            column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column2.CountOffset = 0;
-            column2.DataFormat = ODModules.ColumnDataFormat.None;
-            column2.DisplayType = ODModules.ColumnDisplayType.Text;
-            column2.DropDownRight = false;
-            column2.DropDownVisible = true;
-            column2.Exportable = false;
-            column2.ExportName = "";
-            column2.FixedWidth = false;
-            column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column2.Text = "Column";
-            column2.UseItemBackColor = false;
-            column2.UseItemForeColor = false;
-            column2.Visible = false;
-            column2.Width = 50;
             lstCommands.Columns.Add(column1);
-            lstCommands.Columns.Add(column2);
             lstCommands.Dock = DockStyle.Fill;
             lstCommands.DropDownMouseDown = Color.DimGray;
             lstCommands.DropDownMouseOver = Color.LightGray;
             lstCommands.ExternalItems = null;
             lstCommands.Filter = "";
             lstCommands.FilterColumn = 0;
-            lstCommands.FilterSearchType = ODModules.ListControl.FilterSearch.Contains;
+            lstCommands.FilterSearchType = ODModules.ListControl.FilterSearch.ContainsEqualsFirst;
             lstCommands.GridlineColor = Color.LightGray;
             lstCommands.HighlightStrength = 128;
             lstCommands.HorizontalScrollStep = 3;
@@ -152,11 +136,12 @@
             Name = "StepCommandPopup";
             Size = new Size(347, 400);
             Load += StepCommandPopup_Load;
+            KeyPress += StepCommandPopup_KeyPress;
             ResumeLayout(false);
         }
 
         #endregion
-        private ODModules.ListControl lstCommands;
         public ODModules.SingleLineTextBox sltbSearch;
+        public ODModules.ListControl lstCommands;
     }
 }

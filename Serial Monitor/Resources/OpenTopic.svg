@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-blue{fill: #005dba; opacity: 1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightOpenTopic</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-defaultgrey-10" d="M13.5,3.5v11h-9V5.621L6.621,3.5Z" />
+    <path class="light-blue" d="M5.854,2.146v.707l-2,2-.707-.707L4.293,3H3A2,2,0,0,0,1,5V6H0V5A3,3,0,0,1,3,2H4.293L3.147.853,3.854.146Z" />
+    <path class="light-defaultgrey" d="M6,8h6V9H6Zm6-2H7V7h5ZM6,11h5V10H6Zm7.5-8H6.854v.267L6.121,4H13V14H5V5.121l-1,1V14.5l.5.5h9l.5-.5V3.5Z" />
+  </g>
+</svg>

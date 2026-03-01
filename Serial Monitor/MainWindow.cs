@@ -29,6 +29,8 @@ namespace Serial_Monitor {
         public delegate void CCommandProcessedHandler(object? sender, string Data);
         TemplateContextMenuHost StepCommandPopupHost;
         StepCommandPopup stepCommandPopup = new StepCommandPopup();
+        TemplateContextMenuHost ChannelColorPopupHost;
+        ColorPopup popChannelTextColor = new ColorPopup(false);
         SerialManager? currentManager = null;
         SerialManager? CurrentManager {
             get { return currentManager; }
@@ -105,8 +107,17 @@ namespace Serial_Monitor {
             stepCommandPopup.Host = StepCommandPopupHost;
             StepCommandPopupHost.Opening += StepCommandPopupHost_Opening;
             StepCommandPopupHost.Closing += StepCommandPopupHost_Closing;
+            StepCommandPopupHost.Opened += StepCommandPopupHost_Opened;
+            ChannelColorPopupHost = new TemplateContextMenuHost(popChannelTextColor, this);
+            popChannelTextColor.Host = ChannelColorPopupHost;
+            ChannelColorPopupHost.Opening += ChannelColorPopupHost_Opening;
+            ChannelColorPopupHost.Closing += ChannelColorPopupHost_Closing;
+            UserInterfaceManager.ApplyLayout(this, tscMain);
+            UserInterfaceManager.HookToolStrips(tscMain);
             DocumentEdited = false;
         }
+
+   
 
         private void ProjectManager_DocumentLoaded() {
             foreach(SerialManager Sm in SystemManager.SerialManagers) {
@@ -289,6 +300,7 @@ namespace Serial_Monitor {
             navigator1.SelectedIndexChanged += navigator1_SelectedIndexChanged;
             navigator1.TabRightClicked += navigator1_TabRightClicked;
             navigator1.MouseClick += navigator1_MouseClick;
+            navigator1.TabStatusClicked += Navigator1_TabStatusClicked;
             newChannelToolStripMenuItem.Click += newChannelToolStripMenuItem_Click;
             removeChannelToolStripMenuItem.Click += removeChannelToolStripMenuItem_Click;
             renameChannelToolStripMenuItem.Click += renameChannelToolStripMenuItem_Click_1;
@@ -444,8 +456,13 @@ namespace Serial_Monitor {
             pasteToolStripButton.Click += PasteToolStripMenuItem2_Click;
             deleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             clearTerminalToolStripMenuItem.Click += ClearTerminalToolStripMenuItem_Click;
+            saveLogToolStripMenuItem.Click += SaveLogToolStripMenuItem_Click;
+            openLogToolStripMenuItem.Click += OpenLogToolStripMenuItem_Click;
+            startLoggingToolStripMenuItem.Click += StartLoggingToolStripMenuItem_Click;
+            stopLoggingToolStripMenuItem.Click += StopLoggingToolStripMenuItem_Click;
         }
 
+      
         private void ClearTerminalToolStripMenuItem_Click(object? sender, EventArgs e) {
             Output.Clear();
         }
@@ -720,6 +737,11 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeSelectedToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.QueryView, modbusQueryEditorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Save_16x, saveLogToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenTopic, openLogToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.RunOutline, startLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.StopOutline, stopLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
 
         private void AdjustUserInterface() {
@@ -1696,6 +1718,26 @@ namespace Serial_Monitor {
                 removeChannelToolStripMenuItem.Enabled = false;
             }
         }
+        SerialManager? ColorChannel = null;
+        private void ChannelColorPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            //popTextColor.SelectedColor, popTextColor.ApplyColor
+            if (ColorChannel != null) {
+                ColorChannel.UseDefaultForeColor = !popChannelTextColor.ApplyColor;
+                ColorChannel.ForeColor = popChannelTextColor.SelectedColor;
+
+            }
+            ColorChannel = null;
+        }
+        private void ChannelColorPopupHost_Opening(object? sender, CancelEventArgs e) {
+            popChannelTextColor.ResetState();
+        }
+        private void Navigator1_TabStatusClicked(object sender, TabClickedEventArgs Tab) {
+            if (Tab.SelectedTab.GetType() == typeof(SerialManager)) {
+                ColorChannel = (SerialManager)Tab.SelectedTab;
+            }
+            ChannelColorPopupHost.Show(Tab.ScreenLocation);
+        }
+
         #endregion
         #region Clipboard
         object? LastEntered = null;
@@ -1830,6 +1872,12 @@ namespace Serial_Monitor {
         private void StepCommandPopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
             ProgramEditing.ChangeStepCommand(lstStepProgram, ClickedDropDownArgs, stepCommandPopup.Command);
         }
+        private void StepCommandPopupHost_Opened(object? sender, EventArgs e) {
+            stepCommandPopup.FocusTextEntry();
+            stepCommandPopup.lstCommands.LineClearSelection();
+            stepCommandPopup.lstCommands.ResetCellSelectionComplete();
+            stepCommandPopup.lstCommands.ResetScroll(true);
+        }
         private void StepCommandPopupHost_Opening(object? sender, CancelEventArgs e) {
             if (ClickedDropDownArgs == null) { return; }
             if (ClickedDropDownArgs.ParentItem == null) { return; }
@@ -1844,6 +1892,7 @@ namespace Serial_Monitor {
                     stepCommandPopup.sltbSearch.Size = new Size(stepCommandPopup.sltbSearch.Width, ClickedDropDownArgs.ItemSize.Height);
                 }
             }
+            stepCommandPopup.ApplyTheme();
         }
         private const int WM_LBUTTONDOWN = 0x0201;
         public event EventHandler<MouseDownEventArgs>? MouseEvent;
@@ -2079,6 +2128,11 @@ namespace Serial_Monitor {
                 this.btnRun.Text = Input;
             }));
         }
+        public void MethodPrintingAppend(Guid Id, string Input) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.Output.AttendToLastLine(Id, Input);
+            }));
+        }
         public void MethodPrintingAppend(string Input) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 this.Output.AttendToLastLine(Input);
@@ -2089,6 +2143,11 @@ namespace Serial_Monitor {
                 this.Output.Print(Input);
             }));
         }
+        public void MethodPrinting(Guid Id, string Input) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.Output.Print(Input, Id);
+            }));
+        }
         public void MethodPrinting(string Input, ErrorType Severity) {
             this.BeginInvoke(new MethodInvoker(delegate {
                 this.Output.Print(Input, Severity);
@@ -2097,6 +2156,13 @@ namespace Serial_Monitor {
         public void MethodClearing() {
             this.BeginInvoke(new MethodInvoker(delegate {
                 this.Output.ClearSelection();
+                this.Output.Clear();
+            }));
+        }
+        public void MethodAddTerminalColor(Guid Id, bool Enable, Color TextColor, string SourceName) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                this.Output.AddTerminalColor(Id, SourceName, TextColor);
+                this.Output.SetTerminalColor(Id, Enable);
                 this.Output.Clear();
             }));
         }
@@ -2378,6 +2444,54 @@ namespace Serial_Monitor {
             ApplicationManager.OpenInternalApplicationOnce(MbRegs);
         }
         #endregion
+        #region Logging
+        private void StopLoggingToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Output.StopLogging();
+           CheckLogButtonsStates();
+        }
+        private void StartLoggingToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Output.StartLogging();
+            CheckLogButtonsStates();
+        }
+        private void OpenLogToolStripMenuItem_Click(object? sender, EventArgs e) {
+            OpenFileDialog OpenDialog = new OpenFileDialog();
+            OpenDialog.Filter = "CSV Document| *.csv|Log File| *.log|Plain Text| *.txt";
+            OpenDialog.Title = "Open Log";
+            if (OpenDialog.ShowDialog() == DialogResult.OK) {
+                Output.OpenLog(OpenDialog.FileName);
+                CheckLogButtonsStates();
+            }
+        }
+        private void SaveLogToolStripMenuItem_Click(object? sender, EventArgs e) {
+            SaveFileDialog SaveDialog = new SaveFileDialog();
+            SaveDialog.Filter = "CSV Document| *.csv|Log File| *.log|Plain Text| *.txt";
+            SaveDialog.Title = "Save Log";
+            if (SaveDialog.ShowDialog() == DialogResult.OK) {
+                Output.SaveLog(SaveDialog.FileName);
+                CheckLogButtonsStates();
+            }
+        }
+        private void CheckLogButtonsStates() {
+            if (File.Exists(Output.LogFile)) {
+                if (Output.LogState == ODModules.Enumerations.LoggingState.Running) {
+                    startLoggingToolStripMenuItem.Enabled = false;
+                    stopLoggingToolStripMenuItem.Enabled = true;
+                    saveLogToolStripMenuItem.Enabled = false;
+                    openLogToolStripMenuItem.Enabled = false;
+                }
+                else {
+                    startLoggingToolStripMenuItem.Enabled = true;
+                    stopLoggingToolStripMenuItem.Enabled = false;
+                    saveLogToolStripMenuItem.Enabled = true;
+                    openLogToolStripMenuItem.Enabled = true;
+                }
+            }
+            else {
+                startLoggingToolStripMenuItem.Enabled = false;
+                stopLoggingToolStripMenuItem.Enabled = false;
+            }
+        }
+        #endregion 
         #region Document Handling
         bool documentEdited = false;
         private bool DocumentEdited {
