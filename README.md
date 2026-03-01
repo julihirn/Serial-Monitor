@@ -1,7 +1,7 @@
 # Serial Monitor
 Serial Monitor is a versatile tool designed for multi-channel/multi-serial device control and communication. Whether you're working with binary data, plain text, C commands, or Modbus RTU/ASCII, this Serial Monitor empowers you to send, receive, and visualize data seamlessly. Additionally, it offers step commands for precise control and the ability to save configurations and step programs to files.
 
-<img width="1327" height="1271" alt="image" src="https://github.com/user-attachments/assets/1b1a9bca-9f55-4265-885d-77194dd52933" />
+<img width="1480" height="1664" alt="image" src="https://github.com/user-attachments/assets/8fbc214a-6015-46ae-8cb2-4636de85a720" />
 
 ## Features
 
