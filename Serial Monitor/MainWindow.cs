@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Text;
 using System.Runtime.InteropServices;
 using Serial_Monitor.Components;
+using Serial_Monitor.Classes.Theming;
 
 namespace Serial_Monitor {
     public partial class MainWindow : SkinnedForm, Interfaces.ITheme, IMessageFilter, IMouseHandler {
@@ -112,15 +113,30 @@ namespace Serial_Monitor {
             popChannelTextColor.Host = ChannelColorPopupHost;
             ChannelColorPopupHost.Opening += ChannelColorPopupHost_Opening;
             ChannelColorPopupHost.Closing += ChannelColorPopupHost_Closing;
+
+            RecolorAll();
+            AddIcons();
+            ProgramEditing.LoadProgramOperations(cmStepPrg, StepOperationBtn_Click);
+            RefreshPorts();
+            SelectFirstPort();
+            LoadPlugins();
+            LoadDefaults();
+            Output.FlashCursor = true;
+            navigator1.LinkedList = SystemManager.SerialManagers;
+            lstStepProgram.Items.Clear();
+            Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
+            msMain.BackColorNorthFadeIn = FadeInColor;
+            RefreshChannels();
+
             UserInterfaceManager.ApplyLayout(this, tscMain);
             UserInterfaceManager.HookToolStrips(tscMain);
             DocumentEdited = false;
         }
 
-   
+
 
         private void ProjectManager_DocumentLoaded() {
-            foreach(SerialManager Sm in SystemManager.SerialManagers) {
+            foreach (SerialManager Sm in SystemManager.SerialManagers) {
                 Output.AddTerminalColor(Sm.ID, Sm.StateName, Sm.ForeColor);
                 Output.SetTerminalColor(Sm.ID, !Sm.UseDefaultForeColor, false);
             }
@@ -433,6 +449,8 @@ namespace Serial_Monitor {
             thPrograms.TabRightClicked += thPrograms_TabRightClicked;
             thPrograms.SelectedIndexChanged += tabHeader1_SelectedIndexChanged;
             thPrograms.Load += tabHeader1_Load;
+            thPrograms.Resize += ThPrograms_Resize;
+            thPrograms.MouseDown += ThPrograms_MouseDown;
             Output.CommandEntered += Output_CommandEntered;
             Output.Click += Output_Click;
             Output.Enter += Output_Enter;
@@ -462,7 +480,8 @@ namespace Serial_Monitor {
             stopLoggingToolStripMenuItem.Click += StopLoggingToolStripMenuItem_Click;
         }
 
-      
+
+
         private void ClearTerminalToolStripMenuItem_Click(object? sender, EventArgs e) {
             Output.Clear();
         }
@@ -478,19 +497,7 @@ namespace Serial_Monitor {
         private void Form1_Load(object? sender, EventArgs e) {
             AdjustUserInterface();
             ProjectManager.LoadGenericKeypadButtons();
-            RecolorAll();
-            AddIcons();
-            ProgramEditing.LoadProgramOperations(cmStepPrg, StepOperationBtn_Click);
-            RefreshPorts();
-            SelectFirstPort();
-            LoadPlugins();
-            LoadDefaults();
-            Output.FlashCursor = true;
-            navigator1.LinkedList = SystemManager.SerialManagers;
-            lstStepProgram.Items.Clear();
-            Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
-            msMain.BackColorNorthFadeIn = FadeInColor;
-            RefreshChannels();
+
             ProgramManager.ProgramListingChanged += ProgramManager_ProgramListingChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
@@ -639,7 +646,7 @@ namespace Serial_Monitor {
             SetAllChannelTerminalColors();
         }
         private void SetAllChannelTerminalColors() {
-            foreach(SerialManager Sm in SystemManager.SerialManagers) {
+            foreach (SerialManager Sm in SystemManager.SerialManagers) {
                 Output.SetTerminalColor(Sm.ID, Sm.ForeColor, Sm.StateName, !Sm.UseDefaultForeColor);
             }
             Output.Invalidate();
@@ -1549,24 +1556,27 @@ namespace Serial_Monitor {
             }
         }
         private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
-            Rectangle TabRectangle = EventData.TextArea;
+            //Rectangle TabRectangle = EventData.TabRectangle;
             SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
             string CurrentText = SerMan.Name;
-            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
+            RenameBox = new SingleLineTextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
             // RenameBox.BorderStyle = BorderStyle.None;
-            RenameBox.Multiline = false;
-            int CentreHeight = 0;
+            //RenameBox.Multiline = false;
+            //int CentreHeight = 0;
             RenameBox.Show();
-            if (TabRectangle.Height > RenameBox.ClientSize.Height) {
-                CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
-            }
-            else {
-                CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
-            }
-            RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
-            RenameBox.Size = TabRectangle.Size;
+            //if (TabRectangle.Height > RenameBox.ClientSize.Height) {
+            //    CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
+            //}
+            //else {
+            //    CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
+            //}
+            //RenameBox.Location = new Point(EventData.TextRectangle.X, CentreHeight);
+            //RenameBox.Size = TabRectangle.Size;
+            ThemeManager.ThemeControl(RenameBox);
+            RenameBox.Location = EventData.TextRectangle.Location;
+            RenameBox.Size = EventData.TextRectangle.Size;
             RenameBox.BringToFront();
             RenameBox.Tag = EventData;
             InRenameMode = true;
@@ -1755,12 +1765,22 @@ namespace Serial_Monitor {
                 Clipboard.SetText(OutputSelection);
             }
         }
-
         private void copyToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Copy();
+        }
+        private void pasteToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Paste();
+        }
+        private void Copy() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Copy();
+                return;
+            }
             if (lstStepProgram.SelectionCount > 0) {
                 ProgramEditing.CopyStepProgram(lstStepProgram);
             }
             else {
+
                 try {
                     string OutputSelection = Output.CopyOutput();
                     Output.ClearSelection();
@@ -1773,16 +1793,28 @@ namespace Serial_Monitor {
                 catch { }
             }
         }
-        private void pasteToolStripMenuItem_Click(object? sender, EventArgs e) {
+        private void Paste() {
             if (Clipboard.ContainsData(ProgramEditing.Clipboard_ProgramDataType)) {
                 ProgramEditing.PasteStepProgram(lstStepProgram);
             }
             else {
-                Output.Paste();
+                if ((InRenameMode) && (RenameBox != null)) {
+                    RenameBox.Paste();
+                }
+                else {
+                    Output.Paste();
+                }
             }
         }
-        private void cutToolStripMenuItem_Click(object? sender, EventArgs e) {
+        private void Cut() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Cut();
+                return;
+            }
             ProgramEditing.CopyStepProgram(lstStepProgram, true);
+        }
+        private void cutToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Cut();
         }
         private void cutToolStripMenuItem1_Click(object? sender, EventArgs e) {
             ProgramEditing.CopyStepProgram(lstStepProgram, true);
@@ -1926,7 +1958,11 @@ namespace Serial_Monitor {
         private void addCommandAfterToolStripMenuItem_Click(object? sender, EventArgs e) {
             ProgramEditing.NewLine(lstStepProgram, true);
         }
-        private void deleteToolStripMenuItem_Click(object? sender, EventArgs e) {
+        private void Delete() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Delete();
+                return;
+            }
             if (LastEntered != null) {
                 if (LastEntered.GetType() == typeof(ODModules.ListControl)) {
                     ProgramEditing.RemoveSelected(lstStepProgram);
@@ -1934,6 +1970,9 @@ namespace Serial_Monitor {
                 else { Output.ClearEntered(); }
             }
             else { Output.ClearEntered(); }
+        }
+        private void deleteToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Delete();
         }
         private void addCommandToolStripMenuItem1_Click(object? sender, EventArgs e) {
             ProgramEditing.NewLine(lstStepProgram);
@@ -2292,33 +2331,36 @@ namespace Serial_Monitor {
             return "";
         }
         bool InRenameMode = false;
+        private void ThPrograms_Resize(object? sender, EventArgs e) {
+            if (InRenameMode) {
+                RemoveFromControl(RenameBox);
+            }
+        }
+        private void ThPrograms_MouseDown(object? sender, MouseEventArgs e) {
+            if (InRenameMode) {
+                RemoveFromControl(RenameBox);
+            }
+        }
         private void ThPrograms_TabDoubleClicked(object sender, TabClickedEventArgs Tab) {
             ShowProgramRenameBox(Tab);
         }
         private void renameToolStripMenuItem_Click(object? sender, EventArgs e) {
             ShowProgramRenameBox((TabClickedEventArgs?)cmPrograms.Tag);
         }
+        SingleLineTextBox? RenameBox = null;//     System.Windows.Forms.TextBox
         private void ShowProgramRenameBox(TabClickedEventArgs? EventData, bool PushEventData = false) {
             if (EventData == null) { return; }
-            Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(EventData, true);
+            //Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(EventData, true);
             ProgramObject? PrgObj = SystemManager.GetProgramObjectFromTab(EventData);
             if (PrgObj == null) { return; }
             string CurrentText = GetTextFromTab(EventData);
-            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
+            RenameBox = new SingleLineTextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
-            // RenameBox.BorderStyle = BorderStyle.None;
-            RenameBox.Multiline = false;
-            int CentreHeight = 0;
             RenameBox.Show();
-            if (TabRectangle.Height > RenameBox.ClientSize.Height) {
-                CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
-            }
-            else {
-                CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
-            }
-            RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
-            RenameBox.Size = TabRectangle.Size;
+            RenameBox.Location = EventData.TextRectangle.Location;
+            RenameBox.Size = EventData.TextRectangle.Size;
+            ThemeManager.ThemeControl(RenameBox);
             RenameBox.BringToFront();
             RenameBox.Tag = EventData;
             InRenameMode = true;
@@ -2351,9 +2393,10 @@ namespace Serial_Monitor {
 
             }
         }
-        private void RemoveFromControl(object Ctrl) {
-            if (Ctrl.GetType() == typeof(System.Windows.Forms.TextBox)) {
-                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)Ctrl;
+        private void RemoveFromControl(object? Ctrl) {
+            if (Ctrl == null) { return; }
+            if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                SingleLineTextBox TxBx = (SingleLineTextBox)Ctrl;
                 if (TxBx.Tag == null) { return; }
                 if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
                     TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
@@ -2365,13 +2408,13 @@ namespace Serial_Monitor {
                         navigator1.Controls.Remove(TxBx);
                     }
                 }
-                DeregisterTextbox((System.Windows.Forms.TextBox)Ctrl);
+                DeregisterTextbox((SingleLineTextBox)Ctrl);
             }
         }
         private void RenameBox_TextChanged(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(System.Windows.Forms.TextBox)) {
-                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)sender;
+            if (sender.GetType() == typeof(SingleLineTextBox)) {
+                SingleLineTextBox TxBx = (SingleLineTextBox)sender;
                 if (TxBx.Tag == null) {
                     //DeregisterTextbox(TxBx);
                     //thPrograms.Controls.Remove(TxBx);
@@ -2386,13 +2429,13 @@ namespace Serial_Monitor {
                             Tab TabData = (Tab)Data;
                             if (TabData.Tag != null) {
                                 if (TabData.Tag.GetType() == typeof(ProgramObject)) {
-                                    TabData.Text = TxBx.Text;
-                                    ((ProgramObject)TabData.Tag).Name = TxBx.Text;
+                                    TabData.Text = TxBx.Text ?? "";
+                                    ((ProgramObject)TabData.Tag).Name = TxBx.Text ?? "";
                                 }
                             }
                         }
                         else if (Data.GetType() == typeof(SerialManager)) {
-                            SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text;
+                            SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text ?? "";
                             navigator1.Invalidate();
                         }
                         DocumentEdited = true;
@@ -2408,7 +2451,7 @@ namespace Serial_Monitor {
             //}
             RemoveFromControl(sender);
         }
-        private void DeregisterTextbox(System.Windows.Forms.TextBox Tb) {
+        private void DeregisterTextbox(SingleLineTextBox Tb) {
             Tb.Tag = null;
             Tb.Leave -= RenameBox_Leave;
             Tb.LostFocus -= RenameBox_LostFocus;
@@ -2447,7 +2490,7 @@ namespace Serial_Monitor {
         #region Logging
         private void StopLoggingToolStripMenuItem_Click(object? sender, EventArgs e) {
             Output.StopLogging();
-           CheckLogButtonsStates();
+            CheckLogButtonsStates();
         }
         private void StartLoggingToolStripMenuItem_Click(object? sender, EventArgs e) {
             Output.StartLogging();
@@ -2715,8 +2758,15 @@ namespace Serial_Monitor {
         private void navigator1_MouseClick(object? sender, MouseEventArgs e) {
             LastEntered = sender;
         }
-        private void selectAllToolStripMenuItem_Click(object? sender, EventArgs e) {
+        private void SelectedAll() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.SelectAll();
+                return;
+            }
             lstStepProgram.LineSelectAll();
+        }
+        private void selectAllToolStripMenuItem_Click(object? sender, EventArgs e) {
+            SelectedAll();
         }
         private void fileToolStripMenuItem_Click(object? sender, EventArgs e) {
             ProjectManager.LoadRecentItems(btnRecentProjects);

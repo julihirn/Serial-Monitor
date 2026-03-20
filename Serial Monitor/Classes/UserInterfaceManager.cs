@@ -4,6 +4,7 @@ using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -28,8 +29,8 @@ namespace Serial_Monitor.Classes {
         static bool ApplyingLayout = true;
         public static void ApplyLayout(Form? frm, ToolStripContainer? tsc) {
             if (frm == null || tsc == null) { return; }
-
-            List<ToolStripPosition> layouts = GetToolStripSettings().Where(l => l.FormObject == frm.Name).OrderBy(l => l.Position).ThenBy(l =>
+         
+            List<ToolStripPosition> layouts = GetToolStripSettings().Where(l => l.FormObject == frm.Name).OrderBy(l => l.Position).OrderBy(l => -l.Order).ThenBy(l =>
                     l.Position == Enums.ToolStripPosition.Top ||
                     l.Position == Enums.ToolStripPosition.Left ? -l.Line : l.Line).ThenBy(l =>
                     l.Position == Enums.ToolStripPosition.Top ||  l.Position == Enums.ToolStripPosition.Left ? -l.Order : l.Order).ToList();
@@ -44,7 +45,9 @@ namespace Serial_Monitor.Classes {
                 panel.SuspendLayout();
                 panel.Controls.Clear();
             }
+            Dictionary<int, int> usedSpace = new Dictionary<int, int>();
             foreach (ToolStripPosition layout in layouts) {
+                Debug.Print(layout.ToString());
                 ToolStrip? ts;
                 if (!toolStrips.TryGetValue(layout.ToolStripObject, out ts)) {
                     continue;
@@ -54,7 +57,9 @@ namespace Serial_Monitor.Classes {
                 ts.Dock = DockStyle.None;
                 ts.Visible = layout.Visible;
 
-                panel.Join(ts, layout.Line);            }
+                PlaceToolStripOnLine(panel, ts, layout.Line, usedSpace);
+                //panel.Join(ts, layout.Line);
+            }
 
             foreach (ToolStripPanel panel in panels) {
                 panel.ResumeLayout();
@@ -62,6 +67,39 @@ namespace Serial_Monitor.Classes {
 
             tsc.ResumeLayout();
             ApplyingLayout = false;
+        }
+        private static void PlaceToolStripOnLine(ToolStripPanel panel, ToolStrip ts, int line, Dictionary<int, int> usedSpace) {
+            // Get the panel's width (if Top/Bottom) or height (if Left/Right)
+            int availableSpace = (panel.Dock == DockStyle.Top || panel.Dock == DockStyle.Bottom) ? panel.Width : panel.Height;
+
+            // Check how much space has been used on the current line
+            int usedWidth = usedSpace.ContainsKey(line) ? usedSpace[line] : 0;
+
+            // If the ToolStrip fits within the available space on the current line, place it there
+            if (usedWidth + ts.Width <= availableSpace) {
+                // Set the location of the ToolStrip based on the current used space on this line
+                ts.Location = new Point(usedWidth, 0); // Assuming horizontal layout (for Top/Bottom)
+
+                // Ensure left alignment for horizontal ToolStrips (Top/Bottom)
+                if (panel.Dock == DockStyle.Top || panel.Dock == DockStyle.Bottom) {
+                    ts.Anchor = AnchorStyles.Left;  // Explicitly set to left alignment
+                }
+
+                // For left/right panels, align to the top of the panel
+                if (panel.Dock == DockStyle.Left || panel.Dock == DockStyle.Right) {
+                    ts.Anchor = AnchorStyles.Top;  // Explicitly set to top alignment
+                }
+
+                // Update the used space for the current line
+                usedSpace[line] = usedWidth + ts.Width;
+
+                // Add the ToolStrip to the panel (without Join)
+                panel.Controls.Add(ts);
+            }
+            else {
+                // If it doesn't fit, move to the next line
+                PlaceToolStripOnLine(panel, ts, line + 1, usedSpace); // Recursively move to the next line
+            }
         }
         public static void HookToolStrips(ToolStripContainer tsc) {
             if (tsc == null) return;
@@ -295,10 +333,10 @@ namespace Serial_Monitor.Classes {
             if (ParentTabHeader.Tag.GetType() == typeof(TabClickedEventArgs)) {
                 TabClickedEventArgs Args = (TabClickedEventArgs)ParentTabHeader.Tag;
                 if (IncludeTextOffset == false) {
-                    return Args.TextArea;
+                    return Args.TabRectangle;
                 }
                 else {
-                    return new Rectangle(Args.TextArea.X + Args.TextOffset, Args.TextArea.Y, Args.TextArea.Width - Args.TextOffset, Args.TextArea.Height); ;
+                    return new Rectangle(Args.TabRectangle.X + Args.TextOffset, Args.TabRectangle.Y, Args.TabRectangle.Width - Args.TextOffset, Args.TabRectangle.Height); ;
                 }
 
             }
@@ -306,10 +344,10 @@ namespace Serial_Monitor.Classes {
         }
         public static Rectangle GetRectangleFromTab(TabClickedEventArgs Args, bool IncludeTextOffset = false) {
             if (IncludeTextOffset == false) {
-                return Args.TextArea;
+                return Args.TabRectangle;
             }
             else {
-                return new Rectangle(Args.TextArea.X + Args.TextOffset, Args.TextArea.Y, Args.TextArea.Width - Args.TextOffset, Args.TextArea.Height); ;
+                return new Rectangle(Args.TabRectangle.X + Args.TextOffset, Args.TabRectangle.Y, Args.TabRectangle.Width - Args.TextOffset, Args.TabRectangle.Height); ;
             }
         }
         [DllImport("user32.dll")]

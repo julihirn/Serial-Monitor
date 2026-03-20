@@ -6,6 +6,7 @@ using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.Classes.Theming;
 using Serial_Monitor.Components;
 using Serial_Monitor.Interfaces;
 using Serial_Monitor.WindowForms;
@@ -159,6 +160,8 @@ namespace Serial_Monitor {
             AppearancePopupHost.Opening += AppearancePopupHost_Opening;
             AppearancePopupHost.Closing += AppearancePopupHost_Closing;
             BitTogglerPopupHost.Closing += BitTogglerPopupHost_Closing;
+            editorModbus.thSlaves.Resize += ThSlaves_Resize;
+            editorModbus.thSlaves.MouseDown += ThSlaves_MouseDown;
 
         }
         private void SystemManager_ModbusEditorChanged() {
@@ -167,6 +170,9 @@ namespace Serial_Monitor {
         private void EditorEditableRegionActions() {
             ListControl? CurrentEditor = GetCurrentListView();
             bool EnableCut = ModbusEditor.ContainsEditable(CurrentEditor);
+            if ((InRenameMode) && (RenameBox != null)) {
+                EnableCut = true;
+            }
             cutToolStripMenuItem.Enabled = EnableCut;
             cutToolStripButton.Enabled = EnableCut;
             cutToolStripMenuItem1.Enabled = EnableCut;
@@ -1654,6 +1660,10 @@ namespace Serial_Monitor {
             }
         }
         private void SelectAll() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.SelectAll();
+                return;
+            }
             ListControl? CurrentEditor = GetCurrentListView();
             if (ModbusEditor.ContainsEditable(CurrentEditor)) {
                 ModbusEditor.SelectAllTextbox(CurrentEditor);
@@ -1671,6 +1681,10 @@ namespace Serial_Monitor {
             ModbusEditor.SelectMatching(CurrentEditor, Flags);
         }
         private void Copy() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Copy();
+                return;
+            }
             ListControl? CurrentEditor = GetCurrentListView();
             if (ModbusEditor.ContainsEditable(CurrentEditor)) {
                 ModbusEditor.CopyTextFromEditRegion(CurrentEditor);
@@ -1698,6 +1712,10 @@ namespace Serial_Monitor {
             }
         }
         private void Paste() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Paste();
+                return;
+            }
             ListControl? CurrentEditor = GetCurrentListView();
             if (ModbusEditor.ContainsEditable(CurrentEditor)) {
                 ModbusEditor.PasteTextIntoEditRegion("", CurrentEditor);
@@ -1780,6 +1798,10 @@ namespace Serial_Monitor {
             Cut();
         }
         internal void Cut() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Cut();
+                return;
+            }
             ListControl? CurrentEditor = GetCurrentListView();
             if (ModbusEditor.ContainsEditable(CurrentEditor)) {
                 ModbusEditor.CutTextFromEditRegion(CurrentEditor);
@@ -1789,6 +1811,10 @@ namespace Serial_Monitor {
             Delete();
         }
         internal void Delete() {
+            if ((InRenameMode) && (RenameBox != null)) {
+                RenameBox.Delete();
+                return;
+            }
             ListControl? CurrentEditor = GetCurrentListView();
             if (ModbusEditor.ContainsEditable(CurrentEditor)) {
                 ModbusEditor.DeleteTextFromEditRegion(CurrentEditor);
@@ -2069,27 +2095,34 @@ namespace Serial_Monitor {
         bool inRenameMode = false;
         bool InRenameMode {
             get { return inRenameMode; }
-            set { inRenameMode = value; }
+            set { 
+                inRenameMode = value;
+                EditorEditableRegionActions();
+            }
         }
+        SingleLineTextBox ? RenameBox = null;
         private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
-            Rectangle TabRectangle = EventData.TextArea;
+            //Rectangle TabRectangle = EventData.TabRectangle;
             SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
             string CurrentText = SerMan.Name;
-            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
+            RenameBox = new SingleLineTextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = editorModbus.navigator1.Font;
             // RenameBox.BorderStyle = BorderStyle.None;
-            RenameBox.Multiline = false;
-            int CentreHeight = 0;
+            //RenameBox.Multiline = false;
+            //int CentreHeight = 0;
             RenameBox.Show();
-            if (TabRectangle.Height > RenameBox.ClientSize.Height) {
-                CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
-            }
-            else {
-                CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
-            }
-            RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
-            RenameBox.Size = TabRectangle.Size;
+            //if (TabRectangle.Height > RenameBox.ClientSize.Height) {
+            //    CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
+            //}
+            //else {
+            //    CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
+            //}
+            //RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
+            //RenameBox.Size = TabRectangle.Size;
+            RenameBox.Location = EventData.TextRectangle.Location;
+            RenameBox.Size = EventData.TextRectangle.Size;
+            ThemeManager.ThemeControl(RenameBox);
             RenameBox.BringToFront();
             RenameBox.Tag = EventData;
             InRenameMode = true;
@@ -2122,9 +2155,10 @@ namespace Serial_Monitor {
 
             }
         }
-        private void RemoveFromControl(object Ctrl) {
-            if (Ctrl.GetType() == typeof(System.Windows.Forms.TextBox)) {
-                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)Ctrl;
+        private void RemoveFromControl(object? Ctrl) {
+            if (Ctrl == null) { return; }
+            if (Ctrl.GetType() == typeof(SingleLineTextBox)) {
+                SingleLineTextBox TxBx = (SingleLineTextBox)Ctrl;
                 if (TxBx.Tag == null) { return; }
                 if (TxBx.Tag.GetType() == typeof(TabClickedEventArgs)) {
                     TabClickedEventArgs TCEA = (TabClickedEventArgs)TxBx.Tag;
@@ -2136,14 +2170,14 @@ namespace Serial_Monitor {
                         editorModbus.thSlaves.Controls.Remove(TxBx);
                     }
                 }
-                DeregisterTextbox((System.Windows.Forms.TextBox)Ctrl);
+                DeregisterTextbox((SingleLineTextBox)Ctrl);
             }
             InRenameMode = false;
         }
         private void RenameBox_TextChanged(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(System.Windows.Forms.TextBox)) {
-                System.Windows.Forms.TextBox TxBx = (System.Windows.Forms.TextBox)sender;
+            if (sender.GetType() == typeof(SingleLineTextBox)) {
+                SingleLineTextBox TxBx = (SingleLineTextBox)sender;
                 if (TxBx.Tag == null) {
                     //DeregisterTextbox(TxBx);
                     //thPrograms.Controls.Remove(TxBx);
@@ -2186,7 +2220,7 @@ namespace Serial_Monitor {
             //}
             RemoveFromControl(sender);
         }
-        private void DeregisterTextbox(System.Windows.Forms.TextBox Tb) {
+        private void DeregisterTextbox(SingleLineTextBox Tb) {
             Tb.Tag = null;
             Tb.Leave -= RenameBox_Leave;
             Tb.LostFocus -= RenameBox_LostFocus;
@@ -2312,11 +2346,22 @@ namespace Serial_Monitor {
             // if (TagData.SelectedTab.GetType() != typeof(SerialManager)) { return; }
             ShowSlaveRenameBox(TagData, true);
         }
+        private void ThSlaves_MouseDown(object? sender, MouseEventArgs e) {
+            if (InRenameMode) {
+                RemoveFromControl(RenameBox);
+            }
+        }
+        private void ThSlaves_Resize(object? sender, EventArgs e) {
+            if (InRenameMode) {
+                RemoveFromControl(RenameBox);
+            }
+        }
+
         private void ShowSlaveRenameBox(TabClickedEventArgs EventData, bool PushEventData = false) {
             if (PushEventData) {
                 editorModbus.thSlaves.Tag = EventData;
             }
-            Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(editorModbus.thSlaves, true);
+            //Rectangle TabRectangle = UserInterfaceManager.GetRectangleFromTab(editorModbus.thSlaves, true);
             object? SelectedTab = EventData.SelectedTab;
             if (SelectedTab.GetType() != typeof(Tab)) { return; }
             object? TabData = ((Tab)SelectedTab).Tag;
@@ -2325,21 +2370,24 @@ namespace Serial_Monitor {
             ModbusSlave? SlaveObj = (ModbusSlave)TabData;
             if (SlaveObj == null) { return; }
             string CurrentText = SlaveObj.Name;
-            System.Windows.Forms.TextBox RenameBox = new System.Windows.Forms.TextBox();
+            RenameBox = new SingleLineTextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = editorModbus.thSlaves.Font;
             // RenameBox.BorderStyle = BorderStyle.None;
-            RenameBox.Multiline = false;
-            int CentreHeight = 0;
-            RenameBox.Show();
-            if (TabRectangle.Height > RenameBox.ClientSize.Height) {
-                CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
-            }
-            else {
-                CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
-            }
-            RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
-            RenameBox.Size = TabRectangle.Size;
+            //RenameBox.Multiline = false;
+            //int CentreHeight = 0;
+            //RenameBox.Show();
+            //if (TabRectangle.Height > RenameBox.ClientSize.Height) {
+            //    CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
+            //}
+            //else {
+            //    CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
+            //}
+            //RenameBox.Location = new Point(TabRectangle.X, CentreHeight);
+            //RenameBox.Size = TabRectangle.Size;
+            RenameBox.Location = EventData.TextRectangle.Location;
+            RenameBox.Size = EventData.TextRectangle.Size;
+            ThemeManager.ThemeControl(RenameBox);
             RenameBox.BringToFront();
             RenameBox.Tag = EventData;
             InRenameMode = true;

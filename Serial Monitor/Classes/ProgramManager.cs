@@ -1304,7 +1304,7 @@ namespace Serial_Monitor.Classes {
             if (ProgramFound == false) {
                 ProgramState = StepEnumerations.StepState.Stopped;
                 ProgramStep = 0;
-                SystemManager.Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a vaild registered program name");
+                SystemManager.Print(ErrorType.M_Warning, "NO_EXE_PRG", "'" + ProgramName + "' is not a valid registered program name");
             }
             else {
                 if (TempState == StepEnumerations.StepState.Running) {
@@ -1436,6 +1436,8 @@ namespace Serial_Monitor.Classes {
                     return StepKeyWordType.ReturnsAndCalls;
                 case StepEnumerations.StepExecutable.Label:
                     return StepKeyWordType.ReturnsAndCalls;
+                case StepEnumerations.StepExecutable.Delay:
+                    return StepKeyWordType.ControlFlow;
                 case StepExecutable.DeclareVariable:
                     return StepKeyWordType.VariableDeclaration;
                 default:
