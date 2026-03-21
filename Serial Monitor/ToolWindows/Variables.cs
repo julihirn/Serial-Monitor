@@ -13,6 +13,11 @@ namespace Serial_Monitor.ToolWindows {
     public partial class Variables : SkinnedForm, Interfaces.ITheme {
         public Variables() {
             InitializeComponent();
+            ApplyLocalisation();
+        }
+        private void ApplyLocalisation() {
+            LocalisationManager.ApplyText(msMain, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmArray, cntrlExtender, tsiExtender);
         }
         ProgramObject? selectedProgram = null;
         bool allowChanges = true;

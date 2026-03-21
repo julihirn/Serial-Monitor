@@ -1,5 +1,6 @@
 ﻿using Handlers;
 using ODModules;
+using ODModules.ControlExtensions;
 using Serial_Monitor.Classes;
 using Serial_Monitor.Classes.Button_Commands;
 using Serial_Monitor.Classes.Step_Programs;
@@ -11,6 +12,7 @@ using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +31,9 @@ namespace Serial_Monitor {
             RecolorAll();
             ProjectManager.ButtonPropertyChanged += ProjectManager_ButtonPropertyChanged;
             SetTopMost(ProjectManager.KeypadTopMost);
+        }
+        public void ApplyLocalisation() {
+            LocalisationManager.ApplyText(msMain, cntrlExtender, tsiExtender);
         }
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);

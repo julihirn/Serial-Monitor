@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Resources;
 using System.Globalization;
+using ODModules.ControlExtensions;
+using ODModules;
 
 namespace Serial_Monitor.Classes {
     public static class LocalisationManager {
@@ -28,6 +30,56 @@ namespace Serial_Monitor.Classes {
             string LocalText = Language.GetString(LookUp) ?? NoLocalText;
             if (LocalText == NoLocalText) { return FallBackText; }
             return LocalText;
+        }
+        private static void GetLookUp(object Ctrl, ControlExtender? ctrlExtender, ToolStripItemExtender? tsiExtender, ref string LookUp) {
+            Type T = Ctrl.GetType();
+            if (T == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem TSMI = (ToolStripMenuItem)Ctrl;
+                if (tsiExtender == null) { return; }
+                LookUp = tsiExtender.GetTranslationReference(TSMI);
+              
+            }
+            else if (T == typeof(ToolStripButton)) {
+                ToolStripButton TSMI = (ToolStripButton)Ctrl;
+                if (tsiExtender == null) { return; }
+                LookUp = tsiExtender.GetTranslationReference(TSMI);
+            }
+            else if (T == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton TSMI = (ToolStripDropDownButton)Ctrl;
+                if (tsiExtender == null) { return; }
+                LookUp = tsiExtender.GetTranslationReference(TSMI);
+            }
+        }
+        public static void ApplyText(ODModules.MenuStrip Ts, ControlExtender? ctrlExtender, ToolStripItemExtender? tsiExtender) {
+            foreach (ToolStripMenuItem Tsi in Ts.Items) {
+                ApplyText(Tsi, ctrlExtender, tsiExtender, StringApplication.Labels);
+                foreach(object Tsis in Tsi.DropDownItems) {
+                    ApplyText(Tsis, ctrlExtender, tsiExtender, StringApplication.Labels);
+                    if (Tsis is ToolStripMenuItem) {
+                        if (((ToolStripMenuItem)Tsis).DropDownItems.Count != 0) {
+                            foreach (object Tsiss in Tsi.DropDownItems) {
+                                ApplyText(Tsiss, ctrlExtender, tsiExtender, StringApplication.Labels);
+                            }
+                        }
+                    }
+                   
+                }
+            }
+        }
+        public static void ApplyText(ODModules.ContextMenu Ts, ControlExtender? ctrlExtender, ToolStripItemExtender? tsiExtender) {
+            foreach (object Tsi in Ts.Items) {
+                ApplyText(Tsi, ctrlExtender, tsiExtender, StringApplication.Labels);
+            }
+        }
+        public static void ApplyText(ODModules.ToolStrip Ts, ControlExtender? ctrlExtender, ToolStripItemExtender? tsiExtender) {
+            foreach(ToolStripItem Tsi in Ts.Items) {
+                ApplyText(Tsi, ctrlExtender, tsiExtender, StringApplication.Labels);
+            }
+        }
+        public static void ApplyText(object Ctrl, ControlExtender? ctrlExtender, ToolStripItemExtender? tsiExtender, StringApplication ApplicationFlags = StringApplication.Labels) {
+            string LookUpId = "";
+            GetLookUp(Ctrl, ctrlExtender, tsiExtender, ref LookUpId);
+            ApplyText(Ctrl, LookUpId, ApplicationFlags);
         }
         public static void ApplyText(object Ctrl, string LookUp, StringApplication ApplicationFlags = StringApplication.Labels) {
             string LocalText = Language.GetString(LookUp) ?? NoLocalText;

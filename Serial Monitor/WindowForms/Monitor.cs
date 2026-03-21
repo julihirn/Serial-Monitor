@@ -1,21 +1,22 @@
-﻿using Handlers.ShadowX;
-using Handlers;
+﻿using Handlers;
+using Handlers.ShadowX;
 using ODModules;
+using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
-using Serial_Monitor.Classes;
-using System.DirectoryServices.ActiveDirectory;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.IO.Ports;
-using Serial_Monitor.Classes.Structures;
 
 namespace Serial_Monitor {
     public partial class Monitor : Components.SkinnedForm, Interfaces.ITheme {
@@ -35,8 +36,11 @@ namespace Serial_Monitor {
             }
             SystemManager.ChannelRenamed += SystemManager_ChannelRenamed;
             AdjustUserInterface();
+            ApplyLocalisation();
         }
-
+        private void ApplyLocalisation() {
+            LocalisationManager.ApplyText(msMain, cntrlExtender, tsiExtender);
+        }
         private void SystemManager_ChannelRenamed(SerialManager sender) {
             try {
                 foreach (ListItem Item in lstSelector.Items) {

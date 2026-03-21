@@ -39,7 +39,7 @@ namespace Serial_Monitor.WindowForms {
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
 
-            ChangeFormName(manager.StateName, "");
+            ChangeFormName(manager, "");
             AddIcons();
             foreach (int i in SystemManager.DefaultBauds) {
                 LoadBAUDRate(i);
@@ -113,11 +113,12 @@ namespace Serial_Monitor.WindowForms {
         }
         private void Manager_NameChanged(object sender, string Data) {
             if (manager == null) { return; }
-            ChangeFormName(manager.StateName, LogFile); 
+            ChangeFormName(manager, LogFile); 
             Output.SetTerminalColor(manager.ID, manager.StateName);
         }
-        private void ChangeFormName(string Item, string File) {
-
+        private void ChangeFormName(SerialManager ? SerMngr, string File) {
+            string Item = "";
+            if (SerMngr != null) { Item = SerMngr.StateName; }
             if (Item.Length == 0) {
                 if (File.Trim().Length == 0) {
                     Text = "Terminal";
@@ -132,7 +133,6 @@ namespace Serial_Monitor.WindowForms {
             else {
                 Text = Path.GetFileNameWithoutExtension(File) + " | " + Item + " - Terminal";
             }
-
         }
         private void Manager_DataReceived(object sender, bool PrintLine, string Data) {
             if (sender.GetType() == typeof(SerialManager)) {
@@ -173,7 +173,7 @@ namespace Serial_Monitor.WindowForms {
                 SourceName = SM.PortName;
 
                 PushToBuffer(Data);
-                Output.Print(SourceName, SM.ID);
+                Output.Print(Data, SM.ID);
             }
         }
         private void PushToBuffer(string Data) {
@@ -493,7 +493,7 @@ namespace Serial_Monitor.WindowForms {
                     btnSaveLog.Enabled = true;
                     btnOpenLog.Enabled = true;
                     if (manager != null) {
-                        ChangeFormName(manager.StateName, LogFile);
+                        ChangeFormName(manager, LogFile);
                     }
                     LogSize = 0;
                     System.IO.StreamReader myStreamReader = System.IO.File.OpenText(LogFile); ;
@@ -537,7 +537,7 @@ namespace Serial_Monitor.WindowForms {
                     btnStartLogging.Enabled = true;
                     btnStopLogging.Enabled = false;
                     if (manager != null) {
-                        ChangeFormName(manager.StateName, LogFile);
+                        ChangeFormName(manager, LogFile);
                     }
                 }
                 catch (Exception Ex) {

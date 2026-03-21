@@ -197,6 +197,14 @@
             contextMenu1 = new ODModules.ContextMenu();
             cmCoilFormats = new ODModules.ContextMenu();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            cmTextboxOptions = new ODModules.ContextMenu();
+            cmiTextBoxCut = new ToolStripMenuItem();
+            cmiTextBoxCopy = new ToolStripMenuItem();
+            cmiTextBoxPaste = new ToolStripMenuItem();
+            cmiTextBoxDelete = new ToolStripMenuItem();
+            toolStripSeparator32 = new ToolStripSeparator();
+            cmiTextBoxSelectAll = new ToolStripMenuItem();
+            tsiExtender = new ODModules.ControlExtensions.ToolStripItemExtender();
             tscMain.ContentPanel.SuspendLayout();
             tscMain.TopToolStripPanel.SuspendLayout();
             tscMain.SuspendLayout();
@@ -206,6 +214,7 @@
             msMain.SuspendLayout();
             cmChannels.SuspendLayout();
             cmMBChannel.SuspendLayout();
+            cmTextboxOptions.SuspendLayout();
             SuspendLayout();
             // 
             // tscMain
@@ -312,6 +321,7 @@
             newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(newToolStripButton, "newToolStripButton");
             newToolStripButton.Name = "newToolStripButton";
+            tsiExtender.SetTranslationReference(newToolStripButton, "new");
             newToolStripButton.Click += newToolStripButton_Click;
             // 
             // openToolStripButton
@@ -319,6 +329,7 @@
             openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(openToolStripButton, "openToolStripButton");
             openToolStripButton.Name = "openToolStripButton";
+            tsiExtender.SetTranslationReference(openToolStripButton, "open");
             openToolStripButton.Click += openToolStripButton_Click;
             // 
             // saveToolStripButton
@@ -326,18 +337,21 @@
             saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(saveToolStripButton, "saveToolStripButton");
             saveToolStripButton.Name = "saveToolStripButton";
+            tsiExtender.SetTranslationReference(saveToolStripButton, "save");
             saveToolStripButton.Click += saveToolStripButton_Click;
             // 
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
             resources.ApplyResources(toolStripSeparator, "toolStripSeparator");
+            tsiExtender.SetTranslationReference(toolStripSeparator, "");
             // 
             // cutToolStripButton
             // 
             cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(cutToolStripButton, "cutToolStripButton");
             cutToolStripButton.Name = "cutToolStripButton";
+            tsiExtender.SetTranslationReference(cutToolStripButton, "cut");
             cutToolStripButton.Click += cutToolStripButton_Click;
             // 
             // copyToolStripButton
@@ -345,6 +359,7 @@
             copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(copyToolStripButton, "copyToolStripButton");
             copyToolStripButton.Name = "copyToolStripButton";
+            tsiExtender.SetTranslationReference(copyToolStripButton, "copy");
             copyToolStripButton.Click += copyToolStripButton_Click;
             // 
             // pasteToolStripButton
@@ -352,6 +367,7 @@
             pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(pasteToolStripButton, "pasteToolStripButton");
             pasteToolStripButton.Name = "pasteToolStripButton";
+            tsiExtender.SetTranslationReference(pasteToolStripButton, "paste");
             pasteToolStripButton.Click += pasteToolStripButton_Click;
             // 
             // tsMain
@@ -391,6 +407,7 @@
             btnCoils.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnCoils, "btnCoils");
             btnCoils.Name = "btnCoils";
+            tsiExtender.SetTranslationReference(btnCoils, "modbusCoils");
             btnCoils.Click += btnCoils_Click;
             // 
             // btnDiscrete
@@ -398,6 +415,7 @@
             btnDiscrete.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnDiscrete, "btnDiscrete");
             btnDiscrete.Name = "btnDiscrete";
+            tsiExtender.SetTranslationReference(btnDiscrete, "modbusDiscreteInputs");
             btnDiscrete.Click += btnDiscrete_Click;
             // 
             // btnHolding
@@ -405,6 +423,7 @@
             btnHolding.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnHolding, "btnHolding");
             btnHolding.Name = "btnHolding";
+            tsiExtender.SetTranslationReference(btnHolding, "modbusHoldingRegisters");
             btnHolding.Click += btnHolding_Click;
             // 
             // btnInputRegisters
@@ -412,6 +431,7 @@
             btnInputRegisters.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnInputRegisters, "btnInputRegisters");
             btnInputRegisters.Name = "btnInputRegisters";
+            tsiExtender.SetTranslationReference(btnInputRegisters, "modbusInputRegisters");
             btnInputRegisters.Click += btnInputRegisters_Click;
             // 
             // lblTypeSelection
@@ -419,11 +439,13 @@
             lblTypeSelection.ForeColor = Color.White;
             lblTypeSelection.Name = "lblTypeSelection";
             resources.ApplyResources(lblTypeSelection, "lblTypeSelection");
+            tsiExtender.SetTranslationReference(lblTypeSelection, "");
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             resources.ApplyResources(toolStripSeparator1, "toolStripSeparator1");
+            tsiExtender.SetTranslationReference(toolStripSeparator1, "");
             // 
             // btnApplyOnClick
             // 
@@ -432,6 +454,7 @@
             btnApplyOnClick.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnApplyOnClick, "btnApplyOnClick");
             btnApplyOnClick.Name = "btnApplyOnClick";
+            tsiExtender.SetTranslationReference(btnApplyOnClick, "sendOnChange");
             btnApplyOnClick.Click += btnApplyOnClick_Click;
             // 
             // btnLockEditor
@@ -439,18 +462,21 @@
             btnLockEditor.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnLockEditor, "btnLockEditor");
             btnLockEditor.Name = "btnLockEditor";
+            tsiExtender.SetTranslationReference(btnLockEditor, "lockEditor");
             btnLockEditor.Click += btnLockEditor_Click;
             // 
             // toolStripSeparator6
             // 
             toolStripSeparator6.Name = "toolStripSeparator6";
             resources.ApplyResources(toolStripSeparator6, "toolStripSeparator6");
+            tsiExtender.SetTranslationReference(toolStripSeparator6, "");
             // 
             // btnMenuTopMost
             // 
             btnMenuTopMost.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(btnMenuTopMost, "btnMenuTopMost");
             btnMenuTopMost.Name = "btnMenuTopMost";
+            tsiExtender.SetTranslationReference(btnMenuTopMost, "topMost");
             btnMenuTopMost.Click += btnMenuTopMost_Click;
             // 
             // cmMonitor
@@ -476,40 +502,47 @@
             // 
             btnCmSelectionToSnapshot.Name = "btnCmSelectionToSnapshot";
             resources.ApplyResources(btnCmSelectionToSnapshot, "btnCmSelectionToSnapshot");
+            tsiExtender.SetTranslationReference(btnCmSelectionToSnapshot, "snapshotSelection");
             btnCmSelectionToSnapshot.Click += snapshotSelectionToolStripMenuItem_Click;
             // 
             // toolStripSeparator14
             // 
             toolStripSeparator14.Name = "toolStripSeparator14";
             resources.ApplyResources(toolStripSeparator14, "toolStripSeparator14");
+            tsiExtender.SetTranslationReference(toolStripSeparator14, "");
             // 
             // cutToolStripMenuItem1
             // 
             resources.ApplyResources(cutToolStripMenuItem1, "cutToolStripMenuItem1");
             cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(cutToolStripMenuItem1, "cut");
             cutToolStripMenuItem1.Click += cutToolStripMenuItem1_Click;
             // 
             // copyToolStripMenuItem1
             // 
             resources.ApplyResources(copyToolStripMenuItem1, "copyToolStripMenuItem1");
             copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(copyToolStripMenuItem1, "copy");
             copyToolStripMenuItem1.Click += copyToolStripMenuItem1_Click;
             // 
             // pasteToolStripMenuItem1
             // 
             resources.ApplyResources(pasteToolStripMenuItem1, "pasteToolStripMenuItem1");
             pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(pasteToolStripMenuItem1, "paste");
             pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
             // 
             // toolStripSeparator31
             // 
             toolStripSeparator31.Name = "toolStripSeparator31";
             resources.ApplyResources(toolStripSeparator31, "toolStripSeparator31");
+            tsiExtender.SetTranslationReference(toolStripSeparator31, "");
             // 
             // selectAllToolStripMenuItem1
             // 
             resources.ApplyResources(selectAllToolStripMenuItem1, "selectAllToolStripMenuItem1");
             selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(selectAllToolStripMenuItem1, "selectAll");
             selectAllToolStripMenuItem1.Click += selectAllToolStripMenuItem1_Click;
             // 
             // msMain
@@ -542,24 +575,28 @@
             fileToolStripMenuItem.ForeColor = Color.White;
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
+            tsiExtender.SetTranslationReference(fileToolStripMenuItem, "file");
             // 
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(newToolStripMenuItem, "newToolStripMenuItem");
             newToolStripMenuItem.Name = "newToolStripMenuItem";
+            tsiExtender.SetTranslationReference(newToolStripMenuItem, "newView");
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // toolStripSeparator11
             // 
             toolStripSeparator11.Name = "toolStripSeparator11";
             resources.ApplyResources(toolStripSeparator11, "toolStripSeparator11");
+            tsiExtender.SetTranslationReference(toolStripSeparator11, "");
             // 
             // newToolStripMenuItem1
             // 
             newToolStripMenuItem1.ForeColor = Color.White;
             resources.ApplyResources(newToolStripMenuItem1, "newToolStripMenuItem1");
             newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(newToolStripMenuItem1, "new");
             newToolStripMenuItem1.Click += newToolStripMenuItem1_Click;
             // 
             // openToolStripMenuItem
@@ -567,18 +604,21 @@
             openToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(openToolStripMenuItem, "openToolStripMenuItem");
             openToolStripMenuItem.Name = "openToolStripMenuItem";
+            tsiExtender.SetTranslationReference(openToolStripMenuItem, "open");
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // toolStripSeparator12
             // 
             toolStripSeparator12.Name = "toolStripSeparator12";
             resources.ApplyResources(toolStripSeparator12, "toolStripSeparator12");
+            tsiExtender.SetTranslationReference(toolStripSeparator12, "");
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(saveToolStripMenuItem, "saveToolStripMenuItem");
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            tsiExtender.SetTranslationReference(saveToolStripMenuItem, "save");
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
@@ -586,6 +626,7 @@
             saveAsToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(saveAsToolStripMenuItem, "saveAs");
             saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // printToolStripMenuItem
@@ -593,35 +634,41 @@
             resources.ApplyResources(printToolStripMenuItem, "printToolStripMenuItem");
             printToolStripMenuItem.ForeColor = Color.White;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
+            tsiExtender.SetTranslationReference(printToolStripMenuItem, "print");
             // 
             // printPreviewToolStripMenuItem
             // 
             resources.ApplyResources(printPreviewToolStripMenuItem, "printPreviewToolStripMenuItem");
             printPreviewToolStripMenuItem.ForeColor = Color.White;
             printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            tsiExtender.SetTranslationReference(printPreviewToolStripMenuItem, "printPreview");
             // 
             // toolStripSeparator7
             // 
             toolStripSeparator7.Name = "toolStripSeparator7";
             resources.ApplyResources(toolStripSeparator7, "toolStripSeparator7");
+            tsiExtender.SetTranslationReference(toolStripSeparator7, "");
             // 
             // exportToolStripMenuItem
             // 
             exportToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(exportToolStripMenuItem, "exportToolStripMenuItem");
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            tsiExtender.SetTranslationReference(exportToolStripMenuItem, "export");
             exportToolStripMenuItem.Click += exportToolStripMenuItem_Click;
             // 
             // toolStripSeparator28
             // 
             toolStripSeparator28.Name = "toolStripSeparator28";
             resources.ApplyResources(toolStripSeparator28, "toolStripSeparator28");
+            tsiExtender.SetTranslationReference(toolStripSeparator28, "");
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(exitToolStripMenuItem, "exitToolStripMenuItem");
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            tsiExtender.SetTranslationReference(exitToolStripMenuItem, "exit");
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
@@ -630,6 +677,7 @@
             editToolStripMenuItem.ForeColor = Color.White;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
+            tsiExtender.SetTranslationReference(editToolStripMenuItem, "edit");
             editToolStripMenuItem.DropDownOpening += editToolStripMenuItem_DropDownOpening;
             // 
             // undoToolStripMenuItem
@@ -637,17 +685,20 @@
             resources.ApplyResources(undoToolStripMenuItem, "undoToolStripMenuItem");
             undoToolStripMenuItem.ForeColor = Color.White;
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            tsiExtender.SetTranslationReference(undoToolStripMenuItem, "undo");
             // 
             // redoToolStripMenuItem
             // 
             resources.ApplyResources(redoToolStripMenuItem, "redoToolStripMenuItem");
             redoToolStripMenuItem.ForeColor = Color.White;
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            tsiExtender.SetTranslationReference(redoToolStripMenuItem, "redo");
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
             resources.ApplyResources(toolStripSeparator4, "toolStripSeparator4");
+            tsiExtender.SetTranslationReference(toolStripSeparator4, "");
             // 
             // goToToolStripMenuItem
             // 
@@ -655,12 +706,14 @@
             goToToolStripMenuItem.ForeColor = Color.White;
             goToToolStripMenuItem.Name = "goToToolStripMenuItem";
             resources.ApplyResources(goToToolStripMenuItem, "goToToolStripMenuItem");
+            tsiExtender.SetTranslationReference(goToToolStripMenuItem, "gotoMi");
             // 
             // goToToolStripMenuItem1
             // 
             goToToolStripMenuItem1.ForeColor = Color.White;
             goToToolStripMenuItem1.Name = "goToToolStripMenuItem1";
             resources.ApplyResources(goToToolStripMenuItem1, "goToToolStripMenuItem1");
+            tsiExtender.SetTranslationReference(goToToolStripMenuItem1, "gotoAddress");
             goToToolStripMenuItem1.Click += goToToolStripMenuItem1_Click;
             // 
             // goToRegisterToolStripMenuItem
@@ -668,6 +721,7 @@
             goToRegisterToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(goToRegisterToolStripMenuItem, "goToRegisterToolStripMenuItem");
             goToRegisterToolStripMenuItem.Name = "goToRegisterToolStripMenuItem";
+            tsiExtender.SetTranslationReference(goToRegisterToolStripMenuItem, "gotoRegister");
             goToRegisterToolStripMenuItem.Click += goToRegisterToolStripMenuItem_Click;
             goToRegisterToolStripMenuItem.DoubleClick += goToRegisterToolStripMenuItem_DoubleClick;
             // 
@@ -676,18 +730,21 @@
             goToSelectionToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(goToSelectionToolStripMenuItem, "goToSelectionToolStripMenuItem");
             goToSelectionToolStripMenuItem.Name = "goToSelectionToolStripMenuItem";
+            tsiExtender.SetTranslationReference(goToSelectionToolStripMenuItem, "gotoSelection");
             goToSelectionToolStripMenuItem.Click += goToSelectionToolStripMenuItem_Click;
             // 
             // toolStripSeparator15
             // 
             toolStripSeparator15.Name = "toolStripSeparator15";
             resources.ApplyResources(toolStripSeparator15, "toolStripSeparator15");
+            tsiExtender.SetTranslationReference(toolStripSeparator15, "");
             // 
             // cutToolStripMenuItem
             // 
             cutToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(cutToolStripMenuItem, "cutToolStripMenuItem");
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            tsiExtender.SetTranslationReference(cutToolStripMenuItem, "cut");
             cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
             // 
             // copyToolStripMenuItem
@@ -695,6 +752,7 @@
             copyToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copyToolStripMenuItem, "copyToolStripMenuItem");
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copyToolStripMenuItem, "copy");
             copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             // 
             // copySpecialToolStripMenuItem
@@ -703,12 +761,14 @@
             copySpecialToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copySpecialToolStripMenuItem, "copySpecialToolStripMenuItem");
             copySpecialToolStripMenuItem.Name = "copySpecialToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copySpecialToolStripMenuItem, "copySpecial");
             // 
             // copyNamesToolStripMenuItem
             // 
             copyNamesToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copyNamesToolStripMenuItem, "copyNamesToolStripMenuItem");
             copyNamesToolStripMenuItem.Name = "copyNamesToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copyNamesToolStripMenuItem, "copyNames");
             copyNamesToolStripMenuItem.Click += copyNamesToolStripMenuItem_Click;
             // 
             // copyFormatsToolStripMenuItem
@@ -716,6 +776,7 @@
             copyFormatsToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copyFormatsToolStripMenuItem, "copyFormatsToolStripMenuItem");
             copyFormatsToolStripMenuItem.Name = "copyFormatsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copyFormatsToolStripMenuItem, "copyFormats");
             copyFormatsToolStripMenuItem.Click += copyFormatsToolStripMenuItem_Click;
             // 
             // copyValuesToolStripMenuItem
@@ -723,6 +784,7 @@
             copyValuesToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copyValuesToolStripMenuItem, "copyValuesToolStripMenuItem");
             copyValuesToolStripMenuItem.Name = "copyValuesToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copyValuesToolStripMenuItem, "copyValues");
             copyValuesToolStripMenuItem.Click += copyValuesToolStripMenuItem_Click;
             // 
             // copyAppearanceToolStripMenuItem
@@ -730,6 +792,7 @@
             copyAppearanceToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copyAppearanceToolStripMenuItem, "copyAppearanceToolStripMenuItem");
             copyAppearanceToolStripMenuItem.Name = "copyAppearanceToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copyAppearanceToolStripMenuItem, "copyAppearance");
             copyAppearanceToolStripMenuItem.Click += copyAppearanceToolStripMenuItem_Click;
             // 
             // copyAsTextToolStripMenuItem
@@ -737,6 +800,7 @@
             copyAsTextToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(copyAsTextToolStripMenuItem, "copyAsTextToolStripMenuItem");
             copyAsTextToolStripMenuItem.Name = "copyAsTextToolStripMenuItem";
+            tsiExtender.SetTranslationReference(copyAsTextToolStripMenuItem, "");
             copyAsTextToolStripMenuItem.Click += copyAsTextToolStripMenuItem_Click;
             // 
             // pasteToolStripMenuItem
@@ -744,6 +808,7 @@
             pasteToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(pasteToolStripMenuItem, "pasteToolStripMenuItem");
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            tsiExtender.SetTranslationReference(pasteToolStripMenuItem, "paste");
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
             // 
             // deleteToolStripMenuItem
@@ -751,6 +816,7 @@
             resources.ApplyResources(deleteToolStripMenuItem, "deleteToolStripMenuItem");
             deleteToolStripMenuItem.ForeColor = Color.White;
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            tsiExtender.SetTranslationReference(deleteToolStripMenuItem, "delete");
             deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
@@ -758,18 +824,21 @@
             resetToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(resetToolStripMenuItem, "resetToolStripMenuItem");
             resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            tsiExtender.SetTranslationReference(resetToolStripMenuItem, "reset");
             resetToolStripMenuItem.Click += resetToolStripMenuItem_Click;
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
             resources.ApplyResources(toolStripSeparator5, "toolStripSeparator5");
+            tsiExtender.SetTranslationReference(toolStripSeparator5, "");
             // 
             // selectAllToolStripMenuItem
             // 
             selectAllToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(selectAllToolStripMenuItem, "selectAllToolStripMenuItem");
             selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            tsiExtender.SetTranslationReference(selectAllToolStripMenuItem, "selectAll");
             selectAllToolStripMenuItem.Click += selectAllToolStripMenuItem_Click;
             // 
             // selectInvertToolStripMenuItem
@@ -777,6 +846,7 @@
             selectInvertToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(selectInvertToolStripMenuItem, "selectInvertToolStripMenuItem");
             selectInvertToolStripMenuItem.Name = "selectInvertToolStripMenuItem";
+            tsiExtender.SetTranslationReference(selectInvertToolStripMenuItem, "selectInvert");
             selectInvertToolStripMenuItem.Click += selectInvertToolStripMenuItem_Click;
             // 
             // selectSpecialToolStripMenuItem
@@ -785,12 +855,14 @@
             selectSpecialToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(selectSpecialToolStripMenuItem, "selectSpecialToolStripMenuItem");
             selectSpecialToolStripMenuItem.Name = "selectSpecialToolStripMenuItem";
+            tsiExtender.SetTranslationReference(selectSpecialToolStripMenuItem, "selectSpecial");
             // 
             // selectMatchingNamesToolStripMenuItem
             // 
             selectMatchingNamesToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(selectMatchingNamesToolStripMenuItem, "selectMatchingNamesToolStripMenuItem");
             selectMatchingNamesToolStripMenuItem.Name = "selectMatchingNamesToolStripMenuItem";
+            tsiExtender.SetTranslationReference(selectMatchingNamesToolStripMenuItem, "selectMatchingNames");
             selectMatchingNamesToolStripMenuItem.Click += selectMatchingNamesToolStripMenuItem_Click;
             // 
             // selectMatchingValuesToolStripMenuItem
@@ -798,6 +870,7 @@
             selectMatchingValuesToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(selectMatchingValuesToolStripMenuItem, "selectMatchingValuesToolStripMenuItem");
             selectMatchingValuesToolStripMenuItem.Name = "selectMatchingValuesToolStripMenuItem";
+            tsiExtender.SetTranslationReference(selectMatchingValuesToolStripMenuItem, "selectMatchingValues");
             selectMatchingValuesToolStripMenuItem.Click += selectMatchingValuesToolStripMenuItem_Click;
             // 
             // selectMatchingFormatsToolStripMenuItem
@@ -805,6 +878,7 @@
             selectMatchingFormatsToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(selectMatchingFormatsToolStripMenuItem, "selectMatchingFormatsToolStripMenuItem");
             selectMatchingFormatsToolStripMenuItem.Name = "selectMatchingFormatsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(selectMatchingFormatsToolStripMenuItem, "selectMatchingFormats");
             selectMatchingFormatsToolStripMenuItem.Click += selectMatchingFormatsToolStripMenuItem_Click;
             // 
             // clearSelectionToolStripMenuItem
@@ -812,18 +886,21 @@
             clearSelectionToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(clearSelectionToolStripMenuItem, "clearSelectionToolStripMenuItem");
             clearSelectionToolStripMenuItem.Name = "clearSelectionToolStripMenuItem";
+            tsiExtender.SetTranslationReference(clearSelectionToolStripMenuItem, "clearSelection");
             clearSelectionToolStripMenuItem.Click += clearSelectionToolStripMenuItem_Click;
             // 
             // toolStripSeparator22
             // 
             toolStripSeparator22.Name = "toolStripSeparator22";
             resources.ApplyResources(toolStripSeparator22, "toolStripSeparator22");
+            tsiExtender.SetTranslationReference(toolStripSeparator22, "");
             // 
             // bitTogglerToolStripMenuItem
             // 
             resources.ApplyResources(bitTogglerToolStripMenuItem, "bitTogglerToolStripMenuItem");
             bitTogglerToolStripMenuItem.ForeColor = Color.White;
             bitTogglerToolStripMenuItem.Name = "bitTogglerToolStripMenuItem";
+            tsiExtender.SetTranslationReference(bitTogglerToolStripMenuItem, "bitToggler");
             bitTogglerToolStripMenuItem.Click += bitTogglerToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
@@ -832,6 +909,7 @@
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
+            tsiExtender.SetTranslationReference(viewToolStripMenuItem, "view");
             // 
             // viewCoilsToolStripMenuItem
             // 
@@ -841,6 +919,7 @@
             resources.ApplyResources(viewCoilsToolStripMenuItem, "viewCoilsToolStripMenuItem");
             viewCoilsToolStripMenuItem.Name = "viewCoilsToolStripMenuItem";
             viewCoilsToolStripMenuItem.Tag = "mbTypeCoils";
+            tsiExtender.SetTranslationReference(viewCoilsToolStripMenuItem, "modbusCoils");
             viewCoilsToolStripMenuItem.Click += viewCoilsToolStripMenuItem_Click;
             // 
             // viewDiscreteInputsToolStripMenuItem
@@ -849,6 +928,7 @@
             resources.ApplyResources(viewDiscreteInputsToolStripMenuItem, "viewDiscreteInputsToolStripMenuItem");
             viewDiscreteInputsToolStripMenuItem.Name = "viewDiscreteInputsToolStripMenuItem";
             viewDiscreteInputsToolStripMenuItem.Tag = "mbTypeDiscrete";
+            tsiExtender.SetTranslationReference(viewDiscreteInputsToolStripMenuItem, "modbusDiscreteInputs");
             viewDiscreteInputsToolStripMenuItem.Click += viewDiscreteInputsToolStripMenuItem_Click;
             // 
             // viewHoldingRegistersToolStripMenuItem
@@ -857,6 +937,7 @@
             resources.ApplyResources(viewHoldingRegistersToolStripMenuItem, "viewHoldingRegistersToolStripMenuItem");
             viewHoldingRegistersToolStripMenuItem.Name = "viewHoldingRegistersToolStripMenuItem";
             viewHoldingRegistersToolStripMenuItem.Tag = "mbTypeRegHolding";
+            tsiExtender.SetTranslationReference(viewHoldingRegistersToolStripMenuItem, "modbusHoldingRegisters");
             viewHoldingRegistersToolStripMenuItem.Click += viewHoldingRegistersToolStripMenuItem_Click;
             // 
             // viewInputRegistersToolStripMenuItem
@@ -865,12 +946,14 @@
             resources.ApplyResources(viewInputRegistersToolStripMenuItem, "viewInputRegistersToolStripMenuItem");
             viewInputRegistersToolStripMenuItem.Name = "viewInputRegistersToolStripMenuItem";
             viewInputRegistersToolStripMenuItem.Tag = "mbTypeRegInput";
+            tsiExtender.SetTranslationReference(viewInputRegistersToolStripMenuItem, "modbusInputRegisters");
             viewInputRegistersToolStripMenuItem.Click += viewInputRegistersToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
             resources.ApplyResources(toolStripSeparator3, "toolStripSeparator3");
+            tsiExtender.SetTranslationReference(toolStripSeparator3, "");
             // 
             // showUnitsToolStripMenuItem
             // 
@@ -879,6 +962,7 @@
             showUnitsToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(showUnitsToolStripMenuItem, "showUnitsToolStripMenuItem");
             showUnitsToolStripMenuItem.Name = "showUnitsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(showUnitsToolStripMenuItem, "showUnits");
             showUnitsToolStripMenuItem.Click += showUnitsToolStripMenuItem_Click;
             // 
             // showFormatsToolStripMenuItem
@@ -888,6 +972,7 @@
             showFormatsToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(showFormatsToolStripMenuItem, "showFormatsToolStripMenuItem");
             showFormatsToolStripMenuItem.Name = "showFormatsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(showFormatsToolStripMenuItem, "showFormats");
             showFormatsToolStripMenuItem.Click += showFormatsToolStripMenuItem_Click;
             // 
             // showLastUpdatedTimeToolStripMenuItem
@@ -895,6 +980,7 @@
             showLastUpdatedTimeToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(showLastUpdatedTimeToolStripMenuItem, "showLastUpdatedTimeToolStripMenuItem");
             showLastUpdatedTimeToolStripMenuItem.Name = "showLastUpdatedTimeToolStripMenuItem";
+            tsiExtender.SetTranslationReference(showLastUpdatedTimeToolStripMenuItem, "showLastUpdatedTime");
             showLastUpdatedTimeToolStripMenuItem.Click += showLastUpdatedTimeToolStripMenuItem_Click;
             // 
             // ddbAddressFormatSelect
@@ -902,11 +988,13 @@
             ddbAddressFormatSelect.ForeColor = Color.White;
             resources.ApplyResources(ddbAddressFormatSelect, "ddbAddressFormatSelect");
             ddbAddressFormatSelect.Name = "ddbAddressFormatSelect";
+            tsiExtender.SetTranslationReference(ddbAddressFormatSelect, "modbusAddressFormat");
             // 
             // toolStripSeparator9
             // 
             toolStripSeparator9.Name = "toolStripSeparator9";
             resources.ApplyResources(toolStripSeparator9, "toolStripSeparator9");
+            tsiExtender.SetTranslationReference(toolStripSeparator9, "");
             // 
             // btnViewMaster
             // 
@@ -915,6 +1003,7 @@
             btnViewMaster.ForeColor = Color.White;
             resources.ApplyResources(btnViewMaster, "btnViewMaster");
             btnViewMaster.Name = "btnViewMaster";
+            tsiExtender.SetTranslationReference(btnViewMaster, "masterView");
             btnViewMaster.Click += btnViewMaster_Click;
             // 
             // btnViewSnapshot
@@ -922,12 +1011,14 @@
             btnViewSnapshot.ForeColor = Color.White;
             resources.ApplyResources(btnViewSnapshot, "btnViewSnapshot");
             btnViewSnapshot.Name = "btnViewSnapshot";
+            tsiExtender.SetTranslationReference(btnViewSnapshot, "snapshotView");
             btnViewSnapshot.Click += btnViewSnapshot_Click;
             // 
             // toolStripSeparator10
             // 
             toolStripSeparator10.Name = "toolStripSeparator10";
             resources.ApplyResources(toolStripSeparator10, "toolStripSeparator10");
+            tsiExtender.SetTranslationReference(toolStripSeparator10, "");
             // 
             // zoomToolStripMenuItem
             // 
@@ -935,12 +1026,14 @@
             zoomToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(zoomToolStripMenuItem, "zoomToolStripMenuItem");
             zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            tsiExtender.SetTranslationReference(zoomToolStripMenuItem, "zoom");
             // 
             // zoom100
             // 
             zoom100.ForeColor = Color.White;
             zoom100.Name = "zoom100";
             resources.ApplyResources(zoom100, "zoom100");
+            tsiExtender.SetTranslationReference(zoom100, "");
             zoom100.Click += zoom100_Click;
             // 
             // zoom115
@@ -948,6 +1041,7 @@
             zoom115.ForeColor = Color.White;
             zoom115.Name = "zoom115";
             resources.ApplyResources(zoom115, "zoom115");
+            tsiExtender.SetTranslationReference(zoom115, "");
             zoom115.Click += zoom115_Click;
             // 
             // zoom120
@@ -955,6 +1049,7 @@
             zoom120.ForeColor = Color.White;
             zoom120.Name = "zoom120";
             resources.ApplyResources(zoom120, "zoom120");
+            tsiExtender.SetTranslationReference(zoom120, "");
             zoom120.Click += zoom120_Click;
             // 
             // zoom150
@@ -962,6 +1057,7 @@
             zoom150.ForeColor = Color.White;
             zoom150.Name = "zoom150";
             resources.ApplyResources(zoom150, "zoom150");
+            tsiExtender.SetTranslationReference(zoom150, "");
             zoom150.Click += zoom150_Click;
             // 
             // zoom175
@@ -969,6 +1065,7 @@
             zoom175.ForeColor = Color.White;
             zoom175.Name = "zoom175";
             resources.ApplyResources(zoom175, "zoom175");
+            tsiExtender.SetTranslationReference(zoom175, "");
             zoom175.Click += zoom175_Click;
             // 
             // zoom200
@@ -976,30 +1073,35 @@
             zoom200.ForeColor = Color.White;
             zoom200.Name = "zoom200";
             resources.ApplyResources(zoom200, "zoom200");
+            tsiExtender.SetTranslationReference(zoom200, "");
             zoom200.Click += zoom200_Click;
             // 
             // toolStripSeparator30
             // 
             toolStripSeparator30.Name = "toolStripSeparator30";
             resources.ApplyResources(toolStripSeparator30, "toolStripSeparator30");
+            tsiExtender.SetTranslationReference(toolStripSeparator30, "");
             // 
             // propertiesToolStripMenuItem
             // 
             propertiesToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(propertiesToolStripMenuItem, "propertiesToolStripMenuItem");
             propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
+            tsiExtender.SetTranslationReference(propertiesToolStripMenuItem, "properties");
             propertiesToolStripMenuItem.Click += propertiesToolStripMenuItem_Click;
             // 
             // toolStripSeparator29
             // 
             toolStripSeparator29.Name = "toolStripSeparator29";
             resources.ApplyResources(toolStripSeparator29, "toolStripSeparator29");
+            tsiExtender.SetTranslationReference(toolStripSeparator29, "");
             // 
             // btnTopMost
             // 
             btnTopMost.ForeColor = Color.White;
             resources.ApplyResources(btnTopMost, "btnTopMost");
             btnTopMost.Name = "btnTopMost";
+            tsiExtender.SetTranslationReference(btnTopMost, "topMost");
             btnTopMost.Click += windowTopMostToolStripMenuItem_Click;
             // 
             // fullScreenToolStripMenuItem
@@ -1007,6 +1109,7 @@
             fullScreenToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(fullScreenToolStripMenuItem, "fullScreenToolStripMenuItem");
             fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
+            tsiExtender.SetTranslationReference(fullScreenToolStripMenuItem, "fullScreen");
             fullScreenToolStripMenuItem.Click += fullScreenToolStripMenuItem_Click;
             // 
             // modbusToolStripMenuItem
@@ -1015,12 +1118,14 @@
             modbusToolStripMenuItem.ForeColor = Color.White;
             modbusToolStripMenuItem.Name = "modbusToolStripMenuItem";
             resources.ApplyResources(modbusToolStripMenuItem, "modbusToolStripMenuItem");
+            tsiExtender.SetTranslationReference(modbusToolStripMenuItem, "modbus");
             // 
             // writeCoilToolStripMenuItem
             // 
             resources.ApplyResources(writeCoilToolStripMenuItem, "writeCoilToolStripMenuItem");
             writeCoilToolStripMenuItem.ForeColor = Color.White;
             writeCoilToolStripMenuItem.Name = "writeCoilToolStripMenuItem";
+            tsiExtender.SetTranslationReference(writeCoilToolStripMenuItem, "modbusWriteCoil");
             writeCoilToolStripMenuItem.Click += writeCoilToolStripMenuItem_Click;
             // 
             // writeMultipleCoilsToolStripMenuItem
@@ -1028,6 +1133,7 @@
             resources.ApplyResources(writeMultipleCoilsToolStripMenuItem, "writeMultipleCoilsToolStripMenuItem");
             writeMultipleCoilsToolStripMenuItem.ForeColor = Color.White;
             writeMultipleCoilsToolStripMenuItem.Name = "writeMultipleCoilsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(writeMultipleCoilsToolStripMenuItem, "modbusWriteMultipleCoils");
             writeMultipleCoilsToolStripMenuItem.Click += writeMultipleCoilsToolStripMenuItem_Click;
             // 
             // writeRegisterToolStripMenuItem
@@ -1035,6 +1141,7 @@
             resources.ApplyResources(writeRegisterToolStripMenuItem, "writeRegisterToolStripMenuItem");
             writeRegisterToolStripMenuItem.ForeColor = Color.White;
             writeRegisterToolStripMenuItem.Name = "writeRegisterToolStripMenuItem";
+            tsiExtender.SetTranslationReference(writeRegisterToolStripMenuItem, "modbusWriteRegister");
             writeRegisterToolStripMenuItem.Click += writeRegisterToolStripMenuItem_Click;
             // 
             // writeMultipleRegistersToolStripMenuItem
@@ -1042,6 +1149,7 @@
             resources.ApplyResources(writeMultipleRegistersToolStripMenuItem, "writeMultipleRegistersToolStripMenuItem");
             writeMultipleRegistersToolStripMenuItem.ForeColor = Color.White;
             writeMultipleRegistersToolStripMenuItem.Name = "writeMultipleRegistersToolStripMenuItem";
+            tsiExtender.SetTranslationReference(writeMultipleRegistersToolStripMenuItem, "modbusWriteMultipleRegisters");
             writeMultipleRegistersToolStripMenuItem.Click += writeMultipleRegistersToolStripMenuItem_Click;
             // 
             // writeRegisterMaskToolStripMenuItem
@@ -1049,24 +1157,28 @@
             resources.ApplyResources(writeRegisterMaskToolStripMenuItem, "writeRegisterMaskToolStripMenuItem");
             writeRegisterMaskToolStripMenuItem.ForeColor = Color.White;
             writeRegisterMaskToolStripMenuItem.Name = "writeRegisterMaskToolStripMenuItem";
+            tsiExtender.SetTranslationReference(writeRegisterMaskToolStripMenuItem, "");
             writeRegisterMaskToolStripMenuItem.Click += writeRegisterMaskToolStripMenuItem_Click;
             // 
             // toolStripSeparator23
             // 
             toolStripSeparator23.Name = "toolStripSeparator23";
             resources.ApplyResources(toolStripSeparator23, "toolStripSeparator23");
+            tsiExtender.SetTranslationReference(toolStripSeparator23, "");
             // 
             // querySenderToolStripMenuItem
             // 
             querySenderToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(querySenderToolStripMenuItem, "querySenderToolStripMenuItem");
             querySenderToolStripMenuItem.Name = "querySenderToolStripMenuItem";
+            tsiExtender.SetTranslationReference(querySenderToolStripMenuItem, "modbusWriteRegisterMask");
             querySenderToolStripMenuItem.Click += querySenderToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             resources.ApplyResources(toolStripSeparator2, "toolStripSeparator2");
+            tsiExtender.SetTranslationReference(toolStripSeparator2, "");
             // 
             // btnModbusApplyonClick
             // 
@@ -1075,6 +1187,7 @@
             btnModbusApplyonClick.ForeColor = Color.White;
             resources.ApplyResources(btnModbusApplyonClick, "btnModbusApplyonClick");
             btnModbusApplyonClick.Name = "btnModbusApplyonClick";
+            tsiExtender.SetTranslationReference(btnModbusApplyonClick, "sendOnChange");
             btnModbusApplyonClick.Click += btnModbusApplyonClick_Click;
             // 
             // btnModbusLockEditors
@@ -1082,18 +1195,21 @@
             btnModbusLockEditors.ForeColor = Color.White;
             resources.ApplyResources(btnModbusLockEditors, "btnModbusLockEditors");
             btnModbusLockEditors.Name = "btnModbusLockEditors";
+            tsiExtender.SetTranslationReference(btnModbusLockEditors, "lockEditor");
             btnModbusLockEditors.Click += btnModbusLockEditors_Click;
             // 
             // toolStripSeparator16
             // 
             toolStripSeparator16.Name = "toolStripSeparator16";
             resources.ApplyResources(toolStripSeparator16, "toolStripSeparator16");
+            tsiExtender.SetTranslationReference(toolStripSeparator16, "");
             // 
             // setIOFormatsToModbusRTUToolStripMenuItem
             // 
             setIOFormatsToModbusRTUToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(setIOFormatsToModbusRTUToolStripMenuItem, "setIOFormatsToModbusRTUToolStripMenuItem");
             setIOFormatsToModbusRTUToolStripMenuItem.Name = "setIOFormatsToModbusRTUToolStripMenuItem";
+            tsiExtender.SetTranslationReference(setIOFormatsToModbusRTUToolStripMenuItem, "setFormatsToModbusRTU");
             setIOFormatsToModbusRTUToolStripMenuItem.Click += setIOFormatsToModbusRTUToolStripMenuItem_Click;
             // 
             // setIOFormatsToModbusASCIIToolStripMenuItem
@@ -1101,18 +1217,21 @@
             setIOFormatsToModbusASCIIToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(setIOFormatsToModbusASCIIToolStripMenuItem, "setIOFormatsToModbusASCIIToolStripMenuItem");
             setIOFormatsToModbusASCIIToolStripMenuItem.Name = "setIOFormatsToModbusASCIIToolStripMenuItem";
+            tsiExtender.SetTranslationReference(setIOFormatsToModbusASCIIToolStripMenuItem, "setFormatsToModbusASCII");
             setIOFormatsToModbusASCIIToolStripMenuItem.Click += setIOFormatsToModbusASCIIToolStripMenuItem_Click;
             // 
             // toolStripSeparator24
             // 
             toolStripSeparator24.Name = "toolStripSeparator24";
             resources.ApplyResources(toolStripSeparator24, "toolStripSeparator24");
+            tsiExtender.SetTranslationReference(toolStripSeparator24, "");
             // 
             // btnMenuModbusMaster
             // 
             btnMenuModbusMaster.ForeColor = Color.White;
             resources.ApplyResources(btnMenuModbusMaster, "btnMenuModbusMaster");
             btnMenuModbusMaster.Name = "btnMenuModbusMaster";
+            tsiExtender.SetTranslationReference(btnMenuModbusMaster, "modbusMaster");
             btnMenuModbusMaster.Click += btnMenuModbusMaster_Click;
             // 
             // changeAddressToolStripMenuItem1
@@ -1120,17 +1239,20 @@
             changeAddressToolStripMenuItem1.ForeColor = Color.White;
             resources.ApplyResources(changeAddressToolStripMenuItem1, "changeAddressToolStripMenuItem1");
             changeAddressToolStripMenuItem1.Name = "changeAddressToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(changeAddressToolStripMenuItem1, "changeAddress");
             // 
             // toolStripSeparator25
             // 
             toolStripSeparator25.Name = "toolStripSeparator25";
             resources.ApplyResources(toolStripSeparator25, "toolStripSeparator25");
+            tsiExtender.SetTranslationReference(toolStripSeparator25, "");
             // 
             // slaveManagerToolStripMenuItem
             // 
             resources.ApplyResources(slaveManagerToolStripMenuItem, "slaveManagerToolStripMenuItem");
             slaveManagerToolStripMenuItem.ForeColor = Color.White;
             slaveManagerToolStripMenuItem.Name = "slaveManagerToolStripMenuItem";
+            tsiExtender.SetTranslationReference(slaveManagerToolStripMenuItem, "slaveManager");
             slaveManagerToolStripMenuItem.Click += slaveManagerToolStripMenuItem_Click;
             // 
             // newUnitToolStripMenuItem1
@@ -1138,6 +1260,7 @@
             resources.ApplyResources(newUnitToolStripMenuItem1, "newUnitToolStripMenuItem1");
             newUnitToolStripMenuItem1.ForeColor = Color.White;
             newUnitToolStripMenuItem1.Name = "newUnitToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(newUnitToolStripMenuItem1, "newUnit");
             newUnitToolStripMenuItem1.Click += newUnitToolStripMenuItem1_Click;
             // 
             // renameUnitToolStripMenuItem1
@@ -1145,6 +1268,7 @@
             resources.ApplyResources(renameUnitToolStripMenuItem1, "renameUnitToolStripMenuItem1");
             renameUnitToolStripMenuItem1.ForeColor = Color.White;
             renameUnitToolStripMenuItem1.Name = "renameUnitToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(renameUnitToolStripMenuItem1, "renameUnit");
             renameUnitToolStripMenuItem1.Click += renameUnitToolStripMenuItem1_Click;
             // 
             // removeUnitToolStripMenuItem1
@@ -1152,18 +1276,21 @@
             resources.ApplyResources(removeUnitToolStripMenuItem1, "removeUnitToolStripMenuItem1");
             removeUnitToolStripMenuItem1.ForeColor = Color.White;
             removeUnitToolStripMenuItem1.Name = "removeUnitToolStripMenuItem1";
+            tsiExtender.SetTranslationReference(removeUnitToolStripMenuItem1, "removeUnit");
             removeUnitToolStripMenuItem1.Click += removeUnitToolStripMenuItem1_Click;
             // 
             // toolStripSeparator8
             // 
             toolStripSeparator8.Name = "toolStripSeparator8";
             resources.ApplyResources(toolStripSeparator8, "toolStripSeparator8");
+            tsiExtender.SetTranslationReference(toolStripSeparator8, "");
             // 
             // btnSelectionToSnapshot
             // 
             btnSelectionToSnapshot.ForeColor = Color.White;
             resources.ApplyResources(btnSelectionToSnapshot, "btnSelectionToSnapshot");
             btnSelectionToSnapshot.Name = "btnSelectionToSnapshot";
+            tsiExtender.SetTranslationReference(btnSelectionToSnapshot, "selectionToSnapshot");
             btnSelectionToSnapshot.Click += addSelectionToSnapshotToolStripMenuItem_Click;
             // 
             // formatToolStripMenuItem
@@ -1172,18 +1299,21 @@
             formatToolStripMenuItem.ForeColor = Color.White;
             formatToolStripMenuItem.Name = "formatToolStripMenuItem";
             resources.ApplyResources(formatToolStripMenuItem, "formatToolStripMenuItem");
+            tsiExtender.SetTranslationReference(formatToolStripMenuItem, "format");
             // 
             // ddbDisplayFormat
             // 
             resources.ApplyResources(ddbDisplayFormat, "ddbDisplayFormat");
             ddbDisplayFormat.ForeColor = Color.White;
             ddbDisplayFormat.Name = "ddbDisplayFormat";
+            tsiExtender.SetTranslationReference(ddbDisplayFormat, "displayFormat");
             // 
             // ddpDataSize
             // 
             resources.ApplyResources(ddpDataSize, "ddpDataSize");
             ddpDataSize.ForeColor = Color.White;
             ddpDataSize.Name = "ddpDataSize";
+            tsiExtender.SetTranslationReference(ddpDataSize, "dataSize");
             ddpDataSize.Click += ddpDataSize_Click;
             // 
             // btnSigned
@@ -1192,12 +1322,14 @@
             resources.ApplyResources(btnSigned, "btnSigned");
             btnSigned.ForeColor = Color.White;
             btnSigned.Name = "btnSigned";
+            tsiExtender.SetTranslationReference(btnSigned, "formatSigned");
             // 
             // ddbSigned
             // 
             ddbSigned.ForeColor = Color.White;
             resources.ApplyResources(ddbSigned, "ddbSigned");
             ddbSigned.Name = "ddbSigned";
+            tsiExtender.SetTranslationReference(ddbSigned, "signed");
             ddbSigned.Click += ddbSigned_Click;
             // 
             // ddbUnsigned
@@ -1205,6 +1337,7 @@
             ddbUnsigned.ForeColor = Color.White;
             resources.ApplyResources(ddbUnsigned, "ddbUnsigned");
             ddbUnsigned.Name = "ddbUnsigned";
+            tsiExtender.SetTranslationReference(ddbUnsigned, "unsigned");
             ddbUnsigned.Click += ddbUnsigned_Click;
             // 
             // ddbToggleSigned
@@ -1212,6 +1345,7 @@
             ddbToggleSigned.ForeColor = Color.White;
             resources.ApplyResources(ddbToggleSigned, "ddbToggleSigned");
             ddbToggleSigned.Name = "ddbToggleSigned";
+            tsiExtender.SetTranslationReference(ddbToggleSigned, "toggle");
             ddbToggleSigned.Click += ddbToggleSigned_Click;
             // 
             // ddpDecimalPlaces
@@ -1219,28 +1353,33 @@
             resources.ApplyResources(ddpDecimalPlaces, "ddpDecimalPlaces");
             ddpDecimalPlaces.ForeColor = Color.White;
             ddpDecimalPlaces.Name = "ddpDecimalPlaces";
+            tsiExtender.SetTranslationReference(ddpDecimalPlaces, "decimalPlaces");
             // 
             // toolStripSeparator20
             // 
             toolStripSeparator20.Name = "toolStripSeparator20";
             resources.ApplyResources(toolStripSeparator20, "toolStripSeparator20");
+            tsiExtender.SetTranslationReference(toolStripSeparator20, "");
             // 
             // ddbWordOrder
             // 
             resources.ApplyResources(ddbWordOrder, "ddbWordOrder");
             ddbWordOrder.ForeColor = Color.White;
             ddbWordOrder.Name = "ddbWordOrder";
+            tsiExtender.SetTranslationReference(ddbWordOrder, "wordOrder");
             // 
             // toolStripSeparator17
             // 
             toolStripSeparator17.Name = "toolStripSeparator17";
             resources.ApplyResources(toolStripSeparator17, "toolStripSeparator17");
+            tsiExtender.SetTranslationReference(toolStripSeparator17, "");
             // 
             // changeAppearanceToolStripMenuItem
             // 
             resources.ApplyResources(changeAppearanceToolStripMenuItem, "changeAppearanceToolStripMenuItem");
             changeAppearanceToolStripMenuItem.ForeColor = Color.White;
             changeAppearanceToolStripMenuItem.Name = "changeAppearanceToolStripMenuItem";
+            tsiExtender.SetTranslationReference(changeAppearanceToolStripMenuItem, "changeAppearance");
             changeAppearanceToolStripMenuItem.Click += changeAppearanceToolStripMenuItem_Click;
             // 
             // resetAppearanceToolStripMenuItem
@@ -1248,6 +1387,7 @@
             resources.ApplyResources(resetAppearanceToolStripMenuItem, "resetAppearanceToolStripMenuItem");
             resetAppearanceToolStripMenuItem.ForeColor = Color.White;
             resetAppearanceToolStripMenuItem.Name = "resetAppearanceToolStripMenuItem";
+            tsiExtender.SetTranslationReference(resetAppearanceToolStripMenuItem, "resetAppearance");
             resetAppearanceToolStripMenuItem.Click += resetAppearanceToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
@@ -1256,12 +1396,14 @@
             toolsToolStripMenuItem.ForeColor = Color.White;
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            tsiExtender.SetTranslationReference(toolsToolStripMenuItem, "tools");
             // 
             // quickConverterToolStripMenuItem
             // 
             quickConverterToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(quickConverterToolStripMenuItem, "quickConverterToolStripMenuItem");
             quickConverterToolStripMenuItem.Name = "quickConverterToolStripMenuItem";
+            tsiExtender.SetTranslationReference(quickConverterToolStripMenuItem, "quickConverter");
             quickConverterToolStripMenuItem.Click += quickConverterToolStripMenuItem_Click;
             // 
             // checksumCalculatorToolStripMenuItem
@@ -1269,23 +1411,27 @@
             resources.ApplyResources(checksumCalculatorToolStripMenuItem, "checksumCalculatorToolStripMenuItem");
             checksumCalculatorToolStripMenuItem.ForeColor = Color.White;
             checksumCalculatorToolStripMenuItem.Name = "checksumCalculatorToolStripMenuItem";
+            tsiExtender.SetTranslationReference(checksumCalculatorToolStripMenuItem, "checksumCalculator");
             // 
             // toolStripSeparator26
             // 
             toolStripSeparator26.Name = "toolStripSeparator26";
             resources.ApplyResources(toolStripSeparator26, "toolStripSeparator26");
+            tsiExtender.SetTranslationReference(toolStripSeparator26, "");
             // 
             // customizeToolStripMenuItem
             // 
             customizeToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(customizeToolStripMenuItem, "customizeToolStripMenuItem");
             customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
+            tsiExtender.SetTranslationReference(customizeToolStripMenuItem, "");
             // 
             // optionsToolStripMenuItem
             // 
             optionsToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(optionsToolStripMenuItem, "optionsToolStripMenuItem");
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(optionsToolStripMenuItem, "options");
             optionsToolStripMenuItem.Click += optionsToolStripMenuItem_Click;
             // 
             // windowToolStripMenuItem
@@ -1294,6 +1440,7 @@
             windowToolStripMenuItem.ForeColor = Color.White;
             windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             resources.ApplyResources(windowToolStripMenuItem, "windowToolStripMenuItem");
+            tsiExtender.SetTranslationReference(windowToolStripMenuItem, "window");
             // 
             // tileHorizontalToolStripMenuItem
             // 
@@ -1302,30 +1449,35 @@
             tileHorizontalToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(tileHorizontalToolStripMenuItem, "tileHorizontalToolStripMenuItem");
             tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
+            tsiExtender.SetTranslationReference(tileHorizontalToolStripMenuItem, "tileWindows");
             tileHorizontalToolStripMenuItem.Click += tileHorizontalToolStripMenuItem_Click;
             // 
             // toolStripSeparator13
             // 
             toolStripSeparator13.Name = "toolStripSeparator13";
             resources.ApplyResources(toolStripSeparator13, "toolStripSeparator13");
+            tsiExtender.SetTranslationReference(toolStripSeparator13, "");
             // 
             // windowManagerToolStripMenuItem
             // 
             windowManagerToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(windowManagerToolStripMenuItem, "windowManagerToolStripMenuItem");
             windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
+            tsiExtender.SetTranslationReference(windowManagerToolStripMenuItem, "windowManager");
             windowManagerToolStripMenuItem.Click += windowManagerToolStripMenuItem_Click;
             // 
             // toolStripSeparator27
             // 
             toolStripSeparator27.Name = "toolStripSeparator27";
             resources.ApplyResources(toolStripSeparator27, "toolStripSeparator27");
+            tsiExtender.SetTranslationReference(toolStripSeparator27, "");
             // 
             // closeSnapshotToolStripMenuItem
             // 
             resources.ApplyResources(closeSnapshotToolStripMenuItem, "closeSnapshotToolStripMenuItem");
             closeSnapshotToolStripMenuItem.ForeColor = Color.White;
             closeSnapshotToolStripMenuItem.Name = "closeSnapshotToolStripMenuItem";
+            tsiExtender.SetTranslationReference(closeSnapshotToolStripMenuItem, "closeSnapshot");
             closeSnapshotToolStripMenuItem.Click += closeSnapshotToolStripMenuItem_Click;
             // 
             // closeAllSnapshotsToolStripMenuItem
@@ -1333,6 +1485,7 @@
             resources.ApplyResources(closeAllSnapshotsToolStripMenuItem, "closeAllSnapshotsToolStripMenuItem");
             closeAllSnapshotsToolStripMenuItem.ForeColor = Color.White;
             closeAllSnapshotsToolStripMenuItem.Name = "closeAllSnapshotsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(closeAllSnapshotsToolStripMenuItem, "closeAllSnapshots");
             closeAllSnapshotsToolStripMenuItem.Click += closeAllSnapshotsToolStripMenuItem_Click;
             // 
             // snapshotsToolStripMenuItem
@@ -1340,6 +1493,7 @@
             resources.ApplyResources(snapshotsToolStripMenuItem, "snapshotsToolStripMenuItem");
             snapshotsToolStripMenuItem.ForeColor = Color.White;
             snapshotsToolStripMenuItem.Name = "snapshotsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(snapshotsToolStripMenuItem, "snapshots");
             // 
             // cmDisplayFormats
             // 
@@ -1400,34 +1554,40 @@
             // 
             resources.ApplyResources(btnRenameChannel, "btnRenameChannel");
             btnRenameChannel.Name = "btnRenameChannel";
+            tsiExtender.SetTranslationReference(btnRenameChannel, "renameChannel");
             btnRenameChannel.Click += btnRenameChannel_Click;
             // 
             // toolStripSeparator18
             // 
             toolStripSeparator18.Name = "toolStripSeparator18";
             resources.ApplyResources(toolStripSeparator18, "toolStripSeparator18");
+            tsiExtender.SetTranslationReference(toolStripSeparator18, "");
             // 
             // btnModbusMaster
             // 
             resources.ApplyResources(btnModbusMaster, "btnModbusMaster");
             btnModbusMaster.Name = "btnModbusMaster";
+            tsiExtender.SetTranslationReference(btnModbusMaster, "modbusMaster");
             btnModbusMaster.Click += btnModbusMaster_Click;
             // 
             // toolStripSeparator19
             // 
             toolStripSeparator19.Name = "toolStripSeparator19";
             resources.ApplyResources(toolStripSeparator19, "toolStripSeparator19");
+            tsiExtender.SetTranslationReference(toolStripSeparator19, "");
             // 
             // connectToolStripMenuItem
             // 
             resources.ApplyResources(connectToolStripMenuItem, "connectToolStripMenuItem");
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+            tsiExtender.SetTranslationReference(connectToolStripMenuItem, "connect");
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
             // disconnectToolStripMenuItem
             // 
             resources.ApplyResources(disconnectToolStripMenuItem, "disconnectToolStripMenuItem");
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
+            tsiExtender.SetTranslationReference(disconnectToolStripMenuItem, "disconnect");
             disconnectToolStripMenuItem.Click += disconnectToolStripMenuItem_Click;
             // 
             // cmMBChannel
@@ -1453,34 +1613,40 @@
             // 
             resources.ApplyResources(modbusMasterToolStripMenuItem, "modbusMasterToolStripMenuItem");
             modbusMasterToolStripMenuItem.Name = "modbusMasterToolStripMenuItem";
+            tsiExtender.SetTranslationReference(modbusMasterToolStripMenuItem, "modbusMaster");
             modbusMasterToolStripMenuItem.Click += modbusMasterToolStripMenuItem_Click;
             // 
             // changeAddressToolStripMenuItem
             // 
             resources.ApplyResources(changeAddressToolStripMenuItem, "changeAddressToolStripMenuItem");
             changeAddressToolStripMenuItem.Name = "changeAddressToolStripMenuItem";
+            tsiExtender.SetTranslationReference(changeAddressToolStripMenuItem, "changeAddress");
             // 
             // toolStripSeparator21
             // 
             toolStripSeparator21.Name = "toolStripSeparator21";
             resources.ApplyResources(toolStripSeparator21, "toolStripSeparator21");
+            tsiExtender.SetTranslationReference(toolStripSeparator21, "");
             // 
             // newUnitToolStripMenuItem
             // 
             resources.ApplyResources(newUnitToolStripMenuItem, "newUnitToolStripMenuItem");
             newUnitToolStripMenuItem.Name = "newUnitToolStripMenuItem";
+            tsiExtender.SetTranslationReference(newUnitToolStripMenuItem, "newUnit");
             newUnitToolStripMenuItem.Click += newUnitToolStripMenuItem_Click;
             // 
             // removeUnitToolStripMenuItem
             // 
             resources.ApplyResources(removeUnitToolStripMenuItem, "removeUnitToolStripMenuItem");
             removeUnitToolStripMenuItem.Name = "removeUnitToolStripMenuItem";
+            tsiExtender.SetTranslationReference(removeUnitToolStripMenuItem, "removeUnit");
             removeUnitToolStripMenuItem.Click += removeUnitToolStripMenuItem_Click;
             // 
             // renameUnitToolStripMenuItem
             // 
             resources.ApplyResources(renameUnitToolStripMenuItem, "renameUnitToolStripMenuItem");
             renameUnitToolStripMenuItem.Name = "renameUnitToolStripMenuItem";
+            tsiExtender.SetTranslationReference(renameUnitToolStripMenuItem, "renameUnit");
             renameUnitToolStripMenuItem.Click += renameUnitToolStripMenuItem_Click;
             // 
             // tmrRefresh
@@ -1523,6 +1689,66 @@
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
             cntrlExtender.SetTranslationReference(cmCoilFormats, "");
             // 
+            // cmTextboxOptions
+            // 
+            cmTextboxOptions.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmTextboxOptions.BorderColor = Color.Black;
+            cmTextboxOptions.DropShadowEnabled = false;
+            cmTextboxOptions.ForeColor = Color.White;
+            cmTextboxOptions.ImageScalingSize = new Size(32, 32);
+            cmTextboxOptions.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmTextboxOptions.Items.AddRange(new ToolStripItem[] { cmiTextBoxCut, cmiTextBoxCopy, cmiTextBoxPaste, cmiTextBoxDelete, toolStripSeparator32, cmiTextBoxSelectAll });
+            cmTextboxOptions.MenuBackColorNorth = Color.DodgerBlue;
+            cmTextboxOptions.MenuBackColorSouth = Color.DodgerBlue;
+            cmTextboxOptions.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmTextboxOptions.Name = "cmTextboxOptions";
+            cmTextboxOptions.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmTextboxOptions.ShowInsetShadow = false;
+            cmTextboxOptions.ShowItemInsetShadow = false;
+            resources.ApplyResources(cmTextboxOptions, "cmTextboxOptions");
+            cntrlExtender.SetTranslationReference(cmTextboxOptions, "");
+            // 
+            // cmiTextBoxCut
+            // 
+            resources.ApplyResources(cmiTextBoxCut, "cmiTextBoxCut");
+            cmiTextBoxCut.Name = "cmiTextBoxCut";
+            tsiExtender.SetTranslationReference(cmiTextBoxCut, "cut");
+            cmiTextBoxCut.Click += cmiTextBoxCut_Click;
+            // 
+            // cmiTextBoxCopy
+            // 
+            resources.ApplyResources(cmiTextBoxCopy, "cmiTextBoxCopy");
+            cmiTextBoxCopy.Name = "cmiTextBoxCopy";
+            tsiExtender.SetTranslationReference(cmiTextBoxCopy, "copy");
+            cmiTextBoxCopy.Click += cmiTextBoxCopy_Click;
+            // 
+            // cmiTextBoxPaste
+            // 
+            resources.ApplyResources(cmiTextBoxPaste, "cmiTextBoxPaste");
+            cmiTextBoxPaste.Name = "cmiTextBoxPaste";
+            tsiExtender.SetTranslationReference(cmiTextBoxPaste, "paste");
+            cmiTextBoxPaste.Click += cmiTextBoxPaste_Click;
+            // 
+            // cmiTextBoxDelete
+            // 
+            resources.ApplyResources(cmiTextBoxDelete, "cmiTextBoxDelete");
+            cmiTextBoxDelete.Name = "cmiTextBoxDelete";
+            tsiExtender.SetTranslationReference(cmiTextBoxDelete, "delete");
+            cmiTextBoxDelete.Click += cmiTextBoxDelete_Click;
+            // 
+            // toolStripSeparator32
+            // 
+            toolStripSeparator32.Name = "toolStripSeparator32";
+            resources.ApplyResources(toolStripSeparator32, "toolStripSeparator32");
+            tsiExtender.SetTranslationReference(toolStripSeparator32, "");
+            // 
+            // cmiTextBoxSelectAll
+            // 
+            resources.ApplyResources(cmiTextBoxSelectAll, "cmiTextBoxSelectAll");
+            cmiTextBoxSelectAll.Name = "cmiTextBoxSelectAll";
+            tsiExtender.SetTranslationReference(cmiTextBoxSelectAll, "selectAll");
+            cmiTextBoxSelectAll.Click += cmiTextBoxSelectAll_Click;
+            // 
             // ModbusRegisters
             // 
             resources.ApplyResources(this, "$this");
@@ -1556,6 +1782,7 @@
             msMain.PerformLayout();
             cmChannels.ResumeLayout(false);
             cmMBChannel.ResumeLayout(false);
+            cmTextboxOptions.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1733,5 +1960,13 @@
         private ToolStripButton cutToolStripButton;
         private ToolStripButton copyToolStripButton;
         private ToolStripButton pasteToolStripButton;
+        private ODModules.ContextMenu cmTextboxOptions;
+        private ToolStripMenuItem cmiTextBoxCut;
+        private ToolStripMenuItem cmiTextBoxCopy;
+        private ToolStripMenuItem cmiTextBoxPaste;
+        private ToolStripMenuItem cmiTextBoxDelete;
+        private ToolStripSeparator toolStripSeparator32;
+        private ToolStripMenuItem cmiTextBoxSelectAll;
+        private ODModules.ControlExtensions.ToolStripItemExtender tsiExtender;
     }
 }

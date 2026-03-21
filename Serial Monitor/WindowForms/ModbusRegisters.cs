@@ -54,6 +54,7 @@ namespace Serial_Monitor {
             editorModbus.ssClient.TileWindows = true;
             LoadDockers();
             LoadToolStrips();
+            ApplyLocalisation();
         }
         private void LoadToolStrips() {
             UserInterfaceManager.ApplyLayout(this, tscMain);
@@ -117,6 +118,14 @@ namespace Serial_Monitor {
         private void AppearancePopupHost_Opening(object? sender, CancelEventArgs e) {
         }
         #region Startup
+        private void ApplyLocalisation() {
+            LocalisationManager.ApplyText(msMain, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmChannels, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmMonitor, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmTextboxOptions, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmMBChannel, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmDisplayFormats, cntrlExtender, tsiExtender);
+        }
         private void LoadChannels() {
             try {
                 CurrentManager = SystemManager.SerialManagers[0];
@@ -597,10 +606,16 @@ namespace Serial_Monitor {
             ddpDecimalPlaces.Enabled = State;
         }
         private void ChangeClipboardActions(bool Enable) {
-            copyAsTextToolStripMenuItem.Enabled = Enable;
-            pasteToolStripMenuItem.Enabled = Enable;
-            copySpecialToolStripMenuItem.Enabled = Enable;
+            if ((InRenameMode) && (RenameBox != null)) {
+                Enable = true;
+            }
             copyToolStripMenuItem.Enabled = Enable;
+            pasteToolStripMenuItem.Enabled = Enable;
+            if ((InRenameMode) && (RenameBox != null)) {
+                Enable = false;
+            }
+            copyAsTextToolStripMenuItem.Enabled = Enable;
+            copySpecialToolStripMenuItem.Enabled = Enable;
             resetToolStripMenuItem.Enabled = Enable;
             selectAllToolStripMenuItem.Enabled = Enable;
             selectInvertToolStripMenuItem.Enabled = Enable;
@@ -921,6 +936,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmMonitor);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             Classes.Theming.ThemeManager.ThemeControl(cmMBChannel);
+            Classes.Theming.ThemeManager.ThemeControl(cmTextboxOptions);
 
             foreach (ODModules.Docking.ToolWindow ToolWin in ToolWindows) {
                 if (ToolWin is ITheme) {
@@ -960,17 +976,21 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ColorPalette, changeAppearanceToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cmiTextBoxCut, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, cmiTextBoxCopy, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripButton, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, cmiTextBoxPaste, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, cmiTextBoxDelete, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Zoom, zoomToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -982,6 +1002,7 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, selectAllToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, selectAllToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, cmiTextBoxSelectAll, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectRows, btnSelectionToSnapshot, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -2095,12 +2116,13 @@ namespace Serial_Monitor {
         bool inRenameMode = false;
         bool InRenameMode {
             get { return inRenameMode; }
-            set { 
+            set {
                 inRenameMode = value;
                 EditorEditableRegionActions();
+                CurrentEditorView = CurrentEditorView;
             }
         }
-        SingleLineTextBox ? RenameBox = null;
+        SingleLineTextBox? RenameBox = null;
         private void ShowChannelRenameBox(TabClickedEventArgs EventData) {
             //Rectangle TabRectangle = EventData.TabRectangle;
             SerialManager SerMan = ((SerialManager)EventData.SelectedTab);
@@ -2125,6 +2147,7 @@ namespace Serial_Monitor {
             ThemeManager.ThemeControl(RenameBox);
             RenameBox.BringToFront();
             RenameBox.Tag = EventData;
+            RenameBox.ContextMenuStrip = cmTextboxOptions;
             InRenameMode = true;
             editorModbus.navigator1.Controls.Add(RenameBox);
             RenameBox.Focus();
@@ -2194,18 +2217,18 @@ namespace Serial_Monitor {
                                 return;
                             }
                             if (TabData.Tag.GetType() == typeof(ProgramObject)) {
-                                TabData.Text = TxBx.Text;
-                                ((ProgramObject)TabData.Tag).Name = TxBx.Text;
+                                TabData.Text = TxBx.Text ?? "";
+                                ((ProgramObject)TabData.Tag).Name = TxBx.Text ?? "";
                             }
                             else if (TabData.Tag.GetType() == typeof(ModbusSlave)) {
 
-                                ((ModbusSlave)TabData.Tag).Name = TxBx.Text;
+                                ((ModbusSlave)TabData.Tag).Name = TxBx.Text ?? "";
                                 TabData.Text = ((ModbusSlave)TabData.Tag).DisplayName;
                             }
 
                         }
                         else if (Data.GetType() == typeof(SerialManager)) {
-                            SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text;
+                            SystemManager.SerialManagers[TCEA.Index].Name = TxBx.Text ?? "";
                             editorModbus.navigator1.Invalidate();
                         }
                     }
@@ -2373,6 +2396,7 @@ namespace Serial_Monitor {
             RenameBox = new SingleLineTextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = editorModbus.thSlaves.Font;
+            RenameBox.ContextMenuStrip = cmTextboxOptions;
             // RenameBox.BorderStyle = BorderStyle.None;
             //RenameBox.Multiline = false;
             //int CentreHeight = 0;
@@ -2565,7 +2589,6 @@ namespace Serial_Monitor {
         private void closeSnapshotToolStripMenuItem_Click(object sender, EventArgs e) {
             editorModbus.ssClient.CloseAtIndex(snapShotCurrentIndex);
         }
-
         private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 SaveFileDialog Save = new SaveFileDialog();
@@ -2699,9 +2722,23 @@ namespace Serial_Monitor {
             SlaveManager SlaveMngrApp = new SlaveManager();
             ApplicationManager.OpenInternalApplicationOnce(SlaveMngrApp, false);
         }
-
- 
-
+        #region Textbox Editing
+        private void cmiTextBoxCut_Click(object sender, EventArgs e) {
+            Cut();
+        }
+        private void cmiTextBoxCopy_Click(object sender, EventArgs e) {
+            Copy();
+        }
+        private void cmiTextBoxPaste_Click(object sender, EventArgs e) {
+            Paste();
+        }
+        private void cmiTextBoxDelete_Click(object sender, EventArgs e) {
+            Delete();
+        }
+        private void cmiTextBoxSelectAll_Click(object sender, EventArgs e) {
+            SelectAll();
+        }
+        #endregion
         internal enum DataEditor {
             MasterView = 0x00,
             SnapshotView = 0x01

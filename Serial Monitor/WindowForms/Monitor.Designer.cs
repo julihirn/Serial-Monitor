@@ -94,6 +94,8 @@
             toolStripSeparator8 = new ToolStripSeparator();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             tscMain = new ToolStripContainer();
+            cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            tsiExtender = new ODModules.ControlExtensions.ToolStripItemExtender();
             ((System.ComponentModel.ISupportInitialize)pnlMonitor).BeginInit();
             pnlMonitor.Panel1.SuspendLayout();
             pnlMonitor.Panel2.SuspendLayout();
@@ -271,6 +273,7 @@
             lstMonitor.Size = new Size(702, 814);
             lstMonitor.SpanColumn = -1;
             lstMonitor.TabIndex = 1;
+            cntrlExtender.SetTranslationReference(lstMonitor, "");
             lstMonitor.UseLocalList = true;
             lstMonitor.VerScroll = 0;
             lstMonitor.Zoom = 100;
@@ -287,14 +290,17 @@
             // 
             pnlMonitor.Panel1.Controls.Add(lstSelector);
             pnlMonitor.Panel1.Controls.Add(txtbxSearch);
+            cntrlExtender.SetTranslationReference(pnlMonitor.Panel1, "");
             // 
             // pnlMonitor.Panel2
             // 
             pnlMonitor.Panel2.Controls.Add(lstMonitor);
+            cntrlExtender.SetTranslationReference(pnlMonitor.Panel2, "");
             pnlMonitor.Size = new Size(1090, 814);
             pnlMonitor.SplitterDistance = 381;
             pnlMonitor.SplitterWidth = 7;
             pnlMonitor.TabIndex = 2;
+            cntrlExtender.SetTranslationReference(pnlMonitor, "");
             // 
             // lstSelector
             // 
@@ -413,6 +419,7 @@
             lstSelector.Size = new Size(381, 782);
             lstSelector.SpanColumn = 2;
             lstSelector.TabIndex = 2;
+            cntrlExtender.SetTranslationReference(lstSelector, "");
             lstSelector.UseLocalList = true;
             lstSelector.VerScroll = 0;
             lstSelector.Zoom = 100;
@@ -430,6 +437,7 @@
             txtbxSearch.PlaceholderText = "Search Registers";
             txtbxSearch.Size = new Size(381, 32);
             txtbxSearch.TabIndex = 4;
+            cntrlExtender.SetTranslationReference(txtbxSearch, "");
             txtbxSearch.Visible = false;
             txtbxSearch.TextChanged += textBox1_TextChanged;
             txtbxSearch.KeyDown += txtbxSearch_KeyDown;
@@ -451,7 +459,7 @@
             tsMain.ItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.ItemSelectedForeColor = Color.WhiteSmoke;
-            tsMain.Location = new Point(7, 0);
+            tsMain.Location = new Point(6, 0);
             tsMain.MenuBackColorNorth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBackColorSouth = Color.FromArgb(31, 31, 31);
             tsMain.MenuBorderColor = Color.DimGray;
@@ -468,6 +476,7 @@
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 3;
             tsMain.Text = "toolStrip1";
+            cntrlExtender.SetTranslationReference(tsMain, "");
             // 
             // btnSaveLog
             // 
@@ -478,6 +487,7 @@
             btnSaveLog.Name = "btnSaveLog";
             btnSaveLog.Size = new Size(46, 20);
             btnSaveLog.Text = "Save Log";
+            tsiExtender.SetTranslationReference(btnSaveLog, "saveLog");
             btnSaveLog.Click += btnSaveLog_Click;
             // 
             // btnOpenLog
@@ -489,6 +499,7 @@
             btnOpenLog.Name = "btnOpenLog";
             btnOpenLog.Size = new Size(46, 20);
             btnOpenLog.Text = "Open Log";
+            tsiExtender.SetTranslationReference(btnOpenLog, "openLog");
             btnOpenLog.Click += btnOpenLog_Click;
             // 
             // btnOpenLogLocation
@@ -501,6 +512,7 @@
             btnOpenLogLocation.Name = "btnOpenLogLocation";
             btnOpenLogLocation.Size = new Size(46, 20);
             btnOpenLogLocation.Text = "Open Log Location";
+            tsiExtender.SetTranslationReference(btnOpenLogLocation, "openLogLocation");
             btnOpenLogLocation.Visible = false;
             btnOpenLogLocation.Click += btnOpenLogLocation_Click;
             // 
@@ -514,12 +526,14 @@
             btnOpenExcelDoc.Name = "btnOpenExcelDoc";
             btnOpenExcelDoc.Size = new Size(46, 20);
             btnOpenExcelDoc.Text = "Open Copy of Log in Excel";
+            tsiExtender.SetTranslationReference(btnOpenExcelDoc, "openLogExcel");
             btnOpenExcelDoc.Click += btnOpenExcelDoc_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(6, 26);
+            tsiExtender.SetTranslationReference(toolStripSeparator1, "");
             // 
             // btnStartLog
             // 
@@ -531,6 +545,7 @@
             btnStartLog.Name = "btnStartLog";
             btnStartLog.Size = new Size(46, 20);
             btnStartLog.Text = "Start Logging";
+            tsiExtender.SetTranslationReference(btnStartLog, "startLogging");
             btnStartLog.Click += btnStartLog_Click;
             // 
             // btnStopLog
@@ -543,12 +558,14 @@
             btnStopLog.Name = "btnStopLog";
             btnStopLog.Size = new Size(46, 20);
             btnStopLog.Text = "Stop Logging";
+            tsiExtender.SetTranslationReference(btnStopLog, "stopLogging");
             btnStopLog.Click += btnStopLog_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(6, 26);
+            tsiExtender.SetTranslationReference(toolStripSeparator2, "");
             // 
             // btnOptRegSingleMode
             // 
@@ -562,6 +579,7 @@
             btnOptRegSingleMode.Name = "btnOptRegSingleMode";
             btnOptRegSingleMode.Size = new Size(46, 20);
             btnOptRegSingleMode.Text = "Single Register Mode";
+            tsiExtender.SetTranslationReference(btnOptRegSingleMode, "");
             btnOptRegSingleMode.Click += btnOptRegSingleMode_Click;
             // 
             // btnOptRegMultiMode
@@ -574,12 +592,14 @@
             btnOptRegMultiMode.Name = "btnOptRegMultiMode";
             btnOptRegMultiMode.Size = new Size(46, 20);
             btnOptRegMultiMode.Text = "Multi Register Mode";
+            tsiExtender.SetTranslationReference(btnOptRegMultiMode, "");
             btnOptRegMultiMode.Click += btnOptRegMultiMode_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(6, 26);
+            tsiExtender.SetTranslationReference(toolStripSeparator3, "");
             // 
             // btnOnTop
             // 
@@ -590,6 +610,7 @@
             btnOnTop.Name = "btnOnTop";
             btnOnTop.Size = new Size(46, 20);
             btnOnTop.Text = "Always On Top";
+            tsiExtender.SetTranslationReference(btnOnTop, "");
             btnOnTop.Click += btnOnTop_Click;
             // 
             // LogUpdater
@@ -629,6 +650,7 @@
             msMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             msMain.TabIndex = 5;
             msMain.Text = "Main Menu";
+            cntrlExtender.SetTranslationReference(msMain, "");
             msMain.UseNorthFadeIn = false;
             // 
             // fileToolStripMenuItem
@@ -638,6 +660,7 @@
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(71, 36);
             fileToolStripMenuItem.Text = "&File";
+            tsiExtender.SetTranslationReference(fileToolStripMenuItem, "file");
             fileToolStripMenuItem.Click += fileToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
@@ -647,8 +670,9 @@
             openToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            openToolStripMenuItem.Size = new Size(349, 44);
+            openToolStripMenuItem.Size = new Size(359, 44);
             openToolStripMenuItem.Text = "&Open Log";
+            tsiExtender.SetTranslationReference(openToolStripMenuItem, "openLog");
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // openLogLocationToolStripMenuItem
@@ -657,14 +681,16 @@
             openLogLocationToolStripMenuItem.ForeColor = SystemColors.Window;
             openLogLocationToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             openLogLocationToolStripMenuItem.Name = "openLogLocationToolStripMenuItem";
-            openLogLocationToolStripMenuItem.Size = new Size(349, 44);
+            openLogLocationToolStripMenuItem.Size = new Size(359, 44);
             openLogLocationToolStripMenuItem.Text = "Open Log Location";
+            tsiExtender.SetTranslationReference(openLogLocationToolStripMenuItem, "openLogLocation");
             openLogLocationToolStripMenuItem.Click += openLogLocationToolStripMenuItem_Click;
             // 
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(346, 6);
+            toolStripSeparator.Size = new Size(356, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator, "");
             // 
             // saveToolStripMenuItem
             // 
@@ -672,22 +698,25 @@
             saveToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(349, 44);
+            saveToolStripMenuItem.Size = new Size(359, 44);
             saveToolStripMenuItem.Text = "&Save Log";
+            tsiExtender.SetTranslationReference(saveToolStripMenuItem, "saveLog");
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(346, 6);
+            toolStripSeparator5.Size = new Size(356, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator5, "");
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.ForeColor = SystemColors.Window;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             exitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
-            exitToolStripMenuItem.Size = new Size(349, 44);
+            exitToolStripMenuItem.Size = new Size(359, 44);
             exitToolStripMenuItem.Text = "E&xit";
+            tsiExtender.SetTranslationReference(exitToolStripMenuItem, "exit");
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
@@ -697,70 +726,80 @@
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(74, 36);
             editToolStripMenuItem.Text = "&Edit";
+            tsiExtender.SetTranslationReference(editToolStripMenuItem, "edit");
             editToolStripMenuItem.Visible = false;
             // 
             // undoToolStripMenuItem
             // 
             undoToolStripMenuItem.ForeColor = SystemColors.Window;
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            undoToolStripMenuItem.Size = new Size(245, 44);
+            undoToolStripMenuItem.Size = new Size(359, 44);
             undoToolStripMenuItem.Text = "&Undo";
+            tsiExtender.SetTranslationReference(undoToolStripMenuItem, "undo");
             // 
             // redoToolStripMenuItem
             // 
             redoToolStripMenuItem.ForeColor = SystemColors.Window;
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            redoToolStripMenuItem.Size = new Size(245, 44);
+            redoToolStripMenuItem.Size = new Size(359, 44);
             redoToolStripMenuItem.Text = "&Redo";
+            tsiExtender.SetTranslationReference(redoToolStripMenuItem, "redo");
             // 
             // toolStripSeparator6
             // 
             toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(242, 6);
+            toolStripSeparator6.Size = new Size(356, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator6, "");
             // 
             // cutToolStripMenuItem
             // 
             cutToolStripMenuItem.ForeColor = SystemColors.Window;
             cutToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            cutToolStripMenuItem.Size = new Size(245, 44);
+            cutToolStripMenuItem.Size = new Size(359, 44);
             cutToolStripMenuItem.Text = "Cu&t";
+            tsiExtender.SetTranslationReference(cutToolStripMenuItem, "cut");
             // 
             // copyToolStripMenuItem
             // 
             copyToolStripMenuItem.ForeColor = SystemColors.Window;
             copyToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            copyToolStripMenuItem.Size = new Size(245, 44);
+            copyToolStripMenuItem.Size = new Size(359, 44);
             copyToolStripMenuItem.Text = "&Copy";
+            tsiExtender.SetTranslationReference(copyToolStripMenuItem, "copy");
             // 
             // pasteToolStripMenuItem
             // 
             pasteToolStripMenuItem.ForeColor = SystemColors.Window;
             pasteToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            pasteToolStripMenuItem.Size = new Size(245, 44);
+            pasteToolStripMenuItem.Size = new Size(359, 44);
             pasteToolStripMenuItem.Text = "&Paste";
+            tsiExtender.SetTranslationReference(pasteToolStripMenuItem, "paste");
             // 
             // toolStripSeparator7
             // 
             toolStripSeparator7.Name = "toolStripSeparator7";
-            toolStripSeparator7.Size = new Size(242, 6);
+            toolStripSeparator7.Size = new Size(356, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator7, "");
             // 
             // selectAllToolStripMenuItem
             // 
             selectAllToolStripMenuItem.ForeColor = SystemColors.Window;
             selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            selectAllToolStripMenuItem.Size = new Size(245, 44);
+            selectAllToolStripMenuItem.Size = new Size(359, 44);
             selectAllToolStripMenuItem.Text = "Select &All";
+            tsiExtender.SetTranslationReference(selectAllToolStripMenuItem, "selectAll");
             // 
             // registersToolStripMenuItem
             // 
             registersToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { insetModbusMonitorToolStripMenuItem, searchAvaliableRegistersToolStripMenuItem, toolStripSeparator4, addToMonitorToolStripMenuItem, removeFromMonitorToolStripMenuItem });
             registersToolStripMenuItem.ForeColor = SystemColors.Window;
             registersToolStripMenuItem.Name = "registersToolStripMenuItem";
-            registersToolStripMenuItem.Size = new Size(129, 36);
-            registersToolStripMenuItem.Text = "&Registers";
+            registersToolStripMenuItem.Size = new Size(120, 36);
+            registersToolStripMenuItem.Text = "&Monitor";
+            tsiExtender.SetTranslationReference(registersToolStripMenuItem, "monitor");
             // 
             // insetModbusMonitorToolStripMenuItem
             // 
@@ -768,6 +807,7 @@
             insetModbusMonitorToolStripMenuItem.Name = "insetModbusMonitorToolStripMenuItem";
             insetModbusMonitorToolStripMenuItem.Size = new Size(487, 44);
             insetModbusMonitorToolStripMenuItem.Text = "Insert Modbus Monitor";
+            tsiExtender.SetTranslationReference(insetModbusMonitorToolStripMenuItem, "");
             insetModbusMonitorToolStripMenuItem.Visible = false;
             // 
             // searchAvaliableRegistersToolStripMenuItem
@@ -777,12 +817,14 @@
             searchAvaliableRegistersToolStripMenuItem.ShortcutKeys = Keys.F2;
             searchAvaliableRegistersToolStripMenuItem.Size = new Size(487, 44);
             searchAvaliableRegistersToolStripMenuItem.Text = "&Search Registers";
+            tsiExtender.SetTranslationReference(searchAvaliableRegistersToolStripMenuItem, "searchRegisters");
             searchAvaliableRegistersToolStripMenuItem.Click += searchAvaliableRegistersToolStripMenuItem_Click;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
             toolStripSeparator4.Size = new Size(484, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator4, "");
             // 
             // addToMonitorToolStripMenuItem
             // 
@@ -792,6 +834,7 @@
             addToMonitorToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.W;
             addToMonitorToolStripMenuItem.Size = new Size(487, 44);
             addToMonitorToolStripMenuItem.Text = "&Add to Monitor";
+            tsiExtender.SetTranslationReference(addToMonitorToolStripMenuItem, "addMonitor");
             addToMonitorToolStripMenuItem.Click += addToMonitorToolStripMenuItem_Click;
             // 
             // removeFromMonitorToolStripMenuItem
@@ -802,6 +845,7 @@
             removeFromMonitorToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Delete;
             removeFromMonitorToolStripMenuItem.Size = new Size(487, 44);
             removeFromMonitorToolStripMenuItem.Text = "&Remove from Monitor";
+            tsiExtender.SetTranslationReference(removeFromMonitorToolStripMenuItem, "removeMonitor");
             removeFromMonitorToolStripMenuItem.Click += removeFromMonitorToolStripMenuItem_Click;
             // 
             // loggingToolStripMenuItem
@@ -811,6 +855,7 @@
             loggingToolStripMenuItem.Name = "loggingToolStripMenuItem";
             loggingToolStripMenuItem.Size = new Size(121, 36);
             loggingToolStripMenuItem.Text = "&Logging";
+            tsiExtender.SetTranslationReference(loggingToolStripMenuItem, "logging");
             // 
             // startLoggingToolStripMenuItem
             // 
@@ -821,6 +866,7 @@
             startLoggingToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Space;
             startLoggingToolStripMenuItem.Size = new Size(419, 44);
             startLoggingToolStripMenuItem.Text = "&Start Logging";
+            tsiExtender.SetTranslationReference(startLoggingToolStripMenuItem, "startLogging");
             startLoggingToolStripMenuItem.Click += startLoggingToolStripMenuItem_Click;
             // 
             // stopLoggingToolStripMenuItem
@@ -832,6 +878,7 @@
             stopLoggingToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.End;
             stopLoggingToolStripMenuItem.Size = new Size(419, 44);
             stopLoggingToolStripMenuItem.Text = "Stop &Logging";
+            tsiExtender.SetTranslationReference(stopLoggingToolStripMenuItem, "stopLogging");
             stopLoggingToolStripMenuItem.Click += stopLoggingToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
@@ -841,21 +888,24 @@
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(89, 36);
             toolsToolStripMenuItem.Text = "&Tools";
+            tsiExtender.SetTranslationReference(toolsToolStripMenuItem, "tools");
             // 
             // customizeToolStripMenuItem
             // 
             customizeToolStripMenuItem.ForeColor = SystemColors.Window;
             customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            customizeToolStripMenuItem.Size = new Size(259, 44);
+            customizeToolStripMenuItem.Size = new Size(359, 44);
             customizeToolStripMenuItem.Text = "&Customize";
+            tsiExtender.SetTranslationReference(customizeToolStripMenuItem, "");
             customizeToolStripMenuItem.Visible = false;
             // 
             // optionsToolStripMenuItem
             // 
             optionsToolStripMenuItem.ForeColor = SystemColors.Window;
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            optionsToolStripMenuItem.Size = new Size(259, 44);
+            optionsToolStripMenuItem.Size = new Size(359, 44);
             optionsToolStripMenuItem.Text = "&Options";
+            tsiExtender.SetTranslationReference(optionsToolStripMenuItem, "options");
             optionsToolStripMenuItem.Click += optionsToolStripMenuItem_Click;
             // 
             // windowToolStripMenuItem
@@ -865,14 +915,16 @@
             windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             windowToolStripMenuItem.Size = new Size(121, 36);
             windowToolStripMenuItem.Text = "&Window";
+            tsiExtender.SetTranslationReference(windowToolStripMenuItem, "window");
             // 
             // windowManagerToolStripMenuItem
             // 
             windowManagerToolStripMenuItem.ForeColor = SystemColors.Window;
             windowManagerToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             windowManagerToolStripMenuItem.Name = "windowManagerToolStripMenuItem";
-            windowManagerToolStripMenuItem.Size = new Size(336, 44);
+            windowManagerToolStripMenuItem.Size = new Size(359, 44);
             windowManagerToolStripMenuItem.Text = "&Window Manager";
+            tsiExtender.SetTranslationReference(windowManagerToolStripMenuItem, "windowManager");
             windowManagerToolStripMenuItem.Click += windowManagerToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
@@ -882,52 +934,71 @@
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             helpToolStripMenuItem.Size = new Size(84, 36);
             helpToolStripMenuItem.Text = "&Help";
+            tsiExtender.SetTranslationReference(helpToolStripMenuItem, "help");
             helpToolStripMenuItem.Visible = false;
             // 
             // contentsToolStripMenuItem
             // 
             contentsToolStripMenuItem.ForeColor = SystemColors.Window;
             contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            contentsToolStripMenuItem.Size = new Size(243, 44);
+            contentsToolStripMenuItem.Size = new Size(359, 44);
             contentsToolStripMenuItem.Text = "&Contents";
+            tsiExtender.SetTranslationReference(contentsToolStripMenuItem, "");
             // 
             // indexToolStripMenuItem
             // 
             indexToolStripMenuItem.ForeColor = SystemColors.Window;
             indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            indexToolStripMenuItem.Size = new Size(243, 44);
+            indexToolStripMenuItem.Size = new Size(359, 44);
             indexToolStripMenuItem.Text = "&Index";
+            tsiExtender.SetTranslationReference(indexToolStripMenuItem, "");
             // 
             // searchToolStripMenuItem
             // 
             searchToolStripMenuItem.ForeColor = SystemColors.Window;
             searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            searchToolStripMenuItem.Size = new Size(243, 44);
+            searchToolStripMenuItem.Size = new Size(359, 44);
             searchToolStripMenuItem.Text = "&Search";
+            tsiExtender.SetTranslationReference(searchToolStripMenuItem, "");
             // 
             // toolStripSeparator8
             // 
             toolStripSeparator8.Name = "toolStripSeparator8";
-            toolStripSeparator8.Size = new Size(240, 6);
+            toolStripSeparator8.Size = new Size(356, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator8, "");
             // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.ForeColor = SystemColors.Window;
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(243, 44);
+            aboutToolStripMenuItem.Size = new Size(359, 44);
             aboutToolStripMenuItem.Text = "&About...";
+            tsiExtender.SetTranslationReference(aboutToolStripMenuItem, "");
             // 
             // tscMain
             // 
+            // 
+            // tscMain.BottomToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.BottomToolStripPanel, "");
             // 
             // tscMain.ContentPanel
             // 
             tscMain.ContentPanel.Controls.Add(pnlMonitor);
             tscMain.ContentPanel.Size = new Size(1090, 814);
+            cntrlExtender.SetTranslationReference(tscMain.ContentPanel, "");
             tscMain.Dock = DockStyle.Fill;
+            // 
+            // tscMain.LeftToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.LeftToolStripPanel, "");
             tscMain.LeftToolStripPanelVisible = false;
             tscMain.Location = new Point(0, 44);
             tscMain.Name = "tscMain";
+            // 
+            // tscMain.RightToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.RightToolStripPanel, "");
             tscMain.RightToolStripPanelVisible = false;
             tscMain.Size = new Size(1090, 852);
             tscMain.TabIndex = 6;
@@ -936,6 +1007,8 @@
             // tscMain.TopToolStripPanel
             // 
             tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
+            cntrlExtender.SetTranslationReference(tscMain, "");
             // 
             // Monitor
             // 
@@ -1033,5 +1106,7 @@
         private ToolStripMenuItem addToMonitorToolStripMenuItem;
         private ToolStripMenuItem removeFromMonitorToolStripMenuItem;
         private ToolStripContainer tscMain;
+        private ODModules.ControlExtensions.ControlExtender cntrlExtender;
+        private ODModules.ControlExtensions.ToolStripItemExtender tsiExtender;
     }
 }

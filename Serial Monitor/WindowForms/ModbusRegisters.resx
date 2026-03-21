@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="cntrlExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 164</value>
+    <value>677, 62</value>
   </metadata>
   <data name="&gt;&gt;tscMain.BottomToolStripPanel.Name" xml:space="preserve">
     <value>tscMain.BottomToolStripPanel</value>
@@ -145,7 +145,7 @@
     <value>5, 5, 5, 5</value>
   </data>
   <data name="pnlDocker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>798, 783</value>
+    <value>798, 733</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlDocker.TabIndex" type="System.Int32, mscorlib">
@@ -176,7 +176,7 @@
     <value>1, 1, 1, 1</value>
   </data>
   <data name="editorModbus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 783</value>
+    <value>359, 733</value>
   </data>
   <data name="editorModbus.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -194,7 +194,7 @@
     <value>1</value>
   </data>
   <data name="tscMain.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1157, 783</value>
+    <value>1157, 733</value>
   </data>
   <data name="&gt;&gt;tscMain.ContentPanel.Name" xml:space="preserve">
     <value>tscMain.ContentPanel</value>
@@ -248,11 +248,14 @@
     <value>toolStripContainer1</value>
   </data>
   <metadata name="tsFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>218, 164</value>
+    <value>878, 62</value>
   </metadata>
   <data name="tsFile.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
+  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>593, 164</value>
+  </metadata>
   <data name="newToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -398,7 +401,7 @@
     <value>&amp;Paste</value>
   </data>
   <data name="tsFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>437, 0</value>
+    <value>6, 0</value>
   </data>
   <data name="tsFile.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -422,7 +425,7 @@
     <value>0</value>
   </data>
   <metadata name="tsMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>344, 13</value>
+    <value>375, 10</value>
   </metadata>
   <data name="tsMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
@@ -587,7 +590,7 @@
     <value>Top Most</value>
   </data>
   <data name="tsMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 0</value>
+    <value>6, 54</value>
   </data>
   <data name="tsMain.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -635,20 +638,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tscMain.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <metadata name="cmMonitor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>11, 10</value>
   </metadata>
-  <data name="cmMonitor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 206</value>
-  </data>
-  <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
-    <value>cmMonitor</value>
-  </data>
-  <data name="&gt;&gt;cmMonitor.Type" xml:space="preserve">
-    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
   <data name="btnCmSelectionToSnapshot.Size" type="System.Drawing.Size, System.Drawing">
     <value>292, 38</value>
   </data>
@@ -709,9 +703,60 @@
   <data name="selectAllToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Select All</value>
   </data>
+  <data name="cmMonitor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 206</value>
+  </data>
+  <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
+    <value>cmMonitor</value>
+  </data>
+  <data name="&gt;&gt;cmMonitor.Type" xml:space="preserve">
+    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <metadata name="msMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>428, 14</value>
+    <value>508, 10</value>
   </metadata>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 36</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 36</value>
+  </data>
+  <data name="editToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 36</value>
+  </data>
+  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;View</value>
+  </data>
+  <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 36</value>
+  </data>
+  <data name="modbusToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Modbus</value>
+  </data>
+  <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 36</value>
+  </data>
+  <data name="formatToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Format</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 36</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 36</value>
+  </data>
+  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Window</value>
+  </data>
   <data name="msMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -734,13 +779,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;msMain.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 36</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
+    <value>9</value>
   </data>
   <data name="newToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -893,12 +932,6 @@
   </data>
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
-  </data>
-  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 36</value>
-  </data>
-  <data name="editToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
   </data>
   <data name="undoToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1222,12 +1255,6 @@
   <data name="bitTogglerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Bit Toggler</value>
   </data>
-  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 36</value>
-  </data>
-  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;View</value>
-  </data>
   <data name="viewCoilsToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1346,7 +1373,7 @@
     <value>411, 44</value>
   </data>
   <data name="zoomToolStripMenuItem.Text" xml:space="preserve">
-    <value>Zoom</value>
+    <value>&amp;Zoom</value>
   </data>
   <data name="zoom100.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 44</value>
@@ -1422,12 +1449,6 @@
   </data>
   <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
     <value>Full Screen</value>
-  </data>
-  <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 36</value>
-  </data>
-  <data name="modbusToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Modbus</value>
   </data>
   <data name="writeCoilToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1645,12 +1666,6 @@
   <data name="btnSelectionToSnapshot.Text" xml:space="preserve">
     <value>Add Selection to &amp;Snapshot</value>
   </data>
-  <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 36</value>
-  </data>
-  <data name="formatToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Format</value>
-  </data>
   <data name="ddbDisplayFormat.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1768,12 +1783,6 @@
   <data name="resetAppearanceToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Reset Appearance</value>
   </data>
-  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 36</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Tools</value>
-  </data>
   <data name="quickConverterToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1818,12 +1827,6 @@
   </data>
   <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Options</value>
-  </data>
-  <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 36</value>
-  </data>
-  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Window</value>
   </data>
   <data name="tileHorizontalToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1904,7 +1907,7 @@
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="cmDataSize.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>179, 6</value>
+    <value>190, 10</value>
   </metadata>
   <data name="cmDataSize.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -1916,17 +1919,8 @@
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="cmChannels.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>525, 14</value>
+    <value>654, 10</value>
   </metadata>
-  <data name="cmChannels.Size" type="System.Drawing.Size, System.Drawing">
-    <value>270, 168</value>
-  </data>
-  <data name="&gt;&gt;cmChannels.Name" xml:space="preserve">
-    <value>cmChannels</value>
-  </data>
-  <data name="&gt;&gt;cmChannels.Type" xml:space="preserve">
-    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
   <data name="btnRenameChannel.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1972,18 +1966,18 @@
   <data name="disconnectToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Disconnect</value>
   </data>
-  <metadata name="cmMBChannel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>630, 16</value>
-  </metadata>
-  <data name="cmMBChannel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 200</value>
+  <data name="cmChannels.Size" type="System.Drawing.Size, System.Drawing">
+    <value>270, 168</value>
   </data>
-  <data name="&gt;&gt;cmMBChannel.Name" xml:space="preserve">
-    <value>cmMBChannel</value>
+  <data name="&gt;&gt;cmChannels.Name" xml:space="preserve">
+    <value>cmChannels</value>
   </data>
-  <data name="&gt;&gt;cmMBChannel.Type" xml:space="preserve">
+  <data name="&gt;&gt;cmChannels.Type" xml:space="preserve">
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <metadata name="cmMBChannel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>845, 10</value>
+  </metadata>
   <data name="modbusMasterToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -2041,11 +2035,20 @@
   <data name="renameUnitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Rename Unit</value>
   </data>
+  <data name="cmMBChannel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>262, 200</value>
+  </data>
+  <data name="&gt;&gt;cmMBChannel.Name" xml:space="preserve">
+    <value>cmMBChannel</value>
+  </data>
+  <data name="&gt;&gt;cmMBChannel.Type" xml:space="preserve">
+    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <metadata name="tmrRefresh.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>507, 80</value>
+    <value>484, 62</value>
   </metadata>
   <metadata name="contextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>256, 78</value>
+    <value>268, 62</value>
   </metadata>
   <data name="contextMenu1.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -2057,7 +2060,7 @@
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="cmCoilFormats.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>875, 16</value>
+    <value>1062, 10</value>
   </metadata>
   <data name="cmCoilFormats.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -2068,6 +2071,69 @@
   <data name="&gt;&gt;cmCoilFormats.Type" xml:space="preserve">
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <metadata name="cmTextboxOptions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>994, 62</value>
+  </metadata>
+  <data name="cmiTextBoxCut.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cmiTextBoxCut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 38</value>
+  </data>
+  <data name="cmiTextBoxCut.Text" xml:space="preserve">
+    <value>C&amp;ut</value>
+  </data>
+  <data name="cmiTextBoxCopy.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cmiTextBoxCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 38</value>
+  </data>
+  <data name="cmiTextBoxCopy.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="cmiTextBoxPaste.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cmiTextBoxPaste.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 38</value>
+  </data>
+  <data name="cmiTextBoxPaste.Text" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="cmiTextBoxDelete.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cmiTextBoxDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 38</value>
+  </data>
+  <data name="cmiTextBoxDelete.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="toolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 6</value>
+  </data>
+  <data name="cmiTextBoxSelectAll.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cmiTextBoxSelectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 38</value>
+  </data>
+  <data name="cmiTextBoxSelectAll.Text" xml:space="preserve">
+    <value>&amp;Select All</value>
+  </data>
+  <data name="cmTextboxOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 200</value>
+  </data>
+  <data name="&gt;&gt;cmTextboxOptions.Name" xml:space="preserve">
+    <value>cmTextboxOptions</value>
+  </data>
+  <data name="&gt;&gt;cmTextboxOptions.Type" xml:space="preserve">
+    <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 115</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -5948,6 +6014,48 @@
   </data>
   <data name="&gt;&gt;cntrlExtender.Type" xml:space="preserve">
     <value>ODModules.ControlExtensions.ControlExtender, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxCut.Name" xml:space="preserve">
+    <value>cmiTextBoxCut</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxCut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxCopy.Name" xml:space="preserve">
+    <value>cmiTextBoxCopy</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxPaste.Name" xml:space="preserve">
+    <value>cmiTextBoxPaste</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxPaste.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxDelete.Name" xml:space="preserve">
+    <value>cmiTextBoxDelete</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator32.Name" xml:space="preserve">
+    <value>toolStripSeparator32</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator32.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxSelectAll.Name" xml:space="preserve">
+    <value>cmiTextBoxSelectAll</value>
+  </data>
+  <data name="&gt;&gt;cmiTextBoxSelectAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsiExtender.Name" xml:space="preserve">
+    <value>tsiExtender</value>
+  </data>
+  <data name="&gt;&gt;tsiExtender.Type" xml:space="preserve">
+    <value>ODModules.ControlExtensions.ToolStripItemExtender, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ModbusRegisters</value>

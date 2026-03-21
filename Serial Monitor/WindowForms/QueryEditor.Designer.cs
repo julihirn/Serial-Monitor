@@ -60,6 +60,8 @@
             fctEditor = new FastColoredTextBoxNS.FastColoredTextBox();
             dmpScroll = new FastColoredTextBoxNS.DocumentMap();
             tscMain = new ToolStripContainer();
+            tsiExtender = new ODModules.ControlExtensions.ToolStripItemExtender();
+            cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
             msMain.SuspendLayout();
             tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fctEditor).BeginInit();
@@ -93,6 +95,7 @@
             msMain.StripItemSelectedBackColorSouth = Color.White;
             msMain.TabIndex = 0;
             msMain.Text = "menuStrip1";
+            cntrlExtender.SetTranslationReference(msMain, "");
             msMain.UseNorthFadeIn = false;
             // 
             // fileToolStripMenuItem
@@ -102,6 +105,7 @@
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(71, 36);
             fileToolStripMenuItem.Text = "&File";
+            tsiExtender.SetTranslationReference(fileToolStripMenuItem, "file");
             // 
             // newToolStripMenuItem
             // 
@@ -113,6 +117,7 @@
             newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
             newToolStripMenuItem.Size = new Size(291, 44);
             newToolStripMenuItem.Text = "&New";
+            tsiExtender.SetTranslationReference(newToolStripMenuItem, "new");
             // 
             // openToolStripMenuItem
             // 
@@ -124,12 +129,14 @@
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
             openToolStripMenuItem.Size = new Size(291, 44);
             openToolStripMenuItem.Text = "&Open";
+            tsiExtender.SetTranslationReference(openToolStripMenuItem, "open");
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
             toolStripSeparator.Size = new Size(288, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator, "");
             // 
             // saveToolStripMenuItem
             // 
@@ -141,6 +148,7 @@
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
             saveToolStripMenuItem.Size = new Size(291, 44);
             saveToolStripMenuItem.Text = "&Save";
+            tsiExtender.SetTranslationReference(saveToolStripMenuItem, "save");
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
@@ -150,12 +158,14 @@
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             saveAsToolStripMenuItem.Size = new Size(291, 44);
             saveAsToolStripMenuItem.Text = "Save &As";
+            tsiExtender.SetTranslationReference(saveAsToolStripMenuItem, "saveAs");
             saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(288, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator1, "");
             toolStripSeparator1.Visible = false;
             // 
             // printToolStripMenuItem
@@ -167,6 +177,7 @@
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.Size = new Size(291, 44);
             printToolStripMenuItem.Text = "&Print";
+            tsiExtender.SetTranslationReference(printToolStripMenuItem, "print");
             printToolStripMenuItem.Visible = false;
             // 
             // printPreviewToolStripMenuItem
@@ -178,12 +189,14 @@
             printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
             printPreviewToolStripMenuItem.Size = new Size(291, 44);
             printPreviewToolStripMenuItem.Text = "Print Pre&view";
+            tsiExtender.SetTranslationReference(printPreviewToolStripMenuItem, "printPreview");
             printPreviewToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(288, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator2, "");
             // 
             // exitToolStripMenuItem
             // 
@@ -193,6 +206,7 @@
             exitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
             exitToolStripMenuItem.Size = new Size(291, 44);
             exitToolStripMenuItem.Text = "E&xit";
+            tsiExtender.SetTranslationReference(exitToolStripMenuItem, "exit");
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
@@ -202,6 +216,7 @@
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(74, 36);
             editToolStripMenuItem.Text = "&Edit";
+            tsiExtender.SetTranslationReference(editToolStripMenuItem, "edit");
             // 
             // undoToolStripMenuItem
             // 
@@ -211,6 +226,7 @@
             undoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Z;
             undoToolStripMenuItem.Size = new Size(327, 44);
             undoToolStripMenuItem.Text = "&Undo";
+            tsiExtender.SetTranslationReference(undoToolStripMenuItem, "undo");
             undoToolStripMenuItem.Click += undoToolStripMenuItem_Click;
             // 
             // redoToolStripMenuItem
@@ -221,12 +237,14 @@
             redoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Y;
             redoToolStripMenuItem.Size = new Size(327, 44);
             redoToolStripMenuItem.Text = "&Redo";
+            tsiExtender.SetTranslationReference(redoToolStripMenuItem, "redo");
             redoToolStripMenuItem.Click += redoToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(324, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator3, "");
             // 
             // cutToolStripMenuItem
             // 
@@ -238,6 +256,7 @@
             cutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.X;
             cutToolStripMenuItem.Size = new Size(327, 44);
             cutToolStripMenuItem.Text = "Cu&t";
+            tsiExtender.SetTranslationReference(cutToolStripMenuItem, "cut");
             cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
             // 
             // copyToolStripMenuItem
@@ -250,6 +269,7 @@
             copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
             copyToolStripMenuItem.Size = new Size(327, 44);
             copyToolStripMenuItem.Text = "&Copy";
+            tsiExtender.SetTranslationReference(copyToolStripMenuItem, "copy");
             copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             // 
             // pasteToolStripMenuItem
@@ -262,12 +282,14 @@
             pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
             pasteToolStripMenuItem.Size = new Size(327, 44);
             pasteToolStripMenuItem.Text = "&Paste";
+            tsiExtender.SetTranslationReference(pasteToolStripMenuItem, "paste");
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
             toolStripSeparator4.Size = new Size(324, 6);
+            tsiExtender.SetTranslationReference(toolStripSeparator4, "");
             // 
             // selectAllToolStripMenuItem
             // 
@@ -277,6 +299,7 @@
             selectAllToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
             selectAllToolStripMenuItem.Size = new Size(327, 44);
             selectAllToolStripMenuItem.Text = "Select &All";
+            tsiExtender.SetTranslationReference(selectAllToolStripMenuItem, "selectAll");
             selectAllToolStripMenuItem.Click += selectAllToolStripMenuItem_Click;
             // 
             // queryToolStripMenuItem
@@ -286,6 +309,7 @@
             queryToolStripMenuItem.Name = "queryToolStripMenuItem";
             queryToolStripMenuItem.Size = new Size(99, 36);
             queryToolStripMenuItem.Text = "&Query";
+            tsiExtender.SetTranslationReference(queryToolStripMenuItem, "query");
             // 
             // executeToolStripMenuItem
             // 
@@ -293,8 +317,9 @@
             executeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             executeToolStripMenuItem.Name = "executeToolStripMenuItem";
             executeToolStripMenuItem.ShortcutKeys = Keys.F5;
-            executeToolStripMenuItem.Size = new Size(268, 44);
+            executeToolStripMenuItem.Size = new Size(359, 44);
             executeToolStripMenuItem.Text = "&Execute";
+            tsiExtender.SetTranslationReference(executeToolStripMenuItem, "execute");
             executeToolStripMenuItem.Click += executeToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
@@ -304,14 +329,16 @@
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(89, 36);
             toolsToolStripMenuItem.Text = "&Tools";
+            tsiExtender.SetTranslationReference(toolsToolStripMenuItem, "tools");
             // 
             // customizeToolStripMenuItem
             // 
             customizeToolStripMenuItem.ForeColor = Color.Black;
             customizeToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            customizeToolStripMenuItem.Size = new Size(304, 44);
+            customizeToolStripMenuItem.Size = new Size(359, 44);
             customizeToolStripMenuItem.Text = "&Customize";
+            tsiExtender.SetTranslationReference(customizeToolStripMenuItem, "");
             customizeToolStripMenuItem.Visible = false;
             // 
             // optionsToolStripMenuItem
@@ -320,8 +347,9 @@
             optionsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             optionsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.I;
-            optionsToolStripMenuItem.Size = new Size(304, 44);
+            optionsToolStripMenuItem.Size = new Size(359, 44);
             optionsToolStripMenuItem.Text = "&Options";
+            tsiExtender.SetTranslationReference(optionsToolStripMenuItem, "options");
             optionsToolStripMenuItem.Click += optionsToolStripMenuItem_Click;
             // 
             // tsMain
@@ -339,7 +367,7 @@
             tsMain.ItemSelectedBackColorNorth = Color.White;
             tsMain.ItemSelectedBackColorSouth = Color.White;
             tsMain.ItemSelectedForeColor = Color.Black;
-            tsMain.Location = new Point(7, 0);
+            tsMain.Location = new Point(6, 0);
             tsMain.MenuBackColorNorth = Color.DodgerBlue;
             tsMain.MenuBackColorSouth = Color.DodgerBlue;
             tsMain.MenuBorderColor = Color.WhiteSmoke;
@@ -351,11 +379,12 @@
             tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsMain.ShowBorder = true;
             tsMain.ShowShadow = true;
-            tsMain.Size = new Size(292, 54);
+            tsMain.Size = new Size(354, 54);
             tsMain.StripItemSelectedBackColorNorth = Color.White;
             tsMain.StripItemSelectedBackColorSouth = Color.White;
             tsMain.TabIndex = 1;
             tsMain.Text = "toolStrip1";
+            cntrlExtender.SetTranslationReference(tsMain, "");
             // 
             // btnNew
             // 
@@ -366,6 +395,7 @@
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(46, 36);
             btnNew.Text = "New";
+            tsiExtender.SetTranslationReference(btnNew, "new");
             btnNew.Click += btnNew_Click;
             // 
             // btnOpen
@@ -377,6 +407,7 @@
             btnOpen.Name = "btnOpen";
             btnOpen.Size = new Size(46, 36);
             btnOpen.Text = "Open";
+            tsiExtender.SetTranslationReference(btnOpen, "open");
             btnOpen.Click += btnOpen_Click;
             // 
             // btnSave
@@ -389,12 +420,14 @@
             btnSave.Size = new Size(46, 36);
             btnSave.Text = "toolStripButton3";
             btnSave.ToolTipText = "Save";
+            tsiExtender.SetTranslationReference(btnSave, "save");
             btnSave.Click += btnSave_Click;
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
             toolStripSeparator5.Size = new Size(6, 42);
+            tsiExtender.SetTranslationReference(toolStripSeparator5, "");
             // 
             // btnExecute
             // 
@@ -404,6 +437,7 @@
             btnExecute.Name = "btnExecute";
             btnExecute.Size = new Size(116, 36);
             btnExecute.Text = "Execute";
+            tsiExtender.SetTranslationReference(btnExecute, "execute");
             btnExecute.Click += btnExecute_Click;
             // 
             // fctEditor
@@ -429,12 +463,13 @@
             fctEditor.CharWidth = 16;
             fctEditor.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             fctEditor.Dock = DockStyle.Fill;
+            fctEditor.Font = new Font("Courier New", 9.75F);
             fctEditor.Hotkeys = resources.GetString("fctEditor.Hotkeys");
             fctEditor.IndentBackColor = Color.LightGray;
             fctEditor.IsReplaceMode = false;
             fctEditor.LineNumberColor = Color.FromArgb(64, 64, 64);
             fctEditor.Location = new Point(0, 0);
-            fctEditor.Margin = new Padding(6, 6, 6, 6);
+            fctEditor.Margin = new Padding(6);
             fctEditor.Name = "fctEditor";
             fctEditor.Paddings = new Padding(0);
             fctEditor.SelectionColor = Color.FromArgb(60, 0, 0, 255);
@@ -444,6 +479,7 @@
             fctEditor.Size = new Size(899, 672);
             fctEditor.TabIndex = 2;
             fctEditor.Text = "BEGIN\r\n    USING COM1\r\n    UNIT 1\r\n    WRITE REGISTERS\r\n    FROM 1\r\n    WITH 1, 2, 3\r\nEND";
+            cntrlExtender.SetTranslationReference(fctEditor, "");
             fctEditor.Zoom = 100;
             fctEditor.TextChanged += fctEditor_TextChanged;
             fctEditor.Load += fctEditor_Load;
@@ -454,24 +490,38 @@
             dmpScroll.Dock = DockStyle.Right;
             dmpScroll.ForeColor = Color.DarkGray;
             dmpScroll.Location = new Point(739, 0);
-            dmpScroll.Margin = new Padding(6, 6, 6, 6);
+            dmpScroll.Margin = new Padding(6);
             dmpScroll.Name = "dmpScroll";
             dmpScroll.Size = new Size(160, 672);
             dmpScroll.TabIndex = 3;
             dmpScroll.Target = fctEditor;
             dmpScroll.Text = "documentMap1";
+            cntrlExtender.SetTranslationReference(dmpScroll, "");
             // 
             // tscMain
             // 
+            // 
+            // tscMain.BottomToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.BottomToolStripPanel, "");
             // 
             // tscMain.ContentPanel
             // 
             tscMain.ContentPanel.Controls.Add(dmpScroll);
             tscMain.ContentPanel.Controls.Add(fctEditor);
             tscMain.ContentPanel.Size = new Size(899, 672);
+            cntrlExtender.SetTranslationReference(tscMain.ContentPanel, "");
             tscMain.Dock = DockStyle.Fill;
+            // 
+            // tscMain.LeftToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.LeftToolStripPanel, "");
             tscMain.Location = new Point(0, 44);
             tscMain.Name = "tscMain";
+            // 
+            // tscMain.RightToolStripPanel
+            // 
+            cntrlExtender.SetTranslationReference(tscMain.RightToolStripPanel, "");
             tscMain.Size = new Size(899, 726);
             tscMain.TabIndex = 4;
             tscMain.Text = "toolStripContainer1";
@@ -479,6 +529,8 @@
             // tscMain.TopToolStripPanel
             // 
             tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
+            cntrlExtender.SetTranslationReference(tscMain, "");
             // 
             // QueryEditor
             // 
@@ -489,7 +541,7 @@
             Controls.Add(msMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = msMain;
-            Margin = new Padding(6, 6, 6, 6);
+            Margin = new Padding(6);
             Name = "QueryEditor";
             Text = "Untitled - Query Editor";
             Load += QueryEditor_Load;
@@ -544,5 +596,7 @@
         private ToolStripButton btnSave;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripContainer tscMain;
+        private ODModules.ControlExtensions.ToolStripItemExtender tsiExtender;
+        private ODModules.ControlExtensions.ControlExtender cntrlExtender;
     }
 }

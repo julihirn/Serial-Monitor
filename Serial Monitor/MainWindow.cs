@@ -148,138 +148,25 @@ namespace Serial_Monitor {
 
         public void ApplyLocalisation() {
             //LocalisationManager.GetLanguage(new CultureInfo("pl-PL"));
-
-            ApplyLocalisation_File();
-            ApplyLocalisation_Edit();
-            ApplyLocalisation_View();
-            ApplyLocalisation_Channels();
-            ApplyLocalisation_Program();
+            LocalisationManager.ApplyText(msMain, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmChannels, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmPrograms, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmTextboxOptions, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmTerminal, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(cmStepEditor, cntrlExtender, tsiExtender);
+            //ApplyLocalisation_File();
+            //ApplyLocalisation_Edit();
+            //ApplyLocalisation_View();
+            //ApplyLocalisation_Channels();
+            //ApplyLocalisation_Program();
 
             //-- Program
 
 
-            LocalisationManager.ApplyText(extensionsToolStripMenuItem, "extensions");
-            LocalisationManager.ApplyText(toolsToolStripMenuItem, "tools");
-            LocalisationManager.ApplyText(windowToolStripMenuItem, "window");
+            //LocalisationManager.ApplyText(extensionsToolStripMenuItem, "extensions");
+            //LocalisationManager.ApplyText(toolsToolStripMenuItem, "tools");
+            //LocalisationManager.ApplyText(windowToolStripMenuItem, "window");
 
-        }
-        private void ApplyLocalisation_File() {
-            //-- File
-            LocalisationManager.ApplyText(fileToolStripMenuItem, "file");
-            LocalisationManager.ApplyText(btnNewStep, "new");
-            LocalisationManager.ApplyText(btnOpenStep, "open");
-            LocalisationManager.ApplyText(btnOpenLocation, "openFileLocation");
-            LocalisationManager.ApplyText(btnSaveStep, "save");
-            LocalisationManager.ApplyText(btnSaveAsStep, "saveAs");
-            LocalisationManager.ApplyText(btnPrint, "print");
-            LocalisationManager.ApplyText(btnPrintPreview, "printPreview");
-            LocalisationManager.ApplyText(btnRecentProjects, "recentProjects");
-            LocalisationManager.ApplyText(btnMenuExit, "exit");
-        }
-        private void ApplyLocalisation_Edit() {
-            //-- Edit
-            LocalisationManager.ApplyText(editToolStripMenuItem, "edit");
-            LocalisationManager.ApplyText(undoToolStripMenuItem, "undo");
-            LocalisationManager.ApplyText(redoToolStripMenuItem, "redo");
-            LocalisationManager.ApplyText(cutToolStripMenuItem, "cut");
-            LocalisationManager.ApplyText(cutToolStripMenuItem1, "cut");
-            LocalisationManager.ApplyText(copyToolStripMenuItem, "copy");
-            LocalisationManager.ApplyText(copyToolStripMenuItem1, "copy");
-            LocalisationManager.ApplyText(pasteToolStripMenuItem, "paste");
-            LocalisationManager.ApplyText(pasteToolStripMenuItem1, "paste");
-            LocalisationManager.ApplyText(deleteToolStripMenuItem, "delete");
-            LocalisationManager.ApplyText(selectAllToolStripMenuItem, "selectAll");
-        }
-        private void ApplyLocalisation_View() {
-            //-- View
-            LocalisationManager.ApplyText(viewToolStripMenuItem, "view");
-            LocalisationManager.ApplyText(btnOptViewDataOnly, "viewDataOnly");
-            LocalisationManager.ApplyText(btnOptViewTime, "viewTimeStamps");
-            LocalisationManager.ApplyText(btnOptViewDate, "viewDateStamps");
-            LocalisationManager.ApplyText(btnOptViewDateTime, "viewDateTimeStamps");
-            LocalisationManager.ApplyText(btnOptViewSource, "showSource");
-            LocalisationManager.ApplyText(channelsToolStripMenuItem, "channels");
-            LocalisationManager.ApplyText(btnClearTerminal, "clearTerminal");
-            LocalisationManager.ApplyText(btnMenuClearTerminal, "clearTerminal");
-            LocalisationManager.ApplyText(zoomToolStripMenuItem, "zoom");
-            LocalisationManager.ApplyText(btnMenuTopMost, "topMost");
-            LocalisationManager.ApplyText(btnTopMost, "topMost");
-            LocalisationManager.ApplyText(btnMenuFullScreen, "fullScreen");
-        }
-        private void ApplyLocalisation_Channels() {
-            //-- Channel
-            LocalisationManager.ApplyText(mitChannel, "channel");
-            LocalisationManager.ApplyText(newChannelToolStripMenuItem, "newChannel");
-            LocalisationManager.ApplyText(btnNewChannel, "newChannel");
-            LocalisationManager.ApplyText(removeChannelToolStripMenuItem, "removeChannel");
-            LocalisationManager.ApplyText(btnRemoveChannel, "removeChannel");
-            LocalisationManager.ApplyText(ddbChannels, "switchChannel");
-            LocalisationManager.ApplyText(renameChannelToolStripMenuItem, "renameChannel");
-            LocalisationManager.ApplyText(btnRenameChannel, "renameChannel");
-            LocalisationManager.ApplyText(outputInTerminalToolStripMenuItem, "outputInTerminal");
-            LocalisationManager.ApplyText(btnMenuOutputMaster, "outputInTerminal");
-            LocalisationManager.ApplyText(modbusMasterToolStripMenuItem, "modbusMaster");
-            LocalisationManager.ApplyText(btnMenuModbusMaster, "modbusMaster");
-            LocalisationManager.ApplyText(btnallowEscapeCharacters, "allowesc");
-            LocalisationManager.ApplyText(btnMenuTextFormat, "textFormatting");
-            LocalisationManager.ApplyText(btnMenuOpenNewTerminal, "openInTerminal");
-            LocalisationManager.ApplyText(connectToolStripMenuItem, "connect");
-            LocalisationManager.ApplyText(btnMenuConnect, "connect");
-            LocalisationManager.ApplyText(btnConnect, "connect");
-            LocalisationManager.ApplyText(disconnectToolStripMenuItem, "disconnect");
-            LocalisationManager.ApplyText(btnMenuDisconnect, "disconnect");
-            LocalisationManager.ApplyText(btnDisconnect, "disconnect");
-            LocalisationManager.ApplyText(propertiesToolStripMenuItem, "properties");
-            LocalisationManager.ApplyText(propertiesToolStripMenuItem1, "properties");
-            LocalisationManager.ApplyText(ddbPorts, "port");
-            LocalisationManager.ApplyText(btnChannelPort, "port");
-            LocalisationManager.ApplyText(ddbPorts, "port", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(btnChannelBaud, "baudRate");
-            LocalisationManager.ApplyText(ddbBAUDRate, "baudRate", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(btnChannelDataBits, "dataBits");
-            LocalisationManager.ApplyText(ddbBits, "dataBits", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(ddbParity, "parity", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(btnChannelParity, "parity");
-            LocalisationManager.ApplyText(btnChannelStopBits, "stopBits");
-            LocalisationManager.ApplyText(ddbStopBits, "stopBits", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(btnChannelFlowCtrl, "flowControl");
-            LocalisationManager.ApplyText(ddbInputFormat, "inputFormat", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(btnChannelInputFormat, "inputFormat");
-            LocalisationManager.ApplyText(ddbOutputFormat, "outputFormat", LocalisationManager.StringApplication.ToolTips);
-            LocalisationManager.ApplyText(btnChannelOutputFormat, "outputFormat");
-            LocalisationManager.ApplyText(resetCountersToolStripMenuItem, "resetCounters");
-        }
-        private void ApplyLocalisation_Program() {
-            LocalisationManager.ApplyText(programToolStripMenuItem, "program");
-            LocalisationManager.ApplyText(addCommandToolStripMenuItem, "addCommand");
-            LocalisationManager.ApplyText(addCommandToolStripMenuItem1, "addCommand");
-            LocalisationManager.ApplyText(removeSelectedToolStripMenuItem, "removeSelected");
-            LocalisationManager.ApplyText(btnPrgRemoveStepLines, "removeSelected");
-            LocalisationManager.ApplyText(btnPrgMoveDown, "moveDown");
-            LocalisationManager.ApplyText(btnPrgMoveUp, "moveUp");
-            LocalisationManager.ApplyText(btnEnableSelected, "enableSelected");
-            LocalisationManager.ApplyText(enableSelectedToolStripMenuItem1, "enableSelected");
-            LocalisationManager.ApplyText(btnDisableSelected, "disableSelected");
-            LocalisationManager.ApplyText(disableSelectedToolStripMenuItem1, "disableSelected");
-            LocalisationManager.ApplyText(btnToggleSelected, "toggleSelected");
-            LocalisationManager.ApplyText(setStepCursorToolStripMenuItem, "setStepCursor");
-            LocalisationManager.ApplyText(runFromStartToolStripMenuItem, "runProgramStart");
-            LocalisationManager.ApplyText(runToolStripMenuItem, "runProgram");
-            LocalisationManager.ApplyText(cmRunProgram, "runProgram");
-            LocalisationManager.ApplyText(btnRunCursor, "runProgram");
-            LocalisationManager.ApplyText(runProgramToolStripMenuItem, "runProgram");
-            LocalisationManager.ApplyText(btnRunPrg, "runProgramStart");
-            LocalisationManager.ApplyText(btnRun, "runProgram");
-            LocalisationManager.ApplyText(btnPause, "pauseProgram");
-            LocalisationManager.ApplyText(pauseToolStripMenuItem, "pauseProgram");
-            LocalisationManager.ApplyText(btnPausePrg, "pauseProgram");
-            LocalisationManager.ApplyText(btnStop, "stopProgram");
-            LocalisationManager.ApplyText(stopToolStripMenuItem, "stopProgram");
-            LocalisationManager.ApplyText(btnStopPrg, "stopProgram");
-            LocalisationManager.ApplyText(newProgramToolStripMenuItem, "newProgram");
-            LocalisationManager.ApplyText(cmbtnNewProgram, "newProgram");
-            LocalisationManager.ApplyText(removeProgramToolStripMenuItem, "removeProgram");
-            LocalisationManager.ApplyText(cmCloseProgram, "removeProgram");
         }
 
         private void LoadEventHandlers() {
@@ -478,14 +365,14 @@ namespace Serial_Monitor {
             openLogToolStripMenuItem.Click += OpenLogToolStripMenuItem_Click;
             startLoggingToolStripMenuItem.Click += StartLoggingToolStripMenuItem_Click;
             stopLoggingToolStripMenuItem.Click += StopLoggingToolStripMenuItem_Click;
+
+            cmiTextBoxCopy.Click += CmiTextBoxCopy_Click;
+            cmiTextBoxCut.Click += CmiTextBoxCut_Click;
+            cmiTextBoxDelete.Click += CmiTextBoxDelete_Click;
+            cmiTextBoxPaste.Click += CmiTextBoxPaste_Click;
+            cmiTextBoxSelectAll.Click += CmiTextBoxSelectAll_Click;
+        
         }
-
-
-
-        private void ClearTerminalToolStripMenuItem_Click(object? sender, EventArgs e) {
-            Output.Clear();
-        }
-
         public MainWindow() {
             Setup();
         }
@@ -627,6 +514,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmPrograms);
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
             Classes.Theming.ThemeManager.ThemeControl(cmTerminal);
+            Classes.Theming.ThemeManager.ThemeControl(cmTextboxOptions);
             Classes.Theming.ThemeManager.ThemeControl(tscMain);
 
             lblRxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -684,6 +572,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Pause_16x, btnPause, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, btnStop, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cmiTextBoxCut, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -695,9 +584,13 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, cmiTextBoxCut, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem2, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem2, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, cmiTextBoxPaste, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, cmiTextBoxDelete, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, cmiTextBoxSelectAll, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, runProgramToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.RunStart_16x, btnRunPrg, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -1580,6 +1473,7 @@ namespace Serial_Monitor {
             RenameBox.BringToFront();
             RenameBox.Tag = EventData;
             InRenameMode = true;
+            RenameBox.ContextMenuStrip = cmTextboxOptions;
             navigator1.Controls.Add(RenameBox);
             RenameBox.Focus();
             RenameBox.Leave += RenameBox_Leave;
@@ -1826,6 +1720,26 @@ namespace Serial_Monitor {
             ProgramEditing.PasteStepProgram(lstStepProgram, true);
         }
         #endregion
+        #region Text Context Menu Options
+        private void CmiTextBoxSelectAll_Click(object? sender, EventArgs e) {
+            SelectedAll();
+        }
+        private void CmiTextBoxPaste_Click(object? sender, EventArgs e) {
+            Paste();
+        }
+        private void CmiTextBoxDelete_Click(object? sender, EventArgs e) {
+            Delete();
+        }
+        private void CmiTextBoxCut_Click(object? sender, EventArgs e) {
+            Cut();
+        }
+        private void CmiTextBoxCopy_Click(object? sender, EventArgs e) {
+            Copy();
+        }
+        private void ClearTerminalToolStripMenuItem_Click(object? sender, EventArgs e) {
+            Output.Clear();
+        }
+        #endregion 
         #region Program UI
         private void btnRecentProjects_DropDownOpening(object? sender, EventArgs e) {
             ProjectManager.LoadRecentItems(btnRecentProjects);
@@ -2362,6 +2276,7 @@ namespace Serial_Monitor {
             RenameBox.Size = EventData.TextRectangle.Size;
             ThemeManager.ThemeControl(RenameBox);
             RenameBox.BringToFront();
+            RenameBox.ContextMenuStrip = cmTextboxOptions;
             RenameBox.Tag = EventData;
             InRenameMode = true;
             thPrograms.Controls.Add(RenameBox);

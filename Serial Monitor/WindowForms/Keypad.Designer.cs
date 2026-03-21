@@ -30,6 +30,9 @@
             msMain = new ODModules.MenuStrip();
             viewToolStripMenuItem = new ToolStripMenuItem();
             topMostToolStripMenuItem = new ToolStripMenuItem();
+            tsiExtender = new ODModules.ControlExtensions.ToolStripItemExtender();
+            cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            controlExtender1 = new ODModules.ControlExtensions.ControlExtender();
             pnlProperties.SuspendLayout();
             msMain.SuspendLayout();
             SuspendLayout();
@@ -71,7 +74,7 @@
             kpCommands.ImageHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             kpCommands.ImageSize = new Size(32, 32);
             kpCommands.Location = new Point(0, 44);
-            kpCommands.Margin = new Padding(6, 6, 6, 6);
+            kpCommands.Margin = new Padding(6);
             kpCommands.MarkedIndex = -1;
             kpCommands.Name = "kpCommands";
             kpCommands.Padding = new Padding(19, 21, 19, 21);
@@ -82,6 +85,8 @@
             kpCommands.TabIndex = 0;
             kpCommands.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
             kpCommands.TextVerticalAlignment = ODModules.ButtonTextVertical.Middle;
+            controlExtender1.SetTranslationReference(kpCommands, "");
+            cntrlExtender.SetTranslationReference(kpCommands, "");
             kpCommands.UseLocalList = false;
             kpCommands.ButtonRightClicked += kpCommands_ButtonRightClicked;
             kpCommands.ButtonClicked += keypad1_ButtonClicked;
@@ -104,7 +109,7 @@
             pnlProperties.LabelFont = new Font("Segoe UI", 8F);
             pnlProperties.LabelForeColor = Color.Black;
             pnlProperties.Location = new Point(139, 44);
-            pnlProperties.Margin = new Padding(6, 6, 6, 6);
+            pnlProperties.Margin = new Padding(6);
             pnlProperties.Name = "pnlProperties";
             pnlProperties.OverrideCollapseControl = false;
             pnlProperties.Padding = new Padding(9, 41, 0, 0);
@@ -116,6 +121,8 @@
             pnlProperties.Size = new Size(481, 726);
             pnlProperties.TabIndex = 1;
             pnlProperties.Text = "Properties";
+            cntrlExtender.SetTranslationReference(pnlProperties, "");
+            controlExtender1.SetTranslationReference(pnlProperties, "");
             pnlProperties.Visible = false;
             pnlProperties.CloseButtonClicked += pnlProperties_CloseButtonClicked;
             // 
@@ -134,11 +141,13 @@
             propertyGrid1.HelpVisible = false;
             propertyGrid1.LineColor = Color.FromArgb(40, 40, 40);
             propertyGrid1.Location = new Point(9, 41);
-            propertyGrid1.Margin = new Padding(6, 6, 6, 6);
+            propertyGrid1.Margin = new Padding(6);
             propertyGrid1.Name = "propertyGrid1";
             propertyGrid1.Size = new Size(472, 685);
             propertyGrid1.TabIndex = 7;
             propertyGrid1.ToolbarVisible = false;
+            cntrlExtender.SetTranslationReference(propertyGrid1, "");
+            controlExtender1.SetTranslationReference(propertyGrid1, "");
             propertyGrid1.ViewBackColor = Color.FromArgb(20, 20, 20);
             propertyGrid1.ViewBorderColor = Color.FromArgb(20, 20, 20);
             propertyGrid1.ViewForeColor = Color.White;
@@ -168,6 +177,8 @@
             msMain.StripItemSelectedBackColorSouth = Color.White;
             msMain.TabIndex = 2;
             msMain.Text = "Main";
+            controlExtender1.SetTranslationReference(msMain, "");
+            cntrlExtender.SetTranslationReference(msMain, "");
             msMain.UseNorthFadeIn = false;
             // 
             // viewToolStripMenuItem
@@ -177,14 +188,16 @@
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new Size(85, 36);
             viewToolStripMenuItem.Text = "&View";
+            tsiExtender.SetTranslationReference(viewToolStripMenuItem, "view");
             // 
             // topMostToolStripMenuItem
             // 
             topMostToolStripMenuItem.ForeColor = Color.Black;
             topMostToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             topMostToolStripMenuItem.Name = "topMostToolStripMenuItem";
-            topMostToolStripMenuItem.Size = new Size(247, 44);
+            topMostToolStripMenuItem.Size = new Size(359, 44);
             topMostToolStripMenuItem.Text = "&Top Most";
+            tsiExtender.SetTranslationReference(topMostToolStripMenuItem, "topMost");
             topMostToolStripMenuItem.Click += topMostToolStripMenuItem_Click;
             // 
             // Keypad
@@ -196,11 +209,10 @@
             Controls.Add(kpCommands);
             Controls.Add(pnlProperties);
             Controls.Add(msMain);
-            DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             MainMenuStrip = msMain;
-            Margin = new Padding(6, 6, 6, 6);
+            Margin = new Padding(6);
             MinimumSize = new Size(585, 592);
             Name = "Keypad";
             Text = "Keypad";
@@ -221,5 +233,8 @@
         private ODModules.MenuStrip msMain;
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripMenuItem topMostToolStripMenuItem;
+        private ODModules.ControlExtensions.ToolStripItemExtender tsiExtender;
+        private ODModules.ControlExtensions.ControlExtender controlExtender1;
+        private ODModules.ControlExtensions.ControlExtender cntrlExtender;
     }
 }

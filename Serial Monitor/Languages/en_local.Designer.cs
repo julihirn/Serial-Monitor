@@ -61,7 +61,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New.
+        ///   Looks up a localized string similar to &amp;New.
         /// </summary>
         internal static string _new {
             get {
@@ -70,7 +70,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Active Program.
+        ///   Looks up a localized string similar to &amp;About Serial Monitor.
+        /// </summary>
+        internal static string aboutApp {
+            get {
+                return ResourceManager.GetString("aboutApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Pr&amp;ogram.
         /// </summary>
         internal static string activeProgram {
             get {
@@ -97,7 +106,34 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Baud Rate.
+        ///   Looks up a localized string similar to &amp;Add to Monitor.
+        /// </summary>
+        internal static string addMonitor {
+            get {
+                return ResourceManager.GetString("addMonitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow Escape Characters.
+        /// </summary>
+        internal static string allowEscapeChars {
+            get {
+                return ResourceManager.GetString("allowEscapeChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Array.
+        /// </summary>
+        internal static string array {
+            get {
+                return ResourceManager.GetString("array", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Baud Rate.
         /// </summary>
         internal static string baudRate {
             get {
@@ -106,7 +142,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bit Toggler.
+        ///   Looks up a localized string similar to &amp;Bit Toggler.
         /// </summary>
         internal static string bitToggler {
             get {
@@ -115,7 +151,25 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Channel.
+        ///   Looks up a localized string similar to Change Address.
+        /// </summary>
+        internal static string changeAddress {
+            get {
+                return ResourceManager.GetString("changeAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change &amp;Appearance.
+        /// </summary>
+        internal static string changeAppearance {
+            get {
+                return ResourceManager.GetString("changeAppearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Channel.
         /// </summary>
         internal static string channel {
             get {
@@ -129,6 +183,24 @@ namespace Serial_Monitor.Languages {
         internal static string channels {
             get {
                 return ResourceManager.GetString("channels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chec&amp;ksum Calculator.
+        /// </summary>
+        internal static string checksumCalculator {
+            get {
+                return ResourceManager.GetString("checksumCalculator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C&amp;lear Selection.
+        /// </summary>
+        internal static string clearSelection {
+            get {
+                return ResourceManager.GetString("clearSelection", resourceCulture);
             }
         }
         
@@ -151,7 +223,25 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Command Palette.
+        ///   Looks up a localized string similar to Close &amp;All Snapshots.
+        /// </summary>
+        internal static string closeAllSnapshot {
+            get {
+                return ResourceManager.GetString("closeAllSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Close Snapshot.
+        /// </summary>
+        internal static string closeSnapshot {
+            get {
+                return ResourceManager.GetString("closeSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Command Palette.
         /// </summary>
         internal static string commandPalette {
             get {
@@ -160,7 +250,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect.
+        ///   Looks up a localized string similar to &amp;Connect.
         /// </summary>
         internal static string connect {
             get {
@@ -169,7 +259,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy.
+        ///   Looks up a localized string similar to &amp;Copy.
         /// </summary>
         internal static string copy {
             get {
@@ -183,6 +273,15 @@ namespace Serial_Monitor.Languages {
         internal static string copyAppearance {
             get {
                 return ResourceManager.GetString("copyAppearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy As &amp;Text.
+        /// </summary>
+        internal static string copyAsText {
+            get {
+                return ResourceManager.GetString("copyAsText", resourceCulture);
             }
         }
         
@@ -205,7 +304,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy Special.
+        ///   Looks up a localized string similar to Copy &amp;Special.
         /// </summary>
         internal static string copySpecial {
             get {
@@ -223,7 +322,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cut.
+        ///   Looks up a localized string similar to Cu&amp;t.
         /// </summary>
         internal static string cut {
             get {
@@ -232,11 +331,29 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Bits.
+        ///   Looks up a localized string similar to &amp;Data Bits.
         /// </summary>
         internal static string dataBits {
             get {
                 return ResourceManager.GetString("dataBits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data &amp;Size.
+        /// </summary>
+        internal static string dataSize {
+            get {
+                return ResourceManager.GetString("dataSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decimal &amp;Places.
+        /// </summary>
+        internal static string decimalPlaces {
+            get {
+                return ResourceManager.GetString("decimalPlaces", resourceCulture);
             }
         }
         
@@ -250,7 +367,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disable Selected.
+        ///   Looks up a localized string similar to D&amp;isable Selected.
         /// </summary>
         internal static string disableSelected {
             get {
@@ -259,7 +376,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disconnect.
+        ///   Looks up a localized string similar to Disc&amp;onnect.
         /// </summary>
         internal static string disconnect {
             get {
@@ -268,7 +385,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
+        ///   Looks up a localized string similar to &amp;Display.
+        /// </summary>
+        internal static string displayFormat {
+            get {
+                return ResourceManager.GetString("displayFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Edit.
         /// </summary>
         internal static string edit {
             get {
@@ -277,7 +403,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enabled Selected.
+        ///   Looks up a localized string similar to &amp;Enabled Selected.
         /// </summary>
         internal static string enableSelected {
             get {
@@ -286,11 +412,29 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exit.
+        ///   Looks up a localized string similar to &amp;Execute.
+        /// </summary>
+        internal static string execute {
+            get {
+                return ResourceManager.GetString("execute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E&amp;xit.
         /// </summary>
         internal static string exit {
             get {
                 return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Export.
+        /// </summary>
+        internal static string export {
+            get {
+                return ResourceManager.GetString("export", resourceCulture);
             }
         }
         
@@ -304,7 +448,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File.
+        ///   Looks up a localized string similar to &amp;File.
         /// </summary>
         internal static string file {
             get {
@@ -313,11 +457,29 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flow Control.
+        ///   Looks up a localized string similar to &amp;Flow Control.
         /// </summary>
         internal static string flowControl {
             get {
                 return ResourceManager.GetString("flowControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Format.
+        /// </summary>
+        internal static string format {
+            get {
+                return ResourceManager.GetString("format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Signed.
+        /// </summary>
+        internal static string formatSigned {
+            get {
+                return ResourceManager.GetString("formatSigned", resourceCulture);
             }
         }
         
@@ -331,7 +493,25 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input Format.
+        ///   Looks up a localized string similar to &amp;Global Variables.
+        /// </summary>
+        internal static string globalVariables {
+            get {
+                return ResourceManager.GetString("globalVariables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Go To.
+        /// </summary>
+        internal static string gotoMi {
+            get {
+                return ResourceManager.GetString("gotoMi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Input Format.
         /// </summary>
         internal static string inputFormat {
             get {
@@ -340,11 +520,29 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keypad.
+        ///   Looks up a localized string similar to &amp;Keypad.
         /// </summary>
         internal static string keypad {
             get {
                 return ResourceManager.GetString("keypad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Local Variables.
+        /// </summary>
+        internal static string localVariables {
+            get {
+                return ResourceManager.GetString("localVariables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock Editor.
+        /// </summary>
+        internal static string lockEditor {
+            get {
+                return ResourceManager.GetString("lockEditor", resourceCulture);
             }
         }
         
@@ -358,6 +556,60 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Modbus.
+        /// </summary>
+        internal static string modbus {
+            get {
+                return ResourceManager.GetString("modbus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Format.
+        /// </summary>
+        internal static string modbusAddressFormat {
+            get {
+                return ResourceManager.GetString("modbusAddressFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Coils.
+        /// </summary>
+        internal static string modbusCoils {
+            get {
+                return ResourceManager.GetString("modbusCoils", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Discrete Inputs.
+        /// </summary>
+        internal static string modbusDiscreteInputs {
+            get {
+                return ResourceManager.GetString("modbusDiscreteInputs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Holding Registers.
+        /// </summary>
+        internal static string modbusHoldingRegisters {
+            get {
+                return ResourceManager.GetString("modbusHoldingRegisters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input &amp;Registers.
+        /// </summary>
+        internal static string modbusInputRegisters {
+            get {
+                return ResourceManager.GetString("modbusInputRegisters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modbus Master.
         /// </summary>
         internal static string modbusMaster {
@@ -367,7 +619,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Modbus Registers.
+        ///   Looks up a localized string similar to Modbus &amp;Query Editor.
+        /// </summary>
+        internal static string modbusQueryEditor {
+            get {
+                return ResourceManager.GetString("modbusQueryEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modbus &amp;Registers.
         /// </summary>
         internal static string modbusRegisters {
             get {
@@ -376,7 +637,52 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monitor.
+        ///   Looks up a localized string similar to Write &amp;Coil.
+        /// </summary>
+        internal static string modbusWriteCoil {
+            get {
+                return ResourceManager.GetString("modbusWriteCoil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write Multiple Coils.
+        /// </summary>
+        internal static string modbusWriteMultipleCoils {
+            get {
+                return ResourceManager.GetString("modbusWriteMultipleCoils", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write Multiple Registers.
+        /// </summary>
+        internal static string modbusWriteMultipleRegisters {
+            get {
+                return ResourceManager.GetString("modbusWriteMultipleRegisters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write &amp;Register.
+        /// </summary>
+        internal static string modbusWriteRegister {
+            get {
+                return ResourceManager.GetString("modbusWriteRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write Register &amp;Mask.
+        /// </summary>
+        internal static string modbusWriteRegisterMask {
+            get {
+                return ResourceManager.GetString("modbusWriteRegisterMask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Monitor.
         /// </summary>
         internal static string monitor {
             get {
@@ -385,7 +691,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move Down.
+        ///   Looks up a localized string similar to Move &amp;Down.
         /// </summary>
         internal static string moveDown {
             get {
@@ -394,7 +700,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move Up.
+        ///   Looks up a localized string similar to Move &amp;Up.
         /// </summary>
         internal static string moveUp {
             get {
@@ -403,7 +709,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Channel.
+        ///   Looks up a localized string similar to &amp;New Channel.
         /// </summary>
         internal static string newChannel {
             get {
@@ -412,7 +718,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Program.
+        ///   Looks up a localized string similar to &amp;New Program.
         /// </summary>
         internal static string newProgram {
             get {
@@ -421,7 +727,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New View.
+        ///   Looks up a localized string similar to &amp;New Unit.
+        /// </summary>
+        internal static string newUnit {
+            get {
+                return ResourceManager.GetString("newUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New &amp;View.
         /// </summary>
         internal static string newView {
             get {
@@ -439,7 +754,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open.
+        ///   Looks up a localized string similar to &amp;Open.
         /// </summary>
         internal static string open {
             get {
@@ -466,7 +781,34 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Options.
+        ///   Looks up a localized string similar to &amp;Open Log.
+        /// </summary>
+        internal static string openLog {
+            get {
+                return ResourceManager.GetString("openLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Copy of Log in Excel.
+        /// </summary>
+        internal static string openLogExcel {
+            get {
+                return ResourceManager.GetString("openLogExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Log Location.
+        /// </summary>
+        internal static string openLogLocation {
+            get {
+                return ResourceManager.GetString("openLogLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Options.
         /// </summary>
         internal static string options {
             get {
@@ -475,7 +817,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output Format.
+        ///   Looks up a localized string similar to &amp;Output Format.
         /// </summary>
         internal static string outputFormat {
             get {
@@ -484,7 +826,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output in Terminal.
+        ///   Looks up a localized string similar to Output in Termina&amp;l.
         /// </summary>
         internal static string outputInTerminal {
             get {
@@ -493,7 +835,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parity.
+        ///   Looks up a localized string similar to P&amp;arity.
         /// </summary>
         internal static string partity {
             get {
@@ -502,11 +844,20 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Paste.
+        ///   Looks up a localized string similar to &amp;Paste.
         /// </summary>
         internal static string paste {
             get {
                 return ResourceManager.GetString("paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause.
+        /// </summary>
+        internal static string pause {
+            get {
+                return ResourceManager.GetString("pause", resourceCulture);
             }
         }
         
@@ -520,7 +871,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Port.
+        ///   Looks up a localized string similar to &amp;Port.
         /// </summary>
         internal static string port {
             get {
@@ -529,7 +880,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print.
+        ///   Looks up a localized string similar to &amp;Print.
         /// </summary>
         internal static string print {
             get {
@@ -538,7 +889,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print Preview.
+        ///   Looks up a localized string similar to Print Pre&amp;view.
         /// </summary>
         internal static string printPreview {
             get {
@@ -556,7 +907,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Program Properties.
+        ///   Looks up a localized string similar to &amp;Program Properties.
         /// </summary>
         internal static string programProperties {
             get {
@@ -565,11 +916,29 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Properties.
+        ///   Looks up a localized string similar to &amp;Properties.
         /// </summary>
         internal static string properties {
             get {
                 return ResourceManager.GetString("properties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Query.
+        /// </summary>
+        internal static string query {
+            get {
+                return ResourceManager.GetString("query", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Quick Converter.
+        /// </summary>
+        internal static string quickConverter {
+            get {
+                return ResourceManager.GetString("quickConverter", resourceCulture);
             }
         }
         
@@ -583,7 +952,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Redo.
+        ///   Looks up a localized string similar to &amp;Redo.
         /// </summary>
         internal static string redo {
             get {
@@ -592,7 +961,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Channel.
+        ///   Looks up a localized string similar to &amp;Remove Channel.
         /// </summary>
         internal static string removeChannel {
             get {
@@ -601,7 +970,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Program.
+        ///   Looks up a localized string similar to &amp;Remove Monitor.
+        /// </summary>
+        internal static string removeMonitor {
+            get {
+                return ResourceManager.GetString("removeMonitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remo&amp;ve Program.
         /// </summary>
         internal static string removeProgram {
             get {
@@ -610,7 +988,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Selected.
+        ///   Looks up a localized string similar to &amp;Remove Selected.
         /// </summary>
         internal static string removeSelected {
             get {
@@ -619,7 +997,25 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename Channel.
+        ///   Looks up a localized string similar to Re&amp;move Unit.
+        /// </summary>
+        internal static string removeUnit {
+            get {
+                return ResourceManager.GetString("removeUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        internal static string rename {
+            get {
+                return ResourceManager.GetString("rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to R&amp;ename Channel.
         /// </summary>
         internal static string renameChannel {
             get {
@@ -628,11 +1024,29 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reset.
+        ///   Looks up a localized string similar to R&amp;ename Unit.
+        /// </summary>
+        internal static string renameUnit {
+            get {
+                return ResourceManager.GetString("renameUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Reset.
         /// </summary>
         internal static string reset {
             get {
                 return ResourceManager.GetString("reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Reset Appearance.
+        /// </summary>
+        internal static string resetAppearance {
+            get {
+                return ResourceManager.GetString("resetAppearance", resourceCulture);
             }
         }
         
@@ -646,7 +1060,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Run Program.
+        ///   Looks up a localized string similar to Run.
+        /// </summary>
+        internal static string run {
+            get {
+                return ResourceManager.GetString("run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to R&amp;un Progra&amp;m.
         /// </summary>
         internal static string runProgram {
             get {
@@ -664,7 +1087,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to &amp;Save.
         /// </summary>
         internal static string save {
             get {
@@ -673,7 +1096,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save As.
+        ///   Looks up a localized string similar to Save &amp;As.
         /// </summary>
         internal static string saveAs {
             get {
@@ -682,7 +1105,34 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select All.
+        ///   Looks up a localized string similar to &amp;Save Log.
+        /// </summary>
+        internal static string saveLog {
+            get {
+                return ResourceManager.GetString("saveLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Ports.
+        /// </summary>
+        internal static string scanPorts {
+            get {
+                return ResourceManager.GetString("scanPorts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Search Registers.
+        /// </summary>
+        internal static string searchRegisters {
+            get {
+                return ResourceManager.GetString("searchRegisters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select &amp;All.
         /// </summary>
         internal static string selectAll {
             get {
@@ -691,11 +1141,20 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Invert.
+        ///   Looks up a localized string similar to Select &amp;Invert.
         /// </summary>
         internal static string selectInvert {
             get {
                 return ResourceManager.GetString("selectInvert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Selection to Snapshot.
+        /// </summary>
+        internal static string selectionToSnapshot {
+            get {
+                return ResourceManager.GetString("selectionToSnapshot", resourceCulture);
             }
         }
         
@@ -736,6 +1195,51 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send File.
+        /// </summary>
+        internal static string sendFile {
+            get {
+                return ResourceManager.GetString("sendFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send on Change.
+        /// </summary>
+        internal static string sendOnChange {
+            get {
+                return ResourceManager.GetString("sendOnChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Set as Active Program.
+        /// </summary>
+        internal static string setAsActiveProgram {
+            get {
+                return ResourceManager.GetString("setAsActiveProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Formats to Modbus ASCII.
+        /// </summary>
+        internal static string setFormatsToModbusASCII {
+            get {
+                return ResourceManager.GetString("setFormatsToModbusASCII", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Formats to Modbus RTU.
+        /// </summary>
+        internal static string setFormatsToModbusRTU {
+            get {
+                return ResourceManager.GetString("setFormatsToModbusRTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set Step Cursor.
         /// </summary>
         internal static string setStepCursor {
@@ -745,11 +1249,20 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Formats.
+        ///   Looks up a localized string similar to Show &amp;Formats.
         /// </summary>
         internal static string showFormats {
             get {
                 return ResourceManager.GetString("showFormats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show &amp;Last Updated Time.
+        /// </summary>
+        internal static string showLastUpdatedTime {
+            get {
+                return ResourceManager.GetString("showLastUpdatedTime", resourceCulture);
             }
         }
         
@@ -763,11 +1276,47 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Units.
+        ///   Looks up a localized string similar to Show &amp;Units.
         /// </summary>
         internal static string showUnits {
             get {
                 return ResourceManager.GetString("showUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Si&amp;gned.
+        /// </summary>
+        internal static string signed {
+            get {
+                return ResourceManager.GetString("signed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slave Manager.
+        /// </summary>
+        internal static string slaveManager {
+            get {
+                return ResourceManager.GetString("slaveManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snapshots.
+        /// </summary>
+        internal static string snapshots {
+            get {
+                return ResourceManager.GetString("snapshots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Snapshot Selection.
+        /// </summary>
+        internal static string snapshotSelection {
+            get {
+                return ResourceManager.GetString("snapshotSelection", resourceCulture);
             }
         }
         
@@ -781,7 +1330,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Step Program.
+        ///   Looks up a localized string similar to Start Logging.
+        /// </summary>
+        internal static string startLogging {
+            get {
+                return ResourceManager.GetString("startLogging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S&amp;tep Program.
         /// </summary>
         internal static string stepProgram {
             get {
@@ -790,7 +1348,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop Bits.
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string stop {
+            get {
+                return ResourceManager.GetString("stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S&amp;top Bits.
         /// </summary>
         internal static string stopBits {
             get {
@@ -799,7 +1366,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop Program.
+        ///   Looks up a localized string similar to Sto&amp;p Logging.
+        /// </summary>
+        internal static string stopLogging {
+            get {
+                return ResourceManager.GetString("stopLogging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S&amp;top Program.
         /// </summary>
         internal static string stopProgram {
             get {
@@ -808,7 +1384,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switch Channel.
+        ///   Looks up a localized string similar to &amp;Switch Channel.
         /// </summary>
         internal static string switchChannel {
             get {
@@ -817,7 +1393,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Text Comparator.
+        ///   Looks up a localized string similar to &amp;Text Comparator.
         /// </summary>
         internal static string textCompare {
             get {
@@ -835,7 +1411,25 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toggle Selected.
+        ///   Looks up a localized string similar to &amp;Tile Windows.
+        /// </summary>
+        internal static string tileWindows {
+            get {
+                return ResourceManager.GetString("tileWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Toggle.
+        /// </summary>
+        internal static string toggle {
+            get {
+                return ResourceManager.GetString("toggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Toggle Selected.
         /// </summary>
         internal static string toggleSelected {
             get {
@@ -844,7 +1438,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tools.
+        ///   Looks up a localized string similar to &amp;Tools.
         /// </summary>
         internal static string tools {
             get {
@@ -853,7 +1447,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Top Most.
+        ///   Looks up a localized string similar to &amp;Top Most.
         /// </summary>
         internal static string topMost {
             get {
@@ -862,11 +1456,20 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo.
+        ///   Looks up a localized string similar to &amp;Undo.
         /// </summary>
         internal static string undo {
             get {
                 return ResourceManager.GetString("undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Unsigned.
+        /// </summary>
+        internal static string unsigned {
+            get {
+                return ResourceManager.GetString("unsigned", resourceCulture);
             }
         }
         
@@ -889,7 +1492,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Variables.
+        ///   Looks up a localized string similar to &amp;Variables.
         /// </summary>
         internal static string variables {
             get {
@@ -898,7 +1501,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View.
+        ///   Looks up a localized string similar to &amp;View.
         /// </summary>
         internal static string view {
             get {
@@ -943,7 +1546,7 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Window.
+        ///   Looks up a localized string similar to &amp;Window.
         /// </summary>
         internal static string window {
             get {
@@ -961,7 +1564,16 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom.
+        ///   Looks up a localized string similar to &amp;Word Order.
+        /// </summary>
+        internal static string wordOrder {
+            get {
+                return ResourceManager.GetString("wordOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Zoom.
         /// </summary>
         internal static string zoom {
             get {

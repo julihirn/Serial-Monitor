@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="aboutApp" xml:space="preserve">
+    <value>&amp;About Serial Monitor</value>
+  </data>
   <data name="activeProgram" xml:space="preserve">
-    <value>Active Program</value>
+    <value>Active Pr&amp;ogram</value>
   </data>
   <data name="addCommand" xml:space="preserve">
     <value>Add Command</value>
@@ -126,17 +129,32 @@
   <data name="addCommandAfter" xml:space="preserve">
     <value>Add Command After</value>
   </data>
+  <data name="allowEscapeChars" xml:space="preserve">
+    <value>Allow Escape Characters</value>
+  </data>
   <data name="baudRate" xml:space="preserve">
-    <value>Baud Rate</value>
+    <value>&amp;Baud Rate</value>
   </data>
   <data name="bitToggler" xml:space="preserve">
-    <value>Bit Toggler</value>
+    <value>&amp;Bit Toggler</value>
+  </data>
+  <data name="changeAddress" xml:space="preserve">
+    <value>Change Address</value>
+  </data>
+  <data name="changeAppearance" xml:space="preserve">
+    <value>Change &amp;Appearance</value>
   </data>
   <data name="channel" xml:space="preserve">
-    <value>Channel</value>
+    <value>&amp;Channel</value>
   </data>
   <data name="channels" xml:space="preserve">
     <value>Channels</value>
+  </data>
+  <data name="checksumCalculator" xml:space="preserve">
+    <value>Chec&amp;ksum Calculator</value>
+  </data>
+  <data name="clearSelection" xml:space="preserve">
+    <value>C&amp;lear Selection</value>
   </data>
   <data name="clearTerminal" xml:space="preserve">
     <value>Clear Terminal</value>
@@ -144,17 +162,26 @@
   <data name="closeAll" xml:space="preserve">
     <value>Close All</value>
   </data>
+  <data name="closeAllSnapshot" xml:space="preserve">
+    <value>Close &amp;All Snapshots</value>
+  </data>
+  <data name="closeSnapshot" xml:space="preserve">
+    <value>&amp;Close Snapshot</value>
+  </data>
   <data name="commandPalette" xml:space="preserve">
-    <value>Command Palette</value>
+    <value>&amp;Command Palette</value>
   </data>
   <data name="connect" xml:space="preserve">
-    <value>Connect</value>
+    <value>&amp;Connect</value>
   </data>
   <data name="copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>&amp;Copy</value>
   </data>
   <data name="copyAppearance" xml:space="preserve">
     <value>Copy Appearance</value>
+  </data>
+  <data name="copyAsText" xml:space="preserve">
+    <value>Copy As &amp;Text</value>
   </data>
   <data name="copyFormats" xml:space="preserve">
     <value>Copy Formats</value>
@@ -163,88 +190,139 @@
     <value>Copy Names</value>
   </data>
   <data name="copySpecial" xml:space="preserve">
-    <value>Copy Special</value>
+    <value>Copy &amp;Special</value>
   </data>
   <data name="copyValues" xml:space="preserve">
     <value>Copy Values</value>
   </data>
   <data name="cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Cu&amp;t</value>
   </data>
   <data name="dataBits" xml:space="preserve">
-    <value>Data Bits</value>
+    <value>&amp;Data Bits</value>
+  </data>
+  <data name="dataSize" xml:space="preserve">
+    <value>Data &amp;Size</value>
+  </data>
+  <data name="decimalPlaces" xml:space="preserve">
+    <value>Decimal &amp;Places</value>
   </data>
   <data name="deviceManager" xml:space="preserve">
     <value>Device Manager</value>
   </data>
   <data name="disableSelected" xml:space="preserve">
-    <value>Disable Selected</value>
+    <value>D&amp;isable Selected</value>
   </data>
   <data name="disconnect" xml:space="preserve">
-    <value>Disconnect</value>
+    <value>Disc&amp;onnect</value>
+  </data>
+  <data name="displayFormat" xml:space="preserve">
+    <value>&amp;Display</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>&amp;Edit</value>
   </data>
   <data name="enableSelected" xml:space="preserve">
-    <value>Enabled Selected</value>
+    <value>&amp;Enabled Selected</value>
   </data>
   <data name="exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>E&amp;xit</value>
   </data>
   <data name="extensions" xml:space="preserve">
     <value>Extensions</value>
   </data>
   <data name="file" xml:space="preserve">
-    <value>File</value>
+    <value>&amp;File</value>
   </data>
   <data name="flowControl" xml:space="preserve">
-    <value>Flow Control</value>
+    <value>&amp;Flow Control</value>
+  </data>
+  <data name="formatSigned" xml:space="preserve">
+    <value>&amp;Signed</value>
   </data>
   <data name="fullScreen" xml:space="preserve">
     <value>Full Screen</value>
   </data>
+  <data name="gotoMi" xml:space="preserve">
+    <value>&amp;Go To</value>
+  </data>
   <data name="inputFormat" xml:space="preserve">
-    <value>Input Format</value>
+    <value>&amp;Input Format</value>
   </data>
   <data name="keypad" xml:space="preserve">
-    <value>Keypad</value>
+    <value>&amp;Keypad</value>
+  </data>
+  <data name="lockEditor" xml:space="preserve">
+    <value>Lock Editor</value>
   </data>
   <data name="masterView" xml:space="preserve">
     <value>Master View</value>
   </data>
+  <data name="modbusCoils" xml:space="preserve">
+    <value>&amp;Coils</value>
+  </data>
+  <data name="modbusDiscreteInputs" xml:space="preserve">
+    <value>&amp;Discrete Inputs</value>
+  </data>
+  <data name="modbusHoldingRegisters" xml:space="preserve">
+    <value>&amp;Holding Registers</value>
+  </data>
+  <data name="modbusInputRegisters" xml:space="preserve">
+    <value>Input &amp;Registers</value>
+  </data>
   <data name="modbusMaster" xml:space="preserve">
     <value>Modbus Master</value>
   </data>
+  <data name="modbusQueryEditor" xml:space="preserve">
+    <value>Modbus &amp;Query Editor</value>
+  </data>
   <data name="modbusRegisters" xml:space="preserve">
-    <value>Modbus Registers</value>
+    <value>Modbus &amp;Registers</value>
+  </data>
+  <data name="modbusWriteCoil" xml:space="preserve">
+    <value>Write &amp;Coil</value>
+  </data>
+  <data name="modbusWriteMultipleCoils" xml:space="preserve">
+    <value>Write Multiple Coils</value>
+  </data>
+  <data name="modbusWriteMultipleRegisters" xml:space="preserve">
+    <value>Write Multiple Registers</value>
+  </data>
+  <data name="modbusWriteRegister" xml:space="preserve">
+    <value>Write &amp;Register</value>
+  </data>
+  <data name="modbusWriteRegisterMask" xml:space="preserve">
+    <value>Write Register &amp;Mask</value>
   </data>
   <data name="monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>&amp;Monitor</value>
   </data>
   <data name="moveDown" xml:space="preserve">
-    <value>Move Down</value>
+    <value>Move &amp;Down</value>
   </data>
   <data name="moveUp" xml:space="preserve">
-    <value>Move Up</value>
+    <value>Move &amp;Up</value>
   </data>
   <data name="new" xml:space="preserve">
-    <value>New</value>
+    <value>&amp;New</value>
   </data>
   <data name="newChannel" xml:space="preserve">
-    <value>New Channel</value>
+    <value>&amp;New Channel</value>
   </data>
   <data name="newProgram" xml:space="preserve">
-    <value>New Program</value>
+    <value>&amp;New Program</value>
+  </data>
+  <data name="newUnit" xml:space="preserve">
+    <value>&amp;New Unit</value>
   </data>
   <data name="newView" xml:space="preserve">
-    <value>New View</value>
+    <value>New &amp;View</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>None</value>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Open</value>
+    <value>&amp;Open</value>
   </data>
   <data name="openFileLocation" xml:space="preserve">
     <value>Open File Location</value>
@@ -252,83 +330,116 @@
   <data name="openInTerminal" xml:space="preserve">
     <value>Open in New Terminal</value>
   </data>
+  <data name="openLog" xml:space="preserve">
+    <value>&amp;Open Log</value>
+  </data>
   <data name="options" xml:space="preserve">
-    <value>Options</value>
+    <value>&amp;Options</value>
   </data>
   <data name="outputFormat" xml:space="preserve">
-    <value>Output Format</value>
+    <value>&amp;Output Format</value>
   </data>
   <data name="outputInTerminal" xml:space="preserve">
-    <value>Output in Terminal</value>
+    <value>Output in Termina&amp;l</value>
   </data>
   <data name="partity" xml:space="preserve">
-    <value>Parity</value>
+    <value>P&amp;arity</value>
   </data>
   <data name="paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>&amp;Paste</value>
+  </data>
+  <data name="pause" xml:space="preserve">
+    <value>Pause</value>
   </data>
   <data name="pauseProgram" xml:space="preserve">
     <value>Pause Program</value>
   </data>
   <data name="port" xml:space="preserve">
-    <value>Port</value>
+    <value>&amp;Port</value>
   </data>
   <data name="print" xml:space="preserve">
-    <value>Print</value>
+    <value>&amp;Print</value>
   </data>
   <data name="printPreview" xml:space="preserve">
-    <value>Print Preview</value>
+    <value>Print Pre&amp;view</value>
   </data>
   <data name="program" xml:space="preserve">
     <value>Program</value>
   </data>
   <data name="programProperties" xml:space="preserve">
-    <value>Program Properties</value>
+    <value>&amp;Program Properties</value>
   </data>
   <data name="properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>&amp;Properties</value>
+  </data>
+  <data name="quickConverter" xml:space="preserve">
+    <value>&amp;Quick Converter</value>
   </data>
   <data name="recentProjects" xml:space="preserve">
     <value>Recent Projects</value>
   </data>
   <data name="redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>&amp;Redo</value>
   </data>
   <data name="removeChannel" xml:space="preserve">
-    <value>Remove Channel</value>
+    <value>&amp;Remove Channel</value>
   </data>
   <data name="removeProgram" xml:space="preserve">
-    <value>Remove Program</value>
+    <value>Remo&amp;ve Program</value>
   </data>
   <data name="removeSelected" xml:space="preserve">
-    <value>Remove Selected</value>
+    <value>&amp;Remove Selected</value>
+  </data>
+  <data name="removeUnit" xml:space="preserve">
+    <value>Re&amp;move Unit</value>
+  </data>
+  <data name="rename" xml:space="preserve">
+    <value>Rename</value>
   </data>
   <data name="renameChannel" xml:space="preserve">
-    <value>Rename Channel</value>
+    <value>R&amp;ename Channel</value>
+  </data>
+  <data name="renameUnit" xml:space="preserve">
+    <value>R&amp;ename Unit</value>
   </data>
   <data name="reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>&amp;Reset</value>
+  </data>
+  <data name="resetAppearance" xml:space="preserve">
+    <value>&amp;Reset Appearance</value>
   </data>
   <data name="resetCounters" xml:space="preserve">
     <value>Reset Counters</value>
   </data>
+  <data name="run" xml:space="preserve">
+    <value>Run</value>
+  </data>
   <data name="runProgram" xml:space="preserve">
-    <value>Run Program</value>
+    <value>R&amp;un Progra&amp;m</value>
   </data>
   <data name="runProgramStart" xml:space="preserve">
     <value>Run Program from Start</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>&amp;Save</value>
   </data>
   <data name="saveAs" xml:space="preserve">
-    <value>Save As</value>
+    <value>Save &amp;As</value>
+  </data>
+  <data name="saveLog" xml:space="preserve">
+    <value>&amp;Save Log</value>
+  </data>
+  <data name="scanPorts" xml:space="preserve">
+    <value>Scan Ports</value>
   </data>
   <data name="selectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Select &amp;All</value>
   </data>
   <data name="selectInvert" xml:space="preserve">
-    <value>Select Invert</value>
+    <value>Select &amp;Invert</value>
+  </data>
+  <data name="selectionToSnapshot" xml:space="preserve">
+    <value>Add Selection to Snapshot</value>
   </data>
   <data name="selectMatchingFormats" xml:space="preserve">
     <value>Select Matching Formats</value>
@@ -342,50 +453,95 @@
   <data name="selectSpecial" xml:space="preserve">
     <value>Select Special</value>
   </data>
+  <data name="sendFile" xml:space="preserve">
+    <value>Send File</value>
+  </data>
+  <data name="sendOnChange" xml:space="preserve">
+    <value>Send on Change</value>
+  </data>
+  <data name="setAsActiveProgram" xml:space="preserve">
+    <value>&amp;Set as Active Program</value>
+  </data>
+  <data name="setFormatsToModbusASCII" xml:space="preserve">
+    <value>Set Formats to Modbus ASCII</value>
+  </data>
+  <data name="setFormatsToModbusRTU" xml:space="preserve">
+    <value>Set Formats to Modbus RTU</value>
+  </data>
   <data name="setStepCursor" xml:space="preserve">
     <value>Set Step Cursor</value>
   </data>
+  <data name="snapshots" xml:space="preserve">
+    <value>Snapshots</value>
+  </data>
   <data name="showFormats" xml:space="preserve">
-    <value>Show Formats</value>
+    <value>Show &amp;Formats</value>
+  </data>
+  <data name="showLastUpdatedTime" xml:space="preserve">
+    <value>Show &amp;Last Updated Time</value>
   </data>
   <data name="showSource" xml:space="preserve">
     <value>Show Source</value>
   </data>
   <data name="showUnits" xml:space="preserve">
-    <value>Show Units</value>
+    <value>Show &amp;Units</value>
+  </data>
+  <data name="signed" xml:space="preserve">
+    <value>Si&amp;gned</value>
+  </data>
+  <data name="slaveManager" xml:space="preserve">
+    <value>Slave Manager</value>
   </data>
   <data name="snapshotView" xml:space="preserve">
     <value>Snapshot View</value>
   </data>
+  <data name="startLogging" xml:space="preserve">
+    <value>Start Logging</value>
+  </data>
   <data name="stepProgram" xml:space="preserve">
-    <value>Step Program</value>
+    <value>S&amp;tep Program</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stop</value>
   </data>
   <data name="stopBits" xml:space="preserve">
-    <value>Stop Bits</value>
+    <value>S&amp;top Bits</value>
+  </data>
+  <data name="stopLogging" xml:space="preserve">
+    <value>Sto&amp;p Logging</value>
   </data>
   <data name="stopProgram" xml:space="preserve">
-    <value>Stop Program</value>
+    <value>S&amp;top Program</value>
   </data>
   <data name="switchChannel" xml:space="preserve">
-    <value>Switch Channel</value>
+    <value>&amp;Switch Channel</value>
   </data>
   <data name="textCompare" xml:space="preserve">
-    <value>Text Comparator</value>
+    <value>&amp;Text Comparator</value>
   </data>
   <data name="textFormatting" xml:space="preserve">
     <value>Text Formatting</value>
   </data>
+  <data name="tileWindows" xml:space="preserve">
+    <value>&amp;Tile Windows</value>
+  </data>
+  <data name="toggle" xml:space="preserve">
+    <value>&amp;Toggle</value>
+  </data>
   <data name="toggleSelected" xml:space="preserve">
-    <value>Toggle Selected</value>
+    <value>&amp;Toggle Selected</value>
   </data>
   <data name="tools" xml:space="preserve">
-    <value>Tools</value>
+    <value>&amp;Tools</value>
   </data>
   <data name="topMost" xml:space="preserve">
-    <value>Top Most</value>
+    <value>&amp;Top Most</value>
   </data>
   <data name="undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>&amp;Undo</value>
+  </data>
+  <data name="unsigned" xml:space="preserve">
+    <value>&amp;Unsigned</value>
   </data>
   <data name="untitled" xml:space="preserve">
     <value>Untitled</value>
@@ -394,10 +550,10 @@
     <value>Untitled Program</value>
   </data>
   <data name="variables" xml:space="preserve">
-    <value>Variables</value>
+    <value>&amp;Variables</value>
   </data>
   <data name="view" xml:space="preserve">
-    <value>View</value>
+    <value>&amp;View</value>
   </data>
   <data name="viewDataOnly" xml:space="preserve">
     <value>Data Only</value>
@@ -412,12 +568,60 @@
     <value>Time Stamps</value>
   </data>
   <data name="window" xml:space="preserve">
-    <value>Window</value>
+    <value>&amp;Window</value>
   </data>
   <data name="windowManager" xml:space="preserve">
     <value>Window Manager</value>
   </data>
+  <data name="wordOrder" xml:space="preserve">
+    <value>&amp;Word Order</value>
+  </data>
   <data name="zoom" xml:space="preserve">
-    <value>Zoom</value>
+    <value>&amp;Zoom</value>
+  </data>
+  <data name="format" xml:space="preserve">
+    <value>&amp;Format</value>
+  </data>
+  <data name="modbus" xml:space="preserve">
+    <value>&amp;Modbus</value>
+  </data>
+  <data name="snapshotSelection" xml:space="preserve">
+    <value>&amp;Snapshot Selection</value>
+  </data>
+  <data name="export" xml:space="preserve">
+    <value>&amp;Export</value>
+  </data>
+  <data name="modbusAddressFormat" xml:space="preserve">
+    <value>Address Format</value>
+  </data>
+  <data name="openLogLocation" xml:space="preserve">
+    <value>Open Log Location</value>
+  </data>
+  <data name="searchRegisters" xml:space="preserve">
+    <value>&amp;Search Registers</value>
+  </data>
+  <data name="addMonitor" xml:space="preserve">
+    <value>&amp;Add to Monitor</value>
+  </data>
+  <data name="removeMonitor" xml:space="preserve">
+    <value>&amp;Remove Monitor</value>
+  </data>
+  <data name="openLogExcel" xml:space="preserve">
+    <value>Open Copy of Log in Excel</value>
+  </data>
+  <data name="globalVariables" xml:space="preserve">
+    <value>&amp;Global Variables</value>
+  </data>
+  <data name="localVariables" xml:space="preserve">
+    <value>&amp;Local Variables</value>
+  </data>
+  <data name="array" xml:space="preserve">
+    <value>&amp;Array</value>
+  </data>
+  <data name="execute" xml:space="preserve">
+    <value>&amp;Execute</value>
+  </data>
+  <data name="query" xml:space="preserve">
+    <value>&amp;Query</value>
   </data>
 </root>
