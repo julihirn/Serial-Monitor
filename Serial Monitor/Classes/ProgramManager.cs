@@ -134,7 +134,6 @@ namespace Serial_Monitor.Classes {
         #endregion 
         #region Program Transport
         public static void RunFromStart() {
-
             ProgramManager.SetupProgram();
             ProgramManager.ProgramStep = 0;
             ProgramManager.ProgramState = StepEnumerations.StepState.Running;
@@ -823,9 +822,9 @@ namespace Serial_Monitor.Classes {
             return Assignment + "=" + Input + ".Replace(" + StringHandler.EncapsulateString(ReplaceCue) + "," + StringHandler.EncapsulateString(ReplaceWith) + ")";
         }
         public static void CopyVariableValue(string Argument) {
-           if (SystemManager.MainInstance != null) {
-               SystemManager.MainInstance.MethodCopying(GetVariable(Argument, false));
-           }
+            if (SystemManager.MainInstance != null) {
+                SystemManager.MainInstance.MethodCopying(GetVariable(Argument, false));
+            }
         }
         public static void CopyText(string Argument) {
             if (SystemManager.MainInstance != null) {
@@ -1468,11 +1467,10 @@ namespace Serial_Monitor.Classes {
             if (CurrentEditingProgram.Program.Count <= 0) { return; }
             if (CurrentEditingProgram.SelectedCount() <= 0) { return; }
             foreach (ListItem Li in CurrentEditingProgram.Program) {
-                if (Li.Selected == true) {
-                    Li[2].Tag = StepChange;
-                    Li[2].Text = StepExecutableToString((StepEnumerations.StepExecutable)StepChange);
-                    Li[3].Text = CommandDefaultValue(StepChange);
-                }
+                if (Li.Selected == false) { continue; }
+                Li[2].Tag = StepChange;
+                Li[2].Text = StepExecutableToString((StepEnumerations.StepExecutable)StepChange);
+                Li[3].Text = CommandDefaultValue(StepChange);
             }
             ProgramListingChanged?.Invoke();
         }
@@ -1548,20 +1546,7 @@ namespace Serial_Monitor.Classes {
         public static void AddCommandLine(StepEnumerations.StepExecutable StepChange) {
             if (CurrentEditingProgram == null) { return; }
             CurrentEditingProgram.AddCommandLine(StepChange, CommandDefaultValue(StepChange));
-            //ListItem Lip = new ListItem();
-            //ListSubItem LiE = new ListSubItem(true);
-            //ListSubItem LiC = new ListSubItem();
-            //LiC.Tag = StepChange;
-            //LiC.Text = StepExecutableToString(StepChange);
-
-            //ListSubItem LiA = new ListSubItem();
-            //LiA.Text = CommandDefaultValue(StepChange);
-            //Lip.SubItems.Add(LiE);
-            //Lip.SubItems.Add(LiC);
-            //Lip.SubItems.Add(LiA);
-            //CurrentEditingProgram.Program.Add(Lip);
             ProgramListingChanged?.Invoke();
-
         }
         public static (bool, StepExecutable, string) GetProgramCommandLineData(string ProgramName, int Index) {
             ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
@@ -1617,33 +1602,31 @@ namespace Serial_Monitor.Classes {
         public static void ClearProgram(ProgramObject? Program) {
             if (Program == null) { return; }
             Program.Program.Clear();
-            if (CurrentEditingProgram != null) {
-                if (CurrentEditingProgram.ID == Program.ID) {
-                    ReapplyDisplayFormatting();
-                    ProgramListingChanged?.Invoke();
-                }
+            if (CurrentEditingProgram == null) { return; }
+            if (CurrentEditingProgram.ID == Program.ID) {
+                ReapplyDisplayFormatting();
+                ProgramListingChanged?.Invoke();
             }
         }
         public static void ClearProgram(string ProgramName) {
             ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
             if (SelectedProgram == null) { return; }
             SelectedProgram.Program.Clear();
-            if (CurrentEditingProgram != null) {
-                if (CurrentEditingProgram.ID == SelectedProgram.ID) {
-                    ReapplyDisplayFormatting();
-                    ProgramListingChanged?.Invoke();
-                }
+            if (CurrentEditingProgram == null) { return; }
+            if (CurrentEditingProgram.ID == SelectedProgram.ID) {
+                ReapplyDisplayFormatting();
+                ProgramListingChanged?.Invoke();
             }
         }
-     
+
         public static List<StepExecutable> GetProgramCommands(string ProgramName, bool IgnoreDisabled = true) {
             ProgramObject? SelectedProgram = GetProgramFromName(ProgramName);
             return GetProgramCommands(SelectedProgram, IgnoreDisabled);
         }
         public static List<StepExecutable> GetProgramCommands(ProgramObject? Program, bool IgnoreDisabled = true) {
             if (Program == null) { return new List<StepExecutable>(); }
-            List <StepExecutable> Output = new List<StepExecutable>();
-            for (int i=0;i< Program.Program.Count; i++) {
+            List<StepExecutable> Output = new List<StepExecutable>();
+            for (int i = 0; i < Program.Program.Count; i++) {
                 bool Enabled = Program.GetCommandLineEnabled(i);
                 if (IgnoreDisabled) { if (!Enabled) { continue; } }
                 Output.Add(Program.GetCommandLineCommand(i));
@@ -1706,19 +1689,17 @@ namespace Serial_Monitor.Classes {
             ReapplyDisplayFormatting();
         }
         private static void ReapplyDisplayFormatting() {
-            if (SystemManager.MainInstance != null) {
-                ApplySyntaxColouring(SystemManager.MainInstance.lstStepProgram, -1, true);
-                ApplyIndentation(SystemManager.MainInstance.lstStepProgram);
-            }
+            if (SystemManager.MainInstance == null) { return; }
+            ApplySyntaxColouring(SystemManager.MainInstance.lstStepProgram, -1, true);
+            ApplyIndentation(SystemManager.MainInstance.lstStepProgram);
         }
         internal static void ArrangeProgramOrderings(TabHeader thPrograms) {
             int Index = 0;
             foreach (Tab TabPrg in thPrograms.Tabs) {
-                if (TabPrg.Tag != null) {
-                    if (TabPrg.Tag.GetType() == typeof(ProgramObject)) {
-                        ((ProgramObject)TabPrg.Tag).DisplayIndex = Index;
-                        Index++;
-                    }
+                if (TabPrg.Tag == null) { continue; }
+                if (TabPrg.Tag.GetType() == typeof(ProgramObject)) {
+                    ((ProgramObject)TabPrg.Tag).DisplayIndex = Index;
+                    Index++;
                 }
             }
             Programs = Programs.OrderBy(x => x.DisplayIndex).ToList();
@@ -1727,30 +1708,30 @@ namespace Serial_Monitor.Classes {
             int j = 0;
             foreach (ProgramObject Prg in ProgramManager.Programs) {
                 if (Prg.Name.Trim().Length == 0) {
-                    Prg.UntitledProgramNmber = j;
+                    Prg.UntitledProgramNumber = j;
                     j++;
                 }
                 else {
-                    Prg.UntitledProgramNmber = -1;
+                    Prg.UntitledProgramNumber = -1;
                 }
             }
             string LocalisatedText = LocalisationManager.GetLocalisedText("untitledProgram", "Untitled Program");
             if (thPrograms.Tabs.Count > 0) {
                 foreach (Tab Tb in thPrograms.Tabs) {
-                    if (Tb.Tag != null) {
-                        if (Tb.Tag.GetType() == typeof(ProgramObject)) {
-                            ProgramObject PrObj = (ProgramObject)Tb.Tag;
-                            if (PrObj.UntitledProgramNmber >= 1) {
-                                Tb.Text = LocalisatedText + " " + PrObj.UntitledProgramNmber.ToString();
-                            }
-                            else if (PrObj.UntitledProgramNmber == 0) {
-                                Tb.Text = LocalisatedText;
-                            }
-                            else {
-                                Tb.Text = PrObj.Name;
-                            }
+                    if (Tb.Tag == null) { continue; }
+                    if (Tb.Tag.GetType() == typeof(ProgramObject)) {
+                        ProgramObject PrObj = (ProgramObject)Tb.Tag;
+                        if (PrObj.UntitledProgramNumber >= 1) {
+                            Tb.Text = LocalisatedText + " " + PrObj.UntitledProgramNumber.ToString();
+                        }
+                        else if (PrObj.UntitledProgramNumber == 0) {
+                            Tb.Text = LocalisatedText;
+                        }
+                        else {
+                            Tb.Text = PrObj.Name;
                         }
                     }
+
                 }
             }
         }
@@ -1775,10 +1756,9 @@ namespace Serial_Monitor.Classes {
         }
         internal static void SetCursorAtIndex(ODModules.ListControl? ProgramEditor, int Index) {
             if (ProgramEditor == null) { return; }
-            if (CurrentProgram != null) {
-                ProgramEditor.LineMarkerIndex = Index;
-                CurrentProgram.ProgramMarker = Index;
-            }
+            if (CurrentProgram == null) { return; }
+            ProgramEditor.LineMarkerIndex = Index;
+            CurrentProgram.ProgramMarker = Index;
         }
         internal static void Run(ODModules.ListControl? ProgramEditor) {
             if (ProgramEditor == null) { return; }
@@ -1786,6 +1766,9 @@ namespace Serial_Monitor.Classes {
             if (CurrentProgram == null) { return; }
             if (CurrentProgram == ProgramEditor.Tag) {
                 if (CurrentProgram.ProgramMarker >= CurrentProgram.Program.Count) {
+                    RunFromStart();
+                }
+                else if (CurrentProgram.ProgramMarker <= 0) {
                     RunFromStart();
                 }
                 else {

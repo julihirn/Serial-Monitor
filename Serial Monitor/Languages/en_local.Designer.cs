@@ -250,6 +250,24 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Compare From.
+        /// </summary>
+        internal static string compareFrom {
+            get {
+                return ResourceManager.GetString("compareFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compare To.
+        /// </summary>
+        internal static string compareTo {
+            get {
+                return ResourceManager.GetString("compareTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Connect.
         /// </summary>
         internal static string connect {

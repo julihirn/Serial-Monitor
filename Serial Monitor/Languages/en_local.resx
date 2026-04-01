@@ -624,4 +624,10 @@
   <data name="query" xml:space="preserve">
     <value>&amp;Query</value>
   </data>
+  <data name="compareFrom" xml:space="preserve">
+    <value>Compare From</value>
+  </data>
+  <data name="compareTo" xml:space="preserve">
+    <value>Compare To</value>
+  </data>
 </root>

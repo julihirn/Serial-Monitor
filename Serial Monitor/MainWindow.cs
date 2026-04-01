@@ -584,7 +584,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
-            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, cmiTextBoxCut, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, cmiTextBoxCopy, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, copyToolStripMenuItem2, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem2, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, cmiTextBoxPaste, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -1455,18 +1455,7 @@ namespace Serial_Monitor {
             RenameBox = new SingleLineTextBox();
             RenameBox.Text = CurrentText;
             RenameBox.Font = thPrograms.Font;
-            // RenameBox.BorderStyle = BorderStyle.None;
-            //RenameBox.Multiline = false;
-            //int CentreHeight = 0;
             RenameBox.Show();
-            //if (TabRectangle.Height > RenameBox.ClientSize.Height) {
-            //    CentreHeight = ((TabRectangle.Height - RenameBox.ClientSize.Height) / 2) + TabRectangle.Y;
-            //}
-            //else {
-            //    CentreHeight = ((RenameBox.ClientSize.Height - TabRectangle.Height) / 2) + TabRectangle.Y;
-            //}
-            //RenameBox.Location = new Point(EventData.TextRectangle.X, CentreHeight);
-            //RenameBox.Size = TabRectangle.Size;
             ThemeManager.ThemeControl(RenameBox);
             RenameBox.Location = EventData.TextRectangle.Location;
             RenameBox.Size = EventData.TextRectangle.Size;

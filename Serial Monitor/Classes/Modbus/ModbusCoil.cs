@@ -91,7 +91,7 @@ namespace Serial_Monitor.Classes.Modbus {
             else if (Input.A.ToLower() == "backcolor") {
                 int Temp = 0;
                 int.TryParse(Input.B, out Temp);
-                SetThemeIndependantBackColor(Color.FromArgb(Temp));
+                SetThemeIndependentBackColor(Color.FromArgb(Temp));
                 UseBackColor = true;
             }
             else if (Input.A.ToLower() == "format") {

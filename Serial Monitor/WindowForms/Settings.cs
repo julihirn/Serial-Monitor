@@ -160,23 +160,24 @@ namespace Serial_Monitor {
             RecolorAll();
         }
         private void RecolorAll() {
-            ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
+            //ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
             this.SuspendLayout();
-            if (ApplicationManager.IsDark == true) {
-                thSettings.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
-            }
-            else {
-                thSettings.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
-            }
-            BackColor = Properties.Settings.Default.THM_COL_Editor;
-            hiddenTabControl1.DefaultColor1 = BackColor;
+            ThemeManager.ThemeControl(thSettings);
+            //if (ApplicationManager.IsDark == true) {
+            //    thSettings.TabSelectedShadowColor = Color.FromArgb(255, 0, 0, 0);
+            //}
+            //else {
+            //    thSettings.TabSelectedShadowColor = Color.FromArgb(125, 0, 0, 0);
+            //}
+            //BackColor = Properties.Settings.Default.THM_COL_Editor;
+            //hiddenTabControl1.DefaultColor1 = BackColor;
 
-            thSettings.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
+            //thSettings.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
 
-            thSettings.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
-            thSettings.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
-            thSettings.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-            thSettings.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            //thSettings.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
+            //thSettings.BackColor = Properties.Settings.Default.THM_COL_MenuBack;
+            //thSettings.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
+            //thSettings.TabSelectedForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             TitleBackColor = Properties.Settings.Default.THM_COL_MenuBack;
             TitleForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             InactiveBorderColor = Properties.Settings.Default.THM_COL_MenuBack;

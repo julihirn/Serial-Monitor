@@ -235,15 +235,15 @@ namespace Serial_Monitor.Components {
             const int SC_RESTORE = 0xF120;
             const int WM_ENTERSIZEMOVE = 0x0231;
             const int WM_EXITSIZEMOVE = 0x0232;
-            const int WM_SETFOCUS = 0x0007;
+            //const int WM_SETFOCUS = 0x0007;
             const int WM_ACTIVATE = 0x0006;
-            const int WA_ACTIVE = 1;
-            const int WA_CLICKACTIVE = 2;
+            //const int WA_ACTIVE = 1;
+            //const int WA_CLICKACTIVE = 2;
 
-            const int WM_NCACTIVATE = 0x0086;
-            const int WM_KILLFOCUS = 0x0008;
-            const int WM_WINDOWPOSCHANGING = 0x0046;
-            const int WM_WINDOWPOSCHANGED = 0x0047;
+            //const int WM_NCACTIVATE = 0x0086;
+            //const int WM_KILLFOCUS = 0x0008;
+            //const int WM_WINDOWPOSCHANGING = 0x0046;
+            //const int WM_WINDOWPOSCHANGED = 0x0047;
 
             // Only log the messages we care about to avoid spamming too much
             //if (m.Msg == WM_ACTIVATE || m.Msg == WM_NCACTIVATE || m.Msg == WM_SETFOCUS ||
@@ -253,9 +253,9 @@ namespace Serial_Monitor.Components {
             //}
 
             if (m.Msg == WM_ACTIVATE) {
-                Debug.WriteLine($"\nACTIVATE: wParam={m.WParam}  Foreground={GetForegroundWindow():X}");
+                //Debug.WriteLine($"\nACTIVATE: wParam={m.WParam}  Foreground={GetForegroundWindow():X}");
                 IntPtr owner = GetWindow(this.Handle, GW_OWNER);
-                Debug.WriteLine($"Owner: {owner:X}\n");
+                //Debug.WriteLine($"Owner: {owner:X}\n");
             }
 
             // Prevent white flash on load by skipping background erase
@@ -319,11 +319,11 @@ namespace Serial_Monitor.Components {
 
         protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
-            Debug.WriteLine($"OnLoad: StartPosition={StartPosition}, Location={Location}");
+            //Debug.WriteLine($"OnLoad: StartPosition={StartPosition}, Location={Location}");
         }
         protected override void OnShown(EventArgs e) {
             base.OnShown(e);
-            Debug.WriteLine($"OnShown: StartPosition={StartPosition}, Location={Location}");
+            //Debug.WriteLine($"OnShown: StartPosition={StartPosition}, Location={Location}");
         }
     }
 }

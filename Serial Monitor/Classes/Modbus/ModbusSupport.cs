@@ -136,7 +136,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Values.Add(TagData("Format", EnumManager.CoilFormatToString(Current.Format).B));
                 }
                 if (Current.UseForeColor) {
-                    Values.Add(TagData("ForeColor", Current.GetThemeIndependantForeColor().ToArgb()));
+                    Values.Add(TagData("ForeColor", Current.GetThemeIndependentForeColor().ToArgb()));
                 }
                 Values.Add(TagData("Value", Current.Value));
 
@@ -174,7 +174,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     Values.Add(TagData("BackColor", Current.GetThemeIndependentBackColor().ToArgb()));
                 }
                 if (Current.UseForeColor) {
-                    Values.Add(TagData("ForeColor", Current.GetThemeIndependantForeColor().ToArgb()));
+                    Values.Add(TagData("ForeColor", Current.GetThemeIndependentForeColor().ToArgb()));
                 }
                 Output = GenerateCommaSeperatedValues(Values);
             }

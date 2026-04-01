@@ -145,7 +145,7 @@
     <value>5, 5, 5, 5</value>
   </data>
   <data name="pnlDocker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>798, 733</value>
+    <value>798, 731</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlDocker.TabIndex" type="System.Int32, mscorlib">
@@ -176,7 +176,7 @@
     <value>1, 1, 1, 1</value>
   </data>
   <data name="editorModbus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 733</value>
+    <value>359, 731</value>
   </data>
   <data name="editorModbus.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -194,7 +194,7 @@
     <value>1</value>
   </data>
   <data name="tscMain.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1157, 733</value>
+    <value>1157, 731</value>
   </data>
   <data name="&gt;&gt;tscMain.ContentPanel.Name" xml:space="preserve">
     <value>tscMain.ContentPanel</value>
@@ -224,7 +224,7 @@
     <value>1</value>
   </data>
   <data name="tscMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 40</value>
+    <value>0, 42</value>
   </data>
   <data name="&gt;&gt;tscMain.RightToolStripPanel.Name" xml:space="preserve">
     <value>tscMain.RightToolStripPanel</value>
@@ -239,7 +239,7 @@
     <value>2</value>
   </data>
   <data name="tscMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1157, 837</value>
+    <value>1157, 835</value>
   </data>
   <data name="tscMain.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -253,9 +253,6 @@
   <data name="tsFile.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
-  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>593, 164</value>
-  </metadata>
   <data name="newToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -277,6 +274,9 @@
   <data name="newToolStripButton.Text" xml:space="preserve">
     <value>&amp;New</value>
   </data>
+  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 115</value>
+  </metadata>
   <data name="openToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -715,72 +715,6 @@
   <metadata name="msMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>508, 10</value>
   </metadata>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 36</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 36</value>
-  </data>
-  <data name="editToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
-  </data>
-  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 36</value>
-  </data>
-  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;View</value>
-  </data>
-  <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 36</value>
-  </data>
-  <data name="modbusToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Modbus</value>
-  </data>
-  <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 36</value>
-  </data>
-  <data name="formatToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Format</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 36</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Tools</value>
-  </data>
-  <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 36</value>
-  </data>
-  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Window</value>
-  </data>
-  <data name="msMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="msMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1157, 40</value>
-  </data>
-  <data name="msMain.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="msMain.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;msMain.Name" xml:space="preserve">
-    <value>msMain</value>
-  </data>
-  <data name="&gt;&gt;msMain.Type" xml:space="preserve">
-    <value>ODModules.MenuStrip, ODModules, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;msMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;msMain.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="newToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -933,6 +867,12 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 38</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
   <data name="undoToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -969,12 +909,6 @@
   <data name="toolStripSeparator4.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="goToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 44</value>
-  </data>
-  <data name="goToToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Go To</value>
-  </data>
   <data name="goToToolStripMenuItem1.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+G</value>
   </data>
@@ -1007,6 +941,12 @@
   </data>
   <data name="goToSelectionToolStripMenuItem.Text" xml:space="preserve">
     <value>Go To &amp;Selection</value>
+  </data>
+  <data name="goToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>431, 44</value>
+  </data>
+  <data name="goToToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Go To</value>
   </data>
   <data name="toolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
     <value>428, 6</value>
@@ -1057,15 +997,6 @@
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
-  <data name="copySpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="copySpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 44</value>
-  </data>
-  <data name="copySpecialToolStripMenuItem.Text" xml:space="preserve">
-    <value>Copy &amp;Special</value>
-  </data>
   <data name="copyNamesToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1101,6 +1032,15 @@
   </data>
   <data name="copyAppearanceToolStripMenuItem.Text" xml:space="preserve">
     <value>Copy &amp;Appearance</value>
+  </data>
+  <data name="copySpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="copySpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>431, 44</value>
+  </data>
+  <data name="copySpecialToolStripMenuItem.Text" xml:space="preserve">
+    <value>Copy &amp;Special</value>
   </data>
   <data name="copyAsTextToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1192,15 +1132,6 @@
   <data name="selectInvertToolStripMenuItem.Text" xml:space="preserve">
     <value>Select &amp;Invert</value>
   </data>
-  <data name="selectSpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="selectSpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 44</value>
-  </data>
-  <data name="selectSpecialToolStripMenuItem.Text" xml:space="preserve">
-    <value>Select Special </value>
-  </data>
   <data name="selectMatchingNamesToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1228,6 +1159,15 @@
   <data name="selectMatchingFormatsToolStripMenuItem.Text" xml:space="preserve">
     <value>Select Matching &amp;Formats</value>
   </data>
+  <data name="selectSpecialToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="selectSpecialToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>431, 44</value>
+  </data>
+  <data name="selectSpecialToolStripMenuItem.Text" xml:space="preserve">
+    <value>Select Special </value>
+  </data>
   <data name="clearSelectionToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1254,6 +1194,12 @@
   </data>
   <data name="bitTogglerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Bit Toggler</value>
+  </data>
+  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 38</value>
+  </data>
+  <data name="editToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
   </data>
   <data name="viewCoilsToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1366,15 +1312,6 @@
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 6</value>
   </data>
-  <data name="zoomToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="zoomToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>411, 44</value>
-  </data>
-  <data name="zoomToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Zoom</value>
-  </data>
   <data name="zoom100.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 44</value>
   </data>
@@ -1410,6 +1347,15 @@
   </data>
   <data name="zoom200.Text" xml:space="preserve">
     <value>200%</value>
+  </data>
+  <data name="zoomToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="zoomToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>411, 44</value>
+  </data>
+  <data name="zoomToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Zoom</value>
   </data>
   <data name="toolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 6</value>
@@ -1449,6 +1395,12 @@
   </data>
   <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
     <value>Full Screen</value>
+  </data>
+  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 38</value>
+  </data>
+  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;View</value>
   </data>
   <data name="writeCoilToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1666,6 +1618,12 @@
   <data name="btnSelectionToSnapshot.Text" xml:space="preserve">
     <value>Add Selection to &amp;Snapshot</value>
   </data>
+  <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 38</value>
+  </data>
+  <data name="modbusToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Modbus</value>
+  </data>
   <data name="ddbDisplayFormat.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1689,18 +1647,6 @@
   </data>
   <data name="ddpDataSize.Text" xml:space="preserve">
     <value>Data &amp;Size</value>
-  </data>
-  <data name="btnSigned.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnSigned.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="btnSigned.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 44</value>
-  </data>
-  <data name="btnSigned.Text" xml:space="preserve">
-    <value>Si&amp;gned</value>
   </data>
   <data name="ddbSigned.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1728,6 +1674,18 @@
   </data>
   <data name="ddbToggleSigned.Text" xml:space="preserve">
     <value>&amp;Toggle</value>
+  </data>
+  <data name="btnSigned.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnSigned.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="btnSigned.Size" type="System.Drawing.Size, System.Drawing">
+    <value>445, 44</value>
+  </data>
+  <data name="btnSigned.Text" xml:space="preserve">
+    <value>Si&amp;gned</value>
   </data>
   <data name="ddpDecimalPlaces.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1783,6 +1741,12 @@
   <data name="resetAppearanceToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Reset Appearance</value>
   </data>
+  <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 38</value>
+  </data>
+  <data name="formatToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Format</value>
+  </data>
   <data name="quickConverterToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -1827,6 +1791,12 @@
   </data>
   <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Options</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 38</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Tools</value>
   </data>
   <data name="tileHorizontalToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1893,6 +1863,36 @@
   </data>
   <data name="snapshotsToolStripMenuItem.Text" xml:space="preserve">
     <value>S&amp;napshots</value>
+  </data>
+  <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 38</value>
+  </data>
+  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Window</value>
+  </data>
+  <data name="msMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="msMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1157, 42</value>
+  </data>
+  <data name="msMain.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="msMain.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;msMain.Name" xml:space="preserve">
+    <value>msMain</value>
+  </data>
+  <data name="&gt;&gt;msMain.Type" xml:space="preserve">
+    <value>ODModules.MenuStrip, ODModules, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;msMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;msMain.ZOrder" xml:space="preserve">
+    <value>9</value>
   </data>
   <metadata name="cmDisplayFormats.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>13, 62</value>
@@ -2078,7 +2078,7 @@
     <value>None</value>
   </data>
   <data name="cmiTextBoxCut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 38</value>
+    <value>186, 38</value>
   </data>
   <data name="cmiTextBoxCut.Text" xml:space="preserve">
     <value>C&amp;ut</value>
@@ -2087,7 +2087,7 @@
     <value>None</value>
   </data>
   <data name="cmiTextBoxCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 38</value>
+    <value>186, 38</value>
   </data>
   <data name="cmiTextBoxCopy.Text" xml:space="preserve">
     <value>&amp;Copy</value>
@@ -2096,7 +2096,7 @@
     <value>None</value>
   </data>
   <data name="cmiTextBoxPaste.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 38</value>
+    <value>186, 38</value>
   </data>
   <data name="cmiTextBoxPaste.Text" xml:space="preserve">
     <value>&amp;Paste</value>
@@ -2105,19 +2105,19 @@
     <value>None</value>
   </data>
   <data name="cmiTextBoxDelete.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 38</value>
+    <value>186, 38</value>
   </data>
   <data name="cmiTextBoxDelete.Text" xml:space="preserve">
     <value>&amp;Delete</value>
   </data>
   <data name="toolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 6</value>
+    <value>183, 6</value>
   </data>
   <data name="cmiTextBoxSelectAll.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="cmiTextBoxSelectAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 38</value>
+    <value>186, 38</value>
   </data>
   <data name="cmiTextBoxSelectAll.Text" xml:space="preserve">
     <value>&amp;Select All</value>
@@ -2131,9 +2131,6 @@
   <data name="&gt;&gt;cmTextboxOptions.Type" xml:space="preserve">
     <value>ODModules.ContextMenu, ODModules, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 115</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

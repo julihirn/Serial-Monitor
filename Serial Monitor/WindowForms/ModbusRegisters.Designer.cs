@@ -1171,7 +1171,7 @@
             querySenderToolStripMenuItem.ForeColor = Color.White;
             resources.ApplyResources(querySenderToolStripMenuItem, "querySenderToolStripMenuItem");
             querySenderToolStripMenuItem.Name = "querySenderToolStripMenuItem";
-            tsiExtender.SetTranslationReference(querySenderToolStripMenuItem, "modbusWriteRegisterMask");
+            tsiExtender.SetTranslationReference(querySenderToolStripMenuItem, "modbusQueryEditor");
             querySenderToolStripMenuItem.Click += querySenderToolStripMenuItem_Click;
             // 
             // toolStripSeparator2

@@ -34,7 +34,6 @@ namespace Serial_Monitor.Classes {
                 if (typeof(Interfaces.Application.IGenerics).IsAssignableFrom(Keyp.GetType())) {
                     ((Interfaces.Application.IGenerics)Keyp).SetTopMost(value);
                 }
-
             }
         }
         static string projectName = "";

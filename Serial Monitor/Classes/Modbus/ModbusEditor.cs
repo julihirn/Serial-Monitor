@@ -318,7 +318,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 if ((DataToPush.Length == 1) && (DataToPush[0] == '\b')) {
                     Tb.RemoveLastCharacter();
                 }
-                else { 
+                else {
                     Tb.AppendText(DataToPush);
                 }
             }
@@ -683,8 +683,8 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void ShowHideColumns(bool showFormats, bool showLastUpdate, DataSelection DataSet, ListControl lstMonitor) {
             lstMonitor.Columns[Indx_LastUpdated].Visible = showLastUpdate;
             //if (showLastUpdate == true) {
-                //int TWidth = lstMonitor.Columns[Indx_LastUpdated].Width;
-                //lstMonitor.Columns[Indx_LastUpdated].Width = TWidth;
+            //int TWidth = lstMonitor.Columns[Indx_LastUpdated].Width;
+            //lstMonitor.Columns[Indx_LastUpdated].Width = TWidth;
             //}
             if (showFormats == false) {
                 lstMonitor.Columns[Indx_Size].Visible = false;
@@ -1753,28 +1753,27 @@ namespace Serial_Monitor.Classes.Modbus {
             List<int> Indices = new List<int>();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
                 if (Li.SubItems.Count >= Indx_Value) {
-                    if (Li.Selected == true) {
-                        if (Li.Tag == null) { continue; }
-                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
-                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
-                            Reg.UseBackColor = false;
-                            Reg.UseForeColor = false;
+                    if (Li.Selected == false) { continue; }
+                    if (Li.Tag == null) { continue; }
+                    if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                        ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                        Reg.UseBackColor = false;
+                        Reg.UseForeColor = false;
 
-                            Li.UseLineForeColor = false;
-                            Li.UseLineBackColor = false;
+                        Li.UseLineForeColor = false;
+                        Li.UseLineBackColor = false;
 
-                            Indices.Add(Li.Value);
-                        }
-                        else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
-                            ModbusCoil Reg = (ModbusCoil)Li.Tag;
-                            Reg.UseBackColor = false;
-                            Reg.UseForeColor = false;
+                        Indices.Add(Li.Value);
+                    }
+                    else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                        ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                        Reg.UseBackColor = false;
+                        Reg.UseForeColor = false;
 
-                            Li.UseLineForeColor = false;
-                            Li.UseLineBackColor = false;
+                        Li.UseLineForeColor = false;
+                        Li.UseLineBackColor = false;
 
-                            Indices.Add(Li.Value);
-                        }
+                        Indices.Add(Li.Value);
                     }
                 }
             }
@@ -1786,44 +1785,43 @@ namespace Serial_Monitor.Classes.Modbus {
             List<int> Indices = new List<int>();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
                 if (Li.SubItems.Count >= Indx_Value) {
-                    if (Li.Selected == true) {
-                        if (Li.Tag == null) { continue; }
-                        if (Li.Tag.GetType() == typeof(ModbusRegister)) {
-                            ModbusRegister Reg = (ModbusRegister)Li.Tag;
-                            Reg.UseBackColor = Settings.UseBackColor;
-                            Reg.UseForeColor = Settings.UseForeColor;
-                            Reg.BackColor = Settings.BackColor;
-                            Reg.ForeColor = Settings.ForeColor;
+                    if (Li.Selected == false) { continue; }
+                    if (Li.Tag == null) { continue; }
+                    if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                        ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                        Reg.UseBackColor = Settings.UseBackColor;
+                        Reg.UseForeColor = Settings.UseForeColor;
+                        Reg.BackColor = Settings.BackColor;
+                        Reg.ForeColor = Settings.ForeColor;
 
-                            Reg.Unit = Settings.Unit;
-                            Reg.Prefix = Settings.Prefix;
+                        Reg.Unit = Settings.Unit;
+                        Reg.Prefix = Settings.Prefix;
 
-                            Li.LineBackColor = Settings.BackColor;
-                            Li.LineForeColor = Settings.ForeColor;
+                        Li.LineBackColor = Settings.BackColor;
+                        Li.LineForeColor = Settings.ForeColor;
 
-                            Li.UseLineForeColor = Settings.UseForeColor;
-                            Li.UseLineBackColor = Settings.UseBackColor;
+                        Li.UseLineForeColor = Settings.UseForeColor;
+                        Li.UseLineBackColor = Settings.UseBackColor;
 
 
-                            Li[Indx_Value].Text = Reg.ValueWithUnit;
+                        Li[Indx_Value].Text = Reg.ValueWithUnit;
 
-                            Indices.Add(Li.Value);
-                        }
-                        else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
-                            ModbusCoil Reg = (ModbusCoil)Li.Tag;
-                            Reg.UseBackColor = Settings.UseBackColor;
-                            Reg.UseForeColor = Settings.UseForeColor;
-                            Reg.BackColor = Settings.BackColor;
-                            Reg.ForeColor = Settings.ForeColor;
+                        Indices.Add(Li.Value);
+                    }
+                    else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                        ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                        Reg.UseBackColor = Settings.UseBackColor;
+                        Reg.UseForeColor = Settings.UseForeColor;
+                        Reg.BackColor = Settings.BackColor;
+                        Reg.ForeColor = Settings.ForeColor;
 
-                            Li.LineBackColor = Settings.BackColor;
-                            Li.LineForeColor = Settings.ForeColor;
+                        Li.LineBackColor = Settings.BackColor;
+                        Li.LineForeColor = Settings.ForeColor;
 
-                            Li.UseLineForeColor = Settings.UseForeColor;
-                            Li.UseLineBackColor = Settings.UseBackColor;
+                        Li.UseLineForeColor = Settings.UseForeColor;
+                        Li.UseLineBackColor = Settings.UseBackColor;
 
-                            Indices.Add(Li.Value);
-                        }
+                        Indices.Add(Li.Value);
                     }
                 }
             }
@@ -1847,60 +1845,59 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         private static int SetProperty(ListItem Li, ModbusProperty Settings, ModbusPropertyFlags Flags) {
             if (Li.SubItems.Count >= Indx_Value) {
-                if (Li.Selected == true) {
-                    if (Li.Tag == null) { return -1; }
-                    if (Li.Tag.GetType() == typeof(ModbusRegister)) {
-                        ModbusRegister Reg = (ModbusRegister)Li.Tag;
+                if (Li.Selected == false) { return -1; }
+                if (Li.Tag == null) { return -1; }
+                if (Li.Tag.GetType() == typeof(ModbusRegister)) {
+                    ModbusRegister Reg = (ModbusRegister)Li.Tag;
 
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.BackColor)) {
-                            Reg.BackColor = Settings.BackColor;
-                            //Li.LineBackColor = Settings.BackColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.ForeColor)) {
-                            Reg.ForeColor = Settings.ForeColor;
-                            //Li.LineForeColor = Settings.ForeColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseBackColor)) {
-                            Reg.UseBackColor = Settings.UseBackColor;
-                            //Li.UseLineBackColor = Settings.UseBackColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseForeColor)) {
-                            Reg.UseForeColor = Settings.UseForeColor;
-                            //Li.UseLineForeColor = Settings.UseForeColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.Unit)) {
-                            Reg.Unit = Settings.Unit;
-                            //Li[Indx_Value].Text = Reg.ValueWithUnit;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.Prefix)) {
-                            Reg.Prefix = Settings.Prefix;
-                            //Li[Indx_Value].Text = Reg.ValueWithUnit;
-                        }
-
-                        return Li.Value;
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.BackColor)) {
+                        Reg.BackColor = Settings.BackColor;
+                        //Li.LineBackColor = Settings.BackColor;
                     }
-                    else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
-                        ModbusCoil Reg = (ModbusCoil)Li.Tag;
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.BackColor)) {
-                            Reg.BackColor = Settings.BackColor;
-                            //Li.LineBackColor = Settings.BackColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.ForeColor)) {
-                            Reg.ForeColor = Settings.ForeColor;
-                            //Li.LineForeColor = Settings.ForeColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseBackColor)) {
-                            Reg.UseBackColor = Settings.UseBackColor;
-                            //Li.UseLineBackColor = Settings.UseBackColor;
-                        }
-                        if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseForeColor)) {
-                            Reg.UseForeColor = Settings.UseForeColor;
-                            //Li.UseLineForeColor = Settings.UseForeColor;
-                        }
-
-                        return Li.Value;
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.ForeColor)) {
+                        Reg.ForeColor = Settings.ForeColor;
+                        //Li.LineForeColor = Settings.ForeColor;
                     }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseBackColor)) {
+                        Reg.UseBackColor = Settings.UseBackColor;
+                        //Li.UseLineBackColor = Settings.UseBackColor;
+                    }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseForeColor)) {
+                        Reg.UseForeColor = Settings.UseForeColor;
+                        //Li.UseLineForeColor = Settings.UseForeColor;
+                    }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.Unit)) {
+                        Reg.Unit = Settings.Unit;
+                        //Li[Indx_Value].Text = Reg.ValueWithUnit;
+                    }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.Prefix)) {
+                        Reg.Prefix = Settings.Prefix;
+                        //Li[Indx_Value].Text = Reg.ValueWithUnit;
+                    }
+                    return Li.Value;
                 }
+                else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
+                    ModbusCoil Reg = (ModbusCoil)Li.Tag;
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.BackColor)) {
+                        Reg.BackColor = Settings.BackColor;
+                        //Li.LineBackColor = Settings.BackColor;
+                    }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.ForeColor)) {
+                        Reg.ForeColor = Settings.ForeColor;
+                        //Li.LineForeColor = Settings.ForeColor;
+                    }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseBackColor)) {
+                        Reg.UseBackColor = Settings.UseBackColor;
+                        //Li.UseLineBackColor = Settings.UseBackColor;
+                    }
+                    if (IsPropertyFlagSet(Flags, ModbusPropertyFlags.UseForeColor)) {
+                        Reg.UseForeColor = Settings.UseForeColor;
+                        //Li.UseLineForeColor = Settings.UseForeColor;
+                    }
+
+                    return Li.Value;
+                }
+
             }
             return -1;
         }
@@ -1965,7 +1962,7 @@ namespace Serial_Monitor.Classes.Modbus {
             int SetFlags = (int)Flags;
             return (SetFlags & (int)FlagToCompare) == (int)FlagToCompare;
         }
-        private static CancellationTokenSource? _propertyDebounceToken;
+        //private static CancellationTokenSource? _propertyDebounceToken;
         public static void CheckSelectedPropertiesAreEqualAsync(object? lstMonitor, TimeSpan delay) {
             Thread Tr = new Thread(() => CheckSelectedPropertiesAreEqual((ListControl?)lstMonitor));
             Tr.IsBackground = true;

@@ -56,10 +56,10 @@ namespace Serial_Monitor.Classes.Modbus {
         public Color GetThemeIndependentBackColor() {
             return backColor;
         }
-        public Color GetThemeIndependantForeColor() {
+        public Color GetThemeIndependentForeColor() {
             return foreColor;
         }
-        public void SetThemeIndependantBackColor(Color Input) {
+        public void SetThemeIndependentBackColor(Color Input) {
             backColor = Input;
             backColorDark = DesignerSetup.InvertAndRotate180(Input);
         }
