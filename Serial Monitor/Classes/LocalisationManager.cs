@@ -49,6 +49,11 @@ namespace Serial_Monitor.Classes {
                 if (tsiExtender == null) { return; }
                 LookUp = tsiExtender.GetTranslationReference(TSMI);
             }
+            else if (T == typeof(ODModules.ToolStrip)) {
+                ODModules.ToolStrip TSMI = (ODModules.ToolStrip)Ctrl;
+                if (tsiExtender == null) { return; }
+                //LookUp = tsiExtender.GetTranslationReference(TSMI);
+            }
         }
         public static void ApplyText(ODModules.MenuStrip Ts, ControlExtender? ctrlExtender, ToolStripItemExtender? tsiExtender) {
             foreach (ToolStripMenuItem Tsi in Ts.Items) {

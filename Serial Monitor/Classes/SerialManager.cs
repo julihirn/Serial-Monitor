@@ -206,7 +206,7 @@ namespace Serial_Monitor.Classes {
                 SystemManager.InvokeChannelPropertiesChanged(this);
             }
         }
-        bool isMaster = false;
+        bool isMaster = true;
         [Category("Modbus")]
         [DisplayName("Modbus Master")]
         public bool IsMaster {

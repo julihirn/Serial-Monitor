@@ -130,6 +130,7 @@ namespace Serial_Monitor {
 
             UserInterfaceManager.ApplyLayout(this, tscMain);
             UserInterfaceManager.HookToolStrips(tscMain);
+           
             DocumentEdited = false;
         }
 
@@ -391,7 +392,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelDataReceived += SystemManager_ChannelDataReceived;
             SetTitle(LocalisationManager.GetLocalisedText("untitled", "Untitled"));
             //DetermineTabs();
-
+            UserInterfaceManager.GetAllToolstrips(tscMain, toolbarsToolStripMenuItem);
         }
 
         #region Extensions 

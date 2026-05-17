@@ -33,6 +33,14 @@ namespace Serial_Monitor.Classes.Modbus {
         public static event EditorPropertiesEqualHandler? EditorPropertiesEqual;
         public delegate void EditorPropertiesEqualHandler(ListControl? LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected);
 
+        public static event CoilFormatChangedHandler? CoilFormatChanged;
+        public delegate void CoilFormatChangedHandler(CoilFormat Frmt);
+
+        public static event RegisterFormatChangedHandler? RegisterFormatChanged;
+        public delegate void RegisterFormatChangedHandler(DataFormat Frmt);
+
+        public static event DataSizeChangedHandler? DataSizeChanged;
+        public delegate void DataSizeChangedHandler(DataSize Size);
         public static Size MinimumSize = new Size(464, 213);
         #region Loaders
         static bool IsFirstLoad = true;
@@ -918,6 +926,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             lstMonitor.Invalidate();
+            CoilFormatChanged?.Invoke(Frmt);
         }
         public static void ChangeDisplayFormatListDual(object? sender, ListControl? lstMonitor, bool ShowUnits) {
             ChangeDisplayFormatList(sender, lstMonitor, ShowUnits);
@@ -980,6 +989,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             lstMonitor.Invalidate();
+            RegisterFormatChanged?.Invoke(Frmt);
         }
         public static void ChangeSizeList(object? sender, ListControl? lstMonitor, bool ShowUnits) {
             if (lstMonitor == null) { return; }
@@ -1037,6 +1047,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
             lstMonitor.Invalidate();
+            DataSizeChanged?.Invoke(Frmt);
         }
         public static void ChangeDataSize(DropDownClickedEventArgs? e, ListControl? LstMonitor, string? SearchText, bool ShowUnits) {
             if (e == null) { return; }
@@ -1063,6 +1074,7 @@ namespace Serial_Monitor.Classes.Modbus {
             e.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
             ModbusEditor.RetroactivelyApplyFormatChanges(e.Item, LstMonitor, ShowUnits);
             LstMonitor.Invalidate();
+            DataSizeChanged?.Invoke(DatSize);
         }
         public static void ChangeDataFormat(DropDownClickedEventArgs? e, ListControl? LstMonitor, string? SearchText, bool ShowUnits) {
             if (e == null) { return; }
@@ -1090,6 +1102,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 e.ParentItem[e.Column].Text = EnumManager.DataFormatToString(Reg.Format).A;
                 e.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
                 ModbusEditor.RetroactivelyApplyFormatChanges(e.Item, LstMonitor, ShowUnits);
+                RegisterFormatChanged?.Invoke(DatSize);
             }
             else if (TempData.GetType() == typeof(ModbusCoil)) {
                 ModbusCoil Reg = (ModbusCoil)TempData;
@@ -1106,6 +1119,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 Reg.Format = DatSize;
                 e.ParentItem[e.Column].Text = EnumManager.CoilFormatToString(Reg.Format).A;
                 e.ParentItem[ModbusEditor.Indx_Value].Text = Reg.ValueWithUnit;
+                CoilFormatChanged?.Invoke(DatSize);
             }
             LstMonitor.Invalidate();
         }

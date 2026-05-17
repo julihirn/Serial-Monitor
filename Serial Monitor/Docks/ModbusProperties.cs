@@ -21,10 +21,10 @@ namespace Serial_Monitor.Docks {
     public partial class ModbusProperties : ODModules.Docking.ToolWindow, Interfaces.ITheme {
         ModbusRegisters? EditorInstance = null;
 
-        TemplateContextMenuHost ?TextColorPopupHost;
+        TemplateContextMenuHost? TextColorPopupHost;
         ColorPopup popTextColor = new ColorPopup(false);
 
-        TemplateContextMenuHost ?BackColorPopupHost;
+        TemplateContextMenuHost? BackColorPopupHost;
         ColorPopup popBackColor = new ColorPopup(true);
         protected override CreateParams CreateParams {
             get {
@@ -50,6 +50,11 @@ namespace Serial_Monitor.Docks {
                 BackColorPopupHost.Opening += BackColorPopupHost_Opening;
             }
             Classes.Modbus.ModbusEditor.EditorPropertiesEqual += ModbusEditor_EditorPropertiesEqual;
+
+            Classes.Modbus.ModbusEditor.CoilFormatChanged += ModbusEditor_CoilFormatChanged;
+            Classes.Modbus.ModbusEditor.RegisterFormatChanged += ModbusEditor_RegisterFormatChanged;
+            Classes.Modbus.ModbusEditor.DataSizeChanged += ModbusEditor_DataSizeChanged;
+
             EnumManager.LoadDataSizes(toolStrip1, DataSize_Click);
             EnumManager.LoadCoilFormats(ddlBooleanDisplay, ModbusEnums.CoilFormat.Boolean);
             EnumManager.LoadDataFormats(ddlDisplay, ModbusEnums.DataFormat.Decimal);
@@ -58,9 +63,34 @@ namespace Serial_Monitor.Docks {
             AdjustUI();
             PreventLoad = false;
         }
+
+        private void ModbusEditor_DataSizeChanged(ModbusEnums.DataSize Size) {
+            PreventLoad = true;
+
+            PreventLoad = false;
+        }
+
+        private void ModbusEditor_RegisterFormatChanged(ModbusEnums.DataFormat Frmt) {
+            PreventLoad = true;
+            try {
+                ddlDisplay.SelectedIndex = (int)Frmt;
+            }
+            catch { }
+            PreventLoad = false;
+        }
+
+        private void ModbusEditor_CoilFormatChanged(ModbusEnums.CoilFormat Frmt) {
+            PreventLoad = true;
+            try {
+                ddlBooleanDisplay.SelectedIndex = (int)Frmt;
+            }
+            catch { }
+            PreventLoad = false;
+        }
+
         private void AdjustUI() {
             if (PreventLoad == false) { return; }
-            foreach(Control LblPnlParent in panel2.Controls) {
+            foreach (Control LblPnlParent in panel2.Controls) {
                 if (LblPnlParent.GetType() != typeof(LabelPanel)) { continue; }
                 foreach (Control LblPnl in LblPnlParent.Controls) {
                     if (LblPnl.GetType() != typeof(LabelPanel)) { continue; }
@@ -231,6 +261,9 @@ namespace Serial_Monitor.Docks {
             EditorInstance.FormClosing -= EditorInstance_FormClosing;
             EditorInstance = null;
             Classes.Modbus.ModbusEditor.EditorPropertiesEqual -= ModbusEditor_EditorPropertiesEqual;
+            Classes.Modbus.ModbusEditor.CoilFormatChanged -= ModbusEditor_CoilFormatChanged;
+            Classes.Modbus.ModbusEditor.RegisterFormatChanged -= ModbusEditor_RegisterFormatChanged;
+            Classes.Modbus.ModbusEditor.DataSizeChanged -= ModbusEditor_DataSizeChanged;
         }
 
         private void ModbusProperties_Load(object sender, EventArgs e) {

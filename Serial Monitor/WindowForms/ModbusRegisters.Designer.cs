@@ -28,14 +28,9 @@
             tscMain = new ToolStripContainer();
             pnlDocker = new ODModules.Docking.DockPanel();
             editorModbus = new Serial_Monitor.Docks.ModbusEditor();
-            tsFile = new ODModules.ToolStrip();
-            newToolStripButton = new ToolStripButton();
-            openToolStripButton = new ToolStripButton();
-            saveToolStripButton = new ToolStripButton();
-            toolStripSeparator = new ToolStripSeparator();
-            cutToolStripButton = new ToolStripButton();
-            copyToolStripButton = new ToolStripButton();
-            pasteToolStripButton = new ToolStripButton();
+            tsRegisterEdit = new ODModules.ToolStrip();
+            tsddDataSize = new ToolStripDropDownButton();
+            tsddDisplayType = new ToolStripDropDownButton();
             tsMain = new ODModules.ToolStrip();
             btnCoils = new ToolStripButton();
             btnDiscrete = new ToolStripButton();
@@ -47,6 +42,14 @@
             btnLockEditor = new ToolStripButton();
             toolStripSeparator6 = new ToolStripSeparator();
             btnMenuTopMost = new ToolStripButton();
+            tsFile = new ODModules.ToolStrip();
+            newToolStripButton = new ToolStripButton();
+            openToolStripButton = new ToolStripButton();
+            saveToolStripButton = new ToolStripButton();
+            toolStripSeparator = new ToolStripSeparator();
+            cutToolStripButton = new ToolStripButton();
+            copyToolStripButton = new ToolStripButton();
+            pasteToolStripButton = new ToolStripButton();
             cmMonitor = new ODModules.ContextMenu();
             btnCmSelectionToSnapshot = new ToolStripMenuItem();
             toolStripSeparator14 = new ToolStripSeparator();
@@ -124,6 +127,7 @@
             toolStripSeparator30 = new ToolStripSeparator();
             propertiesToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator29 = new ToolStripSeparator();
+            toolbarsToolStripMenuItem = new ToolStripMenuItem();
             btnTopMost = new ToolStripMenuItem();
             fullScreenToolStripMenuItem = new ToolStripMenuItem();
             modbusToolStripMenuItem = new ToolStripMenuItem();
@@ -208,8 +212,9 @@
             tscMain.ContentPanel.SuspendLayout();
             tscMain.TopToolStripPanel.SuspendLayout();
             tscMain.SuspendLayout();
-            tsFile.SuspendLayout();
+            tsRegisterEdit.SuspendLayout();
             tsMain.SuspendLayout();
+            tsFile.SuspendLayout();
             cmMonitor.SuspendLayout();
             msMain.SuspendLayout();
             cmChannels.SuspendLayout();
@@ -245,8 +250,9 @@
             // 
             // tscMain.TopToolStripPanel
             // 
-            tscMain.TopToolStripPanel.Controls.Add(tsFile);
+            tscMain.TopToolStripPanel.Controls.Add(tsRegisterEdit);
             tscMain.TopToolStripPanel.Controls.Add(tsMain);
+            tscMain.TopToolStripPanel.Controls.Add(tsFile);
             cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
             cntrlExtender.SetTranslationReference(tscMain, "");
             // 
@@ -286,89 +292,50 @@
             editorModbus.SerializationKey = "mbEditor";
             cntrlExtender.SetTranslationReference(editorModbus, "");
             // 
-            // tsFile
+            // tsRegisterEdit
             // 
-            tsFile.BackColor = Color.Transparent;
-            tsFile.BackColorNorth = Color.DodgerBlue;
-            tsFile.BackColorSouth = Color.DodgerBlue;
-            tsFile.BorderColor = Color.WhiteSmoke;
-            resources.ApplyResources(tsFile, "tsFile");
-            tsFile.GripColor = Color.WhiteSmoke;
-            tsFile.ImageScalingSize = new Size(32, 32);
-            tsFile.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
-            tsFile.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
-            tsFile.ItemForeColor = Color.Black;
-            tsFile.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, saveToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton });
-            tsFile.ItemSelectedBackColorNorth = Color.White;
-            tsFile.ItemSelectedBackColorSouth = Color.White;
-            tsFile.ItemSelectedForeColor = Color.Black;
-            tsFile.MenuBackColorNorth = Color.DodgerBlue;
-            tsFile.MenuBackColorSouth = Color.DodgerBlue;
-            tsFile.MenuBorderColor = Color.WhiteSmoke;
-            tsFile.MenuSeparatorColor = Color.WhiteSmoke;
-            tsFile.MenuSymbolColor = Color.WhiteSmoke;
-            tsFile.Name = "tsFile";
-            tsFile.RoundedToolStrip = true;
-            tsFile.ShadowColor = Color.FromArgb(128, 0, 0, 0);
-            tsFile.ShowBorder = true;
-            tsFile.ShowShadow = true;
-            tsFile.StripItemSelectedBackColorNorth = Color.White;
-            tsFile.StripItemSelectedBackColorSouth = Color.White;
-            cntrlExtender.SetTranslationReference(tsFile, "");
+            tsRegisterEdit.BackColor = Color.Transparent;
+            tsRegisterEdit.BackColorNorth = Color.DodgerBlue;
+            tsRegisterEdit.BackColorSouth = Color.DodgerBlue;
+            tsRegisterEdit.BorderColor = Color.WhiteSmoke;
+            resources.ApplyResources(tsRegisterEdit, "tsRegisterEdit");
+            tsRegisterEdit.GripColor = Color.WhiteSmoke;
+            tsRegisterEdit.ImageScalingSize = new Size(32, 32);
+            tsRegisterEdit.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsRegisterEdit.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsRegisterEdit.ItemForeColor = Color.Black;
+            tsRegisterEdit.Items.AddRange(new ToolStripItem[] { tsddDataSize, tsddDisplayType });
+            tsRegisterEdit.ItemSelectedBackColorNorth = Color.White;
+            tsRegisterEdit.ItemSelectedBackColorSouth = Color.White;
+            tsRegisterEdit.ItemSelectedForeColor = Color.Black;
+            tsRegisterEdit.MenuBackColorNorth = Color.DodgerBlue;
+            tsRegisterEdit.MenuBackColorSouth = Color.DodgerBlue;
+            tsRegisterEdit.MenuBorderColor = Color.WhiteSmoke;
+            tsRegisterEdit.MenuSeparatorColor = Color.WhiteSmoke;
+            tsRegisterEdit.MenuSymbolColor = Color.WhiteSmoke;
+            tsRegisterEdit.Name = "tsRegisterEdit";
+            tsRegisterEdit.RoundedToolStrip = true;
+            tsRegisterEdit.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsRegisterEdit.ShowBorder = true;
+            tsRegisterEdit.ShowShadow = true;
+            tsRegisterEdit.StripItemSelectedBackColorNorth = Color.White;
+            tsRegisterEdit.StripItemSelectedBackColorSouth = Color.White;
+            cntrlExtender.SetTranslationReference(tsRegisterEdit, "tsRegisterEdit");
             // 
-            // newToolStripButton
+            // tsddDataSize
             // 
-            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(newToolStripButton, "newToolStripButton");
-            newToolStripButton.Name = "newToolStripButton";
-            tsiExtender.SetTranslationReference(newToolStripButton, "new");
-            newToolStripButton.Click += newToolStripButton_Click;
+            tsddDataSize.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            resources.ApplyResources(tsddDataSize, "tsddDataSize");
+            tsddDataSize.Name = "tsddDataSize";
+            tsiExtender.SetTranslationReference(tsddDataSize, "");
             // 
-            // openToolStripButton
+            // tsddDisplayType
             // 
-            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(openToolStripButton, "openToolStripButton");
-            openToolStripButton.Name = "openToolStripButton";
-            tsiExtender.SetTranslationReference(openToolStripButton, "open");
-            openToolStripButton.Click += openToolStripButton_Click;
-            // 
-            // saveToolStripButton
-            // 
-            saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(saveToolStripButton, "saveToolStripButton");
-            saveToolStripButton.Name = "saveToolStripButton";
-            tsiExtender.SetTranslationReference(saveToolStripButton, "save");
-            saveToolStripButton.Click += saveToolStripButton_Click;
-            // 
-            // toolStripSeparator
-            // 
-            toolStripSeparator.Name = "toolStripSeparator";
-            resources.ApplyResources(toolStripSeparator, "toolStripSeparator");
-            tsiExtender.SetTranslationReference(toolStripSeparator, "");
-            // 
-            // cutToolStripButton
-            // 
-            cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(cutToolStripButton, "cutToolStripButton");
-            cutToolStripButton.Name = "cutToolStripButton";
-            tsiExtender.SetTranslationReference(cutToolStripButton, "cut");
-            cutToolStripButton.Click += cutToolStripButton_Click;
-            // 
-            // copyToolStripButton
-            // 
-            copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(copyToolStripButton, "copyToolStripButton");
-            copyToolStripButton.Name = "copyToolStripButton";
-            tsiExtender.SetTranslationReference(copyToolStripButton, "copy");
-            copyToolStripButton.Click += copyToolStripButton_Click;
-            // 
-            // pasteToolStripButton
-            // 
-            pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(pasteToolStripButton, "pasteToolStripButton");
-            pasteToolStripButton.Name = "pasteToolStripButton";
-            tsiExtender.SetTranslationReference(pasteToolStripButton, "paste");
-            pasteToolStripButton.Click += pasteToolStripButton_Click;
+            tsddDisplayType.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            resources.ApplyResources(tsddDisplayType, "tsddDisplayType");
+            tsddDisplayType.Name = "tsddDisplayType";
+            tsddDisplayType.Tag = "Display Type";
+            tsiExtender.SetTranslationReference(tsddDisplayType, "");
             // 
             // tsMain
             // 
@@ -398,7 +365,7 @@
             tsMain.ShowShadow = true;
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
-            cntrlExtender.SetTranslationReference(tsMain, "");
+            cntrlExtender.SetTranslationReference(tsMain, "tsRegisters");
             // 
             // btnCoils
             // 
@@ -478,6 +445,90 @@
             btnMenuTopMost.Name = "btnMenuTopMost";
             tsiExtender.SetTranslationReference(btnMenuTopMost, "topMost");
             btnMenuTopMost.Click += btnMenuTopMost_Click;
+            // 
+            // tsFile
+            // 
+            tsFile.BackColor = Color.Transparent;
+            tsFile.BackColorNorth = Color.DodgerBlue;
+            tsFile.BackColorSouth = Color.DodgerBlue;
+            tsFile.BorderColor = Color.WhiteSmoke;
+            resources.ApplyResources(tsFile, "tsFile");
+            tsFile.GripColor = Color.WhiteSmoke;
+            tsFile.ImageScalingSize = new Size(32, 32);
+            tsFile.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsFile.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsFile.ItemForeColor = Color.Black;
+            tsFile.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, saveToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton });
+            tsFile.ItemSelectedBackColorNorth = Color.White;
+            tsFile.ItemSelectedBackColorSouth = Color.White;
+            tsFile.ItemSelectedForeColor = Color.Black;
+            tsFile.MenuBackColorNorth = Color.DodgerBlue;
+            tsFile.MenuBackColorSouth = Color.DodgerBlue;
+            tsFile.MenuBorderColor = Color.WhiteSmoke;
+            tsFile.MenuSeparatorColor = Color.WhiteSmoke;
+            tsFile.MenuSymbolColor = Color.WhiteSmoke;
+            tsFile.Name = "tsFile";
+            tsFile.RoundedToolStrip = true;
+            tsFile.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsFile.ShowBorder = true;
+            tsFile.ShowShadow = true;
+            tsFile.StripItemSelectedBackColorNorth = Color.White;
+            tsFile.StripItemSelectedBackColorSouth = Color.White;
+            cntrlExtender.SetTranslationReference(tsFile, "tsFile");
+            // 
+            // newToolStripButton
+            // 
+            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(newToolStripButton, "newToolStripButton");
+            newToolStripButton.Name = "newToolStripButton";
+            tsiExtender.SetTranslationReference(newToolStripButton, "new");
+            newToolStripButton.Click += newToolStripButton_Click;
+            // 
+            // openToolStripButton
+            // 
+            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(openToolStripButton, "openToolStripButton");
+            openToolStripButton.Name = "openToolStripButton";
+            tsiExtender.SetTranslationReference(openToolStripButton, "open");
+            openToolStripButton.Click += openToolStripButton_Click;
+            // 
+            // saveToolStripButton
+            // 
+            saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(saveToolStripButton, "saveToolStripButton");
+            saveToolStripButton.Name = "saveToolStripButton";
+            tsiExtender.SetTranslationReference(saveToolStripButton, "save");
+            saveToolStripButton.Click += saveToolStripButton_Click;
+            // 
+            // toolStripSeparator
+            // 
+            toolStripSeparator.Name = "toolStripSeparator";
+            resources.ApplyResources(toolStripSeparator, "toolStripSeparator");
+            tsiExtender.SetTranslationReference(toolStripSeparator, "");
+            // 
+            // cutToolStripButton
+            // 
+            cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(cutToolStripButton, "cutToolStripButton");
+            cutToolStripButton.Name = "cutToolStripButton";
+            tsiExtender.SetTranslationReference(cutToolStripButton, "cut");
+            cutToolStripButton.Click += cutToolStripButton_Click;
+            // 
+            // copyToolStripButton
+            // 
+            copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(copyToolStripButton, "copyToolStripButton");
+            copyToolStripButton.Name = "copyToolStripButton";
+            tsiExtender.SetTranslationReference(copyToolStripButton, "copy");
+            copyToolStripButton.Click += copyToolStripButton_Click;
+            // 
+            // pasteToolStripButton
+            // 
+            pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(pasteToolStripButton, "pasteToolStripButton");
+            pasteToolStripButton.Name = "pasteToolStripButton";
+            tsiExtender.SetTranslationReference(pasteToolStripButton, "paste");
+            pasteToolStripButton.Click += pasteToolStripButton_Click;
             // 
             // cmMonitor
             // 
@@ -905,7 +956,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, ddbAddressFormatSelect, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, propertiesToolStripMenuItem, toolStripSeparator29, btnTopMost, fullScreenToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, ddbAddressFormatSelect, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, propertiesToolStripMenuItem, toolStripSeparator29, toolbarsToolStripMenuItem, btnTopMost, fullScreenToolStripMenuItem });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
@@ -1095,6 +1146,13 @@
             toolStripSeparator29.Name = "toolStripSeparator29";
             resources.ApplyResources(toolStripSeparator29, "toolStripSeparator29");
             tsiExtender.SetTranslationReference(toolStripSeparator29, "");
+            // 
+            // toolbarsToolStripMenuItem
+            // 
+            toolbarsToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(toolbarsToolStripMenuItem, "toolbarsToolStripMenuItem");
+            toolbarsToolStripMenuItem.Name = "toolbarsToolStripMenuItem";
+            tsiExtender.SetTranslationReference(toolbarsToolStripMenuItem, "toolbars");
             // 
             // btnTopMost
             // 
@@ -1773,10 +1831,12 @@
             tscMain.TopToolStripPanel.PerformLayout();
             tscMain.ResumeLayout(false);
             tscMain.PerformLayout();
-            tsFile.ResumeLayout(false);
-            tsFile.PerformLayout();
+            tsRegisterEdit.ResumeLayout(false);
+            tsRegisterEdit.PerformLayout();
             tsMain.ResumeLayout(false);
             tsMain.PerformLayout();
+            tsFile.ResumeLayout(false);
+            tsFile.PerformLayout();
             cmMonitor.ResumeLayout(false);
             msMain.ResumeLayout(false);
             msMain.PerformLayout();
@@ -1968,5 +2028,9 @@
         private ToolStripSeparator toolStripSeparator32;
         private ToolStripMenuItem cmiTextBoxSelectAll;
         private ODModules.ControlExtensions.ToolStripItemExtender tsiExtender;
+        private ToolStripMenuItem toolbarsToolStripMenuItem;
+        private ODModules.ToolStrip tsRegisterEdit;
+        private ToolStripDropDownButton tsddDisplayType;
+        private ToolStripDropDownButton tsddDataSize;
     }
 }
