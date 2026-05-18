@@ -67,5 +67,5 @@ You are welcome to fork this project for your own learning, testing, or personal
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE), which means you're free to use, modify, and distribute it as per the terms of the license.
+This project is licensed under a modified version [MIT License](LICENSE), which means you're free to use, modify, and distribute it as per the terms of the license. 
 
