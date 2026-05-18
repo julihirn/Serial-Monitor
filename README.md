@@ -59,6 +59,12 @@ Current Development Roadmap:
 
 Contributions to this application are welcome! If you find bugs, want to add features, or improve the documentation, feel free to open issues and pull requests in this repository.
 
+You are welcome to fork this project for your own learning, testing, or personal modifications! However, if you do fork it, we kindly ask that you:
+* Keep your fork updated with the upstream repository.
+* Delete your fork if you no longer plan to use or maintain it.
+* Open a Pull Request if you implement a useful fix or feature! 
+
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE), which means you're free to use, modify, and distribute it as per the terms of the license.
