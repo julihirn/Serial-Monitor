@@ -1,21 +1,51 @@
-MIT License
+License Notice
 
-Copyright (c) 2023 julihirn
+This project uses a custom MIT-style license that requires attribution for
+redistributed or public-facing use. Forks and modified versions must clearly
+indicate changes and may not use the original branding without permission.
+
+
+Copyright (c) 2023 - 2026 Julian Hirniak
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+2. Any redistributed, modified, or publicly available version of the Software
+must provide visible attribution to the original author ("julihirn") and,
+where practical, include a link to the original repository.
+
+3. Modified versions of the Software must clearly indicate that changes were
+made and must not imply endorsement by the original author or contributors.
+
+4. The names of the author or contributors may not be used to endorse or
+promote products derived from the Software without prior written permission.
+
+5. The original project name, logos, branding, icons, and artwork may not be
+used in derivative works or redistributed versions without explicit written
+permission from the original author.
+
+6. This Software is provided for general-purpose use only and is not intended
+for use in safety-critical, medical, military, life-support, or other
+high-risk environments where failure could result in injury, damage, or loss.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE, NONINFRINGEMENT, SECURITY, AVAILABILITY,
+OR RELIABILITY.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES, LOSSES, DATA LOSS, BUSINESS INTERRUPTION, SYSTEM FAILURE, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+BY USING THE SOFTWARE, USERS ACCEPT FULL RESPONSIBILITY FOR ITS USE AND ANY
+CONSEQUENCES RESULTING FROM THAT USE.
+
+Unless explicitly stated otherwise, any contributions submitted to this
+project shall be licensed under the same terms as this license.
