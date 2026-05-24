@@ -26,10 +26,10 @@ namespace Serial_Monitor.Classes {
         }
 
         #region ToolStrip Layout Engine Manager
-        public static void GetAllToolstrips( ToolStripContainer? tsc, ToolStripMenuItem tsi) {
+        public static void GetAllToolstrips(ToolStripContainer? tsc, ToolStripMenuItem tsi) {
             if (tsc == null) { return; }
             Dictionary<string, ToolStrip> toolStrips = BuildToolStripMap(tsc);
-            foreach (KeyValuePair<string, ToolStrip> ts in toolStrips) { 
+            foreach (KeyValuePair<string, ToolStrip> ts in toolStrips) {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem();
                 tsmi.Text = ts.Value.Text;
                 tsmi.Tag = ts.Value;
@@ -40,8 +40,8 @@ namespace Serial_Monitor.Classes {
             }
         }
         private static void Tsmi_Click(object? sender, EventArgs e) {
-           if (sender == null) { return; }
-           if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            if (sender == null) { return; }
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
             ToolStripMenuItem Tsi = (ToolStripMenuItem)sender;
             if (Tsi.Tag == null) { return; }
             if (Tsi.Tag.GetType() != typeof(ToolStrip)) { return; }
@@ -51,97 +51,89 @@ namespace Serial_Monitor.Classes {
         }
 
         static bool ApplyingLayout = true;
-public static void ApplyLayout(Form? frm, ToolStripContainer? tsc)
-{
-    if (frm == null || tsc == null)
-        return;
+        public static void ApplyLayout(Form? frm, ToolStripContainer? tsc) {
+            if (frm == null || tsc == null)
+                return;
 
-    ApplyingLayout = true;
+            ApplyingLayout = true;
 
-    tsc.SuspendLayout();
+            tsc.SuspendLayout();
 
-    Dictionary<string, ToolStrip> toolStrips = BuildToolStripMap(tsc);
+            Dictionary<string, ToolStrip> toolStrips = BuildToolStripMap(tsc);
 
-    // Existing saved layouts
-    List<ToolStripPosition> layouts =
-        GetToolStripSettings()
-        .Where(l => l.FormObject == frm.Name)
-        .ToList();
+            // Existing saved layouts
+            List<ToolStripPosition> layouts =
+                GetToolStripSettings()
+                .Where(l => l.FormObject == frm.Name)
+                .ToList();
 
-    // Add missing toolstrips as hidden by default
-    foreach (ToolStrip ts in toolStrips.Values)
-    {
-        bool exists = layouts.Any(l => l.ToolStripObject == ts.Name);
+            // Add missing toolstrips as hidden by default
+            foreach (ToolStrip ts in toolStrips.Values) {
+                bool exists = layouts.Any(l => l.ToolStripObject == ts.Name);
 
-        if (!exists)
-        {
-            layouts.Add(new ToolStripPosition()
+                if (!exists) {
+                    layouts.Add(new ToolStripPosition() {
+                        FormObject = frm.Name,
+                        ToolStripObject = ts.Name,
+                        Visible = false,
+                        Position = Enums.ToolStripPosition.Top,
+                        Line = 0,
+                        Order = 0
+                    });
+                }
+            }
+
+            // Proper ordering
+            layouts = layouts
+                .OrderBy(l => l.Position)
+                .ThenBy(l => l.Line)
+                .ThenBy(l => l.Order)
+                .ToList();
+
+            ToolStripPanel[] panels =
             {
-                FormObject = frm.Name,
-                ToolStripObject = ts.Name,
-                Visible = false,
-                Position = Enums.ToolStripPosition.Top,
-                Line = 0,
-                Order = 0
-            });
-        }
-    }
-
-    // Proper ordering
-    layouts = layouts
-        .OrderBy(l => l.Position)
-        .ThenBy(l => l.Line)
-        .ThenBy(l => l.Order)
-        .ToList();
-
-    ToolStripPanel[] panels =
-    {
         tsc.TopToolStripPanel,
         tsc.BottomToolStripPanel,
         tsc.LeftToolStripPanel,
         tsc.RightToolStripPanel
     };
 
-    // Clear all panels first
-    foreach (ToolStripPanel panel in panels)
-    {
-        panel.SuspendLayout();
+            // Clear all panels first
+            foreach (ToolStripPanel panel in panels) {
+                panel.SuspendLayout();
 
-        while (panel.Controls.Count > 0)
-        {
-            panel.Controls[0].Parent = null;
+                while (panel.Controls.Count > 0) {
+                    panel.Controls[0].Parent = null;
+                }
+            }
+
+            // Add strips back in correct order
+            foreach (ToolStripPosition layout in layouts) {
+                if (!toolStrips.TryGetValue(layout.ToolStripObject, out ToolStrip? ts))
+                    continue;
+
+                ToolStripPanel? panel = GetPanel(tsc, layout.Position);
+
+                if (panel == null)
+                    continue;
+
+                ts.Dock = DockStyle.None;
+
+                ts.Visible = layout.Visible;
+
+                // This is the important part:
+                // same Line value => same row
+                panel.Join(ts, layout.Line);
+            }
+
+            foreach (ToolStripPanel panel in panels) {
+                panel.ResumeLayout(true);
+            }
+
+            tsc.ResumeLayout(true);
+
+            ApplyingLayout = false;
         }
-    }
-
-    // Add strips back in correct order
-    foreach (ToolStripPosition layout in layouts)
-    {
-        if (!toolStrips.TryGetValue(layout.ToolStripObject, out ToolStrip? ts))
-            continue;
-
-        ToolStripPanel? panel = GetPanel(tsc, layout.Position);
-
-        if (panel == null)
-            continue;
-
-        ts.Dock = DockStyle.None;
-
-        ts.Visible = layout.Visible;
-
-        // This is the important part:
-        // same Line value => same row
-        panel.Join(ts, layout.Line);
-    }
-
-    foreach (ToolStripPanel panel in panels)
-    {
-        panel.ResumeLayout(true);
-    }
-
-    tsc.ResumeLayout(true);
-
-    ApplyingLayout = false;
-}
         private static void PlaceToolStripOnLine(ToolStripPanel panel, ToolStrip ts, int line, Dictionary<int, int> usedSpace) {
             // Get the panel's width (if Top/Bottom) or height (if Left/Right)
             int availableSpace = (panel.Dock == DockStyle.Top || panel.Dock == DockStyle.Bottom) ? panel.Width : panel.Height;
