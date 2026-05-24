@@ -253,6 +253,49 @@
   <data name="tsRegisterEdit.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
+  <data name="btnTextColor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAHYcAAB2HAY/l8WUAAAD/SURBVFhH7dM7CsJAEIDhnEMvYOEpcgLP4R0EGy9gaaWN
+        YOEVLKzSaGGhra9C47tJuzILE5ZJzGbDTjaowg8yK85HHl4URcJlHh2UXQzwfb/Uqgt4Pl6sfT/gdjqK
+        5aAl5p2aDL7DDM/ZAepyFYHn7AC6HAt3a3nuDIDn7ADnt4DlIQy2dxmdF8kYMN1cRWN8kNlAGAGGq4uo
+        j/ZxNhC5AXS5LUQuQH8RJhbbQmgB7dkpsTCtoohMQLM7SSzKSodIe3s+AkyX6xAww7cHnictgP6xSRSB
+        y9XfIIIFACEibTnWC858AAgvOZ2rwa1mA+QNEE4B0B9QPYCr3AN+/vMG3hfporFl9RgAAAAASUVORK5C
+        YII=
+</value>
+  </data>
+  <data name="btnTextColor.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="btnTextColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 36</value>
+  </data>
+  <data name="btnTextColor.Text" xml:space="preserve">
+    <value>Text Color</value>
+  </data>
+  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 115</value>
+  </metadata>
+  <data name="btnBackColor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAHYcAAB2HAY/l8WUAAAD/SURBVFhH7dM7CsJAEIDhnEMvYOEpcgLP4R0EGy9gaaWN
+        YOEVLKzSaGGhra9C47tJuzILE5ZJzGbDTjaowg8yK85HHl4URcJlHh2UXQzwfb/Uqgt4Pl6sfT/gdjqK
+        5aAl5p2aDL7DDM/ZAepyFYHn7AC6HAt3a3nuDIDn7ADnt4DlIQy2dxmdF8kYMN1cRWN8kNlAGAGGq4uo
+        j/ZxNhC5AXS5LUQuQH8RJhbbQmgB7dkpsTCtoohMQLM7SSzKSodIe3s+AkyX6xAww7cHnictgP6xSRSB
+        y9XfIIIFACEibTnWC858AAgvOZ2rwa1mA+QNEE4B0B9QPYCr3AN+/vMG3hfporFl9RgAAAAASUVORK5C
+        YII=
+</value>
+  </data>
+  <data name="btnBackColor.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="btnBackColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 36</value>
+  </data>
+  <data name="btnBackColor.Text" xml:space="preserve">
+    <value>Back Color</value>
+  </data>
   <data name="tsddDataSize.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -279,9 +322,6 @@
   <data name="tsddDataSize.ToolTipText" xml:space="preserve">
     <value>Data Size</value>
   </data>
-  <metadata name="tsiExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 115</value>
-  </metadata>
   <data name="tsddDisplayType.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -305,6 +345,9 @@
   <data name="tsddDisplayType.Text" xml:space="preserve">
     <value>Integer</value>
   </data>
+  <data name="tsddDisplayType.ToolTipText" xml:space="preserve">
+    <value>Display</value>
+  </data>
   <data name="tsRegisterEdit.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 0</value>
   </data>
@@ -312,7 +355,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="tsRegisterEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 54</value>
+    <value>349, 54</value>
   </data>
   <data name="tsRegisterEdit.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -818,19 +861,19 @@
     <value>Ctrl+N</value>
   </data>
   <data name="newToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="newToolStripMenuItem.Text" xml:space="preserve">
     <value>New &amp;View</value>
   </data>
   <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 6</value>
+    <value>356, 6</value>
   </data>
   <data name="newToolStripMenuItem1.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="newToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="newToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;New</value>
@@ -842,13 +885,13 @@
     <value>Ctrl+O</value>
   </data>
   <data name="openToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="openToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Open</value>
   </data>
   <data name="toolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 6</value>
+    <value>356, 6</value>
   </data>
   <data name="saveToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -857,7 +900,7 @@
     <value>Ctrl+S</value>
   </data>
   <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="saveToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Save</value>
@@ -866,7 +909,7 @@
     <value>None</value>
   </data>
   <data name="saveAsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
     <value>Save &amp;As</value>
@@ -889,7 +932,7 @@
     <value>Magenta</value>
   </data>
   <data name="printToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="printToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Print</value>
@@ -917,7 +960,7 @@
     <value>Magenta</value>
   </data>
   <data name="printPreviewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
     <value>Print Pre&amp;view</value>
@@ -926,19 +969,19 @@
     <value>False</value>
   </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 6</value>
+    <value>356, 6</value>
   </data>
   <data name="exportToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Export</value>
   </data>
   <data name="toolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 6</value>
+    <value>356, 6</value>
   </data>
   <data name="exitToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -947,7 +990,7 @@
     <value>Alt+F4</value>
   </data>
   <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 44</value>
+    <value>359, 44</value>
   </data>
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
@@ -5151,6 +5194,18 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Modbus Registers</value>
+  </data>
+  <data name="&gt;&gt;btnTextColor.Name" xml:space="preserve">
+    <value>btnTextColor</value>
+  </data>
+  <data name="&gt;&gt;btnTextColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnBackColor.Name" xml:space="preserve">
+    <value>btnBackColor</value>
+  </data>
+  <data name="&gt;&gt;btnBackColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tsddDataSize.Name" xml:space="preserve">
     <value>tsddDataSize</value>

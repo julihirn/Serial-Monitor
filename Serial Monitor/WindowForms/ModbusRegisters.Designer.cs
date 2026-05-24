@@ -29,6 +29,8 @@
             pnlDocker = new ODModules.Docking.DockPanel();
             editorModbus = new Serial_Monitor.Docks.ModbusEditor();
             tsRegisterEdit = new ODModules.ToolStrip();
+            btnTextColor = new ToolStripDropDownButton();
+            btnBackColor = new ToolStripDropDownButton();
             tsddDataSize = new ToolStripDropDownButton();
             tsddDisplayType = new ToolStripDropDownButton();
             tsMain = new ODModules.ToolStrip();
@@ -304,7 +306,7 @@
             tsRegisterEdit.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsRegisterEdit.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
             tsRegisterEdit.ItemForeColor = Color.Black;
-            tsRegisterEdit.Items.AddRange(new ToolStripItem[] { tsddDataSize, tsddDisplayType });
+            tsRegisterEdit.Items.AddRange(new ToolStripItem[] { btnTextColor, btnBackColor, tsddDataSize, tsddDisplayType });
             tsRegisterEdit.ItemSelectedBackColorNorth = Color.White;
             tsRegisterEdit.ItemSelectedBackColorSouth = Color.White;
             tsRegisterEdit.ItemSelectedForeColor = Color.Black;
@@ -321,6 +323,22 @@
             tsRegisterEdit.StripItemSelectedBackColorNorth = Color.White;
             tsRegisterEdit.StripItemSelectedBackColorSouth = Color.White;
             cntrlExtender.SetTranslationReference(tsRegisterEdit, "tsRegisterEdit");
+            // 
+            // btnTextColor
+            // 
+            btnTextColor.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(btnTextColor, "btnTextColor");
+            btnTextColor.Name = "btnTextColor";
+            tsiExtender.SetTranslationReference(btnTextColor, "textColor");
+            btnTextColor.Click += btnTextColor_Click;
+            // 
+            // btnBackColor
+            // 
+            btnBackColor.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(btnBackColor, "btnBackColor");
+            btnBackColor.Name = "btnBackColor";
+            tsiExtender.SetTranslationReference(btnBackColor, "backColor");
+            btnBackColor.Click += btnBackColor_Click_1;
             // 
             // tsddDataSize
             // 
@@ -2032,5 +2050,7 @@
         private ODModules.ToolStrip tsRegisterEdit;
         private ToolStripDropDownButton tsddDisplayType;
         private ToolStripDropDownButton tsddDataSize;
+        private ToolStripDropDownButton btnTextColor;
+        private ToolStripDropDownButton btnBackColor;
     }
 }

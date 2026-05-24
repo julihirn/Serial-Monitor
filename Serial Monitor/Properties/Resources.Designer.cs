@@ -93,6 +93,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] ASerif {
+            get {
+                object obj = ResourceManager.GetObject("ASerif", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] AudioMute {
             get {
                 object obj = ResourceManager.GetObject("AudioMute", resourceCulture);
@@ -336,6 +346,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] ExportData {
             get {
                 object obj = ResourceManager.GetObject("ExportData", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Fill {
+            get {
+                object obj = ResourceManager.GetObject("Fill", resourceCulture);
                 return ((byte[])(obj));
             }
         }

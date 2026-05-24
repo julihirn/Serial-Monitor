@@ -127,6 +127,9 @@
   <data name="ApplyCodeChanges" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ApplyCodeChanges.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ASerif" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ASerif.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="AudioMute" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AudioMute.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -201,6 +204,9 @@
   </data>
   <data name="ExportData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExportData.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Fill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fill.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="FullScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FullScreen.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

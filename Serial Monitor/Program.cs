@@ -1,4 +1,5 @@
 using Serial_Monitor.Classes;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Theming;
 using System.Diagnostics;
 
@@ -17,6 +18,7 @@ namespace Serial_Monitor {
             // SystemManager.Initialize();
             if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
             ThemeManager.LoadDefaultThemes();
+            ModbusEditor.LinkColorPopupHosts();
             if (args.Length > 0){
                 Application.Run(new MainWindow(args[0]));
             }

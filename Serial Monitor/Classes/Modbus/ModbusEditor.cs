@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using ODModules;
 using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Step_Programs;
+using Serial_Monitor.Components;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -42,6 +43,34 @@ namespace Serial_Monitor.Classes.Modbus {
         public static event DataSizeChangedHandler? DataSizeChanged;
         public delegate void DataSizeChangedHandler(DataSize Size);
         public static Size MinimumSize = new Size(464, 213);
+        #region Color Editors
+        static TemplateContextMenuHost? textColorPopupHost;
+        static TemplateContextMenuHost? backColorPopupHost;
+        static ColorPopup popTextColor = new ColorPopup(false);
+        static ColorPopup popBackColor = new ColorPopup(true);
+        public static ColorPopup TextColorPopup {
+            get { return popTextColor;  }
+        }
+        public static ColorPopup BackColorPopup {
+            get { return popBackColor; }
+        }
+        public static TemplateContextMenuHost? TextColorPopupHost {
+            get { return textColorPopupHost; }
+        }
+        public static TemplateContextMenuHost? BackColorPopupHost {
+            get { return backColorPopupHost; }
+        }
+        internal static void LinkColorPopupHosts() {
+            if (textColorPopupHost == null) {
+                textColorPopupHost = new TemplateContextMenuHost(popTextColor);
+            }
+            if (backColorPopupHost == null) {
+                backColorPopupHost = new TemplateContextMenuHost(popBackColor);
+            }
+            popTextColor.Host = TextColorPopupHost;
+            popBackColor.Host = BackColorPopupHost;
+        }
+        #endregion 
         #region Loaders
         static bool IsFirstLoad = true;
         static bool RefreshThreadRunning = false;

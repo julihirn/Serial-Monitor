@@ -72,6 +72,62 @@ namespace Serial_Monitor {
 
         //    }
         //}
+        public static void LinkSVGtoControl(byte[] Resource, object LinkedControl, Size ImageSize, Color SelectedColor, bool IsThemeAffected = true) {
+            using (MemoryStream stream = new MemoryStream(Resource)) {
+                SvgDocument SVG = new SvgDocument();
+                var svg = SvgDocument.Open<SvgDocument>(stream);
+                Type t = LinkedControl.GetType();
+                Image Img = svg.Draw((int)(ImageSize.Width * 0.73), (int)(ImageSize.Height *0.73f));
+                Color BorderColor = Color.FromArgb(100, 0, 0, 0);
+                if (IsThemeAffected == true) {
+                    if (Classes.ApplicationManager.IsDark == true) {
+                        Img = RenderHandler.InvertImageColors(Img, true, 180);
+                        BorderColor = Color.FromArgb(100, 255, 255, 255);
+                    }
+                }
+                Image Comp = BuildComposite(ImageSize, Img, BorderColor, SelectedColor);
+                if (t == typeof(PictureBox)) {
+                    ((PictureBox)LinkedControl).Image = Comp;
+                }
+                else if (t == typeof(ToolStripMenuItem)) {
+                    ((ToolStripMenuItem)LinkedControl).Image = Comp;
+                }
+                else if (t == typeof(ToolStripButton)) {
+                    ((ToolStripButton)LinkedControl).Image = Comp;
+                }
+                else if (t == typeof(ToolStripSplitButton)) {
+                    ((ToolStripSplitButton)LinkedControl).Image = Comp;
+                }
+                else if (t == typeof(ToolStripDropDownButton)) {
+                    ((ToolStripDropDownButton)LinkedControl).Image = Comp;
+                }
+                else if (t == typeof(KeypadButton)) {
+                    ((KeypadButton)LinkedControl).Icon = Comp;
+                }
+            }
+        }
+        private static Image BuildComposite(Size ImageSize, Image img, Color BorderColor, Color BackColor) {
+            Bitmap output = new Bitmap(ImageSize.Width, ImageSize.Height);
+            int ColorBarWidth = (int)(0.66667f * ImageSize.Width);
+            int ColorBarHeight = (int)(0.1666f * ImageSize.Height);
+            int cbY = (int)(0.766667f * ImageSize.Height);
+            int cbX = (int)((float)(ImageSize.Width - ColorBarWidth) / 2.0f);
+            Rectangle ColorRect = new Rectangle(cbX, cbY, ColorBarWidth, ColorBarHeight);
+            using (Graphics g = Graphics.FromImage(output)) {
+                g.Clear(Color.Transparent); 
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                int imgX = (int)((float)(ImageSize.Width - img.Width) / 2.0f);
+                g.DrawImage(img, imgX, (int)(0.0625f* ImageSize.Height), img.Width, img.Height);
+                using (SolidBrush br = new SolidBrush(BackColor)) {
+                    g.FillRectangle(br, ColorRect);
+                }
+                using (Pen pen = new Pen(BorderColor)) {
+                    g.DrawRectangle(pen, ColorRect);
+                }
+            }
+            return output;
+        }
         public static void LinkSVGtoControl(byte[] Resource, object LinkedControl, Size ImageSize, bool IsThemeAffected = true) {
             using (MemoryStream stream = new MemoryStream(Resource)) {
                 SvgDocument SVG = new SvgDocument();
