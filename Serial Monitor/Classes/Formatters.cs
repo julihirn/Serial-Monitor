@@ -120,6 +120,7 @@ namespace Serial_Monitor.Classes {
             }
             else {
                 if (AffixStart == true) { Result.Append(Prefix); Result.Append(str); }
+                else { Result.Append(str); }
             }
             return Result.ToString();
         }
