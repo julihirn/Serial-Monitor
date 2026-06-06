@@ -510,7 +510,7 @@ namespace Serial_Monitor.Classes {
             return true;
         }
         #endregion
-        #region Data Fromatters
+        #region Data Formatters
         private static string PadBinary(string Input, DataSize Size, PadFrequency Frequency) {
             if (Frequency == PadFrequency.None) { return Input; }
             int SizeInt = EnumManager.DataSizeToInteger(Size);
@@ -607,6 +607,179 @@ namespace Serial_Monitor.Classes {
             }
             return true;
         }
+        public static string UnformattedStringToStringFormatted(string Input, DataFormat Format, DataSize Size, bool IsSigned) {
+            string Temp = "";
+            long TempLong = 0;
+            float TempFloat = 0.0f;
+            double TempDouble = 0.0f;
+            switch (Format) {
+                case DataFormat.Binary:
+                    if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                        return TruncateBinaryString(Input.Replace(" ", "").Replace("0b", "").Replace("0B", ""), Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+                        Temp = MathHandler.DecimalToBinary(Input.Replace(" ", ""), EnumManager.DataSizeToBinaryFormatFlags(Size));
+                        return TruncateBinaryString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                        Temp = MathHandler.DecimalToBinary(Input.Split('.')[0].Replace(" ", ""), EnumManager.DataSizeToBinaryFormatFlags(Size));
+                        return TruncateBinaryString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                        Temp = Input.Replace(" ", "").Replace("0x", "").Replace("0X", "");
+                        Temp = MathHandler.HexadecimalToBinary(Input.Replace(" ", ""));
+                        return TruncateBinaryString(Temp, Size);
+                    }
+                    break;
+                case DataFormat.Octal:
+                    if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                        Temp = MathHandler.BinaryToOctal(Input.Replace(" ", "").Replace("0b", "").Replace("0B", ""));
+                        return TruncateOctalString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+                        Temp = MathHandler.DecimalToOctal(Input.Replace(" ", ""), EnumManager.DataSizeToBinaryFormatFlags(Size));
+                        return TruncateOctalString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                        Temp = MathHandler.DecimalToOctal(Input.Split('.')[0].Replace(" ", ""), EnumManager.DataSizeToBinaryFormatFlags(Size));
+                        return TruncateBinaryString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                        Temp = Input.Replace(" ", "").Replace("0x", "").Replace("0X", "");
+                        Temp = MathHandler.HexadecimalToOctal(Temp.Replace(" ", ""));
+                        return TruncateOctalString(Temp, Size);
+                    }
+                    break;
+                case DataFormat.Hexadecimal:
+                    if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                        Temp = MathHandler.BinaryToHexadecimal(Input.Replace(" ", "").Replace("0b", "").Replace("0B", ""));
+                        return TruncateHexadecimalString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+                        Temp = MathHandler.DecimalToHexadecimal(Input.Replace(" ", ""), EnumManager.DataSizeToBinaryFormatFlags(Size));
+                        return TruncateHexadecimalString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                        Temp = MathHandler.DecimalToHexadecimal(Input.Split('.')[0].Replace(" ", ""), EnumManager.DataSizeToBinaryFormatFlags(Size));
+                        return TruncateBinaryString(Temp, Size);
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                        Temp = Input.Replace(" ", "").Replace("0x", "").Replace("0X", "");
+                        return TruncateHexadecimalString(Temp, Size);
+                    }
+                    break;
+                case DataFormat.Decimal:
+                    return TruncateDecimalString(Input, Size, IsSigned);
+                case DataFormat.Float:
+                    if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                        Temp = Input.Replace(" ", "").Replace("0b", "").Replace("0B", "");
+                        TempLong = StringToLong(Temp, DataFormat.Binary, DataSize.Bits32, true);
+                        return Int32BitsToSingle((int)TempLong).ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+                        float.TryParse(Input, out TempFloat);
+                        return TempFloat.ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                        float.TryParse(Input, out TempFloat);
+                        return TempFloat.ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                        Temp = Input.Replace(" ", "").Replace("0x", "").Replace("0X", "");
+                        TempLong = StringToLong(Temp, DataFormat.Hexadecimal, DataSize.Bits32, true);
+                        return Int32BitsToSingle((int)TempLong).ToString();
+                    }
+                    break;
+                case DataFormat.Double:
+                    if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                        Temp = Input.Replace(" ", "").Replace("0b", "").Replace("0B", "");
+                        TempLong = StringToLong(Temp, DataFormat.Binary, DataSize.Bits64, true);
+                        return Int64BitsToDouble(TempLong).ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+                        double.TryParse(Input, out TempDouble);
+                        return TempDouble.ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                        double.TryParse(Input, out TempDouble);
+                        return TempDouble.ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                        Temp = Input.Replace(" ", "").Replace("0x", "").Replace("0X", "");
+                        TempLong = StringToLong(Temp, DataFormat.Hexadecimal, DataSize.Bits64, true);
+                        return Int64BitsToDouble(TempLong).ToString();
+                    }
+                    break;
+                case DataFormat.Char:
+                    if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                        Temp = Input.Replace(" ", "").Replace("0b", "").Replace("0B", "");
+                        TempLong = StringToLong(Temp, DataFormat.Binary, DataSize.Bits16, IsSigned);
+                        return ((char)TempLong).ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+                        TempLong = StringToLong(Input.Replace(" ",""), DataFormat.Decimal, DataSize.Bits16, IsSigned);
+                        return ((char)TempLong).ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                        TempLong = StringToLong(Input.Split('.')[0].Replace(" ", ""), DataFormat.Decimal, DataSize.Bits16, IsSigned);
+                        return ((char)TempLong).ToString();
+                    }
+                    else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                        Temp = Input.Replace(" ", "").Replace("0x", "").Replace("0X", "");
+                        TempLong = StringToLong(Temp, DataFormat.Hexadecimal, DataSize.Bits16, IsSigned);
+                        return ((char)TempLong).ToString();
+                    }
+                    break;
+            }
+            return "0";
+        }
+        public static string TruncateDecimalString(string Input, DataSize Size, bool IsSigned) {
+            if (Regex.IsMatch(Input, "^\\s*(0b|0B)[0-1]+(\\s*[0-1]*)*$")) {
+                NumericalString Ns = MathHandler.BinaryToDecimal(Input.Replace(" ", "").Replace("0b", "").Replace("0B", ""), EnumManager.DataSizeToBinaryFormatFlags(Size, IsSigned));
+                return Ns.ToString();
+            }
+            else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
+               return StringToLong(Input, DataFormat.Decimal, Size, IsSigned).ToString();
+            }
+            else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
+                NumericalString Ns = MathHandler.HexadecimalToDecimal(Input.Replace(" ", "").Replace("0x", "").Replace("0X", ""), EnumManager.DataSizeToBinaryFormatFlags(Size, IsSigned));
+                return Ns.ToString();
+            }
+            else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
+                return StringToLong(Input.Split('.')[0].Replace(" ",""), DataFormat.Decimal, Size, IsSigned).ToString();
+            }
+            return "0";
+        }
+        public static string TruncateBinaryString(string Input, DataSize Size) {
+            string Temp = Input.Replace(" ", "");
+            int Length = EnumManager.DataSizeToInteger(Size);
+            int Index = Temp.Length > Length ? Temp.Length - Length : 0;
+            Temp = Index == 0 ? Temp  : Temp.Substring(Temp.Length - Length, Length);
+            return Temp;// PadBinary(Temp, Size, PadFrequency.EveryFourth);
+        }
+        public static string TruncateOctalString(string Input, DataSize Size) {
+            string Temp = Input.Replace(" ", "");
+            int Length = (int)Math.Floor((float)EnumManager.DataSizeToInteger(Size)/3.0f) + 1;
+            int Index = Temp.Length > Length ? Temp.Length - Length : 0;
+            Temp = Index == 0 ? Temp : Temp.Substring(Temp.Length - Length, Length);
+            Temp = Temp.Length == 0 ? "0" : Temp;
+            if (Temp.Length == Length) {
+                byte C = 0; byte.TryParse(Temp[0].ToString(), out C);
+                if ((Size == DataSize.Bits8) && (C > 3)) { Temp = '3' + Temp.Substring(1); }
+                else if ((Size == DataSize.Bits16) && (C > 1)) { Temp = '1' + Temp.Substring(1); }
+                else if ((Size == DataSize.Bits32) && (C > 3)) { Temp = '3' + Temp.Substring(1); }
+                else if ((Size == DataSize.Bits64) && (C > 1)) { Temp = "1" + Temp.Substring(1); }
+            }
+            return Temp;
+        }
+        public static string TruncateHexadecimalString(string Input, DataSize Size) {
+            string Temp = Input.Replace(" ", "");
+            int Length = EnumManager.DataSizeToInteger(Size)/4;
+            int Index = Temp.Length > Length ? Temp.Length - Length : 0;
+            Temp = Index == 0 ? Temp : Temp.Substring(Temp.Length - Length, Length);
+            return Temp.ToUpper();
+        }
+
         #endregion 
     }
 

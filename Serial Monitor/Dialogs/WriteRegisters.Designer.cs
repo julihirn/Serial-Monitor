@@ -512,7 +512,7 @@
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
-            lstRegisters.Location = new Point(0, 79);
+            lstRegisters.Location = new Point(0, 67);
             lstRegisters.Margin = new Padding(6);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
@@ -533,7 +533,7 @@
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = false;
-            lstRegisters.Size = new Size(489, 351);
+            lstRegisters.Size = new Size(489, 363);
             lstRegisters.SpanColumn = 1;
             lstRegisters.TabIndex = 1;
             lstRegisters.UseLocalList = true;
@@ -551,6 +551,7 @@
             tsMain.BackColorNorth = Color.DodgerBlue;
             tsMain.BackColorSouth = Color.DodgerBlue;
             tsMain.BorderColor = Color.WhiteSmoke;
+            tsMain.GripColor = Color.WhiteSmoke;
             tsMain.ImageScalingSize = new Size(32, 32);
             tsMain.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsMain.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
@@ -568,8 +569,10 @@
             tsMain.Name = "tsMain";
             tsMain.Padding = new Padding(0, 0, 4, 0);
             tsMain.RoundedToolStrip = false;
+            tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsMain.ShowBorder = false;
-            tsMain.Size = new Size(489, 38);
+            tsMain.ShowShadow = false;
+            tsMain.Size = new Size(489, 26);
             tsMain.StripItemSelectedBackColorNorth = Color.White;
             tsMain.StripItemSelectedBackColorSouth = Color.White;
             tsMain.TabIndex = 0;
@@ -582,7 +585,7 @@
             btnAdd.ImageScaling = ToolStripItemImageScaling.None;
             btnAdd.ImageTransparentColor = Color.Magenta;
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(46, 32);
+            btnAdd.Size = new Size(46, 20);
             btnAdd.Text = "Add";
             btnAdd.Click += btnAdd_Click;
             // 
@@ -593,14 +596,14 @@
             btnRemove.ImageScaling = ToolStripItemImageScaling.None;
             btnRemove.ImageTransparentColor = Color.Magenta;
             btnRemove.Name = "btnRemove";
-            btnRemove.Size = new Size(46, 32);
+            btnRemove.Size = new Size(46, 20);
             btnRemove.Text = "Remove";
             btnRemove.Click += btnRemove_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 38);
+            toolStripSeparator1.Size = new Size(6, 26);
             // 
             // btnMoveUp
             // 
@@ -609,7 +612,7 @@
             btnMoveUp.ImageScaling = ToolStripItemImageScaling.None;
             btnMoveUp.ImageTransparentColor = Color.Magenta;
             btnMoveUp.Name = "btnMoveUp";
-            btnMoveUp.Size = new Size(46, 32);
+            btnMoveUp.Size = new Size(46, 20);
             btnMoveUp.Text = "Move Up";
             btnMoveUp.Click += btnMoveUp_Click;
             // 
@@ -620,7 +623,7 @@
             btnMoveDown.ImageScaling = ToolStripItemImageScaling.None;
             btnMoveDown.ImageTransparentColor = Color.Magenta;
             btnMoveDown.Name = "btnMoveDown";
-            btnMoveDown.Size = new Size(46, 32);
+            btnMoveDown.Size = new Size(46, 20);
             btnMoveDown.Text = "Move Down";
             btnMoveDown.Click += btnMoveDown_Click;
             // 
@@ -640,7 +643,7 @@
             cmMain.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmMain.ShowInsetShadow = false;
             cmMain.ShowItemInsetShadow = false;
-            cmMain.Size = new Size(348, 288);
+            cmMain.Size = new Size(348, 332);
             // 
             // sendToolStripMenuItem
             // 
@@ -700,7 +703,6 @@
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
             toolStripSeparator4.Size = new Size(344, 6);
-            toolStripSeparator4.Visible = false;
             // 
             // copyToolStripMenuItem
             // 
@@ -709,7 +711,7 @@
             copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
             copyToolStripMenuItem.Size = new Size(347, 38);
             copyToolStripMenuItem.Text = "Copy";
-            copyToolStripMenuItem.Visible = false;
+            copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             // 
             // pasteToolStripMenuItem
             // 
@@ -718,7 +720,7 @@
             pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
             pasteToolStripMenuItem.Size = new Size(347, 38);
             pasteToolStripMenuItem.Text = "Paste";
-            pasteToolStripMenuItem.Visible = false;
+            pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
             // 
             // lblpnlFormat
             // 
@@ -758,6 +760,7 @@
             tsFormat.BackColorNorth = Color.DodgerBlue;
             tsFormat.BackColorSouth = Color.DodgerBlue;
             tsFormat.BorderColor = Color.WhiteSmoke;
+            tsFormat.GripColor = Color.WhiteSmoke;
             tsFormat.GripStyle = ToolStripGripStyle.Hidden;
             tsFormat.ImageScalingSize = new Size(32, 32);
             tsFormat.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
@@ -776,7 +779,9 @@
             tsFormat.Name = "tsFormat";
             tsFormat.Padding = new Padding(0, 0, 4, 0);
             tsFormat.RoundedToolStrip = false;
+            tsFormat.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsFormat.ShowBorder = false;
+            tsFormat.ShowShadow = false;
             tsFormat.Size = new Size(489, 42);
             tsFormat.StripItemSelectedBackColorNorth = Color.White;
             tsFormat.StripItemSelectedBackColorSouth = Color.White;

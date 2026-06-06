@@ -141,6 +141,35 @@ namespace Serial_Monitor.Classes {
             return Signed == true ? "Signed" : "Unsigned";
         }
         #region Modbus Data Size
+        public static BinaryFormatFlags DataSizeToBinaryFormatFlags(DataSize Input) {
+            switch (Input) {
+                case DataSize.Bits8:
+                    return BinaryFormatFlags.Length8Bit;
+                case DataSize.Bits16:
+                    return BinaryFormatFlags.Length16Bit;
+                case DataSize.Bits32:
+                    return BinaryFormatFlags.Length32Bit;
+                case DataSize.Bits64:
+                    return BinaryFormatFlags.Length64Bit;
+                default:
+                    return BinaryFormatFlags.Length16Bit;
+            }
+        }
+        public static BinaryFormatFlags DataSizeToBinaryFormatFlags(DataSize Input, bool IsSigned) {
+
+            switch (Input) {
+                case DataSize.Bits8:
+                    return BinaryFormatFlags.Length8Bit | (IsSigned == true ? BinaryFormatFlags.Signed : 0x00);
+                case DataSize.Bits16:
+                    return BinaryFormatFlags.Length16Bit | (IsSigned == true ? BinaryFormatFlags.Signed : 0x00);
+                case DataSize.Bits32:
+                    return BinaryFormatFlags.Length32Bit | (IsSigned == true ? BinaryFormatFlags.Signed : 0x00);
+                case DataSize.Bits64:
+                    return BinaryFormatFlags.Length64Bit | (IsSigned == true ? BinaryFormatFlags.Signed : 0x00);
+                default:
+                    return BinaryFormatFlags.Length16Bit | (IsSigned == true ? BinaryFormatFlags.Signed : 0x00);
+            }
+        }
         public static DataSize IntegerToDataSize(int Input) {
             if (Input == 8) {
                 return DataSize.Bits8;

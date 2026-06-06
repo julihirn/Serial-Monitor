@@ -436,7 +436,7 @@ namespace Serial_Monitor.Dialogs {
                         Li.UseLineBackColor = true;
                         Li.LineBackColor = Properties.Settings.Default.THM_COL_Mismatched;
                     }
-                    else { 
+                    else {
                         Li.UseLineBackColor = false;
                     }
                 }
@@ -522,6 +522,65 @@ namespace Serial_Monitor.Dialogs {
         }
         private void lstRegisters_ValueChanged() {
 
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
+            Copy();
+        }
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e) {
+            Paste();
+        }
+        private void Copy() {
+            int SelectedCount = lstRegisters.SelectionCount;
+            string Values = "";
+            int i = 0;
+            if (SelectedCount <= 0) { return; }
+            foreach (ListItem Li in lstRegisters.Items) {
+                if (Li.Selected == false) { continue; }
+                if (Li.SubItems.Count == 1) {
+                    if (i != 0) { Values += Constants.NewLineEnv; }
+                    Values += Li[1].Text.ToString();
+                    SelectedCount--;
+                    i++;
+                }
+                if (SelectedCount <= 0) { break; }
+            }
+            Clipboard.SetText(Values);
+        }
+        private void Paste() {
+            STR_MVSSF Spilts = StringHandler.SpiltStringMutipleValues(Clipboard.GetText().Replace("\r", ""), '\n');
+            int SelectedCount = lstRegisters.SelectionCount;
+            if (SelectedCount == 0) {
+                for (int i = 0; i < Spilts.Count; i++) {
+                    if (lstRegisters.Items.Count >= MaxRegisters) { lstRegisters.Invalidate(); return; }
+                    if (Spilts.Value[i].Trim() != "") {
+                        ListItem itemBasis = new ListItem();
+                        ListSubItem ValueItem = new ListSubItem(GetValue(Spilts.Value[i]));
+                        itemBasis.SubItems.Add(ValueItem);
+                        lstRegisters.Items.Add(itemBasis);
+                    }
+                }
+                UpdateRegisterCounters(true);
+                return;
+            }
+            for (int j = lstRegisters.Items.Count - 1; j >= 0; j--) {
+                if (lstRegisters.Items[j].Selected == false) { continue; }
+                for (int i = Spilts.Count - 1; i >= 0; i--) {
+                    if (lstRegisters.Items.Count >= MaxRegisters) { lstRegisters.Invalidate(); return; }
+                    if (Spilts.Value[i].Trim() != "") {
+                        ListItem itemBasis = new ListItem();
+                        ListSubItem ValueItem = new ListSubItem(GetValue(Spilts.Value[i]));
+                        itemBasis.SubItems.Add(ValueItem);
+                        lstRegisters.Items.Insert(j, itemBasis);
+                    }
+                }
+            }
+            UpdateRegisterCounters(true);
+        }
+        private string GetValue(string Value) {
+            string Val = Value.Replace(" ", "").Replace("\t", "").ToLower();
+            return Formatters.UnformattedStringToStringFormatted(Val, Format, dataSize, isSigned);
+          
         }
     }
 }
