@@ -1,4 +1,5 @@
-﻿using Serial_Monitor.Components;
+﻿using ODModules.Forms;
+using Serial_Monitor.Components;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -80,19 +81,23 @@ namespace Serial_Monitor.WindowForms {
         private void RefreshWindows() {
             listView1.Items.Clear();
             FormCollection fc = Application.OpenForms;
-            foreach (Form frm in fc) {
+            foreach (object temp in fc) {
                 //if (frm.Name == this.Name) { }
-                if (frm.Name == "MainWindow") { }
-                else if (frm.Name == "SplashScreen") { }
-                else {
-                    ListViewItem Lvi = new ListViewItem();
-                    Lvi.Text = frm.Text;
-                    ListViewItem.ListViewSubItem Lvsi0 = new ListViewItem.ListViewSubItem();
-                    Lvsi0.Text = frm.Name;
-                    Lvi.Tag = frm;
-                    Lvi.SubItems.Add(Lvsi0);
-                    listView1.Items.Add(Lvi);
-                }
+                if (temp.GetType() == typeof(ODModules.Forms.DockableForm)) { continue; }
+                if (temp.GetType() == typeof(ODModules.Docking.DockDocument)) { continue; }
+                if (temp.GetType() == typeof(ODModules.Docking.ToolWindow).GetType().GetType()) { continue; }
+                Form frm = (Form)temp;
+                if (frm.Name == "MainWindow") { continue; }
+                else if (frm.Name == "SplashScreen") { continue; }
+                
+                ListViewItem Lvi = new ListViewItem();
+                Lvi.Text = frm.Text;
+                ListViewItem.ListViewSubItem Lvsi0 = new ListViewItem.ListViewSubItem();
+                Lvsi0.Text = frm.Name;
+                Lvi.Tag = frm;
+                Lvi.SubItems.Add(Lvsi0);
+                listView1.Items.Add(Lvi);
+
             }
         }
 

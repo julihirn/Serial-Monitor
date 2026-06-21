@@ -27,7 +27,7 @@ namespace Serial_Monitor.Classes.Modbus {
         bool read = true;
         public bool Read {
             get { return read; }
-            set { read = value; BulidQuery(); }
+            set { read = value; BuildQuery(); }
         }
         #endregion 
         #region Query Properties
@@ -39,34 +39,52 @@ namespace Serial_Monitor.Classes.Modbus {
                     unit = 1;
                 }
                 else {
-                    unit = value; BulidQuery();
+                    unit = value; 
                 }
+                BuildQuery();
             }
         }
         DataSelection selection = DataSelection.ModbusDataCoils;
         public DataSelection Selection {
             get { return selection; }
             set {
-                selection = value; BulidQuery();
+                selection = value; BuildQuery();
             }
         }
-        ushort start = 1;
+        ushort start = 0;
         public ushort Start {
             get { return start; }
             set {
-                start = value; BulidQuery();
+                start = value;
+                if (end < start) {
+                    ushort Temp = start;
+                    start = end;
+                    end = Temp;
+                }
+                BuildQuery();
             }
         }
-        ushort end = 1;
+        ushort end = 0;
         public ushort End {
             get { return end; }
             set {
-                end = value; BulidQuery();
+                end = value; 
+                if (end < start) {
+                    ushort Temp = start;
+                    start = end;
+                    end = Temp;
+                }
+                BuildQuery();
             }
         }
+        // 0 - 4, QTY 5
         public ushort Quantity {
             get { 
-                return (ushort)((int)end - (int)start); 
+                return (ushort)(((int)end - (int)start) + 1); 
+            }
+            set {
+                end = (ushort)(start + value);
+                BuildQuery();
             }
         }
         string query = "";
@@ -84,7 +102,7 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return enabled; }
             set { enabled = value; }
         }
-        DateTime lastActivatedTime = DateTime.UtcNow;
+        DateTime lastActivatedTime = DateTime.MinValue;
         public DateTime LastActivatedTime {
             get { return lastActivatedTime; }
         }
@@ -116,7 +134,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 this.start = (ushort)Start;
                 this.end = start;
             }
-            BulidQuery();
+            BuildQuery();
         }
         internal void Invalidate() {
             if (enabled == false) { return; }
@@ -126,45 +144,55 @@ namespace Serial_Monitor.Classes.Modbus {
                 SystemManager.SendModbusCommand(channel, query);
             }
         }
-        private void BulidQuery() {
-            string Temp = "UNIT " + Unit.ToString() + " ";
+        private void BuildQuery() {
+            StringBuilder SbQuery = new StringBuilder();
+            char Space = ' ';
+            SbQuery.Append("UNIT");
+            SbQuery.Append(Unit.ToString());
+            SbQuery.Append(Space);
             if (read == true) {
-                if (selection == DataSelection.ModbusDataCoils) {
-                    if (Quantity == 0) {
-                        Temp += "READ COIL " + start.ToString();
-                    }
-                    else {
-                        Temp = "READ COILS FROM " + start.ToString() + " TO " + end.ToString();
-                    }
+                SbQuery.Append("READ");
+                SbQuery.Append(Space);
+                string RegisterType = "";
+                switch (selection) {
+                    case DataSelection.ModbusDataCoils:
+                        RegisterType = Quantity <= 1 ? "COIL" : "COILS"; break;
+                    case DataSelection.ModbusDataDiscreteInputs:
+                        RegisterType = "DISCRETE"; break;
+                    case DataSelection.ModbusDataHoldingRegisters:
+                        RegisterType = Quantity <=1 ? "HOLDING" : "HOLDINGS"; break;
+                    case DataSelection.ModbusDataInputRegisters:
+                        RegisterType = Quantity <= 1 ? "INREGISTER" : "INREGISTERS"; break;
                 }
-                else if (selection == DataSelection.ModbusDataDiscreteInputs) {
-                    if (Quantity == 0) {
-                        Temp += "READ DISCRETE " + start.ToString();
-                    }
-                    else {
-                        Temp = "READ DISCRETE FROM " + start.ToString() + " TO " + end.ToString();
-                    }
+                if (Quantity <= 1) {
+                    MiniBuilder(ref SbQuery, RegisterType, start);
                 }
-                else if (selection == DataSelection.ModbusDataHoldingRegisters) {
-                    if (Quantity == 0) {
-                        Temp += "READ HOLDING " + start.ToString();
-                    }
-                    else {
-                        Temp = "READ HOLDINGS FROM " + start.ToString() + " TO " + end.ToString();
-                    }
-                }
-                else if (selection == DataSelection.ModbusDataInputRegisters) {
-                    if (Quantity == 0) {
-                        Temp += "READ INREGISTER " + start.ToString();
-                    }
-                    else {
-                        Temp = "READ INREGISTERS FROM " + start.ToString() + " TO " + end.ToString();
-                    }
+                else {
+                    MiniBuilder(ref SbQuery, RegisterType, start, end);
                 }
             }
             else {
 
             }
+            query = SbQuery.ToString();
+        }
+        private void MiniBuilder(ref StringBuilder SbQuery, string Query, int From) {
+            char Space = ' ';
+            SbQuery.Append(Query);
+            SbQuery.Append(Space);
+            SbQuery.Append(start.ToString());
+        }
+        private void MiniBuilder(ref StringBuilder SbQuery, string Query, int From, int To) {
+            char Space = ' ';
+            SbQuery.Append(Query);
+            SbQuery.Append(Space);
+            SbQuery.Append("FROM");
+            SbQuery.Append(Space);
+            SbQuery.Append(start.ToString());
+            SbQuery.Append(Space);
+            SbQuery.Append("TO");
+            SbQuery.Append(Space);
+            SbQuery.Append(end.ToString());
         }
     }
 }

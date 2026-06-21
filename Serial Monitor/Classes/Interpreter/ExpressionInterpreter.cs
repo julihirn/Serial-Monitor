@@ -19,7 +19,7 @@ namespace Serial_Monitor.Classes.Interpreter {
             return Regex.IsMatch(Input, Pattern);
         }
         public static TokenType DetermineTokenType(string Input) {
-            if (IsExpression(Input, true)) { return TokenType.Expression; }
+            if (IsExpression(Input, false)) { return TokenType.Expression; }
             else if (Input.Trim(' ').StartsWith('"') && Input.Trim(' ').EndsWith('"')) { return TokenType.String; }
             return TokenType.Number;
         }

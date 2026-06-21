@@ -52,8 +52,7 @@ namespace Serial_Monitor.Classes {
 
         static bool ApplyingLayout = true;
         public static void ApplyLayout(Form? frm, ToolStripContainer? tsc) {
-            if (frm == null || tsc == null)
-                return;
+            if (frm == null || tsc == null) { return; }
 
             ApplyingLayout = true;
 
@@ -84,19 +83,12 @@ namespace Serial_Monitor.Classes {
             }
 
             // Proper ordering
-            layouts = layouts
-                .OrderBy(l => l.Position)
-                .ThenBy(l => l.Line)
-                .ThenBy(l => l.Order)
-                .ToList();
+            layouts = layouts.OrderBy(l => l.Position).ThenBy(l => l.Line).ThenBy(l => l.Order).ToList();
+            foreach (ToolStripPosition lay in layouts) {
+                Debug.Print(lay.ToString());
+            }
 
-            ToolStripPanel[] panels =
-            {
-        tsc.TopToolStripPanel,
-        tsc.BottomToolStripPanel,
-        tsc.LeftToolStripPanel,
-        tsc.RightToolStripPanel
-    };
+            ToolStripPanel[] panels = { tsc.TopToolStripPanel, tsc.BottomToolStripPanel, tsc.LeftToolStripPanel, tsc.RightToolStripPanel };
 
             // Clear all panels first
             foreach (ToolStripPanel panel in panels) {
@@ -106,26 +98,46 @@ namespace Serial_Monitor.Classes {
                     panel.Controls[0].Parent = null;
                 }
             }
-
             // Add strips back in correct order
+            int x = 0;
+            int CurrentLine = -1;
+            int Spacer = 0;
+            Enums.ToolStripPosition CurrentPanel = Enums.ToolStripPosition.Top;
             foreach (ToolStripPosition layout in layouts) {
-                if (!toolStrips.TryGetValue(layout.ToolStripObject, out ToolStrip? ts))
-                    continue;
-
+                if (!toolStrips.TryGetValue(layout.ToolStripObject, out ToolStrip? ts)) { continue; }
                 ToolStripPanel? panel = GetPanel(tsc, layout.Position);
-
-                if (panel == null)
-                    continue;
-
-                ts.Dock = DockStyle.None;
-
+                if (panel == null) { continue; }
+                //panel.Dock = DockStyle.Top;
+                //ts.Dock = DockStyle.Left;
                 ts.Visible = layout.Visible;
+                if (CurrentPanel != layout.Position) {
+                    CurrentLine = layout.Line;
+                    x = 0;
+                    Spacer = DesignerSetup.ScaleInteger(5);
+                    CurrentPanel = layout.Position;
+                }
+                if (CurrentLine != layout.Line) {
+                    CurrentLine = layout.Line;
+                    x = 0;
+                    Spacer = DesignerSetup.ScaleInteger(5);
+                }
+                else {
+                    Spacer = 0;
+                }
+                ts.AutoSize = true;
+                int y = layout.Line * ts.Height;
 
-                // This is the important part:
-                // same Line value => same row
-                panel.Join(ts, layout.Line);
+                panel.Join(ts, x, y);
+                try {
+                    ts.Location = new Point(x, ts.Location.Y);
+                }
+                catch {
+                    Debug.Print(x.ToString() + " " + ts.Width);
+                }
+                //panel.Join(ts, x, y);
+                x += ts.Width + Spacer;
+                //ts.Dock = DockStyle.Left;
             }
-
             foreach (ToolStripPanel panel in panels) {
                 panel.ResumeLayout(true);
             }

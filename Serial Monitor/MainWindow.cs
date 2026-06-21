@@ -359,7 +359,7 @@ namespace Serial_Monitor {
             copyToolStripMenuItem2.Click += CopyToolStripMenuItem2_Click;
             copyToolStripButton.Click += CopyToolStripMenuItem2_Click;
             pasteToolStripMenuItem2.Click += PasteToolStripMenuItem2_Click;
-            pasteToolStripButton.Click += PasteToolStripMenuItem2_Click;
+            pasteToolStripButton.Click += pasteToolStripMenuItem_Click;
             deleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             clearTerminalToolStripMenuItem.Click += ClearTerminalToolStripMenuItem_Click;
             saveLogToolStripMenuItem.Click += SaveLogToolStripMenuItem_Click;

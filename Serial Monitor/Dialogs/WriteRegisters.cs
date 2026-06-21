@@ -270,12 +270,12 @@ namespace Serial_Monitor.Dialogs {
             Query += "WRITE REGISTERS FROM " + numtxtAddress.Value.ToString() + " WITH ";
             int Items = 0;
             foreach (ListItem Li in lstRegisters.Items) {
-                if (Li.SubItems.Count == 1) {
+                if (Li.SubItems.Count != 1) { continue; }
                     long Temp = Classes.Formatters.StringToLong(Li[1].Text, Format, DataSize, IsSigned);
                     AppendData(Temp, ref Query);
                     Query += ",";
                     Items++;
-                }
+               
             }
             if (Items <= 0) { return; }
             if (Items > MaxRegisters) { return; }

@@ -122,10 +122,10 @@ namespace Serial_Monitor.Classes {
                         Success = Formatters.StringToShortArray(TempString.Remove(TempString.Length - 1, 1).Remove(0, 1), ref Values, false);
                         AddResult = false;
                         break;
-                    case TokenType.Expression:
-                        Success = Formatters.StringToShortArray(TempString.Remove(TempString.Length - 1, 1).Remove(0, 1), ref Values, false);
-                        AddResult = false;
-                        break;
+                    //case TokenType.Expression:
+                    //    Success = Formatters.StringToShortArray(TempString.Remove(TempString.Length - 1, 1).Remove(0, 1), ref Values, false);
+                    //    AddResult = false;
+                    //    break;
                     default:
                         break;
 
