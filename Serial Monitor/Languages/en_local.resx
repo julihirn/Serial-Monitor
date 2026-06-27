@@ -207,6 +207,9 @@
   <data name="decimalPlaces" xml:space="preserve">
     <value>Decimal &amp;Places</value>
   </data>
+  <data name="delete" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
   <data name="deviceManager" xml:space="preserve">
     <value>Device Manager</value>
   </data>
@@ -629,5 +632,11 @@
   </data>
   <data name="compareTo" xml:space="preserve">
     <value>Compare To</value>
+  </data>
+  <data name="channelColor" xml:space="preserve">
+    <value>Channel Color</value>
+  </data>
+  <data name="noEndOfLineFormat" xml:space="preserve">
+    <value>None</value>
   </data>
 </root>

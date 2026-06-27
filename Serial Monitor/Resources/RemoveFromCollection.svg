@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey-10{fill: #212121; opacity: 0.1;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-defaultgrey-25{fill: #212121; opacity: 0.25;}.light-red{fill: #c50b17; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightRemoveFromCollection</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey-10" d="M1.5,5v7.5H4v-7L4.5,5Z" />
+      <path class="light-defaultgrey-10" d="M7.5,1.5V2H8V5h3.5l.5.5v5h2.5v-9Z" />
+      <path class="light-defaultgrey" d="M14.5,1h-7L7,1.5V2h7v8H12v1h2.5l.5-.5v-9ZM2,5H1v7.5l.5.5H4V12H2Z" />
+    </g>
+    <path class="light-defaultgrey-25" d="M11,10v1H7.5L7,10.5V6H8v4Z" />
+    <path class="light-defaultgrey-10" d="M11.5,14.5h-7v-9h7Z" />
+    <path class="light-defaultgrey" d="M11.5,15h-7L4,14.5v-9L4.5,5h7l.5.5v9ZM5,14h6V6H5Z" />
+    <path class="light-red" d="M7,4H0V3H7Z" />
+  </g>
+</svg>

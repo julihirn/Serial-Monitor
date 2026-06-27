@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Handlers;
+using ODModules;
+using Serial_Monitor.Classes.Theming;
+using Svg;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -6,9 +10,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Handlers;
-using ODModules;
-using Svg;
 
 namespace Serial_Monitor {
     public class DesignerSetup {
@@ -77,7 +78,7 @@ namespace Serial_Monitor {
                 SvgDocument SVG = new SvgDocument();
                 var svg = SvgDocument.Open<SvgDocument>(stream);
                 Type t = LinkedControl.GetType();
-                Image Img = svg.Draw((int)(ImageSize.Width * 0.73), (int)(ImageSize.Height *0.73f));
+                Image Img = svg.Draw((int)(ImageSize.Width * 0.73), (int)(ImageSize.Height * 0.73f));
                 Color BorderColor = Color.FromArgb(100, 0, 0, 0);
                 if (IsThemeAffected == true) {
                     if (Classes.ApplicationManager.IsDark == true) {
@@ -106,6 +107,49 @@ namespace Serial_Monitor {
                 }
             }
         }
+        public static void LinkSVGtoControlColorPicker(object LinkedControl, Size ImageSize, Color SelectedColor, bool IsThemeAffected = true) {
+            Type t = LinkedControl.GetType();
+            Image Comp = BuildColorSelector(ImageSize, SelectedColor);
+            if (t == typeof(PictureBox)) {
+                ((PictureBox)LinkedControl).Image = Comp;
+            }
+            else if (t == typeof(ToolStripMenuItem)) {
+                ((ToolStripMenuItem)LinkedControl).Image = Comp;
+            }
+            else if (t == typeof(ToolStripButton)) {
+                ((ToolStripButton)LinkedControl).Image = Comp;
+            }
+            else if (t == typeof(ToolStripSplitButton)) {
+                ((ToolStripSplitButton)LinkedControl).Image = Comp;
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ((ToolStripDropDownButton)LinkedControl).Image = Comp;
+            }
+            else if (t == typeof(KeypadButton)) {
+                ((KeypadButton)LinkedControl).Icon = Comp;
+            }
+        }
+        private static Image BuildColorSelector(Size ImageSize, Color SelectedColor) {
+            Bitmap output = new Bitmap(ImageSize.Width, ImageSize.Height);
+            float Thick = (((float)ImageSize.Width / (float)16) * 1.0f);
+            int X = (int)(((float)ImageSize.Width / (float)16) * 2.0f);
+            int Y = (int)(((float)ImageSize.Height / (float)16) * 2.0f);
+            Rectangle ColorRect = new Rectangle(X, Y, ImageSize.Width - (2 * X), ImageSize.Height - (2 * Y));
+            using (Graphics g = Graphics.FromImage(output)) {
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+                using (SolidBrush br = new SolidBrush(SelectedColor)) {
+                    g.FillRectangle(br, ColorRect);
+                }
+                Color BorderColor = ThemeManager.IsDark == true ? Color.FromArgb(222, 222, 222) : Color.FromArgb(32, 32, 32);
+                using (Pen pen = new Pen(BorderColor, Thick)) {
+                    g.DrawRectangle(pen, ColorRect);
+                }
+            }
+            return output;
+        }
         private static Image BuildComposite(Size ImageSize, Image img, Color BorderColor, Color BackColor) {
             Bitmap output = new Bitmap(ImageSize.Width, ImageSize.Height);
             int ColorBarWidth = (int)(0.66667f * ImageSize.Width);
@@ -114,11 +158,11 @@ namespace Serial_Monitor {
             int cbX = (int)((float)(ImageSize.Width - ColorBarWidth) / 2.0f);
             Rectangle ColorRect = new Rectangle(cbX, cbY, ColorBarWidth, ColorBarHeight);
             using (Graphics g = Graphics.FromImage(output)) {
-                g.Clear(Color.Transparent); 
+                g.Clear(Color.Transparent);
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                 int imgX = (int)((float)(ImageSize.Width - img.Width) / 2.0f);
-                g.DrawImage(img, imgX, (int)(0.0625f* ImageSize.Height), img.Width, img.Height);
+                g.DrawImage(img, imgX, (int)(0.0625f * ImageSize.Height), img.Width, img.Height);
                 using (SolidBrush br = new SolidBrush(BackColor)) {
                     g.FillRectangle(br, ColorRect);
                 }

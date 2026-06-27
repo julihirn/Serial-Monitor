@@ -178,6 +178,15 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Channel Color.
+        /// </summary>
+        internal static string channelColor {
+            get {
+                return ResourceManager.GetString("channelColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channels.
         /// </summary>
         internal static string channels {
@@ -372,6 +381,15 @@ namespace Serial_Monitor.Languages {
         internal static string decimalPlaces {
             get {
                 return ResourceManager.GetString("decimalPlaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Delete.
+        /// </summary>
+        internal static string delete {
+            get {
+                return ResourceManager.GetString("delete", resourceCulture);
             }
         }
         
@@ -759,6 +777,15 @@ namespace Serial_Monitor.Languages {
         internal static string newView {
             get {
                 return ResourceManager.GetString("newView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string noEndOfLineFormat {
+            get {
+                return ResourceManager.GetString("noEndOfLineFormat", resourceCulture);
             }
         }
         

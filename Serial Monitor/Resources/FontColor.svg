@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.light-defaultgrey{fill: #212121; opacity: 1;}</style>
+  </defs>
+  <title>IconLightFontColor</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <path class="light-red" d="M14,15H3V14H14Z" />
+    <path class="light-defaultgrey" d="M11.442,12l-1-2.691h-3.9L5.558,12h-.94L8.084,2.9h.851L12.382,12ZM8.668,4.491c-.029-.081-.061-.174-.092-.28A2.682,2.682,0,0,1,8.5,3.85H8.472c-.026.135-.055.255-.086.361s-.063.2-.092.28L6.821,8.541h3.332Z" />
+  </g>
+</svg>

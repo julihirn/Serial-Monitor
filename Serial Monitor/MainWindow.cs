@@ -75,7 +75,12 @@ namespace Serial_Monitor {
                 btnallowEscapeCharacters.Checked = currentManager.AllowEscapeCharacters;
                 SystemManager.CheckFormatOption(EnumManager.HandshakeToString(currentManager.Handshake), btnChannelFlowCtrl);
                 CheckLineFormat();
+                UpdateChannelColorPicker();
+                UpdateChannelSelection();
             }
+        }
+        private void UpdateChannelSelection() {
+            ddbChannelSelect.Text = CurrentManager == null ? "Unknown" : CurrentManager.StateName;
         }
         private void Setup() {
             InitializeComponent();
@@ -127,11 +132,12 @@ namespace Serial_Monitor {
             Color FadeInColor = Color.FromArgb(100, DesignerSetup.GetAccentColor());
             msMain.BackColorNorthFadeIn = FadeInColor;
             RefreshChannels();
-
+            UpdateChannelSelection();
             UserInterfaceManager.ApplyLayout(this, tscMain);
             UserInterfaceManager.HookToolStrips(tscMain);
-           
+
             DocumentEdited = false;
+
         }
 
 
@@ -205,6 +211,7 @@ namespace Serial_Monitor {
             navigator1.TabRightClicked += navigator1_TabRightClicked;
             navigator1.MouseClick += navigator1_MouseClick;
             navigator1.TabStatusClicked += Navigator1_TabStatusClicked;
+            btnChannelColor.Click += BtnChannelColor_Click;
             newChannelToolStripMenuItem.Click += newChannelToolStripMenuItem_Click;
             removeChannelToolStripMenuItem.Click += removeChannelToolStripMenuItem_Click;
             renameChannelToolStripMenuItem.Click += renameChannelToolStripMenuItem_Click_1;
@@ -268,7 +275,9 @@ namespace Serial_Monitor {
             btnMenuFullScreen.Click += btnMenuFullScreen_Click;
             mitChannel.DropDownOpening += mitChannel_DropDownOpening;
             btnNewChannel.Click += btnNewChannel_Click;
+            btnAddChannel.Click += btnNewChannel_Click;
             btnRemoveChannel.Click += btnRemoveChannel_Click;
+            btnRemoveSelectedChannel.Click += btnRemoveChannel_Click;
             ddbChannels.DropDownOpening += ddbChannels_DropDownOpening;
             btnRenameChannel.Click += renameChannelToolStripMenuItem1_Click;
             btnMenuOutputMaster.Click += outputInTerminalToolStripMenuItem_Click;
@@ -281,6 +290,7 @@ namespace Serial_Monitor {
             btnMenuOpenNewTerminal.Click += btnMenuOpenNewTerminal_Click;
             btnMenuConnect.Click += btnMenuConnect_Click;
             btnMenuDisconnect.Click += btnMenuDisconnect_Click;
+            btnChannelProperties.Click += propertiesToolStripMenuItem1_Click;
             propertiesToolStripMenuItem1.Click += propertiesToolStripMenuItem1_Click;
             btnChanDB5.Click += toolStripMenuItem2_Click;
             btnChanDB6.Click += btnChanDB6_Click;
@@ -313,6 +323,7 @@ namespace Serial_Monitor {
             commandPalletToolStripMenuItem.Click += commandPalletToolStripMenuItem_Click;
             variablesToolStripMenuItem.Click += variablesToolStripMenuItem_Click;
             propertiesToolStripMenuItem.Click += propertiesToolStripMenuItem_Click;
+          
             btnRunPrg.Click += btnRunPrg_Click;
             runProgramToolStripMenuItem.Click += runProgramToolStripMenuItem_Click;
             btnPausePrg.Click += btnPausePrg_Click;
@@ -372,8 +383,14 @@ namespace Serial_Monitor {
             cmiTextBoxDelete.Click += CmiTextBoxDelete_Click;
             cmiTextBoxPaste.Click += CmiTextBoxPaste_Click;
             cmiTextBoxSelectAll.Click += CmiTextBoxSelectAll_Click;
-        
+
+            ddbChannelSelect.DropDownOpening += DdbChannelSelect_DropDownOpening;
+
+
         }
+
+
+
         public MainWindow() {
             Setup();
         }
@@ -497,6 +514,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(msMain);
             Classes.Theming.ThemeManager.ThemeControl(tsMain);
             Classes.Theming.ThemeManager.ThemeControl(tsFile);
+            Classes.Theming.ThemeManager.ThemeControl(tsChannels);
             Classes.Theming.ThemeManager.ThemeControl(tsProgramTransport);
             Classes.Theming.ThemeManager.ThemeControl(smMain);
             Classes.Theming.ThemeManager.ThemeControl(lstStepProgram);
@@ -517,6 +535,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(cmTerminal);
             Classes.Theming.ThemeManager.ThemeControl(cmTextboxOptions);
             Classes.Theming.ThemeManager.ThemeControl(tscMain);
+
 
             lblRxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             lblTxBytes.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -563,6 +582,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, btnChannelInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, btnChannelOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Property, btnChannelProperties, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Property, propertiesToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Settings_16x, optionsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -618,6 +638,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, btnMenuClearTerminal, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.FullScreen, btnMenuFullScreen, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            
             DesignerSetup.LinkSVGtoControl(Properties.Resources.PropertyGridEditorPart, propertiesToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.PropertyGridEditorPart, cmbtnProperties, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -627,8 +648,11 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveUp, btnPrgMoveUp, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveDown, btnPrgMoveDown, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, btnAddChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, btnNewChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, newChannelToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.RemoveFromCollection, btnRemoveSelectedChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewRow, newProgramToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.NewRow, cmbtnNewProgram, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -643,6 +667,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenTopic, openLogToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.RunOutline, startLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.StopOutline, stopLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            UpdateChannelColorPicker();
         }
 
         private void AdjustUserInterface() {
@@ -700,6 +725,9 @@ namespace Serial_Monitor {
         private void textBox1_TextChanged(object? sender, EventArgs e) {
             DocumentEdited = true;
         }
+        private void DdbChannelSelect_DropDownOpening(object? sender, EventArgs e) {
+            RefreshChannels();
+        }
         private void ddbChannels_DropDownOpening(object? sender, EventArgs e) {
             RefreshChannels();
         }
@@ -713,9 +741,23 @@ namespace Serial_Monitor {
                     }
                 }
             }
+            for (int i = ddbChannelSelect.DropDownItems.Count - 1; i >= 0; i--) {
+                object Itms = ddbChannelSelect.DropDownItems[i];
+                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
+                    if (((ToolStripMenuItem)Itms).Tag != null) {
+                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
+                        ddbChannelSelect.DropDownItems.RemoveAt(i);
+                    }
+                }
+            }
         }
         private void RefreshChannels() {
             CleanChannelHandlers();
+            int i = 0;
+            PopulateChannels(ddbChannels);
+            PopulateChannels(ddbChannelSelect);
+        }
+        private void PopulateChannels(object Tsi) {
             int i = 0;
             foreach (SerialManager SM in SystemManager.SerialManagers) {
                 ToolStripMenuItem Itm = new ToolStripMenuItem();
@@ -726,8 +768,13 @@ namespace Serial_Monitor {
                 if (navigator1.SelectedItem == i) {
                     Itm.Checked = true;
                 }
-                Itm.Click += Itm_Channel; ;
-                ddbChannels.DropDownItems.Add(Itm);
+                Itm.Click += Itm_Channel;
+                if (Tsi.GetType() == typeof(ToolStripMenuItem)) {
+                    ((ToolStripMenuItem)Tsi).DropDownItems.Add(Itm);
+                }
+                else if (Tsi.GetType() == typeof(ToolStripDropDownButton)) {
+                    ((ToolStripDropDownButton)Tsi).DropDownItems.Add(Itm);
+                }
                 i++;
             }
         }
@@ -1576,6 +1623,8 @@ namespace Serial_Monitor {
             if (SystemManager.SerialManagers.Count > 0) {
                 if ((SelectedIndex >= 0) && (SelectedIndex < SystemManager.SerialManagers.Count)) {
                     CurrentManager = SystemManager.SerialManagers[SelectedIndex];
+                    ddbChannelSelect.Text = CurrentManager.StateName;
+                    UpdateChannelColorPicker();
                 }
             }
         }
@@ -1606,10 +1655,12 @@ namespace Serial_Monitor {
             if (SystemManager.SerialManagers.Count > 1) {
                 btnRemoveChannel.Enabled = true;
                 removeChannelToolStripMenuItem.Enabled = true;
+                btnRemoveSelectedChannel.Enabled = true;
             }
             else {
                 btnRemoveChannel.Enabled = false;
                 removeChannelToolStripMenuItem.Enabled = false;
+                btnRemoveSelectedChannel.Enabled = false;
             }
         }
         SerialManager? ColorChannel = null;
@@ -1618,9 +1669,16 @@ namespace Serial_Monitor {
             if (ColorChannel != null) {
                 ColorChannel.UseDefaultForeColor = !popChannelTextColor.ApplyColor;
                 ColorChannel.ForeColor = popChannelTextColor.SelectedColor;
+                UpdateChannelColorPicker();
 
             }
             ColorChannel = null;
+            navigator1.Invalidate();
+        }
+        private void UpdateChannelColorPicker() {
+            if (CurrentManager == null) { return; }
+            Color SelectedColor = CurrentManager.UseDefaultForeColor ? Properties.Settings.Default.THM_COL_TerminalForeColor : CurrentManager.ForeColor;
+            DesignerSetup.LinkSVGtoControlColorPicker(btnChannelColor, DesignerSetup.GetSize(DesignerSetup.IconSize.Small), SelectedColor);
         }
         private void ChannelColorPopupHost_Opening(object? sender, CancelEventArgs e) {
             popChannelTextColor.ResetState();
@@ -1630,6 +1688,13 @@ namespace Serial_Monitor {
                 ColorChannel = (SerialManager)Tab.SelectedTab;
             }
             ChannelColorPopupHost.Show(Tab.ScreenLocation);
+        }
+        private void BtnChannelColor_Click(object? sender, EventArgs e) {
+            if (sender is not ToolStripButton tsb) {  return; }
+            if (tsb.GetCurrentParent() is not System.Windows.Forms.ToolStrip ts) { return; }
+            Point screenPoint = ts.PointToScreen(new Point(tsb.Bounds.Left, tsb.Bounds.Bottom));
+            if (CurrentManager != null) { ColorChannel = CurrentManager; }
+            ChannelColorPopupHost.Show(screenPoint);
         }
 
         #endregion

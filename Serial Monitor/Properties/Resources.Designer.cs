@@ -363,6 +363,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] FontColor {
+            get {
+                object obj = ResourceManager.GetObject("FontColor", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] FullScreen {
             get {
                 object obj = ResourceManager.GetObject("FullScreen", resourceCulture);
@@ -776,6 +786,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] Remove {
             get {
                 object obj = ResourceManager.GetObject("Remove", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] RemoveFromCollection {
+            get {
+                object obj = ResourceManager.GetObject("RemoveFromCollection", resourceCulture);
                 return ((byte[])(obj));
             }
         }

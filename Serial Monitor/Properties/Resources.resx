@@ -208,6 +208,9 @@
   <data name="Fill" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fill.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="FontColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FontColor.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="FullScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FullScreen.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -333,6 +336,9 @@
   </data>
   <data name="Remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Remove.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RemoveFromCollection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RemoveFromCollection.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rename.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
