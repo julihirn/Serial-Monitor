@@ -89,7 +89,7 @@ namespace Serial_Monitor.ToolWindows {
         }
         private void Intialise(Classes.Modbus.ModbusSnapshot? snapShot) {
             InitializeComponent();
-            PropertyChecker.Interval = 100;
+            PropertyChecker.Interval = 1;
             PropertyChecker.Enabled = false;
             PropertyChecker.Tick += PropertyChecker_Tick;
             if (snapShot == null) { return; }
@@ -499,8 +499,8 @@ namespace Serial_Monitor.ToolWindows {
         DateTime LastPropertyCheck = DateTime.MinValue;
         private void PropertyChecker_Tick(object? sender, EventArgs e) {
             TimeSpan EvalTime = DateTime.UtcNow - LastPropertyCheck;
-            if (EvalTime.TotalMilliseconds > 400) {
-                LastPropertyCheck = DateTime.UtcNow;
+            if (EvalTime.TotalMilliseconds > 50) {
+                //LastPropertyCheck = DateTime.UtcNow;
                 PropertyChecker.Enabled = false;
                 ModbusEditor.CheckSelectedPropertiesAreEqualAsync(lstRegisters);
                 PropertyChecker.Enabled = false;

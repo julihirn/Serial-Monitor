@@ -632,6 +632,7 @@ namespace Serial_Monitor.Classes.Modbus {
             pd.Item[pd.Column].Text = pd.Register.ValueWithUnit;
         }
         public static void RemoveAllControls(ODModules.ListControl LstCtrl) {
+            if (LstCtrl.Controls.Count == 0) { return; }
             for (int i = LstCtrl.Controls.Count - 1; i >= 0; i--) {
                 RemoveControl(LstCtrl.Controls[i], false);
             }
@@ -2034,7 +2035,7 @@ namespace Serial_Monitor.Classes.Modbus {
             Tr.Name = "Tr_PropertyChecker";
             Tr.Start();
         }
-        private static void CheckSelectedPropertiesAreEqual(ListControl? lstMonitor) {
+        public static void CheckSelectedPropertiesAreEqual(ListControl? lstMonitor) {
             if (lstMonitor == null) { EditorPropertiesEqual?.Invoke(null, ModbusPropertyFlags.None, new ModbusProperty(), false); return; }
             ModbusPropertyFlags Flags = ModbusPropertyFlags.None;
             Flags = Flags.Add(ModbusPropertyFlags.ForeColor);

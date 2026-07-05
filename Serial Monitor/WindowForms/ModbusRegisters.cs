@@ -40,12 +40,14 @@ namespace Serial_Monitor {
         private List<DockContent> ToolWindows = new List<DockContent>();
         System.Windows.Forms.Timer PropertyChecker = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer PropertyUpdateQueuer = new System.Windows.Forms.Timer();
+        bool IsStartUpPropertyRefresh = false;
         public ModbusRegisters() {
             InitializeComponent();
+            IsStartUpPropertyRefresh = true;
             if (currentEditorView == DataEditor.MasterView) {
                 showLastUpdated = ProjectManager.ShowLastUpdated;
             }
-            PropertyChecker.Interval = 100;
+            PropertyChecker.Interval = 1;
             PropertyChecker.Enabled = false;
             PropertyChecker.Tick += PropertyChecker_Tick;
             PropertyUpdateQueuer.Interval = 10;
@@ -59,6 +61,30 @@ namespace Serial_Monitor {
             LoadDockers();
             LoadToolStrips();
             ApplyLocalisation();
+
+            editorModbus.ssClient.SelectorCollection = snapshotsToolStripMenuItem;
+            btnApplyOnClick.Checked = ModbusSupport.SendOnChange;
+            btnModbusApplyonClick.Checked = ModbusSupport.SendOnChange;
+            AdjustUserInterface();
+            ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
+            LoadFormatters();
+            RecolorAll();
+            AddIcons();
+            LoadEvents();
+            LinkModbusEditorEvents();
+            editorModbus.navigator1.LinkedList = SystemManager.SerialManagers;
+            editorModbus.navigator1.SelectedItem = 0;
+            editorModbus.navigator1.Invalidate();
+            LoadChannels();
+
+            // mdiClient.MdiForm.MainMenuStrip = msMain;
+            LoadForms();
+            EnableDisableDialogEditors();
+            UserInterfaceManager.GetAllToolstrips(tscMain, toolbarsToolStripMenuItem);
+
+            //ModbusEditor.CheckSelectedPropertiesAreEqual(GetCurrentListView());
+            //ViewChanged?.Invoke(this);
+           
         }
         private void LoadToolStrips() {
             UserInterfaceManager.ApplyLayout(this, tscMain);
@@ -103,30 +129,9 @@ namespace Serial_Monitor {
             //        ((Form1)Attached).
             //    }
             //}
-            editorModbus.ssClient.SelectorCollection = snapshotsToolStripMenuItem;
-            btnApplyOnClick.Checked = ModbusSupport.SendOnChange;
-            btnModbusApplyonClick.Checked = ModbusSupport.SendOnChange;
-            AdjustUserInterface();
-            ModbusEditor.ShowHideColumns(showFormats, showLastUpdated, DataSet, editorModbus.lstMonitor);
-            LoadFormatters();
-            RecolorAll();
-            AddIcons();
-            LoadEvents();
-            LinkModbusEditorEvents();
-            editorModbus.navigator1.LinkedList = SystemManager.SerialManagers;
-            editorModbus.navigator1.SelectedItem = 0;
-            editorModbus.navigator1.Invalidate();
-            LoadChannels();
-
-
-
-
-            // mdiClient.MdiForm.MainMenuStrip = msMain;
-            LoadForms();
-            EnableDisableDialogEditors();
-            UserInterfaceManager.GetAllToolstrips(tscMain, toolbarsToolStripMenuItem);
-            ViewChanged?.Invoke(this);
-            ModbusEditor.CheckSelectedPropertiesAreEqualAsync(GetCurrentListView());
+         
+            //ViewChanged?.Invoke(this);
+            //ModbusEditor.CheckSelectedPropertiesAreEqual(GetCurrentListView());
         }
         private void AppearancePopupHost_Opening(object? sender, CancelEventArgs e) {
         }
@@ -518,7 +523,7 @@ namespace Serial_Monitor {
         private void PropertyUpdateQueuer_Tick(object? sender, EventArgs e) {
             DateTime End = DateTime.UtcNow;
             double ms = (End - LastPropertyUpdateRequest).TotalMilliseconds;
-            if (ms > 200.0) {
+            if (ms > 50.0) {
                 PropertyUpdateQueuer.Enabled = false;
                 ViewChanged?.Invoke(this);
                 ModbusEditor.CheckSelectedPropertiesAreEqualAsync(GetCurrentListView());
@@ -628,13 +633,15 @@ namespace Serial_Monitor {
 
         }
         private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected) {
+            //Debug.Print("PROP CHECK");
+            string UndeterminedFormatString = "Format...";
             DataSelection? Select = GetDataSelection();
             tsddDisplayType.Enabled = ItemsSelected;
 
             btnBackColor.Enabled = ItemsSelected;
             btnTextColor.Enabled = ItemsSelected;
             if (Select == null) {
-                tsddDisplayType.Text = "16 Bits";
+                tsddDisplayType.Text = UndeterminedFormatString;
                 return;
             }
             tsddDataSize.Enabled = ItemsSelected & Select >= DataSelection.ModbusDataInputRegisters; ;
@@ -658,7 +665,7 @@ namespace Serial_Monitor {
                     catch { }
                 }
                 else {
-                    tsddDisplayType.Text = "Format...";
+                    tsddDisplayType.Text = UndeterminedFormatString;
                 }
                 if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.Size)) {
                     try {
@@ -679,7 +686,7 @@ namespace Serial_Monitor {
                     catch { }
                 }
                 else {
-                    tsddDisplayType.Text = "Format...";
+                    tsddDisplayType.Text = UndeterminedFormatString;
                 }
             }
         }
