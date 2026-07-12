@@ -34,7 +34,14 @@
             ODModules.Column column5 = new ODModules.Column();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InsertModbusSnapshot));
             lblpnlDisplayName = new ODModules.LabelPanel();
-            textBox1 = new ODModules.TextBox();
+            sltbSnapshotName = new ODModules.SingleLineTextBox();
+            cmTextboxOptions = new ODModules.ContextMenu();
+            cmiTextBoxCut = new ToolStripMenuItem();
+            cmiTextBoxCopy = new ToolStripMenuItem();
+            cmiTextBoxPaste = new ToolStripMenuItem();
+            cmiTextBoxDelete = new ToolStripMenuItem();
+            toolStripSeparator32 = new ToolStripSeparator();
+            cmiTextBoxSelectAll = new ToolStripMenuItem();
             lblpnlRegisters = new ODModules.LabelPanel();
             lblpnlQuantity = new ODModules.LabelPanel();
             numtxtQuantity = new ODModules.NumericTextbox();
@@ -49,6 +56,7 @@
             lblpnlChannel = new ODModules.LabelPanel();
             lstChannels = new ODModules.ListControl();
             lblpnlDisplayName.SuspendLayout();
+            cmTextboxOptions.SuspendLayout();
             lblpnlRegisters.SuspendLayout();
             lblpnlQuantity.SuspendLayout();
             lblpnlAddress.SuspendLayout();
@@ -64,7 +72,7 @@
             lblpnlDisplayName.CloseColor = Color.Black;
             lblpnlDisplayName.CloseMouseOverColor = Color.Red;
             lblpnlDisplayName.Collapsed = false;
-            lblpnlDisplayName.Controls.Add(textBox1);
+            lblpnlDisplayName.Controls.Add(sltbSnapshotName);
             lblpnlDisplayName.Dock = DockStyle.Top;
             lblpnlDisplayName.DropShadow = false;
             lblpnlDisplayName.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
@@ -85,38 +93,103 @@
             lblpnlDisplayName.SeparatorColor = Color.Gray;
             lblpnlDisplayName.ShowCloseButton = false;
             lblpnlDisplayName.ShowSeparator = false;
-            lblpnlDisplayName.Size = new Size(636, 95);
+            lblpnlDisplayName.Size = new Size(636, 100);
             lblpnlDisplayName.TabIndex = 1;
             lblpnlDisplayName.Text = "Display Name";
             // 
-            // textBox1
+            // sltbSnapshotName
             // 
-            textBox1.AutoCompleteMode = AutoCompleteMode.None;
-            textBox1.AutoCompleteSource = AutoCompleteSource.None;
-            textBox1.BackColor = SystemColors.Window;
-            textBox1.BorderColor = Color.MediumSlateBlue;
-            textBox1.BorderSize = 1;
-            textBox1.Dock = DockStyle.Top;
-            textBox1.Font = new Font("Microsoft Sans Serif", 9.5F);
-            textBox1.ForeColor = Color.DimGray;
-            textBox1.Location = new Point(9, 41);
-            textBox1.Margin = new Padding(4);
-            textBox1.MaxLength = 32767;
-            textBox1.Multiline = false;
-            textBox1.Name = "textBox1";
-            textBox1.Padding = new Padding(7, 6, 7, 6);
-            textBox1.PasswordChar = '\0';
-            textBox1.PlaceholderText = "";
-            textBox1.ReadOnly = false;
-            textBox1.SelectedBackColor = Color.LightGray;
-            textBox1.SelectedBorderColor = Color.HotPink;
-            textBox1.ShortcutsEnabled = true;
-            textBox1.Size = new Size(618, 43);
-            textBox1.TabIndex = 1;
-            textBox1.TextAlign = HorizontalAlignment.Left;
-            textBox1.UnderlinedStyle = false;
-            textBox1.UseSystemPasswordChar = false;
-            textBox1.WordWrap = true;
+            sltbSnapshotName.AllowShortcuts = true;
+            sltbSnapshotName.BorderColor = Color.MediumSlateBlue;
+            sltbSnapshotName.BorderSize = 1;
+            sltbSnapshotName.CaretColor = Color.Black;
+            sltbSnapshotName.ContextMenuStrip = cmTextboxOptions;
+            sltbSnapshotName.Dock = DockStyle.Top;
+            sltbSnapshotName.FocusLostClearSelection = true;
+            sltbSnapshotName.Location = new Point(9, 41);
+            sltbSnapshotName.MaskArrowKeyEvents = true;
+            sltbSnapshotName.MaxLength = 65535;
+            sltbSnapshotName.Name = "sltbSnapshotName";
+            sltbSnapshotName.PlaceholderForeColor = Color.DimGray;
+            sltbSnapshotName.PlaceHolderText = "Snapshot Name";
+            sltbSnapshotName.SelectedBackColor = Color.LightGray;
+            sltbSnapshotName.SelectedBorderColor = Color.HotPink;
+            sltbSnapshotName.SelectionColor = Color.LightBlue;
+            sltbSnapshotName.Size = new Size(618, 48);
+            sltbSnapshotName.TabIndex = 1;
+            sltbSnapshotName.TextAlign = HorizontalAlignment.Left;
+            // 
+            // cmTextboxOptions
+            // 
+            cmTextboxOptions.ActionSymbolForeColor = Color.FromArgb(200, 200, 200);
+            cmTextboxOptions.BorderColor = Color.Black;
+            cmTextboxOptions.DropShadowEnabled = false;
+            cmTextboxOptions.ForeColor = Color.White;
+            cmTextboxOptions.ImageScalingSize = new Size(32, 32);
+            cmTextboxOptions.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
+            cmTextboxOptions.Items.AddRange(new ToolStripItem[] { cmiTextBoxCut, cmiTextBoxCopy, cmiTextBoxPaste, cmiTextBoxDelete, toolStripSeparator32, cmiTextBoxSelectAll });
+            cmTextboxOptions.MenuBackColorNorth = Color.DodgerBlue;
+            cmTextboxOptions.MenuBackColorSouth = Color.DodgerBlue;
+            cmTextboxOptions.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
+            cmTextboxOptions.Name = "cmTextboxOptions";
+            cmTextboxOptions.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmTextboxOptions.ShowInsetShadow = false;
+            cmTextboxOptions.ShowItemInsetShadow = false;
+            cmTextboxOptions.Size = new Size(173, 200);
+            // 
+            // cmiTextBoxCut
+            // 
+            cmiTextBoxCut.ImageScaling = ToolStripItemImageScaling.None;
+            cmiTextBoxCut.Name = "cmiTextBoxCut";
+            cmiTextBoxCut.ShortcutKeys = Keys.Control | Keys.X;
+            cmiTextBoxCut.ShowShortcutKeys = false;
+            cmiTextBoxCut.Size = new Size(172, 38);
+            cmiTextBoxCut.Text = "C&ut";
+            cmiTextBoxCut.Click += cmiTextBoxCut_Click;
+            // 
+            // cmiTextBoxCopy
+            // 
+            cmiTextBoxCopy.ImageScaling = ToolStripItemImageScaling.None;
+            cmiTextBoxCopy.Name = "cmiTextBoxCopy";
+            cmiTextBoxCopy.ShortcutKeys = Keys.Control | Keys.C;
+            cmiTextBoxCopy.ShowShortcutKeys = false;
+            cmiTextBoxCopy.Size = new Size(172, 38);
+            cmiTextBoxCopy.Text = "&Copy";
+            cmiTextBoxCopy.Click += cmiTextBoxCopy_Click;
+            // 
+            // cmiTextBoxPaste
+            // 
+            cmiTextBoxPaste.ImageScaling = ToolStripItemImageScaling.None;
+            cmiTextBoxPaste.Name = "cmiTextBoxPaste";
+            cmiTextBoxPaste.ShortcutKeys = Keys.Control | Keys.V;
+            cmiTextBoxPaste.ShowShortcutKeys = false;
+            cmiTextBoxPaste.Size = new Size(172, 38);
+            cmiTextBoxPaste.Text = "&Paste";
+            cmiTextBoxPaste.Click += cmiTextBoxPaste_Click;
+            // 
+            // cmiTextBoxDelete
+            // 
+            cmiTextBoxDelete.ImageScaling = ToolStripItemImageScaling.None;
+            cmiTextBoxDelete.Name = "cmiTextBoxDelete";
+            cmiTextBoxDelete.ShowShortcutKeys = false;
+            cmiTextBoxDelete.Size = new Size(172, 38);
+            cmiTextBoxDelete.Text = "&Delete";
+            cmiTextBoxDelete.Click += cmiTextBoxDelete_Click;
+            // 
+            // toolStripSeparator32
+            // 
+            toolStripSeparator32.Name = "toolStripSeparator32";
+            toolStripSeparator32.Size = new Size(169, 6);
+            // 
+            // cmiTextBoxSelectAll
+            // 
+            cmiTextBoxSelectAll.ImageScaling = ToolStripItemImageScaling.None;
+            cmiTextBoxSelectAll.Name = "cmiTextBoxSelectAll";
+            cmiTextBoxSelectAll.ShortcutKeys = Keys.Control | Keys.A;
+            cmiTextBoxSelectAll.ShowShortcutKeys = false;
+            cmiTextBoxSelectAll.Size = new Size(172, 38);
+            cmiTextBoxSelectAll.Text = "&Select All";
+            cmiTextBoxSelectAll.Click += cmiTextBoxSelectAll_Click;
             // 
             // lblpnlRegisters
             // 
@@ -139,7 +212,7 @@
             lblpnlRegisters.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlRegisters.LabelFont = new Font("Segoe UI", 8F);
             lblpnlRegisters.LabelForeColor = Color.WhiteSmoke;
-            lblpnlRegisters.Location = new Point(19, 418);
+            lblpnlRegisters.Location = new Point(19, 423);
             lblpnlRegisters.Margin = new Padding(6);
             lblpnlRegisters.Name = "lblpnlRegisters";
             lblpnlRegisters.OverrideCollapseControl = false;
@@ -491,7 +564,7 @@
             lblpnlChannel.LabelBackColor = Color.FromArgb(16, 16, 16);
             lblpnlChannel.LabelFont = new Font("Segoe UI", 8F);
             lblpnlChannel.LabelForeColor = Color.WhiteSmoke;
-            lblpnlChannel.Location = new Point(19, 116);
+            lblpnlChannel.Location = new Point(19, 121);
             lblpnlChannel.Margin = new Padding(6);
             lblpnlChannel.Name = "lblpnlChannel";
             lblpnlChannel.OverrideCollapseControl = false;
@@ -628,6 +701,7 @@
             lstChannels.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstChannels.ShowCellSelection = false;
             lstChannels.ShowGrid = false;
+            lstChannels.ShowHeader = true;
             lstChannels.ShowItemIndentation = false;
             lstChannels.ShowMarker = false;
             lstChannels.ShowRowColors = false;
@@ -658,7 +732,6 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
-            Location = new Point(0, 0);
             Margin = new Padding(6);
             Name = "InsertModbusSnapshot";
             Padding = new Padding(19, 21, 19, 21);
@@ -668,6 +741,7 @@
             TopMost = true;
             Load += InsertModbusSnapshot_Load;
             lblpnlDisplayName.ResumeLayout(false);
+            cmTextboxOptions.ResumeLayout(false);
             lblpnlRegisters.ResumeLayout(false);
             lblpnlRegisters.PerformLayout();
             lblpnlQuantity.ResumeLayout(false);
@@ -693,7 +767,14 @@
         private ODModules.LabelPanel lblpnlChannel;
         private ODModules.LabelPanel labelPanel1;
         private ODModules.FlatComboBox cmbxDataSet;
-        private ODModules.TextBox textBox1;
         private ODModules.ListControl lstChannels;
+        private ODModules.SingleLineTextBox sltbSnapshotName;
+        private ODModules.ContextMenu cmTextboxOptions;
+        private ToolStripMenuItem cmiTextBoxCut;
+        private ToolStripMenuItem cmiTextBoxCopy;
+        private ToolStripMenuItem cmiTextBoxPaste;
+        private ToolStripMenuItem cmiTextBoxDelete;
+        private ToolStripSeparator toolStripSeparator32;
+        private ToolStripMenuItem cmiTextBoxSelectAll;
     }
 }

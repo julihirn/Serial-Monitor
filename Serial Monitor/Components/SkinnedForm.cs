@@ -25,7 +25,7 @@ namespace Serial_Monitor.Components {
             this.Deactivate += (s, e) => _isDeactivating = true;
             this.Activated += (s, e) => _isDeactivating = false;
             _resizeRedrawTimer = new System.Windows.Forms.Timer();
-            _resizeRedrawTimer.Interval = 50; // ~20 FPS
+            _resizeRedrawTimer.Interval = 30; // ~20 FPS
             _resizeRedrawTimer.Tick += (s, e) => this.Invalidate(true);
         }
         protected override CreateParams CreateParams {

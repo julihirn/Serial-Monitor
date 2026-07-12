@@ -55,6 +55,9 @@ namespace Serial_Monitor.Classes {
 
         public static event PortStatusChangedHandler? PortStatusChanged;
         public delegate void PortStatusChangedHandler(SerialManager sender);
+
+        public static event PortListingReturnedHandler? PortListingReturned;
+        public delegate void PortListingReturnedHandler(List<Port> ports);
         #endregion
         #region System Global Events
         public static event PluginsLoadedHandler? PluginsLoaded;
@@ -390,12 +393,19 @@ namespace Serial_Monitor.Classes {
         #region Ports and Listing
         public static List<Port> GetSerialPortSettingBased() {
             List<Port> Results = new List<Port>();
-            if (Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
-                Results = GetSerialPortLegacyListing();
-            }
-            else {
-                Results = GetSerialPort();
-            }
+            //if (Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
+            //    Results = GetSerialPortLegacyListing();
+            //}
+            //else {
+            //    Results = GetSerialPort();
+            //}
+            Results = GetSerialPortQuickListing();
+            //if (!Properties.Settings.Default.CHAN_BOL_PreferLegacyPortListing) {
+            Thread Tr_ListDetails = new Thread(ListPortDetails);
+            Tr_ListDetails.IsBackground = true;
+            Tr_ListDetails.Name = "Tr_ListPortDetails";
+            Tr_ListDetails.Start();
+            //}
             return Results.OrderBy(x => x.PortName.Length).ThenBy(x => x.PortName).ToList();
         }
         private static List<Port> GetSerialPort() {
@@ -418,7 +428,7 @@ namespace Serial_Monitor.Classes {
                     }
 
                 }
-                List<Port> TempNonListed = GetSerialPortLegacyListing();
+                List<Port> TempNonListed = GetSerialPortQuickListing();
                 foreach (Port PortLegacy in TempNonListed) {
                     if (!Results.Any(x => x.PortName == PortLegacy.PortName)) {
                         Results.Add(new Port(PortLegacy.PortName, "", PortLegacy.PortName));
@@ -429,13 +439,285 @@ namespace Serial_Monitor.Classes {
             }
             return Results;
         }
-        public static List<Port> GetSerialPortLegacyListing() {
+        private static void ListPortDetails() {
+            List<Port> Ports = GetSerialPort();
+            if (Ports.Count == 0) { return; }
+            PortListingReturned?.Invoke(Ports);
+        }
+        public static List<Port> GetSerialPortQuickListing() {
             List<Port> Results = new List<Port>();
             string[] TempPorts = SerialPort.GetPortNames();
             foreach (string Str in TempPorts) {
-                Results.Add(new Port(Str, Str, ""));
+                Results.Add(new Port(Str, "", ""));
             }
             return Results;
+        }
+        public static void CleanPortHandlers(object DropDownList, List<Port> Ports, EventHandler ClickHandle) {
+            Type t = DropDownList.GetType();
+            Dictionary<string, Port> portLookup = Ports.ToDictionary(p => p.PortName);
+            if (t == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)DropDownList;
+                for (int i = Tsmi.DropDownItems.Count - 1; i >= 0; i--) {
+                    object Itms = Tsmi.DropDownItems[i];
+                    if (Itms.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    object? Tag = ((ToolStripMenuItem)Itms).Tag;
+                    if (Tag == null) { continue; }
+                    if (Tag.GetType() != typeof(Port)) { continue; }
+                    Port currentPort = (Port)Tag;
+                    if (portLookup.ContainsKey(currentPort.PortName)) { continue; }
+                    ((ToolStripMenuItem)Itms).Click -= ClickHandle;
+                    Tsmi.DropDownItems.RemoveAt(i);
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsmi = (ToolStripDropDownButton)DropDownList;
+                for (int i = Tsmi.DropDownItems.Count - 1; i >= 0; i--) {
+                    object Itms = Tsmi.DropDownItems[i];
+                    if (Itms.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    object? Tag = ((ToolStripMenuItem)Itms).Tag;
+                    if (Tag == null) { continue; }
+                    if (Tag.GetType() != typeof(Port)) { continue; }
+                    Port currentPort = (Port)Tag;
+                    if (portLookup.ContainsKey(currentPort.PortName)) { continue; }
+                    ((ToolStripMenuItem)Itms).Click -= ClickHandle;
+                    Tsmi.DropDownItems.RemoveAt(i);
+                }
+            }
+        }
+        public static void AddPortListing(object DropDownList, Port port, EventHandler ClickHandle) {
+            if (PortItemExists(DropDownList, port) == true) { return; }
+            int InsertionPoint = PortInsertionPoint(DropDownList, port);
+            if (InsertionPoint == -1) {
+                NewPortListing(DropDownList, port, ClickHandle);
+            }
+            else {
+                InsertPortListing(DropDownList, InsertionPoint, port, ClickHandle);
+            }
+        }
+        private static int PortInsertionPoint(object Tsmi, Port port) {
+            int Index = -1;
+            Type t = Tsmi.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                foreach (object Item in ((ToolStripMenuItem)Tsmi).DropDownItems) {
+                    Index++;
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    if (Index >= ((ToolStripMenuItem)Tsmi).DropDownItems.Count - 1) { return -1; }
+                    if (port.PortNumber < ((Port)Tssmi.Tag).PortNumber) {
+                        return Index;
+                    }
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                foreach (object Item in ((ToolStripDropDownButton)Tsmi).DropDownItems) {
+                    Index++;
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    if (Index >= ((ToolStripDropDownButton)Tsmi).DropDownItems.Count - 1) { return -1; }
+                    if (port.PortNumber < ((Port)Tssmi.Tag).PortNumber) {
+                        return Index;
+                    }
+                }
+            }
+
+            return -1;
+        }
+        public static void NewPortListing(object DropDownList, Port port, EventHandler ClickHandle) {
+            ToolStripMenuItem Itm = new ToolStripMenuItem();
+            Itm.Text = port.DisplayName;
+            Itm.Tag = port;
+            Itm.ToolTipText = port.ToolTip;
+            Itm.ImageScaling = ToolStripItemImageScaling.None;
+            Itm.CheckOnClick = true;
+            Itm.Click += ClickHandle;
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ((ToolStripMenuItem)DropDownList).DropDownItems.Add(Itm);
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ((ToolStripDropDownButton)DropDownList).DropDownItems.Add(Itm);
+            }
+        }
+        public static void InsertPortListing(object DropDownList, int Index, Port port, EventHandler ClickHandle) {
+            ToolStripMenuItem Itm = new ToolStripMenuItem();
+            Itm.Text = port.DisplayName;
+            Itm.Tag = port;
+            Itm.ToolTipText = port.ToolTip;
+            Itm.ImageScaling = ToolStripItemImageScaling.None;
+            Itm.CheckOnClick = true;
+            Itm.Click += ClickHandle;
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ((ToolStripMenuItem)DropDownList).DropDownItems.Insert(Index, Itm);
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ((ToolStripDropDownButton)DropDownList).DropDownItems.Insert(Index, Itm);
+            }
+        }
+        public static int PortCount(object DropDownList) {
+            int Count = 0;
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    ++Count;
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsmi = (ToolStripDropDownButton)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    ++Count;
+                }
+            }
+            return Count;
+        }
+        public static Port? GetFirstListing(object DropDownList) {
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    return (Port)Tssmi.Tag;
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsmi = (ToolStripDropDownButton)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    return (Port)Tssmi.Tag;
+                }
+            }
+            return null;
+        }
+        public static int GetPortNumber(ToolStripMenuItem? Tsmi) {
+            if (Tsmi == null) { return -1; }
+            if (Tsmi.Tag == null) { return -1; }
+            if (Tsmi.Tag.GetType() != typeof(Port)) { return -1; }
+            Port CurrentPort = (Port)Tsmi.Tag;
+            return CurrentPort.PortNumber;
+        }
+        public static void CheckPort(object DropDownList, Port port) {
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    Port CurrentPort = (Port)Tssmi.Tag;
+                    Tssmi.Checked = CurrentPort.PortName == port.PortName;
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsmi = (ToolStripDropDownButton)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    Port CurrentPort = (Port)Tssmi.Tag;
+                    Tssmi.Checked = CurrentPort.PortName == port.PortName;
+                }
+            }
+        }
+        public static void AssignNewData(object dropDownList, List<Port> ports) {
+            Dictionary<string, Port> lookup = ports.ToDictionary(p => p.PortName);
+            if (dropDownList is ToolStripMenuItem menuItem) {
+                UpdatePorts(menuItem.DropDownItems, lookup);
+            }
+            else if (dropDownList is ToolStripDropDownButton dropDownButton) {
+                UpdatePorts(dropDownButton.DropDownItems, lookup);
+            }
+        }
+
+        private static void UpdatePorts(ToolStripItemCollection items, Dictionary<string, Port> lookup) {
+            foreach (object item in items) {
+                if (item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                ToolStripMenuItem Tssmi = (ToolStripMenuItem)item;
+                if (Tssmi.Tag is not Port currentPort) { continue; }
+                if (lookup.TryGetValue(currentPort.PortName, out var newPort)) {
+                    currentPort.Name = newPort.Name;
+                    currentPort.ToolTip = newPort.ToolTip;
+                    Tssmi.Text = currentPort.DisplayName;
+                    Tssmi.ToolTipText = currentPort.ToolTip;
+                }
+            }
+        }
+        public static void CheckPort(object DropDownList, string portName) {
+            Port port = new Port(portName, "", "");
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    Port CurrentPort = (Port)Tssmi.Tag;
+                    Tssmi.Checked = CurrentPort.PortName == port.PortName;
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsmi = (ToolStripDropDownButton)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = (ToolStripMenuItem)Item;
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    Port CurrentPort = (Port)Tssmi.Tag;
+                    Tssmi.Checked = CurrentPort.PortName == port.PortName;
+                }
+            }
+        }
+        public static bool PortItemExists(object DropDownList, Port port) {
+            Type t = DropDownList.GetType();
+            if (t == typeof(ToolStripMenuItem)) {
+                ToolStripMenuItem Tsmi = (ToolStripMenuItem)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = ((ToolStripMenuItem)Item);
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    Port CurrentPort = (Port)Tssmi.Tag;
+                    if (CurrentPort.PortName == port.PortName) {
+                        return true;
+                    }
+                }
+            }
+            else if (t == typeof(ToolStripDropDownButton)) {
+                ToolStripDropDownButton Tsmi = (ToolStripDropDownButton)DropDownList;
+                foreach (object Item in Tsmi.DropDownItems) {
+                    if (Item.GetType() != typeof(ToolStripMenuItem)) { continue; }
+                    ToolStripMenuItem Tssmi = ((ToolStripMenuItem)Item);
+                    if (Tssmi.Tag == null) { continue; }
+                    if (Tssmi.Tag.GetType() != typeof(Port)) { continue; }
+                    Port CurrentPort = (Port)Tssmi.Tag;
+                    if (CurrentPort.PortName == port.PortName) {
+                        return true;
+                    }
+
+                }
+            }
+            return false;
         }
         #endregion
         public static void Initialize() {

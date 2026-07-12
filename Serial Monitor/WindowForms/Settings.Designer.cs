@@ -143,6 +143,8 @@
             btngrThemes.BorderColorShadow = Color.FromArgb(120, 0, 0, 0);
             btngrThemes.BorderColorSouth = Color.LightGray;
             btngrThemes.BorderRadius = 5;
+            btngrThemes.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            btngrThemes.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
             btngrThemes.ButtonPadding = new Padding(0, 0, 5, 5);
             gridButton1.BackColorNorth = Color.Gray;
             gridButton1.BackColorSouth = Color.Gray;
@@ -170,7 +172,7 @@
             btngrThemes.Buttons.Add(gridButton1);
             btngrThemes.ButtonSize = new Size(40, 40);
             btngrThemes.CenterButtons = false;
-            btngrThemes.Columns = 14;
+            btngrThemes.Columns = 2;
             btngrThemes.Dock = DockStyle.Fill;
             btngrThemes.Filter = "";
             btngrThemes.FixedColumns = false;
@@ -215,6 +217,7 @@
             thSettings.Name = "thSettings";
             thSettings.Padding = new Padding(9, 0, 0, 0);
             thSettings.SelectedIndex = 0;
+            thSettings.SelectedTabGradient = true;
             thSettings.ShowAddButton = false;
             thSettings.ShowHeader = false;
             thSettings.ShowTabDividers = true;
@@ -225,13 +228,16 @@
             thSettings.TabClickedBackColor = Color.DarkGray;
             thSettings.TabDividerColor = Color.White;
             thSettings.TabHoverBackColor = Color.LightGray;
+            thSettings.TabInactiveForeColor = Color.DarkGray;
             thSettings.TabIndex = 1;
             thSettings.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
             thSettings.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
+            thSettings.TabSelectedBackColorNorth = Color.Gray;
             thSettings.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
             thSettings.TabSelectedForeColor = Color.WhiteSmoke;
             thSettings.TabSelectedShadowColor = Color.Black;
             thSettings.TabStyle = ODModules.TabHeader.TabStyles.Normal;
+            thSettings.TabToolTips = null;
             thSettings.UseBindingTabControl = true;
             thSettings.Load += thSettings_Load;
             // 
@@ -358,6 +364,7 @@
             label1.Size = new Size(544, 70);
             label1.TabIndex = 4;
             label1.Text = "Use this setting if your device is not listed. Hides Device Description.";
+            label1.Visible = false;
             // 
             // chbxUseLegacyListing
             // 
@@ -372,6 +379,7 @@
             chbxUseLegacyListing.TabIndex = 3;
             chbxUseLegacyListing.Text = "Use Legacy Port Listing";
             chbxUseLegacyListing.UseVisualStyleBackColor = true;
+            chbxUseLegacyListing.Visible = false;
             chbxUseLegacyListing.CheckedChanged += chbxUseLegacyListing_CheckedChanged;
             // 
             // lblPnlDefaults
@@ -447,6 +455,7 @@
             toolStrip2.BackColorNorth = SystemColors.ButtonFace;
             toolStrip2.BackColorSouth = SystemColors.ButtonFace;
             toolStrip2.BorderColor = Color.WhiteSmoke;
+            toolStrip2.GripColor = Color.WhiteSmoke;
             toolStrip2.GripStyle = ToolStripGripStyle.Hidden;
             toolStrip2.ImageScalingSize = new Size(32, 32);
             toolStrip2.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
@@ -465,7 +474,9 @@
             toolStrip2.Name = "toolStrip2";
             toolStrip2.Padding = new Padding(0, 0, 4, 0);
             toolStrip2.RoundedToolStrip = false;
+            toolStrip2.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             toolStrip2.ShowBorder = false;
+            toolStrip2.ShowShadow = false;
             toolStrip2.Size = new Size(497, 42);
             toolStrip2.StripItemSelectedBackColorNorth = Color.White;
             toolStrip2.StripItemSelectedBackColorSouth = Color.White;
@@ -548,6 +559,7 @@
             toolStrip1.BackColorNorth = SystemColors.ButtonFace;
             toolStrip1.BackColorSouth = SystemColors.ButtonFace;
             toolStrip1.BorderColor = Color.WhiteSmoke;
+            toolStrip1.GripColor = Color.WhiteSmoke;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
             toolStrip1.ImageScalingSize = new Size(32, 32);
             toolStrip1.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
@@ -566,7 +578,9 @@
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new Padding(0, 0, 4, 0);
             toolStrip1.RoundedToolStrip = false;
+            toolStrip1.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             toolStrip1.ShowBorder = false;
+            toolStrip1.ShowShadow = false;
             toolStrip1.Size = new Size(497, 42);
             toolStrip1.StripItemSelectedBackColorNorth = Color.White;
             toolStrip1.StripItemSelectedBackColorSouth = Color.White;
@@ -1005,7 +1019,6 @@
             Controls.Add(hiddenTabControl1);
             Controls.Add(thSettings);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Location = new Point(0, 0);
             Margin = new Padding(6);
             Name = "Settings";
             Text = "Settings";

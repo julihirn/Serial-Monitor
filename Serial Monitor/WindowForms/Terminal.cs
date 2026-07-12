@@ -29,7 +29,7 @@ namespace Serial_Monitor.WindowForms {
             ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
             InitializeComponent();
             if (manager != null) {
-                Output.AddTerminalColor(manager.ID,  manager.StateName, manager.ForeColor, !manager.UseDefaultForeColor);
+                Output.AddTerminalColor(manager.ID, manager.StateName, manager.ForeColor, !manager.UseDefaultForeColor);
                 Output.SetTerminalColor(manager.ID, !manager.UseDefaultForeColor, true);
             }
 
@@ -38,6 +38,10 @@ namespace Serial_Monitor.WindowForms {
             Manager.NameChanged += Manager_NameChanged;
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.ChannelPropertyChanged += SystemManager_ChannelPropertyChanged;
+            SystemManager.PortListingReturned += SystemManager_PortListingReturned;
+
+            btnChannelPort.DropDown.ItemClicked += PortsMSDropDown_ItemClicked;
+            btnChannelPort.DropDown.Closing += PortListingDropDown_Closing1;
 
             ChangeFormName(manager, "");
             AddIcons();
@@ -50,7 +54,7 @@ namespace Serial_Monitor.WindowForms {
             SystemManager.CheckFormatOption(Properties.Settings.Default.DEF_INT_BaudRate, btnChannelBaudVals);
             SetProperties();
             ConnectionStatus();
-           
+
         }
 
         private void ProjectManager_DocumentLoaded() {
@@ -113,10 +117,10 @@ namespace Serial_Monitor.WindowForms {
         }
         private void Manager_NameChanged(object sender, string Data) {
             if (manager == null) { return; }
-            ChangeFormName(manager, LogFile); 
+            ChangeFormName(manager, LogFile);
             Output.SetTerminalColor(manager.ID, manager.StateName);
         }
-        private void ChangeFormName(SerialManager ? SerMngr, string File) {
+        private void ChangeFormName(SerialManager? SerMngr, string File) {
             string Item = "";
             if (SerMngr != null) { Item = SerMngr.StateName; }
             if (Item.Length == 0) {
@@ -259,6 +263,8 @@ namespace Serial_Monitor.WindowForms {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, pasteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, deleteToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, clearTerminalToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Refresh, refreshToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         private void RecolorAll() {
             ApplicationManager.IsDark = Properties.Settings.Default.THM_SET_IsDark;
@@ -283,6 +289,7 @@ namespace Serial_Monitor.WindowForms {
             Manager.NameChanged -= Manager_NameChanged;
             SystemManager.PortStatusChanged -= SystemManager_PortStatusChanged;
             SystemManager.ChannelPropertyChanged -= SystemManager_ChannelPropertyChanged;
+            SystemManager.PortListingReturned -= SystemManager_PortListingReturned;
         }
         private void Output_CommandEntered(object sender, CommandEnteredEventArgs e) {
             try {
@@ -743,65 +750,70 @@ namespace Serial_Monitor.WindowForms {
         }
         #endregion
         #region Ports
-        private void CleanHandlers() {
-            for (int i = btnChannelPort.DropDownItems.Count - 1; i >= 0; i--) {
-                object Itms = btnChannelPort.DropDownItems[i];
-                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
-                    if (((ToolStripMenuItem)Itms).Tag != null) {
-                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
-                        btnChannelPort.DropDownItems.RemoveAt(i);
-                    }
-                }
-            }
-        }
         private void RefreshPorts() {
-            CleanHandlers();
             List<Port> Ports = SystemManager.GetSerialPortSettingBased();
+
+            int Count = 0;
             foreach (Port port in Ports) {
-                if (ItemExists(port.PortName) == false) {
-                    ToolStripMenuItem Itm2 = new ToolStripMenuItem();
-                    Itm2.Text = port.DisplayName;
-                    Itm2.Tag = port.PortName;
-                    Itm2.ToolTipText = port.ToolTip;
-                    Itm2.ImageScaling = ToolStripItemImageScaling.None;
-                    Itm2.CheckOnClick = true;
-                    Itm2.Click += Itm_Click;
-                    btnChannelPort.DropDownItems.Add(Itm2);
+                if (SystemManager.PortItemExists(btnChannelPort, port) == false) {
+                    SystemManager.AddPortListing(btnChannelPort, port, Itm_Click);
+                }
+                ++Count;
+            }
+            SystemManager.CleanPortHandlers(btnChannelPort, Ports, Itm_Click);
+            if (Ports.Count <= 0) {
+                foreach (SerialManager SerMan in SystemManager.SerialManagers) {
+                    SerMan.SystemEnabled = false;
+                }
+                portSeparator.Visible = false;
+            }
+            else {
+                portSeparator.Visible = true;
+                foreach (SerialManager SerMan in SystemManager.SerialManagers) {
+                    SerMan.SystemEnabled = true;
                 }
             }
+
             if (manager != null) {
-                SystemManager.CheckFormatOption(manager.PortName, btnChannelPort);
+                SystemManager.CheckPort(btnChannelPort, manager.PortName);
+                //SystemManager.CheckFormatOption(manager.PortName, btnChannelPort);
             }
-        }
-        private bool ItemExists(string Name) {
-            foreach (object Item in btnChannelPort.DropDownItems) {
-                if (Item.GetType() == typeof(ToolStripMenuItem)) {
-                    ToolStripMenuItem Tsmi = (ToolStripMenuItem)Item;
-                    if (Tsmi.Tag == null) { continue; }
-                    if (((ToolStripMenuItem)Item).Tag != null) {
-                        if (Tsmi.Tag.ToString() == Name) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
         }
         private void Itm_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(ToolStripMenuItem)) {
-                string SelectedPort = "COM1";
-                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
-                if (Tsmi.Tag == null) { return; }
-                if (manager != null) {
-                    SelectedPort = Tsmi.Tag.ToString() ?? "COM1";
-                    manager.PortName = SelectedPort;
-                }
-                SystemManager.CheckFormatOption(SelectedPort, btnChannelPort);
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            string SelectedPort = "COM1";
+            ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+            if (Tsmi.Tag == null) { return; }
+            if (Tsmi.Tag.GetType() != typeof(Port)) { return; }
+            Port port = (Port)Tsmi.Tag;
+            if (manager != null) {
+                SelectedPort = port.PortName ?? "COM1";
+                manager.PortName = SelectedPort;
             }
+            SystemManager.CheckPort(btnChannelPort, SelectedPort);
+        }
+        private ToolStripItem? _portToolStripItemClicked;
+        private ToolStripItem? _portMenuStripItemClicked;
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e) {
+            RefreshPorts();
         }
         private void btnChannelPort_DropDownOpening(object sender, EventArgs e) {
             RefreshPorts();
+        }
+        private void SystemManager_PortListingReturned(List<Port> ports) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                SystemManager.AssignNewData(btnChannelPort, ports);
+            }));
+        }
+        private void PortListingDropDown_Closing1(object? sender, ToolStripDropDownClosingEventArgs e) {
+            if (ReferenceEquals(_portMenuStripItemClicked, refreshToolStripMenuItem) && e.CloseReason == ToolStripDropDownCloseReason.ItemClicked) {
+                e.Cancel = true;
+            }
+            _portMenuStripItemClicked = null;
+        }
+        private void PortsMSDropDown_ItemClicked(object? sender, ToolStripItemClickedEventArgs e) {
+            _portMenuStripItemClicked = e.ClickedItem;
         }
         #endregion
         #region Control Flow Settings
@@ -901,5 +913,7 @@ namespace Serial_Monitor.WindowForms {
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e) {
             Output.ClearEntered();
         }
+
+      
     }
 }

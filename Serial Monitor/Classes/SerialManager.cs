@@ -2275,7 +2275,7 @@ namespace Serial_Monitor.Classes {
                 Tmr_Scanner.Tick -= Tmr_Scanner_Tick;
                 Scan_Handl_Assigned = false;
             }
-            ScanPorts = SystemManager.GetSerialPortLegacyListing().OrderBy(x => x.PortName.Length).ThenBy(x => x.PortName).ToList();
+            ScanPorts = SystemManager.GetSerialPortQuickListing().OrderBy(x => x.PortName.Length).ThenBy(x => x.PortName).ToList();
             Tmr_Scanner.Interval = 10;
             Tmr_Scanner.Tick += Tmr_Scanner_Tick;
             Scan_Handl_Assigned = true;

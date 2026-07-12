@@ -80,7 +80,7 @@ namespace Serial_Monitor {
             // mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
             EnableDisableDialogEditors();
-            UserInterfaceManager.GetAllToolstrips(tscMain, toolbarsToolStripMenuItem);
+           
 
             //ModbusEditor.CheckSelectedPropertiesAreEqual(GetCurrentListView());
             //ViewChanged?.Invoke(this);
@@ -129,9 +129,10 @@ namespace Serial_Monitor {
             //        ((Form1)Attached).
             //    }
             //}
-         
+
             //ViewChanged?.Invoke(this);
             //ModbusEditor.CheckSelectedPropertiesAreEqual(GetCurrentListView());
+            UserInterfaceManager.GetAllToolstrips(tscMain, toolbarsToolStripMenuItem);
         }
         private void AppearancePopupHost_Opening(object? sender, CancelEventArgs e) {
         }
@@ -609,12 +610,26 @@ namespace Serial_Monitor {
             }));
         }
         private void ModbusEditor_EditorPropertiesEqual(ODModules.ListControl? LstControl, ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected) {
-            try {
-                this.BeginInvoke(new MethodInvoker(delegate {
-                    AdjustProperties(EqualProperties, CurrentProperties, ItemsSelected);
-                }));
+            //try {
+            //    this.BeginInvoke(new MethodInvoker(delegate {
+            //        AdjustProperties(EqualProperties, CurrentProperties, ItemsSelected);
+            //    }));
+            //}
+            //catch { }
+            if (InvokeRequired) {
+                if (!IsHandleCreated || IsDisposed){ return; }
+
+                BeginInvoke(new Action(() =>
+                    ModbusEditor_EditorPropertiesEqual(
+                        LstControl,
+                        EqualProperties,
+                        CurrentProperties,
+                        ItemsSelected)));
+
+                return;
             }
-            catch { }
+
+            AdjustProperties(EqualProperties, CurrentProperties, ItemsSelected);
         }
         private void ModbusRegisters_ViewChanged(object? sender) {
             DataSelection? Select = GetDataSelection();

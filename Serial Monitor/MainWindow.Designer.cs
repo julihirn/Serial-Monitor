@@ -36,6 +36,8 @@
             ODModules.Tab tab1 = new ODModules.Tab();
             tsMain = new ODModules.ToolStrip();
             ddbPorts = new ToolStripDropDownButton();
+            refreshToolStripMenuItem = new ToolStripMenuItem();
+            portSeparator = new ToolStripSeparator();
             toolStripSeparator1 = new ToolStripSeparator();
             ddbBAUDRate = new ToolStripDropDownButton();
             ddbBits = new ToolStripDropDownButton();
@@ -320,6 +322,8 @@
             cmiTextBoxSelectAll = new ToolStripMenuItem();
             tsiExtender = new ODModules.ControlExtensions.ToolStripItemExtender();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            refreshPortsMenu = new ToolStripMenuItem();
+            portMenuSeparator = new ToolStripSeparator();
             tsMain.SuspendLayout();
             pnlRenamePanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -377,6 +381,7 @@
             // 
             // ddbPorts
             // 
+            ddbPorts.DropDownItems.AddRange(new ToolStripItem[] { refreshToolStripMenuItem, portSeparator });
             ddbPorts.ForeColor = Color.White;
             ddbPorts.Image = (Image)resources.GetObject("ddbPorts.Image");
             ddbPorts.ImageScaling = ToolStripItemImageScaling.None;
@@ -386,6 +391,21 @@
             ddbPorts.Text = "No ports found";
             ddbPorts.ToolTipText = "Port";
             tsiExtender.SetTranslationReference(ddbPorts, "port");
+            // 
+            // refreshToolStripMenuItem
+            // 
+            refreshToolStripMenuItem.ForeColor = Color.WhiteSmoke;
+            refreshToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.Size = new Size(226, 44);
+            refreshToolStripMenuItem.Text = "&Refresh";
+            tsiExtender.SetTranslationReference(refreshToolStripMenuItem, "");
+            // 
+            // portSeparator
+            // 
+            portSeparator.Name = "portSeparator";
+            portSeparator.Size = new Size(223, 6);
+            tsiExtender.SetTranslationReference(portSeparator, "");
             // 
             // toolStripSeparator1
             // 
@@ -1138,14 +1158,14 @@
             cmStepEditor.SeparatorColor = Color.FromArgb(200, 200, 200);
             cmStepEditor.ShowInsetShadow = false;
             cmStepEditor.ShowItemInsetShadow = false;
-            cmStepEditor.Size = new Size(301, 446);
+            cmStepEditor.Size = new Size(273, 402);
             cntrlExtender.SetTranslationReference(cmStepEditor, "");
             // 
             // addCommandToolStripMenuItem1
             // 
             addCommandToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             addCommandToolStripMenuItem1.Name = "addCommandToolStripMenuItem1";
-            addCommandToolStripMenuItem1.Size = new Size(300, 38);
+            addCommandToolStripMenuItem1.Size = new Size(272, 38);
             addCommandToolStripMenuItem1.Text = "Add Command";
             tsiExtender.SetTranslationReference(addCommandToolStripMenuItem1, "addCommand");
             // 
@@ -1153,21 +1173,21 @@
             // 
             removeSelectedToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
-            removeSelectedToolStripMenuItem.Size = new Size(300, 38);
+            removeSelectedToolStripMenuItem.Size = new Size(272, 38);
             removeSelectedToolStripMenuItem.Text = "Remove Selected";
             tsiExtender.SetTranslationReference(removeSelectedToolStripMenuItem, "removeSelected");
             // 
             // toolStripSeparator20
             // 
             toolStripSeparator20.Name = "toolStripSeparator20";
-            toolStripSeparator20.Size = new Size(297, 6);
+            toolStripSeparator20.Size = new Size(269, 6);
             tsiExtender.SetTranslationReference(toolStripSeparator20, "");
             // 
             // cutToolStripMenuItem1
             // 
             cutToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
-            cutToolStripMenuItem1.Size = new Size(300, 38);
+            cutToolStripMenuItem1.Size = new Size(272, 38);
             cutToolStripMenuItem1.Text = "Cu&t";
             tsiExtender.SetTranslationReference(cutToolStripMenuItem1, "cut");
             // 
@@ -1175,7 +1195,7 @@
             // 
             copyToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
-            copyToolStripMenuItem1.Size = new Size(300, 38);
+            copyToolStripMenuItem1.Size = new Size(272, 38);
             copyToolStripMenuItem1.Text = "&Copy";
             tsiExtender.SetTranslationReference(copyToolStripMenuItem1, "copy");
             // 
@@ -1183,21 +1203,21 @@
             // 
             pasteToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
-            pasteToolStripMenuItem1.Size = new Size(300, 38);
+            pasteToolStripMenuItem1.Size = new Size(272, 38);
             pasteToolStripMenuItem1.Text = "&Paste";
             tsiExtender.SetTranslationReference(pasteToolStripMenuItem1, "paste");
             // 
             // toolStripSeparator33
             // 
             toolStripSeparator33.Name = "toolStripSeparator33";
-            toolStripSeparator33.Size = new Size(297, 6);
+            toolStripSeparator33.Size = new Size(269, 6);
             tsiExtender.SetTranslationReference(toolStripSeparator33, "");
             // 
             // enableSelectedToolStripMenuItem1
             // 
             enableSelectedToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             enableSelectedToolStripMenuItem1.Name = "enableSelectedToolStripMenuItem1";
-            enableSelectedToolStripMenuItem1.Size = new Size(300, 38);
+            enableSelectedToolStripMenuItem1.Size = new Size(272, 38);
             enableSelectedToolStripMenuItem1.Text = "Enable Selected";
             tsiExtender.SetTranslationReference(enableSelectedToolStripMenuItem1, "enableSelected");
             // 
@@ -1205,21 +1225,21 @@
             // 
             disableSelectedToolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             disableSelectedToolStripMenuItem1.Name = "disableSelectedToolStripMenuItem1";
-            disableSelectedToolStripMenuItem1.Size = new Size(300, 38);
+            disableSelectedToolStripMenuItem1.Size = new Size(272, 38);
             disableSelectedToolStripMenuItem1.Text = "Disable Selected";
             tsiExtender.SetTranslationReference(disableSelectedToolStripMenuItem1, "disableSelected");
             // 
             // toolStripSeparator21
             // 
             toolStripSeparator21.Name = "toolStripSeparator21";
-            toolStripSeparator21.Size = new Size(297, 6);
+            toolStripSeparator21.Size = new Size(269, 6);
             tsiExtender.SetTranslationReference(toolStripSeparator21, "");
             // 
             // runToolStripMenuItem
             // 
             runToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             runToolStripMenuItem.Name = "runToolStripMenuItem";
-            runToolStripMenuItem.Size = new Size(300, 38);
+            runToolStripMenuItem.Size = new Size(272, 38);
             runToolStripMenuItem.Text = "&Run";
             tsiExtender.SetTranslationReference(runToolStripMenuItem, "run");
             // 
@@ -1228,7 +1248,7 @@
             pauseToolStripMenuItem.Enabled = false;
             pauseToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
-            pauseToolStripMenuItem.Size = new Size(300, 38);
+            pauseToolStripMenuItem.Size = new Size(272, 38);
             pauseToolStripMenuItem.Text = "P&ause";
             tsiExtender.SetTranslationReference(pauseToolStripMenuItem, "pause");
             // 
@@ -1237,7 +1257,7 @@
             stopToolStripMenuItem.Enabled = false;
             stopToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            stopToolStripMenuItem.Size = new Size(300, 38);
+            stopToolStripMenuItem.Size = new Size(272, 38);
             stopToolStripMenuItem.Text = "&Stop";
             tsiExtender.SetTranslationReference(stopToolStripMenuItem, "stop");
             // 
@@ -1274,7 +1294,7 @@
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnNewStep, btnOpenStep, btnOpenLocation, toolStripSeparator, btnSaveStep, btnSaveAsStep, toolStripSeparator6, btnPrint, btnPrintPreview, toolStripSeparator7, btnRecentProjects, toolStripSeparator8, btnMenuExit });
             fileToolStripMenuItem.ForeColor = Color.White;
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(71, 36);
+            fileToolStripMenuItem.Size = new Size(71, 38);
             fileToolStripMenuItem.Text = "&File";
             tsiExtender.SetTranslationReference(fileToolStripMenuItem, "file");
             // 
@@ -1406,7 +1426,7 @@
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem, toolStripSeparator15, cutToolStripMenuItem, copyToolStripMenuItem, pasteToolStripMenuItem, deleteToolStripMenuItem, toolStripSeparator9, selectAllToolStripMenuItem });
             editToolStripMenuItem.ForeColor = Color.White;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(74, 36);
+            editToolStripMenuItem.Size = new Size(74, 38);
             editToolStripMenuItem.Text = "&Edit";
             tsiExtender.SetTranslationReference(editToolStripMenuItem, "edit");
             // 
@@ -1505,7 +1525,7 @@
             viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnOptViewDataOnly, btnOptViewTime, btnOptViewDate, btnOptViewDateTime, toolStripSeparator16, btnOptViewSource, toolStripSeparator13, channelsToolStripMenuItem, btnMenuShowStepPrg, toolStripSeparator11, btnMenuClearTerminal, zoomToolStripMenuItem, toolStripSeparator12, toolbarsToolStripMenuItem, btnMenuTopMost, btnMenuFullScreen });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(85, 36);
+            viewToolStripMenuItem.Size = new Size(85, 38);
             viewToolStripMenuItem.Text = "&View";
             tsiExtender.SetTranslationReference(viewToolStripMenuItem, "view");
             // 
@@ -1739,7 +1759,7 @@
             mitChannel.ForeColor = Color.White;
             mitChannel.ImageScaling = ToolStripItemImageScaling.None;
             mitChannel.Name = "mitChannel";
-            mitChannel.Size = new Size(122, 36);
+            mitChannel.Size = new Size(122, 38);
             mitChannel.Text = "&Channel";
             tsiExtender.SetTranslationReference(mitChannel, "channel");
             // 
@@ -1954,6 +1974,7 @@
             // 
             // btnChannelPort
             // 
+            btnChannelPort.DropDownItems.AddRange(new ToolStripItem[] { refreshPortsMenu, portMenuSeparator });
             btnChannelPort.ForeColor = Color.White;
             btnChannelPort.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelPort.Name = "btnChannelPort";
@@ -2244,7 +2265,7 @@
             programToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { addCommandToolStripMenuItem, addCommandAfterToolStripMenuItem, btnPrgRemoveStepLines, toolStripSeparator17, btnPrgMoveUp, btnPrgMoveDown, toolStripSeparator18, btnEnableSelected, btnToggleSelected, btnDisableSelected, toolStripSeparator19, setStepCursorToolStripMenuItem, toolStripSeparator22, activeProgramToolStripMenuItem, commandPalletToolStripMenuItem, variablesToolStripMenuItem, propertiesToolStripMenuItem, toolStripSeparator26, btnRunPrg, runProgramToolStripMenuItem, btnPausePrg, btnStopPrg, toolStripSeparator27, newProgramToolStripMenuItem, removeProgramToolStripMenuItem });
             programToolStripMenuItem.ForeColor = Color.White;
             programToolStripMenuItem.Name = "programToolStripMenuItem";
-            programToolStripMenuItem.Size = new Size(124, 36);
+            programToolStripMenuItem.Size = new Size(124, 38);
             programToolStripMenuItem.Text = "&Program";
             tsiExtender.SetTranslationReference(programToolStripMenuItem, "program");
             // 
@@ -2473,7 +2494,7 @@
             loggingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openLogToolStripMenuItem, saveLogToolStripMenuItem, toolStripSeparator46, startLoggingToolStripMenuItem, stopLoggingToolStripMenuItem });
             loggingToolStripMenuItem.ForeColor = Color.White;
             loggingToolStripMenuItem.Name = "loggingToolStripMenuItem";
-            loggingToolStripMenuItem.Size = new Size(121, 36);
+            loggingToolStripMenuItem.Size = new Size(121, 38);
             loggingToolStripMenuItem.Text = "&Logging";
             tsiExtender.SetTranslationReference(loggingToolStripMenuItem, "logging");
             // 
@@ -2527,7 +2548,7 @@
             // 
             extensionsToolStripMenuItem.ForeColor = Color.White;
             extensionsToolStripMenuItem.Name = "extensionsToolStripMenuItem";
-            extensionsToolStripMenuItem.Size = new Size(146, 36);
+            extensionsToolStripMenuItem.Size = new Size(146, 38);
             extensionsToolStripMenuItem.Text = "E&xtensions";
             tsiExtender.SetTranslationReference(extensionsToolStripMenuItem, "extensions");
             extensionsToolStripMenuItem.Visible = false;
@@ -2537,7 +2558,7 @@
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { keyPadToolStripMenuItem, btnMonitor, modbusRegistersToolStripMenuItem, modbusQueryEditorToolStripMenuItem, oscilloscopeToolStripMenuItem, toolStripSeparator14, textComparatorToolStripMenuItem, toolStripSeparator31, deviceManagerToolStripMenuItem, toolStripSeparator40, customizeToolStripMenuItem, optionsToolStripMenuItem });
             toolsToolStripMenuItem.ForeColor = Color.White;
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(89, 36);
+            toolsToolStripMenuItem.Size = new Size(89, 38);
             toolsToolStripMenuItem.Text = "&Tools";
             tsiExtender.SetTranslationReference(toolsToolStripMenuItem, "tools");
             // 
@@ -2651,7 +2672,7 @@
             windowToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnWinWindowManager, btnWinCloseAll, toolStripSeparator42 });
             windowToolStripMenuItem.ForeColor = Color.White;
             windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            windowToolStripMenuItem.Size = new Size(121, 36);
+            windowToolStripMenuItem.Size = new Size(121, 38);
             windowToolStripMenuItem.Text = "&Window";
             tsiExtender.SetTranslationReference(windowToolStripMenuItem, "window");
             // 
@@ -2685,7 +2706,7 @@
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { contentsToolStripMenuItem, indexToolStripMenuItem, searchToolStripMenuItem, toolStripSeparator10, aboutToolStripMenuItem });
             helpToolStripMenuItem.ForeColor = Color.White;
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(84, 36);
+            helpToolStripMenuItem.Size = new Size(84, 38);
             helpToolStripMenuItem.Text = "&Help";
             tsiExtender.SetTranslationReference(helpToolStripMenuItem, "help");
             // 
@@ -3493,6 +3514,21 @@
             cmiTextBoxSelectAll.Text = "&Select All";
             tsiExtender.SetTranslationReference(cmiTextBoxSelectAll, "selectAll");
             // 
+            // refreshPortsMenu
+            // 
+            refreshPortsMenu.ForeColor = Color.White;
+            refreshPortsMenu.ImageScaling = ToolStripItemImageScaling.None;
+            refreshPortsMenu.Name = "refreshPortsMenu";
+            refreshPortsMenu.Size = new Size(359, 44);
+            refreshPortsMenu.Text = "Refresh";
+            tsiExtender.SetTranslationReference(refreshPortsMenu, "refresh");
+            // 
+            // portMenuSeparator
+            // 
+            portMenuSeparator.Name = "portMenuSeparator";
+            portMenuSeparator.Size = new Size(356, 6);
+            tsiExtender.SetTranslationReference(portMenuSeparator, "");
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -3830,5 +3866,9 @@
         private ToolStripButton btnRemoveSelectedChannel;
         private ToolStripSeparator toolStripSeparator49;
         private ToolStripButton btnChannelProperties;
+        private ToolStripMenuItem refreshToolStripMenuItem;
+        private ToolStripSeparator portSeparator;
+        private ToolStripMenuItem refreshPortsMenu;
+        private ToolStripSeparator portMenuSeparator;
     }
 }

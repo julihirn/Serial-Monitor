@@ -42,42 +42,42 @@ namespace Serial_Monitor {
             }
         }
         private void InvokePropertyChange() {
-            if (currentManager != null) {
-                ddbBAUDRate.Text = currentManager.BaudRate.ToString();
-                ddbBAUDRate.Tag = currentManager.BaudRate;
-                SystemManager.CheckFormatOption(currentManager.BaudRate, ddbBAUDRate);
-                SystemManager.CheckFormatOption(currentManager.BaudRate, btnChannelBaud);
-                ddbBits.Text = currentManager.DataBits.ToString();
-                ddbBits.Tag = currentManager.DataBits.ToString();
-                CheckBits(ddbBits.Text ?? "");
-                string StopBits = EnumManager.StopBitsToString(currentManager.StopBits);
-                ddbStopBits.Text = StopBits;
-                ddbStopBits.Tag = StopBits;
-                CheckStopBits(ddbStopBits.Text);
-                string Parity = EnumManager.ParityToString(currentManager.Parity);
-                ddbParity.Text = Parity;
-                ddbParity.Tag = Parity;
-                SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
-                SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
-                StringPair SelectIn = EnumManager.InputFormatToString(currentManager.InputFormat, false);
-                StringPair SelectOut = EnumManager.OutputFormatToString(currentManager.OutputFormat, false);
-                ddbInputFormat.Text = SelectIn.A;
-                ddbInputFormat.Tag = SelectIn.B;
-                SystemManager.CheckFormatOption(SelectIn.B, ddbInputFormat);
-                SystemManager.CheckFormatOption(SelectIn.B, btnChannelInputFormat);
-                ddbOutputFormat.Text = SelectOut.A;
-                ddbOutputFormat.Tag = SelectOut.B;
-                SystemManager.CheckFormatOption(SelectOut.B, ddbOutputFormat);
-                SystemManager.CheckFormatOption(SelectOut.B, btnChannelOutputFormat);
-                ddbPorts.Text = currentManager.PortName;
-                SystemRunning(currentManager.Connected);
-                btnMenuModbusMaster.Checked = currentManager.IsMaster;
-                btnallowEscapeCharacters.Checked = currentManager.AllowEscapeCharacters;
-                SystemManager.CheckFormatOption(EnumManager.HandshakeToString(currentManager.Handshake), btnChannelFlowCtrl);
-                CheckLineFormat();
-                UpdateChannelColorPicker();
-                UpdateChannelSelection();
-            }
+            if (currentManager == null) { return; }
+            ddbBAUDRate.Text = currentManager.BaudRate.ToString();
+            ddbBAUDRate.Tag = currentManager.BaudRate;
+            SystemManager.CheckFormatOption(currentManager.BaudRate, ddbBAUDRate);
+            SystemManager.CheckFormatOption(currentManager.BaudRate, btnChannelBaud);
+            ddbBits.Text = currentManager.DataBits.ToString();
+            ddbBits.Tag = currentManager.DataBits.ToString();
+            CheckBits(ddbBits.Text ?? "");
+            string StopBits = EnumManager.StopBitsToString(currentManager.StopBits);
+            ddbStopBits.Text = StopBits;
+            ddbStopBits.Tag = StopBits;
+            CheckStopBits(ddbStopBits.Text);
+            string Parity = EnumManager.ParityToString(currentManager.Parity);
+            ddbParity.Text = Parity;
+            ddbParity.Tag = Parity;
+            SystemManager.CheckFormatOption(ddbParity.Text, ddbParity);
+            SystemManager.CheckFormatOption(ddbParity.Text, btnChannelParity);
+            StringPair SelectIn = EnumManager.InputFormatToString(currentManager.InputFormat, false);
+            StringPair SelectOut = EnumManager.OutputFormatToString(currentManager.OutputFormat, false);
+            ddbInputFormat.Text = SelectIn.A;
+            ddbInputFormat.Tag = SelectIn.B;
+            SystemManager.CheckFormatOption(SelectIn.B, ddbInputFormat);
+            SystemManager.CheckFormatOption(SelectIn.B, btnChannelInputFormat);
+            ddbOutputFormat.Text = SelectOut.A;
+            ddbOutputFormat.Tag = SelectOut.B;
+            SystemManager.CheckFormatOption(SelectOut.B, ddbOutputFormat);
+            SystemManager.CheckFormatOption(SelectOut.B, btnChannelOutputFormat);
+            ddbPorts.Text = currentManager.PortName;
+            SystemRunning(currentManager.Connected);
+            btnMenuModbusMaster.Checked = currentManager.IsMaster;
+            btnallowEscapeCharacters.Checked = currentManager.AllowEscapeCharacters;
+            SystemManager.CheckFormatOption(EnumManager.HandshakeToString(currentManager.Handshake), btnChannelFlowCtrl);
+            CheckLineFormat();
+            UpdateChannelColorPicker();
+            UpdateChannelSelection();
+
         }
         private void UpdateChannelSelection() {
             ddbChannelSelect.Text = CurrentManager == null ? "Unknown" : CurrentManager.StateName;
@@ -100,6 +100,7 @@ namespace Serial_Monitor {
             SystemManager.PortStatusChanged += SystemManager_PortStatusChanged;
             SystemManager.ProjectEdited += SystemManager_ProjectEdited;
             SystemManager.ChannelRequestsHandles += SystemManager_ChannelRequestsHandles;
+            SystemManager.PortListingReturned += SystemManager_PortListingReturned;
             ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
 
             //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
@@ -177,6 +178,10 @@ namespace Serial_Monitor {
         }
 
         private void LoadEventHandlers() {
+            btnChannelPort.DropDown.ItemClicked += PortsMSDropDown_ItemClicked;
+            ddbPorts.DropDown.ItemClicked += PortsTSDropDown_ItemClicked;
+            btnChannelPort.DropDown.Closing += PortListingDropDown_Closing1;
+            ddbPorts.DropDown.Closing += PortListingDropDown_Closing;
             ddbPorts.DropDownOpening += ddbPorts_DropDownOpening;
             ddbPorts.Click += ddbPorts_Click;
             btnBits5.Click += btnBits5_Click;
@@ -323,7 +328,7 @@ namespace Serial_Monitor {
             commandPalletToolStripMenuItem.Click += commandPalletToolStripMenuItem_Click;
             variablesToolStripMenuItem.Click += variablesToolStripMenuItem_Click;
             propertiesToolStripMenuItem.Click += propertiesToolStripMenuItem_Click;
-          
+
             btnRunPrg.Click += btnRunPrg_Click;
             runProgramToolStripMenuItem.Click += runProgramToolStripMenuItem_Click;
             btnPausePrg.Click += btnPausePrg_Click;
@@ -386,11 +391,11 @@ namespace Serial_Monitor {
 
             ddbChannelSelect.DropDownOpening += DdbChannelSelect_DropDownOpening;
 
-
+            refreshToolStripMenuItem.Click += RefreshToolStripMenuItem_Click;
+            refreshPortsMenu.Click += RefreshPortsMenu_Click;
         }
 
-
-
+     
         public MainWindow() {
             Setup();
         }
@@ -638,7 +643,7 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.ClearWindowContent, btnMenuClearTerminal, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.FullScreen, btnMenuFullScreen, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
-            
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.PropertyGridEditorPart, propertiesToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.PropertyGridEditorPart, cmbtnProperties, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
@@ -667,6 +672,10 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.OpenTopic, openLogToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.RunOutline, startLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.StopOutline, stopLoggingToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Refresh, refreshPortsMenu, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Refresh, refreshToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             UpdateChannelColorPicker();
         }
 
@@ -885,7 +894,7 @@ namespace Serial_Monitor {
                     ddbParity.Enabled = CurrentManager.SystemEnabled;
                     ddbBits.Enabled = CurrentManager.SystemEnabled;
                     ddbStopBits.Enabled = CurrentManager.SystemEnabled;
-                    btnChannelPort.Enabled = CurrentManager.SystemEnabled;
+                    btnChannelPort.Enabled = true;
                     btnChannelBaud.Enabled = CurrentManager.SystemEnabled;
                     btnChannelDataBits.Enabled = CurrentManager.SystemEnabled;
                     btnChannelParity.Enabled = CurrentManager.SystemEnabled;
@@ -917,129 +926,151 @@ namespace Serial_Monitor {
         #endregion
         #region Port Settings
         private void CleanHandlers() {
-            for (int i = ddbPorts.DropDownItems.Count - 1; i >= 0; i--) {
-                object Itms = ddbPorts.DropDownItems[i];
-                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
-                    if (((ToolStripMenuItem)Itms).Tag != null) {
-                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
-                        ddbPorts.DropDownItems.RemoveAt(i);
-                    }
-                }
-            }
-            for (int i = btnChannelPort.DropDownItems.Count - 1; i >= 0; i--) {
-                object Itms = btnChannelPort.DropDownItems[i];
-                if (Itms.GetType() == typeof(ToolStripMenuItem)) {
-                    if (((ToolStripMenuItem)Itms).Tag != null) {
-                        ((ToolStripMenuItem)Itms).Click -= Itm_Click;
-                        btnChannelPort.DropDownItems.RemoveAt(i);
-                    }
-                }
-            }
+            //for (int i = ddbPorts.DropDownItems.Count - 1; i >= 0; i--) {
+            //    object Itms = ddbPorts.DropDownItems[i];
+            //    if (Itms.GetType() == typeof(ToolStripMenuItem)) {
+            //        if (((ToolStripMenuItem)Itms).Tag != null) {
+            //            ((ToolStripMenuItem)Itms).Click -= Itm_Click;
+            //            ddbPorts.DropDownItems.RemoveAt(i);
+            //        }
+            //    }
+            //}
+            //for (int i = btnChannelPort.DropDownItems.Count - 1; i >= 0; i--) {
+            //    object Itms = btnChannelPort.DropDownItems[i];
+            //    if (Itms.GetType() == typeof(ToolStripMenuItem)) {
+            //        if (((ToolStripMenuItem)Itms).Tag != null) {
+            //            ((ToolStripMenuItem)Itms).Click -= Itm_Click;
+            //            btnChannelPort.DropDownItems.RemoveAt(i);
+            //        }
+            //    }
+            //}
+
+        }
+        private ToolStripItem? _portToolStripItemClicked;
+        private ToolStripItem? _portMenuStripItemClicked;
+        private void PortsTSDropDown_ItemClicked(object? sender, ToolStripItemClickedEventArgs e) {
+            _portToolStripItemClicked = e.ClickedItem;
+        }
+        private void PortsMSDropDown_ItemClicked(object? sender, ToolStripItemClickedEventArgs e) {
+            _portMenuStripItemClicked = e.ClickedItem;
+        }
+        private void RefreshToolStripMenuItem_Click(object? sender, EventArgs e) {
+            RefreshPorts();
+        }
+        private void RefreshPortsMenu_Click(object? sender, EventArgs e) {
+            RefreshPorts();
         }
 
-        private void RefreshPorts() {
-            CleanHandlers();
-            List<Port> Ports = SystemManager.GetSerialPortSettingBased();
-            foreach (Port port in Ports) {
-                if (ItemExists(port.PortName) == false) {
-                    ToolStripMenuItem Itm = new ToolStripMenuItem();
-                    Itm.Text = port.DisplayName;
-                    Itm.Tag = port.PortName;
-                    Itm.ToolTipText = port.ToolTip;
-                    Itm.ImageScaling = ToolStripItemImageScaling.None;
-                    Itm.CheckOnClick = true;
-                    Itm.Click += Itm_Click;
-                    ddbPorts.DropDownItems.Add(Itm);
-                    ToolStripMenuItem Itm2 = new ToolStripMenuItem();
-                    Itm2.Text = port.DisplayName;
-                    Itm2.Tag = port.PortName;
-                    Itm2.ToolTipText = port.ToolTip;
-                    Itm2.ImageScaling = ToolStripItemImageScaling.None;
-                    Itm2.CheckOnClick = true;
-                    Itm2.Click += Itm_Click;
-                    btnChannelPort.DropDownItems.Add(Itm2);
-                }
+        private void PortListingDropDown_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
+            if (ReferenceEquals(_portToolStripItemClicked, refreshToolStripMenuItem) && e.CloseReason == ToolStripDropDownCloseReason.ItemClicked) {
+                e.Cancel = true;
             }
-            if (ddbPorts.DropDownItems.Count <= 0) {
-                ddbPorts.Text = "No ports found";
+            _portToolStripItemClicked = null;
+        }
+        private void PortListingDropDown_Closing1(object? sender, ToolStripDropDownClosingEventArgs e) {
+            if (ReferenceEquals(_portMenuStripItemClicked, refreshPortsMenu) && e.CloseReason == ToolStripDropDownCloseReason.ItemClicked) {
+                e.Cancel = true;
+            }
+            _portMenuStripItemClicked = null;
+        }
+        private void RefreshPorts() {
+            //CleanHandlers();
+            List<Port> Ports = SystemManager.GetSerialPortSettingBased();
+
+            int Count = 0;
+            foreach (Port port in Ports) {
+                if (SystemManager.PortItemExists(ddbPorts, port) == false) {
+                    SystemManager.AddPortListing(ddbPorts, port, Itm_Click);
+                    SystemManager.AddPortListing(btnChannelPort, port, Itm_Click);
+                }
+                ++Count;
+            }
+            SystemManager.CleanPortHandlers(ddbPorts, Ports, Itm_Click);
+            SystemManager.CleanPortHandlers(btnChannelPort, Ports, Itm_Click);
+            if (Ports.Count <= 0) {
+                ddbPorts.Text = "COM1";
                 foreach (SerialManager SerMan in SystemManager.SerialManagers) {
                     SerMan.SystemEnabled = false;
                 }
                 SystemRunning(false);
+                portSeparator.Visible = false;
+                portMenuSeparator.Visible = false;
             }
             else {
+                portSeparator.Visible = true;
+                portMenuSeparator.Visible = true;
                 foreach (SerialManager SerMan in SystemManager.SerialManagers) {
                     SerMan.SystemEnabled = true;
                 }
-                CheckPort(ddbPorts.Text ?? "");
+                SystemManager.CheckPort(ddbPorts, ddbPorts.Text ?? "");
+                SystemManager.CheckPort(btnChannelPort, ddbPorts.Text ?? "");
             }
+            
         }
-        private bool ItemExists(string Name) {
-            foreach (object Item in ddbPorts.DropDownItems) {
-                if (Item.GetType() == typeof(ToolStripMenuItem)) {
-                    ToolStripMenuItem Tsmi = ((ToolStripMenuItem)Item);
-                    if (Tsmi.Tag != null) {
-                        if (Tsmi.Tag.ToString() == Name) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
+        private void SystemManager_PortListingReturned(List<Port> ports) {
+            this.BeginInvoke(new MethodInvoker(delegate {
+                SystemManager.AssignNewData(ddbPorts, ports);
+                SystemManager.AssignNewData(btnChannelPort, ports);
+            }));
         }
         private void Itm_Click(object? sender, EventArgs e) {
             if (sender == null) { return; }
-            if (sender.GetType() == typeof(ToolStripMenuItem)) {
-                string SelectedPort = "COM1";
-                ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
-                if (Tsmi.Tag == null) { return; }
-                if (CurrentManager != null) {
-                    ddbPorts.Text = Tsmi.Tag.ToString() ?? "COM1";
-                    SelectedPort = Tsmi.Tag.ToString() ?? "COM1";
-                    CurrentManager.PortName = SelectedPort;
-                }
-                CheckPort(SelectedPort);
-                navigator1.Invalidate();
-                DocumentEdited = true;
+            if (sender.GetType() != typeof(ToolStripMenuItem)) { return; }
+            string SelectedPort = "COM1";
+            ToolStripMenuItem Tsmi = (ToolStripMenuItem)sender;
+            if (Tsmi.Tag == null) { return; }
+            if (Tsmi.Tag.GetType() != typeof(Port)) { return; }
+            Port port = (Port)Tsmi.Tag;
+            if (CurrentManager != null) {
+                ddbPorts.Text = port.PortName ?? "COM1";
+                SelectedPort = port.PortName ?? "COM1";
+                CurrentManager.PortName = SelectedPort;
             }
+            SystemManager.CheckPort(ddbPorts, SelectedPort);
+            SystemManager.CheckPort(btnChannelPort, SelectedPort);
+            navigator1.Invalidate();
+            DocumentEdited = true;
+
         }
         private void ddbPorts_DropDownOpening(object? sender, EventArgs e) {
             RefreshPorts();
         }
         private void SelectFirstPort() {
-            if (ddbPorts.DropDownItems.Count > 0) {
+            if (SystemManager.PortCount(ddbPorts) > 0) {
                 string TempPort = "COM1";
                 if (CurrentManager != null) {
-                    object? Tag = ddbPorts.DropDownItems[0].Tag;
+                    Port? Tag = SystemManager.GetFirstListing(ddbPorts);
                     if (Tag != null) {
-                        TempPort = Tag.ToString() ?? "COM1";
+                        Port port = (Port)Tag;
+                        TempPort = port.PortName ?? "COM1";
                     }
                     ddbPorts.Text = TempPort;
                     CurrentManager.PortName = TempPort;
                 }
-                CheckPort(TempPort);
+                SystemManager.CheckPort(ddbPorts, TempPort);
+                SystemManager.CheckPort(btnChannelPort, TempPort);
             }
         }
-        private void CheckPort(string Type) {
-            foreach (ToolStripMenuItem Item in ddbPorts.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
-            foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
-                if (Item.Tag == null) { continue; }
-                if (Item.Tag.ToString() == Type) {
-                    Item.Checked = true;
-                }
-                else {
-                    Item.Checked = false;
-                }
-            }
-        }
+        //private void CheckPort(string Type) {
+        //    foreach (ToolStripMenuItem Item in ddbPorts.DropDownItems) {
+        //        if (Item.Tag == null) { continue; }
+        //        if (Item.Tag.ToString() == Type) {
+        //            Item.Checked = true;
+        //        }
+        //        else {
+        //            Item.Checked = false;
+        //        }
+        //    }
+        //    foreach (ToolStripMenuItem Item in btnChannelPort.DropDownItems) {
+        //        if (Item.Tag == null) { continue; }
+        //        if (Item.Tag.ToString() == Type) {
+        //            Item.Checked = true;
+        //        }
+        //        else {
+        //            Item.Checked = false;
+        //        }
+        //    }
+        //}
         #endregion
         #region BAUD Rate Settings
         private void LoadAllBauds() {
@@ -1690,7 +1721,7 @@ namespace Serial_Monitor {
             ChannelColorPopupHost.Show(Tab.ScreenLocation);
         }
         private void BtnChannelColor_Click(object? sender, EventArgs e) {
-            if (sender is not ToolStripButton tsb) {  return; }
+            if (sender is not ToolStripButton tsb) { return; }
             if (tsb.GetCurrentParent() is not System.Windows.Forms.ToolStrip ts) { return; }
             Point screenPoint = ts.PointToScreen(new Point(tsb.Bounds.Left, tsb.Bounds.Bottom));
             if (CurrentManager != null) { ColorChannel = CurrentManager; }

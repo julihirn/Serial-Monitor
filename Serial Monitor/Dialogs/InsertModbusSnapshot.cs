@@ -30,6 +30,8 @@ namespace Serial_Monitor.Dialogs {
             numtxtAddress.Maximum = new Handlers.NumericalString(ModbusSupport.MaximumRegisters);
             numtxtAddress.Height = cmbxDataSet.Height;
             numtxtQuantity.Height = cmbxDataSet.Height;
+            sltbSnapshotName.Height = cmbxDataSet.Height;
+            SelectedControl = sltbSnapshotName;
         }
 
         private void InsertModbusSnapshot_Load(object sender, EventArgs e) {
@@ -92,6 +94,14 @@ namespace Serial_Monitor.Dialogs {
         }
         public void ApplyTheme() {
             RecolorAll();
+            AddIcons();
+        }
+        private void AddIcons() {
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cmiTextBoxCut, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Copy, cmiTextBoxCopy, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Paste, cmiTextBoxPaste, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Cancel, cmiTextBoxDelete, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, cmiTextBoxSelectAll, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         private void RecolorAll() {
             this.SuspendLayout();
@@ -109,8 +119,8 @@ namespace Serial_Monitor.Dialogs {
             Classes.Theming.ThemeManager.ThemeControl(lstChannels);
             Classes.Theming.ThemeManager.ThemeControl(numtxtAddress);
             Classes.Theming.ThemeManager.ThemeControl(numtxtQuantity);
-            Classes.Theming.ThemeManager.ThemeControl(textBox1);
-
+            Classes.Theming.ThemeManager.ThemeControl(sltbSnapshotName);
+            Classes.Theming.ThemeManager.ThemeControl(cmTextboxOptions);
 
             cmbxDataSet.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
             cmbxDataSet.BackColor = Properties.Settings.Default.THM_COL_Editor;
@@ -125,7 +135,7 @@ namespace Serial_Monitor.Dialogs {
         }
         public string DisplayName {
             get {
-                return textBox1.Text;
+                return sltbSnapshotName.Text ?? "";
             }
         }
         ModbusSlave? manager = null;
@@ -203,6 +213,64 @@ namespace Serial_Monitor.Dialogs {
                 }
             }
             lstChannels.Invalidate();
+        }
+        object ?selectedControl = null;
+        object? SelectedControl {
+            get { return selectedControl; }
+            set {
+                selectedControl = value;
+                
+            }
+        }
+        private void cmiTextBoxCut_Click(object sender, EventArgs e) {
+            Cut();
+        }
+        private void cmiTextBoxCopy_Click(object sender, EventArgs e) {
+            Copy();
+        }
+        private void cmiTextBoxPaste_Click(object sender, EventArgs e) {
+            Paste();
+        }
+        private void cmiTextBoxDelete_Click(object sender, EventArgs e) {
+            Delete();
+        }
+        private void cmiTextBoxSelectAll_Click(object sender, EventArgs e) {
+            SelectAll();
+        }
+        private void Cut() {
+            if (SelectedControl == null) { return; }
+            Type t = SelectedControl.GetType();
+            if (t == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)SelectedControl).Cut();
+            }
+        }
+        private void Copy() {
+            if (SelectedControl == null) { return; }
+            Type t = SelectedControl.GetType();
+            if (t == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)SelectedControl).Copy();
+            }
+        }
+        private void Paste() {
+            if (SelectedControl == null) { return; }
+            Type t = SelectedControl.GetType();
+            if (t == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)SelectedControl).Paste();
+            }
+        }
+        private void Delete() {
+            if (SelectedControl == null) { return; }
+            Type t = SelectedControl.GetType();
+            if (t == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)SelectedControl).Delete();
+            }
+        }
+        private void SelectAll() {
+            if (SelectedControl == null) { return; }
+            Type t = SelectedControl.GetType();
+            if (t == typeof(SingleLineTextBox)) {
+                ((SingleLineTextBox)SelectedControl).SelectAll();
+            }
         }
     }
 }

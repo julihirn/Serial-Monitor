@@ -34,7 +34,21 @@ namespace Serial_Monitor.Classes.Structures {
                 return PortName;
             }
         }
-        public string PortName;
+        private string portName = "";
+        public string PortName {
+            get { return portName; }
+            set {
+                portName = value;
+                if (portName.ToUpper().StartsWith("COM")) {
+                    string temp = portName.Remove(0, 3);
+                    int.TryParse(temp.Replace(" ",""), out portNumber);
+                }
+            }
+        }
+        private int portNumber = -1;
+        public int PortNumber {
+            get { return portNumber; }
+        }
         public string Name;
         public string ToolTip;
         public Port(string Port, string Name, string ToolTip) {
