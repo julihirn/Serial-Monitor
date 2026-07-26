@@ -28,7 +28,7 @@
             lblPnlTheme = new ODModules.LabelPanel();
             btngrThemes = new ODModules.ButtonGrid();
             thSettings = new ODModules.TabHeader();
-            hiddenTabControl1 = new ODModules.HiddenTabControl();
+            htbcMainSettings = new ODModules.HiddenTabControl();
             tabPage3 = new TabPage();
             labelPanel5 = new ODModules.LabelPanel();
             labelPanel7 = new ODModules.LabelPanel();
@@ -69,11 +69,15 @@
             labelPanel4 = new ODModules.LabelPanel();
             chbxLimitExecutionBy1ms = new CheckBox();
             chbxAnimateCurStep = new CheckBox();
+            tabPage2 = new TabPage();
+            labelPanel9 = new ODModules.LabelPanel();
+            checkBox1 = new CheckBox();
+            chbxShowChannels = new CheckBox();
             tabPage4 = new TabPage();
             labelPanel8 = new ODModules.LabelPanel();
             comboBox3 = new ComboBox();
             lblPnlTheme.SuspendLayout();
-            hiddenTabControl1.SuspendLayout();
+            htbcMainSettings.SuspendLayout();
             tabPage3.SuspendLayout();
             labelPanel5.SuspendLayout();
             labelPanel7.SuspendLayout();
@@ -86,6 +90,8 @@
             tabPage1.SuspendLayout();
             labelPanel6.SuspendLayout();
             labelPanel4.SuspendLayout();
+            tabPage2.SuspendLayout();
+            labelPanel9.SuspendLayout();
             tabPage4.SuspendLayout();
             labelPanel8.SuspendLayout();
             SuspendLayout();
@@ -111,14 +117,14 @@
             lblPnlTheme.Location = new Point(6, 6);
             lblPnlTheme.Margin = new Padding(6);
             lblPnlTheme.Name = "lblPnlTheme";
-            lblPnlTheme.OverrideCollapseControl = false;
+            lblPnlTheme.OverrideCollapseControl = true;
             lblPnlTheme.Padding = new Padding(0, 41, 0, 0);
             lblPnlTheme.PanelCollapsible = true;
             lblPnlTheme.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
             lblPnlTheme.SeparatorColor = Color.Gray;
             lblPnlTheme.ShowCloseButton = false;
             lblPnlTheme.ShowSeparator = false;
-            lblPnlTheme.Size = new Size(630, 290);
+            lblPnlTheme.Size = new Size(630, 476);
             lblPnlTheme.TabIndex = 0;
             lblPnlTheme.Text = "Theme";
             // 
@@ -172,7 +178,7 @@
             btngrThemes.Buttons.Add(gridButton1);
             btngrThemes.ButtonSize = new Size(40, 40);
             btngrThemes.CenterButtons = false;
-            btngrThemes.Columns = 2;
+            btngrThemes.Columns = 14;
             btngrThemes.Dock = DockStyle.Fill;
             btngrThemes.Filter = "";
             btngrThemes.FixedColumns = false;
@@ -187,7 +193,7 @@
             btngrThemes.ScrollBarNorth = Color.Silver;
             btngrThemes.ScrollBarSouth = Color.Silver;
             btngrThemes.SecondaryFont = null;
-            btngrThemes.Size = new Size(630, 249);
+            btngrThemes.Size = new Size(630, 435);
             btngrThemes.Style = ODModules.ButtonStyle.Square;
             btngrThemes.TabIndex = 0;
             btngrThemes.TextHorizontalAlignment = ODModules.ButtonTextHorizontal.Center;
@@ -204,7 +210,7 @@
             thSettings.ArrowColor = Color.Black;
             thSettings.ArrowDisabledColor = Color.Black;
             thSettings.ArrowHoverColor = Color.Black;
-            thSettings.BindedTabControl = hiddenTabControl1;
+            thSettings.BindedTabControl = htbcMainSettings;
             thSettings.BorderColor = Color.Gray;
             thSettings.Borders = ODModules.Borders.None;
             thSettings.CloseHoverColor = Color.Red;
@@ -216,7 +222,7 @@
             thSettings.Margin = new Padding(6);
             thSettings.Name = "thSettings";
             thSettings.Padding = new Padding(9, 0, 0, 0);
-            thSettings.SelectedIndex = 0;
+            thSettings.SelectedIndex = 2;
             thSettings.SelectedTabGradient = true;
             thSettings.ShowAddButton = false;
             thSettings.ShowHeader = false;
@@ -241,24 +247,25 @@
             thSettings.UseBindingTabControl = true;
             thSettings.Load += thSettings_Load;
             // 
-            // hiddenTabControl1
+            // htbcMainSettings
             // 
-            hiddenTabControl1.Controls.Add(tabPage3);
-            hiddenTabControl1.Controls.Add(tabPage1);
-            hiddenTabControl1.Controls.Add(tabPage4);
-            hiddenTabControl1.DebugMode = true;
-            hiddenTabControl1.DefaultColor1 = Color.FromArgb(224, 224, 224);
-            hiddenTabControl1.Dock = DockStyle.Fill;
-            hiddenTabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
-            hiddenTabControl1.ForeColor = Color.White;
-            hiddenTabControl1.ItemSize = new Size(20, 20);
-            hiddenTabControl1.Location = new Point(0, 77);
-            hiddenTabControl1.Margin = new Padding(0);
-            hiddenTabControl1.Multiline = true;
-            hiddenTabControl1.Name = "hiddenTabControl1";
-            hiddenTabControl1.SelectedIndex = 0;
-            hiddenTabControl1.Size = new Size(650, 723);
-            hiddenTabControl1.TabIndex = 2;
+            htbcMainSettings.Controls.Add(tabPage3);
+            htbcMainSettings.Controls.Add(tabPage1);
+            htbcMainSettings.Controls.Add(tabPage2);
+            htbcMainSettings.Controls.Add(tabPage4);
+            htbcMainSettings.DebugMode = true;
+            htbcMainSettings.DefaultColor1 = Color.FromArgb(224, 224, 224);
+            htbcMainSettings.Dock = DockStyle.Fill;
+            htbcMainSettings.DrawMode = TabDrawMode.OwnerDrawFixed;
+            htbcMainSettings.ForeColor = Color.White;
+            htbcMainSettings.ItemSize = new Size(20, 20);
+            htbcMainSettings.Location = new Point(0, 77);
+            htbcMainSettings.Margin = new Padding(0);
+            htbcMainSettings.Multiline = true;
+            htbcMainSettings.Name = "htbcMainSettings";
+            htbcMainSettings.SelectedIndex = 0;
+            htbcMainSettings.Size = new Size(650, 723);
+            htbcMainSettings.TabIndex = 2;
             // 
             // tabPage3
             // 
@@ -950,6 +957,83 @@
             chbxAnimateCurStep.UseVisualStyleBackColor = true;
             chbxAnimateCurStep.CheckedChanged += chbxAnimateCurStep_CheckedChanged;
             // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(labelPanel9);
+            tabPage2.Font = new Font("Segoe UI", 9F);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(6);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(6);
+            tabPage2.Size = new Size(642, 695);
+            tabPage2.TabIndex = 3;
+            tabPage2.Text = "Terminal";
+            tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Click += tabPage2_Click;
+            // 
+            // labelPanel9
+            // 
+            labelPanel9.ArrowColor = Color.Black;
+            labelPanel9.ArrowMouseOverColor = Color.DodgerBlue;
+            labelPanel9.BackColor = SystemColors.ButtonFace;
+            labelPanel9.CloseColor = Color.Black;
+            labelPanel9.CloseMouseOverColor = Color.Red;
+            labelPanel9.Collapsed = false;
+            labelPanel9.Controls.Add(checkBox1);
+            labelPanel9.Controls.Add(chbxShowChannels);
+            labelPanel9.Dock = DockStyle.Top;
+            labelPanel9.DropShadow = false;
+            labelPanel9.DropShadowColor = Color.FromArgb(128, 0, 0, 0);
+            labelPanel9.FixedInlineWidth = false;
+            labelPanel9.Inlinelabel = false;
+            labelPanel9.InlineWidth = 100;
+            labelPanel9.LabelBackColor = Color.White;
+            labelPanel9.LabelFont = new Font("Segoe UI", 8F);
+            labelPanel9.LabelForeColor = Color.Black;
+            labelPanel9.Location = new Point(6, 6);
+            labelPanel9.Margin = new Padding(6);
+            labelPanel9.Name = "labelPanel9";
+            labelPanel9.OverrideCollapseControl = true;
+            labelPanel9.Padding = new Padding(0, 41, 0, 0);
+            labelPanel9.PanelCollapsible = true;
+            labelPanel9.ResizeControl = ODModules.LabelPanel.ResizeDirection.None;
+            labelPanel9.SeparatorColor = Color.Gray;
+            labelPanel9.ShowCloseButton = false;
+            labelPanel9.ShowSeparator = false;
+            labelPanel9.Size = new Size(630, 290);
+            labelPanel9.TabIndex = 5;
+            labelPanel9.Text = "Main Terminal";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Checked = true;
+            checkBox1.CheckState = CheckState.Checked;
+            checkBox1.Enabled = false;
+            checkBox1.ForeColor = Color.Black;
+            checkBox1.Location = new Point(9, 86);
+            checkBox1.Margin = new Padding(6);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(265, 36);
+            checkBox1.TabIndex = 5;
+            checkBox1.Text = "Show Step Programs";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // chbxShowChannels
+            // 
+            chbxShowChannels.AutoSize = true;
+            chbxShowChannels.Checked = true;
+            chbxShowChannels.CheckState = CheckState.Checked;
+            chbxShowChannels.Enabled = false;
+            chbxShowChannels.ForeColor = Color.Black;
+            chbxShowChannels.Location = new Point(9, 52);
+            chbxShowChannels.Margin = new Padding(6);
+            chbxShowChannels.Name = "chbxShowChannels";
+            chbxShowChannels.Size = new Size(241, 36);
+            chbxShowChannels.TabIndex = 4;
+            chbxShowChannels.Text = "Show Channel List\r\n";
+            chbxShowChannels.UseVisualStyleBackColor = true;
+            // 
             // tabPage4
             // 
             tabPage4.Controls.Add(labelPanel8);
@@ -983,7 +1067,7 @@
             labelPanel8.LabelBackColor = Color.White;
             labelPanel8.LabelFont = new Font("Segoe UI", 8F);
             labelPanel8.LabelForeColor = Color.Black;
-            labelPanel8.Location = new Point(6, 296);
+            labelPanel8.Location = new Point(6, 482);
             labelPanel8.Margin = new Padding(6);
             labelPanel8.Name = "labelPanel8";
             labelPanel8.OverrideCollapseControl = true;
@@ -1016,7 +1100,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
             ClientSize = new Size(650, 800);
-            Controls.Add(hiddenTabControl1);
+            Controls.Add(htbcMainSettings);
             Controls.Add(thSettings);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(6);
@@ -1029,7 +1113,7 @@
             SizeChanged += Settings_SizeChanged;
             VisibleChanged += Settings_VisibleChanged;
             lblPnlTheme.ResumeLayout(false);
-            hiddenTabControl1.ResumeLayout(false);
+            htbcMainSettings.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             labelPanel5.ResumeLayout(false);
             labelPanel5.PerformLayout();
@@ -1050,6 +1134,9 @@
             labelPanel6.PerformLayout();
             labelPanel4.ResumeLayout(false);
             labelPanel4.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            labelPanel9.ResumeLayout(false);
+            labelPanel9.PerformLayout();
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
             labelPanel8.ResumeLayout(false);
@@ -1059,7 +1146,7 @@
         #endregion
         private ODModules.LabelPanel lblPnlTheme;
         private ODModules.TabHeader thSettings;
-        private ODModules.HiddenTabControl hiddenTabControl1;
+        private ODModules.HiddenTabControl htbcMainSettings;
         private TabPage tabPage3;
         private TabPage tabPage4;
         private ODModules.LabelPanel lblPnlDefaults;
@@ -1104,5 +1191,9 @@
         private ComboBox comboBox2;
         private ODModules.LabelPanel labelPanel8;
         private ComboBox comboBox3;
+        private TabPage tabPage2;
+        private ODModules.LabelPanel labelPanel9;
+        private CheckBox chbxShowChannels;
+        private CheckBox checkBox1;
     }
 }

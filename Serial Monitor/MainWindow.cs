@@ -681,7 +681,7 @@ namespace Serial_Monitor {
 
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
-            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            //tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
             cmChannels.Padding = DesignerSetup.ScalePadding(cmChannels.Padding);
             cmPrograms.Padding = DesignerSetup.ScalePadding(cmPrograms.Padding);
             cmStepEditor.Padding = DesignerSetup.ScalePadding(cmStepEditor.Padding);

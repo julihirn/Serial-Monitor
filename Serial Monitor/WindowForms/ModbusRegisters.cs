@@ -303,7 +303,7 @@ namespace Serial_Monitor {
         }
         private void AdjustUserInterface() {
             msMain.Padding = DesignerSetup.ScalePadding(msMain.Padding);
-            tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
+            //tsMain.Padding = DesignerSetup.ScalePadding(tsMain.Padding);
             cmDataSize.Padding = DesignerSetup.ScalePadding(cmDataSize.Padding);
             cmDisplayFormats.Padding = DesignerSetup.ScalePadding(cmDisplayFormats.Padding);
             cmMonitor.Padding = DesignerSetup.ScalePadding(cmMonitor.Padding);
@@ -2584,6 +2584,7 @@ namespace Serial_Monitor {
 
         private void thSlaves_SelectedIndexChanged(object sender, int CurrentIndex, int PreviousIndex) {
             if (PreventSlaveTabSelect == true) { return; }
+            //if (CurrentIndex == PreviousIndex) { return; }
             Debug.Print("TAB SELECT");
             GetSelectedTabSlave(CurrentIndex);
         }

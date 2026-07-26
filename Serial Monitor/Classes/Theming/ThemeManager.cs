@@ -1,4 +1,5 @@
 ﻿using FastColoredTextBoxNS;
+using Handlers;
 using ODModules;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,13 @@ namespace Serial_Monitor.Classes.Theming {
                 catch { }
             }
         }
+        private static Color RotateColor(Color Input, float H) {
+            HSV TempHSV = new HSV(Input);
+            float NewH = (TempHSV.H + H) % 360.0f;
+            TempHSV.H = NewH;
+            return TempHSV.ToColor();
+        }
+
         #region Control Theming
         public static void ThemeControl(object ControlObject, bool UseAlternative = false) {
             if (ControlObject.GetType() == typeof(ODModules.ToolStrip)) {
@@ -195,7 +203,7 @@ namespace Serial_Monitor.Classes.Theming {
             else if (ControlObject.GetType() == typeof(ODModules.TabHeader)) {
                 ODModules.TabHeader TbHdr = (ODModules.TabHeader)ControlObject;
                 TbHdr.TabStyle = TabHeader.TabStyles.Rounded;
-                if (TbHdr.TabStyle == TabHeader.TabStyles.Normal){
+                if (TbHdr.TabStyle == TabHeader.TabStyles.Normal) {
                     TbHdr.TabHoverBackColor = Properties.Settings.Default.THM_COL_ButtonSelected;
                     TbHdr.TabDividerColor = Properties.Settings.Default.THM_COL_SeperatorColor;
                     TbHdr.ArrowColor = Properties.Settings.Default.THM_COL_ForeColor;
@@ -465,12 +473,17 @@ namespace Serial_Monitor.Classes.Theming {
             using (StringFormat sf = new StringFormat()) {
                 sf.Alignment = StringAlignment.Center;
                 sf.LineAlignment = StringAlignment.Center;
-                using (SolidBrush txtbr = new SolidBrush(Thm.ForeColor)) {
+                using (SolidBrush txtbr = new SolidBrush(Thm.TerminalForeColor)) {
                     g.DrawString("Aa", ParentFont, txtbr, TextBounds, sf);
                 }
             }
             using (SolidBrush BrdBr = new SolidBrush(Thm.ButtonSelectedColor)) {
-                using (Pen BrdPn = new Pen(BrdBr, 5)) {
+                using (Pen BrdPn = new Pen(BrdBr, DesignerSetup.ScaleInteger(10))) {
+                    g.DrawRectangle(BrdPn, TextBounds);
+                }
+            }
+            using (SolidBrush BrdBr = new SolidBrush(Thm.BorderColor)) {
+                using (Pen BrdPn = new Pen(BrdBr, DesignerSetup.ScaleInteger(5))) {
                     g.DrawRectangle(BrdPn, TextBounds);
                 }
             }
@@ -482,7 +495,15 @@ namespace Serial_Monitor.Classes.Theming {
             Themes.Add(Theme_ClassicDark());
             Themes.Add(Theme_PastelBlue());
             Themes.Add(Theme_PastelPurple());
+            for (int i = 30; i < 360; i += 30) {
+                Themes.Add(Theme_PastelColor((float)i));
+            }
             Themes.Add(Theme_MidnightBlue());
+          
+            for (int i = 30; i < 360; i += 30) {
+                Themes.Add(Theme_MidnightColor((float)i));
+            }
+            Themes.Add(Theme_PureDarknessColor(0));
             Themes.Add(Theme_HighContrastConsole());
         }
         private static Theme Theme_ClassicDark() {
@@ -559,7 +580,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light1.ColumnSeperatorColor = Color.FromArgb(180, 180, 180);
 
             Thm_Light1.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
-           // Thm_Light1.TabSelectedColor = Color.FromArgb(100, 128, 128, 128);
+            // Thm_Light1.TabSelectedColor = Color.FromArgb(100, 128, 128, 128);
             Thm_Light1.TabSelectedColor = Color.FromArgb(100, 200, 200, 200);
             Thm_Light1.TabSelectedForeColor = Color.Black;
 
@@ -608,7 +629,7 @@ namespace Serial_Monitor.Classes.Theming {
             Thm_Light2.ColumnSeperatorColor = Color.FromArgb(204, 206, 219);
 
             Thm_Light2.TabSelectedBorderColor = Color.FromArgb(142, 155, 188);
-            Thm_Light2.TabSelectedColor = Color.FromArgb(202,209,232);//Color.FromArgb(77, 96, 130);
+            Thm_Light2.TabSelectedColor = Color.FromArgb(202, 209, 232);//Color.FromArgb(77, 96, 130);
             Thm_Light2.TabSelectedForeColor = Color.White;
 
             Thm_Light2.RowColor = Color.FromArgb(228, 232, 247);
@@ -625,6 +646,54 @@ namespace Serial_Monitor.Classes.Theming {
 
             Thm_Light2.ConsoleSourceBackColor = Color.FromArgb(237, 241, 255);
             Thm_Light2.ConsoleSourceSeperatorColor = Color.FromArgb(232, 234, 239);
+
+            Thm_Light2.IsDarkTheme = false;
+            return Thm_Light2;
+        }
+        private static Theme Theme_PastelColor(float HRotateBy) {
+            Theme Thm_Light2 = new Theme();
+
+            Thm_Light2.ShadowColor = RotateColor(Color.FromArgb(44, 61, 91), HRotateBy);
+            Thm_Light2.MenuBackColor = RotateColor(Color.FromArgb(214, 219, 233), HRotateBy);
+            Thm_Light2.ButtonSelectedColor = RotateColor(Color.FromArgb(189, 194, 208), HRotateBy);
+            Thm_Light2.ButtonCheckedColor = RotateColor(Color.FromArgb(155, 167, 183), HRotateBy);
+            Thm_Light2.EditorColor = RotateColor(Color.FromArgb(245, 245, 245), HRotateBy);
+            Thm_Light2.ForeColor = Color.Black;
+            Thm_Light2.SecondaryForeColor = RotateColor(Color.FromArgb(48, 67, 98), HRotateBy);
+            Thm_Light2.BorderColor = RotateColor(Color.FromArgb(142, 135, 188), HRotateBy);
+            Thm_Light2.SeperatorColor = RotateColor(Color.FromArgb(142, 155, 188), HRotateBy);
+            Thm_Light2.SelectedColor = RotateColor(Color.FromArgb(204, 206, 219), HRotateBy);
+            Thm_Light2.ScrollColor = RotateColor(Color.FromArgb(200, 200, 200), HRotateBy);
+            Thm_Light2.SymbolColor = RotateColor(Color.FromArgb(41, 27, 85), HRotateBy);
+            Thm_Light2.StopColor = RotateColor(Color.Brown, HRotateBy);
+            Thm_Light2.SeconaryBackColor = RotateColor(Color.FromArgb(207, 214, 229), HRotateBy);
+            Thm_Light2.TerminalForeColor = RotateColor(Color.FromArgb(0, 0, 63), HRotateBy);
+
+            Thm_Light2.ItemInactiveColor = Color.Gray;
+
+            Thm_Light2.MouseDownForeColor = RotateColor(Color.FromArgb(88, 107, 138), HRotateBy);
+            Thm_Light2.MouseOverForeColor = RotateColor(Color.FromArgb(48, 67, 98), HRotateBy);
+
+            Thm_Light2.ColumnSeperatorColor = RotateColor(Color.FromArgb(204, 206, 219), HRotateBy);
+
+            Thm_Light2.TabSelectedBorderColor = RotateColor(Color.FromArgb(142, 155, 188), HRotateBy);
+            Thm_Light2.TabSelectedColor = RotateColor(Color.FromArgb(202, 209, 232), HRotateBy);//Color.FromArgb(77, 96, 130);
+            Thm_Light2.TabSelectedForeColor = Color.White;
+
+            Thm_Light2.RowColor = RotateColor(Color.FromArgb(228, 232, 247), HRotateBy);
+            Thm_Light2.GridLineColor = RotateColor(Color.FromArgb(225, 225, 225), HRotateBy);
+
+            Thm_Light2.MatchColor = Color.FromArgb(191, 255, 191);
+            Thm_Light2.MismatchedColor = Color.FromArgb(255, 191, 191);
+
+            Thm_Light2.SyntaxHighlightComments = Color.FromArgb(0, 128, 12);
+            Thm_Light2.SyntaxHighlightControlFlow = Color.FromArgb(54, 0, 255);
+            Thm_Light2.SyntaxHighlightCalls = Color.FromArgb(143, 54, 211);
+            Thm_Light2.SyntaxHighlightDeclarations = Color.FromArgb(60, 145, 178);
+            Thm_Light2.SyntaxHighlightFunctions = Color.FromArgb(80, 101, 35);
+
+            Thm_Light2.ConsoleSourceBackColor = RotateColor(Color.FromArgb(237, 241, 255), HRotateBy);
+            Thm_Light2.ConsoleSourceSeperatorColor = RotateColor(Color.FromArgb(232, 234, 239), HRotateBy);
 
             Thm_Light2.IsDarkTheme = false;
             return Thm_Light2;
@@ -721,6 +790,104 @@ namespace Serial_Monitor.Classes.Theming {
 
             Thm_Dark2.ConsoleSourceBackColor = Color.FromArgb(15, 19, 28);
             Thm_Dark2.ConsoleSourceSeperatorColor = Color.FromArgb(30, 33, 35);
+
+
+            Thm_Dark2.IsDarkTheme = true;
+            return Thm_Dark2;
+        }
+        private static Theme Theme_MidnightColor(float HRotateBy) {
+            Theme Thm_Dark2 = new Theme();
+
+            Thm_Dark2.ShadowColor = Color.Black;
+            Thm_Dark2.MenuBackColor = RotateColor(Color.FromArgb(22, 27, 41), HRotateBy);
+            Thm_Dark2.ButtonSelectedColor = RotateColor(Color.FromArgb(47, 52, 66), HRotateBy);
+            Thm_Dark2.ButtonCheckedColor = RotateColor(Color.FromArgb(70, 70, 70), HRotateBy);
+            Thm_Dark2.EditorColor = RotateColor(Color.FromArgb(16, 16, 16), HRotateBy);
+            Thm_Dark2.ForeColor = Color.White;
+            Thm_Dark2.SecondaryForeColor = Color.Silver;
+            Thm_Dark2.BorderColor = RotateColor(Color.FromArgb(74, 67, 120), HRotateBy);
+            Thm_Dark2.SeperatorColor = RotateColor(Color.FromArgb(67, 80, 113), HRotateBy);
+            Thm_Dark2.SelectedColor = RotateColor(Color.SteelBlue, HRotateBy);
+            Thm_Dark2.ScrollColor = RotateColor(Color.FromArgb(64, 64, 64), HRotateBy);
+            Thm_Dark2.SymbolColor = RotateColor(Color.DarkGray, HRotateBy);
+            Thm_Dark2.StopColor = RotateColor(Color.Brown, HRotateBy);
+            Thm_Dark2.SeconaryBackColor = RotateColor(Color.FromArgb(26, 33, 48), HRotateBy);
+            Thm_Dark2.TerminalForeColor = RotateColor(Color.FromArgb(204, 204, 255), HRotateBy);
+
+            Thm_Dark2.MouseDownForeColor = Color.DimGray;
+            Thm_Dark2.MouseOverForeColor = Color.LightGray;
+
+            Thm_Dark2.ItemInactiveColor = Color.DimGray;
+
+            Thm_Dark2.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
+
+            Thm_Dark2.RowColor = Color.FromArgb(23, 23, 23);
+            Thm_Dark2.GridLineColor = Color.FromArgb(30, 30, 30);
+
+            Thm_Dark2.TabSelectedBorderColor = RotateColor(Color.FromArgb(67, 80, 113), HRotateBy);
+            Thm_Dark2.TabSelectedColor = RotateColor(Color.FromArgb(49, 56, 85), HRotateBy);//Color.FromArgb(125, 144, 178);
+            Thm_Dark2.TabSelectedForeColor = Color.White;
+
+            Thm_Dark2.MatchColor = Color.FromArgb(0, 64, 0);
+            Thm_Dark2.MismatchedColor = Color.FromArgb(64, 0, 0);
+
+            Thm_Dark2.SyntaxHighlightComments = Color.FromArgb(78, 162, 68);
+            Thm_Dark2.SyntaxHighlightControlFlow = Color.FromArgb(78, 156, 206);
+            Thm_Dark2.SyntaxHighlightCalls = Color.FromArgb(187, 155, 211);
+            Thm_Dark2.SyntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
+            Thm_Dark2.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
+
+            Thm_Dark2.ConsoleSourceBackColor = RotateColor(Color.FromArgb(15, 19, 28), HRotateBy);
+            Thm_Dark2.ConsoleSourceSeperatorColor = RotateColor(Color.FromArgb(30, 33, 35), HRotateBy);
+
+
+            Thm_Dark2.IsDarkTheme = true;
+            return Thm_Dark2;
+        }
+        private static Theme Theme_PureDarknessColor(float HRotateBy) {
+            Theme Thm_Dark2 = new Theme();
+
+            Thm_Dark2.ShadowColor = Color.Black;
+            Thm_Dark2.MenuBackColor = Color.Black; //RotateColor(Color.FromArgb(22, 27, 41), HRotateBy);
+            Thm_Dark2.ButtonSelectedColor = RotateColor(Color.FromArgb(47, 52, 66), HRotateBy);
+            Thm_Dark2.ButtonCheckedColor = RotateColor(Color.FromArgb(70, 70, 70), HRotateBy);
+            Thm_Dark2.EditorColor = Color.Black; //RotateColor(Color.FromArgb(16, 16, 16), HRotateBy);
+            Thm_Dark2.ForeColor = Color.White;
+            Thm_Dark2.SecondaryForeColor = Color.Silver;
+            Thm_Dark2.BorderColor = RotateColor(Color.FromArgb(74, 67, 120), HRotateBy);
+            Thm_Dark2.SeperatorColor = RotateColor(Color.FromArgb(67, 80, 113), HRotateBy);
+            Thm_Dark2.SelectedColor = RotateColor(Color.SteelBlue, HRotateBy);
+            Thm_Dark2.ScrollColor = RotateColor(Color.FromArgb(64, 64, 64), HRotateBy);
+            Thm_Dark2.SymbolColor = RotateColor(Color.DarkGray, HRotateBy);
+            Thm_Dark2.StopColor = RotateColor(Color.Brown, HRotateBy);
+            Thm_Dark2.SeconaryBackColor = Color.Black; //RotateColor(Color.FromArgb(26, 33, 48), HRotateBy);
+            Thm_Dark2.TerminalForeColor = RotateColor(Color.FromArgb(204, 204, 255), HRotateBy);
+
+            Thm_Dark2.MouseDownForeColor = Color.DimGray;
+            Thm_Dark2.MouseOverForeColor = Color.LightGray;
+
+            Thm_Dark2.ItemInactiveColor = Color.DimGray;
+
+            Thm_Dark2.ColumnSeperatorColor = Color.FromArgb(64, 64, 64);
+
+            Thm_Dark2.RowColor = Color.FromArgb(23, 23, 23);
+            Thm_Dark2.GridLineColor = Color.FromArgb(30, 30, 30);
+
+            Thm_Dark2.TabSelectedBorderColor = RotateColor(Color.FromArgb(67, 80, 113), HRotateBy);
+            Thm_Dark2.TabSelectedColor = RotateColor(Color.FromArgb(49, 56, 85), HRotateBy);//Color.FromArgb(125, 144, 178);
+            Thm_Dark2.TabSelectedForeColor = Color.White;
+
+            Thm_Dark2.MatchColor = Color.FromArgb(0, 64, 0);
+            Thm_Dark2.MismatchedColor = Color.FromArgb(64, 0, 0);
+
+            Thm_Dark2.SyntaxHighlightComments = Color.FromArgb(78, 162, 68);
+            Thm_Dark2.SyntaxHighlightControlFlow = Color.FromArgb(78, 156, 206);
+            Thm_Dark2.SyntaxHighlightCalls = Color.FromArgb(187, 155, 211);
+            Thm_Dark2.SyntaxHighlightDeclarations = Color.FromArgb(156, 220, 254);
+            Thm_Dark2.SyntaxHighlightFunctions = Color.FromArgb(220, 220, 170);
+
+            Thm_Dark2.ConsoleSourceBackColor = Color.Black; //RotateColor(Color.FromArgb(15, 19, 28), HRotateBy);
+            Thm_Dark2.ConsoleSourceSeperatorColor = RotateColor(Color.FromArgb(30, 33, 35), HRotateBy);
 
 
             Thm_Dark2.IsDarkTheme = true;

@@ -23,7 +23,7 @@ namespace Serial_Monitor {
         private void Settings_Load(object sender, EventArgs e) {
 
             AdjustUserInterface();
-            hiddenTabControl1.DefaultColor1 = BackColor;
+            htbcMainSettings.DefaultColor1 = BackColor;
             ApplyTheme();
             LoadConfigurations();
             LoadSettings();
@@ -33,7 +33,7 @@ namespace Serial_Monitor {
             btngrThemes.ImageSize = DesignerSetup.GetSize(DesignerSetup.IconSize.Large);
             btngrThemes.ButtonSize = DesignerSetup.GetSize(DesignerSetup.IconSize.VeryLarge);
             btngrThemes.IconInline = false;
-            hiddenTabControl1.DebugMode = false;
+            htbcMainSettings.DebugMode = false;
             ScaleLabelPanels(tabPage3);
             ScaleLabelPanels(tabPage4);
         }
@@ -369,6 +369,10 @@ namespace Serial_Monitor {
         }
 
         private void labelPanel8_Paint(object sender, PaintEventArgs e) {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e) {
 
         }
     }

@@ -90,14 +90,14 @@ namespace Serial_Monitor.Classes {
 
             ToolStripPanel[] panels = { tsc.TopToolStripPanel, tsc.BottomToolStripPanel, tsc.LeftToolStripPanel, tsc.RightToolStripPanel };
 
-            // Clear all panels first
-            foreach (ToolStripPanel panel in panels) {
-                panel.SuspendLayout();
+            //// Clear all panels first
+            //foreach (ToolStripPanel panel in panels) {
+            //    panel.SuspendLayout();
 
-                while (panel.Controls.Count > 0) {
-                    panel.Controls[0].Parent = null;
-                }
-            }
+            //    while (panel.Controls.Count > 0) {
+            //        panel.Controls[0].Parent = null;
+            //    }
+            //}
             // Add strips back in correct order
             int x = 0;
             int CurrentLine = -1;
@@ -116,20 +116,28 @@ namespace Serial_Monitor.Classes {
                     Spacer = DesignerSetup.ScaleInteger(5);
                     CurrentPanel = layout.Position;
                 }
+                bool NewRow = false;
                 if (CurrentLine != layout.Line) {
                     CurrentLine = layout.Line;
                     x = 0;
                     Spacer = DesignerSetup.ScaleInteger(5);
+                    NewRow = true;
                 }
                 else {
                     Spacer = 0;
                 }
                 ts.AutoSize = true;
                 int y = layout.Line * ts.Height;
+                Debug.Print("x: " + x.ToString() + ", y:" + y.ToString());
 
-                panel.Join(ts, x, y);
+                if (NewRow) {
+                    panel.Join(ts);
+                }
+                else {
+                    panel.Join(ts, x, y);
+                }
                 try {
-                    ts.Location = new Point(x, ts.Location.Y);
+                    ts.Location = new Point(x, y);// ts.Location.Y);
                 }
                 catch {
                     Debug.Print(x.ToString() + " " + ts.Width);

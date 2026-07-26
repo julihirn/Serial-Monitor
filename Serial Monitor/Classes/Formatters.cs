@@ -128,7 +128,7 @@ namespace Serial_Monitor.Classes {
             byte[] bytes = new byte[2];
             bytes[0] = (byte)(Input >> 8);
             bytes[1] = (byte)(Input & 0xFF);
-            string str = BitConverter.ToString(bytes).ToUpper().Replace("-","");
+            string str = BitConverter.ToString(bytes).ToUpper().Replace("-", "");
             string Prefix = "0x";
             StringBuilder Result = new StringBuilder();
             if (AffixStart == true) {
@@ -405,6 +405,14 @@ namespace Serial_Monitor.Classes {
         #region Stream Formatters
         public static bool StringToByteStream(string Data, DataFormat Format, out byte[] Output) {
             STR_MVSSF Values = StringHandler.SpiltStringMutipleValues(Data, ' ');
+            if (Values.Count >= 1) {
+                for (int i = Values.Value.Count - 1; i >= 0; i--) {
+                    if (Values.Value[i].Replace(" ", "") == "") {
+                        Values.Value.RemoveAt(i);
+                        Values.Count = Values.Value.Count;
+                    }
+                }
+            }
             Output = new byte[Values.Count];
             switch (Format) {
                 case DataFormat.Binary:
@@ -430,12 +438,12 @@ namespace Serial_Monitor.Classes {
                         Output[i] = Out;
                     }
                     else {
-                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "' is too long.");
                         return false;
                     }
                 }
                 else {
-                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not a binary number.");
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "' is not a binary number.");
                     return false;
                 }
                 i++;
@@ -452,12 +460,12 @@ namespace Serial_Monitor.Classes {
                         Output[i] = Out;
                     }
                     else {
-                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "' is too long.");
                         return false;
                     }
                 }
                 else {
-                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not an octal number.");
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "' is not an octal number.");
                     return false;
                 }
                 i++;
@@ -474,12 +482,12 @@ namespace Serial_Monitor.Classes {
                         Output[i] = Out;
                     }
                     else {
-                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "' is too long.");
                         return false;
                     }
                 }
                 else {
-                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not an integer.");
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "' is not an integer.");
                     return false;
                 }
                 i++;
@@ -497,12 +505,12 @@ namespace Serial_Monitor.Classes {
                         Output[i] = Out;
                     }
                     else {
-                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "', is too long.");
+                        SystemManager.Print(ErrorType.M_Warning, "FRM_TX_LEN", "The value: '" + Temp + "' is too long.");
                         return false;
                     }
                 }
                 else {
-                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "', is not a hexadecimal number.");
+                    SystemManager.Print(ErrorType.M_Warning, "FRM_TX_MM", "The value: '" + Temp + "' is not a hexadecimal number.");
                     return false;
                 }
                 i++;
@@ -585,7 +593,7 @@ namespace Serial_Monitor.Classes {
                 return short.TryParse(Input, out Output);
             }
         }
-        public static bool StringToShortArray(string Input, ref List<short> ?SArray, bool Compact = true) {
+        public static bool StringToShortArray(string Input, ref List<short>? SArray, bool Compact = true) {
             if (SArray == null) { return false; }
             short Temp = 0;
             for (int i = 0; i < Input.Length; i++) {
@@ -717,7 +725,7 @@ namespace Serial_Monitor.Classes {
                         return ((char)TempLong).ToString();
                     }
                     else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
-                        TempLong = StringToLong(Input.Replace(" ",""), DataFormat.Decimal, DataSize.Bits16, IsSigned);
+                        TempLong = StringToLong(Input.Replace(" ", ""), DataFormat.Decimal, DataSize.Bits16, IsSigned);
                         return ((char)TempLong).ToString();
                     }
                     else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
@@ -739,14 +747,14 @@ namespace Serial_Monitor.Classes {
                 return Ns.ToString();
             }
             else if (Regex.IsMatch(Input, "^\\s*-?[0-9]+\\s*$")) {
-               return StringToLong(Input, DataFormat.Decimal, Size, IsSigned).ToString();
+                return StringToLong(Input, DataFormat.Decimal, Size, IsSigned).ToString();
             }
             else if (Regex.IsMatch(Input, "^\\s*(0x|0X)([0-9]*[a-f]*[A-F]*\\s*)+$")) {
                 NumericalString Ns = MathHandler.HexadecimalToDecimal(Input.Replace(" ", "").Replace("0x", "").Replace("0X", ""), EnumManager.DataSizeToBinaryFormatFlags(Size, IsSigned));
                 return Ns.ToString();
             }
             else if (Regex.IsMatch(Input, "^\\s*-?\\d+\\.\\d+\\s*$")) {
-                return StringToLong(Input.Split('.')[0].Replace(" ",""), DataFormat.Decimal, Size, IsSigned).ToString();
+                return StringToLong(Input.Split('.')[0].Replace(" ", ""), DataFormat.Decimal, Size, IsSigned).ToString();
             }
             return "0";
         }
@@ -754,12 +762,12 @@ namespace Serial_Monitor.Classes {
             string Temp = Input.Replace(" ", "");
             int Length = EnumManager.DataSizeToInteger(Size);
             int Index = Temp.Length > Length ? Temp.Length - Length : 0;
-            Temp = Index == 0 ? Temp  : Temp.Substring(Temp.Length - Length, Length);
+            Temp = Index == 0 ? Temp : Temp.Substring(Temp.Length - Length, Length);
             return Temp;// PadBinary(Temp, Size, PadFrequency.EveryFourth);
         }
         public static string TruncateOctalString(string Input, DataSize Size) {
             string Temp = Input.Replace(" ", "");
-            int Length = (int)Math.Floor((float)EnumManager.DataSizeToInteger(Size)/3.0f) + 1;
+            int Length = (int)Math.Floor((float)EnumManager.DataSizeToInteger(Size) / 3.0f) + 1;
             int Index = Temp.Length > Length ? Temp.Length - Length : 0;
             Temp = Index == 0 ? Temp : Temp.Substring(Temp.Length - Length, Length);
             Temp = Temp.Length == 0 ? "0" : Temp;
@@ -774,7 +782,7 @@ namespace Serial_Monitor.Classes {
         }
         public static string TruncateHexadecimalString(string Input, DataSize Size) {
             string Temp = Input.Replace(" ", "");
-            int Length = EnumManager.DataSizeToInteger(Size)/4;
+            int Length = EnumManager.DataSizeToInteger(Size) / 4;
             int Index = Temp.Length > Length ? Temp.Length - Length : 0;
             Temp = Index == 0 ? Temp : Temp.Substring(Temp.Length - Length, Length);
             return Temp.ToUpper();

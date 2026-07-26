@@ -372,7 +372,7 @@
             tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsMain.ShowBorder = true;
             tsMain.ShowShadow = true;
-            tsMain.Size = new Size(958, 54);
+            tsMain.Size = new Size(890, 54);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 0;
@@ -397,14 +397,14 @@
             refreshToolStripMenuItem.ForeColor = Color.WhiteSmoke;
             refreshToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            refreshToolStripMenuItem.Size = new Size(359, 44);
+            refreshToolStripMenuItem.Size = new Size(226, 44);
             refreshToolStripMenuItem.Text = "&Refresh";
             tsiExtender.SetTranslationReference(refreshToolStripMenuItem, "refresh");
             // 
             // portSeparator
             // 
             portSeparator.Name = "portSeparator";
-            portSeparator.Size = new Size(356, 6);
+            portSeparator.Size = new Size(223, 6);
             tsiExtender.SetTranslationReference(portSeparator, "");
             // 
             // toolStripSeparator1
@@ -3201,7 +3201,7 @@
             tsChannels.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsChannels.ShowBorder = true;
             tsChannels.ShowShadow = true;
-            tsChannels.Size = new Size(318, 54);
+            tsChannels.Size = new Size(380, 54);
             tsChannels.StripItemSelectedBackColorNorth = Color.White;
             tsChannels.StripItemSelectedBackColorSouth = Color.White;
             tsChannels.TabIndex = 3;
@@ -3212,6 +3212,7 @@
             // 
             btnChannelColor.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnChannelColor.Image = (Image)resources.GetObject("btnChannelColor.Image");
+            btnChannelColor.ImageScaling = ToolStripItemImageScaling.None;
             btnChannelColor.ImageTransparentColor = Color.Magenta;
             btnChannelColor.Name = "btnChannelColor";
             btnChannelColor.Size = new Size(46, 36);
