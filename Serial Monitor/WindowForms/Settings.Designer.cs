@@ -178,7 +178,7 @@
             btngrThemes.Buttons.Add(gridButton1);
             btngrThemes.ButtonSize = new Size(40, 40);
             btngrThemes.CenterButtons = false;
-            btngrThemes.Columns = 14;
+            btngrThemes.Columns = 2;
             btngrThemes.Dock = DockStyle.Fill;
             btngrThemes.Filter = "";
             btngrThemes.FixedColumns = false;
@@ -1000,7 +1000,7 @@
             labelPanel9.SeparatorColor = Color.Gray;
             labelPanel9.ShowCloseButton = false;
             labelPanel9.ShowSeparator = false;
-            labelPanel9.Size = new Size(630, 290);
+            labelPanel9.Size = new Size(630, 232);
             labelPanel9.TabIndex = 5;
             labelPanel9.Text = "Main Terminal";
             // 
