@@ -63,8 +63,15 @@ namespace Serial_Monitor.Classes {
         public static event PluginsLoadedHandler? PluginsLoaded;
         public delegate void PluginsLoadedHandler();
 
+        public static event SettingsChangedHandler? SettingsChanged;
+        public delegate void SettingsChangedHandler(Form ? sender);
+
         public static event ErrorMessageHandler? ErrorInvoked;
         public delegate void ErrorMessageHandler(ErrorType Type, string Sender, string Message);
+
+        public static void InvokeSettingsChanged(Form? sender) {
+            SettingsChanged?.Invoke(sender);
+        }
         #endregion 
         #region Modbus Global Events
         public static event ModbusPropertyChangedHandler? ModbusPropertyChanged;

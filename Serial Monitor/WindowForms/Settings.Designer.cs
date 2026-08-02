@@ -71,11 +71,12 @@
             chbxAnimateCurStep = new CheckBox();
             tabPage2 = new TabPage();
             labelPanel9 = new ODModules.LabelPanel();
-            checkBox1 = new CheckBox();
+            chbxShowStepPrograms = new CheckBox();
             chbxShowChannels = new CheckBox();
             tabPage4 = new TabPage();
             labelPanel8 = new ODModules.LabelPanel();
             comboBox3 = new ComboBox();
+            chbxShowSourceOnTerminal = new CheckBox();
             lblPnlTheme.SuspendLayout();
             htbcMainSettings.SuspendLayout();
             tabPage3.SuspendLayout();
@@ -967,7 +968,7 @@
             tabPage2.Padding = new Padding(6);
             tabPage2.Size = new Size(642, 695);
             tabPage2.TabIndex = 3;
-            tabPage2.Text = "Terminal";
+            tabPage2.Text = "Layout";
             tabPage2.UseVisualStyleBackColor = true;
             tabPage2.Click += tabPage2_Click;
             // 
@@ -979,7 +980,8 @@
             labelPanel9.CloseColor = Color.Black;
             labelPanel9.CloseMouseOverColor = Color.Red;
             labelPanel9.Collapsed = false;
-            labelPanel9.Controls.Add(checkBox1);
+            labelPanel9.Controls.Add(chbxShowSourceOnTerminal);
+            labelPanel9.Controls.Add(chbxShowStepPrograms);
             labelPanel9.Controls.Add(chbxShowChannels);
             labelPanel9.Dock = DockStyle.Top;
             labelPanel9.DropShadow = false;
@@ -1000,31 +1002,30 @@
             labelPanel9.SeparatorColor = Color.Gray;
             labelPanel9.ShowCloseButton = false;
             labelPanel9.ShowSeparator = false;
-            labelPanel9.Size = new Size(630, 232);
+            labelPanel9.Size = new Size(630, 190);
             labelPanel9.TabIndex = 5;
             labelPanel9.Text = "Main Terminal";
             // 
-            // checkBox1
+            // chbxShowStepPrograms
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Checked = true;
-            checkBox1.CheckState = CheckState.Checked;
-            checkBox1.Enabled = false;
-            checkBox1.ForeColor = Color.Black;
-            checkBox1.Location = new Point(9, 86);
-            checkBox1.Margin = new Padding(6);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(265, 36);
-            checkBox1.TabIndex = 5;
-            checkBox1.Text = "Show Step Programs";
-            checkBox1.UseVisualStyleBackColor = true;
+            chbxShowStepPrograms.AutoSize = true;
+            chbxShowStepPrograms.Checked = true;
+            chbxShowStepPrograms.CheckState = CheckState.Checked;
+            chbxShowStepPrograms.ForeColor = Color.Black;
+            chbxShowStepPrograms.Location = new Point(9, 86);
+            chbxShowStepPrograms.Margin = new Padding(6);
+            chbxShowStepPrograms.Name = "chbxShowStepPrograms";
+            chbxShowStepPrograms.Size = new Size(265, 36);
+            chbxShowStepPrograms.TabIndex = 5;
+            chbxShowStepPrograms.Text = "Show Step Programs";
+            chbxShowStepPrograms.UseVisualStyleBackColor = true;
+            chbxShowStepPrograms.CheckedChanged += chbxShowStepPrograms_CheckedChanged;
             // 
             // chbxShowChannels
             // 
             chbxShowChannels.AutoSize = true;
             chbxShowChannels.Checked = true;
             chbxShowChannels.CheckState = CheckState.Checked;
-            chbxShowChannels.Enabled = false;
             chbxShowChannels.ForeColor = Color.Black;
             chbxShowChannels.Location = new Point(9, 52);
             chbxShowChannels.Margin = new Padding(6);
@@ -1033,6 +1034,7 @@
             chbxShowChannels.TabIndex = 4;
             chbxShowChannels.Text = "Show Channel List\r\n";
             chbxShowChannels.UseVisualStyleBackColor = true;
+            chbxShowChannels.CheckedChanged += chbxShowChannels_CheckedChanged;
             // 
             // tabPage4
             // 
@@ -1093,6 +1095,21 @@
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(497, 40);
             comboBox3.TabIndex = 0;
+            // 
+            // chbxShowSourceOnTerminal
+            // 
+            chbxShowSourceOnTerminal.AutoSize = true;
+            chbxShowSourceOnTerminal.Checked = true;
+            chbxShowSourceOnTerminal.CheckState = CheckState.Checked;
+            chbxShowSourceOnTerminal.ForeColor = Color.Black;
+            chbxShowSourceOnTerminal.Location = new Point(9, 120);
+            chbxShowSourceOnTerminal.Margin = new Padding(6);
+            chbxShowSourceOnTerminal.Name = "chbxShowSourceOnTerminal";
+            chbxShowSourceOnTerminal.Size = new Size(317, 36);
+            chbxShowSourceOnTerminal.TabIndex = 6;
+            chbxShowSourceOnTerminal.Text = "Show Source on Terminal";
+            chbxShowSourceOnTerminal.UseVisualStyleBackColor = true;
+            chbxShowSourceOnTerminal.CheckedChanged += chbxShowSourceOnTerminal_CheckedChanged;
             // 
             // Settings
             // 
@@ -1194,6 +1211,7 @@
         private TabPage tabPage2;
         private ODModules.LabelPanel labelPanel9;
         private CheckBox chbxShowChannels;
-        private CheckBox checkBox1;
+        private CheckBox chbxShowStepPrograms;
+        private CheckBox chbxShowSourceOnTerminal;
     }
 }

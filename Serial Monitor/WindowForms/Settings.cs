@@ -18,7 +18,11 @@ namespace Serial_Monitor {
     public partial class Settings : Components.SkinnedForm, Interfaces.ITheme {
         public Settings() {
             InitializeComponent();
+            SystemManager.SettingsChanged += SystemManager_SettingsChanged;
         }
+
+
+
         bool PreventWriting = true;
         private void Settings_Load(object sender, EventArgs e) {
 
@@ -130,6 +134,9 @@ namespace Serial_Monitor {
                 chbxProgSyntaxHighlighting.Checked = Properties.Settings.Default.PRG_BOL_SyntaxHighlighting;
                 chbxProgCommandIndentation.Checked = Properties.Settings.Default.PRG_BOL_CommandIndentation;
                 chbxProgCommandInsertBefore.Checked = Properties.Settings.Default.PRG_BOL_InsertBefore;
+                chbxShowSourceOnTerminal.Checked = Properties.Settings.Default.PRG_BOL_ShowSource;
+                chbxShowChannels.Checked = Properties.Settings.Default.PRG_BOL_ShowChannels;
+                chbxShowStepPrograms.Checked = Properties.Settings.Default.PRG_BOL_ShowStepPrograms;
                 int Indx_PortDisplay = Properties.Settings.Default.CHAN_OPT_PortDisplay;
                 if (Indx_PortDisplay < 0) {
                     comboBox2.SelectedIndex = 0;
@@ -310,6 +317,7 @@ namespace Serial_Monitor {
         }
         private void Settings_FormClosed(object sender, FormClosedEventArgs e) {
             Classes.ApplicationManager.InvokeApplicationEvent();
+            SystemManager.SettingsChanged -= SystemManager_SettingsChanged;
         }
 
         private void thSettings_Load(object sender, EventArgs e) {
@@ -374,6 +382,32 @@ namespace Serial_Monitor {
 
         private void tabPage2_Click(object sender, EventArgs e) {
 
+        }
+
+        private void chbxShowChannels_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_ShowChannels = chbxShowChannels.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
+        }
+        private void chbxShowStepPrograms_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_ShowStepPrograms = chbxShowStepPrograms.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
+        }
+
+        private void chbxShowSourceOnTerminal_CheckedChanged(object sender, EventArgs e) {
+            if (PreventWriting) { return; }
+            Properties.Settings.Default.PRG_BOL_ShowSource = chbxShowSourceOnTerminal.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
+        }
+        private void SystemManager_SettingsChanged(Form? sender) {
+            if (sender == null) { return; }
+            if (sender == this) { return; }
+            PreventWriting = true;
+            LoadSettings();
         }
     }
 }

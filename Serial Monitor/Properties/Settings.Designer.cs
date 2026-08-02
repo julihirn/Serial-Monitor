@@ -632,5 +632,41 @@ namespace Serial_Monitor.Properties {
                 this["PRG_UI_ToolStripLayout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_ShowChannels {
+            get {
+                return ((bool)(this["PRG_BOL_ShowChannels"]));
+            }
+            set {
+                this["PRG_BOL_ShowChannels"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_ShowStepPrograms {
+            get {
+                return ((bool)(this["PRG_BOL_ShowStepPrograms"]));
+            }
+            set {
+                this["PRG_BOL_ShowStepPrograms"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PRG_BOL_ShowSource {
+            get {
+                return ((bool)(this["PRG_BOL_ShowSource"]));
+            }
+            set {
+                this["PRG_BOL_ShowSource"] = value;
+            }
+        }
     }
 }

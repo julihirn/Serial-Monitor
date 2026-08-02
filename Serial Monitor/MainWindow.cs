@@ -102,6 +102,7 @@ namespace Serial_Monitor {
             SystemManager.ChannelRequestsHandles += SystemManager_ChannelRequestsHandles;
             SystemManager.PortListingReturned += SystemManager_PortListingReturned;
             ProjectManager.DocumentLoaded += ProjectManager_DocumentLoaded;
+            SystemManager.SettingsChanged += SystemManager_SettingsChanged;
 
             //SystemManager.AddChannel("", SerManager_CommandProcessed, SerMan_DataReceived);
             SystemManager.AddChannel("", SerManager_CommandProcessed);
@@ -136,13 +137,15 @@ namespace Serial_Monitor {
             UpdateChannelSelection();
             UserInterfaceManager.ApplyLayout(this, tscMain);
             UserInterfaceManager.HookToolStrips(tscMain);
-
+            ApplyLayoutSettings();
             DocumentEdited = false;
 
         }
-
-
-
+        private void SystemManager_SettingsChanged(Form? sender) {
+            if (sender == null) { return; }
+            if (sender == this) { return; }
+            ApplyLayoutSettings();
+        }
         private void ProjectManager_DocumentLoaded() {
             foreach (SerialManager Sm in SystemManager.SerialManagers) {
                 Output.AddTerminalColor(Sm.ID, Sm.StateName, Sm.ForeColor);
@@ -762,7 +765,6 @@ namespace Serial_Monitor {
         }
         private void RefreshChannels() {
             CleanChannelHandlers();
-            int i = 0;
             PopulateChannels(ddbChannels);
             PopulateChannels(ddbChannelSelect);
         }
@@ -1844,13 +1846,39 @@ namespace Serial_Monitor {
         }
         private void channelsToolStripMenuItem_Click(object? sender, EventArgs e) {
             navigator1.Visible = channelsToolStripMenuItem.Checked;
+            Properties.Settings.Default.PRG_BOL_ShowChannels = channelsToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
         }
         private void btnMenuShowStepPrg_Click(object? sender, EventArgs e) {
             pnlStepProgram.Visible = btnMenuShowStepPrg.Checked;
+            Properties.Settings.Default.PRG_BOL_ShowStepPrograms = btnMenuShowStepPrg.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
         }
         private void pnlStepProgram_CloseButtonClicked(object? sender, Point HitPoint) {
-            btnMenuShowStepPrg.Checked = false;
-            pnlStepProgram.Visible = false;
+            SetStepProgramVisibility(false);
+            Properties.Settings.Default.PRG_BOL_ShowStepPrograms = btnMenuShowStepPrg.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
+        }
+        private void SetStepProgramVisibility(bool State) {
+            btnMenuShowStepPrg.Checked = State;
+            pnlStepProgram.Visible = State;
+        }
+        private void SetChannelsVisibility(bool State) {
+            channelsToolStripMenuItem.Checked = State;
+            navigator1.Visible = State;
+        }
+        private void SetShowTerminalSource(bool State) {
+            btnOptViewSource.Checked = State;
+            Output.ShowOrigin = State;
+            navigator1.MidColor = btnOptViewSource.Checked == true ? Output.OriginBackColor : Output.BackColor;
+        }
+        private void ApplyLayoutSettings() {
+            SetStepProgramVisibility(Properties.Settings.Default.PRG_BOL_ShowStepPrograms);
+            SetChannelsVisibility(Properties.Settings.Default.PRG_BOL_ShowChannels);
+            SetShowTerminalSource(Properties.Settings.Default.PRG_BOL_ShowSource);
         }
         #endregion
         #region Program Settings
@@ -2745,8 +2773,10 @@ namespace Serial_Monitor {
             }
         }
         private void btnOptViewSource_Click(object? sender, EventArgs e) {
-            Output.ShowOrigin = btnOptViewSource.Checked;
-            navigator1.MidColor = btnOptViewSource.Checked == true ? Output.OriginBackColor : Output.BackColor;
+            SetShowTerminalSource(btnOptViewSource.Checked);
+            Properties.Settings.Default.PRG_BOL_ShowSource = btnOptViewSource.Checked;
+            Properties.Settings.Default.Save();
+            SystemManager.InvokeSettingsChanged(this);
         }
         private void Output_Click(object? sender, EventArgs e) {
             LastEntered = sender;
