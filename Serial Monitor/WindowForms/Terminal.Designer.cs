@@ -570,6 +570,7 @@
             // btnMenuClearTerminal
             // 
             btnMenuClearTerminal.ForeColor = Color.White;
+            btnMenuClearTerminal.ImageScaling = ToolStripItemImageScaling.None;
             btnMenuClearTerminal.Name = "btnMenuClearTerminal";
             btnMenuClearTerminal.ShortcutKeys = Keys.Alt | Keys.Delete;
             btnMenuClearTerminal.Size = new Size(415, 44);
@@ -580,6 +581,7 @@
             // 
             zoomToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnMenuZoom050, btnMenuZoom075, btnMenuZoom100, btnMenuZoom110, btnMenuZoom120, btnMenuZoom150, btnMenuZoom200, btnMenuZoom300 });
             zoomToolStripMenuItem.ForeColor = Color.White;
+            zoomToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
             zoomToolStripMenuItem.Size = new Size(415, 44);
             zoomToolStripMenuItem.Text = "&Zoom";
@@ -656,6 +658,7 @@
             // btnMenuTopMost
             // 
             btnMenuTopMost.ForeColor = Color.White;
+            btnMenuTopMost.ImageScaling = ToolStripItemImageScaling.None;
             btnMenuTopMost.Name = "btnMenuTopMost";
             btnMenuTopMost.Size = new Size(415, 44);
             btnMenuTopMost.Text = "Top Most";
