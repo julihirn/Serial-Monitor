@@ -624,6 +624,17 @@ namespace Serial_Monitor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>MainWindow:tsProgramTransport,True,0,1,0,0.00000</string>
+  <string>MainWindow:tsMain,True,0,0,1,0.00000</string>
+  <string>MainWindow:tsFile,True,0,1,1,0.00000</string>
+  <string>ModbusRegisters:tsMain,True,0,0,0,0.00000</string>
+  <string>ModbusRegisters:tsFile,True,0,0,2,0.00000</string>
+  <string>ModbusRegisters:tsRegisterEdit,True,0,0,1,0.00000</string>
+  <string>QueryEditor:tsMain,True,0,0,0,0.00000</string>
+  <string>MainWindow:tsChannels,True,0,0,0,0.00000</string>
+</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection PRG_UI_ToolStripLayout {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["PRG_UI_ToolStripLayout"]));

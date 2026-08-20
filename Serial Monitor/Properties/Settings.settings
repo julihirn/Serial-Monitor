@@ -153,7 +153,17 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="PRG_UI_ToolStripLayout" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;MainWindow:tsProgramTransport,True,0,1,0,0.00000&lt;/string&gt;
+  &lt;string&gt;MainWindow:tsMain,True,0,0,1,0.00000&lt;/string&gt;
+  &lt;string&gt;MainWindow:tsFile,True,0,1,1,0.00000&lt;/string&gt;
+  &lt;string&gt;ModbusRegisters:tsMain,True,0,0,0,0.00000&lt;/string&gt;
+  &lt;string&gt;ModbusRegisters:tsFile,True,0,0,2,0.00000&lt;/string&gt;
+  &lt;string&gt;ModbusRegisters:tsRegisterEdit,True,0,0,1,0.00000&lt;/string&gt;
+  &lt;string&gt;QueryEditor:tsMain,True,0,0,0,0.00000&lt;/string&gt;
+  &lt;string&gt;MainWindow:tsChannels,True,0,0,0,0.00000&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="PRG_BOL_ShowChannels" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
