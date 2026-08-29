@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusPoller {
+        private Guid id = new Guid();
+        public Guid Id {
+            get { return id; }
+        }
         int frequency = 1000;
         public int Frequency {
             get { return frequency; }
             set {
                 if (value < 1) {
                     frequency = 1;
+                }
+                else if (value > 60000) {
+                    frequency = 60000;
                 }
                 else {
                     frequency = value;
@@ -39,7 +46,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     unit = 1;
                 }
                 else {
-                    unit = value; 
+                    unit = value;
                 }
                 BuildQuery();
             }
@@ -56,6 +63,16 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return start; }
             set {
                 start = value;
+                if (selection > DataSelection.ModbusDataDiscreteInputs) {
+                    if (Quantity > 125) {
+                        end = (ushort)((int)start + 125);
+                    }
+                }
+                else {
+                    if (Quantity > 2000) {
+                        end = (ushort)((int)start + 2000);
+                    }
+                }
                 if (end < start) {
                     ushort Temp = start;
                     start = end;
@@ -68,7 +85,18 @@ namespace Serial_Monitor.Classes.Modbus {
         public ushort End {
             get { return end; }
             set {
-                end = value; 
+                end = value;
+               
+                if (selection > DataSelection.ModbusDataDiscreteInputs) {
+                    if (Quantity > 125) {
+                        start = (ushort)((int)end - 125);
+                    }
+                }
+                else {
+                    if (Quantity > 2000) {
+                        start = (ushort)((int)end - 2000);
+                    }
+                }
                 if (end < start) {
                     ushort Temp = start;
                     start = end;
@@ -79,11 +107,21 @@ namespace Serial_Monitor.Classes.Modbus {
         }
         // 0 - 4, QTY 5
         public ushort Quantity {
-            get { 
-                return (ushort)(((int)end - (int)start) + 1); 
+            get {
+                return (ushort)(((int)end - (int)start));
             }
             set {
                 end = (ushort)(start + value);
+                if (selection > DataSelection.ModbusDataDiscreteInputs) {
+                    if (Quantity > 125) {
+                        end = (ushort)((int)start + 125);
+                    }
+                }
+                else {
+                    if (Quantity > 2000) {
+                        end = (ushort)((int)start + 2000);
+                    }
+                }
                 BuildQuery();
             }
         }
@@ -148,6 +186,7 @@ namespace Serial_Monitor.Classes.Modbus {
             StringBuilder SbQuery = new StringBuilder();
             char Space = ' ';
             SbQuery.Append("UNIT");
+            SbQuery.Append(Space);
             SbQuery.Append(Unit.ToString());
             SbQuery.Append(Space);
             if (read == true) {
@@ -160,7 +199,7 @@ namespace Serial_Monitor.Classes.Modbus {
                     case DataSelection.ModbusDataDiscreteInputs:
                         RegisterType = "DISCRETE"; break;
                     case DataSelection.ModbusDataHoldingRegisters:
-                        RegisterType = Quantity <=1 ? "HOLDING" : "HOLDINGS"; break;
+                        RegisterType = Quantity <= 1 ? "HOLDING" : "HOLDINGS"; break;
                     case DataSelection.ModbusDataInputRegisters:
                         RegisterType = Quantity <= 1 ? "INREGISTER" : "INREGISTERS"; break;
                 }

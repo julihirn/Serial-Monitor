@@ -178,6 +178,9 @@
   <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Copy.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="CountDynamicValue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CountDynamicValue.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Counter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Counter.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

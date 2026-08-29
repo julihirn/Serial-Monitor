@@ -361,7 +361,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="tsRegisterEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>411, 54</value>
+    <value>349, 54</value>
   </data>
   <data name="tsRegisterEdit.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1494,6 +1494,15 @@
   <data name="toolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 6</value>
   </data>
+  <data name="modbusPollersToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="modbusPollersToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>411, 44</value>
+  </data>
+  <data name="modbusPollersToolStripMenuItem.Text" xml:space="preserve">
+    <value>Modbus Pollers</value>
+  </data>
   <data name="propertiesToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -2041,7 +2050,7 @@
     <value>13, 62</value>
   </metadata>
   <data name="cmDisplayFormats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 4</value>
+    <value>83, 4</value>
   </data>
   <data name="&gt;&gt;cmDisplayFormats.Name" xml:space="preserve">
     <value>cmDisplayFormats</value>
@@ -2053,7 +2062,7 @@
     <value>190, 10</value>
   </metadata>
   <data name="cmDataSize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 4</value>
+    <value>83, 4</value>
   </data>
   <data name="&gt;&gt;cmDataSize.Name" xml:space="preserve">
     <value>cmDataSize</value>
@@ -2206,7 +2215,7 @@
     <value>1062, 10</value>
   </metadata>
   <data name="cmCoilFormats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 4</value>
+    <value>323, 48</value>
   </data>
   <data name="&gt;&gt;cmCoilFormats.Name" xml:space="preserve">
     <value>cmCoilFormats</value>
@@ -5764,6 +5773,12 @@
   </data>
   <data name="&gt;&gt;toolStripSeparator30.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;modbusPollersToolStripMenuItem.Name" xml:space="preserve">
+    <value>modbusPollersToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;modbusPollersToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;propertiesToolStripMenuItem.Name" xml:space="preserve">
     <value>propertiesToolStripMenuItem</value>

@@ -639,4 +639,19 @@
   <data name="noEndOfLineFormat" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="modbusPollers" xml:space="preserve">
+    <value>Modbus Pollers</value>
+  </data>
+  <data name="pollingStart" xml:space="preserve">
+    <value>Start Polling</value>
+  </data>
+  <data name="pollingStop" xml:space="preserve">
+    <value>Stop Polling</value>
+  </data>
+  <data name="pollerRemove" xml:space="preserve">
+    <value>Remove Selected</value>
+  </data>
+  <data name="pollerAdd" xml:space="preserve">
+    <value>Add Poller</value>
+  </data>
 </root>

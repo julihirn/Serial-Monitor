@@ -127,6 +127,7 @@
             zoom175 = new ToolStripMenuItem();
             zoom200 = new ToolStripMenuItem();
             toolStripSeparator30 = new ToolStripSeparator();
+            modbusPollersToolStripMenuItem = new ToolStripMenuItem();
             propertiesToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator29 = new ToolStripSeparator();
             toolbarsToolStripMenuItem = new ToolStripMenuItem();
@@ -974,7 +975,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, ddbAddressFormatSelect, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, propertiesToolStripMenuItem, toolStripSeparator29, toolbarsToolStripMenuItem, btnTopMost, fullScreenToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewCoilsToolStripMenuItem, viewDiscreteInputsToolStripMenuItem, viewHoldingRegistersToolStripMenuItem, viewInputRegistersToolStripMenuItem, toolStripSeparator3, showUnitsToolStripMenuItem, showFormatsToolStripMenuItem, showLastUpdatedTimeToolStripMenuItem, ddbAddressFormatSelect, toolStripSeparator9, btnViewMaster, btnViewSnapshot, toolStripSeparator10, zoomToolStripMenuItem, toolStripSeparator30, modbusPollersToolStripMenuItem, propertiesToolStripMenuItem, toolStripSeparator29, toolbarsToolStripMenuItem, btnTopMost, fullScreenToolStripMenuItem });
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(viewToolStripMenuItem, "viewToolStripMenuItem");
@@ -1150,6 +1151,14 @@
             toolStripSeparator30.Name = "toolStripSeparator30";
             resources.ApplyResources(toolStripSeparator30, "toolStripSeparator30");
             tsiExtender.SetTranslationReference(toolStripSeparator30, "");
+            // 
+            // modbusPollersToolStripMenuItem
+            // 
+            modbusPollersToolStripMenuItem.ForeColor = Color.White;
+            resources.ApplyResources(modbusPollersToolStripMenuItem, "modbusPollersToolStripMenuItem");
+            modbusPollersToolStripMenuItem.Name = "modbusPollersToolStripMenuItem";
+            tsiExtender.SetTranslationReference(modbusPollersToolStripMenuItem, "modbusPollers");
+            modbusPollersToolStripMenuItem.Click += modbusPollersToolStripMenuItem_Click;
             // 
             // propertiesToolStripMenuItem
             // 
@@ -1584,6 +1593,7 @@
             cmDisplayFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmDisplayFormats.Name = "cmDisplayFormats";
             cmDisplayFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmDisplayFormats.ShowCheckMargin = true;
             cmDisplayFormats.ShowInsetShadow = false;
             cmDisplayFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmDisplayFormats, "cmDisplayFormats");
@@ -1602,6 +1612,7 @@
             cmDataSize.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmDataSize.Name = "cmDataSize";
             cmDataSize.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmDataSize.ShowCheckMargin = true;
             cmDataSize.ShowInsetShadow = false;
             cmDataSize.ShowItemInsetShadow = false;
             resources.ApplyResources(cmDataSize, "cmDataSize");
@@ -1760,6 +1771,7 @@
             cmCoilFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmCoilFormats.Name = "cmCoilFormats";
             cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmCoilFormats.ShowCheckMargin = true;
             cmCoilFormats.ShowInsetShadow = false;
             cmCoilFormats.ShowItemInsetShadow = false;
             resources.ApplyResources(cmCoilFormats, "cmCoilFormats");
@@ -2052,5 +2064,6 @@
         private ToolStripDropDownButton tsddDataSize;
         private ToolStripDropDownButton btnTextColor;
         private ToolStripDropDownButton btnBackColor;
+        private ToolStripMenuItem modbusPollersToolStripMenuItem;
     }
 }

@@ -655,6 +655,15 @@ namespace Serial_Monitor.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modbus Pollers.
+        /// </summary>
+        internal static string modbusPollers {
+            get {
+                return ResourceManager.GetString("modbusPollers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edytor &amp;zapytań Modbus.
         /// </summary>
         internal static string modbusQueryEditor {
@@ -912,6 +921,42 @@ namespace Serial_Monitor.Languages {
         internal static string pauseProgram {
             get {
                 return ResourceManager.GetString("pauseProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dodaj ankietę Modbus.
+        /// </summary>
+        internal static string pollerAdd {
+            get {
+                return ResourceManager.GetString("pollerAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuń wybrane.
+        /// </summary>
+        internal static string pollerRemove {
+            get {
+                return ResourceManager.GetString("pollerRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rozpocznij ankietę.
+        /// </summary>
+        internal static string pollerStart {
+            get {
+                return ResourceManager.GetString("pollerStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zatrzymaj sondowanie.
+        /// </summary>
+        internal static string pollerStop {
+            get {
+                return ResourceManager.GetString("pollerStop", resourceCulture);
             }
         }
         

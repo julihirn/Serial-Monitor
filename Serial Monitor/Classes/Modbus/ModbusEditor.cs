@@ -49,7 +49,7 @@ namespace Serial_Monitor.Classes.Modbus {
         static ColorPopup popTextColor = new ColorPopup(false);
         static ColorPopup popBackColor = new ColorPopup(true);
         public static ColorPopup TextColorPopup {
-            get { return popTextColor;  }
+            get { return popTextColor; }
         }
         public static ColorPopup BackColorPopup {
             get { return popBackColor; }
@@ -1346,54 +1346,52 @@ namespace Serial_Monitor.Classes.Modbus {
         public static void Reset(ListControl ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
             if (ListEditor.CurrentItems == null) { return; }
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
-                if (ListEditor.CurrentItems[i].Selected == true) {
-                    if (ListEditor.CurrentItems[i].SubItems.Count >= 5) {
-                        object? objCmd = ListEditor.CurrentItems[i].Tag;
-                        if (objCmd == null) { continue; }
-                        if (objCmd.GetType() == typeof(ModbusRegister)) {
-                            ModbusRegister Reg = (ModbusRegister)objCmd;
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeName)) {
-                                Reg.Name = "";
-                                ListEditor.CurrentItems[i][1].Text = Reg.Name;
-                                SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
-                                Reg.Value = 0;
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeFormat)) {
-                                Reg.DefaultFormat();
-                                Reg.Signed = false;
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeSize)) {
-                                Reg.DefaultSize();
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
-                                Reg.UseBackColor = false;
-                                Reg.UseForeColor = false;
-                            }
-                        }
-                        else if (objCmd.GetType() == typeof(ModbusCoil)) {
-                            ModbusCoil Reg = (ModbusCoil)objCmd;
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeName)) {
-                                Reg.Name = "";
-                                ListEditor.CurrentItems[i][1].Text = Reg.Name;
-                                SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
-                                Reg.Value = false;
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeFormat)) {
-                                Reg.Format = CoilFormat.Boolean;
-                            }
-                            if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
-                                Reg.UseBackColor = false;
-                                Reg.UseForeColor = false;
-                            }
-                        }
-                        if (ClearSelection == true) {
-                            ListEditor.CurrentItems[i].Selected = false;
-                        }
+                if (ListEditor.CurrentItems[i].Selected == false) { continue; }
+                if (ListEditor.CurrentItems[i].SubItems.Count < 5) { continue; }
+                object? objCmd = ListEditor.CurrentItems[i].Tag;
+                if (objCmd == null) { continue; }
+                if (objCmd.GetType() == typeof(ModbusRegister)) {
+                    ModbusRegister Reg = (ModbusRegister)objCmd;
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeName)) {
+                        Reg.Name = "";
+                        ListEditor.CurrentItems[i][1].Text = Reg.Name;
+                        SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
                     }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
+                        Reg.Value = 0;
+                    }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeFormat)) {
+                        Reg.DefaultFormat();
+                        Reg.Signed = false;
+                    }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeSize)) {
+                        Reg.DefaultSize();
+                    }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
+                        Reg.UseBackColor = false;
+                        Reg.UseForeColor = false;
+                    }
+                }
+                else if (objCmd.GetType() == typeof(ModbusCoil)) {
+                    ModbusCoil Reg = (ModbusCoil)objCmd;
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeName)) {
+                        Reg.Name = "";
+                        ListEditor.CurrentItems[i][1].Text = Reg.Name;
+                        SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
+                    }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeValue)) {
+                        Reg.Value = false;
+                    }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeFormat)) {
+                        Reg.Format = CoilFormat.Boolean;
+                    }
+                    if (FlagSet(Flags, ModbusClipboardFlags.IncludeAppearance)) {
+                        Reg.UseBackColor = false;
+                        Reg.UseForeColor = false;
+                    }
+                }
+                if (ClearSelection == true) {
+                    ListEditor.CurrentItems[i].Selected = false;
                 }
             }
             ListEditor.Invalidate();

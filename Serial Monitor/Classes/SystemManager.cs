@@ -1,22 +1,23 @@
 ﻿using Handlers;
+using Microsoft.Win32;
+using ODModules;
+using Serial_Monitor.Classes.Modbus;
 using Serial_Monitor.Classes.Structures;
+using Serial_Monitor.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
 using System.Management;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Serial_Monitor.Plugin;
 using static Serial_Monitor.Classes.SerialManager;
-using System.Reflection;
-using Serial_Monitor.Classes.Modbus;
-using ODModules;
-using System.Text.RegularExpressions;
-using System.IO;
-using Microsoft.Win32;
-using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes {
     public static class SystemManager {
@@ -345,7 +346,7 @@ namespace Serial_Monitor.Classes {
                     ApplicationManager.CloseInternalApplication("TERM_" + SerialManagers[ChannelIndex].ID);
                     ApplicationManager.CloseInternalApplication("PROP_" + SerialManagers[ChannelIndex].ID);
                     ModbusSupport.CloseSnapshot(SerialManagers[ChannelIndex]);
-                    ModbusSupport.RemovePollers(SerialManagers[ChannelIndex]);
+                    ModbusPollerSupport.RemovePollers(SerialManagers[ChannelIndex]);
                     SerialManagers[ChannelIndex].CleanUp();
                     SerialManagers.RemoveAt(ChannelIndex);
                     ChannelRemoved?.Invoke(ChannelIndex);
@@ -355,7 +356,7 @@ namespace Serial_Monitor.Classes {
         //, DataProcessedHandler SerMan_DataReceived
         public static void ClearChannels(CommandProcessedHandler SerManager_CommandProcessed) {
             Modbus.ModbusSupport.ClearSnapshots();
-            ModbusSupport.ClearPollers();
+            ModbusPollerSupport.ClearPollers();
             for (int i = SerialManagers.Count - 1; i >= 0; i--) {
                 SerialManagers[i].CleanUp();
                 SerialManagers[i].CommandProcessed -= SerManager_CommandProcessed;
@@ -367,6 +368,13 @@ namespace Serial_Monitor.Classes {
             if (ChannelName.Trim() == "") { return null; }
             foreach (SerialManager SerMan in SerialManagers) {
                 if (SerMan.StateName.ToLower() == ChannelName.ToLower()) { return SerMan; }
+            }
+            return null;
+        }
+        public static SerialManager? GetChannel(Guid? ChannelId) {
+            if (ChannelId == null) { return null; }
+            foreach (SerialManager SerMan in SerialManagers) {
+                if (SerMan.ID == ChannelId) { return SerMan; }
             }
             return null;
         }
@@ -395,6 +403,45 @@ namespace Serial_Monitor.Classes {
                 return Output;
             }
             return -1;
+        }
+        public static void GetChannelsAsContextListIdTagged(object ? Lst, EventHandler FormatClick, Guid ? SelectedId, bool ClearList = true, bool IncludeNull = false) {
+            if (Lst == null) { return; }
+            if (Lst.GetType() != typeof(ODModules.ContextMenu)) { return; }
+            ODModules.ContextMenu Menu = (ODModules.ContextMenu)Lst;
+            if (ClearList) {
+                for(int i = Menu.Items.Count - 1; i >= 0; i--) {
+                    if (Menu.Items[i].GetType() == typeof(ToolStripMenuItem)) {
+                        ((ToolStripMenuItem)Menu.Items[i]).Click -= FormatClick;
+                        Menu.Items.RemoveAt(i);
+                    }
+                }
+            }
+            bool SelectedFound = false;
+            ToolStripMenuItem Tsi_Null = new ToolStripMenuItem();
+            if (IncludeNull) {
+                Tsi_Null.Text = "None";
+                Tsi_Null.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi_Null.Tag =  null;
+                Tsi_Null.Checked = true;
+                Tsi_Null.Click += FormatClick;
+                Menu.Items.Add(Tsi_Null);
+            }
+            foreach(SerialManager SerMgr in SerialManagers) {
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = SerMgr.StateName;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = SerMgr.ID;
+                Tsi.Click += FormatClick;
+                if ((SelectedId != null) && (SelectedId == SerMgr.ID)) {
+                    SelectedFound = true;
+                    Tsi.Checked = true;
+                }
+                Menu.Items.Add(Tsi);
+            }
+            if ((SelectedFound == true) && (IncludeNull)) {
+                Tsi_Null.Checked = false;
+            }
+
         }
         #endregion
         #region Ports and Listing

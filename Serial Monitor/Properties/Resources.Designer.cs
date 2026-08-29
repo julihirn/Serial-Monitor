@@ -263,6 +263,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] CountDynamicValue {
+            get {
+                object obj = ResourceManager.GetObject("CountDynamicValue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Counter {
             get {
                 object obj = ResourceManager.GetObject("Counter", resourceCulture);

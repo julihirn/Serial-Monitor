@@ -345,14 +345,16 @@ namespace Serial_Monitor.Classes {
             }
         }
         private static void WritePollersAndDrivers(StreamWriter Sw) {
-            if (ModbusSupport.Pollers.Count > 0) {
+            if (ModbusPollerSupport.Pollers.Count > 0) {
                 DocumentHandler.WriteComment(Sw, 0, "  Modbus Pollers");
                 int Cnt = 0;
-                foreach (ModbusPoller Mbp in ModbusSupport.Pollers) {
+                foreach (ModbusPoller Mbp in ModbusPollerSupport.Pollers) {
                     if (Mbp.Channel != null) {
                         DocumentHandler.Write(Sw, 1, "MBPOLL_" + Cnt.ToString());
                         DocumentHandler.Write(Sw, 2, "Name", Mbp.Name);
+                        DocumentHandler.Write(Sw, 2, "Enable", Mbp.Enabled);
                         DocumentHandler.Write(Sw, 2, "Channel", SystemManager.GetChannelIndex(Mbp.Channel));
+                        DocumentHandler.Write(Sw, 2, "Frequency", Mbp.Frequency);
                         DocumentHandler.Write(Sw, 2, "Read", Mbp.Read);
                         DocumentHandler.Write(Sw, 2, "Unit", Mbp.Unit);
                         DocumentHandler.Write(Sw, 2, "Type", EnumManager.ModbusDataSelectionToString(Mbp.Selection).B);
@@ -623,14 +625,16 @@ namespace Serial_Monitor.Classes {
             DataSelection Poller_Type = EnumManager.ModbusStringToDataSelection(DocumentHandler.GetStringVariable(Pstrc, "Type", ""));
             SerialManager? Poller_Channel = SystemManager.GetChannel(DocumentHandler.GetIntegerVariable(Pstrc, "Channel", -1));
             int Unit = DocumentHandler.GetIntegerVariable(Pstrc, "Unit", -1);
+            int Frequency = DocumentHandler.GetIntegerVariable(Pstrc, "Frequency", 1000);
             bool Action = DocumentHandler.GetBooleanVariable(Pstrc, "Read", true);
             int Start = DocumentHandler.GetIntegerVariable(Pstrc, "Start", 1);
             int End = DocumentHandler.GetIntegerVariable(Pstrc, "End", Start);
+            bool Enabled = DocumentHandler.GetBooleanVariable(Pstrc, "Enable", false);
             if (Start == End) {
-                ModbusSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start);
+                ModbusPollerSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start, Frequency, Enabled);
             }
             else {
-                ModbusSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start, End);
+                ModbusPollerSupport.NewPoller(Poller_Channel, Action, Unit, Poller_Type, Start, End, Frequency, Enabled);
             }
         }
         //, SerialManager.DataProcessedHandler DataProc

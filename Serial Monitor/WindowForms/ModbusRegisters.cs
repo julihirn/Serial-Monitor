@@ -80,11 +80,11 @@ namespace Serial_Monitor {
             // mdiClient.MdiForm.MainMenuStrip = msMain;
             LoadForms();
             EnableDisableDialogEditors();
-           
+
 
             //ModbusEditor.CheckSelectedPropertiesAreEqual(GetCurrentListView());
             //ViewChanged?.Invoke(this);
-           
+
         }
         private void LoadToolStrips() {
             UserInterfaceManager.ApplyLayout(this, tscMain);
@@ -617,7 +617,7 @@ namespace Serial_Monitor {
             //}
             //catch { }
             if (InvokeRequired) {
-                if (!IsHandleCreated || IsDisposed){ return; }
+                if (!IsHandleCreated || IsDisposed) { return; }
 
                 BeginInvoke(new Action(() =>
                     ModbusEditor_EditorPropertiesEqual(
@@ -2995,6 +2995,11 @@ namespace Serial_Monitor {
         }
         #endregion
 
+
+        private void modbusPollersToolStripMenuItem_Click(object sender, EventArgs e) {
+            Docks.ModbusPollers PollerApp = new Docks.ModbusPollers();
+            ApplicationManager.OpenInternalApplicationOnce(PollerApp, true);
+        }
 
         internal enum DataEditor {
             MasterView = 0x00,

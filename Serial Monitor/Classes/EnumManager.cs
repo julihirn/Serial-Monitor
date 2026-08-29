@@ -891,6 +891,41 @@ namespace Serial_Monitor.Classes {
                 }
             }
         }
+        public static void LoadModbusRegisterTypes(object DropDownList, EventHandler FormatClick, bool ApplyChecked = false) {
+            DataSelection[] Formats = (DataSelection[])DataSelection.GetValues(typeof(DataSelection));
+            bool CheckFirst = true;
+            foreach (DataSelection Frmt in Formats) {
+                StringPair Data = ModbusDataSelectionToString(Frmt);
+                ToolStripMenuItem Tsi = new ToolStripMenuItem();
+                Tsi.Text = Data.A;
+                Tsi.ImageScaling = ToolStripItemImageScaling.None;
+                Tsi.Tag = Frmt;
+                Tsi.Click += FormatClick;
+                if (CheckFirst) {
+                    Tsi.Checked = true;
+                    CheckFirst = false;
+                }
+                if (DropDownList.GetType() == typeof(ContextMenu)) {
+                    ContextMenu Btn = (ContextMenu)DropDownList;
+                    Btn.Items.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripMenuItem)) {
+                    Tsi.Checked = false;
+                    ToolStripMenuItem Btn = (ToolStripMenuItem)DropDownList;
+                    Btn.DropDownItems.Add(Tsi);
+                }
+                else if (DropDownList.GetType() == typeof(ToolStripDropDownButton)) {
+                    ToolStripDropDownButton Btn = (ToolStripDropDownButton)DropDownList;
+                    if (ApplyChecked == false) { Tsi.Checked = false; }
+                    else {
+                        if (Tsi.Checked) {
+                            Btn.Text = Data.A;
+                        }
+                    }
+                    Btn.DropDownItems.Add(Tsi);
+                }
+            }
+        }
         public static void LoadCoilFormats(object DropDownList, EventHandler FormatClick, bool ApplyChecked = false) {
             CoilFormat[] Formats = (CoilFormat[])CoilFormat.GetValues(typeof(Enums.ModbusEnums.CoilFormat));
             bool CheckFirst = true;

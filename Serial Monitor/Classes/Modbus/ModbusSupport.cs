@@ -1,5 +1,6 @@
 ﻿using Handlers;
 using ODModules;
+using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Step_Programs;
 using Serial_Monitor.Classes.Structures;
 using System;
@@ -17,8 +18,13 @@ namespace Serial_Monitor.Classes.Modbus {
         public static event SnapshotClosedHandler? SnapshotClosed;
         public delegate void SnapshotClosedHandler();
 
+
         public const int MaximumRegisters = ushort.MaxValue;
         public const int MaximumDevices = 247;
+
+        public static void Initalise() {
+            ModbusPollerSupport.InitaliseModbusPollers();
+        }
 
         static bool applyOnChange = true;
         public static bool SendOnChange {
@@ -1143,36 +1149,6 @@ namespace Serial_Monitor.Classes.Modbus {
             return new byte[0];
         }
         #endregion
-        #region Pollers and Drivers
-        public static List<ModbusPoller> Pollers = new List<ModbusPoller>();
-        public static void RemovePollers(SerialManager Manager) {
-            for (int i = Pollers.Count - 1; i >= 0; i--) {
-                SerialManager? Channel = Pollers[i].Channel;
-                if (Channel != null) {
-                    if (Channel.ID == Manager.ID) {
-                        Pollers[i].Channel = null;
-                        Pollers.RemoveAt(i);
-                    }
-                }
-            }
-            GC.Collect();
-        }
-        public static void ClearPollers() {
-            for (int i = Pollers.Count - 1; i >= 0; i--) {
-                Pollers[i].Channel = null;
-                Pollers.RemoveAt(i);
-            }
-            GC.Collect();
-        }
-        public static void NewPoller(SerialManager? Manager, bool Read, int Unit, DataSelection Selection, int Start) {
-            ModbusPoller MbPoll = new ModbusPoller(Manager, Read, Unit, Selection, Start);
-            Pollers.Add(MbPoll);
-        }
-        public static void NewPoller(SerialManager? Manager, bool Read, int Unit, DataSelection Selection, int Start, int End) {
-            ModbusPoller MbPoll = new ModbusPoller(Manager, Read, Unit, Selection, Start, End);
-            Pollers.Add(MbPoll);
-        }
-        #endregion 
         public enum FunctionCode {
             NoCommand = 0x00,
             ReadDiscreteInputs = 0x02,

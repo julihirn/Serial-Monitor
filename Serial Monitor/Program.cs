@@ -19,6 +19,7 @@ namespace Serial_Monitor {
             if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
             ThemeManager.LoadDefaultThemes();
             ModbusEditor.LinkColorPopupHosts();
+            ModbusSupport.Initalise();
             if (args.Length > 0){
                 Application.Run(new MainWindow(args[0]));
             }
