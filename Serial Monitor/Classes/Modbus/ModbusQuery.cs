@@ -155,23 +155,24 @@ namespace Serial_Monitor.Classes.Modbus {
             if (CommandManager.TestKeyword(ref Temp, "REGISTERS")) {
                 if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                     List<short> Values = new List<short>();
-                    if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                    if (CommandManager.GetValues(ref Temp, "WITH", ref Values)) {
+                        //if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
                         Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                     }
-                    else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
-                        Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
-                    }
+                    //else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+                    //    Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
+                    //}
                 }
             }
             else if (CommandManager.TestKeyword(ref Temp, "HOLDINGS")) {
                 if (CommandManager.GetValue(ref Temp, "FROM", out Start, false)) {
                     List<short> Values = new List<short>();
-                    if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+                    if (CommandManager.GetValues(ref Temp, "WITH", ref Values)) {
                         Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
                     }
-                    else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
-                        Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
-                    }
+                    //else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+                    //    Channel.ModbusWriteMultipleRegisters(Unit, (short)Start, Values);
+                    //}
                 }
             }
             else if (CommandManager.TestKeyword(ref Temp, "COILS")) {
@@ -310,12 +311,12 @@ namespace Serial_Monitor.Classes.Modbus {
         private static void PerformGenericFunction(SerialManager Channel, int Unit, int GenericFunction, ref string Temp) {
             if (GenericFunction < 0) { return; }
             List<short> Values = new List<short>();
-            if (CommandManager.GetIntegerValues(ref Temp, "WITH", ref Values)) {
+            if (CommandManager.GetValues(ref Temp, "WITH", ref Values)) {
                 Channel.ModbusSendGenericFunction(Unit, GenericFunction, Values);
             }
-            else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
-                Channel.ModbusSendGenericFunction(Unit, GenericFunction, Values);
-            }
+            //else if (CommandManager.GetCharacterValues(ref Temp, "WITH", ref Values)) {
+            //    Channel.ModbusSendGenericFunction(Unit, GenericFunction, Values);
+            //}
         }
         #endregion
         private static void ReadDeviceIdentification(SerialManager Channel, int Unit, ModbusSupport.DiagnosticDeviceIdentification ReadRequest, ref string Temp) {

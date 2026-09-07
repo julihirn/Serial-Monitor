@@ -128,17 +128,47 @@ namespace Serial_Monitor.Docks {
         }
 
         private void lstPollers_SelectionChanged(object sender, SelectedItemsEventArgs e) {
+            UpdateCommands();
             if (lstPollers.SelectionCount > 0) {
                 btnRemovePoller.Enabled = true;
-                btnStartPolling.Enabled = true;
-                btnStopPolling.Enabled = true;
             }
             else {
                 btnRemovePoller.Enabled = false;
                 btnStartPolling.Enabled = false;
                 btnStopPolling.Enabled = false;
             }
-
+        }
+        private void UpdateCommands() {
+            if (lstPollers.SelectionCount == 1) {
+                ListItem? Li = ((lstPollers.SelectedIndex > lstPollers.CurrentItems.Count) || (lstPollers.CurrentItems.Count == 0) || (lstPollers.SelectedIndex < 0)) ? null : lstPollers.CurrentItems[lstPollers.SelectedIndex];
+                if (Li != null) {
+                    btnStartPolling.Enabled = !Li.Checked;
+                    btnStopPolling.Enabled = Li.Checked;
+                }
+                else {
+                    btnStartPolling.Enabled = true;
+                    btnStopPolling.Enabled = true;
+                }
+            }
+            else if (lstPollers.SelectionCount > 1) {
+                bool FirstState = false;
+                bool StatesDiffer = false;
+                int Count = 0;
+                foreach (ListItem li in lstPollers.CurrentItems) {
+                    if (!li.Selected) { continue; }
+                    if (Count == 0) { FirstState = li.Checked; }
+                    if (FirstState != li.Checked) { StatesDiffer = true; }
+                    Count++;
+                }
+                if (StatesDiffer) {
+                    btnStartPolling.Enabled = true;
+                    btnStopPolling.Enabled = true;
+                }
+                else {
+                    btnStartPolling.Enabled = !FirstState;
+                    btnStopPolling.Enabled = FirstState;
+                }
+            }
         }
         DateTime LastKeyDown = DateTime.MinValue;
         string DropDownSearchString = "";
@@ -184,12 +214,15 @@ namespace Serial_Monitor.Docks {
         }
         private void btnRemovePoller_Click(object sender, EventArgs e) {
             ModbusPollerSupport.RemoveSelected(lstPollers);
+            UpdateCommands();
         }
         private void btnStartPolling_Click(object sender, EventArgs e) {
             ModbusPollerSupport.SetPollingSelectedState(lstPollers, true);
+            UpdateCommands();
         }
         private void btnStopPolling_Click(object sender, EventArgs e) {
             ModbusPollerSupport.SetPollingSelectedState(lstPollers, false);
+            UpdateCommands();
         }
         private void ModbusPollers_FormClosed(object sender, FormClosedEventArgs e) {
             SystemManager.ChannelRenamed -= SystemManager_ChannelRenamed;

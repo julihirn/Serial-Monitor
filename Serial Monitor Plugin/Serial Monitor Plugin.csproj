@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <RootNamespace>Serial_Monitor.Plugin</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>Serial Monitor Plugin Manager</Title>
+    <Authors>Julian Hirniak</Authors>
+    <Copyright>Copyright © Julian Hirniak 2023 - 2026</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

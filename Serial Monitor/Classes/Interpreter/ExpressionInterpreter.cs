@@ -8,6 +8,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Serial_Monitor.Classes.Interpreter {
     public class ExpressionInterpreter {
+        private static readonly Regex StringRegex = new Regex(@"^""(?:\\.|[^""\\])*""$");
+        private static readonly Regex FloatRegex = new Regex(@"^\d+\.\d+$");
+        private static readonly Regex NumberRegex = new Regex(@"^(?:0x[0-9A-Fa-f]+|0b[01]+|\d+)$");
+
         public static bool IsExpression(string Input, bool AllowFunctions) {
             string Pattern = "";
             if (AllowFunctions) {
@@ -19,9 +23,17 @@ namespace Serial_Monitor.Classes.Interpreter {
             return Regex.IsMatch(Input, Pattern);
         }
         public static TokenType DetermineTokenType(string Input) {
-            if (IsExpression(Input, false)) { return TokenType.Expression; }
-            else if (Input.Trim(' ').StartsWith('"') && Input.Trim(' ').EndsWith('"')) { return TokenType.String; }
-            return TokenType.Number;
+            Input = Input.Trim();
+            if (StringRegex.IsMatch(Input)){
+                return TokenType.String;
+            }
+            if (FloatRegex.IsMatch(Input)){
+                return TokenType.Float;
+            }
+            if (NumberRegex.IsMatch(Input)){
+                return TokenType.Number;
+            }
+            return TokenType.Expression;
         }
         public static List<string> GetArguments(string Input) {
             string[] parts = Regex.Split(Input, @",(?=(?:[^""]*""[^""]*"")*[^""]*$)(?=(?:[^()]*\([^()]*\))*[^()]*$)");
@@ -33,8 +45,9 @@ namespace Serial_Monitor.Classes.Interpreter {
     }
     public enum TokenType {
         Number = 0x00,
-        String = 0x01,
-        Expression = 0x02,
+        Float = 0x01,
+        String = 0x02,
+        Expression = 0x04,
         Invaild = 0xFF
 
     }

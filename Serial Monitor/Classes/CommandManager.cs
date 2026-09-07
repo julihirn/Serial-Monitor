@@ -1,4 +1,6 @@
-﻿using Handlers;
+﻿using FastColoredTextBoxNS;
+using Handlers;
+using Serial_Monitor.Classes.Enums;
 using Serial_Monitor.Classes.Interpreter;
 using System;
 using System.Collections.Generic;
@@ -77,34 +79,108 @@ namespace Serial_Monitor.Classes {
             }
             return new Point(End, (Start - End) + 1);
         }
-        public static bool GetIntegerValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
+        public static bool GetValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
             string OldValue = Input;
             bool ParseState = false;
-            if (TestKeyword(ref Input, Compare)) {
-                string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
-                List<string> SupportedFunctions = new List<string>();
-                SupportedFunctions.Add("TIME.NOW");
-                SupportedFunctions.Add("INT16");
-                SupportedFunctions.Add("INT32");
-                SupportedFunctions.Add("INT64");
-                SupportedFunctions.Add("FLOAT");
-                string Function = "";
-                 if (TestSupportFunctions(ref TempCheck, SupportedFunctions, out Function) == false) { Input = OldValue; return false; }
-                if (TempCheck.StartsWith("\"") && TempCheck.EndsWith("\"")) { Input = OldValue; return false; }
-                if (DelimitOnEquals) {
-                    string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
-                    ParseState = GetDelimitedShorts(StrAddress, ref Values, SupportedFunctions);
+            if (!TestKeyword(ref Input, Compare)) { return false;  }
+            string[] Arguments = GetArguments(ref Input);
+            foreach(string Argument in Arguments) {
+                TokenType TType = ExpressionInterpreter.DetermineTokenType(Argument);
+                switch (TType) {
+                    case TokenType.String:
+                        ParseState = StringToShortArray(Argument, ref Values, false); break;
+                    case TokenType.Number:
+                        ParseState = IntegerToShortArray(Argument, ref Values); break;
+                    case TokenType.Float:
+                        ParseState = FloatToShortArray(Argument, ref Values); break;
+                    case TokenType.Expression:
+                        ParseState = ExpressionToShortArray(Argument, ref Values); break;
                 }
-                else {
-                    string StrAddress = Input.TrimStart(' ');
-                    ParseState = GetDelimitedShorts(StrAddress, ref Values, SupportedFunctions);
-                }
-                return ParseState;
+
             }
-            return false;
+            return ParseState;
         }
-        private static bool GetDelimitedShorts(string Input, ref List<short> ?Values, List<string> SupportedFunctions) {
-            if (Values == null) { return false ; }
+        private static bool ExpressionToShortArray(string Input, ref List<short>? Values) {
+            Input = Input.Trim();
+            if ((Input.ToUpper().StartsWith("PACKED(")) && (Input.ToUpper().EndsWith(")"))){
+                Input = Input.Trim();
+                Input = Input.Remove(Input.Length - 1, 1);
+                Input = Input.Remove(0, ("PACKED(").Length);
+                return StringToShortArray(Input, ref Values, true);
+            }
+            return true;
+        }
+        private static bool IntegerToShortArray(string Input, ref List<short>? Values) {
+            if (Values == null) { return false; }
+            string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
+            short Temp = 0x00;
+            bool Result = Formatters.StringToShort(TempCheck, out Temp);
+            if (Result == false) { return false; }
+            Values.Add(Temp);
+            return true;
+        }
+        private static bool FloatToShortArray(string Input, ref List<short>? Values, ModbusEnums.ByteOrder Endian = ModbusEnums.ByteOrder.BigEndian) {
+            if (Values == null) { return false; }
+            string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
+            float Temp = 0.0f;
+            bool state = float.TryParse(Input.ToString(), out Temp);
+            if (state == false) { return false; }
+            int TempInt = Formatters.SingleToInt32Bits(Temp);
+            short Data0 = (short)TempInt;
+            short Data1 = (short)(TempInt >> 16);
+            switch (Endian) {
+                case ModbusEnums.ByteOrder.LittleEndian:
+                    Values.Add(Data0);
+                    Values.Add(Data1); break;
+                case ModbusEnums.ByteOrder.LittleEndianByteSwap:
+                    Values.Add(SwapBytesAndCombine(Data0, true));
+                    Values.Add(SwapBytesAndCombine(Data1, true)); break;
+                case ModbusEnums.ByteOrder.BigEndianByteSwap:
+                    Values.Add(SwapBytesAndCombine(Data1, true));
+                    Values.Add(SwapBytesAndCombine(Data0, true)); break;
+                case ModbusEnums.ByteOrder.BigEndian:
+                    Values.Add(Data1);
+                    Values.Add(Data0); break;
+
+            }
+            //SwapBytesAndCombine
+            return true;
+        }
+        private static short SwapBytesAndCombine(short Input, bool Swap) {
+            if (Swap == false) { return Input; }
+            short Temp = (short)((Input << 8) | ((Input >> 8) & 0x0F));
+            return Temp;
+        }
+        private static bool StringToShortArray(string Input, ref List<short>? Values, bool Packed) {
+            if (Values == null) { return false; }
+            string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
+            if (TempCheck.StartsWith("\"") || TempCheck.EndsWith("\"")) {
+                Input = Input.TrimStart(' ').TrimEnd(' ');
+                if (Input.Length >= 2) {
+                    Input = Input.Remove(Input.Length - 1, 1);
+                    Input = Input.Remove(0, 1);
+                }
+                else { return false; }
+            }
+            short LastValue = 0x00;
+            for (int i = 0; i < Input.Length; i++) {
+                char Temp = Input[i];
+                if (Packed == true) {
+                    if (i % 2 == 0) {
+                        LastValue = (short)((byte)Temp << 8);
+                        if (i == Input.Length - 1) { Values.Add(LastValue); }
+                    }
+                    else {
+                        LastValue |= (short)((byte)Temp);
+                        Values.Add(LastValue);
+                    }
+                }
+                else { Values.Add((short)Temp); }
+            }
+            return true;
+        }
+        private static bool GetDelimitedShorts(string Input, ref List<short>? Values, List<string> SupportedFunctions) {
+            if (Values == null) { return false; }
             //STR_MVSSF TempValues = StringHandler.SpiltStringMutipleValues(Input.Trim(' '), ',');
             List<string> TempValues = Interpreter.ExpressionInterpreter.GetArguments(Input);
             for (int i = 0; i < TempValues.Count; i++) {
@@ -134,6 +210,35 @@ namespace Serial_Monitor.Classes {
                 if (AddResult && Values != null) { Values.Add(Temp); }
             }
             return true;
+        }
+
+        //TO REMOVE!!!
+        public static bool GetIntegerValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false) {
+            string OldValue = Input;
+            bool ParseState = false;
+            //if (TestKeyword(ref Input, Compare)) {
+            string TempCheck = Input.TrimStart(' ').TrimEnd(' ');
+            string[] Arguments = GetArguments(ref TempCheck);
+            List<string> SupportedFunctions = new List<string>();
+            SupportedFunctions.Add("TIME.NOW");
+            SupportedFunctions.Add("INT16");
+            SupportedFunctions.Add("INT32");
+            SupportedFunctions.Add("INT64");
+            SupportedFunctions.Add("FLOAT");
+            string Function = "";
+            if (TestSupportFunctions(ref TempCheck, SupportedFunctions, out Function) == false) { Input = OldValue; return false; }
+            if (TempCheck.StartsWith("\"") && TempCheck.EndsWith("\"")) { Input = OldValue; return false; }
+            if (DelimitOnEquals) {
+                string StrAddress = ReadAndRemove(ref Input, '=').TrimStart(' ');
+                ParseState = GetDelimitedShorts(StrAddress, ref Values, SupportedFunctions);
+            }
+            else {
+                string StrAddress = Input.TrimStart(' ');
+                ParseState = GetDelimitedShorts(StrAddress, ref Values, SupportedFunctions);
+            }
+            return ParseState;
+            //}
+            //return false;
         }
         public static bool GetCharacterValues(ref string Input, string Compare, ref List<short> Values, bool DelimitOnEquals = false, bool TwoBytesPerRegister = false) {
             string OldValue = Input;
@@ -194,6 +299,8 @@ namespace Serial_Monitor.Classes {
             }
             return false;
         }
+        
+        
         public static bool GetBooleanValues(ref string Input, string Compare, ref List<bool> Values, bool DelimitOnEquals = false) {
             if (TestKeyword(ref Input, Compare)) {
 
@@ -321,6 +428,10 @@ namespace Serial_Monitor.Classes {
             }
             return false;
         }
+        public static string[] GetArguments(ref string Input) {
+            string[] Parts = Regex.Split(Input, @",(?=(?:[^""]*""[^""]*"")*[^""]*$)(?!(?:[^()]|\([^()]*\))*\))");
+            return Parts;
+        }
         public static bool TestSupportFunctions(ref string Input, List<string> SupportedFunctions, out string Function) {
             string Temp = Input.TrimStart(' ').TrimEnd(' ');
             if (Temp.ToUpper().StartsWith("(") && Temp.EndsWith(")")) {
@@ -330,8 +441,8 @@ namespace Serial_Monitor.Classes {
                     Input = Temp; Function = ""; return true;
                 }
             }
-            if (Regex.Match(Input, "^\\w+\\(.*\\)").Success == false){
-               Input = Temp; Function = ""; return true;
+            if (Regex.Match(Input, "^\\w+\\(.*\\)").Success == false) {
+                Input = Temp; Function = ""; return true;
             }
             foreach (string Func in SupportedFunctions) {
                 if (Temp.ToUpper().StartsWith(Func + "(") && Temp.EndsWith(")")) {
