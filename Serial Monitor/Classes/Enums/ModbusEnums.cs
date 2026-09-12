@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Serial_Monitor.Classes.Enums {
     public static class ModbusEnums {
-        public enum AddressSystem {
+        public enum AddressSystem : short {
             ZeroBasedDecimal = 0x000,
             OneBasedDecimal = 0x001,
             ZeroBasedHexadecimal = 0x100,

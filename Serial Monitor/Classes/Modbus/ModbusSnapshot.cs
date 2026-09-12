@@ -162,9 +162,9 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         #endregion
-        string iD = "";
+        Guid iD;
         [Browsable(false)]
-        public string ID {
+        public Guid ID {
             get { return iD; }
         }
         public void Close() {
@@ -366,7 +366,7 @@ namespace Serial_Monitor.Classes.Modbus {
             this.Bounds = Bounds;
         }
         private void InitaliseConcurrent(ModbusSlave slave, DataSelection selection, int StartIndex, int Count) {
-            iD = Guid.NewGuid().ToString();
+            iD = Guid.NewGuid();
             selectType = Enums.ModbusEnums.SnapshotSelectionType.Concurrent;
             manager = slave;
             this.selection = selection;
@@ -379,7 +379,7 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         private void InitaliseCustom(ModbusSlave slave, DataSelection selection, List<int> Indices) {
-            iD = Guid.NewGuid().ToString();
+            iD = Guid.NewGuid();
             selectType = Enums.ModbusEnums.SnapshotSelectionType.Custom;
             manager = slave;
             this.selection = selection;

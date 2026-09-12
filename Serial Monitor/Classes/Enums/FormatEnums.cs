@@ -50,12 +50,12 @@ namespace Serial_Monitor.Classes.Enums {
             CR = 0x02,
             CRLF = 0x03
         }
-        public enum SignedState {
+        public enum SignedState : byte {
             Unsigned = 0x00,
             Signed = 0x01,
             Toggle = 0x02
         }
-        public enum PadFrequency {
+        public enum PadFrequency : byte {
             None = 0x00,
             EveryFourth = 0x01,
             EveryEighth = 0x02

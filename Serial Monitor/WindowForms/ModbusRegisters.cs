@@ -641,15 +641,22 @@ namespace Serial_Monitor {
                 btnTextColor.Enabled = false;
                 return;
             }
-            btnBackColor.Enabled = true;
-            btnTextColor.Enabled = true;
-            tsddDisplayType.Enabled = true;
-            tsddDataSize.Enabled = Select >= DataSelection.ModbusDataInputRegisters;
+            //btnBackColor.Enabled = true;
+            //btnTextColor.Enabled = true;
+            //tsddDisplayType.Enabled = true;
+            //tsddDataSize.Enabled = Select >= DataSelection.ModbusDataInputRegisters;
+            ListControl? Current = GetCurrentListView();
+            bool SelectedItems = false;
+            if (Current != null) {
+                SelectedItems = Current.SelectionCount > 0;
+            }
+            AdjustProperties(ModbusPropertyFlags.None, null, SelectedItems);
 
         }
-        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty CurrentProperties, bool ItemsSelected) {
+        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty ?CurrentProperties, bool ItemsSelected) {
             //Debug.Print("PROP CHECK");
             string UndeterminedFormatString = "Format...";
+            string UndeterminedSizeString = "Size...";
             DataSelection? Select = GetDataSelection();
             tsddDisplayType.Enabled = ItemsSelected;
 
@@ -660,6 +667,8 @@ namespace Serial_Monitor {
                 return;
             }
             tsddDataSize.Enabled = ItemsSelected & Select >= DataSelection.ModbusDataInputRegisters; ;
+            
+            if (CurrentProperties == null) { return; }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.ForeColor)) {
                 SetButtonColor(true, CurrentProperties.ForeColor, CurrentProperties.UseForeColor);
             }
@@ -689,7 +698,7 @@ namespace Serial_Monitor {
                     catch { }
                 }
                 else {
-                    tsddDataSize.Text = "Size...";
+                    tsddDataSize.Text = UndeterminedSizeString;
                 }
             }
             else {

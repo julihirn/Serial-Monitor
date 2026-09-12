@@ -10,13 +10,13 @@ using static Serial_Monitor.Classes.Enums.ModbusEnums;
 namespace Serial_Monitor.Classes.Modbus {
     public class ModbusSlave {
         public ModbusSlave(SerialManager Channel, int Address) {
-            iD = Guid.NewGuid().ToString();
+            iD = Guid.NewGuid();
             channel = Channel;
             this.address = Address;
             LoadRegisters();
         }
         public ModbusSlave(SerialManager Channel, int Address, string Name) {
-            iD = Guid.NewGuid().ToString();
+            iD = Guid.NewGuid();
             channel = Channel;
             this.address = Address;
             this.name = Name;
@@ -32,9 +32,9 @@ namespace Serial_Monitor.Classes.Modbus {
             get { return addressFormat; }
             set { addressFormat = value; }
         }
-        string iD = "";
+        Guid iD;
         [Browsable(false)]
-        public string ID {
+        public Guid ID {
             get { return iD; }
         }
         public string DisplayName {
@@ -102,32 +102,25 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         public void RaiseException(Modbus.ModbusSupport.FunctionCode Function, Modbus.ModbusSupport.ModbusException Exception) {
-            if (Exception == ModbusSupport.ModbusException.IllegalFunction) {
-                exceptionCountIllegalFunction++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.IllegalDataAddress) {
-                exceptionCountIllegalDataAddress++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.IllegalDataValue) {
-                exceptionCountIllegalDataValue++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.SlaveDeviceFailure) {
-                exceptionCountSlaveDeviceFailure++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.Acknowledge) {
-                exceptionCountAcknowledge++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.SlaveDeviceBusy) {
-                exceptionCountSlaveDeviceBusy++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.MemoryParityError) {
-                exceptionCountAcknowledge++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.GatewayPathUnavaliable) {
-                exceptionCountGatewayPathUnavaliable++;
-            }
-            else if (Exception == ModbusSupport.ModbusException.GatewayTargetDeviceFailedToRespond) {
-                exceptionCountFailedToRespond++;
+            switch (Exception) {
+                case ModbusSupport.ModbusException.IllegalFunction:
+                    exceptionCountIllegalFunction++; break;
+                case ModbusSupport.ModbusException.IllegalDataAddress:
+                    exceptionCountIllegalDataAddress++; break;
+                case ModbusSupport.ModbusException.IllegalDataValue:
+                    exceptionCountIllegalDataValue++; break;
+                case ModbusSupport.ModbusException.SlaveDeviceFailure:
+                    exceptionCountSlaveDeviceFailure++; break;
+                case ModbusSupport.ModbusException.Acknowledge:
+                    exceptionCountAcknowledge++; break;
+                case ModbusSupport.ModbusException.SlaveDeviceBusy:
+                    exceptionCountSlaveDeviceBusy++; break;
+                case ModbusSupport.ModbusException.MemoryParityError:
+                    exceptionCountAcknowledge++; break;
+                case ModbusSupport.ModbusException.GatewayPathUnavaliable:
+                    exceptionCountGatewayPathUnavailable++; break;
+                case ModbusSupport.ModbusException.GatewayTargetDeviceFailedToRespond:
+                    exceptionCountFailedToRespond++; break;
             }
             exceptionCount++;
         }
@@ -171,10 +164,10 @@ namespace Serial_Monitor.Classes.Modbus {
         public ulong MemoryParityErrorCount {
             get { return exceptionCountMemoryParityError; }
         }
-        ulong exceptionCountGatewayPathUnavaliable = 0;
+        ulong exceptionCountGatewayPathUnavailable = 0;
         [Browsable(false)]
-        public ulong GatewayPathUnavaliableCount {
-            get { return exceptionCountGatewayPathUnavaliable; }
+        public ulong GatewayPathUnavailableCount {
+            get { return exceptionCountGatewayPathUnavailable; }
         }
         ulong exceptionCountFailedToRespond = 0;
         [Browsable(false)]
