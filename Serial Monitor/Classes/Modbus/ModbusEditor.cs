@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Serial_Monitor.Classes.Enums.FormatEnums;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using ListControl = ODModules.ListControl;
 
 namespace Serial_Monitor.Classes.Modbus {
