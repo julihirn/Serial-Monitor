@@ -500,7 +500,7 @@ namespace Serial_Monitor.Classes {
         }
         public static List<Port> GetSerialPortQuickListing() {
             List<Port> Results = new List<Port>();
-            string[] TempPorts = SerialPort.GetPortNames();
+            string[] TempPorts = SerialPort.GetPortNames().Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
             foreach (string Str in TempPorts) {
                 Results.Add(new Port(Str, "", ""));
             }
