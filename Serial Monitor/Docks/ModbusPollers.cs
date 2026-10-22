@@ -140,7 +140,7 @@ namespace Serial_Monitor.Docks {
         }
         private void UpdateCommands() {
             if (lstPollers.SelectionCount == 1) {
-                ListItem? Li = ((lstPollers.SelectedIndex > lstPollers.CurrentItems.Count) || (lstPollers.CurrentItems.Count == 0) || (lstPollers.SelectedIndex < 0)) ? null : lstPollers.CurrentItems[lstPollers.SelectedIndex];
+                ListItem? Li = ((lstPollers.SelectedIndex >= lstPollers.CurrentItems.Count) || (lstPollers.CurrentItems.Count == 0) || (lstPollers.SelectedIndex < 0)) ? null : lstPollers.CurrentItems[lstPollers.SelectedIndex];
                 if (Li != null) {
                     btnStartPolling.Enabled = !Li.Checked;
                     btnStopPolling.Enabled = Li.Checked;
@@ -213,6 +213,7 @@ namespace Serial_Monitor.Docks {
             ModbusPollerSupport.NewPoller();
         }
         private void btnRemovePoller_Click(object sender, EventArgs e) {
+            ModbusPollerSupport.RemoveAllControls(lstPollers);
             ModbusPollerSupport.RemoveSelected(lstPollers);
             UpdateCommands();
         }
