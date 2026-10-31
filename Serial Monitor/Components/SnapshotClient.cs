@@ -123,11 +123,11 @@ namespace Serial_Monitor.Components {
         public void LayoutGrid() {
             Size TempSize = this.Size;
             int FormCount = ChildForms.Count;
-            int Columns = (int)Math.Floor((double)TempSize.Width / (double)ModbusEditor.MinimumSize.Width);
+            int Columns = (int)Math.Floor((double)TempSize.Width / (double)DesignerSetup.ScaleInteger(ModbusEditor.MinimumSize.Width));
             if (Columns <= 0) { return; }
             int Rows = (int)Math.Ceiling((float)FormCount / (float)Columns);
             Point AnchorPoint = new Point(0, 0);
-            if (FormCount <= Columns) {
+            if (FormCount < Columns) {
                 int TempCount = FormCount <= 0 ? 1 : FormCount;
                 foreach (MdiClientForm Form in ChildForms) {
                     Form.Location = AnchorPoint;

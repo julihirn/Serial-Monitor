@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.DataVisualization.Charting;
 using static Serial_Monitor.Classes.Enums.ModbusEnums;
 using ListControl = ODModules.ListControl;
 
@@ -28,6 +29,11 @@ namespace Serial_Monitor.Classes.Modbus {
         internal const int INDX_POLL_ADDRESS_END = 7;
 
         internal const int INDX_POLL_MAX = 8;
+        static bool maintainQuantity = false;
+        public static bool MaintainQuantity {
+            get { return maintainQuantity; }
+            set { maintainQuantity = value; }
+        }
         private static volatile List<ModbusPoller> pollers = new List<ModbusPoller>();
         private static List<ListItem> pollerList = new List<ListItem>();
         internal static List<ModbusPoller> Pollers {
@@ -65,6 +71,18 @@ namespace Serial_Monitor.Classes.Modbus {
             PollersChanged?.Invoke();
             PollerRemoved?.Invoke();
         }
+        public static void GetPollerQueryEditor(ListControl LstCtrl) {
+              PausePolling();
+            for (int i = LstCtrl.CurrentItems.Count - 1; i >= 0; i--) {
+                if (!LstCtrl.CurrentItems[i].Selected) { continue; }
+                ModbusPoller? Mbp = GetPollerFromListItem(pollerList[i]);
+                if (Mbp == null) { continue; }
+                WindowForms.QueryEditor Qe = new WindowForms.QueryEditor(Mbp);
+                Qe.Show();
+                break;
+            }
+            ResumePolling();
+        }
         public static void ClearPollers() {
             PausePolling();
             for (int i = pollerList.Count - 1; i >= 0; i--) {
@@ -79,6 +97,45 @@ namespace Serial_Monitor.Classes.Modbus {
             GC.Collect();
             PollersChanged?.Invoke();
             PollerRemoved?.Invoke();
+        }
+        internal static void PollSelection(SerialManager? Manager, int Unit, DataSelection Selection, ListControl? lst) {
+            if (pollers.Count > 20) { return; }
+            if (Manager == null) { return; }
+            if (lst == null) { return; }
+            List<int> SelectedAddresses = new List<int>();
+            List<(int Start, int End)> AddressRanges = new List<(int Start, int End)>();
+            foreach (ListItem Li in lst.CurrentItems) {
+                if (Li.Tag == null || !Li.Selected) { continue; }
+                SelectedAddresses.Add(GetAddress(Li.Tag));
+            }
+            SelectedAddresses.Sort();
+            foreach (int Address in SelectedAddresses) {
+                if (AddressRanges.Count == 0) {
+                    AddressRanges.Add((Address, Address));
+                    continue;
+                }
+                var LastRange = AddressRanges[^1];
+                if (Address <= LastRange.End) { continue; }
+                if ((long)Address == (long)LastRange.End + 1) {
+                    AddressRanges[^1] = (LastRange.Start, Address);
+                }
+                else {
+                    AddressRanges.Add((Address, Address));
+                }
+            }
+            foreach((int Start, int End) Range in AddressRanges) {
+                NewPoller(Manager, true, Unit, Selection, Range.Start, Range.End, 1000);
+            }
+
+        }
+        private static int GetAddress(object Tag) {
+            if (Tag.GetType() == typeof(ModbusRegister)) {
+                return ((ModbusRegister)Tag).Address;
+            }
+            else if (Tag.GetType() == typeof(ModbusCoil)) {
+                return ((ModbusCoil)Tag).Address;
+            }
+            return -1;
         }
         public static void NewPoller() {
             if (pollers.Count > 20) { return; }

@@ -53,6 +53,7 @@
             copyToolStripButton = new ToolStripButton();
             pasteToolStripButton = new ToolStripButton();
             cmMonitor = new ODModules.ContextMenu();
+            pollSelectedToolStripMenuItem = new ToolStripMenuItem();
             btnCmSelectionToSnapshot = new ToolStripMenuItem();
             toolStripSeparator14 = new ToolStripSeparator();
             cutToolStripMenuItem1 = new ToolStripMenuItem();
@@ -157,6 +158,7 @@
             removeUnitToolStripMenuItem1 = new ToolStripMenuItem();
             toolStripSeparator8 = new ToolStripSeparator();
             btnSelectionToSnapshot = new ToolStripMenuItem();
+            pollSelectionToolStripMenuItem = new ToolStripMenuItem();
             formatToolStripMenuItem = new ToolStripMenuItem();
             ddbDisplayFormat = new ToolStripMenuItem();
             ddpDataSize = new ToolStripMenuItem();
@@ -557,7 +559,7 @@
             cmMonitor.ForeColor = Color.White;
             cmMonitor.ImageScalingSize = new Size(32, 32);
             cmMonitor.InsetShadowColor = Color.FromArgb(128, 0, 0, 0);
-            cmMonitor.Items.AddRange(new ToolStripItem[] { btnCmSelectionToSnapshot, toolStripSeparator14, cutToolStripMenuItem1, copyToolStripMenuItem1, pasteToolStripMenuItem1, toolStripSeparator31, selectAllToolStripMenuItem1 });
+            cmMonitor.Items.AddRange(new ToolStripItem[] { pollSelectedToolStripMenuItem, btnCmSelectionToSnapshot, toolStripSeparator14, cutToolStripMenuItem1, copyToolStripMenuItem1, pasteToolStripMenuItem1, toolStripSeparator31, selectAllToolStripMenuItem1 });
             cmMonitor.MenuBackColorNorth = Color.DodgerBlue;
             cmMonitor.MenuBackColorSouth = Color.DodgerBlue;
             cmMonitor.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
@@ -567,6 +569,13 @@
             cmMonitor.ShowItemInsetShadow = false;
             resources.ApplyResources(cmMonitor, "cmMonitor");
             cntrlExtender.SetTranslationReference(cmMonitor, "");
+            // 
+            // pollSelectedToolStripMenuItem
+            // 
+            resources.ApplyResources(pollSelectedToolStripMenuItem, "pollSelectedToolStripMenuItem");
+            pollSelectedToolStripMenuItem.Name = "pollSelectedToolStripMenuItem";
+            tsiExtender.SetTranslationReference(pollSelectedToolStripMenuItem, "pollSelection");
+            pollSelectedToolStripMenuItem.Click += pollSelectedToolStripMenuItem_Click;
             // 
             // btnCmSelectionToSnapshot
             // 
@@ -1199,7 +1208,7 @@
             // 
             // modbusToolStripMenuItem
             // 
-            modbusToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { writeCoilToolStripMenuItem, writeMultipleCoilsToolStripMenuItem, writeRegisterToolStripMenuItem, writeMultipleRegistersToolStripMenuItem, writeRegisterMaskToolStripMenuItem, toolStripSeparator23, querySenderToolStripMenuItem, toolStripSeparator2, btnModbusApplyonClick, btnModbusLockEditors, toolStripSeparator16, setIOFormatsToModbusRTUToolStripMenuItem, setIOFormatsToModbusASCIIToolStripMenuItem, toolStripSeparator24, btnMenuModbusMaster, changeAddressToolStripMenuItem1, toolStripSeparator25, slaveManagerToolStripMenuItem, newUnitToolStripMenuItem1, renameUnitToolStripMenuItem1, removeUnitToolStripMenuItem1, toolStripSeparator8, btnSelectionToSnapshot });
+            modbusToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { writeCoilToolStripMenuItem, writeMultipleCoilsToolStripMenuItem, writeRegisterToolStripMenuItem, writeMultipleRegistersToolStripMenuItem, writeRegisterMaskToolStripMenuItem, toolStripSeparator23, querySenderToolStripMenuItem, toolStripSeparator2, btnModbusApplyonClick, btnModbusLockEditors, toolStripSeparator16, setIOFormatsToModbusRTUToolStripMenuItem, setIOFormatsToModbusASCIIToolStripMenuItem, toolStripSeparator24, btnMenuModbusMaster, changeAddressToolStripMenuItem1, toolStripSeparator25, slaveManagerToolStripMenuItem, newUnitToolStripMenuItem1, renameUnitToolStripMenuItem1, removeUnitToolStripMenuItem1, toolStripSeparator8, btnSelectionToSnapshot, pollSelectionToolStripMenuItem });
             modbusToolStripMenuItem.ForeColor = Color.White;
             modbusToolStripMenuItem.Name = "modbusToolStripMenuItem";
             resources.ApplyResources(modbusToolStripMenuItem, "modbusToolStripMenuItem");
@@ -1377,6 +1386,14 @@
             btnSelectionToSnapshot.Name = "btnSelectionToSnapshot";
             tsiExtender.SetTranslationReference(btnSelectionToSnapshot, "selectionToSnapshot");
             btnSelectionToSnapshot.Click += addSelectionToSnapshotToolStripMenuItem_Click;
+            // 
+            // pollSelectionToolStripMenuItem
+            // 
+            resources.ApplyResources(pollSelectionToolStripMenuItem, "pollSelectionToolStripMenuItem");
+            pollSelectionToolStripMenuItem.ForeColor = Color.White;
+            pollSelectionToolStripMenuItem.Name = "pollSelectionToolStripMenuItem";
+            tsiExtender.SetTranslationReference(pollSelectionToolStripMenuItem, "pollSelection");
+            pollSelectionToolStripMenuItem.Click += pollSelectionToolStripMenuItem_Click;
             // 
             // formatToolStripMenuItem
             // 
@@ -2065,5 +2082,7 @@
         private ToolStripDropDownButton btnTextColor;
         private ToolStripDropDownButton btnBackColor;
         private ToolStripMenuItem modbusPollersToolStripMenuItem;
+        private ToolStripMenuItem pollSelectedToolStripMenuItem;
+        private ToolStripMenuItem pollSelectionToolStripMenuItem;
     }
 }

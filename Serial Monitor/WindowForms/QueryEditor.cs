@@ -23,6 +23,21 @@ namespace Serial_Monitor.WindowForms {
         public QueryEditor() {
             InitializeComponent();
         }
+        public QueryEditor(ModbusPoller Poller) {
+            InitializeComponent();
+            string Channel = Poller.Channel == null ? "COM1" : Poller.Channel.StateName;
+            StringBuilder Sb = new StringBuilder();
+            Sb.AppendLine("BEGIN");
+            Sb.Append("\tUSING ");
+            Sb.Append(Channel);
+            Sb.Append("\n\t");
+            Sb.Append(Poller.Query);
+            Sb.Append("\n");
+            Sb.AppendLine("END");
+            fctEditor.Text = Sb.ToString();
+            ModbusPoller = Poller.Id;
+        }
+        Guid? ModbusPoller = null;
         private void QueryEditor_Load(object sender, EventArgs e) {
             RecolorAll();
             AdjustUserInterface();

@@ -1400,38 +1400,36 @@ namespace Serial_Monitor.Classes.Modbus {
         const string Clipboard_ModbusDataType = "SERMAN:MODBUS_REG";
         public static void CopyRegistersAsText(ListControl? ListEditor, bool ClearSelection = true) {
             if (ListEditor == null) { return; }
-            string Output = "";
+            StringBuilder Sb = new StringBuilder();
             if (ListEditor.CurrentItems == null) { return; }
             for (int i = 0; i < ListEditor.CurrentItems.Count; i++) {
-                if (ListEditor.CurrentItems[i].Selected == true) {
-                    if (ListEditor.CurrentItems[i].SubItems.Count == 6) {
-                        object? objCmd = ListEditor.CurrentItems[i].Tag;
-                        if (objCmd == null) { continue; }
-                        if (objCmd.GetType() == typeof(ModbusRegister)) {
-                            ModbusRegister Reg = (ModbusRegister)objCmd;
-                            Output += Reg.Address.ToString() + Constants.Tab;
-                            Output += Reg.Name + Constants.Tab;
-                            Output += EnumManager.DataFormatToString(Reg.Format).A + Constants.Tab;
-                            Output += EnumManager.DataSizeToString(Reg.Size) + Constants.Tab;
-                            Output += Reg.Signed.ToString() + Constants.Tab;
-                            Output += Reg.FormattedValue + Constants.NewLineEnv;
-                        }
-                        else if (objCmd.GetType() == typeof(ModbusCoil)) {
-                            ModbusCoil Reg = (ModbusCoil)objCmd;
-                            Output += Reg.Address.ToString() + Constants.Tab;
-                            Output += Reg.Name + Constants.Tab;
-                            Output += "Boolean" + Constants.Tab;
-                            Output += Reg.Value + Constants.NewLineEnv;
-                        }
-                        if (ClearSelection == true) {
-                            ListEditor.CurrentItems[i].Selected = false;
-                        }
-                    }
+                if (ListEditor.CurrentItems[i].Selected == false) { continue; }
+                if (ListEditor.CurrentItems[i].SubItems.Count != 6) { continue; }
+                object? objCmd = ListEditor.CurrentItems[i].Tag;
+                if (objCmd == null) { continue; }
+                if (objCmd.GetType() == typeof(ModbusRegister)) {
+                    ModbusRegister Reg = (ModbusRegister)objCmd;
+                    Sb.Append(Reg.Address.ToString());  Sb.Append(Constants.Tab);
+                    Sb.Append(Reg.Name); Sb.Append(Constants.Tab);
+                    Sb.Append(EnumManager.DataFormatToString(Reg.Format).A); Sb.Append(Constants.Tab);
+                    Sb.Append(EnumManager.DataSizeToString(Reg.Size)); Sb.Append(Constants.Tab);
+                    Sb.Append(Reg.Signed.ToString()); Sb.Append(Constants.Tab);
+                    Sb.Append(Reg.FormattedValue); Sb.Append(Constants.NewLineEnv);
+                }
+                else if (objCmd.GetType() == typeof(ModbusCoil)) {
+                    ModbusCoil Reg = (ModbusCoil)objCmd;
+                    Sb.Append(Reg.Address.ToString()); Sb.Append(Constants.Tab);
+                    Sb.Append(Reg.Name); Sb.Append(Constants.Tab);
+                    Sb.Append("Boolean"); Sb.Append(Constants.Tab);
+                    Sb.Append(Reg.Value); Sb.Append(Constants.NewLineEnv);
+                }
+                if (ClearSelection == true) {
+                    ListEditor.CurrentItems[i].Selected = false;
                 }
             }
             ListEditor.Invalidate();
-            if (Output.Trim().Length <= 0) { return; }
-            Clipboard.SetText(Output);
+            if (Sb.ToString().Trim().Length <= 0) { return; }
+            Clipboard.SetText(Sb.ToString());
         }
         public static void CopyRegisters(ListControl? ListEditor, ModbusClipboardFlags Flags, bool ClearSelection = true) {
             if (ListEditor == null) { return; }
@@ -1512,7 +1510,7 @@ namespace Serial_Monitor.Classes.Modbus {
                                         Reg.ForeColor = CopiedItems[j].ForeColor;
                                         Reg.UseBackColor = CopiedItems[j].UseBackColor;
                                         Reg.UseForeColor = CopiedItems[j].UseForeColor;
-                                 
+
                                         ListEditor.CurrentItems[k].UseLineBackColor = Reg.UseBackColor;
                                         ListEditor.CurrentItems[k].UseLineForeColor = Reg.UseForeColor;
                                         ListEditor.CurrentItems[k].LineBackColor = Reg.BackColor;
@@ -1543,7 +1541,7 @@ namespace Serial_Monitor.Classes.Modbus {
                                         Reg.ForeColor = CopiedItems[j].ForeColor;
                                         Reg.UseBackColor = CopiedItems[j].UseBackColor;
                                         Reg.UseForeColor = CopiedItems[j].UseForeColor;
-                                   
+
                                         ListEditor.CurrentItems[k].UseLineBackColor = Reg.UseBackColor;
                                         ListEditor.CurrentItems[k].UseLineForeColor = Reg.UseForeColor;
                                         ListEditor.CurrentItems[k].LineBackColor = Reg.BackColor;

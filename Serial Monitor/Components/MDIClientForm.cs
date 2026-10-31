@@ -275,18 +275,22 @@ namespace Serial_Monitor.Components {
         protected override void OnPaint(PaintEventArgs e) {
             e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             using (Font UnitFont = new Font(this.Font.FontFamily, 6.0f)) {
-                UnitSize = e.Graphics.MeasureString("W", UnitFont);
+                UnitSize = TextRenderer.MeasureText("W", UnitFont);//e.Graphics.MeasureString("W", UnitFont);
             }
             if (PaddingSettingChanged == true) {
                 if (labelFont != null) {
-                    TextPadding = e.Graphics.MeasureString("W", labelFont).Width;
-                    TextHeight = (int)e.Graphics.MeasureString("W", labelFont).Height + (int)(TextPadding / 4.0f);
+                    TextPadding = TextRenderer.MeasureText("W", labelFont).Width;//e.Graphics.MeasureString("W", labelFont).Width;
+                    TextHeight = (int)TextRenderer.MeasureText("W", labelFont).Height+ (int)(TextPadding / 4.0f);
                 }
 
                 Padding Pad = new Padding(Padding.Left, TextHeight, Padding.Right, Padding.Bottom);
                 Padding = Pad;
                 PaddingSettingChanged = false;
             }
+            CollaspeOffset = 0;
+            int CloseSmall = (int)(UnitSize.Height * 0.8f);
+            Point CloseButtonPosition = new Point(Width - (int)(UnitSize.Width * 1.4) - CollaspeOffset, (int)(TextPadding / 4.0f) + (int)((TextHeight - CloseSmall) / 2.0f));
+            CloseMarker = new Rectangle(CloseButtonPosition, new Size(CloseSmall, CloseSmall));
             //using (SolidBrush BackColorBrush = new SolidBrush(labelBackColor)) {
             //    e.Graphics.FillRectangle(BackColorBrush, new Rectangle(0, 0, Width, TextHeight));
             //}
@@ -294,9 +298,12 @@ namespace Serial_Monitor.Components {
             if (Text != null) {
                 if (labelFont != null) {
                     if (Text.Length > 0) {
-                        using (SolidBrush ForeColorBrush = new SolidBrush(labelColor)) {
-                            e.Graphics.DrawString(Text, labelFont, ForeColorBrush, new Point((int)(TextPadding / 4.0f), (int)(TextPadding / 4.0f)));
-                        }
+                        Point LabelStart = new Point((int)(TextPadding / 4.0f), (int)(TextPadding / 4.0f));
+                        Rectangle LabelRectangle = new Rectangle(LabelStart.X, LabelStart.Y, Width - LabelStart.X - CloseMarker.Width - (int)TextPadding, TextHeight);
+                        TextRenderer.DrawText(e, Text, labelFont, LabelRectangle, labelColor, TextFormatFlags.EndEllipsis);
+                        //using (SolidBrush ForeColorBrush = new SolidBrush(labelColor)) {
+                        //e.Graphics.DrawString(Text, labelFont, ForeColorBrush, new Point((int)(TextPadding / 4.0f), (int)(TextPadding / 4.0f)));
+                        //}
                     }
                 }
             }
@@ -313,16 +320,13 @@ namespace Serial_Monitor.Components {
             }
             base.OnPaint(e);
         }
-
+        int CollaspeOffset = 0;
         private void DrawActionButtons(PaintEventArgs e) {
             Size ButtonSize = new Size((int)UnitSize.Height, (int)UnitSize.Height);
 
 
 
-            int CollaspeOffset = 0;
-            int CloseSmall = (int)(UnitSize.Height * 0.8f);
-            Point CloseButtonPosition = new Point(Width - (int)(UnitSize.Width * 1.8) - CollaspeOffset, (int)(TextPadding / 4.0f) + (int)((TextHeight - CloseSmall) / 2.0f));
-            CloseMarker = new Rectangle(CloseButtonPosition, new Size(CloseSmall, CloseSmall));
+    
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             Color collapseCloseColor = closeColor;
             if (CloseMarker_MouseInRegion == true) {

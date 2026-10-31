@@ -651,6 +651,7 @@ namespace Serial_Monitor {
                 SelectedItems = Current.SelectionCount > 0;
             }
             AdjustProperties(ModbusPropertyFlags.None, null, SelectedItems);
+            CheckPollSections();
 
         }
         private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty? CurrentProperties, bool ItemsSelected) {
@@ -1290,6 +1291,10 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.CloseDocumentGroup, closeAllSnapshotsToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.FullScreen, fullScreenToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.ForEachLoop, pollSelectedToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.ForEachLoop, pollSelectionToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+       
             EditorBackColor = EditorBackColor;
             EditorForeColor = EditorForeColor;
             ChangeLockedIcon(LockedEditor);
@@ -1351,9 +1356,26 @@ namespace Serial_Monitor {
             }
             EnableDisableDialogEditors();
             QueuePropertyUpdate();
+            CheckPollSections();
             //ModbusEditor.ClearControls(editorModbus.lstMonitor);
 
 
+        }
+        private void CheckPollSections() {
+            if (currentEditorView == DataEditor.SnapshotView) {
+                pollSelectedToolStripMenuItem.Enabled = false;
+                pollSelectionToolStripMenuItem.Enabled = false;
+                return;
+            }
+            int MaxSelection = DataSet >= DataSelection.ModbusDataHoldingRegisters ? 125 : 2000;
+            if ((CurrentManager != null) && (CurrentManager.IsMaster) && (editorModbus.lstMonitor.SelectionCount > 0) && (editorModbus.lstMonitor.SelectionCount < MaxSelection)) {
+                pollSelectedToolStripMenuItem.Enabled = true;
+                pollSelectionToolStripMenuItem.Enabled = true;
+            }
+            else {
+                pollSelectedToolStripMenuItem.Enabled = false;
+                pollSelectionToolStripMenuItem.Enabled = false;
+            }
         }
         #region Editing and List Support
 
@@ -2825,6 +2847,7 @@ namespace Serial_Monitor {
             }
             LastPropertyCheck = DateTime.UtcNow;
             PropertyChecker.Enabled = true;
+            CheckPollSections();
         }
         DateTime LastPropertyCheck = DateTime.MinValue;
         private void PropertyChecker_Tick(object? sender, EventArgs e) {
@@ -3008,6 +3031,12 @@ namespace Serial_Monitor {
         private void modbusPollersToolStripMenuItem_Click(object sender, EventArgs e) {
             Docks.ModbusPollers PollerApp = new Docks.ModbusPollers();
             ApplicationManager.OpenInternalApplicationOnce(PollerApp, true);
+        }
+        private void pollSelectedToolStripMenuItem_Click(object sender, EventArgs e) {
+            ModbusPollerSupport.PollSelection(CurrentManager, Slave, DataSet, editorModbus.lstMonitor);
+        }
+        private void pollSelectionToolStripMenuItem_Click(object sender, EventArgs e) {
+            ModbusPollerSupport.PollSelection(CurrentManager, Slave, DataSet, editorModbus.lstMonitor);
         }
 
         internal enum DataEditor {

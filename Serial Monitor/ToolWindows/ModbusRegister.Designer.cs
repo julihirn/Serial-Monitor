@@ -43,6 +43,8 @@
             lstRegisters.AllowMouseWheel = true;
             lstRegisters.BorderColor = Color.Gray;
             lstRegisters.Borders = ODModules.Borders.None;
+            lstRegisters.ButtonMouseDown = Color.FromArgb(100, 0, 0, 0);
+            lstRegisters.ButtonMouseHover = Color.FromArgb(100, 255, 255, 255);
             lstRegisters.CellPixelFit = true;
             lstRegisters.CellSelectEditableOnly = true;
             lstRegisters.CellSelectionBorderColor = Color.Blue;
@@ -173,7 +175,7 @@
             lstRegisters.HorizontalScrollStep = 3;
             lstRegisters.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
             lstRegisters.LineMarkerIndex = 0;
-            lstRegisters.Location = new Point(9, 37);
+            lstRegisters.Location = new Point(9, 38);
             lstRegisters.Margin = new Padding(6);
             lstRegisters.MarkerBorderColor = Color.LimeGreen;
             lstRegisters.MarkerFillColor = Color.FromArgb(100, 50, 205, 50);
@@ -190,10 +192,11 @@
             lstRegisters.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             lstRegisters.ShowCellSelection = true;
             lstRegisters.ShowGrid = true;
+            lstRegisters.ShowHeader = true;
             lstRegisters.ShowItemIndentation = false;
             lstRegisters.ShowMarker = false;
             lstRegisters.ShowRowColors = true;
-            lstRegisters.Size = new Size(576, 485);
+            lstRegisters.Size = new Size(576, 484);
             lstRegisters.SpanColumn = 0;
             lstRegisters.TabIndex = 0;
             lstRegisters.UseLocalList = false;
@@ -219,9 +222,10 @@
             cmDisplayFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmDisplayFormats.Name = "cmDisplayFormats";
             cmDisplayFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmDisplayFormats.ShowCheckMargin = true;
             cmDisplayFormats.ShowInsetShadow = false;
             cmDisplayFormats.ShowItemInsetShadow = false;
-            cmDisplayFormats.Size = new Size(61, 4);
+            cmDisplayFormats.Size = new Size(83, 4);
             // 
             // cmDataSize
             // 
@@ -236,9 +240,10 @@
             cmDataSize.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmDataSize.Name = "cmDataSize";
             cmDataSize.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmDataSize.ShowCheckMargin = true;
             cmDataSize.ShowInsetShadow = false;
             cmDataSize.ShowItemInsetShadow = false;
-            cmDataSize.Size = new Size(61, 4);
+            cmDataSize.Size = new Size(83, 4);
             // 
             // cmCoilFormats
             // 
@@ -253,9 +258,10 @@
             cmCoilFormats.MouseOverColor = Color.FromArgb(127, 0, 0, 0);
             cmCoilFormats.Name = "cmCoilFormats";
             cmCoilFormats.SeparatorColor = Color.FromArgb(200, 200, 200);
+            cmCoilFormats.ShowCheckMargin = true;
             cmCoilFormats.ShowInsetShadow = false;
             cmCoilFormats.ShowItemInsetShadow = false;
-            cmCoilFormats.Size = new Size(61, 4);
+            cmCoilFormats.Size = new Size(83, 4);
             // 
             // ModbusRegister
             // 
@@ -269,7 +275,7 @@
             Margin = new Padding(6);
             MinimumSize = new Size(464, 213);
             Name = "ModbusRegister";
-            Padding = new Padding(9, 37, 9, 11);
+            Padding = new Padding(9, 38, 9, 11);
             Text = "Modbus Register";
             CloseButtonClicked += ModbusRegister_CloseButtonClicked;
             Activated += ModbusRegister_Activated;

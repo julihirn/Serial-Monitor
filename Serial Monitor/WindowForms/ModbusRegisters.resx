@@ -777,14 +777,26 @@
   <metadata name="cmMonitor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>11, 10</value>
   </metadata>
+  <data name="pollSelectedToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="pollSelectedToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="pollSelectedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 38</value>
+  </data>
+  <data name="pollSelectedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Poll Selection</value>
+  </data>
   <data name="btnCmSelectionToSnapshot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 38</value>
+    <value>300, 38</value>
   </data>
   <data name="btnCmSelectionToSnapshot.Text" xml:space="preserve">
     <value>&amp;Snapshot Selection</value>
   </data>
   <data name="toolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 6</value>
+    <value>297, 6</value>
   </data>
   <data name="cutToolStripMenuItem1.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -793,7 +805,7 @@
     <value>Ctrl+X</value>
   </data>
   <data name="cutToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 38</value>
+    <value>300, 38</value>
   </data>
   <data name="cutToolStripMenuItem1.Text" xml:space="preserve">
     <value>Cut</value>
@@ -805,7 +817,7 @@
     <value>Ctrl+C</value>
   </data>
   <data name="copyToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 38</value>
+    <value>300, 38</value>
   </data>
   <data name="copyToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Copy</value>
@@ -817,13 +829,13 @@
     <value>Ctrl+V</value>
   </data>
   <data name="pasteToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 38</value>
+    <value>300, 38</value>
   </data>
   <data name="pasteToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Paste</value>
   </data>
   <data name="toolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 6</value>
+    <value>297, 6</value>
   </data>
   <data name="selectAllToolStripMenuItem1.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -832,13 +844,13 @@
     <value>Ctrl+A</value>
   </data>
   <data name="selectAllToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 38</value>
+    <value>300, 38</value>
   </data>
   <data name="selectAllToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Select All</value>
   </data>
   <data name="cmMonitor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 206</value>
+    <value>301, 288</value>
   </data>
   <data name="&gt;&gt;cmMonitor.Name" xml:space="preserve">
     <value>cmMonitor</value>
@@ -1770,6 +1782,21 @@
   <data name="btnSelectionToSnapshot.Text" xml:space="preserve">
     <value>Add Selection to &amp;Snapshot</value>
   </data>
+  <data name="pollSelectionToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="pollSelectionToolStripMenuItem.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="pollSelectionToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+P</value>
+  </data>
+  <data name="pollSelectionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>567, 44</value>
+  </data>
+  <data name="pollSelectionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Poll Selection</value>
+  </data>
   <data name="modbusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 36</value>
   </data>
@@ -2215,7 +2242,7 @@
     <value>1062, 10</value>
   </metadata>
   <data name="cmCoilFormats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>323, 48</value>
+    <value>83, 4</value>
   </data>
   <data name="&gt;&gt;cmCoilFormats.Name" xml:space="preserve">
     <value>cmCoilFormats</value>
@@ -5336,6 +5363,12 @@
   <data name="&gt;&gt;pasteToolStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;pollSelectedToolStripMenuItem.Name" xml:space="preserve">
+    <value>pollSelectedToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;pollSelectedToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;btnCmSelectionToSnapshot.Name" xml:space="preserve">
     <value>btnCmSelectionToSnapshot</value>
   </data>
@@ -5952,6 +5985,12 @@
     <value>btnSelectionToSnapshot</value>
   </data>
   <data name="&gt;&gt;btnSelectionToSnapshot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pollSelectionToolStripMenuItem.Name" xml:space="preserve">
+    <value>pollSelectionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;pollSelectionToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;formatToolStripMenuItem.Name" xml:space="preserve">

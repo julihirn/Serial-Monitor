@@ -27,6 +27,8 @@ namespace Serial_Monitor.Docks {
             lstPollers.ExternalItems = ModbusPollerSupport.PollerList;
             lstPollers.UseLocalList = false;
             ApplyTheme();
+            btnStartAndEnd.Checked = !ModbusPollerSupport.MaintainQuantity;
+            ChangeView();
         }
 
         private void SystemManager_ChannelRenamed(SerialManager sender) {
@@ -65,6 +67,7 @@ namespace Serial_Monitor.Docks {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, btnStartPolling, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, btnStopPolling, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.CountDynamicValue, btnStartAndEnd, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.NewTreeQuery, btnCreateQuery, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
         }
         private void RecolorAll() {
             Classes.Theming.ThemeManager.ThemeControl(cmChannels);
@@ -131,11 +134,13 @@ namespace Serial_Monitor.Docks {
             UpdateCommands();
             if (lstPollers.SelectionCount > 0) {
                 btnRemovePoller.Enabled = true;
+                btnCreateQuery.Enabled = lstPollers.SelectionCount == 1;
             }
             else {
                 btnRemovePoller.Enabled = false;
                 btnStartPolling.Enabled = false;
                 btnStopPolling.Enabled = false;
+                btnCreateQuery.Enabled = false;
             }
         }
         private void UpdateCommands() {
@@ -229,10 +234,9 @@ namespace Serial_Monitor.Docks {
             ModbusPollerSupport.PollerRemoved -= ModbusPollerSupport_PollerRemoved;
             ModbusPollerSupport.PollersChanged -= ModbusPollerSupport_PollersChanged;
         }
-
-        private void btnStartAndEnd_Click(object sender, EventArgs e) {
+        private void ChangeView() {
             ModbusPollerSupport.RemoveAllControls(lstPollers);
-            if (btnStartAndEnd.Checked) {
+            if (!ModbusPollerSupport.MaintainQuantity) {
                 lstPollers.Columns[ModbusPollerSupport.INDX_POLL_ADDRESS_START].Text = "Start";
                 lstPollers.Columns[ModbusPollerSupport.INDX_POLL_ADDRESS_END].Width = lstPollers.Columns[ModbusPollerSupport.INDX_POLL_COUNT].Width;
                 lstPollers.Columns[ModbusPollerSupport.INDX_POLL_COUNT].Visible = false;
@@ -245,6 +249,10 @@ namespace Serial_Monitor.Docks {
                 lstPollers.Columns[ModbusPollerSupport.INDX_POLL_ADDRESS_END].Visible = false;
             }
             lstPollers.Invalidate();
+        }
+        private void btnStartAndEnd_Click(object sender, EventArgs e) {
+            ModbusPollerSupport.MaintainQuantity = !btnStartAndEnd.Checked;
+            ChangeView();
         }
         private void CmChannel_Click(object? sender, EventArgs e) {
             object? ButtonData = Classes.Modbus.ModbusEditor.GetContextMenuItemData(sender);
@@ -282,5 +290,8 @@ namespace Serial_Monitor.Docks {
             }
         }
 
+        private void btnCreateQuery_Click(object sender, EventArgs e) {
+            ModbusPollerSupport.GetPollerQueryEditor(lstPollers);
+        }
     }
 }

@@ -383,6 +383,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] ForEachLoop {
+            get {
+                object obj = ResourceManager.GetObject("ForEachLoop", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] FullScreen {
             get {
                 object obj = ResourceManager.GetObject("FullScreen", resourceCulture);

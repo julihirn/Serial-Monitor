@@ -102,23 +102,32 @@ namespace Serial_Monitor.Classes.Modbus {
                     start = end;
                     end = Temp;
                 }
+                quantity = (ushort)((end - start) + 1);
                 BuildQuery();
             }
         }
         // 0 - 4, QTY 5
+        private ushort quantity = 1;
         public ushort Quantity {
             get {
-                return (ushort)(((int)end - (int)start));
+                if (ModbusPollerSupport.MaintainQuantity) {
+                    return quantity;
+                }
+                return (ushort)((((int)end - (int)start))+1);
             }
             set {
-                end = (ushort)(start + value);
+                ushort Temp = (ushort)((int)value == (int)0 ? 1 : (int)value);
+                quantity = Temp;
+                end = (ushort)(start + (quantity - 1));
                 if (selection > DataSelection.ModbusDataDiscreteInputs) {
-                    if (Quantity > 125) {
+                    if (quantity > 125) {
+                        quantity = 125;
                         end = (ushort)((int)start + 125);
                     }
                 }
                 else {
-                    if (Quantity > 2000) {
+                    if (quantity > 2000) {
+                        quantity = 2000;
                         end = (ushort)((int)start + 2000);
                     }
                 }

@@ -214,6 +214,9 @@
   <data name="FontColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FontColor.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ForEachLoop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ForEachLoop.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="FullScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FullScreen.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

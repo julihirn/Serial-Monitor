@@ -76,6 +76,14 @@ namespace Serial_Monitor.ToolWindows {
                 locked = value;
             }
         }
+        public int Zoom {
+            get {
+                return lstRegisters.Zoom;
+            }
+            set {
+                lstRegisters.Zoom = value;
+            }
+        }
         public ModbusRegister(Classes.Modbus.ModbusSnapshot? snapShot) {
             Intialise(snapShot);
         }
