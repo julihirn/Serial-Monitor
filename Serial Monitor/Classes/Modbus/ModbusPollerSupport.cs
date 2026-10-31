@@ -257,6 +257,9 @@ namespace Serial_Monitor.Classes.Modbus {
                 pollers.RemoveAt(i);
             }
             ResumePolling();
+            if (LstCtrl.SelectedCell.Y >= LstCtrl.CurrentItems.Count) {
+                LstCtrl.ResetCellSelection();
+            }
             GC.Collect();
             PollersChanged?.Invoke();
         }
@@ -353,7 +356,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         Tb.Minimum = Min;
                         Tb.Maximum = new NumericalString(60000);
                         Tb.Unit = "s";
-                   
+
                         break;
                     case ModbusPollerEditItem.AddressStart:
                         Tb.Value = Poller.Start;
@@ -366,7 +369,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         Tb.Maximum = new NumericalString(ushort.MaxValue);
                         break;
                     case ModbusPollerEditItem.Count:
-                        Tb.Value = Poller.Quantity; 
+                        Tb.Value = Poller.Quantity;
                         Tb.Minimum = Min;
                         if (Poller.Selection > DataSelection.ModbusDataDiscreteInputs) {
                             Tb.Maximum = new NumericalString(125);
@@ -374,7 +377,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         else {
                             Tb.Maximum = new NumericalString(2000);
                         }
-                            break;
+                        break;
                     //125 
 
                     default:

@@ -396,6 +396,8 @@ namespace Serial_Monitor {
 
             refreshToolStripMenuItem.Click += RefreshToolStripMenuItem_Click;
             refreshPortsMenu.Click += RefreshPortsMenu_Click;
+
+            
         }
 
      

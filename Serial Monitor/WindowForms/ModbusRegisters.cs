@@ -653,7 +653,7 @@ namespace Serial_Monitor {
             AdjustProperties(ModbusPropertyFlags.None, null, SelectedItems);
 
         }
-        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty ?CurrentProperties, bool ItemsSelected) {
+        private void AdjustProperties(ModbusPropertyFlags EqualProperties, ModbusProperty? CurrentProperties, bool ItemsSelected) {
             //Debug.Print("PROP CHECK");
             string UndeterminedFormatString = "Format...";
             string UndeterminedSizeString = "Size...";
@@ -667,7 +667,7 @@ namespace Serial_Monitor {
                 return;
             }
             tsddDataSize.Enabled = ItemsSelected & Select >= DataSelection.ModbusDataInputRegisters; ;
-            
+
             if (CurrentProperties == null) { return; }
             if (IsFlagEqual(EqualProperties, ModbusPropertyFlags.ForeColor)) {
                 SetButtonColor(true, CurrentProperties.ForeColor, CurrentProperties.UseForeColor);
@@ -2291,24 +2291,24 @@ namespace Serial_Monitor {
         private void resetAppearanceToolStripMenuItem_Click(object sender, EventArgs e) {
             ListControl? Lst = GetCurrentListView();
             if (Lst == null) { return; }
-            List<int> Indices = ModbusEditor.ResetAppearance(sender, Lst);
+            (List<int> Addresses, List<int> Indices) = ModbusEditor.ResetAppearance(sender, Lst);
             DataSelection? Select = GetDataSelection();
 
-            SystemManager.ModbusRegisterAppearanceChanged(GetCurrentSlave(), Indices, Select);
+            SystemManager.ModbusRegisterAppearanceChanged(GetCurrentSlave(), Addresses, Indices, Select);
         }
         private void AppearancePopupHost_Closing(object? sender, ToolStripDropDownClosingEventArgs e) {
             ModbusAppearance MbAppear = new ModbusAppearance(popAppearance.UseItemForeColor, popAppearance.ItemForeColor, popAppearance.UseItemBackColor, popAppearance.ItemBackColor, popAppearance.Unit, popAppearance.Prefix);
-            List<int> Indices = ModbusEditor.ChangeEntireAppearance(sender, popAppearance.LinkedList, MbAppear);
+            (List<int> Addresses, List<int> Indices) = ModbusEditor.ChangeEntireAppearance(sender, popAppearance.LinkedList, MbAppear);
             popAppearance.LinkedList = null;
             DataSelection? Select = GetDataSelection();
 
-            SystemManager.ModbusRegisterAppearanceChanged(GetCurrentSlave(), Indices, Select);
+            SystemManager.ModbusRegisterAppearanceChanged(GetCurrentSlave(), Addresses, Indices, Select);
         }
         private void ddpDataSize_Click(object sender, EventArgs e) {
 
         }
-        private void SystemManager_ModbusPropertiesChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
-            Thread Tr = new Thread(() => ApplyProperties(sender, Indices, DataType));
+        private void SystemManager_ModbusPropertiesChanged(ModbusSlave sender, List<int> Addresses, List<int> Indices, DataSelection DataType) {
+            Thread Tr = new Thread(() => ApplyProperties(sender, Addresses, DataType));
             Tr.Name = "ModbusProp_Apply";
             Tr.IsBackground = true;
             Tr.Start();
@@ -2351,22 +2351,22 @@ namespace Serial_Monitor {
                 RefreshCount++;
             }
         }
-        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Addresses, List<int> Indices, DataSelection DataType) {
             if (CurrentManager == null) { return; }
             if (sender.Channel == null) { return; }
             if (CurrentManager.ID != sender.Channel.ID) { return; }
             if (editorModbus.lstMonitor.CurrentItems.Count == 0) { return; }
-            foreach (int i in Indices) {
-                if (i < editorModbus.lstMonitor.CurrentItems.Count) {
-                    object? Data = editorModbus.lstMonitor.CurrentItems[i].Tag;
-                    if (Data == null) { continue; }
-                    //if (Data.GetType() != typeof(ModbusObject)) { continue; }
-                    ModbusObject MBObject = (ModbusObject)Data;
-                    editorModbus.lstMonitor.CurrentItems[i].UseLineBackColor = MBObject.UseBackColor;
-                    editorModbus.lstMonitor.CurrentItems[i].LineBackColor = MBObject.BackColor;
-                    editorModbus.lstMonitor.CurrentItems[i].UseLineForeColor = MBObject.UseForeColor;
-                    editorModbus.lstMonitor.CurrentItems[i].LineForeColor = MBObject.ForeColor;
-                }
+            foreach (int i in Addresses) {
+                if (i >= editorModbus.lstMonitor.CurrentItems.Count) { continue; }
+                object? Data = editorModbus.lstMonitor.CurrentItems[i].Tag;
+                if (Data == null) { continue; }
+                //if (Data.GetType() != typeof(ModbusObject)) { continue; }
+                ModbusObject MBObject = (ModbusObject)Data;
+                editorModbus.lstMonitor.CurrentItems[i].UseLineBackColor = MBObject.UseBackColor;
+                editorModbus.lstMonitor.CurrentItems[i].LineBackColor = MBObject.BackColor;
+                editorModbus.lstMonitor.CurrentItems[i].UseLineForeColor = MBObject.UseForeColor;
+                editorModbus.lstMonitor.CurrentItems[i].LineForeColor = MBObject.ForeColor;
+
             }
             editorModbus.lstMonitor.Invalidate();
         }

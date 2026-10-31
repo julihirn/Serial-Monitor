@@ -179,7 +179,7 @@ namespace Serial_Monitor.Classes.Modbus {
         public void RenameFromRegister(int Index) {
             if (manager == null) { return; }
             if (listings.Count <= 0) { return; }
-            int LocalIndex = GetListIndex(Index, ref listings);
+            int LocalIndex = GetListIndex(Index, ref listings, false);
             if (LocalIndex >= listings.Count) { return; }
             if (LocalIndex < 0) { return; }
             if (listings[LocalIndex].SubItems.Count >= ModbusEditor.Indx_Name) {
@@ -261,10 +261,10 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
             }
         }
-        public void UpdateRowAppearance(int Index) {
+        public void UpdateRowAppearance(int Index, bool UseAddressing = false) {
             if (manager == null) { return; }
             if (listings.Count <= 0) { return; }
-            int LocalIndex = GetListIndex(Index, ref listings);
+            int LocalIndex = GetListIndex(Index, ref listings, true);
             if (LocalIndex >= listings.Count) { return; }
             if (LocalIndex < 0) { return; }
             ModbusObject ModbusData = GetModbusObject(Index, selection, manager);
@@ -314,11 +314,29 @@ namespace Serial_Monitor.Classes.Modbus {
             }
             return Slave.Coils[Index];
         }
-        private static int GetListIndex(int AbsoluteIndex, ref List<ListItem> List) {
+        private static int GetListIndex(int AbsoluteIndex, ref List<ListItem> List, bool UseAddress = false) {
             if (List.Count <= 0) { return -1; }
             for (int i = 0; i < List.Count; i++) {
-                if (List[i].Value == AbsoluteIndex) {
-                    return i;
+                if (UseAddress) {
+                    object? Tag = List[i].Tag;
+                    if (Tag == null) { continue; }
+                    if (Tag.GetType() == typeof(ModbusRegister)) {
+                        ModbusRegister MbOj = (ModbusRegister)Tag;
+                        if (MbOj.Address == AbsoluteIndex) {
+                            return i;
+                        }
+                    }
+                    else if (Tag.GetType() == typeof(ModbusCoil)) {
+                        ModbusCoil MbOj = (ModbusCoil)Tag;
+                        if (MbOj.Address == AbsoluteIndex) {
+                            return i;
+                        }
+                    }
+                }
+                else {
+                    if (List[i].Value == AbsoluteIndex) {
+                        return i;
+                    }
                 }
             }
             return -1;

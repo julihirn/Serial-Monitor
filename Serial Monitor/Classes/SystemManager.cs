@@ -83,7 +83,7 @@ namespace Serial_Monitor.Classes {
         public delegate void ModbusReceivedHandler(ModbusSlave sender, object Data, int Index, DataSelection DataType);
 
         public static event ModbusAppearanceChangedHandler? ModbusAppearanceChanged;
-        public delegate void ModbusAppearanceChangedHandler(ModbusSlave sender, List<int> Indices, DataSelection DataType);
+        public delegate void ModbusAppearanceChangedHandler(ModbusSlave sender, List<int> Addresses, List<int> Indices, DataSelection DataType);
         public static event ModbusAppearanceChangedHandler? ModbusPropertiesChanged;
 
         public static event ModbusExceptionRaisedHandler? ModbusExceptionRaised;
@@ -144,17 +144,17 @@ namespace Serial_Monitor.Classes {
             if (SerMan == null) { return; }
             ModbusDiagnosticsReceived?.Invoke(SerMan, Slave, SubFunction, Data);
         }
-        public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, List<int> Indices, DataSelection? DataType) {
+        public static void ModbusRegisterAppearanceChanged(ModbusSlave? Sender, List<int> Addresses, List<int> Indices, DataSelection? DataType) {
             if (Sender == null) { return; }
             if (Sender.Channel == null) { return; }
             if (DataType == null) { return; }
-            ModbusAppearanceChanged?.Invoke(Sender, Indices, (DataSelection)DataType);
+            ModbusAppearanceChanged?.Invoke(Sender, Addresses, Indices, (DataSelection)DataType);
         }
-        public static void ModbusRegisterPropertiesChanged(ModbusSlave? Sender, List<int> Indices, DataSelection? DataType) {
+        public static void ModbusRegisterPropertiesChanged(ModbusSlave? Sender, List<int> Addresses, List<int> Indices, DataSelection? DataType) {
             if (Sender == null) { return; }
             if (Sender.Channel == null) { return; }
             if (DataType == null) { return; }
-            ModbusPropertiesChanged?.Invoke(Sender, Indices, (DataSelection)DataType);
+            ModbusPropertiesChanged?.Invoke(Sender, Addresses, Indices, (DataSelection)DataType);
         }
         public static void ModbusRegisterPropertyChanged(ModbusSlave? Sender, object Data, int Index, DataSelection DataType) {
             if (Sender == null) { return; }

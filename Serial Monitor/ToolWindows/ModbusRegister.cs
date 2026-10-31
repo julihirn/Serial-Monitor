@@ -178,18 +178,18 @@ namespace Serial_Monitor.ToolWindows {
                 lstRegisters.Invalidate();
             }
         }
-        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+        private void SystemManager_ModbusAppearanceChanged(ModbusSlave sender, List<int> Addresses, List<int> Indices, DataSelection DataType) {
             if (snapshot == null) { return; }
             if (snapshot.Manager == null) { return; }
             if (snapshot.Manager.Channel == null) { return; }
             if (sender.Channel == null) { return; }
             if (snapshot.Manager.Channel.ID != sender.Channel.ID) { return; }
-            foreach (int i in Indices) {
-                snapshot.UpdateRowAppearance(i);
+            foreach (int i in Addresses) {
+                snapshot.UpdateRowAppearance(i, true);
             }
             lstRegisters.Invalidate();
         }
-        private void SystemManager_ModbusPropertiesChanged(ModbusSlave sender, List<int> Indices, DataSelection DataType) {
+        private void SystemManager_ModbusPropertiesChanged(ModbusSlave sender, List<int> Addresses, List<int> Indices, DataSelection DataType) {
             Thread Tr = new Thread(() => ApplyProperties(sender, Indices, DataType));
             Tr.Name = "ModbusProp_Apply";
             Tr.IsBackground = true;

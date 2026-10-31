@@ -213,7 +213,6 @@ namespace Serial_Monitor.Docks {
             ModbusPollerSupport.NewPoller();
         }
         private void btnRemovePoller_Click(object sender, EventArgs e) {
-            ModbusPollerSupport.RemoveAllControls(lstPollers);
             ModbusPollerSupport.RemoveSelected(lstPollers);
             UpdateCommands();
         }

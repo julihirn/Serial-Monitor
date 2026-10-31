@@ -149,7 +149,17 @@ namespace Serial_Monitor.Classes.Theming {
                 ODModules.ListControl LstCtrl = (ODModules.ListControl)ControlObject;
                 LstCtrl.ColumnForeColor = Properties.Settings.Default.THM_COL_ForeColor;
                 LstCtrl.BackColor = Properties.Settings.Default.THM_COL_Editor;
-                LstCtrl.SelectedColor = Properties.Settings.Default.THM_COL_SelectedColor;
+                if (ApplicationManager.IsDark == true) {
+                    Color Selected = Color.FromArgb(128, Properties.Settings.Default.THM_COL_SelectedColor);
+                    LstCtrl.SelectedColor = Selected;
+                    LstCtrl.CellSelectionBorderColor = RenderHandler.WhiteLightenColor(Selected, 100);
+                }
+                else {
+                    Color Selected = Color.FromArgb(200, Properties.Settings.Default.THM_COL_SelectedColor);
+                    LstCtrl.SelectedColor = Selected;
+                    LstCtrl.CellSelectionBorderColor = RenderHandler.BlackDarkenColor(Selected, 100);
+                }
+               
                 LstCtrl.RowColor = Properties.Settings.Default.THM_COL_RowColor;
                 LstCtrl.GridlineColor = Properties.Settings.Default.THM_COL_GridLineColor;
                 LstCtrl.ColumnColor = Properties.Settings.Default.THM_COL_MenuBack;
@@ -157,7 +167,7 @@ namespace Serial_Monitor.Classes.Theming {
                 LstCtrl.ScrollBarNorth = Properties.Settings.Default.THM_COL_ScrollColor;
                 LstCtrl.ScrollBarSouth = Properties.Settings.Default.THM_COL_ScrollColor;
                 LstCtrl.ForeColor = Properties.Settings.Default.THM_COL_ForeColor;
-                LstCtrl.CellSelectionBorderColor = Properties.Settings.Default.THM_COL_BorderColor;
+                
                 LstCtrl.DropDownMouseDown = Properties.Settings.Default.THM_COL_MouseDownForeColor;
                 LstCtrl.DropDownMouseOver = Properties.Settings.Default.THM_COL_MouseOverForeColor;
             }

@@ -176,7 +176,7 @@
             column2.FixedWidth = false;
             column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
             column2.Text = "Name";
-            column2.UseItemBackColor = true;
+            column2.UseItemBackColor = false;
             column2.UseItemForeColor = false;
             column2.Visible = true;
             column2.Width = 100;

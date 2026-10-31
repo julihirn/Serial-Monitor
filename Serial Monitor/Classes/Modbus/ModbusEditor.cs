@@ -1468,6 +1468,7 @@ namespace Serial_Monitor.Classes.Modbus {
             object? Data = Clipboard.GetDataObject();
             if (Clipboard.ContainsData(Clipboard_ModbusDataType)) {
                 List<int> Indices = new List<int>();
+                List<int> Addresses = new List<int>();
                 bool LatchedSlave = false;
                 ModbusSlave? Slave = null;
                 DataSelection Selection = DataSelection.ModbusDataCoils;
@@ -1481,71 +1482,83 @@ namespace Serial_Monitor.Classes.Modbus {
                     if (ListEditor.SelectionCount <= 0) { return; }
                     int CountBuffer = ListEditor.CurrentItems.Count;
                     for (int i = 0; i < CountBuffer; i++) {
-                        if (ListEditor.CurrentItems[i].Selected == true) {
-                            for (int j = 0; j < CopiedItems.Count; j++) {
-                                int k = j + i;
-                                if (k < CountBuffer) {
-                                    object? objCmd = ListEditor.CurrentItems[k].Tag;
-                                    if (objCmd == null) { continue; }
-                                    if (objCmd.GetType() == typeof(ModbusRegister)) {
-                                        ModbusRegister Reg = (ModbusRegister)objCmd;
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeName)) {
-                                            Reg.Name = CopiedItems[j].Name;
-                                            ListEditor.CurrentItems[k][1].Text = Reg.Name;
-                                            SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
-                                        }
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeValue)) {
-                                            if (CopiedItems[j].IsRegister == true) {
-                                                Reg.Value = (short)CopiedItems[j].Value;
-                                            }
-                                        }
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeFormat)) {
-                                            Reg.Format = CopiedItems[j].Format;
-                                            Reg.Signed = CopiedItems[j].Signed;
-                                        }
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeSize)) {
-                                            Reg.Size = CopiedItems[j].Size;
-                                        }
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeAppearance)) {
-                                            Reg.BackColor = CopiedItems[j].BackColor;
-                                            Reg.ForeColor = CopiedItems[j].ForeColor;
-                                            Reg.UseBackColor = CopiedItems[j].UseBackColor;
-                                            Reg.UseForeColor = CopiedItems[j].UseForeColor;
-                                            Indices.Add(k);
-                                            if (LatchedSlave == false) {
-                                                Slave = Reg.Parent;
-                                                Selection = Reg.ComponentType;
-                                                LatchedSlave = true;
-                                            }
+                        if (ListEditor.CurrentItems[i].Selected == false) { continue; }
+                        for (int j = 0; j < CopiedItems.Count; j++) {
+                            int k = j + i;
+                            if (k < CountBuffer) {
+                                object? objCmd = ListEditor.CurrentItems[k].Tag;
+                                if (objCmd == null) { continue; }
+                                if (objCmd.GetType() == typeof(ModbusRegister)) {
+                                    ModbusRegister Reg = (ModbusRegister)objCmd;
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeName)) {
+                                        Reg.Name = CopiedItems[j].Name;
+                                        ListEditor.CurrentItems[k][1].Text = Reg.Name;
+                                        SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
+                                    }
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeValue)) {
+                                        if (CopiedItems[j].IsRegister == true) {
+                                            Reg.Value = (short)CopiedItems[j].Value;
                                         }
                                     }
-                                    else if (objCmd.GetType() == typeof(ModbusCoil)) {
-                                        ModbusCoil Reg = (ModbusCoil)objCmd;
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeName)) {
-                                            Reg.Name = CopiedItems[j].Name;
-                                            ListEditor.CurrentItems[k][1].Text = Reg.Name;
-                                            SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeFormat)) {
+                                        Reg.Format = CopiedItems[j].Format;
+                                        Reg.Signed = CopiedItems[j].Signed;
+                                    }
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeSize)) {
+                                        Reg.Size = CopiedItems[j].Size;
+                                    }
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeAppearance)) {
+                                        Reg.BackColor = CopiedItems[j].BackColor;
+                                        Reg.ForeColor = CopiedItems[j].ForeColor;
+                                        Reg.UseBackColor = CopiedItems[j].UseBackColor;
+                                        Reg.UseForeColor = CopiedItems[j].UseForeColor;
+                                 
+                                        ListEditor.CurrentItems[k].UseLineBackColor = Reg.UseBackColor;
+                                        ListEditor.CurrentItems[k].UseLineForeColor = Reg.UseForeColor;
+                                        ListEditor.CurrentItems[k].LineBackColor = Reg.BackColor;
+                                        ListEditor.CurrentItems[k].LineForeColor = Reg.ForeColor;
+                                        Indices.Add(k);
+                                        Addresses.Add(Reg.Address);
+                                        if (LatchedSlave == false) {
+                                            Slave = Reg.Parent;
+                                            Selection = Reg.ComponentType;
+                                            LatchedSlave = true;
                                         }
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeValue)) {
-                                            if (CopiedItems[j].IsRegister == false) {
-                                                Reg.Value = (bool)CopiedItems[j].Value;
-                                            }
+                                    }
+                                }
+                                else if (objCmd.GetType() == typeof(ModbusCoil)) {
+                                    ModbusCoil Reg = (ModbusCoil)objCmd;
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeName)) {
+                                        Reg.Name = CopiedItems[j].Name;
+                                        ListEditor.CurrentItems[k][1].Text = Reg.Name;
+                                        SystemManager.RegisterNameChanged(Reg.Parent, Reg, Reg.Address, Reg.ComponentType);
+                                    }
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeValue)) {
+                                        if (CopiedItems[j].IsRegister == false) {
+                                            Reg.Value = (bool)CopiedItems[j].Value;
                                         }
-                                        if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeAppearance)) {
-                                            Reg.BackColor = CopiedItems[j].BackColor;
-                                            Reg.ForeColor = CopiedItems[j].ForeColor;
-                                            Reg.UseBackColor = CopiedItems[j].UseBackColor;
-                                            Reg.UseForeColor = CopiedItems[j].UseForeColor;
-                                            Indices.Add(k);
-                                            if (LatchedSlave == false) {
-                                                Slave = Reg.Parent;
-                                                Selection = Reg.ComponentType;
-                                                LatchedSlave = true;
-                                            }
+                                    }
+                                    if (FlagSet(CopiedItems[j], ModbusClipboardFlags.IncludeAppearance)) {
+                                        Reg.BackColor = CopiedItems[j].BackColor;
+                                        Reg.ForeColor = CopiedItems[j].ForeColor;
+                                        Reg.UseBackColor = CopiedItems[j].UseBackColor;
+                                        Reg.UseForeColor = CopiedItems[j].UseForeColor;
+                                   
+                                        ListEditor.CurrentItems[k].UseLineBackColor = Reg.UseBackColor;
+                                        ListEditor.CurrentItems[k].UseLineForeColor = Reg.UseForeColor;
+                                        ListEditor.CurrentItems[k].LineBackColor = Reg.BackColor;
+                                        ListEditor.CurrentItems[k].LineForeColor = Reg.ForeColor;
+                                        Indices.Add(k);
+                                        Addresses.Add(Reg.Address);
+                                        if (LatchedSlave == false) {
+                                            Slave = Reg.Parent;
+                                            Selection = Reg.ComponentType;
+                                            LatchedSlave = true;
                                         }
                                     }
                                 }
                             }
+
                             break;
                         }
                     }
@@ -1553,7 +1566,7 @@ namespace Serial_Monitor.Classes.Modbus {
                 }
                 catch { }
                 if (Indices.Count > 0) {
-                    SystemManager.ModbusRegisterAppearanceChanged(Slave, Indices, Selection);
+                    SystemManager.ModbusRegisterAppearanceChanged(Slave, Addresses, Indices, Selection);
                 }
             }
             else {
@@ -1789,9 +1802,10 @@ namespace Serial_Monitor.Classes.Modbus {
             }
         }
         #endregion
-        public static List<int> ResetAppearance(object? sender, ListControl? lstMonitor) {
-            if (lstMonitor == null) { return new List<int>(); }
+        public static (List<int>, List<int>) ResetAppearance(object? sender, ListControl? lstMonitor) {
+            if (lstMonitor == null) { return (new List<int>(), new List<int>()); }
             List<int> Indices = new List<int>();
+            List<int> Addresses = new List<int>();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
                 if (Li.SubItems.Count >= Indx_Value) {
                     if (Li.Selected == false) { continue; }
@@ -1805,6 +1819,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         Li.UseLineBackColor = false;
 
                         Indices.Add(Li.Value);
+                        Addresses.Add(Reg.Address);
                     }
                     else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
                         ModbusCoil Reg = (ModbusCoil)Li.Tag;
@@ -1815,15 +1830,17 @@ namespace Serial_Monitor.Classes.Modbus {
                         Li.UseLineBackColor = false;
 
                         Indices.Add(Li.Value);
+                        Addresses.Add(Reg.Address);
                     }
                 }
             }
             lstMonitor.Invalidate();
-            return Indices;
+            return (Addresses, Indices);
         }
-        public static List<int> ChangeEntireAppearance(object? sender, ListControl? lstMonitor, ModbusAppearance Settings) {
-            if (lstMonitor == null) { return new List<int>(); }
+        public static (List<int>, List<int>) ChangeEntireAppearance(object? sender, ListControl? lstMonitor, ModbusAppearance Settings) {
+            if (lstMonitor == null) { return (new List<int>(), new List<int>()); }
             List<int> Indices = new List<int>();
+            List<int> Addresses = new List<int>();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
                 if (Li.SubItems.Count >= Indx_Value) {
                     if (Li.Selected == false) { continue; }
@@ -1848,6 +1865,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         Li[Indx_Value].Text = Reg.ValueWithUnit;
 
                         Indices.Add(Li.Value);
+                        Addresses.Add(Reg.Address);
                     }
                     else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
                         ModbusCoil Reg = (ModbusCoil)Li.Tag;
@@ -1863,11 +1881,12 @@ namespace Serial_Monitor.Classes.Modbus {
                         Li.UseLineBackColor = Settings.UseBackColor;
 
                         Indices.Add(Li.Value);
+                        Addresses.Add(Reg.Address);
                     }
                 }
             }
             lstMonitor.Invalidate();
-            return Indices;
+            return (Addresses, Indices);
         }
         public static void ChangeProperty(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, ModbusProperty Settings, ModbusPropertyFlags Flags) {
             Thread Tr = new Thread(new ThreadStart(() => ChangePropertyThread(Slave, Selection, sender, lstMonitor, Settings, Flags)));
@@ -1878,16 +1897,17 @@ namespace Serial_Monitor.Classes.Modbus {
         private static void ChangePropertyThread(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, ModbusProperty Settings, ModbusPropertyFlags Flags) {
             if (lstMonitor == null) { return; }
             List<int> Indices = new List<int>();
+            List<int> Addresses = new List<int>();
             foreach (ListItem Li in lstMonitor.CurrentItems) {
-                int Index = SetProperty(Li, Settings, Flags);
-                if (Index >= 0) { Indices.Add(Li.Value); }
+                (int Address, int Index) = SetProperty(Li, Settings, Flags);
+                if (Index >= 0) { Indices.Add(Li.Value); Addresses.Add(Address); }
             }
-            SystemManager.ModbusRegisterPropertiesChanged(Slave, Indices, Selection);
+            SystemManager.ModbusRegisterPropertiesChanged(Slave, Addresses, Indices, Selection);
         }
-        private static int SetProperty(ListItem Li, ModbusProperty Settings, ModbusPropertyFlags Flags) {
+        private static (int, int) SetProperty(ListItem Li, ModbusProperty Settings, ModbusPropertyFlags Flags) {
             if (Li.SubItems.Count >= Indx_Value) {
-                if (Li.Selected == false) { return -1; }
-                if (Li.Tag == null) { return -1; }
+                if (Li.Selected == false) { return (-1, -1); }
+                if (Li.Tag == null) { return (-1, -1); }
                 if (Li.Tag.GetType() == typeof(ModbusRegister)) {
                     ModbusRegister Reg = (ModbusRegister)Li.Tag;
 
@@ -1915,7 +1935,7 @@ namespace Serial_Monitor.Classes.Modbus {
                         Reg.Prefix = Settings.Prefix;
                         //Li[Indx_Value].Text = Reg.ValueWithUnit;
                     }
-                    return Li.Value;
+                    return (Reg.Address, Li.Value);
                 }
                 else if (Li.Tag.GetType() == typeof(ModbusCoil)) {
                     ModbusCoil Reg = (ModbusCoil)Li.Tag;
@@ -1935,12 +1955,11 @@ namespace Serial_Monitor.Classes.Modbus {
                         Reg.UseForeColor = Settings.UseForeColor;
                         //Li.UseLineForeColor = Settings.UseForeColor;
                     }
-
-                    return Li.Value;
+                    return (Reg.Address, Li.Value);
                 }
 
             }
-            return -1;
+            return (-1, -1);
         }
         public static void ChangePrefix(ModbusSlave? Slave, DataSelection? Selection, object? sender, ListControl? lstMonitor, ConversionHandler.Prefix Prefix) {
             ModbusProperty Appearance = new ModbusProperty();
