@@ -53,16 +53,17 @@
             fctxtEditor.CharWidth = 16;
             fctxtEditor.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             fctxtEditor.Dock = DockStyle.Fill;
+            fctxtEditor.Font = new Font("Courier New", 9.75F);
             fctxtEditor.Hotkeys = resources.GetString("fctxtEditor.Hotkeys");
             fctxtEditor.IsReplaceMode = false;
-            fctxtEditor.Location = new Point(9, 37);
+            fctxtEditor.Location = new Point(9, 38);
             fctxtEditor.Margin = new Padding(4, 2, 4, 2);
             fctxtEditor.Name = "fctxtEditor";
             fctxtEditor.Paddings = new Padding(0);
             fctxtEditor.SelectionColor = Color.FromArgb(60, 0, 0, 255);
             fctxtEditor.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctxtEditor.ServiceColors");
             fctxtEditor.ShowScrollBars = false;
-            fctxtEditor.Size = new Size(576, 432);
+            fctxtEditor.Size = new Size(576, 431);
             fctxtEditor.TabIndex = 0;
             fctxtEditor.Zoom = 100;
             // 
@@ -100,10 +101,10 @@
             // 
             dmapEditor.Dock = DockStyle.Right;
             dmapEditor.ForeColor = Color.Maroon;
-            dmapEditor.Location = new Point(585, 37);
+            dmapEditor.Location = new Point(585, 38);
             dmapEditor.Margin = new Padding(4, 2, 4, 2);
             dmapEditor.Name = "dmapEditor";
-            dmapEditor.Size = new Size(199, 432);
+            dmapEditor.Size = new Size(199, 431);
             dmapEditor.TabIndex = 2;
             dmapEditor.Target = fctxtEditor;
             dmapEditor.Text = "documentMap1";
@@ -120,7 +121,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 2, 4, 2);
             Name = "ModbusQuery";
-            Padding = new Padding(9, 37, 9, 11);
+            Padding = new Padding(9, 38, 9, 11);
             Text = "Modbus Query";
             ((System.ComponentModel.ISupportInitialize)fctxtEditor).EndInit();
             ResumeLayout(false);
