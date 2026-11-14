@@ -243,6 +243,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] CommentCode {
+            get {
+                object obj = ResourceManager.GetObject("CommentCode", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Connect_16x {
             get {
                 object obj = ResourceManager.GetObject("Connect_16x", resourceCulture);
@@ -413,6 +423,16 @@ namespace Serial_Monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] GoToCurrentLine {
+            get {
+                object obj = ResourceManager.GetObject("GoToCurrentLine", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Grid {
             get {
                 object obj = ResourceManager.GetObject("Grid", resourceCulture);
@@ -556,6 +576,16 @@ namespace Serial_Monitor.Properties {
         internal static byte[] LockZAxis {
             get {
                 object obj = ResourceManager.GetObject("LockZAxis", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MemberFormula {
+            get {
+                object obj = ResourceManager.GetObject("MemberFormula", resourceCulture);
                 return ((byte[])(obj));
             }
         }

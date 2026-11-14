@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-green{fill: #1f801f; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightCommentCode</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey" d="M2,3H5V4H2ZM6,3V4h8V3Zm3,9h5V11H9ZM6,14h8V13H6Z" />
+    </g>
+    <path class="light-green" d="M14,5V6H6V5ZM6,7h8V8H6ZM6,9h8v1H6Z" />
+  </g>
+</svg>

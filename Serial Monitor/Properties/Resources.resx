@@ -172,6 +172,9 @@
   <data name="COM" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\COM.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="CommentCode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CommentCode.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Connect_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Connect_16x.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -223,6 +226,9 @@
   <data name="GaugeRound" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GaugeRound.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="GoToCurrentLine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GoToCurrentLine.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Grid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Grid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -267,6 +273,9 @@
   </data>
   <data name="LockZAxis" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LockZAxis.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MemberFormula" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MemberFormula.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Memory" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Memory.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

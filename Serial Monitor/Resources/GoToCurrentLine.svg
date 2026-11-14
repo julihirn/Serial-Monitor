@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <style>.canvas{fill: none; opacity: 0;}.light-defaultgrey{fill: #212121; opacity: 1;}.light-blue{fill: #005dba; opacity: 1;}.cls-1{opacity:0.75;}</style>
+  </defs>
+  <title>IconLightGoToCurrentLine</title>
+  <g id="canvas" class="canvas">
+    <path class="canvas" d="M16,16H0V0H16Z" />
+  </g>
+  <g id="level-1">
+    <g class="cls-1">
+      <path class="light-defaultgrey" d="M1.843,10H.993V9.15Zm13.15-1v1H5.079l1-1Zm-14,5h14v1h-14Z" />
+    </g>
+    <path class="light-defaultgrey" d="M10.993,11v2h-10V11Z" />
+    <path class="light-blue" d="M7.993,3.5V5h-1V3.5a1.5,1.5,0,0,0-3,0V8.258L5.607,6.644l.707.707-2.5,2.5H3.107l-2.5-2.5.707-.707L2.993,8.322V3.5a2.5,2.5,0,0,1,5,0Z" />
+  </g>
+</svg>

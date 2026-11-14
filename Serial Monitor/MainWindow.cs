@@ -165,6 +165,7 @@ namespace Serial_Monitor {
             LocalisationManager.ApplyText(cmTextboxOptions, cntrlExtender, tsiExtender);
             LocalisationManager.ApplyText(cmTerminal, cntrlExtender, tsiExtender);
             LocalisationManager.ApplyText(cmStepEditor, cntrlExtender, tsiExtender);
+            LocalisationManager.ApplyText(tsProgramEdit, cntrlExtender, tsiExtender);
             //ApplyLocalisation_File();
             //ApplyLocalisation_Edit();
             //ApplyLocalisation_View();
@@ -234,8 +235,10 @@ namespace Serial_Monitor {
             lstStepProgram.KeyDown += lstStepProgram_KeyDown;
             lstStepProgram.ItemCheckedChanged += LstStepProgram_ItemCheckedChanged;
             addCommandToolStripMenuItem1.Click += addCommandToolStripMenuItem1_Click;
+            tsbtnAddStep.Click += addCommandToolStripMenuItem1_Click;
             addCommandAfterToolStripMenuItem.Click += addCommandAfterToolStripMenuItem_Click;
             removeSelectedToolStripMenuItem.Click += removeSelectedToolStripMenuItem_Click;
+            tsbtnRemoveStep.Click += removeSelectedToolStripMenuItem_Click;
             cutToolStripMenuItem1.Click += cutToolStripMenuItem1_Click;
             copyToolStripMenuItem1.Click += copyToolStripMenuItem1_Click;
             pasteToolStripMenuItem1.Click += pasteToolStripMenuItem1_Click;
@@ -322,14 +325,20 @@ namespace Serial_Monitor {
             btnPrgRemoveStepLines.Click += btnPrgRemoveStepLines_Click;
             btnPrgMoveUp.Click += btnPrgMoveUp_Click;
             btnPrgMoveDown.Click += btnPrgMoveDown_Click;
+            tsbtnMoveUp.Click += btnPrgMoveUp_Click;
+            tsbtnMoveDown.Click += btnPrgMoveDown_Click;
             btnEnableSelected.Click += enableSelectedToolStripMenuItem_Click;
             btnToggleSelected.Click += toggleEnableToolStripMenuItem_Click;
+            tsbtnComment.Click += toggleEnableToolStripMenuItem_Click;
             btnDisableSelected.Click += disableSelectedToolStripMenuItem_Click;
             setStepCursorToolStripMenuItem.Click += setStepCursorToolStripMenuItem_Click;
+            tsbtnSetStepCursor.Click += setStepCursorToolStripMenuItem_Click;
+
             activeProgramToolStripMenuItem.DropDownOpening += activeProgramToolStripMenuItem_DropDownOpening;
             activeProgramToolStripMenuItem.Click += activeProgramToolStripMenuItem_Click;
             commandPalletToolStripMenuItem.Click += commandPalletToolStripMenuItem_Click;
             variablesToolStripMenuItem.Click += variablesToolStripMenuItem_Click;
+            tsbtnVariables.Click += variablesToolStripMenuItem_Click;
             propertiesToolStripMenuItem.Click += propertiesToolStripMenuItem_Click;
 
             btnRunPrg.Click += btnRunPrg_Click;
@@ -526,6 +535,7 @@ namespace Serial_Monitor {
             Classes.Theming.ThemeManager.ThemeControl(tsFile);
             Classes.Theming.ThemeManager.ThemeControl(tsChannels);
             Classes.Theming.ThemeManager.ThemeControl(tsProgramTransport);
+            Classes.Theming.ThemeManager.ThemeControl(tsProgramEdit);
             Classes.Theming.ThemeManager.ThemeControl(smMain);
             Classes.Theming.ThemeManager.ThemeControl(lstStepProgram);
             Classes.Theming.ThemeManager.ThemeControl(thPrograms);
@@ -585,7 +595,10 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.UndoNoColor, undoToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Redo, redoToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, selectAllToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
-            DesignerSetup.LinkSVGtoControl(Properties.Resources.SelectAll, setStepCursorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.GoToCurrentLine, setStepCursorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.GoToCurrentLine, tsbtnSetStepCursor, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.MemberFormula, tsbtnVariables, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Input, ddbInputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Output1, ddbOutputFormat, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -602,6 +615,8 @@ namespace Serial_Monitor {
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Run_16x, btnRunCursor, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Pause_16x, btnPause, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Stop_16x, btnStop, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.CommentCode, tsbtnComment, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cmiTextBoxCut, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Cut, cutToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -657,6 +672,8 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveUp, btnPrgMoveUp, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveDown, btnPrgMoveDown, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveUp, tsbtnMoveUp, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.MoveDown, tsbtnMoveDown, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, btnAddChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.AddItem, btnNewChannel, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
@@ -669,6 +686,9 @@ namespace Serial_Monitor {
 
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, btnPrgRemoveStepLines, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, tsbtnAddStep, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+            DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, tsbtnRemoveStep, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
+
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Add, addCommandToolStripMenuItem1, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.Remove, removeSelectedToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));
             DesignerSetup.LinkSVGtoControl(Properties.Resources.QueryView, modbusQueryEditorToolStripMenuItem, DesignerSetup.GetSize(DesignerSetup.IconSize.Small));

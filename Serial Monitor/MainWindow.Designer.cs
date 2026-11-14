@@ -25,15 +25,15 @@
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            ODModules.Column column1 = new ODModules.Column();
-            ODModules.Column column2 = new ODModules.Column();
-            ODModules.Column column3 = new ODModules.Column();
-            ODModules.Column column4 = new ODModules.Column();
-            ODModules.ListItem listItem1 = new ODModules.ListItem();
-            ODModules.ListSubItem listSubItem1 = new ODModules.ListSubItem();
-            ODModules.ListSubItem listSubItem2 = new ODModules.ListSubItem();
-            ODModules.ListSubItem listSubItem3 = new ODModules.ListSubItem();
-            ODModules.Tab tab1 = new ODModules.Tab();
+            ODModules.Column column5 = new ODModules.Column();
+            ODModules.Column column6 = new ODModules.Column();
+            ODModules.Column column7 = new ODModules.Column();
+            ODModules.Column column8 = new ODModules.Column();
+            ODModules.ListItem listItem2 = new ODModules.ListItem();
+            ODModules.ListSubItem listSubItem4 = new ODModules.ListSubItem();
+            ODModules.ListSubItem listSubItem5 = new ODModules.ListSubItem();
+            ODModules.ListSubItem listSubItem6 = new ODModules.ListSubItem();
+            ODModules.Tab tab2 = new ODModules.Tab();
             tsMain = new ODModules.ToolStrip();
             ddbPorts = new ToolStripDropDownButton();
             refreshToolStripMenuItem = new ToolStripMenuItem();
@@ -280,6 +280,8 @@
             deleteToolStripMenuItem1 = new ToolStripMenuItem();
             tscMain = new ToolStripContainer();
             tsProgramTransport = new ODModules.ToolStrip();
+            toolStripSeparator51 = new ToolStripSeparator();
+            tsbtnSetStepCursor = new ToolStripButton();
             tsFile = new ODModules.ToolStrip();
             newToolStripButton = new ToolStripButton();
             openToolStripButton = new ToolStripButton();
@@ -296,6 +298,13 @@
             btnRemoveSelectedChannel = new ToolStripButton();
             toolStripSeparator49 = new ToolStripSeparator();
             btnChannelProperties = new ToolStripButton();
+            tsProgramEdit = new ODModules.ToolStrip();
+            tsbtnAddStep = new ToolStripButton();
+            tsbtnRemoveStep = new ToolStripButton();
+            toolStripSeparator50 = new ToolStripSeparator();
+            tsbtnMoveUp = new ToolStripButton();
+            tsbtnMoveDown = new ToolStripButton();
+            tsbtnComment = new ToolStripButton();
             smMain = new ODModules.StatusMenu();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             lblTxBytes = new ToolStripStatusLabel();
@@ -324,6 +333,8 @@
             cmiTextBoxSelectAll = new ToolStripMenuItem();
             tsiExtender = new ODModules.ControlExtensions.ToolStripItemExtender();
             cntrlExtender = new ODModules.ControlExtensions.ControlExtender();
+            toolStripSeparator52 = new ToolStripSeparator();
+            tsbtnVariables = new ToolStripButton();
             tsMain.SuspendLayout();
             pnlRenamePanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -339,6 +350,7 @@
             tsProgramTransport.SuspendLayout();
             tsFile.SuspendLayout();
             tsChannels.SuspendLayout();
+            tsProgramEdit.SuspendLayout();
             smMain.SuspendLayout();
             cmPrograms.SuspendLayout();
             cmTextboxOptions.SuspendLayout();
@@ -372,7 +384,7 @@
             tsMain.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsMain.ShowBorder = true;
             tsMain.ShowShadow = true;
-            tsMain.Size = new Size(954, 54);
+            tsMain.Size = new Size(886, 54);
             tsMain.StripItemSelectedBackColorNorth = Color.FromArgb(64, 64, 64);
             tsMain.StripItemSelectedBackColorSouth = Color.FromArgb(64, 64, 64);
             tsMain.TabIndex = 0;
@@ -862,7 +874,7 @@
             navigator1.ShowBorder = true;
             navigator1.ShowStatuses = true;
             navigator1.SideShadowColor = Color.FromArgb(20, 0, 0, 0);
-            navigator1.Size = new Size(180, 242);
+            navigator1.Size = new Size(180, 188);
             navigator1.Status1 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status1");
             navigator1.Status2 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status2");
             navigator1.Status3 = (ODModules.StatusCondition)resources.GetObject("navigator1.Status3");
@@ -986,70 +998,70 @@
             lstStepProgram.ColumnColor = Color.FromArgb(31, 31, 31);
             lstStepProgram.ColumnForeColor = Color.WhiteSmoke;
             lstStepProgram.ColumnLineColor = Color.FromArgb(64, 64, 64);
-            column1.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
-            column1.CountOffset = 0;
-            column1.DataFormat = ODModules.ColumnDataFormat.None;
-            column1.DisplayType = ODModules.ColumnDisplayType.LineCount;
-            column1.DropDownRight = false;
-            column1.DropDownVisible = true;
-            column1.Exportable = false;
-            column1.ExportName = "";
-            column1.FixedWidth = false;
-            column1.ItemAlignment = ODModules.ItemTextAlignment.Center;
-            column1.Text = "Step";
-            column1.UseItemBackColor = false;
-            column1.UseItemForeColor = false;
-            column1.Visible = true;
-            column1.Width = 50;
-            column2.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column2.CountOffset = 0;
-            column2.DataFormat = ODModules.ColumnDataFormat.None;
-            column2.DisplayType = ODModules.ColumnDisplayType.Checkbox;
-            column2.DropDownRight = false;
-            column2.DropDownVisible = true;
-            column2.Exportable = false;
-            column2.ExportName = "";
-            column2.FixedWidth = true;
-            column2.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column2.Text = "";
-            column2.UseItemBackColor = false;
-            column2.UseItemForeColor = false;
-            column2.Visible = true;
-            column2.Width = 40;
-            column3.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column3.CountOffset = 0;
-            column3.DataFormat = ODModules.ColumnDataFormat.None;
-            column3.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column3.DropDownRight = false;
-            column3.DropDownVisible = true;
-            column3.Exportable = false;
-            column3.ExportName = "";
-            column3.FixedWidth = false;
-            column3.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column3.Text = "Command";
-            column3.UseItemBackColor = false;
-            column3.UseItemForeColor = false;
-            column3.Visible = true;
-            column3.Width = 100;
-            column4.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
-            column4.CountOffset = 0;
-            column4.DataFormat = ODModules.ColumnDataFormat.None;
-            column4.DisplayType = ODModules.ColumnDisplayType.DropDown;
-            column4.DropDownRight = false;
-            column4.DropDownVisible = true;
-            column4.Exportable = false;
-            column4.ExportName = "";
-            column4.FixedWidth = false;
-            column4.ItemAlignment = ODModules.ItemTextAlignment.Left;
-            column4.Text = "Arguments";
-            column4.UseItemBackColor = false;
-            column4.UseItemForeColor = false;
-            column4.Visible = true;
-            column4.Width = 422;
-            lstStepProgram.Columns.Add(column1);
-            lstStepProgram.Columns.Add(column2);
-            lstStepProgram.Columns.Add(column3);
-            lstStepProgram.Columns.Add(column4);
+            column5.ColumnAlignment = ODModules.ColumnTextAlignment.Center;
+            column5.CountOffset = 0;
+            column5.DataFormat = ODModules.ColumnDataFormat.None;
+            column5.DisplayType = ODModules.ColumnDisplayType.LineCount;
+            column5.DropDownRight = false;
+            column5.DropDownVisible = true;
+            column5.Exportable = false;
+            column5.ExportName = "";
+            column5.FixedWidth = false;
+            column5.ItemAlignment = ODModules.ItemTextAlignment.Center;
+            column5.Text = "Step";
+            column5.UseItemBackColor = false;
+            column5.UseItemForeColor = false;
+            column5.Visible = true;
+            column5.Width = 50;
+            column6.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column6.CountOffset = 0;
+            column6.DataFormat = ODModules.ColumnDataFormat.None;
+            column6.DisplayType = ODModules.ColumnDisplayType.Checkbox;
+            column6.DropDownRight = false;
+            column6.DropDownVisible = true;
+            column6.Exportable = false;
+            column6.ExportName = "";
+            column6.FixedWidth = true;
+            column6.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column6.Text = "";
+            column6.UseItemBackColor = false;
+            column6.UseItemForeColor = false;
+            column6.Visible = true;
+            column6.Width = 40;
+            column7.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column7.CountOffset = 0;
+            column7.DataFormat = ODModules.ColumnDataFormat.None;
+            column7.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column7.DropDownRight = false;
+            column7.DropDownVisible = true;
+            column7.Exportable = false;
+            column7.ExportName = "";
+            column7.FixedWidth = false;
+            column7.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column7.Text = "Command";
+            column7.UseItemBackColor = false;
+            column7.UseItemForeColor = false;
+            column7.Visible = true;
+            column7.Width = 100;
+            column8.ColumnAlignment = ODModules.ColumnTextAlignment.Left;
+            column8.CountOffset = 0;
+            column8.DataFormat = ODModules.ColumnDataFormat.None;
+            column8.DisplayType = ODModules.ColumnDisplayType.DropDown;
+            column8.DropDownRight = false;
+            column8.DropDownVisible = true;
+            column8.Exportable = false;
+            column8.ExportName = "";
+            column8.FixedWidth = false;
+            column8.ItemAlignment = ODModules.ItemTextAlignment.Left;
+            column8.Text = "Arguments";
+            column8.UseItemBackColor = false;
+            column8.UseItemForeColor = false;
+            column8.Visible = true;
+            column8.Width = 422;
+            lstStepProgram.Columns.Add(column5);
+            lstStepProgram.Columns.Add(column6);
+            lstStepProgram.Columns.Add(column7);
+            lstStepProgram.Columns.Add(column8);
             lstStepProgram.ContextMenuStrip = cmStepEditor;
             lstStepProgram.Dock = DockStyle.Fill;
             lstStepProgram.DropDownMouseDown = Color.DimGray;
@@ -1063,55 +1075,55 @@
             lstStepProgram.HighlightStrength = 128;
             lstStepProgram.HorizontalScrollStep = 3;
             lstStepProgram.HorScroll = new decimal(new int[] { 0, 0, 0, 0 });
-            listItem1.BackColor = Color.Transparent;
-            listItem1.Checked = false;
-            listItem1.ForeColor = Color.Black;
-            listItem1.Indentation = 0U;
-            listItem1.LineBackColor = Color.Transparent;
-            listItem1.LineForeColor = Color.Black;
-            listItem1.MaximumValue = 0;
-            listItem1.MinimumValue = 0;
-            listItem1.Name = "";
-            listItem1.Selected = false;
-            listSubItem1.BackColor = Color.Transparent;
-            listSubItem1.Checked = true;
-            listSubItem1.ForeColor = Color.Black;
-            listSubItem1.Indentation = 0U;
-            listSubItem1.MaximumValue = 0;
-            listSubItem1.MinimumValue = 0;
-            listSubItem1.Name = "";
-            listSubItem1.Tag = null;
-            listSubItem1.Text = "";
-            listSubItem1.Value = 0;
-            listSubItem2.BackColor = Color.Transparent;
-            listSubItem2.Checked = false;
-            listSubItem2.ForeColor = Color.Black;
-            listSubItem2.Indentation = 0U;
-            listSubItem2.MaximumValue = 0;
-            listSubItem2.MinimumValue = 0;
-            listSubItem2.Name = "";
-            listSubItem2.Tag = null;
-            listSubItem2.Text = "No Operation";
-            listSubItem2.Value = 0;
-            listSubItem3.BackColor = Color.Transparent;
-            listSubItem3.Checked = false;
-            listSubItem3.ForeColor = Color.Black;
-            listSubItem3.Indentation = 0U;
-            listSubItem3.MaximumValue = 0;
-            listSubItem3.MinimumValue = 0;
-            listSubItem3.Name = "";
-            listSubItem3.Tag = null;
-            listSubItem3.Text = "";
-            listSubItem3.Value = 0;
-            listItem1.SubItems.Add(listSubItem1);
-            listItem1.SubItems.Add(listSubItem2);
-            listItem1.SubItems.Add(listSubItem3);
-            listItem1.Tag = null;
-            listItem1.Text = "";
-            listItem1.UseLineBackColor = false;
-            listItem1.UseLineForeColor = false;
-            listItem1.Value = 0;
-            lstStepProgram.Items.Add(listItem1);
+            listItem2.BackColor = Color.Transparent;
+            listItem2.Checked = false;
+            listItem2.ForeColor = Color.Black;
+            listItem2.Indentation = 0U;
+            listItem2.LineBackColor = Color.Transparent;
+            listItem2.LineForeColor = Color.Black;
+            listItem2.MaximumValue = 0;
+            listItem2.MinimumValue = 0;
+            listItem2.Name = "";
+            listItem2.Selected = false;
+            listSubItem4.BackColor = Color.Transparent;
+            listSubItem4.Checked = true;
+            listSubItem4.ForeColor = Color.Black;
+            listSubItem4.Indentation = 0U;
+            listSubItem4.MaximumValue = 0;
+            listSubItem4.MinimumValue = 0;
+            listSubItem4.Name = "";
+            listSubItem4.Tag = null;
+            listSubItem4.Text = "";
+            listSubItem4.Value = 0;
+            listSubItem5.BackColor = Color.Transparent;
+            listSubItem5.Checked = false;
+            listSubItem5.ForeColor = Color.Black;
+            listSubItem5.Indentation = 0U;
+            listSubItem5.MaximumValue = 0;
+            listSubItem5.MinimumValue = 0;
+            listSubItem5.Name = "";
+            listSubItem5.Tag = null;
+            listSubItem5.Text = "No Operation";
+            listSubItem5.Value = 0;
+            listSubItem6.BackColor = Color.Transparent;
+            listSubItem6.Checked = false;
+            listSubItem6.ForeColor = Color.Black;
+            listSubItem6.Indentation = 0U;
+            listSubItem6.MaximumValue = 0;
+            listSubItem6.MinimumValue = 0;
+            listSubItem6.Name = "";
+            listSubItem6.Tag = null;
+            listSubItem6.Text = "";
+            listSubItem6.Value = 0;
+            listItem2.SubItems.Add(listSubItem4);
+            listItem2.SubItems.Add(listSubItem5);
+            listItem2.SubItems.Add(listSubItem6);
+            listItem2.Tag = null;
+            listItem2.Text = "";
+            listItem2.UseLineBackColor = false;
+            listItem2.UseLineForeColor = false;
+            listItem2.Value = 0;
+            lstStepProgram.Items.Add(listItem2);
             lstStepProgram.LineMarkerIndex = 0;
             lstStepProgram.Location = new Point(0, 99);
             lstStepProgram.Margin = new Padding(6);
@@ -2812,7 +2824,7 @@
             pnlStepProgram.LabelBackColor = Color.FromArgb(31, 31, 31);
             pnlStepProgram.LabelFont = new Font("Segoe UI", 8F);
             pnlStepProgram.LabelForeColor = Color.WhiteSmoke;
-            pnlStepProgram.Location = new Point(0, 242);
+            pnlStepProgram.Location = new Point(0, 188);
             pnlStepProgram.Margin = new Padding(6);
             pnlStepProgram.Name = "pnlStepProgram";
             pnlStepProgram.OverrideCollapseControl = true;
@@ -2864,10 +2876,10 @@
             thPrograms.TabInactiveForeColor = Color.DarkGray;
             thPrograms.TabIndex = 2;
             thPrograms.TabRuleColor = Color.FromArgb(100, 128, 128, 128);
-            tab1.Selected = true;
-            tab1.Tag = null;
-            tab1.Text = "Main";
-            thPrograms.Tabs.Add(tab1);
+            tab2.Selected = true;
+            tab2.Tag = null;
+            tab2.Text = "Main";
+            thPrograms.Tabs.Add(tab2);
             thPrograms.TabSelectedBackColor = Color.FromArgb(100, 128, 128, 128);
             thPrograms.TabSelectedBackColorNorth = Color.Gray;
             thPrograms.TabSelectedBorderColor = Color.FromArgb(100, 128, 128, 128);
@@ -2887,7 +2899,7 @@
             pnlMainConsole.Location = new Point(0, 0);
             pnlMainConsole.Margin = new Padding(6);
             pnlMainConsole.Name = "pnlMainConsole";
-            pnlMainConsole.Size = new Size(1224, 242);
+            pnlMainConsole.Size = new Size(1224, 188);
             pnlMainConsole.TabIndex = 3;
             cntrlExtender.SetTranslationReference(pnlMainConsole, "");
             // 
@@ -2926,7 +2938,7 @@
             Output.SecondaryFont = new Font("Segoe UI", 9F);
             Output.SelectionColor = Color.FromArgb(47, 47, 74);
             Output.ShowOrigin = true;
-            Output.Size = new Size(1044, 202);
+            Output.Size = new Size(1044, 148);
             Output.TabIndex = 0;
             Output.TimeStampForeColor = Color.Gray;
             Output.TimeStamps = ODModules.ConsoleInterface.TimeStampFormat.NoTimeStamps;
@@ -3002,7 +3014,7 @@
             // 
             tscMain.ContentPanel.Controls.Add(pnlMainConsole);
             tscMain.ContentPanel.Controls.Add(pnlStepProgram);
-            tscMain.ContentPanel.Size = new Size(1224, 579);
+            tscMain.ContentPanel.Size = new Size(1224, 525);
             cntrlExtender.SetTranslationReference(tscMain.ContentPanel, "");
             tscMain.Dock = DockStyle.Fill;
             // 
@@ -3028,6 +3040,7 @@
             tscMain.TopToolStripPanel.Controls.Add(tsFile);
             tscMain.TopToolStripPanel.Controls.Add(tsMain);
             tscMain.TopToolStripPanel.Controls.Add(tsChannels);
+            tscMain.TopToolStripPanel.Controls.Add(tsProgramEdit);
             cntrlExtender.SetTranslationReference(tscMain.TopToolStripPanel, "");
             cntrlExtender.SetTranslationReference(tscMain, "");
             // 
@@ -3043,7 +3056,7 @@
             tsProgramTransport.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
             tsProgramTransport.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
             tsProgramTransport.ItemForeColor = Color.Black;
-            tsProgramTransport.Items.AddRange(new ToolStripItem[] { btnRun, btnRunCursor, btnPause, btnStop });
+            tsProgramTransport.Items.AddRange(new ToolStripItem[] { btnRun, btnRunCursor, btnPause, btnStop, toolStripSeparator51, tsbtnSetStepCursor });
             tsProgramTransport.ItemSelectedBackColorNorth = Color.White;
             tsProgramTransport.ItemSelectedBackColorSouth = Color.White;
             tsProgramTransport.ItemSelectedForeColor = Color.Black;
@@ -3059,13 +3072,30 @@
             tsProgramTransport.ShadowColor = Color.FromArgb(128, 0, 0, 0);
             tsProgramTransport.ShowBorder = true;
             tsProgramTransport.ShowShadow = true;
-            tsProgramTransport.Size = new Size(281, 54);
+            tsProgramTransport.Size = new Size(333, 54);
             tsProgramTransport.StripItemSelectedBackColorNorth = Color.White;
             tsProgramTransport.StripItemSelectedBackColorSouth = Color.White;
             tsProgramTransport.TabIndex = 1;
             tsProgramTransport.Text = "Program Transport";
             cntrlExtender.SetTranslationReference(tsProgramTransport, "tsProgramTransport");
             tsProgramTransport.ItemClicked += tsProgramTransport_ItemClicked;
+            // 
+            // toolStripSeparator51
+            // 
+            toolStripSeparator51.Name = "toolStripSeparator51";
+            toolStripSeparator51.Size = new Size(6, 42);
+            tsiExtender.SetTranslationReference(toolStripSeparator51, "");
+            // 
+            // tsbtnSetStepCursor
+            // 
+            tsbtnSetStepCursor.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnSetStepCursor.Image = (Image)resources.GetObject("tsbtnSetStepCursor.Image");
+            tsbtnSetStepCursor.ImageScaling = ToolStripItemImageScaling.None;
+            tsbtnSetStepCursor.ImageTransparentColor = Color.Magenta;
+            tsbtnSetStepCursor.Name = "tsbtnSetStepCursor";
+            tsbtnSetStepCursor.Size = new Size(46, 36);
+            tsbtnSetStepCursor.Text = "Set Step Cursor";
+            tsiExtender.SetTranslationReference(tsbtnSetStepCursor, "setStepCursor");
             // 
             // tsFile
             // 
@@ -3278,6 +3308,103 @@
             btnChannelProperties.Size = new Size(46, 36);
             btnChannelProperties.Text = "Properties";
             tsiExtender.SetTranslationReference(btnChannelProperties, "properties");
+            // 
+            // tsProgramEdit
+            // 
+            tsProgramEdit.BackColor = Color.Transparent;
+            tsProgramEdit.BackColorNorth = Color.DodgerBlue;
+            tsProgramEdit.BackColorSouth = Color.DodgerBlue;
+            tsProgramEdit.BorderColor = Color.WhiteSmoke;
+            tsProgramEdit.Dock = DockStyle.None;
+            tsProgramEdit.GripColor = Color.WhiteSmoke;
+            tsProgramEdit.ImageScalingSize = new Size(32, 32);
+            tsProgramEdit.ItemCheckedBackColorNorth = Color.FromArgb(128, 128, 128, 128);
+            tsProgramEdit.ItemCheckedBackColorSouth = Color.FromArgb(128, 128, 128, 128);
+            tsProgramEdit.ItemForeColor = Color.Black;
+            tsProgramEdit.Items.AddRange(new ToolStripItem[] { tsbtnAddStep, tsbtnRemoveStep, toolStripSeparator50, tsbtnMoveUp, tsbtnMoveDown, tsbtnComment, toolStripSeparator52, tsbtnVariables });
+            tsProgramEdit.ItemSelectedBackColorNorth = Color.White;
+            tsProgramEdit.ItemSelectedBackColorSouth = Color.White;
+            tsProgramEdit.ItemSelectedForeColor = Color.Black;
+            tsProgramEdit.Location = new Point(6, 216);
+            tsProgramEdit.MenuBackColorNorth = Color.DodgerBlue;
+            tsProgramEdit.MenuBackColorSouth = Color.DodgerBlue;
+            tsProgramEdit.MenuBorderColor = Color.WhiteSmoke;
+            tsProgramEdit.MenuSeparatorColor = Color.WhiteSmoke;
+            tsProgramEdit.MenuSymbolColor = Color.WhiteSmoke;
+            tsProgramEdit.Name = "tsProgramEdit";
+            tsProgramEdit.Padding = new Padding(0);
+            tsProgramEdit.RoundedToolStrip = true;
+            tsProgramEdit.ShadowColor = Color.FromArgb(128, 0, 0, 0);
+            tsProgramEdit.ShowBorder = true;
+            tsProgramEdit.ShowShadow = true;
+            tsProgramEdit.Size = new Size(382, 54);
+            tsProgramEdit.StripItemSelectedBackColorNorth = Color.White;
+            tsProgramEdit.StripItemSelectedBackColorSouth = Color.White;
+            tsProgramEdit.TabIndex = 4;
+            tsProgramEdit.Text = "Program Editing";
+            cntrlExtender.SetTranslationReference(tsProgramEdit, "tsProgramEdit");
+            // 
+            // tsbtnAddStep
+            // 
+            tsbtnAddStep.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnAddStep.Image = (Image)resources.GetObject("tsbtnAddStep.Image");
+            tsbtnAddStep.ImageTransparentColor = Color.Magenta;
+            tsbtnAddStep.Name = "tsbtnAddStep";
+            tsbtnAddStep.Size = new Size(46, 36);
+            tsbtnAddStep.Text = "toolStripButton1";
+            tsbtnAddStep.ToolTipText = "Add New Step Line";
+            tsiExtender.SetTranslationReference(tsbtnAddStep, "addCommand");
+            // 
+            // tsbtnRemoveStep
+            // 
+            tsbtnRemoveStep.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnRemoveStep.Image = (Image)resources.GetObject("tsbtnRemoveStep.Image");
+            tsbtnRemoveStep.ImageTransparentColor = Color.Magenta;
+            tsbtnRemoveStep.Name = "tsbtnRemoveStep";
+            tsbtnRemoveStep.Size = new Size(46, 36);
+            tsbtnRemoveStep.Text = "toolStripButton2";
+            tsbtnRemoveStep.ToolTipText = "Remove Selected Lines";
+            tsiExtender.SetTranslationReference(tsbtnRemoveStep, "removeSelected");
+            // 
+            // toolStripSeparator50
+            // 
+            toolStripSeparator50.Name = "toolStripSeparator50";
+            toolStripSeparator50.Size = new Size(6, 42);
+            tsiExtender.SetTranslationReference(toolStripSeparator50, "");
+            // 
+            // tsbtnMoveUp
+            // 
+            tsbtnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnMoveUp.Image = (Image)resources.GetObject("tsbtnMoveUp.Image");
+            tsbtnMoveUp.ImageTransparentColor = Color.Magenta;
+            tsbtnMoveUp.Name = "tsbtnMoveUp";
+            tsbtnMoveUp.Size = new Size(46, 36);
+            tsbtnMoveUp.Text = "toolStripButton3";
+            tsbtnMoveUp.ToolTipText = "Move Up";
+            tsiExtender.SetTranslationReference(tsbtnMoveUp, "moveUp");
+            // 
+            // tsbtnMoveDown
+            // 
+            tsbtnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnMoveDown.Image = (Image)resources.GetObject("tsbtnMoveDown.Image");
+            tsbtnMoveDown.ImageScaling = ToolStripItemImageScaling.None;
+            tsbtnMoveDown.ImageTransparentColor = Color.Magenta;
+            tsbtnMoveDown.Name = "tsbtnMoveDown";
+            tsbtnMoveDown.Size = new Size(46, 36);
+            tsbtnMoveDown.Text = "toolStripButton4";
+            tsbtnMoveDown.ToolTipText = "Move Down";
+            tsiExtender.SetTranslationReference(tsbtnMoveDown, "moveDown");
+            // 
+            // tsbtnComment
+            // 
+            tsbtnComment.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnComment.Image = (Image)resources.GetObject("tsbtnComment.Image");
+            tsbtnComment.ImageScaling = ToolStripItemImageScaling.None;
+            tsbtnComment.ImageTransparentColor = Color.Magenta;
+            tsbtnComment.Name = "tsbtnComment";
+            tsbtnComment.Size = new Size(46, 36);
+            tsbtnComment.Text = "Toggle Comment";
+            tsiExtender.SetTranslationReference(tsbtnComment, "toggleComment");
             // 
             // smMain
             // 
@@ -3531,6 +3658,23 @@
             cmiTextBoxSelectAll.Text = "&Select All";
             tsiExtender.SetTranslationReference(cmiTextBoxSelectAll, "selectAll");
             // 
+            // toolStripSeparator52
+            // 
+            toolStripSeparator52.Name = "toolStripSeparator52";
+            toolStripSeparator52.Size = new Size(6, 42);
+            tsiExtender.SetTranslationReference(toolStripSeparator52, "");
+            // 
+            // tsbtnVariables
+            // 
+            tsbtnVariables.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnVariables.Image = (Image)resources.GetObject("tsbtnVariables.Image");
+            tsbtnVariables.ImageScaling = ToolStripItemImageScaling.None;
+            tsbtnVariables.ImageTransparentColor = Color.Magenta;
+            tsbtnVariables.Name = "tsbtnVariables";
+            tsbtnVariables.Size = new Size(46, 36);
+            tsbtnVariables.Text = "Variables";
+            tsiExtender.SetTranslationReference(tsbtnVariables, "variables");
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -3570,6 +3714,8 @@
             tsFile.PerformLayout();
             tsChannels.ResumeLayout(false);
             tsChannels.PerformLayout();
+            tsProgramEdit.ResumeLayout(false);
+            tsProgramEdit.PerformLayout();
             smMain.ResumeLayout(false);
             smMain.PerformLayout();
             cmPrograms.ResumeLayout(false);
@@ -3872,5 +4018,16 @@
         private ToolStripSeparator portSeparator;
         private ToolStripMenuItem refreshPortsMenu;
         private ToolStripSeparator portMenuSeparator;
+        private ODModules.ToolStrip tsProgramEdit;
+        private ToolStripButton tsbtnAddStep;
+        private ToolStripButton tsbtnRemoveStep;
+        private ToolStripSeparator toolStripSeparator50;
+        private ToolStripButton tsbtnMoveUp;
+        private ToolStripButton tsbtnMoveDown;
+        private ToolStripButton tsbtnComment;
+        private ToolStripSeparator toolStripSeparator51;
+        private ToolStripButton tsbtnSetStepCursor;
+        private ToolStripSeparator toolStripSeparator52;
+        private ToolStripButton tsbtnVariables;
     }
 }
